@@ -10,5 +10,6 @@
     <orderEntry type="library" name="common-redis-1.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="fastjson-1.2.83" level="project" />
     <orderEntry type="library" name="lombok-1.18.34" level="project" />
+    <orderEntry type="library" name="commons-dbutils-1.6" level="project" />
   </component>
 </module>
