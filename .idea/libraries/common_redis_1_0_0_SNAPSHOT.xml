@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="common-redis-1.0.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libjar/common-redis-1.0.0-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libjar/fastjson2-2.0.44.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libjar/mysql-connector-j-8.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libjar/sqlite-jdbc-3.43.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
