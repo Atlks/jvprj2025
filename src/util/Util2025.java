@@ -1,7 +1,7 @@
 package util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
 
@@ -78,7 +78,7 @@ public class Util2025 {
     public static String encodeJson(Object obj) {
         if (obj == null)
             return "{}";
-        return JSON.toJSONString(obj, SerializerFeature.PrettyFormat);
+        return JSON.toJSONString(obj);
     }
 
 //    public static String sendGetWzAuthV2(String url String, String username, String password) {
@@ -607,7 +607,7 @@ public class Util2025 {
         // 检查对象是否为数组
         if (obj.getClass().isArray()) {
             // 将数组转换为 JSON 字符串
-            String jsonArrayString = JSON.toJSONString(obj, SerializerFeature.PrettyFormat);
+            String jsonArrayString = JSON.toJSONString(obj);
             // jsonArrayString=jsonArrayString.replaceAll("\\,","\n,\n");
             jsonArrayString = jsonArrayString.replace(",", ",\n");
 
@@ -618,7 +618,7 @@ public class Util2025 {
 
         } else {
             // 处理单个对象
-            return JSON.toJSONString(obj, SerializerFeature.PrettyFormat);
+            return JSON.toJSONString(obj );
         }
 
     }
