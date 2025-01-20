@@ -9,13 +9,22 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+
 public class util2026 {
 
-    public static String getRequestParameter(HttpExchange exchange,String name)
-    {
+
+    public static void wrtResp(HttpExchange exchange, String responseTxt) throws IOException {
+        exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=utf-8");
+        exchange.sendResponseHeaders(200, responseTxt.getBytes().length);
+        OutputStream os = exchange.getResponseBody();
+        os.write(responseTxt.getBytes());
+        os.close();
+    }
+
+    public static String getRequestParameter(HttpExchange exchange, String name) {
         Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
         String id = queryParams.get(name); // 获取 id 参数
- return  id;
+        return id;
     }
 
     // 解析查询参数的方法
