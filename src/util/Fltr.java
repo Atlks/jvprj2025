@@ -1,27 +1,37 @@
 package util;
+
 import java.util.*;
 import java.util.function.Predicate;
+
 public class Fltr {
 
     /**
-     *   //过滤数组，根据指定的条件whereFun
-     * @param rows
+     * //过滤数组，根据指定的条件whereFun
+     *
+     * @param list
      * @param whereFun
      * @return
      */
-    public static List<SortedMap<String, String>> fltr(
-            List<SortedMap<String, String>> rows,
+    public static List<SortedMap<String, String>> fltr2501(
+            List<SortedMap<String, String>> list,
             Predicate<SortedMap<String, String>> whereFun) {
 
-        String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
         printTimestamp(" fun " + methodName + "(arr,fltrFun)");
         dbgCls.printCallFunArgs(methodName, "someRows");
-
         List<SortedMap<String, String>> rowsResult = new ArrayList<>();
 
-        for (SortedMap<String, String> row : rows) {
+        //== prm null safe chk
+        if (whereFun == null || list == null)
+            return rowsResult;
+
+
+//foreach safe ext
+
+        for (SortedMap<String, String> row : list) {
             try {
-                if (whereFun == null || whereFun.test(row)) {
+                if (whereFun.test(row)) {
                     rowsResult.add(row);
                 }
             } catch (Exception e) {
