@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.SortedMap;
@@ -28,7 +29,7 @@ public class UserBiz {
         reg("unm3", "pp");
         reg("unm2", "pp");
 
-        List<SortedMap<String, Object>> jo = getObjsDocdb( "usrs", "/db2026/");
+        List<SortedMap<String, Object>> lst2 = getObjsDocdb( "usrs", "/db2026/");
 
 
         // 定义过滤条件：只保留 age > 25 的记录
@@ -38,7 +39,17 @@ public class UserBiz {
                   return  true;
             return false;
         };
-        List<SortedMap<String, Object>>  rzt=   fltr2501(jo,flt1);
+
+        Predicate<SortedMap<String, Object>> flt2 = map -> {
+            String unm = (String) map.get("pwd");
+            if(unm.equals("pp"))
+                return  true;
+            return false;
+        };
+        List<Predicate<SortedMap<String, Object>> > fltList = new ArrayList<>();
+        fltList.add(flt1); fltList.add(flt2);
+        List<SortedMap<String, Object>>  rzt=   fltr2501(lst2,fltList);
+     //   List<SortedMap<String, Object>>  rzt=   fltr2501(lst2,flt1);
 
      //   search("unm2")
         System.out.println(responseTxt);

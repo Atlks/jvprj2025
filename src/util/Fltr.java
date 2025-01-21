@@ -45,28 +45,49 @@ public class Fltr {
         return rowsResult;
     }
 
-    public static List<Object> fltr2501(
-            List<Object> list,
-            List<Predicate<Object>> whereFuns) {
-        List<Object> rowsResult = new ArrayList<>();
+    public static List<SortedMap<String, Object>> fltr2501(
+            List<SortedMap<String, Object>> list,
+            List<Predicate<SortedMap<String, Object>>> whereFuns) {
+        List<SortedMap<String, Object>> rowsResult = new ArrayList<>();
         //== prm null safe chk
         if (whereFuns == null || list == null)
             return rowsResult;
+//deduli
+        HashSet<String> ids_deduli = new HashSet<>();
 
-        for (Object row : list) {
-            for (Predicate<Object> prd : whereFuns) {
-                try {
-                    if (prd.test(row)) {
-                        rowsResult.add(row);
-                    }
-                } catch (Exception e) {
-                    print(e);
-                    logErr2024(e, "whereFun", "errlog", null);
-                }
+        for (SortedMap<String, Object> row : list) {
+            String id = (String) row.get("id");
+            if (ids_deduli.contains(id))
+                continue;
+
+            boolean allFltrPass = prdctTestAll(whereFuns, row);
+
+            if (allFltrPass) {
+                rowsResult.add(row);
+                ids_deduli.add(id);
             }
+
 
         }
         return rowsResult;
+    }
+
+    private static boolean prdctTestAll(List<Predicate<SortedMap<String, Object>>> whereFuns, SortedMap<String, Object> row) {
+        boolean allFltrPass = true;
+        for (Predicate<SortedMap<String, Object>> prd : whereFuns) {
+            try {
+//todo if ex ,dflt is true
+                if (!prd.test(row)) {
+                    allFltrPass = false;
+
+                }
+            } catch (Exception e) {
+                print(e);
+                logErr2024(e, "whereFun", "errlog", null);
+            }
+        }
+        return allFltrPass;
+
     }
 
     private static void printTimestamp(String message) {
