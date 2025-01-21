@@ -1,5 +1,9 @@
 package util;
 
+import com.alibaba.fastjson.JSONObject;
+import com.mysql.cj.result.Field;
+
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -34,6 +38,37 @@ public class dbutil {
         }
 
 
+    }
+
+
+    public static void getObj( String collName,String id,String saveDir) throws Exception {
+
+        if(saveDir.endsWith(".db"))
+        {
+            getObjSqlt(id,collName,saveDir);
+        }else if( saveDir.startsWith("jdbc:mysql"))
+        {
+          //  addObjMysql(obj,collName,saveDir);
+        }else {
+            getObjDocdb(id,collName,saveDir);
+        }
+
+
+    }
+
+    public static JSONObject getObjDocdb(String id, String collName, String saveDir) {
+        mkdir2025(saveDir+collName);
+        //encodeFilName todo
+        String fname =id+".json";
+        String fnamePath=saveDir+collName+"/"+fname;
+        if(new File(fnamePath).exists())
+            return  JSONObject.parseObject(readTxtFrmFil(fnamePath));
+     //   if(!new File(fnamePath).exists())
+        else
+            return    JSONObject.parseObject("{}");
+    }
+
+    private static void getObjSqlt(String id, String collName, String saveDir) {
     }
 
     private static void addObjDocdb(Object obj, String collName, String saveDir) {
