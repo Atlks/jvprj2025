@@ -401,6 +401,20 @@ public class Util2025 {
 
     }
 
+
+    public static File mkdir2025(String filePath) {
+        // 创建文件对象
+        File file = new File(filePath);
+
+        // 检查文件的父目录是否存在
+
+        if (file != null && !file.exists()) {
+            // 创建目录
+            file.mkdirs();
+        }
+        return file;
+    }
+
     public static File mkdir(String filePath) {
         // 创建文件对象
         File file = new File(filePath);
