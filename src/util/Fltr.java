@@ -12,15 +12,15 @@ public class Fltr {
      * @param whereFun
      * @return
      */
-    public static List<SortedMap<String, String>> fltr2501(
-            List<SortedMap<String, String>> list,
-            Predicate<SortedMap<String, String>> whereFun) {
+    public static List<SortedMap<String, Object>> fltr2501(
+            List<SortedMap<String, Object>> list,
+            Predicate<SortedMap<String, Object>> whereFun) {
 
         String methodName = new Object() {
         }.getClass().getEnclosingMethod().getName();
         printTimestamp(" fun " + methodName + "(arr,fltrFun)");
         dbgCls.printCallFunArgs(methodName, "someRows");
-        List<SortedMap<String, String>> rowsResult = new ArrayList<>();
+        List<SortedMap<String, Object>> rowsResult = new ArrayList<>();
 
         //== prm null safe chk
         if (whereFun == null || list == null)
@@ -29,7 +29,7 @@ public class Fltr {
 
 //foreach safe ext
 
-        for (SortedMap<String, String> row : list) {
+        for (SortedMap<String, Object> row : list) {
             try {
                 if (whereFun.test(row)) {
                     rowsResult.add(row);
@@ -45,6 +45,29 @@ public class Fltr {
         return rowsResult;
     }
 
+    public static List<Object> fltr2501(
+            List<Object> list,
+            List<Predicate<Object>> whereFuns) {
+        List<Object> rowsResult = new ArrayList<>();
+        //== prm null safe chk
+        if (whereFuns == null || list == null)
+            return rowsResult;
+
+        for (Object row : list) {
+            for (Predicate<Object> prd : whereFuns) {
+                try {
+                    if (prd.test(row)) {
+                        rowsResult.add(row);
+                    }
+                } catch (Exception e) {
+                    print(e);
+                    logErr2024(e, "whereFun", "errlog", null);
+                }
+            }
+
+        }
+        return rowsResult;
+    }
 
     private static void printTimestamp(String message) {
         System.out.println(message + " [" + new Date() + "]");
@@ -69,5 +92,5 @@ public class Fltr {
             System.out.println("Function called: " + methodName + " with args: " + Arrays.toString(args));
         }
     }
-}
+
 }

@@ -1,13 +1,19 @@
 package util;
 
-import com.alibaba.fastjson.JSONObject;
-import com.mysql.cj.result.Field;
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSON;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.*;
 
+import com.alibaba.fastjson2.JSONArray;
 import static util.Util2025.*;
 import static util.util2026.getField2025;
 
@@ -55,6 +61,109 @@ public class dbutil {
 
 
     }
+
+    /**
+     * //遍历目录saveDir+collName，读取每一个文件，并解析为SortedMap<String, Objects>
+     *
+     * @param collName
+     * @param saveDir
+     * @return
+     */
+    public static List<SortedMap<String, Object>> getObjsDocdb(String collName, String saveDir) {
+
+        mkdir2025(saveDir+collName);
+        //encodeFilName todo
+
+        String dir=saveDir+collName;
+
+        //遍历目录dir，读取每一个文件，并解析为SortedMap<String, Objects>
+        //最终返回一个List<SortedMap<String, Objects>>
+        List<SortedMap<String, Object>> result = new ArrayList<>();
+
+        try {
+            // 遍历目录中的所有文件
+            Files.list(Paths.get(dir))
+                    .filter(Files::isRegularFile)
+                    .forEach(filePath -> {
+                        try {
+                            // 解析文件内容为 SortedMap<String, Object>
+                            SortedMap<String, Object> fileData = parseFileToSortedMap(filePath);
+                            result.add(fileData);
+                        } catch (Exception e) {
+                            System.err.println("Error processing file: " + filePath + " - " + e.getMessage());
+                            e.printStackTrace();
+                        }
+                    });
+        } catch (IOException e) {
+            System.err.println("Error reading directory: " + dir + " - " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    /**
+     * 将文件解析为 SortedMap<String, Object>
+     *  文件内容是一个json对象
+     * @param filePath 文件路径
+     * @return SortedMap<String, Object>
+     */
+    private static SortedMap<String, Object> parseFileToSortedMap(Path filePath) throws IOException {
+        // 读取文件内容为字符串
+        String jsonContent = Files.readString(filePath);
+
+        // 使用 FastJSON2 解析 JSON 字符串为 JSONObject
+        JSONObject jsonObject = JSON.parseObject(jsonContent);
+
+        // 转换 JSONObject 为 SortedMap
+        return convertJSONObjectToSortedMap(jsonObject);
+    }
+
+    /**
+     * 将 JSONObject 转换为 SortedMap<String, Object>
+     *
+     * @param jsonObject FastJSON2 的 JSONObject
+     * @return SortedMap<String, Object>
+     */
+    private static SortedMap<String, Object> convertJSONObjectToSortedMap(JSONObject jsonObject) {
+        SortedMap<String, Object> sortedMap = new TreeMap<>();
+
+        for (Map.Entry<String, Object> entry : jsonObject.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (value instanceof JSONObject) {
+                sortedMap.put(key, convertJSONObjectToSortedMap((JSONObject) value));
+            } else if (value instanceof JSONArray) {
+                sortedMap.put(key, convertJSONArrayToList((JSONArray) value));
+            } else {
+                sortedMap.put(key, value);
+            }
+        }
+
+        return sortedMap;
+    }
+
+    /**
+     * 将 JSONArray 转换为 List<Object>
+     *
+     * @param jsonArray FastJSON2 的 JSONArray
+     * @return List<Object>
+     */
+    private static List<Object> convertJSONArrayToList(JSONArray jsonArray) {
+        List<Object> list = new ArrayList<>();
+        for (Object item : jsonArray) {
+            if (item instanceof JSONObject) {
+                list.add(convertJSONObjectToSortedMap((JSONObject) item));
+            } else if (item instanceof JSONArray) {
+                list.add(convertJSONArrayToList((JSONArray) item));
+            } else {
+                list.add(item);
+            }
+        }
+        return list;
+    }
+
 
     public static JSONObject getObjDocdb(String id, String collName, String saveDir) {
         mkdir2025(saveDir+collName);
