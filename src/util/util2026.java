@@ -3,8 +3,8 @@ package util;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
+import java.net.HttpCookie;
+import java.util.*;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
@@ -12,6 +12,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class util2026 {
+
+    public static String getcookie(String cookieName, HttpExchange exchange) {
+        // 获取请求头中的 Cookie
+        List<String> cookieHeaders = exchange.getRequestHeaders().get("Cookie");
+        if (cookieHeaders == null || cookieHeaders.isEmpty()) {
+            return ""; // 没有 Cookie
+        }
+
+        // 遍历 Cookie 头，查找指定名称的 Cookie
+        for (String cookieHeader : cookieHeaders) {
+            List<HttpCookie> cookies = HttpCookie.parse(cookieHeader);
+            for (HttpCookie cookie : cookies) {
+                if (cookie.getName().equals(cookieName)) {
+                    return cookie.getValue(); // 找到指定名称的 Cookie，返回值
+                }
+            }
+        }
+
+        // 如果没有找到匹配的 Cookie
+        return "";
+
+    }
     public static void setcookie(String name, String val,HttpExchange exchange) {
         // 创建 Set-Cookie 头部内容
 

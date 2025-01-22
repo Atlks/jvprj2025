@@ -25,56 +25,60 @@ public class UserBiz {
 
     public static void main(String[] args) throws Exception {
         String responseTxt = reg("unam2e", "pp");
-         reg("unm1", "pp");
+        reg("unm1", "pp");
         reg("unm3", "pp");
         reg("unm2", "pp");
 
-        var lst2 = getObjsDocdb( "usrs", "/db2026/");
+        var lst2 = getObjsDocdb("usrs", "/db2026/");
 
 
         // 定义过滤条件：只保留 age > 25 的记录
         Predicate<SortedMap<String, Object>> flt1 = map -> {
             String unm = (String) map.get("uname");
-            if(unm.equals("unm2"))
-                  return  true;
+            if (unm.equals("unm2"))
+                return true;
             return false;
         };
 
         Predicate<SortedMap<String, Object>> flt2 = map -> {
             String unm = (String) map.get("pwd");
-            if(unm.equals("ppi"))
-                return  true;
+            if (unm.equals("ppi"))
+                return true;
             return false;
         };
-       var fltList = new ArrayList<Predicate<SortedMap<String, Object>>>();
-        fltList.add(flt1); fltList.add(flt2);
-        var rzt=   fltr2501(lst2,fltList);
-     //   List<SortedMap<String, Object>>  rzt=   fltr2501(lst2,flt1);
+        var fltList = new ArrayList<Predicate<SortedMap<String, Object>>>();
+        fltList.add(flt1);
+        fltList.add(flt2);
+        var rzt = fltr2501(lst2, fltList);
+        //   List<SortedMap<String, Object>>  rzt=   fltr2501(lst2,flt1);
 
-     //   search("unm2")
+        //   search("unm2")
         System.out.println(responseTxt);
         // 定义一个 Record
         //   record User(String username, int age) {}
     }
 
-    public static boolean login(String uname, String pwd)
-    {
+    public static boolean login(String uname, String pwd) {
         JSONObject jo = getObjDocdb(uname, "usrs", "/db2026/");
-        if(jo.getString("pwd").equals(pwd))
-            return  true;
-        return  false;
-    }
-    public static String logOut()
-    {}
-    public static String updtPwd()
-    {}
-    public static String resetPwd(String uname, String pwd)
-    {
-        JSONObject jo = getObjDocdb(uname, "usrs", "/db2026/");
-        jo.put("pwd",pwd);
-        updateObjDocdb(jo,"usrs","/db2026/");
+        if (jo.getString("pwd").equals(pwd))
+            return true;
+        return false;
     }
 
+    public static String logOut() {
+        return "";
+    }
+
+    public static String updtPwd() {
+        return "";
+    }
+
+    public static String resetPwd(String uname, String pwd) {
+        JSONObject jo = getObjDocdb(uname, "usrs", "/db2026/");
+        jo.put("pwd", pwd);
+        updateObjDocdb(jo, "usrs", "/db2026/");
+        return "";
+    }
 
 
     public static String reg(String uname, String pwd) throws Exception {
@@ -106,7 +110,7 @@ public class UserBiz {
         // 空安全处理，直接操作结果
         if (jo.isEmpty()) {
             return true;
-        else
+        } else
             return false;
     }
 }
