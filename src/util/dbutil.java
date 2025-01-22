@@ -164,7 +164,34 @@ public class dbutil {
         return list;
     }
 
+    /**
+     * just wrt file same as addobj
+     * @param obj
+     * @param collName
+     * @param saveDir
+     */
+    public static void updateObjDocdb(JSONObject obj, String collName, String saveDir) {
+        addObjDocdb(obj,collName,saveDir);
+//        mkdir2025(saveDir+collName);
+//        String fname=getField2025(obj,"id","");
+//        //todo need fname encode
+//        fname=fname+".json";
+//        String fnamePath=saveDir+collName+"/"+fname;
+//        System.out.println("fnamePath="+fnamePath);
+//        writeFile2024(fnamePath,encodeJson(obj));
 
+    }
+
+    /**
+     * 大多数场景下，返回空的 JSONObject 是更好的选择。
+     * 原因：它使调用方的逻辑更简单，减少了潜在的 NullPointerException，更符合现代 Java 设计规范。
+     *
+     * 如果使用 Java 8+，也可以返回 Optional<JSONObject>，这样显式表达了结果可能不存在的情况
+     * @param id
+     * @param collName
+     * @param saveDir
+     * @return
+     */
     public static JSONObject getObjDocdb(String id, String collName, String saveDir) {
         mkdir2025(saveDir+collName);
         //encodeFilName todo

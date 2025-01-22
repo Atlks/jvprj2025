@@ -12,7 +12,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class util2026 {
+    public static void setcookie(String name, String val,HttpExchange exchange) {
+        // 创建 Set-Cookie 头部内容
 
+     //   String cookie2 = "uname1=" + uname1 + "; Path=/; ";
+
+
+        // 获取当前时间，并设置半年后的时间戳（以 Expires 为参考）
+        long halfYearInSeconds = 182L * 24 * 60 * 60;
+        long expiryTimeInMillis = System.currentTimeMillis() + (halfYearInSeconds * 1000);
+        String expiresDate = new java.text.SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'")
+                .format(new java.util.Date(expiryTimeInMillis));
+
+        // 创建 Set-Cookie 头部内容
+        //String cookie1 = "uname=" + uname + "; Path=/; HttpOnly;
+        String cookie1 = name+"=" + val + "; Path=/;  Max-Age=" + halfYearInSeconds + "; Expires=" + expiresDate;
+        // 设置响应头中的 Set-Cookie
+        exchange.getResponseHeaders().add("Set-Cookie", cookie1);
+     //   exchange.getResponseHeaders().add("Set-Cookie", cookie2);
+
+    }
     /**
      * 获取对象属性
      * @param obj

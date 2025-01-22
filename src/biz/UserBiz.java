@@ -29,7 +29,7 @@ public class UserBiz {
         reg("unm3", "pp");
         reg("unm2", "pp");
 
-        List<SortedMap<String, Object>> lst2 = getObjsDocdb( "usrs", "/db2026/");
+        var lst2 = getObjsDocdb( "usrs", "/db2026/");
 
 
         // 定义过滤条件：只保留 age > 25 的记录
@@ -42,19 +42,37 @@ public class UserBiz {
 
         Predicate<SortedMap<String, Object>> flt2 = map -> {
             String unm = (String) map.get("pwd");
-            if(unm.equals("pp"))
+            if(unm.equals("ppi"))
                 return  true;
             return false;
         };
-        List<Predicate<SortedMap<String, Object>> > fltList = new ArrayList<>();
+       var fltList = new ArrayList<Predicate<SortedMap<String, Object>>>();
         fltList.add(flt1); fltList.add(flt2);
-        List<SortedMap<String, Object>>  rzt=   fltr2501(lst2,fltList);
+        var rzt=   fltr2501(lst2,fltList);
      //   List<SortedMap<String, Object>>  rzt=   fltr2501(lst2,flt1);
 
      //   search("unm2")
         System.out.println(responseTxt);
         // 定义一个 Record
         //   record User(String username, int age) {}
+    }
+
+    public static boolean login(String uname, String pwd)
+    {
+        JSONObject jo = getObjDocdb(uname, "usrs", "/db2026/");
+        if(jo.getString("pwd").equals(pwd))
+            return  true;
+        return  false;
+    }
+    public static String logOut()
+    {}
+    public static String updtPwd()
+    {}
+    public static String resetPwd(String uname, String pwd)
+    {
+        JSONObject jo = getObjDocdb(uname, "usrs", "/db2026/");
+        jo.put("pwd",pwd);
+        updateObjDocdb(jo,"usrs","/db2026/");
     }
 
 
@@ -85,7 +103,8 @@ public class UserBiz {
     private static boolean existUser(String uname) {
 
         JSONObject jo = getObjDocdb(uname, "usrs", "/db2026/");
-        if (jo.getString("id") != null)
+        // 空安全处理，直接操作结果
+        if (jo.isEmpty()) {
             return true;
         else
             return false;

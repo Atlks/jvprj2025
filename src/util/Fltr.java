@@ -1,10 +1,25 @@
 package util;
-
+import java.util.List;import java.util.SortedMap;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class Fltr {
 
+public class Fltr {
+    // 定义类型别名
+//  类型别名的功能，可以考虑将复杂类型封装到类中（参考之前的建议）。
+ //   type MapList = List<SortedMap<String, Object>>;
+    // 使用别名
+//    public static MapList fltr2501a(MapList list, Predicate<SortedMap<String, Object>> whereFun) {
+//        MapList result = new ArrayList<>();
+//
+//        for (SortedMap<String, Object> map : list) {
+//            if (whereFun.test(map)) {
+//                result.add(map);
+//            }
+//        }
+//
+//        return result;
+//    }
     /**
      * //过滤数组，根据指定的条件whereFun
      *
@@ -115,3 +130,4 @@ public class Fltr {
     }
 
 }
+
