@@ -15,6 +15,65 @@ import java.util.Map;
 
 public class util2026 {
 
+    /**
+     * 解析 INI 配置文件
+     *
+     * @param filePath 配置文件的路径
+     * @return 解析后的 Map，键是节名称，值是包含键值对的 Map
+     */
+    private static Map<String, Map<String, String>> parse_ini_file
+    (String filePath) {
+        Map<String, Map<String, String>> result = new HashMap<>();
+        BufferedReader reader = null;
+        String currentSection = null;
+        Map<String, String> currentSectionMap = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(filePath));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+
+                // 忽略空行和注释行
+                if (line.isEmpty() || line.startsWith(";") || line.startsWith("#")) {
+                    continue;
+                }
+
+                // 处理节标头，节的格式是 [section]
+                if (line.startsWith("[") && line.endsWith("]")) {
+                    // 获取节名称
+                    currentSection = line.substring(1, line.length() - 1).trim();
+                    currentSectionMap = new HashMap<>();
+                    result.put(currentSection, currentSectionMap);
+                }
+                // 处理键值对，格式为 key = value
+                else if (line.contains("=")) {
+                    String[] parts = line.split("=", 2);
+                    if (parts.length == 2) {
+                        String key = parts[0].trim();
+                        String value = parts[1].trim();
+                        if (currentSectionMap != null) {
+                            currentSectionMap.put(key, value);
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
     public static String getcookie(String cookieName, HttpExchange exchange) {
         // 获取请求头中的 Cookie
         List<String> cookieHeaders = exchange.getRequestHeaders().get("Cookie");
@@ -44,7 +103,7 @@ public class util2026 {
      * @param filePath 配置文件的路径
      * @return 解析后的 Map，键值对的形式
      */
-    public static Map<String, String> parse_ini_file(String filePath) {
+    public static Map<String, String> parse_ini_fileNosec(String filePath) {
         Map<String, String> result = new HashMap<>();
         BufferedReader reader = null;
 

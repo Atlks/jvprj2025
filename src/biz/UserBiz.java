@@ -2,20 +2,10 @@ package biz;
 
 import com.alibaba.fastjson2.JSONObject;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.*;
 import java.util.function.Predicate;
-import java.io.*;
-import java.util.*;
-import static biz.UserBiz.reg;
 
 import static util.Fltr.fltr2501;
-import static util.Util2025.encodeJson;
 import static util.dbutil.*;
 import static util.util2026.*;
 
@@ -26,7 +16,7 @@ public class UserBiz {
     static {
         // 获取类加载器 /C:/Users/attil/IdeaProjects/jvprj2025/out/production/jvprj2025/
         String rootPath = UserBiz.class.getClassLoader().getResource("").getPath();
-       Map cfg=parse_ini_file(rootPath+"../../../cfg/dbcfg.ini");
+       Map cfg= parse_ini_fileNosec(rootPath+"../../../cfg/dbcfg.ini");
         saveDir= (String) cfg.get("saveDir");
     }
 
