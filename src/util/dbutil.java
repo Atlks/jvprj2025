@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSON;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,6 +20,12 @@ import static util.util2026.getField2025;
 
 public class dbutil {
 
+    public static void main(String[] args) throws Exception {
+        HashMap m=new HashMap();
+        m.put("id","id1");
+        m.put("name","nm1");
+        addObj(m,"u","jdbc:ini:/db22/");
+    }
 
     /**
      *
@@ -36,7 +43,13 @@ public class dbutil {
         if(saveDir.endsWith(".db"))
         {
             addObjSqlt(obj,collName,saveDir);
-        }else if( saveDir.startsWith("jdbc:mysql"))
+        }else if( saveDir.startsWith("jdbc:ini"))
+        {
+            saveDir=saveDir.substring(9);
+            System.out.println("savedir="+saveDir);
+            addObjIni(obj,collName,saveDir);
+        }
+        else if( saveDir.startsWith("jdbc:mysql"))
         {
             addObjMysql(obj,collName,saveDir);
         }else {
@@ -44,6 +57,84 @@ public class dbutil {
         }
 
 
+    }
+
+    private static void addObjIni(Object obj, String collName, String saveDir) {
+        mkdir2025(saveDir+collName);
+        String fname= (String) getField2025(obj,"id","");
+        //todo need fname encode
+        fname=fname+".ini";
+        String fnamePath=saveDir+collName+"/"+fname;
+        System.out.println("fnamePath="+fnamePath);
+        writeFile2024(fnamePath,encodeIni(obj));
+
+    }
+
+    /**
+     * 遍历Map属性，转化为ini格式，组成字符串
+     * @param map 需要转换为INI格式的Map
+     * @return INI格式字符串
+     */
+    private static String encodeIniMap(Map<String, Object> map) {
+        StringBuilder iniString = new StringBuilder();
+
+        // 遍历Map中的所有键值对
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            // 处理值为 null 的情况
+            if (value != null) {
+                // 将键值对格式化为 key=value 并添加到INI字符串中
+                iniString.append(key)
+                        .append("=")
+                        .append(value.toString())
+                        .append(System.lineSeparator());
+            }
+        }
+
+        return iniString.toString();
+    }
+
+        /**
+         * 遍历对象属性，转化为ini格式，组成字符串
+         * @param obj
+         * @return
+         */
+    private static String encodeIni(Object obj) {
+
+        if(obj instanceof Map)
+        {
+            return  encodeIniMap((Map<String, Object>) obj);
+        }
+        StringBuilder iniString = new StringBuilder();
+
+        // 获取对象的所有字段（属性）
+        Field[] fields = obj.getClass().getDeclaredFields();
+
+        for (Field field : fields) {
+            try {
+                // 设置字段可访问，即使是private字段也能访问
+                field.setAccessible(true);
+
+                // 获取字段的名字和字段的值
+                String fieldName = field.getName();
+                Object fieldValue = field.get(obj);
+
+                // 处理字段值为 null 的情况
+                if (fieldValue != null) {
+                    // 将字段名和值添加到INI字符串中
+                    iniString.append(fieldName)
+                            .append("=")
+                            .append(fieldValue.toString())
+                            .append(System.lineSeparator());
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return iniString.toString();
     }
 
 
@@ -209,7 +300,7 @@ public class dbutil {
 
     private static void addObjDocdb(Object obj, String collName, String saveDir) {
         mkdir2025(saveDir+collName);
-        String fname=getField2025(obj,"id","");
+        String fname= (String) getField2025(obj,"id","");
         //todo need fname encode
         fname=fname+".json";
         String fnamePath=saveDir+collName+"/"+fname;

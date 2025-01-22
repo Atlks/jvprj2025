@@ -169,9 +169,13 @@ public class util2026 {
      * @param fieldName
      * @return
      */
-    public static String getField2025(Object obj, String fieldName,String defval) {
+    public static Object getField2025(Object obj, String fieldName,String defval) {
         if (obj == null || fieldName == null || fieldName.isEmpty()) {
             return defval; // 防御性编程，处理无效参数
+        }
+        if(obj instanceof Map)
+        {
+            return  ((Map)obj).get(fieldName);
         }
 
         try {

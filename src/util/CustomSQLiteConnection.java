@@ -18,8 +18,7 @@ public class CustomSQLiteConnection extends JDBC4Connection {
     //timeout etc..
     public CustomSQLiteConnection(String url) throws SQLException {
      // String dbnm=;
-        String fname = Objects.requireNonNull(getDbNameSqlt(url));
-        super(url, fname,new Properties()); // 调用父类构造函数
+        super(url, Objects.requireNonNull(getDbNameSqlt(url)),new Properties()); // 调用父类构造函数
     }
 
     // 添加自定义方法

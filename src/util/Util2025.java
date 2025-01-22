@@ -378,7 +378,7 @@ public class Util2025 {
     }
 
     public static String writeFile2024(String filePath, String value) {
-
+        System.out.println("filePath="+filePath);
         File file = mkdir(filePath);
 
         // 检查文件是否存在，若不存在则创建文件
