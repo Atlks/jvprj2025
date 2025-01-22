@@ -2,6 +2,8 @@ package util;
 
 import com.sun.net.httpserver.HttpExchange;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.net.HttpCookie;
 import java.util.*;
@@ -33,6 +35,54 @@ public class util2026 {
         // 如果没有找到匹配的 Cookie
         return "";
 
+    }
+
+
+    /**
+     * 解析简单的 INI 配置文件（没有节）
+     *
+     * @param filePath 配置文件的路径
+     * @return 解析后的 Map，键值对的形式
+     */
+    public static Map<String, String> parse_ini_file(String filePath) {
+        Map<String, String> result = new HashMap<>();
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(filePath));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+
+                // 忽略空行和注释行
+                if (line.isEmpty() || line.startsWith(";") || line.startsWith("#")) {
+                    continue;
+                }
+
+                // 处理键值对，格式为 key = value
+                if (line.contains("=")) {
+                    String[] parts = line.split("=", 2);
+                    if (parts.length == 2) {
+                        String key = parts[0].trim();
+                        String value = parts[1].trim();
+                        result.put(key, value);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
     }
     public static void setcookie(String name, String val,HttpExchange exchange) {
         // 创建 Set-Cookie 头部内容
