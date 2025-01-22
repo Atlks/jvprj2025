@@ -2,17 +2,16 @@ package biz;
 
 import com.alibaba.fastjson2.JSONObject;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.SortedMap;
+import java.util.*;
 import java.util.function.Predicate;
-
+import java.io.*;
+import java.util.*;
 import static biz.UserBiz.reg;
 
 import static util.Fltr.fltr2501;
@@ -23,13 +22,69 @@ import static util.util2026.wrtResp;
 
 public class UserBiz {
 
+    private static String saveDir="/db2026/";
+
+    static {
+        // 获取类加载器 /C:/Users/attil/IdeaProjects/jvprj2025/out/production/jvprj2025/
+        String rootPath = UserBiz.class.getClassLoader().getResource("").getPath();
+       Map cfg=parse_ini_file(rootPath+"../../../cfg/dbcfg.ini");
+        saveDir= (String) cfg.get("saveDir");
+    }
+
+    /**
+     * 解析简单的 INI 配置文件（没有节）
+     *
+     * @param filePath 配置文件的路径
+     * @return 解析后的 Map，键值对的形式
+     */
+    private static Map<String, String> parse_ini_file(String filePath) {
+        Map<String, String> result = new HashMap<>();
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(filePath));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+
+                // 忽略空行和注释行
+                if (line.isEmpty() || line.startsWith(";") || line.startsWith("#")) {
+                    continue;
+                }
+
+                // 处理键值对，格式为 key = value
+                if (line.contains("=")) {
+                    String[] parts = line.split("=", 2);
+                    if (parts.length == 2) {
+                        String key = parts[0].trim();
+                        String value = parts[1].trim();
+                        result.put(key, value);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
     public static void main(String[] args) throws Exception {
         String responseTxt = reg("unam2e", "pp");
         reg("unm1", "pp");
         reg("unm3", "pp");
         reg("unm2", "pp");
 
-        var lst2 = getObjsDocdb("usrs", "/db2026/");
+        var lst2 = getObjsDocdb("usrs", saveDir);
 
 
         // 定义过滤条件：只保留 age > 25 的记录
@@ -59,7 +114,7 @@ public class UserBiz {
     }
 
     public static boolean login(String uname, String pwd) {
-        JSONObject jo = getObjDocdb(uname, "usrs", "/db2026/");
+        JSONObject jo = getObjDocdb(uname, "usrs", saveDir);
         if (jo.getString("pwd").equals(pwd))
             return true;
         return false;
@@ -74,9 +129,9 @@ public class UserBiz {
     }
 
     public static String resetPwd(String uname, String pwd) {
-        JSONObject jo = getObjDocdb(uname, "usrs", "/db2026/");
+        JSONObject jo = getObjDocdb(uname, "usrs", saveDir);
         jo.put("pwd", pwd);
-        updateObjDocdb(jo, "usrs", "/db2026/");
+        updateObjDocdb(jo, "usrs", saveDir);
         return "";
     }
 
@@ -91,7 +146,8 @@ public class UserBiz {
 
         // 创建 User 对象
         User user = new User(uname, uname, pwd);
-        addObj(user, "usrs", "/db2026/");
+        saveDir = saveDir;
+        addObj(user, "usrs", saveDir);
         //  addObj(user, "u","jdbc:sqlite:/db2026/usrs.db");
         return "ok";
 
@@ -106,7 +162,7 @@ public class UserBiz {
 
     private static boolean existUser(String uname) {
 
-        JSONObject jo = getObjDocdb(uname, "usrs", "/db2026/");
+        JSONObject jo = getObjDocdb(uname, "usrs", saveDir);
         // 空安全处理，直接操作结果
         if (jo.isEmpty()) {
             return true;
