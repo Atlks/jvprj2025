@@ -1,11 +1,16 @@
 package apis;
 
+import biz.UserBiz;
+import com.alibaba.fastjson2.JSONObject;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 
-import static biz.UserBiz.login;
+import static biz.BaseBiz.saveDir;
+import static biz.UserBiz.*;
+import static util.dbutil.addObj;
+import static util.dbutil.getObjDocdb;
 import static util.util2026.*;
 
 public class LoginHdr  implements HttpHandler {
@@ -20,5 +25,13 @@ public class LoginHdr  implements HttpHandler {
         }
     }
 
+
+
+    public static boolean login(String uname, String pwd) {
+        JSONObject jo = getObjDocdb(uname, "usrs", saveDir);
+        if (jo.getString("pwd").equals(pwd))
+            return true;
+        return false;
+    }
 
 }

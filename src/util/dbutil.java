@@ -47,8 +47,8 @@ public class dbutil {
      *                 jdbc:mysql
      * @throws Exception
      */
-    public static void addObj(Object obj, String collName, String saveDir) throws Exception {
-
+    public static void addObj(Object obj,  String saveDir) throws Exception {
+        String collName="";
         if (saveDir.endsWith(".db")) {
             addObjSqlt(obj, collName, saveDir);
         } else if (saveDir.startsWith("jdbc:ini")) {

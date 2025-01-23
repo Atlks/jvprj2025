@@ -178,5 +178,54 @@ public class Fltr {
         }
     }
 
+
+
+    /**
+     * @param list2
+     * @return
+     */
+    private static List<SortedMap<String, Object>> filter_tmp1(List<SortedMap<String, Object>> list2) {
+        // 定义过滤条件：只保留 age > 25 的记录
+        Predicate<SortedMap<String, Object>> flt1 = map -> {
+            String unm = (String) map.get("uname");
+            if (unm.equals("unm2"))
+                return true;
+            return false;
+        };
+
+        Predicate<SortedMap<String, Object>> flt2 = map -> {
+            String unm = (String) map.get("pwd");
+            if (unm.equals("ppi"))
+                return true;
+            return false;
+        };
+        var fltList = new ArrayList<Predicate<SortedMap<String, Object>>>();
+        fltList.add(flt1);
+        fltList.add(flt2);
+        var rzt = fltr2501(list2, fltList);
+        return rzt;
+    }
+
+
+    private static List<SortedMap<String, Object>> filter_tmp2(List<SortedMap<String, Object>> list2) {
+
+        // 定义过滤条件：只保留 符合条件的的记录
+        Predicate<SortedMap<String, Object>> filter1 = map -> {
+            String unm = (String) map.get("uname");
+
+            String pwd = (String) map.get("pwd");
+
+            if (unm.equals("unm2") && pwd.equals("pp"))
+                return true;
+            return false;
+        };
+
+
+        var rzt = fltr2501(list2, filter1);
+        return rzt;
+    }
+
+
+
 }
 
