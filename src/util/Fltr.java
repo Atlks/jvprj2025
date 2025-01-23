@@ -8,6 +8,8 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static util.dbutil.getObjsDocdb;
+
 
 public class Fltr {
     // 定义类型别名
@@ -64,7 +66,11 @@ public class Fltr {
         printTimestamp(" end fun " + methodName + "()");
         return rowsResult;
     }
-
+    public static List<SortedMap<String, Object>> filterWithSpEL2501(String saveDirUrl, String expression) {
+        var lst2 = getObjsDocdb( saveDirUrl);
+        var rzt=filterWithSpEL(lst2, expression);
+        return rzt;
+    }
     /**
      *
      * @param list1

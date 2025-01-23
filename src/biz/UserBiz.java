@@ -9,8 +9,7 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static util.Fltr.filterWithSpEL;
-import static util.Fltr.fltr2501;
+import static util.Fltr.*;
 import static util.Util2025.encodeJson;
 import static util.dbutil.*;
 import static util.util2026.*;
@@ -34,7 +33,7 @@ public class UserBiz {
         reg("unm3", "pp");
         reg("unm2", "pp");
 
-        var lst2 = getObjsDocdb("usrs", saveDir);
+       // var lst2 = getObjsDocdb("usrs", saveDir);
 
 
        // var rzt = flt1tmp(lst2);
@@ -42,7 +41,9 @@ public class UserBiz {
 
         String expression = "uname == 'unm2' && pwd == 'pp'";
         expression=" #this['uname'] == 'unm2' && #this['pwd'] == 'pp'  ";
-        var rzt=filterWithSpEL(lst2, expression);
+        //   var rzt=filterWithSpEL(lst2, expression);
+
+        var rzt=filterWithSpEL2501(saveDir+"usrs", expression);
         System.out.println("rztFlted="+encodeJson(rzt));
 
         //   List<SortedMap<String, Object>>  rzt=   fltr2501(lst2,flt1);

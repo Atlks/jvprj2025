@@ -192,6 +192,40 @@ public class dbutil {
 
     }
 
+
+    public static List<SortedMap<String, Object>> getObjsDocdb(  String saveDir) {
+
+        mkdir2025(saveDir);
+        //encodeFilName todo
+
+
+
+        //遍历目录dir，读取每一个文件，并解析为SortedMap<String, Objects>
+        //最终返回一个List<SortedMap<String, Objects>>
+        List<SortedMap<String, Object>> result = new ArrayList<>();
+
+        try {
+            // 遍历目录中的所有文件
+            Files.list(Paths.get(saveDir))
+                    .filter(Files::isRegularFile)
+                    .forEach(filePath -> {
+                        try {
+                            // 解析文件内容为 SortedMap<String, Object>
+                            SortedMap<String, Object> fileData = parseFileToSortedMap(filePath);
+                            result.add(fileData);
+                        } catch (Exception e) {
+                            System.err.println("Error processing file: " + filePath + " - " + e.getMessage());
+                            e.printStackTrace();
+                        }
+                    });
+        } catch (IOException e) {
+            System.err.println("Error reading directory: " + dir + " - " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
     /**
      * //遍历目录saveDir+collName，读取每一个文件，并解析为SortedMap<String, Objects>
      *
