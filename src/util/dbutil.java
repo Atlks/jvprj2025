@@ -331,7 +331,12 @@ public class dbutil {
         String fname = id + ".json";
         String fnamePath = saveDir + collName + "/" + fname;
         if (new File(fnamePath).exists())
-            return JSONObject.parseObject(readTxtFrmFil(fnamePath));
+        {
+            String text = readTxtFrmFil(fnamePath);
+            System.out.println("getobjDoc().txt="+text);
+            return JSONObject.parseObject(text);
+        }
+
             //   if(!new File(fnamePath).exists())
         else
             return JSONObject.parseObject("{}");
@@ -347,7 +352,7 @@ public class dbutil {
         fname = fname + ".json";
         String fnamePath = saveDir + collName + "/" + fname;
         System.out.println("fnamePath=" + fnamePath);
-        writeFile2024(fnamePath, encodeJson(obj));
+        writeFile2501(fnamePath, encodeJson(obj));
 
     }
 

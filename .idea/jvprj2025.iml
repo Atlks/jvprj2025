@@ -14,5 +14,7 @@
     <orderEntry type="library" name="slf4j-api-2.0.9" level="project" />
     <orderEntry type="library" name="lucene-core-9.9.0" level="project" />
     <orderEntry type="library" name="lucene-queries-9.9.0" level="project" />
+    <orderEntry type="library" name="spring-expression-6.1.16" level="project" />
+    <orderEntry type="library" name="spring-core-6.1.12" level="project" />
   </component>
 </module>

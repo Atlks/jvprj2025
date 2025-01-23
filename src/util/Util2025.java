@@ -377,6 +377,32 @@ public class Util2025 {
         }
     }
 
+
+    public static String writeFile2501(String filePath, String value) {
+        System.out.println("filePath="+filePath);
+        File file = mkdir(filePath);
+
+        // 检查文件是否存在，若不存在则创建文件
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            // 使用 BufferedWriter 写入文件
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
+                writer.write(value);
+                writer.newLine(); // 添加换行符
+            }
+
+            // System.out.println("Data written to file successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "ok!";
+
+    }
+
+
     public static String writeFile2024(String filePath, String value) {
         System.out.println("filePath="+filePath);
         File file = mkdir(filePath);

@@ -1,23 +1,29 @@
 package biz;
 
 import com.alibaba.fastjson2.JSONObject;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
+import static util.Fltr.filterWithSpEL;
 import static util.Fltr.fltr2501;
+import static util.Util2025.encodeJson;
 import static util.dbutil.*;
 import static util.util2026.*;
 
 public class UserBiz {
 
-    private static String saveDir="/db2026/";
+    private static String saveDir="";
 
     static {
         // 获取类加载器 /C:/Users/attil/IdeaProjects/jvprj2025/out/production/jvprj2025/
         String rootPath = UserBiz.class.getClassLoader().getResource("").getPath();
        Map cfg= parse_ini_fileNosec(rootPath+"../../../cfg/dbcfg.ini");
-        saveDir= (String) cfg.get("saveDir");
+        saveDir= (String) cfg.get("savedir");
     }
 
 
@@ -31,6 +37,47 @@ public class UserBiz {
         var lst2 = getObjsDocdb("usrs", saveDir);
 
 
+       // var rzt = flt1tmp(lst2);
+
+
+        String expression = "uname == 'unm2' && pwd == 'pp'";
+        expression=" #this['uname'] == 'unm2' && #this['pwd'] == 'pp'  ";
+        var rzt=filterWithSpEL(lst2, expression);
+        System.out.println("rztFlted="+encodeJson(rzt));
+
+        //   List<SortedMap<String, Object>>  rzt=   fltr2501(lst2,flt1);
+
+        //   search("unm2")
+        System.out.println(responseTxt);
+        // 定义一个 Record
+        //   record User(String username, int age) {}
+    }
+
+
+
+
+//    @SuppressWarnings("unchecked")
+//    private static List<SortedMap<String, Object>> filterWithSpEL(List<SortedMap<String, Object>> list1) {
+//        // 创建 SpEL 解析器
+//        ExpressionParser parser = new SpelExpressionParser();
+//
+//        // 定义过滤表达式，使用 SpEL 的集合操作
+//        String expression = "#list1.?[uname == 'unm2' && pwd == 'pp']";
+//
+//        // 创建上下文并设置变量
+//        StandardEvaluationContext context = new StandardEvaluationContext();
+//        context.setVariable("list1", list1); // 将 list1 设置为变量
+//
+//        // 解析并返回结果
+//        return (List<SortedMap<String, Object>>) parser.parseExpression(expression).getValue(context);
+//    }
+
+    /**
+     *
+     * @param list2
+     * @return
+     */
+    private static List<SortedMap<String, Object>> filter_tmp1(List<SortedMap<String, Object>> list2) {
         // 定义过滤条件：只保留 age > 25 的记录
         Predicate<SortedMap<String, Object>> flt1 = map -> {
             String unm = (String) map.get("uname");
@@ -48,13 +95,27 @@ public class UserBiz {
         var fltList = new ArrayList<Predicate<SortedMap<String, Object>>>();
         fltList.add(flt1);
         fltList.add(flt2);
-        var rzt = fltr2501(lst2, fltList);
-        //   List<SortedMap<String, Object>>  rzt=   fltr2501(lst2,flt1);
+        var rzt = fltr2501(list2, fltList);
+        return rzt;
+    }
 
-        //   search("unm2")
-        System.out.println(responseTxt);
-        // 定义一个 Record
-        //   record User(String username, int age) {}
+
+    private static List<SortedMap<String, Object>> filter_tmp2(List<SortedMap<String, Object>> list2) {
+
+        // 定义过滤条件：只保留 符合条件的的记录
+        Predicate<SortedMap<String, Object>> filter1 = map -> {
+            String unm = (String) map.get("uname");
+
+            String pwd = (String) map.get("pwd");
+
+            if (unm.equals("unm2") && pwd.equals("pp"))
+                return true;
+            return false;
+        };
+
+
+        var rzt = fltr2501(list2, filter1);
+        return rzt;
     }
 
     public static boolean login(String uname, String pwd) {
