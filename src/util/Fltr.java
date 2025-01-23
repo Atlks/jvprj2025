@@ -67,8 +67,17 @@ public class Fltr {
         return rowsResult;
     }
     public static List<SortedMap<String, Object>> filterWithSpEL2501(String saveDirUrl, String expression) {
-        var lst2 = getObjsDocdb( saveDirUrl);
-        var rzt=filterWithSpEL(lst2, expression);
+
+        //chk null
+        if(saveDirUrl==null || saveDirUrl.equals("") )
+            return new ArrayList<>();
+
+        var lst1 = getObjsDocdb( saveDirUrl);
+        if(expression==null || expression.equals(""))
+        {
+            return  lst1;
+        }
+        var rzt=filterWithSpEL(lst1, expression);
         return rzt;
     }
     /**

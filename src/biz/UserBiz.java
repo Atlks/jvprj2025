@@ -1,14 +1,11 @@
 package biz;
 
 import com.alibaba.fastjson2.JSONObject;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
+import static util.ArrUtil.sortWithSpEL;
 import static util.Fltr.*;
 import static util.Util2025.encodeJson;
 import static util.dbutil.*;
@@ -16,45 +13,48 @@ import static util.util2026.*;
 
 public class UserBiz {
 
-    private static String saveDir="";
+    private static String saveDir = "";
 
     static {
         // 获取类加载器 /C:/Users/attil/IdeaProjects/jvprj2025/out/production/jvprj2025/
         String rootPath = UserBiz.class.getClassLoader().getResource("").getPath();
-       Map cfg= parse_ini_fileNosec(rootPath+"../../../cfg/dbcfg.ini");
-        saveDir= (String) cfg.get("savedir");
+        Map cfg = parse_ini_fileNosec(rootPath + "../../../cfg/dbcfg.ini");
+        saveDir = (String) cfg.get("savedir");
     }
 
 
-
-    public static void main(String[] args) throws Exception {
-        String responseTxt = reg("unam2e", "pp");
-        reg("unm1", "pp");
-        reg("unm3", "pp");
-        reg("unm2", "pp");
-
-       // var lst2 = getObjsDocdb("usrs", saveDir);
+    public static void main(String[] args) throws Exception, existUserEx {
 
 
-       // var rzt = flt1tmp(lst2);
+        // 创建 User 对象
+        User user = new User("u1", "u1", "", 1);
+//        reg( new User("u1", "u1", "",1));
+//        reg( new User("u2", "u2", "",2));
+//        reg( new User("u3", "u3", "",3));
+        // var lst2 = getObjsDocdb("usrs", saveDir);
+
+
+        // var rzt = flt1tmp(lst2);
 
 
         String expression = "uname == 'unm2' && pwd == 'pp'";
-        expression=" #this['uname'] == 'unm2' && #this['pwd'] == 'pp'  ";
+        expression = " #this['uname'] == 'unm2' && #this['pwd'] == 'pp'  ";
+        expression = "";
+
         //   var rzt=filterWithSpEL(lst2, expression);
 
-        var rzt=filterWithSpEL2501(saveDir+"usrs", expression);
-        System.out.println("rztFlted="+encodeJson(rzt));
+        var rzt = filterWithSpEL2501(saveDir + "usrs", expression);
+        System.out.println("rztFlted=" + encodeJson(rzt));
 
+        var rztSted = sortWithSpEL(rzt, "#map1['age'] < #map2['age']");
+        System.out.println("rztSorted=" + encodeJson(rztSted));
         //   List<SortedMap<String, Object>>  rzt=   fltr2501(lst2,flt1);
 
         //   search("unm2")
-        System.out.println(responseTxt);
+        //   System.out.println(responseTxt);
         // 定义一个 Record
         //   record User(String username, int age) {}
     }
-
-
 
 
 //    @SuppressWarnings("unchecked")
@@ -74,7 +74,6 @@ public class UserBiz {
 //    }
 
     /**
-     *
      * @param list2
      * @return
      */
@@ -141,6 +140,27 @@ public class UserBiz {
         return "";
     }
 
+    public static String reg(User user) throws Exception, existUserEx {
+
+
+        if (existUser(user)) {
+            throw new existUserEx(user.uname);
+        }
+        //  if(!existUser(uname))
+
+
+        saveDir = saveDir;
+        addObj(user, "usrs", saveDir);
+        //  addObj(user, "u","jdbc:sqlite:/db2026/usrs.db");
+        return "ok";
+
+
+    }
+
+    private static boolean existUser(User user) {
+        return existUser(user.uname);
+    }
+
 
     public static String reg(String uname, String pwd) throws Exception {
 
@@ -151,7 +171,7 @@ public class UserBiz {
         //  if(!existUser(uname))
 
         // 创建 User 对象
-        User user = new User(uname, uname, pwd);
+        User user = new User(uname, uname, pwd, 1);
         saveDir = saveDir;
         addObj(user, "usrs", saveDir);
         //  addObj(user, "u","jdbc:sqlite:/db2026/usrs.db");
@@ -161,7 +181,7 @@ public class UserBiz {
     }
 
 
-    public record User(String id, String uname, String pwd) {
+    public record User(String id, String uname, String pwd, int age) {
 
         // record 自动生成构造函数、getters、equals、hashCode 和 toString 方法
     }
@@ -171,8 +191,8 @@ public class UserBiz {
         JSONObject jo = getObjDocdb(uname, "usrs", saveDir);
         // 空安全处理，直接操作结果
         if (jo.isEmpty()) {
-            return true;
-        } else
             return false;
+        } else
+            return true;
     }
 }

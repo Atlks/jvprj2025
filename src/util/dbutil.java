@@ -219,7 +219,7 @@ public class dbutil {
                         }
                     });
         } catch (IOException e) {
-            System.err.println("Error reading directory: " + dir + " - " + e.getMessage());
+            System.err.println("Error reading directory: " + saveDir + " - " + e.getMessage());
             e.printStackTrace();
         }
 
