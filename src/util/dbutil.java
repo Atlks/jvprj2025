@@ -48,6 +48,12 @@ public class dbutil {
         addObj(m, "jdbc:ini:/db22/usrs");
     }
 
+    /**
+     *
+     * @param saveDir
+     * @param qryExpression
+     * @return
+     */
     public static List<SortedMap<String, Object>> findObjs(String saveDir, String qryExpression) {
 
         //nullchk
