@@ -1,4 +1,6 @@
 import apis.HelloHandler;
+import apis.LoginHdr;
+import apis.RegHandler;
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
@@ -14,7 +16,8 @@ public class MainApi {
 
         // 定义一个上下文，绑定到 "/api/hello" 路径
         server.createContext("/hello", new HelloHandler());
-
+        server.createContext("/reg", new RegHandler());
+        server.createContext("/login", new LoginHdr());
         // 启动服务器
         server.setExecutor(null); // 默认的线程池
         server.start();

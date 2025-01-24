@@ -14,7 +14,7 @@ public class AccBiz {
 
 
 
-        addObj(acclog, "acc", "/db2026/");
+        addObj(acclog,   "/db2026/acc");
         //  addObj(user, "u","jdbc:sqlite:/db2026/usrs.db");
         return "ok";
 

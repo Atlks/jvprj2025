@@ -27,7 +27,7 @@ public class UpdtPwdHdr extends BaseHdr {
         if (jo.getString("pwd").equals(oldpwd))
         {
             // 创建 User 对象
-            UserBiz.User user = new UserBiz.User(uname, uname, pwd, 1);
+            RegHandler.User user = new RegHandler.User(uname, uname, pwd, 1);
             //   saveDir = saveDir;
             addObj(user, saveDir+"usrs");
             wrtResp(exchange, "ok");

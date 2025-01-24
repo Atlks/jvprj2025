@@ -66,13 +66,13 @@ public class Fltr {
         printTimestamp(" end fun " + methodName + "()");
         return rowsResult;
     }
-    public static List<SortedMap<String, Object>> filterWithSpEL2501(String saveDirUrl, String expression) {
+    public static List<SortedMap<String, Object>> filterWithSpEL(String saveDirUrl, String expression) {
 
         //chk null
         if(saveDirUrl==null || saveDirUrl.equals("") )
             return new ArrayList<>();
 
-        var lst1 = getObjsDocdb( saveDirUrl);
+        var lst1 = getObjsDocdb( saveDirUrl,expression);
         if(expression==null || expression.equals(""))
         {
             return  lst1;

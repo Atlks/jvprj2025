@@ -23,6 +23,7 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
+import static util.Fltr.filterWithSpEL;
 import static util.Util2025.*;
 import static util.luceneUtil.convertMapToDocument;
 import static util.util2026.getField2025;
@@ -33,7 +34,7 @@ public class dbutil {
         HashMap m = new HashMap();
         m.put("id", "id1");
         m.put("name", "nm1");
-        addObj(m, "u", "jdbc:ini:/db22/");
+        addObj(m,   "jdbc:ini:/db22/usrs");
     }
 
     /**
@@ -193,11 +194,35 @@ public class dbutil {
     }
 
 
-    public static List<SortedMap<String, Object>> getObjsDocdb(  String saveDir) {
+    /**
+     *
+     * @param saveDir
+     * @param qryExpression
+     * @return
+     */
+    public static List<SortedMap<String, Object>> getObjsDocdb(  String saveDir,String qryExpression) {
 
+        //nullchk
+        if(saveDir==null || saveDir.equals(""))
+            return  new ArrayList<>();
+
+
+        List<SortedMap<String, Object>> result = getSortedMaps(saveDir);
+
+
+        if(qryExpression==null || qryExpression.equals(""))
+            return  result;
+        if(result.isEmpty())
+            return  result;
+
+        result = filterWithSpEL(result , qryExpression);
+
+        return result;
+    }
+
+    private static List<SortedMap<String, Object>> getSortedMaps(String saveDir) {
         mkdir2025(saveDir);
         //encodeFilName todo
-
 
 
         //遍历目录dir，读取每一个文件，并解析为SortedMap<String, Objects>
@@ -222,7 +247,6 @@ public class dbutil {
             System.err.println("Error reading directory: " + saveDir + " - " + e.getMessage());
             e.printStackTrace();
         }
-
         return result;
     }
 
@@ -233,38 +257,38 @@ public class dbutil {
      * @param saveDir
      * @return
      */
-    public static List<SortedMap<String, Object>> getObjsDocdb(String collName, String saveDir) {
-
-        mkdir2025(saveDir + collName);
-        //encodeFilName todo
-
-        String dir = saveDir + collName;
-
-        //遍历目录dir，读取每一个文件，并解析为SortedMap<String, Objects>
-        //最终返回一个List<SortedMap<String, Objects>>
-        List<SortedMap<String, Object>> result = new ArrayList<>();
-
-        try {
-            // 遍历目录中的所有文件
-            Files.list(Paths.get(dir))
-                    .filter(Files::isRegularFile)
-                    .forEach(filePath -> {
-                        try {
-                            // 解析文件内容为 SortedMap<String, Object>
-                            SortedMap<String, Object> fileData = parseFileToSortedMap(filePath);
-                            result.add(fileData);
-                        } catch (Exception e) {
-                            System.err.println("Error processing file: " + filePath + " - " + e.getMessage());
-                            e.printStackTrace();
-                        }
-                    });
-        } catch (IOException e) {
-            System.err.println("Error reading directory: " + dir + " - " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        return result;
-    }
+//    public static List<SortedMap<String, Object>> getObjsDocdb(String collName, String saveDir) {
+//
+//        mkdir2025(saveDir + collName);
+//        //encodeFilName todo
+//
+//        String dir = saveDir + collName;
+//
+//        //遍历目录dir，读取每一个文件，并解析为SortedMap<String, Objects>
+//        //最终返回一个List<SortedMap<String, Objects>>
+//        List<SortedMap<String, Object>> result = new ArrayList<>();
+//
+//        try {
+//            // 遍历目录中的所有文件
+//            Files.list(Paths.get(dir))
+//                    .filter(Files::isRegularFile)
+//                    .forEach(filePath -> {
+//                        try {
+//                            // 解析文件内容为 SortedMap<String, Object>
+//                            SortedMap<String, Object> fileData = parseFileToSortedMap(filePath);
+//                            result.add(fileData);
+//                        } catch (Exception e) {
+//                            System.err.println("Error processing file: " + filePath + " - " + e.getMessage());
+//                            e.printStackTrace();
+//                        }
+//                    });
+//        } catch (IOException e) {
+//            System.err.println("Error reading directory: " + dir + " - " + e.getMessage());
+//            e.printStackTrace();
+//        }
+//
+//        return result;
+//    }
 
     /**
      * 将文件解析为 SortedMap<String, Object>

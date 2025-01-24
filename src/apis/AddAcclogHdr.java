@@ -26,7 +26,7 @@ public class AddAcclogHdr extends BaseHdr {
 
         //blk login ed
         Object acclog = null;
-        addObj(acclog, "acc", "/db2026/");
+        addObj(acclog,   "/db2026/acc");
         wrtResp(exchange, "ok");
 
 

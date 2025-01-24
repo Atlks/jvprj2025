@@ -1,17 +1,11 @@
 package biz;
 
 import apis.RegHandler;
-import com.alibaba.fastjson2.JSONObject;
-
-import java.util.*;
-import java.util.function.Predicate;
+import util.Fltr;
 
 import static biz.BaseBiz.saveDir;
 import static util.ArrUtil.sortWithSpEL;
-import static util.Fltr.*;
 import static util.Util2025.encodeJson;
-import static util.dbutil.*;
-import static util.util2026.*;
 
 public class UserBiz {
 
@@ -37,7 +31,7 @@ public class UserBiz {
 
         //   var rzt=filterWithSpEL(lst2, expression);
 
-        var rzt = filterWithSpEL2501(saveDir + "usrs", expression);
+        var rzt = Fltr.filterWithSpEL(saveDir + "usrs", expression);
         System.out.println("rztFlted=" + encodeJson(rzt));
 
         var rztSted = sortWithSpEL(rzt, "#map1['age'] < #map2['age']");
