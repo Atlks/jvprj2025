@@ -1,9 +1,7 @@
 package apis;
 
 import com.sun.net.httpserver.HttpExchange;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
@@ -13,7 +11,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static biz.BaseBiz.saveDir;
+import static biz.BaseBiz.saveDirUsrs;
 import static util.Util2025.encodeJson;
 import static util.UtilLucene.toListMap;
 import static util.dbutil.*;
@@ -37,6 +35,7 @@ public class QueryUsrHdr extends BaseHdr {
 
 
         String uname = getcookie("uname", exchange);
+        uname="ttt";
         if (uname.equals("")) {
             //need login
             wrtResp(exchange, "needLogin");
@@ -53,21 +52,23 @@ public class QueryUsrHdr extends BaseHdr {
     private static List<SortedMap<String, Object>> qryuser(Map<String, String> queryParams) throws IOException {
         var expression = "";
         String uname = queryParams.get("uname");
-        if (saveDir.startsWith("jdbc:mysql") || saveDir.startsWith("jdbc:sqlite")) {
-            return getSortedMapsSql(queryParams);
-        } else if (saveDir.startsWith("lucene:")) {
-            var idxDir=saveDir+"usrs";
-            return getSortedMapsLucene(idxDir,queryParams);
+        if (saveDirUsrs.startsWith("jdbc:mysql") || saveDirUsrs.startsWith("jdbc:sqlite")) {
+            return qryuserSql(queryParams);
+        } else if (saveDirUsrs.startsWith("lucene:")) {
+
+            return qryuserLucene(queryParams);
         } else {
             //json doc ,ini ,redis ,lucene
-            return getSortedMapsIni(queryParams);
+            return qryuserIni(queryParams);
         }
         //   return new ArrayList<SortedMap<String, Object>>();
     }
 
-    private static List<SortedMap<String, Object>> getSortedMapsLucene(String saveDir, Map<String, String> queryParams) throws IOException {
+    private static List<SortedMap<String, Object>> qryuserLucene(Map<String, String> queryParams) throws IOException {
+
+        var idxDir= saveDirUsrs +"usrs";
         String uname = queryParams.get("uname");
-        Directory directory = FSDirectory.open(Paths.get(saveDir));
+        Directory directory = FSDirectory.open(Paths.get(idxDir));
         // 创建 IndexSearcher
         DirectoryReader reader = DirectoryReader.open(directory);
         IndexSearcher searcher = new IndexSearcher(reader);
@@ -91,7 +92,7 @@ public class QueryUsrHdr extends BaseHdr {
 
 
 
-    private static List<SortedMap<String, Object>> getSortedMapsSql(Map<String, String> queryParams) {
+    private static List<SortedMap<String, Object>> qryuserSql(Map<String, String> queryParams ) {
         String uname = queryParams.get("uname");
         var expression = "";
 
@@ -100,12 +101,12 @@ public class QueryUsrHdr extends BaseHdr {
             expression = "uname like '%{uname}%'";
         }
         var sql = "select * from usrs where 1=1 and " + expression;
-        var list1 = qrySql(sql, saveDir);
+        var list1 = qrySql(sql, saveDirUsrs);
         return (List<SortedMap<String, Object>>) list1;
     }
 
-    private static List<SortedMap<String, Object>> getSortedMapsIni(Map<String, String> queryParams) {
-        String uname = queryParams.get("uname");
+    private static List<SortedMap<String, Object>> qryuserIni(Map<String, String> queryParams) {
+        String uname = (String) getField2025(queryParams,"uname","");
         var expression = "";
         if (!uname.equals("")) {
             //
@@ -114,7 +115,7 @@ public class QueryUsrHdr extends BaseHdr {
             // 使用转义后的uname变量
             expression = "#this['uname'] matches '.*" + escapedUname + ".*'";
         }
-        var list1 = getObjs(saveDir + "usrs", expression);
+        var list1 = getObjs(saveDirUsrs + "usrs", expression);
         return list1;
     }
 

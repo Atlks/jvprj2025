@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static util.dbutil.getObjsDocdb;
+import static util.dbutil.getObjsIni;
 
 
 public class Fltr {
@@ -72,7 +73,7 @@ public class Fltr {
         if(saveDirUrl==null || saveDirUrl.equals("") )
             return new ArrayList<>();
 
-        var lst1 = getObjsDocdb( saveDirUrl,expression);
+        var lst1 = getObjsIni( saveDirUrl,expression);
         if(expression==null || expression.equals(""))
         {
             return  lst1;

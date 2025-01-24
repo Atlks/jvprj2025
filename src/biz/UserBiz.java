@@ -3,7 +3,8 @@ package biz;
 import apis.RegHandler;
 import util.Fltr;
 
-import static biz.BaseBiz.saveDir;
+import static apis.RegHandler.reg;
+import static biz.BaseBiz.saveDirUsrs;
 import static util.ArrUtil.sortWithSpEL;
 import static util.Util2025.encodeJson;
 
@@ -16,9 +17,9 @@ public class UserBiz {
 
         // 创建 User 对象
         RegHandler.User user = new RegHandler.User("u1", "u1", "", 1);
-//        reg( new User("u1", "u1", "",1));
-//        reg( new User("u2", "u2", "",2));
-//        reg( new User("u3", "u3", "",3));
+        reg( new RegHandler.User("u1", "u1", "",1));
+        reg( new RegHandler.User("u2", "u2", "",2));
+        reg( new RegHandler.User("u3", "u3", "",3));
         // var lst2 = getObjsDocdb("usrs", saveDir);
 
 
@@ -31,7 +32,7 @@ public class UserBiz {
 
         //   var rzt=filterWithSpEL(lst2, expression);
 
-        var rzt = Fltr.filterWithSpEL(saveDir + "usrs", expression);
+        var rzt = Fltr.filterWithSpEL(saveDirUsrs , expression);
         System.out.println("rztFlted=" + encodeJson(rzt));
 
         var rztSted = sortWithSpEL(rzt, "#map1['age'] < #map2['age']");
@@ -71,23 +72,7 @@ public class UserBiz {
 //    }
 
 
-//
-//    public static String reg(User user) throws Exception, existUserEx {
-//
-//
-//        if (existUser(user)) {
-//            throw new existUserEx(user.uname);
-//        }
-//        //  if(!existUser(uname))
-//
-//
-//        saveDir = saveDir;
-//        addObj(user, "usrs", saveDir);
-//        //  addObj(user, "u","jdbc:sqlite:/db2026/usrs.db");
-//        return "ok";
-//
-//
-//    }
+
 
 
 }

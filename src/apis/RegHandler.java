@@ -1,13 +1,13 @@
 package apis;
 
-import biz.UserBiz;
+import biz.existUserEx;
 import com.alibaba.fastjson2.JSONObject;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 
-import static biz.BaseBiz.saveDir;
+import static biz.BaseBiz.saveDirUsrs;
 
 import static util.dbutil.addObj;
 import static util.dbutil.getObjDocdb;
@@ -37,6 +37,21 @@ public class RegHandler implements HttpHandler {
     }
 
 
+    public static String reg(User user) throws Exception, existUserEx {
+
+
+        if (existUser(user)) {
+            throw new existUserEx(user.uname);
+        }
+        //  if(!existUser(uname))
+
+
+        addObj(user,  saveDirUsrs);
+        //  addObj(user, "u","jdbc:sqlite:/db2026/usrs.db");
+        return "ok";
+
+
+    }
     public static String reg(String uname, String pwd) throws Exception {
 
 
@@ -48,7 +63,7 @@ public class RegHandler implements HttpHandler {
         // 创建 User 对象
         User user = new User(uname, uname, pwd, 1);
         //   saveDir = saveDir;
-        addObj(user, saveDir+"usrs");
+        addObj(user, saveDirUsrs +"usrs");
         //  addObj(user, "u","jdbc:sqlite:/db2026/usrs.db");
         return "ok";
 
@@ -71,7 +86,7 @@ public class RegHandler implements HttpHandler {
 
     public static boolean existUser(String uname) {
 
-        JSONObject jo = getObjDocdb(uname, "usrs", saveDir);
+        JSONObject jo = getObjDocdb(uname,  saveDirUsrs);
         // 空安全处理，直接操作结果
         if (jo.isEmpty()) {
             return false;

@@ -1,10 +1,9 @@
 package apis;
 
-import biz.UserBiz;
 import com.alibaba.fastjson2.JSONObject;
 import com.sun.net.httpserver.HttpExchange;
 
-import static biz.BaseBiz.saveDir;
+import static biz.BaseBiz.saveDirUsrs;
 import static util.dbutil.addObj;
 import static util.dbutil.getObjDocdb;
 import static util.util2026.*;
@@ -23,13 +22,13 @@ public class UpdtPwdHdr extends BaseHdr {
         }
         String oldpwd=    getRequestParameter(exchange,"oldpwd");
         String pwd=    getRequestParameter(exchange,"pwd");
-        JSONObject jo = getObjDocdb(uname, "usrs", saveDir);
+        JSONObject jo = getObjDocdb(uname,  saveDirUsrs);
         if (jo.getString("pwd").equals(oldpwd))
         {
             // 创建 User 对象
             RegHandler.User user = new RegHandler.User(uname, uname, pwd, 1);
             //   saveDir = saveDir;
-            addObj(user, saveDir+"usrs");
+            addObj(user, saveDirUsrs +"usrs");
             wrtResp(exchange, "ok");
         }else{
             wrtResp(exchange, "powNotMatch");

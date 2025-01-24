@@ -3,7 +3,7 @@ package apis;
 import com.alibaba.fastjson2.JSONObject;
 import com.sun.net.httpserver.HttpExchange;
 
-import static biz.BaseBiz.saveDir;
+import static biz.BaseBiz.saveDirUsrs;
 import static util.dbutil.*;
 import static util.util2026.getcookie;
 import static util.util2026.wrtResp;
@@ -29,9 +29,9 @@ public class ResetPwdHdr extends BaseHdr {
     }
 
     public static String resetPwd(String uname, String pwd) {
-        JSONObject jo = getObjDocdb(uname, "usrs", saveDir);
+        JSONObject jo = getObjDocdb(uname,  saveDirUsrs);
         jo.put("pwd", pwd);
-        updateObjDocdb(jo, "usrs", saveDir);
+        updateObjDocdb(jo, "usrs", saveDirUsrs);
         return "";
     }
 }

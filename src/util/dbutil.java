@@ -53,7 +53,7 @@ public class dbutil {
        if (saveDir.startsWith("jdbc:ini")) {
             saveDir = saveDir.substring(9);
             System.out.println("savedir=" + saveDir);
-           return  getObjsIni(saveDir);
+           return  getObjsIni(saveDir,"");
         } else if (saveDir.startsWith("jdbc:lucene")) {
             saveDir = saveDir.substring(11);
             System.out.println("savedir=" + saveDir);
@@ -74,8 +74,26 @@ public class dbutil {
         return null;
     }
 
-    private static List<SortedMap<String, Object>> getObjsIni(String saveDir) {
-        return List.of();
+    static List<SortedMap<String, Object>> getObjsIni(String saveDir, String qryExpression) {
+
+        //nullchk
+        if(saveDir==null || saveDir.equals(""))
+            return  new ArrayList<>();
+
+
+        List<SortedMap<String, Object>> result = getSortedMapsFrmINiFmt(saveDir);
+
+
+        if(qryExpression==null || qryExpression.equals(""))
+            return  result;
+        if(result.isEmpty())
+            return  result;
+
+        result = filterWithSpEL(result , qryExpression);
+
+        return result;
+//        Map<String, String> m= parse_ini_fileNosec()
+//        return List.of();
     }
 
     /**
@@ -93,10 +111,13 @@ public class dbutil {
         String collName="";
         if (saveDir.endsWith(".db")) {
             addObjSqlt(obj, collName, saveDir);
-        } else if (saveDir.startsWith("jdbc:ini")) {
-            saveDir = saveDir.substring(9);
+        }
+        else if (saveDir.startsWith("json:")) {
+            saveDir = saveDir.substring(5);
             System.out.println("savedir=" + saveDir);
-            addObjIni(obj, collName, saveDir);
+            addObjDocdb(obj,  saveDir);
+
+
         } else if (saveDir.startsWith("jdbc:lucene")) {
             saveDir = saveDir.substring(11);
             System.out.println("savedir=" + saveDir);
@@ -106,10 +127,13 @@ public class dbutil {
             System.out.println("savedir=" + saveDir);
             addObjRds(obj, collName, saveDir);
         } else if (saveDir.startsWith("jdbc:mysql")) {
-            addObjMysql(obj, collName, saveDir);
+            addObjMysql(obj, saveDir);
         } else {
-            //json doc
-            addObjDocdb(obj, collName, saveDir);
+            //if (saveDir.startsWith("ini:"))
+            //ini doc
+            saveDir = saveDir.substring(0);
+            System.out.println("savedir=" + saveDir);
+            addObjIni(obj,   saveDir);
         }
 
 
@@ -141,12 +165,12 @@ public class dbutil {
         indexWriter.close();
     }
 
-    private static void addObjIni(Object obj, String collName, String saveDir) {
-        mkdir2025(saveDir + collName);
+    private static void addObjIni(Object obj,   String saveDir) {
+        mkdir2025(saveDir );
         String fname = (String) getField2025(obj, "id", "");
         //todo need fname encode
         fname = fname + ".ini";
-        String fnamePath = saveDir + collName + "/" + fname;
+        String fnamePath = saveDir  + "/" + fname;
         System.out.println("fnamePath=" + fnamePath);
         writeFile2024(fnamePath, encodeIni(obj));
 
@@ -228,7 +252,7 @@ public class dbutil {
         } else if (saveDir.startsWith("jdbc:mysql")) {
             //  addObjMysql(obj,collName,saveDir);
         } else {
-            getObjDocdb(id, collName, saveDir);
+            getObjDocdb(id,  saveDir);
         }
 
 
@@ -265,7 +289,35 @@ public class dbutil {
     public static Object  qrySql(String sql, String saveDir) {
         return null;
     }
+    private static List<SortedMap<String, Object>> getSortedMapsFrmINiFmt(String saveDir) {
+        mkdir2025(saveDir);
+        //encodeFilName todo
 
+
+        //遍历目录dir，读取每一个文件，并解析为SortedMap<String, Objects>
+        //最终返回一个List<SortedMap<String, Objects>>
+        List<SortedMap<String, Object>> result = new ArrayList<>();
+
+        try {
+            // 遍历目录中的所有文件
+            Files.list(Paths.get(saveDir))
+                    .filter(Files::isRegularFile)
+                    .forEach(filePath -> {
+                        try {
+                            // 解析文件内容为 SortedMap<String, Object>
+                            SortedMap<String, Object> fileData = parseFileToSortedMapFrmIni(filePath);
+                            result.add(fileData);
+                        } catch (Exception e) {
+                            System.err.println("Error processing file: " + filePath + " - " + e.getMessage());
+                            e.printStackTrace();
+                        }
+                    });
+        } catch (IOException e) {
+            System.err.println("Error reading directory: " + saveDir + " - " + e.getMessage());
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     private static List<SortedMap<String, Object>> getSortedMaps(String saveDir) {
         mkdir2025(saveDir);
@@ -337,6 +389,45 @@ public class dbutil {
 //        return result;
 //    }
 
+
+    /**
+     *  将一个简单的ini文件，没有节，转换为SortedMap<String, Object>
+     * @param filePath   ini文件路径
+     * @return
+     * @throws IOException
+     */
+    private static SortedMap<String, Object> parseFileToSortedMapFrmIni(Path filePath) throws IOException {
+        // 读取文件内容为字符串
+        String iniFileContent = Files.readString(filePath);
+
+
+        // 创建SortedMap来存储键值对
+        SortedMap<String, Object> map = new TreeMap<>();
+
+        // 按行分割文件内容
+        String[] lines = iniFileContent.split(System.lineSeparator());
+
+        // 遍历每一行
+        for (String line : lines) {
+            // 忽略空行和注释行
+            if (line.trim().isEmpty() || line.trim().startsWith(";") || line.trim().startsWith("#")) {
+                continue;
+            }
+
+            // 分割键和值
+            String[] parts = line.split("=", 2);
+            if (parts.length == 2) {
+                // 将键和值放入映射中
+                String key = parts[0].trim();
+                String value = parts[1].trim();
+                map.put(key, value);
+            }
+        }
+
+        return map;
+
+
+    }
     /**
      * 将文件解析为 SortedMap<String, Object>
      * 文件内容是一个json对象
@@ -408,7 +499,7 @@ public class dbutil {
      * @param saveDir
      */
     public static void updateObjDocdb(JSONObject obj, String collName, String saveDir) {
-        addObjDocdb(obj, collName, saveDir);
+        addObjDocdb(obj, saveDir);
 //        mkdir2025(saveDir+collName);
 //        String fname=getField2025(obj,"id","");
 //        //todo need fname encode
@@ -426,15 +517,15 @@ public class dbutil {
      * 如果使用 Java 8+，也可以返回 Optional<JSONObject>，这样显式表达了结果可能不存在的情况
      *
      * @param id
-     * @param collName
-     * @param saveDir
+
+     * @param saveDir   /dbdir/coll1
      * @return
      */
-    public static JSONObject getObjDocdb(String id, String collName, String saveDir) {
-        mkdir2025(saveDir + collName);
+    public static JSONObject getObjDocdb(String id,String saveDir) {
+        mkdir2025(saveDir);
         //encodeFilName todo
         String fname = id + ".json";
-        String fnamePath = saveDir + collName + "/" + fname;
+        String fnamePath = saveDir + "/" + fname;
         if (new File(fnamePath).exists())
         {
             String text = readTxtFrmFil(fnamePath);
@@ -450,12 +541,12 @@ public class dbutil {
     private static void getObjSqlt(String id, String collName, String saveDir) {
     }
 
-    private static void addObjDocdb(Object obj, String collName, String saveDir) {
-        mkdir2025(saveDir + collName);
+    private static void addObjDocdb(Object obj , String saveDir) {
+        mkdir2025(saveDir);
         String fname = (String) getField2025(obj, "id", "");
         //todo need fname encode
         fname = fname + ".json";
-        String fnamePath = saveDir + collName + "/" + fname;
+        String fnamePath =saveDir+ "/" + fname;
         System.out.println("fnamePath=" + fnamePath);
         writeFile2501(fnamePath, encodeJson(obj));
 
@@ -476,7 +567,7 @@ public class dbutil {
 
     }
 
-    private static void addObjMysql(Object obj, String collName, String saveDir) throws Exception {
+    private static void addObjMysql(Object obj,  String saveDir) throws Exception {
 
         Class.forName("org.sqlite.JDBC");
         mkdir2025(saveDir);
