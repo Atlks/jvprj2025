@@ -66,7 +66,7 @@ public class QueryUsrHdr extends BaseHdr {
 
     private static List<SortedMap<String, Object>> qryuserLucene(Map<String, String> queryParams) throws IOException {
 
-        var idxDir= saveDirUsrs +"usrs";
+        var idxDir= saveDirUsrs  ;
         String uname = queryParams.get("uname");
         Directory directory = FSDirectory.open(Paths.get(idxDir));
         // 创建 IndexSearcher
@@ -115,7 +115,7 @@ public class QueryUsrHdr extends BaseHdr {
             // 使用转义后的uname变量
             expression = "#this['uname'] matches '.*" + escapedUname + ".*'";
         }
-        var list1 = getObjs(saveDirUsrs + "usrs", expression);
+        var list1 = findObjs(saveDirUsrs , expression);
         return list1;
     }
 

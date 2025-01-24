@@ -28,7 +28,7 @@ public class UpdtPwdHdr extends BaseHdr {
             // 创建 User 对象
             RegHandler.User user = new RegHandler.User(uname, uname, pwd, 1);
             //   saveDir = saveDir;
-            addObj(user, saveDirUsrs +"usrs");
+            addObj(user, saveDirUsrs  );
             wrtResp(exchange, "ok");
         }else{
             wrtResp(exchange, "powNotMatch");

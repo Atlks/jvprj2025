@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.SortedMap;
 
 import static util.dbutil.addObj;
-import static util.dbutil.getObjsDocdb;
+import static util.dbutil.findObjsJsDocdb;
 
 public class AccBiz {
 
@@ -25,7 +25,7 @@ public class AccBiz {
 
 
 
-        var lst2 = getObjsDocdb("acc", "/db2026/");
+        var lst2 = findObjsJsDocdb("acc", "/db2026/");
 
         return lst2;
 

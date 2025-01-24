@@ -48,16 +48,16 @@ public class dbutil {
         addObj(m, "jdbc:ini:/db22/usrs");
     }
 
-    public static List<SortedMap<String, Object>> getObjs(String saveDir, String expression) {
+    public static List<SortedMap<String, Object>> findObjs(String saveDir, String expression) {
 
         if (saveDir.startsWith("jdbc:ini")) {
             saveDir = saveDir.substring(9);
             System.out.println("savedir=" + saveDir);
-            return getObjsIni(saveDir, "");
+            return findObjsIni(saveDir, "");
         } else if (saveDir.startsWith("jdbc:lucene")) {
             saveDir = saveDir.substring(11);
             System.out.println("savedir=" + saveDir);
-            return (List<SortedMap<String, Object>>) getObjsLucene(saveDir);
+            return (List<SortedMap<String, Object>>) findObjsLucene(saveDir);
         } else if (saveDir.startsWith("jdbc:redis")) {
             saveDir = saveDir.substring(10);
             System.out.println("savedir=" + saveDir);
@@ -65,20 +65,20 @@ public class dbutil {
         } else if (saveDir.startsWith("json:")) {
             saveDir = saveDir.substring(6);
             System.out.println("savedir=" + saveDir);
-            return getObjsDocdb(saveDir, expression);
+            return findObjsJsDocdb(saveDir, expression);
         } else {
             //json doc
-            return getObjsIni(saveDir, expression);
+            return findObjsIni(saveDir, expression);
         }
 
         return new ArrayList<>();
     }
 
-    private static Object getObjsLucene(String saveDir) {
+    private static Object findObjsLucene(String saveDir) {
         return null;
     }
 
-    static List<SortedMap<String, Object>> getObjsIni(String saveDir, String qryExpression) {
+    static List<SortedMap<String, Object>> findObjsIni(String saveDir, String qryExpression) {
 
         //nullchk
         if (saveDir == null || saveDir.equals(""))
@@ -247,16 +247,34 @@ public class dbutil {
     }
 
 
-    public static void getObj(String collName, String id, String saveDir) throws Exception {
+    public static SortedMap<String, Object> getObj(  String id, String saveDir)   {
 
         if (saveDir.endsWith(".db")) {
-            getObjSqlt(id, collName, saveDir);
+          return   getObjSqlt(id, saveDir);
         } else if (saveDir.startsWith("jdbc:mysql")) {
-            //  addObjMysql(obj,collName,saveDir);
+            return   getObjSqlt(id, saveDir);
         } else {
-            getObjDocdb(id, saveDir);
+          return   getObjIni(id, saveDir);
         }
 
+
+    }
+
+    private static SortedMap<String, Object> getObjIni(String id, String saveDir) {
+
+        mkdir2025(saveDir);
+        //encodeFilName todo
+        String fname = id + ".ini";
+        String fnamePath = saveDir + "/" + fname;
+        if (new File(fnamePath).exists()) {
+            String text = readTxtFrmFil(fnamePath);
+            System.out.println("getobjDoc().txt=" + text);
+            return  toMapFrmInicontext(text);
+        }
+
+        //   if(!new File(fnamePath).exists())
+        else
+            return toMapFrmInicontext("");
 
     }
 
@@ -266,7 +284,7 @@ public class dbutil {
      * @param qryExpression
      * @return
      */
-    public static List<SortedMap<String, Object>> getObjsDocdb(String saveDir, String qryExpression) {
+    public static List<SortedMap<String, Object>> findObjsJsDocdb(String saveDir, String qryExpression) {
 
         //nullchk
         if (saveDir == null || saveDir.equals(""))
@@ -404,6 +422,12 @@ public class dbutil {
         String iniFileContent = Files.readString(filePath);
 
 
+        return toMapFrmInicontext(iniFileContent);
+
+
+    }
+
+    private static SortedMap<String, Object> toMapFrmInicontext(String iniFileContent) {
         // 创建SortedMap来存储键值对
         SortedMap<String, Object> map = new TreeMap<>();
 
@@ -428,8 +452,6 @@ public class dbutil {
         }
 
         return map;
-
-
     }
 
     /**
@@ -494,7 +516,17 @@ public class dbutil {
         }
         return list;
     }
+    public static void updateObjIni(JSONObject obj,  String saveDir) {
+        addObjIni(obj, saveDir);
+//        mkdir2025(saveDir+collName);
+//        String fname=getField2025(obj,"id","");
+//        //todo need fname encode
+//        fname=fname+".json";
+//        String fnamePath=saveDir+collName+"/"+fname;
+//        System.out.println("fnamePath="+fnamePath);
+//        writeFile2024(fnamePath,encodeJson(obj));
 
+    }
     /**
      * just wrt file same as addobj
      *
@@ -540,7 +572,8 @@ public class dbutil {
             return JSONObject.parseObject("{}");
     }
 
-    private static void getObjSqlt(String id, String collName, String saveDir) {
+    private static SortedMap<String, Object> getObjSqlt(String id, String collName) {
+        return null;
     }
 
     private static void addObjDocdb(Object obj, String saveDir) {

@@ -6,11 +6,11 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
+import java.util.Map;
 
 import static biz.BaseBiz.saveDirUsrs;
 
-import static util.dbutil.addObj;
-import static util.dbutil.getObjDocdb;
+import static util.dbutil.*;
 import static util.util2026.getRequestParameter;
 import static util.util2026.wrtResp;
 
@@ -63,7 +63,7 @@ public class RegHandler implements HttpHandler {
         // 创建 User 对象
         User user = new User(uname, uname, pwd, 1);
         //   saveDir = saveDir;
-        addObj(user, saveDirUsrs +"usrs");
+        addObj(user, saveDirUsrs );
         //  addObj(user, "u","jdbc:sqlite:/db2026/usrs.db");
         return "ok";
 
@@ -86,7 +86,7 @@ public class RegHandler implements HttpHandler {
 
     public static boolean existUser(String uname) {
 
-        JSONObject jo = getObjDocdb(uname,  saveDirUsrs);
+        Map jo = getObj(uname,  saveDirUsrs);
         // 空安全处理，直接操作结果
         if (jo.isEmpty()) {
             return false;

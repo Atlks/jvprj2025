@@ -31,7 +31,7 @@ public class ResetPwdHdr extends BaseHdr {
     public static String resetPwd(String uname, String pwd) {
         JSONObject jo = getObjDocdb(uname,  saveDirUsrs);
         jo.put("pwd", pwd);
-        updateObjDocdb(jo, "usrs", saveDirUsrs);
+        updateObjIni(jo, saveDirUsrs);
         return "";
     }
 }
