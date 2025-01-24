@@ -36,10 +36,39 @@ public class dbutil {
         m.put("name", "nm1");
         addObj(m,   "jdbc:ini:/db22/usrs");
     }
+    public static List<SortedMap<String, Object>> getObjs(String saveDir, String expression) {
+
+       if (saveDir.startsWith("jdbc:ini")) {
+            saveDir = saveDir.substring(9);
+            System.out.println("savedir=" + saveDir);
+           return  getObjsIni(saveDir);
+        } else if (saveDir.startsWith("jdbc:lucene")) {
+            saveDir = saveDir.substring(11);
+            System.out.println("savedir=" + saveDir);
+           return (List<SortedMap<String, Object>>) getObjsLucene( saveDir);
+        } else if (saveDir.startsWith("jdbc:redis")) {
+            saveDir = saveDir.substring(10);
+            System.out.println("savedir=" + saveDir);
+           // addObjRds(obj, collName, saveDir);
+        }   else {
+            //json doc
+           return  getObjsDocdb(  saveDir,expression);
+        }
+
+        return     new ArrayList<>();
+    }
+
+    private static Object getObjsLucene(String saveDir) {
+        return null;
+    }
+
+    private static List<SortedMap<String, Object>> getObjsIni(String saveDir) {
+        return List.of();
+    }
 
     /**
      * @param obj
-     * @param collName usrs
+
      * @param saveDir  jdbc:ini
      *                 /db2026/    json doc
      *                 lucene:
@@ -219,6 +248,12 @@ public class dbutil {
 
         return result;
     }
+
+
+    public static Object  qrySql(String sql, String saveDir) {
+        return null;
+    }
+
 
     private static List<SortedMap<String, Object>> getSortedMaps(String saveDir) {
         mkdir2025(saveDir);
