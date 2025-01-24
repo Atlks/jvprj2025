@@ -21,7 +21,10 @@ public  abstract class BaseHdr implements HttpHandler {
 
 
         } catch (Exception e) {
+            e.printStackTrace();
+            wrtResp(exchange, e.getMessage());
             throw new RuntimeException(e);
+
         }
     }
 

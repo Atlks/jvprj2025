@@ -37,6 +37,7 @@ public class QueryUsrHdr extends BaseHdr {
 
 
         String uname = getcookie("uname", exchange);
+        uname="ttt";
         if (uname.equals("")) {
             //need login
             wrtResp(exchange, "needLogin");
@@ -105,7 +106,7 @@ public class QueryUsrHdr extends BaseHdr {
     }
 
     private static List<SortedMap<String, Object>> getSortedMapsIni(Map<String, String> queryParams) {
-        String uname = queryParams.get("uname");
+        String uname = (String) getField2025(queryParams,"uname","");
         var expression = "";
         if (!uname.equals("")) {
             //

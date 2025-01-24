@@ -175,7 +175,10 @@ public class util2026 {
         }
         if(obj instanceof Map)
         {
-            return  ((Map)obj).get(fieldName);
+            Object o = ((Map) obj).get(fieldName);
+            if(o==null)
+                o="";
+            return o;
         }
 
         try {
