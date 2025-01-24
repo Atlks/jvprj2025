@@ -402,7 +402,13 @@ public class Util2025 {
 
     }
 
-
+    /**
+     * dep bcs append
+     * @param filePath
+     * @param value
+     * @return
+     */
+    @Deprecated
     public static String writeFile2024(String filePath, String value) {
         System.out.println("filePath="+filePath);
         File file = mkdir(filePath);
