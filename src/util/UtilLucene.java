@@ -6,6 +6,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
@@ -13,7 +14,7 @@ import java.util.TreeMap;
 
 public class UtilLucene {
 
-    public static List<SortedMap<String, Object>> toListMap(TopDocs topDocs, IndexSearcher searcher) {
+    public static List<SortedMap<String, Object>> toListMap(TopDocs topDocs, IndexSearcher searcher) throws IOException {
         List<SortedMap<String, Object>> listMap = new ArrayList<>();
 
         for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
