@@ -1,17 +1,23 @@
 package apis;
 
 import com.sun.net.httpserver.HttpExchange;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexableField;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.*;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
+import java.nio.file.Paths;
+import java.util.*;
 
 import static biz.BaseBiz.saveDir;
 import static util.Util2025.encodeJson;
+import static util.UtilLucene.toListMap;
 import static util.dbutil.*;
-import static util.dbutil.getSortedMaps;
+
 import static util.util2026.*;
 
 public class QueryUsrHdr extends BaseHdr {
@@ -50,7 +56,8 @@ public class QueryUsrHdr extends BaseHdr {
         if (saveDir.startsWith("jdbc:mysql") || saveDir.startsWith("jdbc:sqlite")) {
             return getSortedMapsSql(queryParams);
         } else if (saveDir.startsWith("lucene:")) {
-            return getSortedMapsLucene(queryParams);
+            var idxDir=saveDir+"usrs";
+            return getSortedMapsLucene(idxDir,queryParams);
         } else {
             //json doc ,ini ,redis ,lucene
             return getSortedMapsIni(queryParams);
@@ -58,10 +65,31 @@ public class QueryUsrHdr extends BaseHdr {
         //   return new ArrayList<SortedMap<String, Object>>();
     }
 
-    private static List<SortedMap<String, Object>> getSortedMapsLucene(Map<String, String> queryParams) {
+    private static List<SortedMap<String, Object>> getSortedMapsLucene(String saveDir, Map<String, String> queryParams) throws IOException {
+        String uname = queryParams.get("uname");
+        Directory directory = FSDirectory.open(Paths.get(saveDir));
+        // 创建 IndexSearcher
+        DirectoryReader reader = DirectoryReader.open(directory);
+        IndexSearcher searcher = new IndexSearcher(reader);
 
+        // 创建查询
+        //类似ssql 条件 uname like '%{uname}%
+        // 创建查询，使用WildcardQuery实现模糊匹配
+        // 创建MatchAllDocsQuery来查询所有文档
+        Query query = new MatchAllDocsQuery();
+        if (!uname.equals("")) {
+            Term term = new Term("uname", "*" + uname + "*");
+              query = new WildcardQuery(term);
+        }
 
+        // 执行查询
+        TopDocs topDocs = searcher.search(query, 10); // 获取前 10 个结果
+        System.out.println("Total Hits: " + topDocs.totalHits);
+
+        return toListMap(topDocs,searcher);
     }
+
+
 
     private static List<SortedMap<String, Object>> getSortedMapsSql(Map<String, String> queryParams) {
         String uname = queryParams.get("uname");

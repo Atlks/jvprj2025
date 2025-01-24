@@ -28,6 +28,18 @@ import static util.Util2025.*;
 import static util.luceneUtil.convertMapToDocument;
 import static util.util2026.getField2025;
 
+/**
+ *  *  saveDir  jdbc:ini
+ *      *                 /db2026/coll1    json doc
+ *      *                 lucene:
+ *        jdbc:sqltKV
+ *           redis:
+ *
+ *      *                 jdbc:sqlite:/db2026/usrs.db
+ *      *
+ *      *                 jdbc:mysql
+ *
+ */
 public class dbutil {
 
     public static void main(String[] args) throws Exception {
