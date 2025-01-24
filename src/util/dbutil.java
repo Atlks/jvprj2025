@@ -48,7 +48,32 @@ public class dbutil {
         addObj(m, "jdbc:ini:/db22/usrs");
     }
 
-    public static List<SortedMap<String, Object>> findObjs(String saveDir, String expression) {
+    public static List<SortedMap<String, Object>> findObjs(String saveDir, String qryExpression) {
+
+        //nullchk
+        if (saveDir == null || saveDir.equals(""))
+            return new ArrayList<>();
+
+
+        List<SortedMap<String, Object>> result = findObjsAll(saveDir);
+
+
+        if (qryExpression == null || qryExpression.equals(""))
+            return result;
+        if (result.isEmpty())
+            return result;
+
+        result = filterWithSpEL(result, qryExpression);
+
+        return result;
+
+
+    }
+
+    private static List<SortedMap<String, Object>> findObjsAll(String saveDir) {
+        //null chk
+        if(saveDir==null || saveDir.equals(""))
+            return  new ArrayList<>();
 
         if (saveDir.startsWith("jdbc:ini")) {
             saveDir = saveDir.substring(9);
@@ -65,17 +90,32 @@ public class dbutil {
         } else if (saveDir.startsWith("json:")) {
             saveDir = saveDir.substring(6);
             System.out.println("savedir=" + saveDir);
-            return findObjsJsDocdb(saveDir, expression);
+            return findObjsJsDocdb(saveDir, "");
         } else {
-            //json doc
-            return findObjsIni(saveDir, expression);
+            //ini doc
+            return findObjsAllIni(saveDir);
         }
 
-        return new ArrayList<>();
+        return List.of();
     }
 
     private static Object findObjsLucene(String saveDir) {
         return null;
+    }
+
+    static List<SortedMap<String, Object>> findObjsAllIni(String saveDir) {
+
+        //nullchk
+        if (saveDir == null || saveDir.equals(""))
+            return new ArrayList<>();
+
+
+        List<SortedMap<String, Object>> result = getSortedMapsFrmINiFmt(saveDir);
+
+
+        return result;
+
+
     }
 
     static List<SortedMap<String, Object>> findObjsIni(String saveDir, String qryExpression) {
@@ -247,14 +287,14 @@ public class dbutil {
     }
 
 
-    public static SortedMap<String, Object> getObj(  String id, String saveDir)   {
+    public static SortedMap<String, Object> getObj(String id, String saveDir) {
 
         if (saveDir.endsWith(".db")) {
-          return   getObjSqlt(id, saveDir);
+            return getObjSqlt(id, saveDir);
         } else if (saveDir.startsWith("jdbc:mysql")) {
-            return   getObjSqlt(id, saveDir);
+            return getObjSqlt(id, saveDir);
         } else {
-          return   getObjIni(id, saveDir);
+            return getObjIni(id, saveDir);
         }
 
 
@@ -269,7 +309,7 @@ public class dbutil {
         if (new File(fnamePath).exists()) {
             String text = readTxtFrmFil(fnamePath);
             System.out.println("getobjDoc().txt=" + text);
-            return  toMapFrmInicontext(text);
+            return toMapFrmInicontext(text);
         }
 
         //   if(!new File(fnamePath).exists())
@@ -516,7 +556,8 @@ public class dbutil {
         }
         return list;
     }
-    public static void updateObjIni(JSONObject obj,  String saveDir) {
+
+    public static void updateObjIni(JSONObject obj, String saveDir) {
         addObjIni(obj, saveDir);
 //        mkdir2025(saveDir+collName);
 //        String fname=getField2025(obj,"id","");
@@ -527,6 +568,7 @@ public class dbutil {
 //        writeFile2024(fnamePath,encodeJson(obj));
 
     }
+
     /**
      * just wrt file same as addobj
      *
