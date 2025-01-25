@@ -1,4 +1,4 @@
-package biz;
+package test;
 
 import java.util.List;
 import java.util.SortedMap;

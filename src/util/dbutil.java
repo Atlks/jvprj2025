@@ -41,7 +41,7 @@ import static util.util2026.isSqldb;
  * redis:
  * <p>
  * *                 jdbc:sqlite:/db2026/usrs.db
- * *
+ * *                mongodb:xxx
  * *                 jdbc:mysql
  */
 public class dbutil {
