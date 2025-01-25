@@ -1,6 +1,5 @@
 package apis;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.math.BigDecimal;
@@ -9,61 +8,74 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import static apis.AddOrdChargeHdr.saveUrlOrdChrg;
-import static apis.QryOrdBetHdr.saveUrlOrdBet;
 import static apis.RegHandler.saveDirUsrs;
+import static apis.UpdtCompleteChargeHdr.saveUrlLogBalance;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
-import static java.time.LocalTime.now;
-import static util.dbutil.*;
+import static util.dbutil.addObj;
+import static util.dbutil.getObjIni;
 import static util.util2026.*;
 
-/**
+/**从本机钱包转账到盈利钱包
  * http://localhost:8889/AddOrdBetHdr?bettxt=龙湖和
  */
-public class UpdtCompleteChargeHdr extends BaseHdr {
-    public static String saveUrlLogBalance;
+public class TransHdr extends BaseHdr {
+
+    public static String saveUrlLogBalanceYinliWlt;
 
     public static void main(String[] args) throws Exception {
       iniCfgFrmCfgfile();
-        updateCmpltOrdChg("ordChrg2025-01-25T15-16-13");
+        transToYinliWlt(100.5,"007");
     }
 
-    private static void updateCmpltOrdChg(String id) throws Exception {
-        //update chr ord stat
-        SortedMap<String, Object> objChrg = getObjIni(id, saveUrlOrdChrg);
-        String stat= (String) getField2025(objChrg,"stat","");
-        if(stat.equals("ok"))
-        {
-            System.out.println("alread cpmlt ord,id="+id);
-            return;
-        }
+    private static void transToYinliWlt(double amt, String uname) throws Exception {
 
-        if(stat.equals(""))
-        objChrg.put("stat", "ok");
-        addObj(objChrg, saveUrlOrdChrg);
+
+
 
         //add blance
-        SortedMap<String, Object> objU = getObjIni((String) objChrg.get("uname"), saveDirUsrs);
+        SortedMap<String, Object> objU = getObjIni(uname, saveDirUsrs);
         if(objU.get("id")==null)
         {
-            objU.put("id",(String) objChrg.get("uname"));
-            objU.put("uname",(String) objChrg.get("uname"));
+            objU.put("id",uname);
+            objU.put("uname",uname);
         }
 
 
         BigDecimal nowAmt= getFieldAsBigDecimal(objU,"balance",0);
-        BigDecimal newBls=nowAmt.add(toBigDecimal(objChrg.get("amt")));
+        BigDecimal newBls=nowAmt.subtract(toBigDecimal(amt));
         objU.put("balance",newBls);
+
+        BigDecimal nowAmt2= getFieldAsBigDecimal(objU,"balanceYinliwlt",0);
+        BigDecimal newBls2=nowAmt2.add(toBigDecimal(amt));
+        objU.put("balanceYinliwlt",newBls2);
         addObj(objU,saveDirUsrs);
 
         //add balanceLog
         SortedMap<String, Object> logBalance=new TreeMap<>();
         logBalance.put("id","LogBalance"+getFilenameFrmLocalTimeString());
-        logBalance.put("uname",(String) objChrg.get("uname"));
-        logBalance.put("change","增加");
-        logBalance.put("amt",objChrg.get("amt"));
+        logBalance.put("uname",uname);
+        logBalance.put("change","减去");
+        logBalance.put("amt",amt);
         logBalance.put("amtBefore",nowAmt);
         logBalance.put("amtAfter",newBls);
         addObj(logBalance,saveUrlLogBalance);
+
+
+
+        //add logBlsYinliWlt
+        SortedMap<String, Object> logBalance2=new TreeMap<>();
+        logBalance2.put("id","LogBalanceYinliWlt"+getFilenameFrmLocalTimeString());
+        logBalance2.put("uname",uname);
+        logBalance2.put("change","增加");
+        logBalance2.put("amt",amt);
+        logBalance2.put("amtBefore",nowAmt2);
+        logBalance2.put("amtAfter",newBls2);
+        addObj(logBalance2,saveUrlLogBalanceYinliWlt);
+
+
+
+        //adjst yinliwlt balnce
+
     }
 
     @Override
@@ -79,7 +91,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         //blk login ed
         String uname = getcookie("uname", exchange);
         Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
-        updateCmpltOrdChg(queryParams.get("id"));
+        transToYinliWlt(Double.parseDouble(queryParams.get("amt")),uname);
         wrtResp(exchange, "ok");
 
 

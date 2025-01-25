@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import static apis.AddOrdChargeHdr.saveUrlOrdChrg;
+import static apis.TransHdr.saveUrlLogBalanceYinliWlt;
 import static biz.AccBiz.listAccLog;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
@@ -41,6 +42,7 @@ setcookie("uname","ttt",exchange);//for test
         QryOrdBetHdr.  saveUrlOrdBet = (String) cfg.get("saveUrlOrdBet");
         saveUrlOrdChrg = (String) cfg.get("saveUrlOrdChrg");
         UpdtCompleteChargeHdr.    saveUrlLogBalance= (String) cfg.get("saveUrlLogBalance");
+        saveUrlLogBalanceYinliWlt=(String) cfg.get("saveUrlLogBalanceYinliWlt");
         System.out.println("ini cfg finish..");
     }
     abstract void handle2(HttpExchange exchange) throws Exception;
