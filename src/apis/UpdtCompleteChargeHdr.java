@@ -6,6 +6,7 @@ import com.sun.net.httpserver.HttpExchange;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 import static apis.AddOrdChargeHdr.saveUrlOrdChrg;
 import static apis.QryOrdBetHdr.saveUrlOrdBet;
@@ -19,6 +20,8 @@ import static util.util2026.*;
  * http://localhost:8889/AddOrdBetHdr?bettxt=龙湖和
  */
 public class UpdtCompleteChargeHdr extends BaseHdr {
+    public static String saveUrlLogBalance;
+
     public static void main(String[] args) throws Exception {
       iniCfgFrmCfgfile();
         updateCmpltOrdChg("ordChrg2025-01-25T15-16-13");
@@ -43,6 +46,16 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         BigDecimal newBls=nowAmt.add(toBigDecimal(objChrg.get("amt")));
         objU.put("balance",newBls);
         addObj(objU,saveDirUsrs);
+
+        //add balanceLog
+        SortedMap<String, Object> logBalance=new TreeMap<>();
+        logBalance.put("id","LogBalance"+getFilenameFrmLocalTimeString());
+        logBalance.put("uname",(String) objChrg.get("uname"));
+        logBalance.put("change","增加");
+        logBalance.put("amt",objChrg.get("amt"));
+        logBalance.put("amtBefore",nowAmt);
+        logBalance.put("amtAfter",newBls);
+        addObj(logBalance,saveUrlLogBalance);
     }
 
     @Override

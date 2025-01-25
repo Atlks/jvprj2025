@@ -40,6 +40,7 @@ setcookie("uname","ttt",exchange);//for test
         //QryOrdBetHdr.saveUrlOrdBet
         QryOrdBetHdr.  saveUrlOrdBet = (String) cfg.get("saveUrlOrdBet");
         saveUrlOrdChrg = (String) cfg.get("saveUrlOrdChrg");
+        UpdtCompleteChargeHdr.    saveUrlLogBalance= (String) cfg.get("saveUrlLogBalance");
         System.out.println("ini cfg finish..");
     }
     abstract void handle2(HttpExchange exchange) throws Exception;
