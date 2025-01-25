@@ -6,7 +6,8 @@ import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 
-import static biz.BaseBiz.saveDirUsrs;
+
+import static apis.RegHandler.saveDirUsrs;
 import static util.dbutil.getObjDocdb;
 import static util.util2026.*;
 

@@ -7,8 +7,8 @@ import java.util.Map;
 
 import static apis.QueryUsrHdr.qryuserLucene;
 import static apis.QueryUsrHdr.qryuserSql;
-import static biz.BaseBiz.saveDirUsrs;
-import static biz.BaseBiz.saveUrlOrdBet;
+
+
 import static java.time.LocalTime.now;
 import static util.Util2025.encodeJson;
 import static util.dbutil.addObj;
@@ -19,6 +19,9 @@ import static util.util2026.*;
  * http://localhost:8889/QryOrdBetHdr
  */
 public class QryOrdBetHdr extends BaseHdr {
+
+    public static String saveUrlOrdBet = "";
+
     @Override
     public void handle2(HttpExchange exchange) throws Exception {
 
@@ -46,16 +49,17 @@ public class QryOrdBetHdr extends BaseHdr {
 
         var expression = "";
         String uname = queryParams.get("uname");
-        if (saveDirUsrs.startsWith("jdbc:mysql") || saveDirUsrs.startsWith("jdbc:sqlite")) {
+        if (isSqldb(saveUrlOrdBet))             {
             return qryuserSql(queryParams);
-        } else if (saveDirUsrs.startsWith("lucene:")) {
-
+        } else if (saveUrlOrdBet.startsWith("lucene:")) {
             return qryuserLucene(queryParams);
         } else {
-            //json doc ,ini ,redis ,lucene
+            //json doc ,ini ,redis
             return qryOrdBetIni(queryParams);
         }
     }
+
+
 
     private Object qryOrdBetIni(Map<String, String> queryParams) {
 

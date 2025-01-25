@@ -8,7 +8,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.util.Map;
 
-import static biz.BaseBiz.saveDirUsrs;
+
 
 import static util.dbutil.*;
 import static util.util2026.getRequestParameter;
@@ -76,7 +76,7 @@ public class RegHandler implements HttpHandler {
     }
 
 
-
+    public static String saveDirUsrs = "";
 
 
     public record User(String id, String uname, String pwd, int age) {

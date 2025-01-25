@@ -111,7 +111,12 @@ public class util2026 {
         // 格式化时间并返回
         return now.format(formatter);
     }
+    public static boolean isSqldb(String saveUrl) {
 
+        if(   saveUrl.startsWith("jdbc:mysql") || saveUrl.startsWith("jdbc:sqlite"))
+            return true;
+        return  false;
+    }
     public static String getcookie(String cookieName, HttpExchange exchange) {
         // 获取请求头中的 Cookie
         List<String> cookieHeaders = exchange.getRequestHeaders().get("Cookie");

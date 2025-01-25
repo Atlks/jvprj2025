@@ -11,7 +11,8 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static biz.BaseBiz.saveDirUsrs;
+
+import static apis.RegHandler.saveDirUsrs;
 import static util.Util2025.encodeJson;
 import static util.UtilLucene.toListMap;
 import static util.dbutil.*;

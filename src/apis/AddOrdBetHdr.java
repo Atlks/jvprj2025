@@ -4,7 +4,8 @@ import com.sun.net.httpserver.HttpExchange;
 
 import java.util.Map;
 
-import static biz.BaseBiz.saveUrlOrdBet;
+
+import static apis.QryOrdBetHdr.saveUrlOrdBet;
 import static java.time.LocalTime.now;
 import static util.dbutil.addObj;
 import static util.util2026.*;

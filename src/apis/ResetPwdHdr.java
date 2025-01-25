@@ -3,7 +3,8 @@ package apis;
 import com.alibaba.fastjson2.JSONObject;
 import com.sun.net.httpserver.HttpExchange;
 
-import static biz.BaseBiz.saveDirUsrs;
+
+import static apis.RegHandler.saveDirUsrs;
 import static util.dbutil.*;
 import static util.util2026.getcookie;
 import static util.util2026.wrtResp;
