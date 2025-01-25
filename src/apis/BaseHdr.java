@@ -18,7 +18,7 @@ public  abstract class BaseHdr implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
 
         try {
-setcookie("uname","ttt",exchange);//for test
+setcookie("uname","007",exchange);//for test
             handle2(exchange);
 
 

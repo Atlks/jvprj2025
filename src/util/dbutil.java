@@ -128,6 +128,22 @@ public class dbutil {
 
 
     }
+
+    public static Object execQry2501(String saveUrl, HashMap<String, Function<Map<String, String>, Object>> mapFuns, Map<String, String> queryParams) {
+
+        if (isSqldb(saveUrl))             {
+            Function<Map<String, String>, Object> qryFun=mapFuns.get("sqldbFun");
+            return qryFun.apply(queryParams);
+        } else if (saveUrl.startsWith("lucene:")) {
+            Function<Map<String, String>, Object> qryFun=mapFuns.get("luceneFun");
+            return qryFun.apply(queryParams);
+        } else {
+            //json doc ,ini ,redis
+            Function<Map<String, String>, Object> qryFun=mapFuns.get("arrFun");
+            return qryFun.apply(queryParams);
+        }
+    }
+
     public static Object execQry(String saveUrl, HashMap<String, Function<Map<String, String>, Object>> map) {
 
 

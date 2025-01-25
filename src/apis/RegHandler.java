@@ -14,6 +14,8 @@ import static util.dbutil.*;
 import static util.util2026.getRequestParameter;
 import static util.util2026.wrtResp;
 
+
+//  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
 // 自定义的请求处理器
 public class RegHandler implements HttpHandler {
     @Override
@@ -23,11 +25,12 @@ public class RegHandler implements HttpHandler {
 
         String uname=    getRequestParameter(exchange,"uname");
         String pwd=    getRequestParameter(exchange,"pwd");
+        String invtr=    getRequestParameter(exchange,"invtr");
         System.out.println(uname);
 
         String responseTxt = "";
         try {
-            responseTxt = reg(uname,pwd);
+            responseTxt = reg(uname,pwd,invtr);
             wrtResp(exchange, responseTxt);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -52,7 +55,7 @@ public class RegHandler implements HttpHandler {
 
 
     }
-    public static String reg(String uname, String pwd) throws Exception {
+    public static String reg(String uname, String pwd,String invtr) throws Exception {
 
 
         if (existUser(uname)) {
@@ -61,7 +64,7 @@ public class RegHandler implements HttpHandler {
         //  if(!existUser(uname))
 
         // 创建 User 对象
-        User user = new User(uname, uname, pwd, 1);
+        User user = new User(uname, uname, pwd,1, invtr);
         //   saveDir = saveDir;
         addObj(user, saveDirUsrs );
         //  addObj(user, "u","jdbc:sqlite:/db2026/usrs.db");
@@ -79,7 +82,7 @@ public class RegHandler implements HttpHandler {
     public static String saveDirUsrs = "";
 
 
-    public record User(String id, String uname, String pwd, int age) {
+    public record User(String id, String uname, String pwd, int age,String invtr) {
 
         // record 自动生成构造函数、getters、equals、hashCode 和 toString 方法
     }
