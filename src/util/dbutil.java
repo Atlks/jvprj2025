@@ -340,7 +340,7 @@ public class dbutil {
 
     }
 
-    private static SortedMap<String, Object> getObjIni(String id, String saveDir) {
+    public static SortedMap<String, Object> getObjIni(String id, String saveDir) {
 
         mkdir2025(saveDir);
         //encodeFilName todo

@@ -27,7 +27,6 @@ public class QryOrdBetHdr extends BaseHdr {
     public void handle2(HttpExchange exchange) throws Exception {
 
 
-
         if (isNotLogined(exchange)) {
             //need login
             wrtResp(exchange, "needLogin需要登录");
@@ -37,7 +36,6 @@ public class QryOrdBetHdr extends BaseHdr {
         //blk login ed
         String uname = getcookie("uname", exchange);
         Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
-
 
 
         var list1 = qryOrdBet(queryParams);
@@ -52,16 +50,14 @@ public class QryOrdBetHdr extends BaseHdr {
         String uname = queryParams.get("uname");
 
 
-    //    addMapx("spdbfun",QryOrdBetHdr::qryOrdBetIni);
-        HashMap<String,Function<Map<String, String>,Object> >   mapFuns=new HashMap<>();
-        mapFuns.put("sqldbFun",QryOrdBetHdr::qryOrdBetSql);
-        mapFuns.put("luceneFun",QryOrdBetHdr::qryOrdBetIni);
-        mapFuns.put("arrFun",QryOrdBetHdr::qryOrdBetIni);
-        execQry(saveUrlOrdBet,mapFuns);
+        //    addMapx("spdbfun",QryOrdBetHdr::qryOrdBetIni);
+        HashMap<String, Function<Map<String, String>, Object>> mapFuns = new HashMap<>();
+        mapFuns.put("sqldbFun", QryOrdBetHdr::qryOrdBetSql);
+        mapFuns.put("luceneFun", QryOrdBetHdr::qryOrdBetIni);
+        mapFuns.put("arrFun", QryOrdBetHdr::qryOrdBetIni);
+        return execQry(saveUrlOrdBet, mapFuns);
 
     }
-
-
 
 
     private static Object qryOrdBetSql(Map<String, String> queryParams) {
@@ -71,7 +67,7 @@ public class QryOrdBetHdr extends BaseHdr {
 
     private static Object qryOrdBetIni(Map<String, String> queryParams) {
 
-        String uname = (String) getField2025(queryParams,"uname","");
+        String uname = (String) getField2025(queryParams, "uname", "");
         var expression = "";
         if (!uname.equals("")) {
             //
@@ -80,12 +76,9 @@ public class QryOrdBetHdr extends BaseHdr {
             // 使用转义后的uname变量
             expression = "#this['uname'] matches '.*" + escapedUname + ".*'";
         }
-        var list1 = findObjs(saveUrlOrdBet , expression);
+        var list1 = findObjs(saveUrlOrdBet, expression);
         return list1;
     }
-
-
-
 
 
 }

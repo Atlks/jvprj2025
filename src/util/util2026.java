@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpExchange;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.net.HttpCookie;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -226,6 +227,14 @@ public class util2026 {
         exchange.getResponseHeaders().add("Set-Cookie", cookie1);
      //   exchange.getResponseHeaders().add("Set-Cookie", cookie2);
 
+    }
+
+    public static BigDecimal getFieldAsBigDecimal(Object obj, String fieldName, float defval)
+    {
+        Object o=getField2025(obj,fieldName,String.valueOf(defval));
+          if(o.toString().equals(""))
+              return      new BigDecimal(defval);
+            return  new BigDecimal(o.toString());
     }
     /**
      * 获取对象属性
