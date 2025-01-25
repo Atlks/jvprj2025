@@ -5,7 +5,9 @@ import com.alibaba.fastjson2.JSON;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,6 +27,7 @@ import org.apache.lucene.store.FSDirectory;
 
 import static util.Fltr.filterWithSpEL;
 import static util.Util2025.*;
+import static util.UtilEncode.encodeFilename;
 import static util.luceneUtil.convertMapToDocument;
 import static util.util2026.getField2025;
 
@@ -217,12 +220,14 @@ public class dbutil {
         mkdir2025(saveDir);
         String fname = (String) getField2025(obj, "id", "");
         //todo need fname encode
-        fname = fname + ".ini";
+        fname = encodeFilename(fname)  + ".ini";
         String fnamePath = saveDir + "/" + fname;
         System.out.println("fnamePath=" + fnamePath);
         writeFile2501(fnamePath, encodeIni(obj));
 
     }
+
+
 
     /**
      * 遍历Map属性，转化为ini格式，组成字符串

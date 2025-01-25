@@ -2,13 +2,12 @@ package util;
 
 import com.sun.net.httpserver.HttpExchange;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.net.HttpCookie;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
@@ -72,6 +71,45 @@ public class util2026 {
         }
 
         return result;
+    }
+    /**
+     * 获取当前本地时间，并格式化为字符串。
+     *
+     * @return 格式化的本地时间字符串
+     */
+    public static String getLocalTimeString() {
+        // 获取当前本地时间
+        LocalDateTime now = LocalDateTime.now();
+
+        // 定义时间格式
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        // 格式化时间并返回
+        return now.format(formatter);
+    }
+    /**
+     * 将异常的堆栈跟踪转换为字符串
+     *
+     * @param e 异常对象
+     * @return 堆栈跟踪的字符串表示
+     */
+    public static String getStackTraceAsString(Exception e) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        return sw.toString();
+    }
+    public static String getFilenameFrmLocalTimeString() {
+        // 获取当前本地时间
+        LocalDateTime now = LocalDateTime.now();
+
+        // 定义时间格式
+        // 定义时间格式，使用"-"代替":"以避免在文件名中使用非法字符
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH-mm-ss");
+
+
+        // 格式化时间并返回
+        return now.format(formatter);
     }
 
     public static String getcookie(String cookieName, HttpExchange exchange) {
@@ -152,12 +190,14 @@ public class util2026 {
         // 获取当前时间，并设置半年后的时间戳（以 Expires 为参考）
         long halfYearInSeconds = 182L * 24 * 60 * 60;
         long expiryTimeInMillis = System.currentTimeMillis() + (halfYearInSeconds * 1000);
+     //周六, 26 7月 2025 13:14:05 GMT
         String expiresDate = new java.text.SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'")
                 .format(new java.util.Date(expiryTimeInMillis));
 
         // 创建 Set-Cookie 头部内容
         //String cookie1 = "uname=" + uname + "; Path=/; HttpOnly;
-        String cookie1 = name+"=" + val + "; Path=/;  Max-Age=" + halfYearInSeconds + "; Expires=" + expiresDate;
+        String cookie1 = name+"=" + val + "; Path=/;  Max-Age=" + halfYearInSeconds + ";";
+            //    " Expires=" + expiresDate;
         // 设置响应头中的 Set-Cookie
         exchange.getResponseHeaders().add("Set-Cookie", cookie1);
      //   exchange.getResponseHeaders().add("Set-Cookie", cookie2);
