@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.util.*;
+import java.util.function.Function;
 
 import com.alibaba.fastjson2.JSONArray;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -30,6 +31,7 @@ import static util.Util2025.*;
 import static util.UtilEncode.encodeFilename;
 import static util.luceneUtil.convertMapToDocument;
 import static util.util2026.getField2025;
+import static util.util2026.isSqldb;
 
 /**
  * *  saveDir  jdbc:ini
@@ -124,6 +126,33 @@ public class dbutil {
 
         return result;
 
+
+    }
+    public static Object execQry(String saveUrl, HashMap<String, Function<Map<String, String>, Object>> map) {
+
+
+        Map<String, String> queryParams = Map.of();
+        if (isSqldb(saveUrl))             {
+            Function<Map<String, String>, Object> qryFun=map.get("sqldbFun");
+            return qryFun.apply(queryParams);
+        } else if (saveUrl.startsWith("lucene:")) {
+            Function<Map<String, String>, Object> qryFun=map.get("luceneFun");
+            return qryFun.apply(queryParams);
+        } else {
+            //json doc ,ini ,redis
+            Function<Map<String, String>, Object> qryFun=map.get("arrFun");
+            return qryFun.apply(queryParams);
+        }
+
+
+//        if (isSqldb(saveUrlOrdBet))             {
+//            return qryOrdBetSql(queryParams);
+//        } else if (saveUrlOrdBet.startsWith("lucene:")) {
+//            return qryuserLucene(queryParams);
+//        } else {
+//            //json doc ,ini ,redis
+//            return qryOrdBetIni(queryParams);
+//        }
 
     }
 

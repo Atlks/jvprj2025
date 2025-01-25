@@ -3,15 +3,16 @@ package apis;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import static apis.QueryUsrHdr.qryuserLucene;
-import static apis.QueryUsrHdr.qryuserSql;
 
 
 import static java.time.LocalTime.now;
 import static util.Util2025.encodeJson;
-import static util.dbutil.addObj;
+import static util.dbutil.execQry;
 import static util.dbutil.findObjs;
 import static util.util2026.*;
 
@@ -49,19 +50,26 @@ public class QryOrdBetHdr extends BaseHdr {
 
         var expression = "";
         String uname = queryParams.get("uname");
-        if (isSqldb(saveUrlOrdBet))             {
-            return qryuserSql(queryParams);
-        } else if (saveUrlOrdBet.startsWith("lucene:")) {
-            return qryuserLucene(queryParams);
-        } else {
-            //json doc ,ini ,redis
-            return qryOrdBetIni(queryParams);
-        }
+
+
+    //    addMapx("spdbfun",QryOrdBetHdr::qryOrdBetIni);
+        HashMap<String,Function<Map<String, String>,Object> >   mapFuns=new HashMap<>();
+        mapFuns.put("sqldbFun",QryOrdBetHdr::qryOrdBetSql);
+        mapFuns.put("luceneFun",QryOrdBetHdr::qryOrdBetIni);
+        mapFuns.put("arrFun",QryOrdBetHdr::qryOrdBetIni);
+        execQry(saveUrlOrdBet,mapFuns);
+
     }
 
 
 
-    private Object qryOrdBetIni(Map<String, String> queryParams) {
+
+    private static Object qryOrdBetSql(Map<String, String> queryParams) {
+        return null;
+    }
+
+
+    private static Object qryOrdBetIni(Map<String, String> queryParams) {
 
         String uname = (String) getField2025(queryParams,"uname","");
         var expression = "";
