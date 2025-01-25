@@ -120,8 +120,10 @@ public class util2026 {
         }
 
         // 遍历 Cookie 头，查找指定名称的 Cookie
+        //cookhe ==>  Phpstorm-5391d420=e327af09-5544-404b-9cfc-5fe811cc8b38; Idea-c6a5dffd=3faa2c4e-16f5-4b3e-83f3-41d9866af1e1; uname=ttt
         for (String cookieHeader : cookieHeaders) {
-            List<HttpCookie> cookies = HttpCookie.parse(cookieHeader);
+
+            List<HttpCookie> cookies = HttpCookie_parse(cookieHeader);
             for (HttpCookie cookie : cookies) {
                 if (cookie.getName().equals(cookieName)) {
                     return cookie.getValue(); // 找到指定名称的 Cookie，返回值
@@ -132,6 +134,23 @@ public class util2026 {
         // 如果没有找到匹配的 Cookie
         return "";
 
+    }
+
+    public static List<HttpCookie> HttpCookie_parse(String cookieHeader) {
+        List<HttpCookie> list=new ArrayList<>();
+        // 分割每个 Cookie 头中的多个 Cookie
+        String[] cookies = cookieHeader.split(";\\s*");
+        for (String cookie : cookies) {
+            // 分割 Cookie 的名称和值
+            String[] cookieParts = cookie.split("=", 2);
+            if (cookieParts.length == 2) {
+                String name = cookieParts[0];
+                String value = cookieParts[1];
+                HttpCookie ck=new HttpCookie(name,value);
+                list.add(ck);
+            }
+        }
+        return  list;
     }
 
 

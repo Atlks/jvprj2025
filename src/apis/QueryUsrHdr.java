@@ -64,7 +64,7 @@ public class QueryUsrHdr extends BaseHdr {
         //   return new ArrayList<SortedMap<String, Object>>();
     }
 
-    private static List<SortedMap<String, Object>> qryuserLucene(Map<String, String> queryParams) throws IOException {
+    static List<SortedMap<String, Object>> qryuserLucene(Map<String, String> queryParams) throws IOException {
 
         var idxDir= saveDirUsrs  ;
         String uname = queryParams.get("uname");
@@ -92,7 +92,7 @@ public class QueryUsrHdr extends BaseHdr {
 
 
 
-    private static List<SortedMap<String, Object>> qryuserSql(Map<String, String> queryParams ) {
+    static List<SortedMap<String, Object>> qryuserSql(Map<String, String> queryParams) {
         String uname = queryParams.get("uname");
         var expression = "";
 

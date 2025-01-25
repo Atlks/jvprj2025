@@ -19,7 +19,7 @@ public class MainApi {
         server.createContext("/login", new LoginHdr());
         server.createContext("/QueryUsr", new QueryUsrHdr());
         server.createContext("/AddOrdBetHdr", new AddOrdBetHdr());
-
+        server.createContext("/QryOrdBetHdr", new QryOrdBetHdr());
 
         // 启动服务器
         server.setExecutor(null); // 默认的线程池
