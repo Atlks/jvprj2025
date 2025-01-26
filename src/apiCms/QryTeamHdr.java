@@ -1,12 +1,13 @@
-package apis;
+package apiCms;
 
+import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import static apis.RegHandler.saveDirUsrs;
+import static apiUsr.RegHandler.saveDirUsrs;
 import static util.Util2025.encodeJson;
 import static util.dbutil.*;
 import static util.util2026.*;
@@ -14,7 +15,7 @@ import static util.util2026.wrtResp;
 //http://localhost:8889/QryTeamHdr
 public class QryTeamHdr  extends BaseHdr {
     @Override
-    void handle2(HttpExchange exchange) throws Exception {
+    public void handle2(HttpExchange exchange) throws Exception {
         if (isNotLogined(exchange)) {
             //need login
             wrtResp(exchange, "needLogin需要登录");

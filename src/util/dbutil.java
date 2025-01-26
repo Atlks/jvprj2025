@@ -212,7 +212,7 @@ public class dbutil {
             addObjIni(obj, saveDir);
         }
 
-
+        System.out.println("endfun addobj()");
     }
     public static void updtObj(Object obj, String saveDir) throws Exception {
         System.out.println("fun updtObj(");
@@ -333,6 +333,55 @@ public class dbutil {
         return iniString.toString();
     }
 
+    /**
+     *   // 调用 getObjAsT 方法
+     *         ExampleClass obj = getObjAsT("123", "/path/to/saveDir", ExampleClass.class);
+     * 将读取到的 SortedMap<String, Object> 转换为给定的class
+     * @param id
+     * @param saveDir
+     * @return
+
+     */
+    public static <T> T getObjById(String id, String saveDir, Class<T> cls) {
+
+        if (saveDir.endsWith(".db")) {
+            SortedMap<String, Object> objSqlt = getObjSqlt(id, saveDir);
+            return  toConvert(objSqlt,cls) ;
+        } else if (saveDir.startsWith("jdbc:mysql")) {
+            return (T) getObjSqlt(id, saveDir);
+        } else {
+            return (T) getObjIni(id, saveDir);
+        }
+
+
+    }
+
+   // Java 中的泛型在运行时是类型擦除的，因此无法直接使用 T.class，这会导致编译错误。为了修复并正确调用该方法，需要通过调用者显式传入 Class<T>，以便在运行时保留类型信息。
+//    public static <T> T getObjAsT(String id, String saveDir) {
+//
+//        if (saveDir.endsWith(".db")) {
+//            SortedMap<String, Object> objSqlt = getObjSqlt(id, saveDir);
+//            //这里bug，如何修复
+//            return  toConvert(objSqlt, T.class ) ;
+//        } else if (saveDir.startsWith("jdbc:mysql")) {
+//            return (T) getObjSqlt(id, saveDir);
+//        } else {
+//            return (T) getObjIni(id, saveDir);
+//        }
+//    }
+
+    /**
+     * 使用类似 fastjson2 的库来将 Map 转换为对象
+     * @param obj
+     * @param cls
+     * @return
+     * @param <T>
+     */
+    private static <T> T toConvert(SortedMap<String, Object> obj, Class<T> cls) {
+        // 将 Map 转换为 JSON 字符串，再反序列化为指定类型的对象
+        String jsonString = JSON.toJSONString(obj);
+        return JSON.parseObject(jsonString, cls);
+    }
 
     public static SortedMap<String, Object> getObj(String id, String saveDir) {
 
@@ -822,7 +871,7 @@ public class dbutil {
         //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
         Connection conn = DriverManager.getConnection(saveDir);
         Statement stmt = conn.createStatement();
-        stmt.execute("CREATE TABLE IF NOT EXISTS tab1 (id TEXT PRIMARY KEY)");
+      //  stmt.execute("CREATE TABLE IF NOT EXISTS tab1 (id TEXT PRIMARY KEY)");
 var tbnm=getDatabaseFileName(saveDir);
         foreachObjFieldsCreateColume(obj, stmt, tbnm);
 
@@ -834,7 +883,7 @@ var tbnm=getDatabaseFileName(saveDir);
 
         if( !id.equals("") )
         {
-              sql=crtUpdtStmt(obj);
+              sql=crtUpdtStmt(obj,tbnm);
            // sql="update tab1 set "+setStmt+" where id='"+id+"'";
         }
 
@@ -844,21 +893,21 @@ var tbnm=getDatabaseFileName(saveDir);
     }
 
     //根据obj字段值
-    private static String crtUpdtStmt(Object obj) {
+    private static String crtUpdtStmt(Object obj, String tbnm) {
 
          if(obj instanceof  Map)
          {
              Map<String,Object> m= (Map<String, Object>) obj;
              return  crtUpdtStmt4Map(m);
          }
-        return  crtUpdtStmt4obj(obj);
+        return  crtUpdtStmt4obj(obj,tbnm);
     }
 
     //根据对象obj的属性与值，生成sql语句 update语句
-    private static String crtUpdtStmt4obj(Object obj) {
+    private static String crtUpdtStmt4obj(Object obj, String tbnm) {
         // 假设 "id" 是更新条件的键（可以根据实际情况修改）
         // 假设 "id" 是更新条件的键（可以根据实际情况修改）
-        StringBuilder sql = new StringBuilder("UPDATE tab1 SET ");
+        StringBuilder sql = new StringBuilder("UPDATE "+tbnm+" SET ");
 
         // 获取 obj 的所有字段
         Field[] fields = obj.getClass().getDeclaredFields();
@@ -925,6 +974,8 @@ var tbnm=getDatabaseFileName(saveDir);
         if (value instanceof String) {
             return "'" + value + "'";
         }
+        if(value==null)
+            return "null";
         return value.toString();  // 对于非字符串，直接调用toString()
     }
 
@@ -1056,7 +1107,7 @@ var tbnm=getDatabaseFileName(saveDir);
                 field.setAccessible(true); // Allow access to private fields
                 String fieldName = field.getName();
                 Object value = field.get(obj); // Get the value of the field for the given object
-                System.out.println(fieldName + ": " + value);
+             //   System.out.println(fieldName + ": " + value);
                 String sql = "ALTER TABLE "+tbnm+" ADD COLUMN  " + fieldName + "  " + getTypeSqlt(value) + " ";
                 //  System.out.println(sql);
                 stmt.execute(sql);

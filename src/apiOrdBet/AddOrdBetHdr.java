@@ -1,11 +1,12 @@
-package apis;
+package apiOrdBet;
 
+import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.util.Map;
 
 
-import static apis.QryOrdBetHdr.saveUrlOrdBet;
+import static apiOrdBet.QryOrdBetHdr.saveUrlOrdBet;
 import static java.time.LocalTime.now;
 import static util.dbutil.addObj;
 import static util.util2026.*;

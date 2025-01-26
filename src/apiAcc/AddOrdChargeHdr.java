@@ -1,5 +1,7 @@
-package apis;
+package apiAcc;
 
+import apis.BaseHdr;
+import biz.OrdChrg;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.math.BigDecimal;
@@ -31,10 +33,14 @@ public class AddOrdChargeHdr extends BaseHdr {
         String uname = getcookie("uname", exchange);
         Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
 
-        Map<String, Object> queryParamsWztype=new HashMap<>();
-        queryParamsWztype.put("uname",uname);
-        queryParamsWztype.put("amt",new BigDecimal(queryParams.get("amt")));
-        addOrdChg(queryParamsWztype, uname);
+
+
+        OrdChrg ord=new OrdChrg();
+        ord.uname=uname;
+        ord.amt=new BigDecimal(queryParams.get("amt"));
+        ord.timestamp=System.currentTimeMillis();
+        ord.id="ordChrg"+getFilenameFrmLocalTimeString();
+        addOrdChg(ord);
         wrtResp(exchange, "ok");
 
 
@@ -42,22 +48,27 @@ public class AddOrdChargeHdr extends BaseHdr {
 
 
 
-    private static void addOrdChg(Map<String, Object> queryParams, String uname) throws Exception {
+    private static void addOrdChg( OrdChrg ord) throws Exception {
         String now = String.valueOf(now());
-        queryParams.put("datetime_utc", now);
-        queryParams.put("datetime_local", getLocalTimeString());
-        queryParams.put("timezone", now);
-        queryParams.put("timestamp", System.currentTimeMillis());
-        queryParams.put("uname", uname);
-        queryParams.put("id","ordChrg"+getFilenameFrmLocalTimeString());
-        addObj(queryParams,   saveUrlOrdChrg);
+//        queryParams.put("datetime_utc", now);
+//        queryParams.put("datetime_local", getLocalTimeString());
+//        queryParams.put("timezone", now);
+//        queryParams.put("timestamp", System.currentTimeMillis());
+//        queryParams.put("uname", uname);
+//        queryParams.put("id","ordChrg"+getFilenameFrmLocalTimeString());
+        addObj(ord,   saveUrlOrdChrg);
     }
 
     public static void main(String[] args) throws Exception {
            iniCfgFrmCfgfile();
         Map<String, Object> queryParams=new HashMap<>();
         queryParams.put("amt",new BigDecimal("888") );
-        addOrdChg(queryParams,"007");
+        OrdChrg ord=new OrdChrg();
+        ord.uname="007";
+        ord.amt=new BigDecimal("888");
+       ord.timestamp=System.currentTimeMillis();
+       ord.id="ordChrg"+getFilenameFrmLocalTimeString();
+        addOrdChg(ord);
     }
 
 

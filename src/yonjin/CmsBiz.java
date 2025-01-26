@@ -9,8 +9,8 @@ import java.util.TreeMap;
 
 
 import static apis.BaseHdr.iniCfgFrmCfgfile;
-import static apis.RegHandler.saveDirUsrs;
-import static apis.TransHdr.saveUrlLogBalanceYinliWlt;
+import static apiUsr.RegHandler.saveDirUsrs;
+import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 import static util.dbutil.*;
 import static util.util2026.*;
 

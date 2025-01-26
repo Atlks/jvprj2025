@@ -1,8 +1,7 @@
-package apis;
+package apiUsr;
 
 import biz.Usr;
 import biz.existUserEx;
-import com.alibaba.fastjson2.JSONObject;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -12,8 +11,7 @@ import java.util.Map;
 
 import static apis.BaseHdr.iniCfgFrmCfgfile;
 import static util.dbutil.*;
-import static util.util2026.getRequestParameter;
-import static util.util2026.wrtResp;
+import static util.util2026.*;
 
 
 //  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
@@ -34,7 +32,7 @@ public class RegHandler implements HttpHandler {
             responseTxt = reg(uname,pwd,invtr);
             wrtResp(exchange, responseTxt);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+             throwEx(e);
         }
 
         //    }
@@ -55,7 +53,7 @@ public class RegHandler implements HttpHandler {
 
 
         if (existUser(user)) {
-            throw new existUserEx(user.uname);
+            throw new existUserEx("err=existUserEx,euname="+user.uname);
         }
         //  if(!existUser(uname))
 

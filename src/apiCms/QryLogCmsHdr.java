@@ -1,5 +1,6 @@
-package apis;
+package apiCms;
 
+import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.util.*;

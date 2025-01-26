@@ -1,5 +1,8 @@
-package apis;
+package apiAcc;
 
+import apis.BaseHdr;
+import biz.LogBls;
+import biz.OrdChrg;
 import biz.Usr;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -8,13 +11,12 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import static apis.AddOrdChargeHdr.saveUrlOrdChrg;
-import static apis.RegHandler.saveDirUsrs;
+import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
+import static apiUsr.RegHandler.saveDirUsrs;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static java.time.LocalTime.now;
 import static util.dbutil.*;
 import static util.util2026.*;
-import static yonjin.CmsBiz.calcCms4chrgU;
 import static yonjin.CmsBiz.toBigDcmTwoDot;
 
 /**
@@ -26,66 +28,62 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
 
     public static void main(String[] args) throws Exception {
       iniCfgFrmCfgfile();
-        updateCmpltOrdChg("ordChrg2025-01-26T16-01-41");
+        updateOrdChgSetCmplt("ordChrg2025-01-27T00-15-26");
     }
 
-    private static void updateCmpltOrdChg(String id) throws Exception {
+    private static void updateOrdChgSetCmplt(String id) throws Exception {
         //update chr ord stat
-        SortedMap<String, Object> objChrg = getObj(id, saveUrlOrdChrg);
+        OrdChrg objChrg = getObjById(id, saveUrlOrdChrg,OrdChrg.class);
         String stat= (String) getField2025(objChrg,"stat","");
-        BigDecimal amt=   getFieldAsBigDecimal(objChrg,"amt",0);
+        BigDecimal amt=   objChrg.amt;
         if(stat.equals("ok"))
         {
             System.out.println("alread cpmlt ord,id="+id);
-         //   return;
+             return;
         }
-
         if(stat.equals(""))
-          objChrg.put("stat", "ok");
+          objChrg.stat="ok";
         updtObj(objChrg, saveUrlOrdChrg);
 
-        //----add blance
-        String uname = (String) objChrg.get("uname");
-
-
-        SortedMap<String, Object> objU = updtBlsAddChrg(uname, amt);
+        //----add blance n log
+        String uname =objChrg.uname;
+        updtBlsByAddChrg(objChrg);
 
         //calc yonjin
         Usr u=new Usr();
-        u.invtr=objU.get("invtr").toString();
+       // u.invtr=objU.get("invtr").toString();
       //  calcCms4chrgU(u,amt);
         calcCms4chrgU(objChrg);
        // calcCms(uname,amt);
     }
 
-    private static void calcCms4chrgU(SortedMap<String, Object> objChrg) {
+    private static void calcCms4chrgU(OrdChrg objChrg) {
     }
 
-    public static SortedMap<String, Object> updtBlsAddChrg(String uname, BigDecimal amt) throws Exception {
-        SortedMap<String, Object> objU = getObjIni(uname, saveDirUsrs);
-        if(objU.get("id")==null)
+    public static void updtBlsByAddChrg(OrdChrg objChrg ) throws Exception {
+        Usr objU = getObjById(objChrg.uname, saveDirUsrs,Usr.class);
+        if(objU.id==null)
         {
-            objU.put("id", uname);
-            objU.put("uname", uname);
+            objU.id=objChrg.uname;
+            objU.uname=objChrg.uname;
         }
 
-
         BigDecimal nowAmt= getFieldAsBigDecimal(objU,"balance",0);
-        BigDecimal newBls=nowAmt.add(amt);
-        objU.put("balance",toBigDcmTwoDot(newBls));
+        BigDecimal newBls=nowAmt.add(objChrg.getAmt());
+        objU.balance=toBigDcmTwoDot(newBls);
         updtObj(objU,saveDirUsrs);
 
         //add balanceLog
-        SortedMap<String, Object> logBalance=new TreeMap<>();
-        logBalance.put("id","LogBalance"+getFilenameFrmLocalTimeString());
-        logBalance.put("uname", uname);
-        logBalance.put("change","增加");
-        logBalance.put("amt", toBigDcmTwoDot(amt));
-        logBalance.put("amtBefore",toBigDcmTwoDot(nowAmt));
-        logBalance.put("amtAfter",toBigDcmTwoDot(newBls));
+        LogBls logBalance=new LogBls();
+        logBalance.id="LogBalance"+getFilenameFrmLocalTimeString();
+        logBalance.uname=objChrg.uname;
+        logBalance.change="增加";
+        logBalance.amt=objChrg.getAmt();
+        logBalance.amtBefore=toBigDcmTwoDot(nowAmt);
+        logBalance.amtAfter=toBigDcmTwoDot(newBls);
         System.out.println(" add balanceLog ");
         addObj(logBalance,saveUrlLogBalance);
-        return objU;
+
     }
 
 
@@ -107,7 +105,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         //blk login ed
         String uname = getcookie("uname", exchange);
         Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
-        updateCmpltOrdChg(queryParams.get("id"));
+        updateOrdChgSetCmplt(queryParams.get("id"));
         wrtResp(exchange, "ok");
 
 

@@ -1,5 +1,6 @@
-package apis;
+package apiOrdBet;
 
+import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
@@ -7,13 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-//import static apis.QueryUsrHdr.qryuserLucene;
+//import static apiUsr.QueryUsrHdr.qryuserLucene;
 
 
 import static java.time.LocalTime.now;
 import static util.Util2025.encodeJson;
 import static util.dbutil.execQry;
-import static util.dbutil.findObjs;
 import static util.util2026.*;
 
 /**

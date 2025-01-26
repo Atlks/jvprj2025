@@ -1,5 +1,6 @@
-package apis;
+package apiUsr;
 
+import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 //import org.apache.lucene.index.DirectoryReader;
 //import org.apache.lucene.index.Term;
@@ -7,12 +8,10 @@ import com.sun.net.httpserver.HttpExchange;
 //import org.apache.lucene.store.Directory;
 //import org.apache.lucene.store.FSDirectory;
 //import static util.UtilLucene.toListMap;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.*;
 
 
-import static apis.RegHandler.saveDirUsrs;
+import static apiUsr.RegHandler.saveDirUsrs;
 import static util.Util2025.encodeJson;
 
 import static util.dbutil.*;
