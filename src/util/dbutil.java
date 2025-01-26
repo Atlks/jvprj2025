@@ -380,8 +380,10 @@ public class dbutil {
 
 
     public static List<SortedMap<String, Object>> qrySql(String sql, String jdbcUrl) throws Exception {
-
+        if(jdbcUrl.startsWith("jdbc:sqlite"))
         Class.forName("org.sqlite.JDBC");
+        if(jdbcUrl.startsWith("jdbc:mysql"))
+            Class.forName("com.mysql.cj.jdbc.Driver");
     //    mkdir2025(saveDir);
         //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
         // 建立连接
@@ -403,6 +405,14 @@ public class dbutil {
 
     }
 // // 转换 ResultSet 为 List<SortedMap<String, Object>>
+
+    /**
+     * MapListHandler 是 Apache Commons DbUtils 库中的一个处理器类，主要用于将 SQL 查询结果 (ResultSet) 转换为 List<Map<String, Object>> 的形式，其中每个 Map 代表结果集的一行，键为列名，值为列对应的值。
+     * MapListHandler 的主要功能是简化 ResultSet 的处理，将其转换为更易于操作的 Java 集合结构。
+     * @param rs
+     * @return
+     * @throws Exception
+     */
     private static List<SortedMap<String, Object>> toMapList(ResultSet rs) throws Exception {
         List<SortedMap<String, Object>> resultList = new ArrayList<>();
         ResultSetMetaData metaData = rs.getMetaData();
