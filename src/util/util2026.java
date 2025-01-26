@@ -228,7 +228,12 @@ public class util2026 {
      //   exchange.getResponseHeaders().add("Set-Cookie", cookie2);
 
     }
+    public static void throwEx(Exception e) {
+        if(e instanceof  RuntimeException)
+            throw  (RuntimeException)e;
+        throw new RuntimeException(e);
 
+    }
     public static BigDecimal getFieldAsBigDecimal(Object obj, String fieldName, float defval)
     {
         Object o=getField2025(obj,fieldName,String.valueOf(defval));

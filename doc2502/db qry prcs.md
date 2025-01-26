@@ -32,7 +32,7 @@ System.out.println(row);
 
 
 
-=calarHandler<
+=Scalar<ScalarHandler
 作用：提取结果集的单个值（第一行的第一列）。
 使用场景：查询单个值，例如计数、总和等。
 示例：
@@ -78,3 +78,17 @@ Copy
 Edit
 Properties props = runner.query(conn, sql, new PropertiesHandler());
 System.out.println(props.getProperty("key"));
+
+
+
+处理器	返回值类型	作用
+ArrayHandler	Object[]	返回结果集的第一行，按数组形式存储。
+ArrayListHandler	List<Object[]>	返回结果集的所有行，每行是一个数组。
+BeanHandler	T（JavaBean）	返回结果集的第一行，映射为 JavaBean。
+BeanListHandler	List<T>（JavaBean 列表）	返回结果集的所有行，映射为 JavaBean 列表。
+MapHandler	Map<String, Object>	返回结果集的第一行，存储为键值对。
+MapListHandler	List<Map<String, Object>>	返回结果集的所有行，存储为键值对列表。
+ScalarHandler	T（单个值）	返回结果集的单个值。
+ColumnListHandler	List<T>	提取某列的所有值。
+KeyedHandler	Map<K, Map<String, Object>>	按列值分组并存储每行数据。
+PropertiesHandler	Properties	将第一行转换为 Properties 对象。

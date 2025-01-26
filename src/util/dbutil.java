@@ -25,9 +25,7 @@ import com.alibaba.fastjson2.JSONArray;
 import static util.Fltr.filterWithSpEL;
 import static util.Util2025.*;
 import static util.UtilEncode.encodeFilename;
-
-import static util.util2026.getField2025;
-import static util.util2026.isSqldb;
+import static util.util2026.*;
 
 /**
  * *  saveDir  jdbc:ini
@@ -46,14 +44,13 @@ public class dbutil {
         HashMap m = new HashMap();
         m.put("id", "id1");
         m.put("name", "nm1");
-     //   addObj(m, "jdbc:ini:/db22/usrs");
-        String sql="select 1 as f";
-        var url="jdbc:sqlite:/dbx/db1.db";
-        System.out.println(encodeJson(qrySql(sql,url)));
+        //   addObj(m, "jdbc:ini:/db22/usrs");
+        String sql = "select 1 as f";
+        var url = "jdbc:sqlite:/dbx/db1.db";
+        System.out.println(encodeJson(qrySql(sql, url)));
     }
 
     /**
-     *
      * @param saveDir
      * @param qryExpression
      * @return
@@ -82,8 +79,8 @@ public class dbutil {
 
     private static List<SortedMap<String, Object>> findObjsAll(String saveDir) {
         //null chk
-        if(saveDir==null || saveDir.equals(""))
-            return  new ArrayList<>();
+        if (saveDir == null || saveDir.equals(""))
+            return new ArrayList<>();
 
         if (saveDir.startsWith("jdbc:ini")) {
             saveDir = saveDir.substring(9);
@@ -130,15 +127,15 @@ public class dbutil {
 
     public static Object execQry2501(String saveUrl, HashMap<String, Function<Map<String, String>, Object>> mapFuns, Map<String, String> queryParams) {
 
-        if (isSqldb(saveUrl))             {
-            Function<Map<String, String>, Object> qryFun=mapFuns.get("sqldbFun");
+        if (isSqldb(saveUrl)) {
+            Function<Map<String, String>, Object> qryFun = mapFuns.get("sqldbFun");
             return qryFun.apply(queryParams);
         } else if (saveUrl.startsWith("lucene:")) {
-            Function<Map<String, String>, Object> qryFun=mapFuns.get("luceneFun");
+            Function<Map<String, String>, Object> qryFun = mapFuns.get("luceneFun");
             return qryFun.apply(queryParams);
         } else {
             //json doc ,ini ,redis
-            Function<Map<String, String>, Object> qryFun=mapFuns.get("arrFun");
+            Function<Map<String, String>, Object> qryFun = mapFuns.get("arrFun");
             return qryFun.apply(queryParams);
         }
     }
@@ -147,15 +144,15 @@ public class dbutil {
 
 
         Map<String, String> queryParams = Map.of();
-        if (isSqldb(saveUrl))             {
-            Function<Map<String, String>, Object> qryFun=map.get("sqldbFun");
+        if (isSqldb(saveUrl)) {
+            Function<Map<String, String>, Object> qryFun = map.get("sqldbFun");
             return qryFun.apply(queryParams);
         } else if (saveUrl.startsWith("lucene:")) {
-            Function<Map<String, String>, Object> qryFun=map.get("luceneFun");
+            Function<Map<String, String>, Object> qryFun = map.get("luceneFun");
             return qryFun.apply(queryParams);
         } else {
             //json doc ,ini ,redis
-            Function<Map<String, String>, Object> qryFun=map.get("arrFun");
+            Function<Map<String, String>, Object> qryFun = map.get("arrFun");
             return qryFun.apply(queryParams);
         }
 
@@ -238,18 +235,16 @@ public class dbutil {
     }
 
 
-
     private static void addObjIni(Object obj, String saveDir) {
         mkdir2025(saveDir);
         String fname = (String) getField2025(obj, "id", "");
         //todo need fname encode
-        fname = encodeFilename(fname)  + ".ini";
+        fname = encodeFilename(fname) + ".ini";
         String fnamePath = saveDir + "/" + fname;
         System.out.println("fnamePath=" + fnamePath);
         writeFile2501(fnamePath, encodeIni(obj));
 
     }
-
 
 
     /**
@@ -377,14 +372,26 @@ public class dbutil {
 
         return result;
     }
+    public static Object qrySqlAsValScalar(String sql, String jdbcUrl)  {
+        return qrySqlAsMap(sql, jdbcUrl).get(0);
+    }
+    public static SortedMap<String, Object> qrySqlAsMap(String sql, String jdbcUrl)  {
+        try {
+            return qrySql(sql, jdbcUrl).get(0);
+        } catch (Exception e) {
+            throwEx(e);
+
+        }
+    }
+
 
 
     public static List<SortedMap<String, Object>> qrySql(String sql, String jdbcUrl) throws Exception {
-        if(jdbcUrl.startsWith("jdbc:sqlite"))
-        Class.forName("org.sqlite.JDBC");
-        if(jdbcUrl.startsWith("jdbc:mysql"))
+        if (jdbcUrl.startsWith("jdbc:sqlite"))
+            Class.forName("org.sqlite.JDBC");
+        if (jdbcUrl.startsWith("jdbc:mysql"))
             Class.forName("com.mysql.cj.jdbc.Driver");
-    //    mkdir2025(saveDir);
+        //    mkdir2025(saveDir);
         //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
         // 建立连接
         Connection conn = DriverManager.getConnection(jdbcUrl);
@@ -409,6 +416,7 @@ public class dbutil {
     /**
      * MapListHandler 是 Apache Commons DbUtils 库中的一个处理器类，主要用于将 SQL 查询结果 (ResultSet) 转换为 List<Map<String, Object>> 的形式，其中每个 Map 代表结果集的一行，键为列名，值为列对应的值。
      * MapListHandler 的主要功能是简化 ResultSet 的处理，将其转换为更易于操作的 Java 集合结构。
+     *
      * @param rs
      * @return
      * @throws Exception
