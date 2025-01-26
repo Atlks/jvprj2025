@@ -28,7 +28,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
 
     public static void main(String[] args) throws Exception {
       iniCfgFrmCfgfile();
-        updateOrdChgSetCmplt("ordChrg2025-01-27T00-15-26");
+        updateOrdChgSetCmplt("ordChrg2025-01-27T00-15-46");
     }
 
     private static void updateOrdChgSetCmplt(String id) throws Exception {

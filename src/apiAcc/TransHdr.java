@@ -27,7 +27,7 @@ public class TransHdr extends BaseHdr {
 
     public static void main(String[] args) throws Exception {
       iniCfgFrmCfgfile();
-        transToYinliWlt(100.5,"007");
+        transToYinliWlt(100.5,"008");
     }
 
     private static void transToYinliWlt(double amt, String uname) throws Exception, BalanceNotEnghou {
