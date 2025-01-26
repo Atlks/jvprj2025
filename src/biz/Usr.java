@@ -8,5 +8,6 @@ public class Usr {
     public String pwd;
 
     public String id;
-    public BigDecimal balance;
+    public BigDecimal balance;// avdBls
+    public BigDecimal balanceYinliwlt;
 }
