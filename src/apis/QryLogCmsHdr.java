@@ -2,7 +2,6 @@ package apis;
 
 import com.sun.net.httpserver.HttpExchange;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -11,7 +10,7 @@ import static util.Fltr.fltr2501;
 import static util.Util2025.encodeJson;
 import static util.dbutil.*;
 import static util.util2026.*;
-import static yonjin.Cms.saveUrlLogCms;
+import static yonjin.CmsBiz.saveUrlLogCms;
 
 /**  app use ,so must hav uname
  * http://localhost:8889/QryLogCmsHdr

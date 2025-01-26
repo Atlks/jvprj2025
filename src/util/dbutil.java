@@ -432,13 +432,21 @@ public class dbutil {
 
             // 转换 ResultSet 为 List<SortedMap<String, Object>>
             return toMapList(rs);
-        } finally {
+        }catch (Exception e)
+        {
+            if(e.getMessage().contains("no such table")){
+                return  new ArrayList<>();
+            }
+            e.printStackTrace();
+        }
+        finally {
             // 关闭资源
             if (rs != null) rs.close();
             if (stmt != null) stmt.close();
             if (conn != null) conn.close();
         }
 
+        return List.of();
     }
 // // 转换 ResultSet 为 List<SortedMap<String, Object>>
 
@@ -736,7 +744,8 @@ public class dbutil {
     }
 
     private static SortedMap<String, Object> getObjSqlt(String id, String jdbcurl) {
-        var sql = "select * from tab1 where id='" + id + "'";
+        var tbnm=getDatabaseFileName(jdbcurl);
+        var sql = "select * from "+tbnm+" where id='" + id + "'";
         try {
             return qrySqlAsMap(sql, jdbcurl);
         } catch (Exception e) {
@@ -757,6 +766,25 @@ public class dbutil {
         writeFile2501(fnamePath, encodeJson(obj));
 
     }
+
+    public static String getDatabaseFileName(String databaseUrl) {
+        if (databaseUrl == null || !databaseUrl.startsWith("jdbc:sqlite:")) {
+            throw new IllegalArgumentException("Invalid SQLite JDBC URL: " + databaseUrl);
+        }
+
+        // Extract the file path from the URL
+        String filePath = databaseUrl.substring("jdbc:sqlite:".length());
+
+        // Extract and return the file name
+        int lastSlashIndex = filePath.lastIndexOf('/');
+        if (lastSlashIndex != -1) {
+
+            String nm = filePath.substring(lastSlashIndex + 1,filePath.length()-3);
+            return nm;
+        }
+        filePath=filePath.substring(0,filePath.length()-3);
+        return filePath; // Return the full path if no slash is present
+    }
     private static void addObjSqlt(Object obj, String saveDir) throws Exception {
 
         Class.forName("org.sqlite.JDBC");
@@ -764,9 +792,11 @@ public class dbutil {
         //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
         Connection conn = DriverManager.getConnection(saveDir);
         Statement stmt = conn.createStatement();
-        stmt.execute("CREATE TABLE IF NOT EXISTS tab1 (id TEXT PRIMARY KEY)");
+        String tbnm = getDatabaseFileName(saveDir);
+        String sql1 = "CREATE TABLE IF NOT EXISTS " + tbnm + " (id TEXT PRIMARY KEY)";
+        stmt.execute(sql1);
 
-        foreachObjFieldsCreateColume(obj, stmt);
+        foreachObjFieldsCreateColume(obj, stmt,tbnm);
 
         String us = encodeJson(obj);
 
@@ -776,7 +806,7 @@ public class dbutil {
 
             String cols = getCols(obj);
             String valss = getValsSqlFmt(obj);
-            sql = "INSERT INTO tab1 (" + cols + ") VALUES (" + valss + ")";
+            sql = "INSERT INTO " + tbnm + "  (" + cols + ") VALUES (" + valss + ")";
 
 
 
@@ -793,8 +823,8 @@ public class dbutil {
         Connection conn = DriverManager.getConnection(saveDir);
         Statement stmt = conn.createStatement();
         stmt.execute("CREATE TABLE IF NOT EXISTS tab1 (id TEXT PRIMARY KEY)");
-
-        foreachObjFieldsCreateColume(obj, stmt);
+var tbnm=getDatabaseFileName(saveDir);
+        foreachObjFieldsCreateColume(obj, stmt, tbnm);
 
         String us = encodeJson(obj);
 
@@ -902,9 +932,25 @@ public class dbutil {
      * @param obj
      * @return
      */
-    private static String getValsSqlFmt(Object obj) {
+    private static String getValsSqlFmt(Object obj) throws  Exception {
 
         List<String> valsList = new ArrayList<>();
+
+        // Get the class of the object
+        Class<?> clazz = obj.getClass();
+
+        // Get all fields (including private ones)
+        Field[] fields = clazz.getDeclaredFields();
+
+        for (Field field : fields) {
+            field.setAccessible(true); // Allow access to private fields
+            String fieldName = field.getName();
+            Object value = field.get(obj); // Get the value of the field for the given object
+          //  System.out.println(fieldName + ": " + value);
+            valsList.add(toSqlValFormat(value));
+        }
+
+
         if (obj instanceof Record) {
             // 获取 record 的字段
             var components = obj.getClass().getRecordComponents();
@@ -947,9 +993,26 @@ public class dbutil {
         return String.valueOf(joinVals);
     }
 
-    private static String getCols(Object obj) {
+    private static String getCols(Object obj) throws  Exception {
 
         List<String> colsList = new ArrayList<>();
+
+
+        // Get the class of the object
+        Class<?> clazz = obj.getClass();
+
+        // Get all fields (including private ones)
+        Field[] fields = clazz.getDeclaredFields();
+
+        for (Field field : fields) {
+            field.setAccessible(true); // Allow access to private fields
+            String fieldName = field.getName();
+            Object value = field.get(obj); // Get the value of the field for the given object
+         //   System.out.println(fieldName + ": " + value);
+            colsList.add(fieldName);
+        }
+
+
         if (obj instanceof Record) {
             // 获取 record 的字段
             var components = obj.getClass().getRecordComponents();
@@ -958,7 +1021,7 @@ public class dbutil {
                 try {
                     Object value = component.getAccessor().invoke(obj);
                     String name = component.getName();
-                    System.out.println(name + ": " + value);
+                  //  System.out.println(name + ": " + value);
                     colsList.add(name);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -970,7 +1033,7 @@ public class dbutil {
         if (obj instanceof Map) {
             Map<String, Object> map = (Map) obj;
             for (Map.Entry<String, Object> entry : map.entrySet()) {
-                System.out.println(entry.getKey() + ": " + entry.getValue());
+             //   System.out.println(entry.getKey() + ": " + entry.getValue());
                 colsList.add(entry.getKey());
             }
         }
@@ -979,7 +1042,31 @@ public class dbutil {
     }
 
     //循环对象属性，创建对应的字段
-    private static void foreachObjFieldsCreateColume(Object obj, Statement stmt) throws SQLException {
+    private static void foreachObjFieldsCreateColume(Object obj, Statement stmt, String tbnm) throws  Exception {
+
+
+        // Get the class of the object
+        Class<?> clazz = obj.getClass();
+
+        // Get all fields (including private ones)
+        Field[] fields = clazz.getDeclaredFields();
+
+        for (Field field : fields) {
+            try{
+                field.setAccessible(true); // Allow access to private fields
+                String fieldName = field.getName();
+                Object value = field.get(obj); // Get the value of the field for the given object
+                System.out.println(fieldName + ": " + value);
+                String sql = "ALTER TABLE "+tbnm+" ADD COLUMN  " + fieldName + "  " + getTypeSqlt(value) + " ";
+                //  System.out.println(sql);
+                stmt.execute(sql);
+            }catch (Exception e)
+            {
+                if(!e.getMessage().contains("duplicate column name"))
+                    e.printStackTrace();
+            }
+
+        }
 
         if (obj instanceof Record) {
             // 获取 record 的字段
@@ -993,7 +1080,7 @@ public class dbutil {
                         continue;
                     ;
                     System.out.println(name + ": " + value);
-                    String sql = "ALTER TABLE tab1 ADD COLUMN  " + name + "  " + getTypeSqlt(value) + " ";
+                    String sql = "ALTER TABLE "+tbnm+" ADD COLUMN  " + name + "  " + getTypeSqlt(value) + " ";
                     System.out.println(sql);
                     stmt.execute(sql);
                 } catch (Exception e) {
@@ -1014,16 +1101,17 @@ public class dbutil {
                     if (name.toLowerCase().equals("id"))
                         continue;
                     ;
-                    System.out.println(name + ": " + value);
+                 //   System.out.println(name + ": " + value);
                     if(name.equals("amt"))
                         System.out.println("dbg");
-                    String sql = "ALTER TABLE tab1 ADD COLUMN  " + name + "  " + getTypeSqlt(value) + " ";
-                    System.out.println(sql);
+                    String sql = "ALTER TABLE "+tbnm+" ADD COLUMN  " + name + "  " + getTypeSqlt(value) + " ";
+                 //   System.out.println(sql);
                     stmt.execute(sql);
 
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    if(!e.getMessage().contains("duplicate column name"))
+                       e.printStackTrace();
                 }
             }
         }

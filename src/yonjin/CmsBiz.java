@@ -1,5 +1,8 @@
 package yonjin;
 
+import biz.LogBls;
+import biz.Usr;
+
 import java.math.BigDecimal;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -11,19 +14,22 @@ import static apis.TransHdr.saveUrlLogBalanceYinliWlt;
 import static util.dbutil.*;
 import static util.util2026.*;
 
-public class Cms {
+public class CmsBiz {
 
     public static void main(String[] args) throws Exception {
         iniCfgFrmCfgfile();
         SortedMap<String, Object> objU=new TreeMap<>();
         objU.put("uname","008");
         objU.put("invtr","007");
-        calcCms4chrgU(objU,new BigDecimal(100));
+        Usr u=new Usr();
+        u.uname="008";
+        u.invtr="007";
+        calcCms4chrgU(u,new BigDecimal(100));
     }
     public static String saveUrlLogCms;
-    public static void calcCms4chrgU(SortedMap<String, Object> objU, BigDecimal amt) throws Exception {
-        String invtr= (String) getField2025(objU,"invtr","");
-        BigDecimal cmsMny=amt.multiply( new BigDecimal(0.05));
+    public static void calcCms4chrgU( Usr u, BigDecimal amtChrg) throws Exception {
+        String invtr= u.invtr;
+        BigDecimal cmsMny=amtChrg.multiply( new BigDecimal(0.05));
        if(invtr.equals(""))
            return;
         addLogCms(invtr,cmsMny);
@@ -47,14 +53,14 @@ public class Cms {
         updtObj(objU,saveDirUsrs);
 
         //add balanceLog
-        SortedMap<String, Object> logBalance=new TreeMap<>();
-        logBalance.put("id","LogBalanceYinliwlt"+getFilenameFrmLocalTimeString());
-        logBalance.put("uname", uname);
-        logBalance.put("change","增加");
-        logBalance.put("amt",toBigDcmTwoDot(amt));
-        logBalance.put("amtBefore",toBigDcmTwoDot(nowAmt));
-        logBalance.put("amtAfter",toBigDcmTwoDot(newBls));
-        addObj(logBalance,saveUrlLogBalanceYinliWlt);
+        LogBls logBalanceYlWlt=new LogBls();
+        logBalanceYlWlt.id="LogBalanceYinliwlt"+getFilenameFrmLocalTimeString();
+        logBalanceYlWlt.uname=uname;
+        logBalanceYlWlt.change="增加";
+        logBalanceYlWlt.amt=toBigDcmTwoDot(amt);
+        logBalanceYlWlt.amtBefore=toBigDcmTwoDot(nowAmt);
+        logBalanceYlWlt.amtAfter=toBigDcmTwoDot(newBls);
+        addObj(logBalanceYlWlt,saveUrlLogBalanceYinliWlt);
         return objU;
     }
 

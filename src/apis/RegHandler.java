@@ -1,5 +1,6 @@
 package apis;
 
+import biz.Usr;
 import biz.existUserEx;
 import com.alibaba.fastjson2.JSONObject;
 import com.sun.net.httpserver.HttpExchange;
@@ -39,12 +40,18 @@ public class RegHandler implements HttpHandler {
         //    }
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception, existUserEx {
         iniCfgFrmCfgfile();
-        reg("008","ppp","001");
+        Usr u=new Usr();
+        u.uname="008";
+        u.pwd="pp";
+        u.invtr="007";
+
+        u.id=u.uname;
+        reg(u);
     }
 
-    public static String reg(User user) throws Exception, existUserEx {
+    public static String reg(Usr user) throws Exception, existUserEx {
 
 
         if (existUser(user)) {
@@ -54,7 +61,7 @@ public class RegHandler implements HttpHandler {
 
 
         addObj(user,  saveDirUsrs);
-        //  addObj(user, "u","jdbc:sqlite:/db2026/usrs.db");
+
         return "ok";
 
 
@@ -78,7 +85,7 @@ public class RegHandler implements HttpHandler {
     }
 
 
-    public static boolean existUser(User user) {
+    public static boolean existUser(Usr user) {
         return existUser(user.uname);
     }
 

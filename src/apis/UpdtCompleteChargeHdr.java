@@ -1,5 +1,6 @@
 package apis;
 
+import biz.Usr;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.math.BigDecimal;
@@ -13,8 +14,8 @@ import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static java.time.LocalTime.now;
 import static util.dbutil.*;
 import static util.util2026.*;
-import static yonjin.Cms.calcCms4chrgU;
-import static yonjin.Cms.toBigDcmTwoDot;
+import static yonjin.CmsBiz.calcCms4chrgU;
+import static yonjin.CmsBiz.toBigDcmTwoDot;
 
 /**
  * http://localhost:8889/UpdtCompleteChargeHdr?id=ordchg2222
@@ -50,8 +51,14 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         SortedMap<String, Object> objU = updtBlsAddChrg(uname, amt);
 
         //calc yonjin
-        calcCms4chrgU(objU,amt);
+        Usr u=new Usr();
+        u.invtr=objU.get("invtr").toString();
+      //  calcCms4chrgU(u,amt);
+        calcCms4chrgU(objChrg);
        // calcCms(uname,amt);
+    }
+
+    private static void calcCms4chrgU(SortedMap<String, Object> objChrg) {
     }
 
     public static SortedMap<String, Object> updtBlsAddChrg(String uname, BigDecimal amt) throws Exception {
