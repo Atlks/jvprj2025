@@ -9,8 +9,7 @@ import java.util.function.Predicate;
 import static util.Fltr.filterWithSpEL;
 import static util.Fltr.fltr2501;
 import static util.Util2025.encodeJson;
-import static util.dbutil.findObjs;
-import static util.dbutil.findObjsAll;
+import static util.dbutil.*;
 import static util.util2026.*;
 import static yonjin.Cms.saveUrlLogCms;
 
@@ -42,7 +41,7 @@ public class QryLogCmsHdr extends BaseHdr {
 
     }
 
-    private Object QryLogCms(Map<String, String> queryParams) throws IOException {
+    private Object QryLogCms(Map<String, String> queryParams) throws Exception {
 
         var expression = "";
         String uname = queryParams.get("uname");
@@ -54,15 +53,16 @@ public class QryLogCmsHdr extends BaseHdr {
 //    //    mapFuns.put("luceneFun", QryOrdBetHdr::qryOrdBetIni);
 //        mapFuns.put("arrFun", queryParams1 -> QryLogCmsIni(queryParams1, uname));
         if (isSqldb(saveUrlLogCms)) {
-            return  QryLogCmsSql(queryParams);
+            return  QryLogCmsSql(queryParams,uname);
         }else
             return  QryLogCmsIni(queryParams,uname);
 
     }
 
 
-    private static Object QryLogCmsSql(Map<String, String> queryParams) {
-        return null;
+    private static Object QryLogCmsSql(Map<String, String> queryParams, String uname) throws Exception {
+        var sql="select * from logCms where uname='"+uname+"'";
+        return qrySql(sql,saveUrlLogCms);
     }
 
 
