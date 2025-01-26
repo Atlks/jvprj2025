@@ -61,24 +61,29 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
     }
 
     public static void updtBlsByAddChrg(OrdChrg objChrg ) throws Exception {
-        Usr objU = getObjById(objChrg.uname, saveDirUsrs,Usr.class);
+        String uname = objChrg.uname;
+        BigDecimal amt = objChrg.getAmt();
+
+
+        Usr objU = getObjById(uname, saveDirUsrs,Usr.class);
         if(objU.id==null)
         {
-            objU.id=objChrg.uname;
-            objU.uname=objChrg.uname;
+            objU.id= uname;
+            objU.uname= uname;
         }
 
         BigDecimal nowAmt= getFieldAsBigDecimal(objU,"balance",0);
-        BigDecimal newBls=nowAmt.add(objChrg.getAmt());
+
+        BigDecimal newBls=nowAmt.add(amt);
         objU.balance=toBigDcmTwoDot(newBls);
         updtObj(objU,saveDirUsrs);
 
         //add balanceLog
         LogBls logBalance=new LogBls();
         logBalance.id="LogBalance"+getFilenameFrmLocalTimeString();
-        logBalance.uname=objChrg.uname;
+        logBalance.uname= uname;
         logBalance.change="增加";
-        logBalance.amt=objChrg.getAmt();
+        logBalance.amt= amt;
         logBalance.amtBefore=toBigDcmTwoDot(nowAmt);
         logBalance.amtAfter=toBigDcmTwoDot(newBls);
         System.out.println(" add balanceLog ");
