@@ -3,12 +3,14 @@ package apis;
 import test.UserBiz;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import yonjin.Cms;
 
 import java.io.IOException;
 import java.util.Map;
 
 import static apis.AddOrdChargeHdr.saveUrlOrdChrg;
 import static apis.TransHdr.saveUrlLogBalanceYinliWlt;
+
 import static util.util2026.*;
 
 public  abstract class BaseHdr implements HttpHandler {
@@ -42,6 +44,7 @@ setcookie("uname","007",exchange);//for test
         UpdtCompleteChargeHdr.    saveUrlLogBalance= (String) cfg.get("saveUrlLogBalance");
         saveUrlLogBalanceYinliWlt=(String) cfg.get("saveUrlLogBalanceYinliWlt");
         WithdrawHdr.   saveUrlOrdWthdr=(String) cfg.get("saveUrlOrdWthdr");
+        Cms.saveUrlLogCms =(String) cfg.get("saveUrlLogCms");
         System.out.println("ini cfg finish..");
     }
     abstract void handle2(HttpExchange exchange) throws Exception;
