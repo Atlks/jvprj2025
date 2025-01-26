@@ -361,8 +361,8 @@ public class dbutil {
     public static SortedMap<String, Object> qrySqlAsMap(String sql, String jdbcUrl) {
         try {
             List<SortedMap<String, Object>> sortedMaps = qrySql(sql, jdbcUrl);
-            if(sortedMaps.size()==0)
-                return  new TreeMap<>();
+            if (sortedMaps.size() == 0)
+                return new TreeMap<>();
             return sortedMaps.get(0);
         } catch (Exception e) {
             throwEx(e);
@@ -374,8 +374,8 @@ public class dbutil {
 
     public static List<SortedMap<String, Object>> qrySql(String sql, String jdbcUrl) throws Exception {
 
-        System.out.println("sql="+sql);
-        System.out.println("jdbcUrl="+jdbcUrl);
+        System.out.println("sql=" + sql);
+        System.out.println("jdbcUrl=" + jdbcUrl);
         if (jdbcUrl.startsWith("jdbc:sqlite"))
             Class.forName("org.sqlite.JDBC");
         if (jdbcUrl.startsWith("jdbc:mysql"))
@@ -819,7 +819,7 @@ public class dbutil {
     }
 
     //循环对象属性，创建对应的字段
-    private static void foreachObjFieldsCreateColume(Object obj, Statement stmt) {
+    private static void foreachObjFieldsCreateColume(Object obj, Statement stmt) throws SQLException {
 
         if (obj instanceof Record) {
             // 获取 record 的字段
@@ -829,8 +829,9 @@ public class dbutil {
                 try {
                     Object value = component.getAccessor().invoke(obj);
                     String name = component.getName();
-                    if(name.toLowerCase().equals("id"))
-                        continue;;
+                    if (name.toLowerCase().equals("id"))
+                        continue;
+                    ;
                     System.out.println(name + ": " + value);
                     String sql = "ALTER TABLE tab1 ADD COLUMN  " + name + "  " + getTypeSqlt(value) + " ";
                     System.out.println(sql);
@@ -845,7 +846,25 @@ public class dbutil {
         if (obj instanceof Map) {
             Map<String, Object> map = (Map) obj;
             for (Map.Entry<String, Object> entry : map.entrySet()) {
-                System.out.println(entry.getKey() + ": " + entry.getValue());
+                //  System.out.println(entry.getKey() + ": " + entry.getValue());
+                //  System.out.println(entry.getKey() + ": " + entry.getValue());
+                try {
+                    Object value = entry.getValue();
+                    String name = entry.getKey();
+                    if (name.toLowerCase().equals("id"))
+                        continue;
+                    ;
+                    System.out.println(name + ": " + value);
+                    if(name.equals("amt"))
+                        System.out.println("dbg");
+                    String sql = "ALTER TABLE tab1 ADD COLUMN  " + name + "  " + getTypeSqlt(value) + " ";
+                    System.out.println(sql);
+                    stmt.execute(sql);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -853,9 +872,13 @@ public class dbutil {
     }
 
     private static String getTypeSqlt(Object value) {
+
         if (value instanceof String)
             return "text";
         if (value instanceof int)
+            return "integer";
+
+        if (value instanceof long)
             return "integer";
         if (value instanceof BigDecimal)
             return "real";
