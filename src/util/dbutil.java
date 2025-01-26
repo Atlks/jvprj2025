@@ -14,6 +14,8 @@ import java.sql.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.alibaba.fastjson2.JSONArray;
 //import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -179,9 +181,47 @@ public class dbutil {
      * @throws Exception
      */
     public static void addObj(Object obj, String saveDir) throws Exception {
+        System.out.println("fun addobj(");
+        System.out.println("obj="+encodeJson(obj));
+        System.out.println("saveDir="+saveDir);
+        System.out.println(")");
         String collName = "";
         if (saveDir.endsWith(".db")) {
             addObjSqlt(obj, saveDir);
+        } else if (saveDir.startsWith("json:")) {
+            saveDir = saveDir.substring(5);
+            System.out.println("savedir=" + saveDir);
+            addObjDocdb(obj, saveDir);
+
+
+        } else if (saveDir.startsWith("jdbc:lucene")) {
+            saveDir = saveDir.substring(11);
+            System.out.println("savedir=" + saveDir);
+            //addObjLucene(obj, collName, saveDir);
+        } else if (saveDir.startsWith("jdbc:redis")) {
+            saveDir = saveDir.substring(10);
+            System.out.println("savedir=" + saveDir);
+            addObjRds(obj, collName, saveDir);
+        } else if (saveDir.startsWith("jdbc:mysql")) {
+            addObjMysql(obj, saveDir);
+        } else {
+            //if (saveDir.startsWith("ini:"))
+            //ini doc
+            saveDir = saveDir.substring(0);
+            System.out.println("savedir=" + saveDir);
+            addObjIni(obj, saveDir);
+        }
+
+
+    }
+    public static void updtObj(Object obj, String saveDir) throws Exception {
+        System.out.println("fun updtObj(");
+        System.out.println("obj="+encodeJson(obj));
+        System.out.println("saveDir="+saveDir);
+        System.out.println(")");
+        String collName = "";
+        if (saveDir.endsWith(".db")) {
+            updtObjSqlt(obj, saveDir);
         } else if (saveDir.startsWith("json:")) {
             saveDir = saveDir.substring(5);
             System.out.println("savedir=" + saveDir);
@@ -717,7 +757,6 @@ public class dbutil {
         writeFile2501(fnamePath, encodeJson(obj));
 
     }
-
     private static void addObjSqlt(Object obj, String saveDir) throws Exception {
 
         Class.forName("org.sqlite.JDBC");
@@ -730,12 +769,133 @@ public class dbutil {
         foreachObjFieldsCreateColume(obj, stmt);
 
         String us = encodeJson(obj);
-        String cols = getCols(obj);
-        String valss = getValsSqlFmt(obj);
-        String sql = "INSERT INTO tab1 (" + cols + ") VALUES (" + valss + ")";
+
+        String sql ="";
+        String id = (String) getField2025(obj, "id", "");
+
+
+            String cols = getCols(obj);
+            String valss = getValsSqlFmt(obj);
+            sql = "INSERT INTO tab1 (" + cols + ") VALUES (" + valss + ")";
+
+
+
         System.out.println(sql);
         stmt.execute(sql);
 
+    }
+
+    private static void updtObjSqlt(Object obj, String saveDir) throws Exception {
+
+        Class.forName("org.sqlite.JDBC");
+        mkdir2025(saveDir);
+        //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
+        Connection conn = DriverManager.getConnection(saveDir);
+        Statement stmt = conn.createStatement();
+        stmt.execute("CREATE TABLE IF NOT EXISTS tab1 (id TEXT PRIMARY KEY)");
+
+        foreachObjFieldsCreateColume(obj, stmt);
+
+        String us = encodeJson(obj);
+
+        String sql ="";
+        String id = (String) getField2025(obj, "id", "");
+
+
+        if( !id.equals("") )
+        {
+              sql=crtUpdtStmt(obj);
+           // sql="update tab1 set "+setStmt+" where id='"+id+"'";
+        }
+
+        System.out.println(sql);
+        stmt.execute(sql);
+
+    }
+
+    //根据obj字段值
+    private static String crtUpdtStmt(Object obj) {
+
+         if(obj instanceof  Map)
+         {
+             Map<String,Object> m= (Map<String, Object>) obj;
+             return  crtUpdtStmt4Map(m);
+         }
+        return  crtUpdtStmt4obj(obj);
+    }
+
+    //根据对象obj的属性与值，生成sql语句 update语句
+    private static String crtUpdtStmt4obj(Object obj) {
+        // 假设 "id" 是更新条件的键（可以根据实际情况修改）
+        // 假设 "id" 是更新条件的键（可以根据实际情况修改）
+        StringBuilder sql = new StringBuilder("UPDATE tab1 SET ");
+
+        // 获取 obj 的所有字段
+        Field[] fields = obj.getClass().getDeclaredFields();
+
+        // 生成SET部分
+        String setClause = Stream.of(fields)
+                .filter(field -> !field.getName().equals("id"))  // 排除 id 字段
+                .map(field -> {
+                    field.setAccessible(true);  // 设置字段可访问
+                    try {
+                        Object value = field.get(obj);
+                        return field.getName() + " = " + formatValue(value);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);  // 处理访问异常
+                    }
+                })
+                .collect(Collectors.joining(", "));
+
+        sql.append(setClause);
+
+        // 获取id字段（假设id字段是用于WHERE条件）
+        try {
+            Field idField = obj.getClass().getDeclaredField("id");
+            idField.setAccessible(true);
+            Object idValue = idField.get(obj);
+            if (idValue != null) {
+                sql.append(" WHERE id = ").append(formatValue(idValue));
+            }
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            // 如果没有找到 id 字段，或者发生访问异常，则不附加 WHERE 子句
+        }
+
+        return sql.toString();
+
+    }
+
+    //根据map的kv，生成sql语句 update语句
+    public static String crtUpdtStmt4Map(Map<String, Object> m) {
+        // 假设 "id" 是更新条件的键（可以根据实际情况修改）
+        StringBuilder sql = new StringBuilder("UPDATE tab1 SET ");
+
+        // 获取所有的键值对
+        Set<Map.Entry<String, Object>> entries = m.entrySet();
+
+        // 生成SET部分
+        String setClause = entries.stream()
+                .filter(entry -> !"id".equals(entry.getKey())) // 排除 id 字段
+                .map(entry -> entry.getKey() + " = " + formatValue(entry.getValue()))
+                .collect(Collectors.joining(", "));
+
+        sql.append(setClause);
+
+        // 获取id字段（假设id字段是用于WHERE条件）
+        Object idValue = m.get("id");
+        if (idValue != null) {
+            sql.append(" WHERE id = ").append(formatValue(idValue));
+        }
+
+        return sql.toString();
+    }
+
+    // 用于格式化值，如果是字符串，则加上单引号
+    private static String formatValue(Object value) {
+        if (value instanceof String) {
+            return "'" + value + "'";
+        }
+        return value.toString();  // 对于非字符串，直接调用toString()
     }
 
     /**

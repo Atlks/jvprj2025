@@ -8,8 +8,7 @@ import java.util.TreeMap;
 import static apis.BaseHdr.iniCfgFrmCfgfile;
 import static apis.RegHandler.saveDirUsrs;
 import static apis.TransHdr.saveUrlLogBalanceYinliWlt;
-import static util.dbutil.addObj;
-import static util.dbutil.getObjIni;
+import static util.dbutil.*;
 import static util.util2026.*;
 
 public class Cms {
@@ -25,6 +24,8 @@ public class Cms {
     public static void calcCms4chrgU(SortedMap<String, Object> objU, BigDecimal amt) throws Exception {
         String invtr= (String) getField2025(objU,"invtr","");
         BigDecimal cmsMny=amt.multiply( new BigDecimal(0.05));
+       if(invtr.equals(""))
+           return;
         addLogCms(invtr,cmsMny);
         updtTotalCmsAddamt(invtr,cmsMny);
         updtBlsYinliwlt(invtr,cmsMny);//balanceYinliwlt
@@ -43,7 +44,7 @@ public class Cms {
         BigDecimal nowAmt= getFieldAsBigDecimal(objU,"balanceYinliwlt",0);
         BigDecimal newBls=nowAmt.add(amt);
         objU.put("balanceYinliwlt",toBigDcmTwoDot (newBls));
-        addObj(objU,saveDirUsrs);
+        updtObj(objU,saveDirUsrs);
 
         //add balanceLog
         SortedMap<String, Object> logBalance=new TreeMap<>();
@@ -71,7 +72,7 @@ public class Cms {
         BigDecimal nowAmt= getFieldAsBigDecimal(objU,"commssionAmt",0);
         BigDecimal newBls=nowAmt.add(cmsMny);
         objU.put("commssionAmt",toBigDcmTwoDot (newBls));
-        addObj(objU,saveDirUsrs);
+        updtObj(objU,saveDirUsrs);
 
 
     }

@@ -17,7 +17,7 @@ import static yonjin.Cms.calcCms4chrgU;
 import static yonjin.Cms.toBigDcmTwoDot;
 
 /**
- * http://localhost:8889/AddOrdBetHdr?bettxt=龙湖和
+ * http://localhost:8889/UpdtCompleteChargeHdr?id=ordchg2222
  */
 public class UpdtCompleteChargeHdr extends BaseHdr {
     public static String saveUrlLogBalance;
@@ -25,23 +25,23 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
 
     public static void main(String[] args) throws Exception {
       iniCfgFrmCfgfile();
-        updateCmpltOrdChg("ordChrg2025-01-25T15-16-13");
+        updateCmpltOrdChg("ordChrg2025-01-26T16-01-41");
     }
 
     private static void updateCmpltOrdChg(String id) throws Exception {
         //update chr ord stat
-        SortedMap<String, Object> objChrg = getObjIni(id, saveUrlOrdChrg);
+        SortedMap<String, Object> objChrg = getObj(id, saveUrlOrdChrg);
         String stat= (String) getField2025(objChrg,"stat","");
         BigDecimal amt=   getFieldAsBigDecimal(objChrg,"amt",0);
         if(stat.equals("ok"))
         {
             System.out.println("alread cpmlt ord,id="+id);
-            return;
+         //   return;
         }
 
         if(stat.equals(""))
           objChrg.put("stat", "ok");
-        addObj(objChrg, saveUrlOrdChrg);
+        updtObj(objChrg, saveUrlOrdChrg);
 
         //----add blance
         String uname = (String) objChrg.get("uname");
@@ -66,7 +66,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         BigDecimal nowAmt= getFieldAsBigDecimal(objU,"balance",0);
         BigDecimal newBls=nowAmt.add(amt);
         objU.put("balance",toBigDcmTwoDot(newBls));
-        addObj(objU,saveDirUsrs);
+        updtObj(objU,saveDirUsrs);
 
         //add balanceLog
         SortedMap<String, Object> logBalance=new TreeMap<>();
@@ -76,6 +76,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         logBalance.put("amt", toBigDcmTwoDot(amt));
         logBalance.put("amtBefore",toBigDcmTwoDot(nowAmt));
         logBalance.put("amtAfter",toBigDcmTwoDot(newBls));
+        System.out.println(" add balanceLog ");
         addObj(logBalance,saveUrlLogBalance);
         return objU;
     }
