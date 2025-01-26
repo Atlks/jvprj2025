@@ -7,7 +7,7 @@ import util.Fltr;
 import static apis.RegHandler.reg;
 
 import static apis.RegHandler.saveDirUsrs;
-import static util.ArrUtil.sortWithSpEL;
+//import static util.ArrUtil.sortWithSpEL;
 import static util.Util2025.encodeJson;
 
 public class UserBiz {
@@ -34,10 +34,10 @@ public class UserBiz {
 
         //   var rzt=filterWithSpEL(lst2, expression);
 
-        var rzt = Fltr.filterWithSpEL(saveDirUsrs , expression);
+        var rzt =0;// Fltr.filterWithSpEL(saveDirUsrs , expression);
         System.out.println("rztFlted=" + encodeJson(rzt));
 
-        var rztSted = sortWithSpEL(rzt, "#map1['age'] < #map2['age']");
+        var rztSted =0;// sortWithSpEL(rzt, "#map1['age'] < #map2['age']");
         System.out.println("rztSorted=" + encodeJson(rztSted));
         //   List<SortedMap<String, Object>>  rzt=   fltr2501(lst2,flt1);
 

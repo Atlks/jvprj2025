@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Map;
 
 
-
+import static apis.BaseHdr.iniCfgFrmCfgfile;
 import static util.dbutil.*;
 import static util.util2026.getRequestParameter;
 import static util.util2026.wrtResp;
@@ -39,6 +39,10 @@ public class RegHandler implements HttpHandler {
         //    }
     }
 
+    public static void main(String[] args) throws Exception {
+        iniCfgFrmCfgfile();
+        reg("008","ppp","001");
+    }
 
     public static String reg(User user) throws Exception, existUserEx {
 

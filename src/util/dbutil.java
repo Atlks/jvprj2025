@@ -6,6 +6,7 @@ import com.alibaba.fastjson2.JSON;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,7 +24,7 @@ import com.alibaba.fastjson2.JSONArray;
 //import org.apache.lucene.store.Directory;
 //import org.apache.lucene.store.FSDirectory;
 
-import static util.Fltr.filterWithSpEL;
+//import static util.Fltr.filterWithSpEL;
 import static util.Fltr.fltr2501;
 import static util.Util2025.*;
 import static util.UtilEncode.encodeFilename;
@@ -52,32 +53,6 @@ public class dbutil {
         System.out.println(encodeJson(qrySql(sql, url)));
     }
 
-    /**
-     * @param saveDir
-     * @param qryExpression
-     * @return
-     */
-    public static List<SortedMap<String, Object>> findObjs(String saveDir, String qryExpression) {
-
-        //nullchk
-        if (saveDir == null || saveDir.equals(""))
-            return new ArrayList<>();
-
-
-        List<SortedMap<String, Object>> result = findObjsAll(saveDir);
-
-
-        if (qryExpression == null || qryExpression.equals(""))
-            return result;
-        if (result.isEmpty())
-            return result;
-
-        result = filterWithSpEL(result, qryExpression);
-
-        return result;
-
-
-    }
 
     public static Object findObjs(String saveDir, Predicate<SortedMap<String, Object>> filter1) {
 
@@ -91,11 +66,11 @@ public class dbutil {
         if (result.isEmpty())
             return result;
 
-        if (filter1 == null )
+        if (filter1 == null)
             return result;
 
 
-        result = fltr2501(result,filter1);
+        result = fltr2501(result, filter1);
 
         return result;
 
@@ -109,7 +84,7 @@ public class dbutil {
         if (saveDir.startsWith("jdbc:ini")) {
             saveDir = saveDir.substring(9);
             System.out.println("savedir=" + saveDir);
-            return findObjsIni(saveDir, "");
+            //  return findObjsIni(saveDir, "");
         } else if (saveDir.startsWith("jdbc:lucene")) {
             saveDir = saveDir.substring(11);
             System.out.println("savedir=" + saveDir);
@@ -192,27 +167,6 @@ public class dbutil {
 
     }
 
-    static List<SortedMap<String, Object>> findObjsIni(String saveDir, String qryExpression) {
-
-        //nullchk
-        if (saveDir == null || saveDir.equals(""))
-            return new ArrayList<>();
-
-
-        List<SortedMap<String, Object>> result = getSortedMapsFrmINiFmt(saveDir);
-
-
-        if (qryExpression == null || qryExpression.equals(""))
-            return result;
-        if (result.isEmpty())
-            return result;
-
-        result = filterWithSpEL(result, qryExpression);
-
-        return result;
-//        Map<String, String> m= parse_ini_fileNosec()
-//        return List.of();
-    }
 
     /**
      * @param obj
@@ -227,7 +181,7 @@ public class dbutil {
     public static void addObj(Object obj, String saveDir) throws Exception {
         String collName = "";
         if (saveDir.endsWith(".db")) {
-            addObjSqlt(obj, collName, saveDir);
+            addObjSqlt(obj, saveDir);
         } else if (saveDir.startsWith("json:")) {
             saveDir = saveDir.substring(5);
             System.out.println("savedir=" + saveDir);
@@ -392,26 +346,30 @@ public class dbutil {
         if (result.isEmpty())
             return result;
 
-        result = filterWithSpEL(result, qryExpression);
+        //  result = filterWithSpEL(result, qryExpression);
 
         return result;
     }
-    public static Object qrySqlAsValScalar(String sql, String jdbcUrl)  {
+
+    public static Object qrySqlAsValScalar(String sql, String jdbcUrl) {
         SortedMap<String, Object> stringObjectSortedMap = qrySqlAsMap(sql, jdbcUrl);
-        if(stringObjectSortedMap.isEmpty())
-            return  "";
+        if (stringObjectSortedMap.isEmpty())
+            return "";
         return stringObjectSortedMap.get(0);
     }
-    public static SortedMap<String, Object> qrySqlAsMap(String sql, String jdbcUrl)  {
+
+    public static SortedMap<String, Object> qrySqlAsMap(String sql, String jdbcUrl) {
         try {
-            return qrySql(sql, jdbcUrl).get(0);
+            List<SortedMap<String, Object>> sortedMaps = qrySql(sql, jdbcUrl);
+            if(sortedMaps.size()==0)
+                return  new TreeMap<>();
+            return sortedMaps.get(0);
         } catch (Exception e) {
             throwEx(e);
 
         }
         return new TreeMap<>();
     }
-
 
 
     public static List<SortedMap<String, Object>> qrySql(String sql, String jdbcUrl) throws Exception {
@@ -734,8 +692,16 @@ public class dbutil {
             return JSONObject.parseObject("{}");
     }
 
-    private static SortedMap<String, Object> getObjSqlt(String id, String collName) {
-        return null;
+    private static SortedMap<String, Object> getObjSqlt(String id, String jdbcurl) {
+        var sql = "select * from tab1 where id='" + id + "'";
+        try {
+            return qrySqlAsMap(sql, jdbcurl);
+        } catch (Exception e) {
+            if (e.getMessage().contains("no such table: tab1"))
+                return new TreeMap<>();
+            throw new RuntimeException(e);
+        }
+
     }
 
     private static void addObjDocdb(Object obj, String saveDir) {
@@ -749,18 +715,149 @@ public class dbutil {
 
     }
 
-    private static void addObjSqlt(Object obj, String collName, String saveDir) throws Exception {
+    private static void addObjSqlt(Object obj, String saveDir) throws Exception {
 
         Class.forName("org.sqlite.JDBC");
         mkdir2025(saveDir);
         //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
         Connection conn = DriverManager.getConnection(saveDir);
         Statement stmt = conn.createStatement();
-        stmt.execute("CREATE TABLE IF NOT EXISTS tab1 (k TEXT PRIMARY KEY, v TEXT)");
+        stmt.execute("CREATE TABLE IF NOT EXISTS tab1 (id TEXT PRIMARY KEY)");
+
+        foreachObjFieldsCreateColume(obj, stmt);
+
         String us = encodeJson(obj);
-        String sql = "INSERT INTO tab1 (k, v) VALUES ('" + getField2025(obj, "id", "") + "', '" + us + "')";
+        String cols = getCols(obj);
+        String valss = getValsSqlFmt(obj);
+        String sql = "INSERT INTO tab1 (" + cols + ") VALUES (" + valss + ")";
         System.out.println(sql);
         stmt.execute(sql);
+
+    }
+
+    /**
+     * @param obj
+     * @return
+     */
+    private static String getValsSqlFmt(Object obj) {
+
+        List<String> valsList = new ArrayList<>();
+        if (obj instanceof Record) {
+            // 获取 record 的字段
+            var components = obj.getClass().getRecordComponents();
+
+            for (var component : components) {
+                try {
+                    Object value = component.getAccessor().invoke(obj);
+                    String name = component.getName();
+                    System.out.println(name + ": " + value);
+                    valsList.add(toSqlValFormat(value));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+        if (obj instanceof Map) {
+            Map<String, Object> map = (Map) obj;
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                System.out.println(entry.getKey() + ": " + entry.getValue());
+                valsList.add(toSqlValFormat(entry.getValue()));
+            }
+        }
+
+        String joinVals = String.join(",", valsList);
+        return joinVals;
+
+    }
+
+    /**
+     * 将每个值转化为sql的值模式。。如果是字符串，用单引号包起来
+     *
+     * @param joinVals 逗号分割的字符串
+     * @return
+     */
+    private static String toSqlValFormat(Object joinVals) {
+        if (joinVals instanceof String)
+            return "'" + joinVals + "'";
+        return String.valueOf(joinVals);
+    }
+
+    private static String getCols(Object obj) {
+
+        List<String> colsList = new ArrayList<>();
+        if (obj instanceof Record) {
+            // 获取 record 的字段
+            var components = obj.getClass().getRecordComponents();
+
+            for (var component : components) {
+                try {
+                    Object value = component.getAccessor().invoke(obj);
+                    String name = component.getName();
+                    System.out.println(name + ": " + value);
+                    colsList.add(name);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+        if (obj instanceof Map) {
+            Map<String, Object> map = (Map) obj;
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                System.out.println(entry.getKey() + ": " + entry.getValue());
+                colsList.add(entry.getKey());
+            }
+        }
+
+        return String.join(",", colsList);
+    }
+
+    //循环对象属性，创建对应的字段
+    private static void foreachObjFieldsCreateColume(Object obj, Statement stmt) {
+
+        if (obj instanceof Record) {
+            // 获取 record 的字段
+            var components = obj.getClass().getRecordComponents();
+
+            for (var component : components) {
+                try {
+                    Object value = component.getAccessor().invoke(obj);
+                    String name = component.getName();
+                    if(name.toLowerCase().equals("id"))
+                        continue;;
+                    System.out.println(name + ": " + value);
+                    String sql = "ALTER TABLE tab1 ADD COLUMN  " + name + "  " + getTypeSqlt(value) + " ";
+                    System.out.println(sql);
+                    stmt.execute(sql);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+        if (obj instanceof Map) {
+            Map<String, Object> map = (Map) obj;
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                System.out.println(entry.getKey() + ": " + entry.getValue());
+            }
+        }
+
+
+    }
+
+    private static String getTypeSqlt(Object value) {
+        if (value instanceof String)
+            return "text";
+        if (value instanceof int)
+            return "integer";
+        if (value instanceof BigDecimal)
+            return "real";
+
+        return "text";
 
     }
 

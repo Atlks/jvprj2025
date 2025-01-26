@@ -1,7 +1,7 @@
 package util;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
+//import org.springframework.expression.ExpressionParser;
+//import org.springframework.expression.spel.standard.SpelExpressionParser;
+//import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import java.util.List;import java.util.SortedMap;
 import java.util.*;
@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static util.dbutil.findObjsAll;
-import static util.dbutil.findObjsIni;
+//import static util.dbutil.findObjsIni;
 
 
 public class Fltr {
@@ -72,48 +72,8 @@ public class Fltr {
         printTimestamp(" end fun " + methodName + "()");
         return rowsResult;
     }
-    public static List<SortedMap<String, Object>> filterWithSpEL(String saveDirUrl, String expression) {
 
-        //chk null
-        if(saveDirUrl==null || saveDirUrl.equals("") )
-            return new ArrayList<>();
 
-        var lst1 = findObjsIni( saveDirUrl,expression);
-        if(expression==null || expression.equals(""))
-        {
-            return  lst1;
-        }
-        var rzt=filterWithSpEL(lst1, expression);
-        return rzt;
-    }
-    /**
-     *
-     * @param list1
-     * @param expression  范例  uname == 'unm2' && pwd == 'pp'
-      @param expression 范例： #this['uname'] == 'unm2' && #this['pwd'] == 'pp'
-     * @return
-     */
-    public static List<SortedMap<String, Object>> filterWithSpEL(List<SortedMap<String, Object>> list1,String expression) {
-        // 创建 SpEL 解析器
-        ExpressionParser parser = new SpelExpressionParser();
-
-        // 定义过滤条件：uname 为 "unm2" 且 pwd 为 "pp"
-        //  String expression =;
-
-        // 遍历并过滤集合
-        return list1.stream()
-                .filter(map -> {
-                    StandardEvaluationContext context = new StandardEvaluationContext();
-                    context.setRootObject(map); // 设置当前 Map 为上下文的根对象
-                    try {
-                        return Boolean.TRUE.equals(parser.parseExpression(expression).getValue(context, Boolean.class));
-                    } catch (Exception e) {
-                        System.err.println("Error evaluating expression: " + e.getMessage());
-                        return false; // 如果表达式出错，则跳过该元素
-                    }
-                })
-                .collect(Collectors.toList());
-    }
 
     public static List<SortedMap<String, Object>> fltr2501(
             List<SortedMap<String, Object>> list,

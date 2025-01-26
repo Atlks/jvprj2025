@@ -1,0 +1,130 @@
+
+
+     static List<SortedMap<String, Object>> findObjsIni(String saveDir, String qryExpression) {
+
+         //nullchk
+         if (saveDir == null || saveDir.equals(""))
+             return new ArrayList<>();
+
+
+         List<SortedMap<String, Object>> result = getSortedMapsFrmINiFmt(saveDir);
+
+
+         if (qryExpression == null || qryExpression.equals(""))
+             return result;
+         if (result.isEmpty())
+             return result;
+
+         result = filterWithSpEL(result, qryExpression);
+
+         return result;
+ //        Map<String, String> m= parse_ini_fileNosec()
+ //        return List.of();
+     }
+
+    /**
+     * @param saveDir
+     * @param qryExpression
+     * @return
+     */
+    public static List<SortedMap<String, Object>> findObjs(String saveDir, String qryExpression) {
+
+        //nullchk
+        if (saveDir == null || saveDir.equals(""))
+            return new ArrayList<>();
+
+
+        List<SortedMap<String, Object>> result = findObjsAll(saveDir);
+
+
+        if (qryExpression == null || qryExpression.equals(""))
+            return result;
+        if (result.isEmpty())
+            return result;
+
+        result = filterWithSpEL(result, qryExpression);
+
+        return result;
+
+
+    }
+
+         public static List<SortedMap<String, Object>> filterWithSpEL(String saveDirUrl, String expression) {
+
+             //chk null
+             if(saveDirUrl==null || saveDirUrl.equals("") )
+                 return new ArrayList<>();
+
+             var lst1 = findObjsIni( saveDirUrl,expression);
+             if(expression==null || expression.equals(""))
+             {
+                 return  lst1;
+             }
+             var rzt=filterWithSpEL(lst1, expression);
+             return rzt;
+         }
+
+
+             /**
+              * 使用 SpEL 表达式对列表进行排序
+              *
+              * @param list       需要排序的集合
+              * @param expression 比较表达式，例如：#map1['age'] > #map2['age']
+              * @return 排序后的集合
+              */
+             public static List<SortedMap<String, Object>> sortWithSpEL(List<SortedMap<String, Object>> list, String expression) {
+                 ExpressionParser parser = new SpelExpressionParser();
+
+                 // 使用 Comparator 比较表达式排序
+                 list.sort((map1, map2) -> {
+                     StandardEvaluationContext context = new StandardEvaluationContext();
+
+                     // 设置 map1 和 map2 为上下文变量
+                     context.setVariable("map1", map1);
+                     context.setVariable("map2", map2);
+
+                     try {
+                         // 解析并评估表达式
+                         Boolean result = parser.parseExpression(expression).getValue(context, Boolean.class);
+
+                         // 返回比较结果
+                         return result != null && result ? -1 : 1;
+                     } catch (Exception e) {
+                         System.err.println("Error evaluating expression: " + e.getMessage());
+                         return 0; // 如果表达式解析失败，保持原顺序
+                     }
+                 });
+
+                 return list;
+             }
+
+
+
+ /**
+     *
+     * @param list1
+     * @param expression  范例  uname == 'unm2' && pwd == 'pp'
+      @param expression 范例： #this['uname'] == 'unm2' && #this['pwd'] == 'pp'
+     * @return
+     */
+    public static List<SortedMap<String, Object>> filterWithSpEL(List<SortedMap<String, Object>> list1,String expression) {
+        // 创建 SpEL 解析器
+        ExpressionParser parser = new SpelExpressionParser();
+
+        // 定义过滤条件：uname 为 "unm2" 且 pwd 为 "pp"
+        //  String expression =;
+
+        // 遍历并过滤集合
+        return list1.stream()
+                .filter(map -> {
+                    StandardEvaluationContext context = new StandardEvaluationContext();
+                    context.setRootObject(map); // 设置当前 Map 为上下文的根对象
+                    try {
+                        return Boolean.TRUE.equals(parser.parseExpression(expression).getValue(context, Boolean.class));
+                    } catch (Exception e) {
+                        System.err.println("Error evaluating expression: " + e.getMessage());
+                        return false; // 如果表达式出错，则跳过该元素
+                    }
+                })
+                .collect(Collectors.toList());
+    }

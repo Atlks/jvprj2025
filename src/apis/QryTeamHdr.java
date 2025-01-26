@@ -57,7 +57,7 @@ public class QryTeamHdr  extends BaseHdr {
             expression = "#this['invtr'] =='" + escapedUname + "'";
         }
         //#this['invtr'] ='007'
-        var list1 = findObjs(saveDirUsrs, expression);
-        return list1;
+        var list1 =0;// findObjs(saveDirUsrs, expression);
+        return null;
     }
 }

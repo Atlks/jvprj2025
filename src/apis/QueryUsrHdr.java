@@ -91,8 +91,8 @@ public class QueryUsrHdr extends BaseHdr {
             // 使用转义后的uname变量
             expression = "#this['uname'] matches '.*" + escapedUname + ".*'";
         }
-        var list1 = findObjs(saveDirUsrs , expression);
-        return list1;
+        var list1 =0 ;//findObjs(saveDirUsrs , expression);
+        return null;
     }
 
 

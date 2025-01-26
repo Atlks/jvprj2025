@@ -1,43 +1,12 @@
 package util;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
+//import org.springframework.expression.ExpressionParser;
+//import org.springframework.expression.spel.standard.SpelExpressionParser;
+//import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import java.util.*;
 public class ArrUtil {
 
-    /**
-     * 使用 SpEL 表达式对列表进行排序
-     *
-     * @param list       需要排序的集合
-     * @param expression 比较表达式，例如：#map1['age'] > #map2['age']
-     * @return 排序后的集合
-     */
-    public static List<SortedMap<String, Object>> sortWithSpEL(List<SortedMap<String, Object>> list, String expression) {
-        ExpressionParser parser = new SpelExpressionParser();
 
-        // 使用 Comparator 比较表达式排序
-        list.sort((map1, map2) -> {
-            StandardEvaluationContext context = new StandardEvaluationContext();
-
-            // 设置 map1 和 map2 为上下文变量
-            context.setVariable("map1", map1);
-            context.setVariable("map2", map2);
-
-            try {
-                // 解析并评估表达式
-                Boolean result = parser.parseExpression(expression).getValue(context, Boolean.class);
-
-                // 返回比较结果
-                return result != null && result ? -1 : 1;
-            } catch (Exception e) {
-                System.err.println("Error evaluating expression: " + e.getMessage());
-                return 0; // 如果表达式解析失败，保持原顺序
-            }
-        });
-
-        return list;
-    }
     /**
      * 使用 SpEL 表达式对列表进行排序
      *

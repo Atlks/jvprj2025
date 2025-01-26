@@ -76,7 +76,7 @@ public class QryOrdBetHdr extends BaseHdr {
             // 使用转义后的uname变量
             expression = "#this['uname'] matches '.*" + escapedUname + ".*'";
         }
-        var list1 = findObjs(saveUrlOrdBet, expression);
+        var list1 = 0;// = findObjs(saveUrlOrdBet, expression);
         return list1;
     }
 
