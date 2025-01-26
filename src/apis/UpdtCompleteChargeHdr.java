@@ -13,7 +13,8 @@ import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static java.time.LocalTime.now;
 import static util.dbutil.*;
 import static util.util2026.*;
-import static yonjin.Cms.calcCms2;
+import static yonjin.Cms.calcCms4chrgU;
+import static yonjin.Cms.toBigDcmTwoDot;
 
 /**
  * http://localhost:8889/AddOrdBetHdr?bettxt=龙湖和
@@ -49,11 +50,11 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         SortedMap<String, Object> objU = updtBlsAddChrg(uname, amt);
 
         //calc yonjin
-        calcCms2(objU,amt);
+        calcCms4chrgU(objU,amt);
        // calcCms(uname,amt);
     }
 
-    private static SortedMap<String, Object> updtBlsAddChrg(String uname, BigDecimal amt) throws Exception {
+    public static SortedMap<String, Object> updtBlsAddChrg(String uname, BigDecimal amt) throws Exception {
         SortedMap<String, Object> objU = getObjIni(uname, saveDirUsrs);
         if(objU.get("id")==null)
         {
@@ -64,7 +65,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
 
         BigDecimal nowAmt= getFieldAsBigDecimal(objU,"balance",0);
         BigDecimal newBls=nowAmt.add(amt);
-        objU.put("balance",newBls);
+        objU.put("balance",toBigDcmTwoDot(newBls));
         addObj(objU,saveDirUsrs);
 
         //add balanceLog
@@ -72,9 +73,9 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         logBalance.put("id","LogBalance"+getFilenameFrmLocalTimeString());
         logBalance.put("uname", uname);
         logBalance.put("change","增加");
-        logBalance.put("amt", amt);
-        logBalance.put("amtBefore",nowAmt);
-        logBalance.put("amtAfter",newBls);
+        logBalance.put("amt", toBigDcmTwoDot(amt));
+        logBalance.put("amtBefore",toBigDcmTwoDot(nowAmt));
+        logBalance.put("amtAfter",toBigDcmTwoDot(newBls));
         addObj(logBalance,saveUrlLogBalance);
         return objU;
     }
