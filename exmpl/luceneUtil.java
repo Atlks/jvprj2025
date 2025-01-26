@@ -85,6 +85,55 @@ public class luceneUtil {
     }
 
 
+    static List<SortedMap<String, Object>> qryuserLucene(Map<String, String> queryParams) throws IOException {
+
+        var idxDir= saveDirUsrs  ;
+        String uname = queryParams.get("uname");
+        Directory directory = FSDirectory.open(Paths.get(idxDir));
+        // 创建 IndexSearcher
+        DirectoryReader reader = DirectoryReader.open(directory);
+        IndexSearcher searcher = new IndexSearcher(reader);
+
+        // 创建查询
+        //类似ssql 条件 uname like '%{uname}%
+        // 创建查询，使用WildcardQuery实现模糊匹配
+        // 创建MatchAllDocsQuery来查询所有文档
+        Query query = new MatchAllDocsQuery();
+        if (!uname.equals("")) {
+            Term term = new Term("uname", "*" + uname + "*");
+            query = new WildcardQuery(term);
+        }
+
+        // 执行查询
+        TopDocs topDocs = searcher.search(query, 10); // 获取前 10 个结果
+        System.out.println("Total Hits: " + topDocs.totalHits);
+
+        return toListMap(topDocs,searcher);
+    }
+
+
+    private static void addObjLucene(Object obj, String collName, String saveDir) throws Exception {
+        var map1 = (Map<String, Object>) obj;
+        //  openIndexWriter
+        // 创建分析器
+        StandardAnalyzer analyzer = new StandardAnalyzer();
+
+        // 创建目录
+        Directory directory = FSDirectory.open(Paths.get(saveDir));
+
+        // 创建索引写入器配置
+        IndexWriterConfig config = new IndexWriterConfig(analyzer);
+        IndexWriter indexWriter = new IndexWriter(directory, config);
+
+        // 创建文档并添加到索引
+        Document doc1 = convertMapToDocument(map1);
+        Term termId = new Term("id", map1.get("id").toString());
+        indexWriter.updateDocument(termId, doc1);
+        indexWriter.commit();
+
+        // 提交并关闭索引写入器
+        indexWriter.close();
+    }
 
     public static Document convertMapToDocument(Map<String, Object> map) {
         Document document = new Document();

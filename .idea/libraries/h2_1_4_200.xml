@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="h2-1.4.200">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libjar/h2-1.4.200.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libjar/h2-mvstore-1.4.200.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

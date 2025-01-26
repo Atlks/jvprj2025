@@ -5,31 +5,27 @@ import com.alibaba.fastjson2.JSON;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
-import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.*;
 import java.util.function.Function;
 
 import com.alibaba.fastjson2.JSONArray;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
+//import org.apache.lucene.analysis.standard.StandardAnalyzer;
+//import org.apache.lucene.document.Document;
+//import org.apache.lucene.index.IndexWriter;
+//import org.apache.lucene.index.IndexWriterConfig;
+//import org.apache.lucene.index.Term;
+//import org.apache.lucene.store.Directory;
+//import org.apache.lucene.store.FSDirectory;
 
 import static util.Fltr.filterWithSpEL;
 import static util.Util2025.*;
 import static util.UtilEncode.encodeFilename;
-import static util.luceneUtil.convertMapToDocument;
+
 import static util.util2026.getField2025;
 import static util.util2026.isSqldb;
 
@@ -50,7 +46,10 @@ public class dbutil {
         HashMap m = new HashMap();
         m.put("id", "id1");
         m.put("name", "nm1");
-        addObj(m, "jdbc:ini:/db22/usrs");
+     //   addObj(m, "jdbc:ini:/db22/usrs");
+        String sql="select 1 as f";
+        var url="jdbc:sqlite:/dbx/db1.db";
+        System.out.println(encodeJson(qrySql(sql,url)));
     }
 
     /**
@@ -217,7 +216,7 @@ public class dbutil {
         } else if (saveDir.startsWith("jdbc:lucene")) {
             saveDir = saveDir.substring(11);
             System.out.println("savedir=" + saveDir);
-            addObjLucene(obj, collName, saveDir);
+            //addObjLucene(obj, collName, saveDir);
         } else if (saveDir.startsWith("jdbc:redis")) {
             saveDir = saveDir.substring(10);
             System.out.println("savedir=" + saveDir);
@@ -238,28 +237,7 @@ public class dbutil {
     private static void addObjRds(Object obj, String collName, String saveDir) {
     }
 
-    private static void addObjLucene(Object obj, String collName, String saveDir) throws Exception {
-        var map1 = (Map<String, Object>) obj;
-        //  openIndexWriter
-        // 创建分析器
-        StandardAnalyzer analyzer = new StandardAnalyzer();
 
-        // 创建目录
-        Directory directory = FSDirectory.open(Paths.get(saveDir));
-
-        // 创建索引写入器配置
-        IndexWriterConfig config = new IndexWriterConfig(analyzer);
-        IndexWriter indexWriter = new IndexWriter(directory, config);
-
-        // 创建文档并添加到索引
-        Document doc1 = convertMapToDocument(map1);
-        Term termId = new Term("id", map1.get("id").toString());
-        indexWriter.updateDocument(termId, doc1);
-        indexWriter.commit();
-
-        // 提交并关闭索引写入器
-        indexWriter.close();
-    }
 
     private static void addObjIni(Object obj, String saveDir) {
         mkdir2025(saveDir);
@@ -401,8 +379,48 @@ public class dbutil {
     }
 
 
-    public static Object qrySql(String sql, String saveDir) {
-        return null;
+    public static List<SortedMap<String, Object>> qrySql(String sql, String jdbcUrl) throws Exception {
+
+        Class.forName("org.sqlite.JDBC");
+    //    mkdir2025(saveDir);
+        //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
+        // 建立连接
+        Connection conn = DriverManager.getConnection(jdbcUrl);
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+
+            // 转换 ResultSet 为 List<SortedMap<String, Object>>
+            return toMapList(rs);
+        } finally {
+            // 关闭资源
+            if (rs != null) rs.close();
+            if (stmt != null) stmt.close();
+            if (conn != null) conn.close();
+        }
+
+    }
+// // 转换 ResultSet 为 List<SortedMap<String, Object>>
+    private static List<SortedMap<String, Object>> toMapList(ResultSet rs) throws Exception {
+        List<SortedMap<String, Object>> resultList = new ArrayList<>();
+        ResultSetMetaData metaData = rs.getMetaData();
+        int columnCount = metaData.getColumnCount();
+
+        while (rs.next()) {
+            SortedMap<String, Object> rowMap = new TreeMap<>();
+
+            for (int i = 1; i <= columnCount; i++) {
+                String columnName = metaData.getColumnName(i);
+                Object columnValue = rs.getObject(i);
+                rowMap.put(columnName, columnValue);
+            }
+
+            resultList.add(rowMap);
+        }
+
+        return resultList;
     }
 
     private static List<SortedMap<String, Object>> getSortedMapsFrmINiFmt(String saveDir) {

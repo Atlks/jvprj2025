@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import static apis.QueryUsrHdr.qryuserLucene;
+//import static apis.QueryUsrHdr.qryuserLucene;
 
 
 import static java.time.LocalTime.now;
