@@ -1,6 +1,8 @@
 package apiWltYinli;
 
 import apis.BaseHdr;
+import biz.OrdWthdr;
+import biz.Usr;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.math.BigDecimal;
@@ -10,8 +12,7 @@ import java.util.TreeMap;
 
 import static apiUsr.RegHandler.saveDirUsrs;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
-import static util.dbutil.addObj;
-import static util.dbutil.getObjIni;
+import static util.dbutil.*;
 import static util.util2026.*;
 
 /**提现，会导致有效金额变化，冻结金额也变化  ，总金额变化 ，
@@ -24,34 +25,34 @@ public class WithdrawHdr extends BaseHdr {
 
     public static void main(String[] args) throws Exception {
       iniCfgFrmCfgfile();
-        Withdraw(8.5,"007");
+        Withdraw(8.5,"008");
     }
 
     private static void Withdraw(double amt, String uname) throws Exception {
 
-        SortedMap<String, Object> ord=new TreeMap<>();
+        OrdWthdr ord=new OrdWthdr();
        // ord.put("datetime_utc", now);
-        ord.put("datetime_local", getLocalTimeString());
+       // ord.put("datetime_local", getLocalTimeString());
        //  ord.put("timezone", now);
-        ord.put("timestamp", String.valueOf(System.currentTimeMillis()));
-        ord.put("uname", uname);
-        ord.put("id","ordWthdr"+getFilenameFrmLocalTimeString());
+        ord.timestamp=(System.currentTimeMillis());
+        ord.uname=uname;
+        ord.id="ordWthdr"+getFilenameFrmLocalTimeString();
         addObj(ord,   saveUrlOrdWthdr);
 
         //sub blsAvld   blsFreez++
-        SortedMap<String, Object> objU = getObjIni(uname, saveDirUsrs);
-        if(objU.get("id")==null)
+        Usr objU = getObjById(uname, saveDirUsrs,Usr.class);
+        if(objU.id==null)
         {
-            objU.put("id",uname);
-            objU.put("uname",uname);
+            objU.id= uname;
+            objU.uname= uname;
         }
         BigDecimal nowAmt2= getFieldAsBigDecimal(objU,"balanceYinliwlt",0);
         BigDecimal newBls2=nowAmt2.subtract(toBigDecimal(amt));
-        objU.put("balanceYinliwlt",newBls2);
+        objU.balanceYinliwlt=newBls2;
 
         BigDecimal nowAmtFreez= getFieldAsBigDecimal(objU,"balanceYinliwltFreez",0);
-        objU.put("balanceYinliwltFreez",nowAmtFreez.add(toBigDecimal(amt)));
-        addObj(objU,saveDirUsrs);
+        objU.balanceYinliwltFreez=nowAmtFreez.add(toBigDecimal(amt));
+        updtObj(objU,saveDirUsrs);
 
 
 

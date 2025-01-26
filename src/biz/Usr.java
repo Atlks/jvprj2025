@@ -10,4 +10,5 @@ public class Usr {
     public String id;
     public BigDecimal balance;// avdBls
     public BigDecimal balanceYinliwlt;
+    public BigDecimal balanceYinliwltFreez;
 }
