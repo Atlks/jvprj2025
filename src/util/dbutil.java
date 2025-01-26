@@ -373,6 +373,9 @@ public class dbutil {
 
 
     public static List<SortedMap<String, Object>> qrySql(String sql, String jdbcUrl) throws Exception {
+
+        System.out.println("sql="+sql);
+        System.out.println("jdbcUrl="+jdbcUrl);
         if (jdbcUrl.startsWith("jdbc:sqlite"))
             Class.forName("org.sqlite.JDBC");
         if (jdbcUrl.startsWith("jdbc:mysql"))

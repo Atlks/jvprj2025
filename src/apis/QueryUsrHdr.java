@@ -22,9 +22,9 @@ import static util.util2026.*;
 public class QueryUsrHdr extends BaseHdr {
 
     public static void main(String[] args) throws Exception {
-
+        iniCfgFrmCfgfile();
         Map<String, String> queryParams = Map.of(
-                "uname", "u2",
+                "uname", "007",
                 "key2", "value2"
         );
         var list1 = qryuser(queryParams);
@@ -53,7 +53,7 @@ public class QueryUsrHdr extends BaseHdr {
     private static List<SortedMap<String, Object>> qryuser(Map<String, String> queryParams) throws Exception {
         var expression = "";
         String uname = queryParams.get("uname");
-        if (saveDirUsrs.startsWith("jdbc:mysql") || saveDirUsrs.startsWith("jdbc:sqlite")) {
+        if (isSqldb(saveDirUsrs)  ) {
             return qryuserSql(queryParams);
         } else if (saveDirUsrs.startsWith("lucene:")) {
             return  null;
@@ -74,9 +74,9 @@ public class QueryUsrHdr extends BaseHdr {
 
         //addObjMysql(obj, collName, saveDir);
         if (!uname.equals("")) {
-            expression = "uname like '%{uname}%'";
+            expression = "uname like '%"+uname+"%'";
         }
-        var sql = "select * from usrs where 1=1 and " + expression;
+        var sql = "select * from tab1 where 1=1 and " + expression;
         var list1 = qrySql(sql, saveDirUsrs);
         return (List<SortedMap<String, Object>>) list1;
     }
