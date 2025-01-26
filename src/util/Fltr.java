@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static util.dbutil.findObjsAll;
 import static util.dbutil.findObjsIni;
 
 
@@ -27,6 +28,11 @@ public class Fltr {
 //
 //        return result;
 //    }
+
+
+
+
+
     /**
      * //过滤数组，根据指定的条件whereFun
      *

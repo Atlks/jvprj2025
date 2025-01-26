@@ -53,7 +53,7 @@ public class QryOrdBetHdr extends BaseHdr {
         //    addMapx("spdbfun",QryOrdBetHdr::qryOrdBetIni);
         HashMap<String, Function<Map<String, String>, Object>> mapFuns = new HashMap<>();
         mapFuns.put("sqldbFun", QryOrdBetHdr::qryOrdBetSql);
-        mapFuns.put("luceneFun", QryOrdBetHdr::qryOrdBetIni);
+    //    mapFuns.put("luceneFun", QryOrdBetHdr::qryOrdBetIni);
         mapFuns.put("arrFun", QryOrdBetHdr::qryOrdBetIni);
         return execQry(saveUrlOrdBet, mapFuns);
 

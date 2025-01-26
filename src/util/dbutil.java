@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.sql.*;
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import com.alibaba.fastjson2.JSONArray;
 //import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -23,6 +24,7 @@ import com.alibaba.fastjson2.JSONArray;
 //import org.apache.lucene.store.FSDirectory;
 
 import static util.Fltr.filterWithSpEL;
+import static util.Fltr.fltr2501;
 import static util.Util2025.*;
 import static util.UtilEncode.encodeFilename;
 import static util.util2026.*;
@@ -77,7 +79,29 @@ public class dbutil {
 
     }
 
-    private static List<SortedMap<String, Object>> findObjsAll(String saveDir) {
+    public static Object findObjs(String saveDir, Predicate<SortedMap<String, Object>> filter1) {
+
+        //nullchk
+        if (saveDir == null || saveDir.equals(""))
+            return new ArrayList<>();
+
+
+        List<SortedMap<String, Object>> result = findObjsAll(saveDir);
+
+        if (result.isEmpty())
+            return result;
+
+        if (filter1 == null )
+            return result;
+
+
+        result = fltr2501(result,filter1);
+
+        return result;
+
+    }
+
+    public static List<SortedMap<String, Object>> findObjsAll(String saveDir) {
         //null chk
         if (saveDir == null || saveDir.equals(""))
             return new ArrayList<>();
@@ -373,7 +397,10 @@ public class dbutil {
         return result;
     }
     public static Object qrySqlAsValScalar(String sql, String jdbcUrl)  {
-        return qrySqlAsMap(sql, jdbcUrl).get(0);
+        SortedMap<String, Object> stringObjectSortedMap = qrySqlAsMap(sql, jdbcUrl);
+        if(stringObjectSortedMap.isEmpty())
+            return  "";
+        return stringObjectSortedMap.get(0);
     }
     public static SortedMap<String, Object> qrySqlAsMap(String sql, String jdbcUrl)  {
         try {
@@ -382,6 +409,7 @@ public class dbutil {
             throwEx(e);
 
         }
+        return new TreeMap<>();
     }
 
 
