@@ -479,13 +479,17 @@ public class dbutil {
 
 
     public static List<SortedMap<String, Object>> qrySql(String sql, String jdbcUrl) throws Exception {
-
+        System.out.println("\r\n");
+        System.out.println("fun qrysql(");
         System.out.println("sql=" + sql);
         System.out.println("jdbcUrl=" + jdbcUrl);
+        System.out.println("))");
         if (jdbcUrl.startsWith("jdbc:sqlite"))
             Class.forName("org.sqlite.JDBC");
         if (jdbcUrl.startsWith("jdbc:mysql"))
             Class.forName("com.mysql.cj.jdbc.Driver");
+        else
+            Class.forName("org.sqlite.JDBC");
         //    mkdir2025(saveDir);
         //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
         // 建立连接
@@ -497,9 +501,13 @@ public class dbutil {
             rs = stmt.executeQuery(sql);
 
             // 转换 ResultSet 为 List<SortedMap<String, Object>>
-            return toMapList(rs);
+            List<SortedMap<String, Object>> mapList = toMapList(rs);
+            //System.out.println("");
+            System.out.println("endfun qrysql().ret=["+mapList.size()+"],"+encodeJson(get0(mapList)  ));
+            return mapList;
         } catch (Exception e) {
             if (e.getMessage().contains("no such table")) {
+                System.out.println("endfun qrysql().ret=[0]");
                 return new ArrayList<>();
             }
             e.printStackTrace();
@@ -509,8 +517,14 @@ public class dbutil {
             if (stmt != null) stmt.close();
             if (conn != null) conn.close();
         }
-
+        System.out.println("endfun qrysql().ret=[0]");
         return List.of();
+    }
+
+    private static Object get0(List<SortedMap<String, Object>> mapList) {
+   if(mapList.isEmpty())
+       return new TreeMap<>();
+   return  mapList.get(0);
     }
 // // 转换 ResultSet 为 List<SortedMap<String, Object>>
 

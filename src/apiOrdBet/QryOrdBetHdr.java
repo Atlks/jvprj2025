@@ -5,15 +5,21 @@ import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.function.Function;
 
 //import static apiUsr.QueryUsrHdr.qryuserLucene;
 
 
+
+import static apiUsr.RegHandler.saveDirUsrs;
 import static java.time.LocalTime.now;
+import static util.ToXX.toObjFrmMap;
 import static util.Util2025.encodeJson;
 import static util.dbutil.execQry;
+import static util.dbutil.qrySql;
 import static util.util2026.*;
 
 /**
@@ -36,32 +42,55 @@ public class QryOrdBetHdr extends BaseHdr {
         //blk login ed
         String uname = getcookie("uname", exchange);
         Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
+        queryParams4ordbet prm=toObjFrmMap(queryParams,queryParams4ordbet.class);
 
-
-        var list1 = qryOrdBet(queryParams);
+        var list1 = qryOrdBet(prm);
         wrtResp(exchange, encodeJson(list1));
 
 
     }
 
-    private Object qryOrdBet(Map<String, String> queryParams) throws IOException {
+    public static void main(String[] args) throws Exception {
+       iniCfgFrmCfgfile();;
+        queryParams4ordbet queryParams=new queryParams4ordbet();
+        queryParams.uname="008";
+        System.out.println(encodeJson( qryOrdBetSql(queryParams)));
+    }
+
+    private Object qryOrdBet(queryParams4ordbet queryParams) throws Exception {
 
         var expression = "";
-        String uname = queryParams.get("uname");
+        String uname = queryParams.uname;
 
+        if (isSqldb(saveUrlOrdBet)  ) {
+            return qryOrdBetSql(queryParams);
 
-        //    addMapx("spdbfun",QryOrdBetHdr::qryOrdBetIni);
-        HashMap<String, Function<Map<String, String>, Object>> mapFuns = new HashMap<>();
-        mapFuns.put("sqldbFun", QryOrdBetHdr::qryOrdBetSql);
-    //    mapFuns.put("luceneFun", QryOrdBetHdr::qryOrdBetIni);
-        mapFuns.put("arrFun", QryOrdBetHdr::qryOrdBetIni);
-        return execQry(saveUrlOrdBet, mapFuns);
+        } else {
+            //json doc ,ini ,redis ,lucene
+           // return qryOrdBetIni(queryParams);
+        }
+//        //    addMapx("spdbfun",QryOrdBetHdr::qryOrdBetIni);
+//        HashMap<String, Function<Map<String, String>, Object>> mapFuns = new HashMap<>();
+//        mapFuns.put("sqldbFun", QryOrdBetHdr::qryOrdBetSql);
+//    //    mapFuns.put("luceneFun", QryOrdBetHdr::qryOrdBetIni);
+//        mapFuns.put("arrFun", QryOrdBetHdr::qryOrdBetIni);
+  //      return execQry(saveUrlOrdBet, mapFuns);
 
+        return null;
     }
 
 
-    private static Object qryOrdBetSql(Map<String, String> queryParams) {
-        return null;
+    private static Object qryOrdBetSql(queryParams4ordbet queryParams) throws Exception {
+
+        String expression="";
+        if (!queryParams.uname.equals("")) {
+            String uname=queryParams.uname;
+            expression = "uname like '%"+uname+"%'";
+        }
+        var sql = "select * from ordbet where 1=1 and " + expression;
+        var list1 = qrySql(sql, saveUrlOrdBet);
+        return   list1;
+
     }
 
 

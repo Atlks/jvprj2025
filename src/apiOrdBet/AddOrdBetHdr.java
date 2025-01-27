@@ -1,6 +1,7 @@
 package apiOrdBet;
 
 import apis.BaseHdr;
+import com.alibaba.fastjson2.JSON;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Map;
 
 import static apiOrdBet.QryOrdBetHdr.saveUrlOrdBet;
 import static java.time.LocalTime.now;
+import static util.ToXX.toObjFrmMap;
 import static util.dbutil.addObj;
 import static util.util2026.*;
 
@@ -29,18 +31,20 @@ public class AddOrdBetHdr extends BaseHdr {
         //blk login ed
         String uname = getcookie("uname", exchange);
         Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
-        String now = String.valueOf(now());
-        queryParams.put("datetime_utc", now);
-        queryParams.put("datetime_local", getLocalTimeString());
-        queryParams.put("timezone", now);
-        queryParams.put("timestamp", String.valueOf(System.currentTimeMillis()));
-        queryParams.put("uname",uname);
-        queryParams.put("id","ordBet"+getFilenameFrmLocalTimeString());
+        OrdBet ord=toObjFrmMap(queryParams,OrdBet.class);
+//        String now = String.valueOf(now());
+//        queryParams.put("datetime_utc", now);
+//        queryParams.put("datetime_local", getLocalTimeString());
+//        queryParams.put("timezone", now);
+        ord.timestamp=System.currentTimeMillis();
+        ord.uname=uname;
+        ord.id="ordBet"+getFilenameFrmLocalTimeString();
         addObj(queryParams,   saveUrlOrdBet);
         wrtResp(exchange, "ok");
 
 
     }
+
 
 
 
