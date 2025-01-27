@@ -188,11 +188,11 @@ public class dbutil {
         System.out.println("saveDir=" + saveDir);
         System.out.println(")");
         String collName = "";
-        String rzt="";
+        String rzt = "";
         if (saveDir.endsWith(".db")) {
 
             String s = addObjSqlt(obj, saveDir);
-            System.out.println("endfun addobj().rzt="+s);
+            System.out.println("endfun addobj().rzt=" + s);
             return s;
         } else if (saveDir.startsWith("json:")) {
             saveDir = saveDir.substring(5);
@@ -229,11 +229,11 @@ public class dbutil {
         System.out.println("saveDir=" + saveDir);
         System.out.println(")");
         String collName = "";
-        var rzt="";
+        var rzt = "";
         if (saveDir.endsWith(".db")) {
 
             rzt = updtObjSqlt(obj, saveDir);
-            System.out.println("endfun updtObj().rzt="+rzt);
+            System.out.println("endfun updtObj().rzt=" + rzt);
             return rzt;
 
         } else if (saveDir.startsWith("json:")) {
@@ -260,7 +260,7 @@ public class dbutil {
             addObjIni(obj, saveDir);
         }
 
-        System.out.println("endfun updtObj().rzt="+rzt);
+        System.out.println("endfun updtObj().rzt=" + rzt);
         return rzt;
     }
 
@@ -876,7 +876,7 @@ public class dbutil {
 
         System.out.println(sql);
         int i = stmt.executeUpdate(sql);
-        return "executeUpdateRzt="+i;
+        return "executeUpdateRzt=" + i;
 
     }
 
@@ -897,15 +897,14 @@ public class dbutil {
         String id = (String) getField2025(obj, "id", "");
 
 
-
-            sql = crtUpdtStmt(obj, tbnm);
-            // sql="update tab1 set "+setStmt+" where id='"+id+"'";
+        sql = crtUpdtStmt(obj, tbnm);
+        // sql="update tab1 set "+setStmt+" where id='"+id+"'";
 
 
         System.out.println(sql);
-      //  stmt.execute(sql);
+        //  stmt.execute(sql);
         int i = stmt.executeUpdate(sql);
-            return "executeUpdateRzt="+i;
+        return "executeUpdateRzt=" + i;
 
     }
 
@@ -914,7 +913,7 @@ public class dbutil {
 
         if (obj instanceof Map) {
             Map<String, Object> m = (Map<String, Object>) obj;
-            return crtUpdtStmt4Map(m,tbnm);
+            return crtUpdtStmt4Map(m, tbnm);
         }
         return crtUpdtStmt4obj(obj, tbnm);
     }
@@ -963,7 +962,7 @@ public class dbutil {
     //根据map的kv，生成sql语句 update语句
     public static String crtUpdtStmt4Map(Map<String, Object> m, String tbnm) {
         // 假设 "id" 是更新条件的键（可以根据实际情况修改）
-        StringBuilder sql = new StringBuilder("UPDATE "+tbnm+" SET ");
+        StringBuilder sql = new StringBuilder("UPDATE " + tbnm + " SET ");
 
         // 获取所有的键值对
         Set<Map.Entry<String, Object>> entries = m.entrySet();
@@ -1004,8 +1003,6 @@ public class dbutil {
         List<String> valsList = new ArrayList<>();
 
 
-
-
         if (obj instanceof Record) {
             // 获取 record 的字段
             var components = obj.getClass().getRecordComponents();
@@ -1020,17 +1017,13 @@ public class dbutil {
                     e.printStackTrace();
                 }
             }
-        }
-
-
-      else  if (obj instanceof Map) {
+        } else if (obj instanceof Map) {
             Map<String, Object> map = (Map) obj;
             for (Map.Entry<String, Object> entry : map.entrySet()) {
                 System.out.println(entry.getKey() + ": " + entry.getValue());
                 valsList.add(toSqlValFormat(entry.getValue()));
             }
-        }
-        else {
+        } else {
             // Get the class of the object
             Class<?> clazz = obj.getClass();
 
