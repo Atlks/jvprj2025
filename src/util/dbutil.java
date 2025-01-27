@@ -178,16 +178,22 @@ public class dbutil {
      *                jdbc:sqlite:/db2026/usrs.db
      *                redis:
      *                jdbc:mysql
+     * @return
      * @throws Exception
      */
-    public static void addObj(Object obj, String saveDir) throws Exception {
+    public static String addObj(Object obj, String saveDir) throws Exception {
+        System.out.println("\r\n\r\n");
         System.out.println("fun addobj(");
-        System.out.println("obj="+encodeJson(obj));
-        System.out.println("saveDir="+saveDir);
+        System.out.println("obj=" + encodeJson(obj));
+        System.out.println("saveDir=" + saveDir);
         System.out.println(")");
         String collName = "";
+        String rzt="";
         if (saveDir.endsWith(".db")) {
-            addObjSqlt(obj, saveDir);
+
+            String s = addObjSqlt(obj, saveDir);
+            System.out.println("endfun addobj().rzt="+s);
+            return s;
         } else if (saveDir.startsWith("json:")) {
             saveDir = saveDir.substring(5);
             System.out.println("savedir=" + saveDir);
@@ -213,15 +219,23 @@ public class dbutil {
         }
 
         System.out.println("endfun addobj()");
+        return "";
     }
-    public static void updtObj(Object obj, String saveDir) throws Exception {
+
+    public static String updtObj(Object obj, String saveDir) throws Exception {
+        System.out.println("\r\n\r\n");
         System.out.println("fun updtObj(");
-        System.out.println("obj="+encodeJson(obj));
-        System.out.println("saveDir="+saveDir);
+        System.out.println("obj=" + encodeJson(obj));
+        System.out.println("saveDir=" + saveDir);
         System.out.println(")");
         String collName = "";
+        var rzt="";
         if (saveDir.endsWith(".db")) {
-            updtObjSqlt(obj, saveDir);
+
+            rzt = updtObjSqlt(obj, saveDir);
+            System.out.println("endfun updtObj().rzt="+rzt);
+            return rzt;
+
         } else if (saveDir.startsWith("json:")) {
             saveDir = saveDir.substring(5);
             System.out.println("savedir=" + saveDir);
@@ -246,7 +260,8 @@ public class dbutil {
             addObjIni(obj, saveDir);
         }
 
-
+        System.out.println("endfun updtObj().rzt="+rzt);
+        return rzt;
     }
 
     private static void addObjRds(Object obj, String collName, String saveDir) {
@@ -334,19 +349,19 @@ public class dbutil {
     }
 
     /**
-     *   // 调用 getObjAsT 方法
-     *         ExampleClass obj = getObjAsT("123", "/path/to/saveDir", ExampleClass.class);
+     * // 调用 getObjAsT 方法
+     * ExampleClass obj = getObjAsT("123", "/path/to/saveDir", ExampleClass.class);
      * 将读取到的 SortedMap<String, Object> 转换为给定的class
+     *
      * @param id
      * @param saveDir
      * @return
-
      */
     public static <T> T getObjById(String id, String saveDir, Class<T> cls) {
 
         if (saveDir.endsWith(".db")) {
             SortedMap<String, Object> objSqlt = getObjSqlt(id, saveDir);
-            return  toConvert(objSqlt,cls) ;
+            return toConvert(objSqlt, cls);
         } else if (saveDir.startsWith("jdbc:mysql")) {
             return (T) getObjSqlt(id, saveDir);
         } else {
@@ -356,7 +371,7 @@ public class dbutil {
 
     }
 
-   // Java 中的泛型在运行时是类型擦除的，因此无法直接使用 T.class，这会导致编译错误。为了修复并正确调用该方法，需要通过调用者显式传入 Class<T>，以便在运行时保留类型信息。
+    // Java 中的泛型在运行时是类型擦除的，因此无法直接使用 T.class，这会导致编译错误。为了修复并正确调用该方法，需要通过调用者显式传入 Class<T>，以便在运行时保留类型信息。
 //    public static <T> T getObjAsT(String id, String saveDir) {
 //
 //        if (saveDir.endsWith(".db")) {
@@ -372,10 +387,11 @@ public class dbutil {
 
     /**
      * 使用类似 fastjson2 的库来将 Map 转换为对象
+     *
      * @param obj
      * @param cls
-     * @return
      * @param <T>
+     * @return
      */
     private static <T> T toConvert(SortedMap<String, Object> obj, Class<T> cls) {
         // 将 Map 转换为 JSON 字符串，再反序列化为指定类型的对象
@@ -383,6 +399,7 @@ public class dbutil {
         return JSON.parseObject(jsonString, cls);
     }
 
+    @Deprecated
     public static SortedMap<String, Object> getObj(String id, String saveDir) {
 
         if (saveDir.endsWith(".db")) {
@@ -481,14 +498,12 @@ public class dbutil {
 
             // 转换 ResultSet 为 List<SortedMap<String, Object>>
             return toMapList(rs);
-        }catch (Exception e)
-        {
-            if(e.getMessage().contains("no such table")){
-                return  new ArrayList<>();
+        } catch (Exception e) {
+            if (e.getMessage().contains("no such table")) {
+                return new ArrayList<>();
             }
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             // 关闭资源
             if (rs != null) rs.close();
             if (stmt != null) stmt.close();
@@ -793,8 +808,8 @@ public class dbutil {
     }
 
     private static SortedMap<String, Object> getObjSqlt(String id, String jdbcurl) {
-        var tbnm=getDatabaseFileName(jdbcurl);
-        var sql = "select * from "+tbnm+" where id='" + id + "'";
+        var tbnm = getDatabaseFileName(jdbcurl);
+        var sql = "select * from " + tbnm + " where id='" + id + "'";
         try {
             return qrySqlAsMap(sql, jdbcurl);
         } catch (Exception e) {
@@ -828,13 +843,14 @@ public class dbutil {
         int lastSlashIndex = filePath.lastIndexOf('/');
         if (lastSlashIndex != -1) {
 
-            String nm = filePath.substring(lastSlashIndex + 1,filePath.length()-3);
+            String nm = filePath.substring(lastSlashIndex + 1, filePath.length() - 3);
             return nm;
         }
-        filePath=filePath.substring(0,filePath.length()-3);
+        filePath = filePath.substring(0, filePath.length() - 3);
         return filePath; // Return the full path if no slash is present
     }
-    private static void addObjSqlt(Object obj, String saveDir) throws Exception {
+
+    private static String addObjSqlt(Object obj, String saveDir) throws Exception {
 
         Class.forName("org.sqlite.JDBC");
         mkdir2025(saveDir);
@@ -845,69 +861,69 @@ public class dbutil {
         String sql1 = "CREATE TABLE IF NOT EXISTS " + tbnm + " (id TEXT PRIMARY KEY)";
         stmt.execute(sql1);
 
-        foreachObjFieldsCreateColume(obj, stmt,tbnm);
+        foreachObjFieldsCreateColume(obj, stmt, tbnm);
 
         String us = encodeJson(obj);
 
-        String sql ="";
+        String sql = "";
         String id = (String) getField2025(obj, "id", "");
 
 
-            String cols = getCols(obj);
-            String valss = getValsSqlFmt(obj);
-            sql = "INSERT INTO " + tbnm + "  (" + cols + ") VALUES (" + valss + ")";
-
+        String cols = getCols(obj);
+        String valss = getValsSqlFmt(obj);
+        sql = "INSERT INTO " + tbnm + "  (" + cols + ") VALUES (" + valss + ")";
 
 
         System.out.println(sql);
-        stmt.execute(sql);
+        int i = stmt.executeUpdate(sql);
+        return "executeUpdateRzt="+i;
 
     }
 
-    private static void updtObjSqlt(Object obj, String saveDir) throws Exception {
+    private static String updtObjSqlt(Object obj, String saveDir) throws Exception {
 
         Class.forName("org.sqlite.JDBC");
         mkdir2025(saveDir);
         //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
         Connection conn = DriverManager.getConnection(saveDir);
         Statement stmt = conn.createStatement();
-      //  stmt.execute("CREATE TABLE IF NOT EXISTS tab1 (id TEXT PRIMARY KEY)");
-var tbnm=getDatabaseFileName(saveDir);
+        //  stmt.execute("CREATE TABLE IF NOT EXISTS tab1 (id TEXT PRIMARY KEY)");
+        var tbnm = getDatabaseFileName(saveDir);
         foreachObjFieldsCreateColume(obj, stmt, tbnm);
 
         String us = encodeJson(obj);
 
-        String sql ="";
+        String sql = "";
         String id = (String) getField2025(obj, "id", "");
 
 
-        if( !id.equals("") )
-        {
-              sql=crtUpdtStmt(obj,tbnm);
-           // sql="update tab1 set "+setStmt+" where id='"+id+"'";
-        }
+
+            sql = crtUpdtStmt(obj, tbnm);
+            // sql="update tab1 set "+setStmt+" where id='"+id+"'";
+
 
         System.out.println(sql);
-        stmt.execute(sql);
+      //  stmt.execute(sql);
+        int i = stmt.executeUpdate(sql);
+            return "executeUpdateRzt="+i;
 
     }
 
     //根据obj字段值
     private static String crtUpdtStmt(Object obj, String tbnm) {
 
-         if(obj instanceof  Map)
-         {
-             Map<String,Object> m= (Map<String, Object>) obj;
-             return  crtUpdtStmt4Map(m);
-         }
-        return  crtUpdtStmt4obj(obj,tbnm);
+        if (obj instanceof Map) {
+            Map<String, Object> m = (Map<String, Object>) obj;
+            return crtUpdtStmt4Map(m,tbnm);
+        }
+        return crtUpdtStmt4obj(obj, tbnm);
     }
 
     //根据对象obj的属性与值，生成sql语句 update语句
     private static String crtUpdtStmt4obj(Object obj, String tbnm) {
         // 假设 "id" 是更新条件的键（可以根据实际情况修改）
         // 假设 "id" 是更新条件的键（可以根据实际情况修改）
-        StringBuilder sql = new StringBuilder("UPDATE "+tbnm+" SET ");
+        StringBuilder sql = new StringBuilder("UPDATE " + tbnm + " SET ");
 
         // 获取 obj 的所有字段
         Field[] fields = obj.getClass().getDeclaredFields();
@@ -945,9 +961,9 @@ var tbnm=getDatabaseFileName(saveDir);
     }
 
     //根据map的kv，生成sql语句 update语句
-    public static String crtUpdtStmt4Map(Map<String, Object> m) {
+    public static String crtUpdtStmt4Map(Map<String, Object> m, String tbnm) {
         // 假设 "id" 是更新条件的键（可以根据实际情况修改）
-        StringBuilder sql = new StringBuilder("UPDATE tab1 SET ");
+        StringBuilder sql = new StringBuilder("UPDATE "+tbnm+" SET ");
 
         // 获取所有的键值对
         Set<Map.Entry<String, Object>> entries = m.entrySet();
@@ -974,7 +990,7 @@ var tbnm=getDatabaseFileName(saveDir);
         if (value instanceof String) {
             return "'" + value + "'";
         }
-        if(value==null)
+        if (value == null)
             return "null";
         return value.toString();  // 对于非字符串，直接调用toString()
     }
@@ -983,23 +999,11 @@ var tbnm=getDatabaseFileName(saveDir);
      * @param obj
      * @return
      */
-    private static String getValsSqlFmt(Object obj) throws  Exception {
+    private static String getValsSqlFmt(Object obj) throws Exception {
 
         List<String> valsList = new ArrayList<>();
 
-        // Get the class of the object
-        Class<?> clazz = obj.getClass();
 
-        // Get all fields (including private ones)
-        Field[] fields = clazz.getDeclaredFields();
-
-        for (Field field : fields) {
-            field.setAccessible(true); // Allow access to private fields
-            String fieldName = field.getName();
-            Object value = field.get(obj); // Get the value of the field for the given object
-          //  System.out.println(fieldName + ": " + value);
-            valsList.add(toSqlValFormat(value));
-        }
 
 
         if (obj instanceof Record) {
@@ -1019,11 +1023,26 @@ var tbnm=getDatabaseFileName(saveDir);
         }
 
 
-        if (obj instanceof Map) {
+      else  if (obj instanceof Map) {
             Map<String, Object> map = (Map) obj;
             for (Map.Entry<String, Object> entry : map.entrySet()) {
                 System.out.println(entry.getKey() + ": " + entry.getValue());
                 valsList.add(toSqlValFormat(entry.getValue()));
+            }
+        }
+        else {
+            // Get the class of the object
+            Class<?> clazz = obj.getClass();
+
+            // Get all fields (including private ones)
+            Field[] fields = clazz.getDeclaredFields();
+
+            for (Field field : fields) {
+                field.setAccessible(true); // Allow access to private fields
+                String fieldName = field.getName();
+                Object value = field.get(obj); // Get the value of the field for the given object
+                //  System.out.println(fieldName + ": " + value);
+                valsList.add(toSqlValFormat(value));
             }
         }
 
@@ -1044,27 +1063,17 @@ var tbnm=getDatabaseFileName(saveDir);
         return String.valueOf(joinVals);
     }
 
-    private static String getCols(Object obj) throws  Exception {
+    private static String getCols(Object obj) throws Exception {
+
 
         List<String> colsList = new ArrayList<>();
-
-
-        // Get the class of the object
-        Class<?> clazz = obj.getClass();
-
-        // Get all fields (including private ones)
-        Field[] fields = clazz.getDeclaredFields();
-
-        for (Field field : fields) {
-            field.setAccessible(true); // Allow access to private fields
-            String fieldName = field.getName();
-            Object value = field.get(obj); // Get the value of the field for the given object
-         //   System.out.println(fieldName + ": " + value);
-            colsList.add(fieldName);
-        }
-
-
-        if (obj instanceof Record) {
+        if (obj instanceof Map) {
+            Map<String, Object> map = (Map) obj;
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                //   System.out.println(entry.getKey() + ": " + entry.getValue());
+                colsList.add(entry.getKey());
+            }
+        } else if (obj instanceof Record) {
             // 获取 record 的字段
             var components = obj.getClass().getRecordComponents();
 
@@ -1072,74 +1081,36 @@ var tbnm=getDatabaseFileName(saveDir);
                 try {
                     Object value = component.getAccessor().invoke(obj);
                     String name = component.getName();
-                  //  System.out.println(name + ": " + value);
+                    //  System.out.println(name + ": " + value);
                     colsList.add(name);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-        }
+        } else {
 
 
-        if (obj instanceof Map) {
-            Map<String, Object> map = (Map) obj;
-            for (Map.Entry<String, Object> entry : map.entrySet()) {
-             //   System.out.println(entry.getKey() + ": " + entry.getValue());
-                colsList.add(entry.getKey());
+            // Get the class of the object
+            Class<?> clazz = obj.getClass();
+
+            // Get all fields (including private ones)
+            Field[] fields = clazz.getDeclaredFields();
+
+            for (Field field : fields) {
+                field.setAccessible(true); // Allow access to private fields
+                String fieldName = field.getName();
+                Object value = field.get(obj); // Get the value of the field for the given object
+                //   System.out.println(fieldName + ": " + value);
+                colsList.add(fieldName);
             }
         }
+
 
         return String.join(",", colsList);
     }
 
     //循环对象属性，创建对应的字段
-    private static void foreachObjFieldsCreateColume(Object obj, Statement stmt, String tbnm) throws  Exception {
-
-
-        // Get the class of the object
-        Class<?> clazz = obj.getClass();
-
-        // Get all fields (including private ones)
-        Field[] fields = clazz.getDeclaredFields();
-
-        for (Field field : fields) {
-            try{
-                field.setAccessible(true); // Allow access to private fields
-                String fieldName = field.getName();
-                Object value = field.get(obj); // Get the value of the field for the given object
-             //   System.out.println(fieldName + ": " + value);
-                String sql = "ALTER TABLE "+tbnm+" ADD COLUMN  " + fieldName + "  " + getTypeSqlt(value) + " ";
-                //  System.out.println(sql);
-                stmt.execute(sql);
-            }catch (Exception e)
-            {
-                if(!e.getMessage().contains("duplicate column name"))
-                    e.printStackTrace();
-            }
-
-        }
-
-        if (obj instanceof Record) {
-            // 获取 record 的字段
-            var components = obj.getClass().getRecordComponents();
-
-            for (var component : components) {
-                try {
-                    Object value = component.getAccessor().invoke(obj);
-                    String name = component.getName();
-                    if (name.toLowerCase().equals("id"))
-                        continue;
-                    ;
-                    System.out.println(name + ": " + value);
-                    String sql = "ALTER TABLE "+tbnm+" ADD COLUMN  " + name + "  " + getTypeSqlt(value) + " ";
-                    System.out.println(sql);
-                    stmt.execute(sql);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
+    private static void foreachObjFieldsCreateColume(Object obj, Statement stmt, String tbnm) throws Exception {
 
         if (obj instanceof Map) {
             Map<String, Object> map = (Map) obj;
@@ -1152,18 +1123,59 @@ var tbnm=getDatabaseFileName(saveDir);
                     if (name.toLowerCase().equals("id"))
                         continue;
                     ;
-                 //   System.out.println(name + ": " + value);
-                    if(name.equals("amt"))
+                    //   System.out.println(name + ": " + value);
+                    if (name.equals("amt"))
                         System.out.println("dbg");
-                    String sql = "ALTER TABLE "+tbnm+" ADD COLUMN  " + name + "  " + getTypeSqlt(value) + " ";
-                 //   System.out.println(sql);
+                    String sql = "ALTER TABLE " + tbnm + " ADD COLUMN  " + name + "  " + getTypeSqlt(value) + " ";
+                    //   System.out.println(sql);
                     stmt.execute(sql);
 
 
                 } catch (Exception e) {
-                    if(!e.getMessage().contains("duplicate column name"))
-                       e.printStackTrace();
+                    if (!e.getMessage().contains("duplicate column name"))
+                        e.printStackTrace();
                 }
+            }
+        } else if (obj instanceof Record) {
+            // 获取 record 的字段
+            var components = obj.getClass().getRecordComponents();
+
+            for (var component : components) {
+                try {
+                    Object value = component.getAccessor().invoke(obj);
+                    String name = component.getName();
+                    if (name.toLowerCase().equals("id"))
+                        continue;
+                    ;
+                    System.out.println(name + ": " + value);
+                    String sql = "ALTER TABLE " + tbnm + " ADD COLUMN  " + name + "  " + getTypeSqlt(value) + " ";
+                    System.out.println(sql);
+                    stmt.execute(sql);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            // Get the class of the object
+            Class<?> clazz = obj.getClass();
+
+            // Get all fields (including private ones)
+            Field[] fields = clazz.getDeclaredFields();
+
+            for (Field field : fields) {
+                try {
+                    field.setAccessible(true); // Allow access to private fields
+                    String fieldName = field.getName();
+                    Object value = field.get(obj); // Get the value of the field for the given object
+                    //   System.out.println(fieldName + ": " + value);
+                    String sql = "ALTER TABLE " + tbnm + " ADD COLUMN  " + fieldName + "  " + getTypeSqlt(value) + " ";
+                    //  System.out.println(sql);
+                    stmt.execute(sql);
+                } catch (Exception e) {
+                    if (!e.getMessage().contains("duplicate column name"))
+                        e.printStackTrace();
+                }
+
             }
         }
 

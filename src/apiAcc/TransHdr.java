@@ -16,7 +16,7 @@ import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static util.Util2025.encodeJson;
 import static util.dbutil.*;
 import static util.util2026.*;
-import static yonjin.CmsBiz.toBigDcmTwoDot;
+import static apiWltYinli.CmsBiz.toBigDcmTwoDot;
 
 /**从本机钱包转账到盈利钱包
  * http://localhost:8889/AddOrdBetHdr?bettxt=龙湖和

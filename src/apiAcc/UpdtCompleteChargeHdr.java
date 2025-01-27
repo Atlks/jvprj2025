@@ -1,5 +1,6 @@
 package apiAcc;
 
+import apiWltYinli.CmsBiz;
 import apis.BaseHdr;
 import biz.LogBls;
 import biz.OrdChrg;
@@ -8,16 +9,15 @@ import com.sun.net.httpserver.HttpExchange;
 
 import java.math.BigDecimal;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
 import static apiUsr.RegHandler.saveDirUsrs;
+import static apiWltYinli.CmsBiz.calcCms4FrmOrdChrg;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static java.time.LocalTime.now;
 import static util.dbutil.*;
 import static util.util2026.*;
-import static yonjin.CmsBiz.toBigDcmTwoDot;
+import static apiWltYinli.CmsBiz.toBigDcmTwoDot;
 
 /**
  * http://localhost:8889/UpdtCompleteChargeHdr?id=ordchg2222
@@ -53,12 +53,11 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         Usr u=new Usr();
        // u.invtr=objU.get("invtr").toString();
       //  calcCms4chrgU(u,amt);
-        calcCms4chrgU(objChrg);
+        CmsBiz.calcCms4FrmOrdChrg(objChrg);
        // calcCms(uname,amt);
     }
 
-    private static void calcCms4chrgU(OrdChrg objChrg) {
-    }
+
 
     public static void updtBlsByAddChrg(OrdChrg objChrg ) throws Exception {
         String uname = objChrg.uname;

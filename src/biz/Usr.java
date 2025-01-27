@@ -9,6 +9,8 @@ public class Usr {
 
     public String id;
     public BigDecimal balance;// avdBls
+    public BigDecimal balanceFreez;// avdBls
     public BigDecimal balanceYinliwlt;
     public BigDecimal balanceYinliwltFreez;
+    public BigDecimal totalCommssionAmt;
 }
