@@ -9,6 +9,8 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.HashMap;
+import java.util.Map;
 
 import static apis.BaseHdr.iniCfgFrmCfgfile;
 
@@ -40,7 +42,11 @@ public class MainApi {
         System.out.println("Server started on port 8080");
     }
 
+    public static void openMap4test() {
 
+      //  drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
+
+    }
 
     static {
         iniCfgFrmCfgfile();

@@ -8,6 +8,7 @@ import test.UserBiz;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import apiWltYinli.CmsBiz;
+import util.dbutil;
 
 import java.io.IOException;
 import java.util.Map;
@@ -36,6 +37,12 @@ setcookie("uname","007",exchange);//for test
         }
     }
     public static void iniCfgFrmCfgfile( ) {
+
+        //test
+     //   openMap4test();
+        dbutil.  drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
+
+
         // 获取类加载器 /C:/Users/attil/IdeaProjects/jvprj2025/out/production/jvprj2025/
         String rootPath = UserBiz.class.getClassLoader().getResource("").getPath();
         Map cfg = parse_ini_fileNosec(rootPath + "../../../cfg/dbcfg.ini");
@@ -51,6 +58,9 @@ setcookie("uname","007",exchange);//for test
         CmsBiz.saveUrlLogCms =(String) cfg.get("saveUrlLogCms");
         System.out.println("ini cfg finish..");
     }
+
+
+
     protected abstract void handle2(HttpExchange exchange) throws Exception;
 
     public boolean isLogined(HttpExchange exchange) {

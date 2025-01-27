@@ -495,7 +495,7 @@ public class dbutil {
         if (jdbcUrl.startsWith("jdbc:sqlite"))
             Class.forName("org.sqlite.JDBC");
         if (jdbcUrl.startsWith("jdbc:mysql"))
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName(toTrueDvr("com.mysql.cj.jdbc.Driver"));
 
         else if(jdbcUrl.startsWith("jdbc:h2"))
             Class.forName("org.h2.Driver");
@@ -530,6 +530,14 @@ public class dbutil {
         return List.of();
     }
 
+    private static String toTrueDvr(String k) {
+
+        String s1 = drvMap.get(k);
+        if(s1!=null)
+           return s1;
+        return  k;
+    }
+    public static   Map<String, String> drvMap=new HashMap<>();
     private static Object get0(List<SortedMap<String, Object>> mapList) {
    if(mapList.isEmpty())
        return new TreeMap<>();
