@@ -30,7 +30,7 @@ public class QryOrdBetHdr extends BaseHdr {
     public static String saveUrlOrdBet = "";
 
     @Override
-    public void handle2(HttpExchange exchange) throws Exception {
+    public void handle2( HttpExchange exchange) throws Exception {
 
 
         if (isNotLogined(exchange)) {

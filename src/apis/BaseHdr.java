@@ -59,7 +59,7 @@ setcookie("uname","007",exchange);//for test
      //   return  true;
     }
 
-    public boolean isNotLogined(HttpExchange exchange) {
+    public boolean isNotLogined( HttpExchange exchange) {
         String uname = getcookie("uname", exchange);
         return  uname.equals("");
         //   return  true;
