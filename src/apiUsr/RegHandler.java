@@ -45,6 +45,7 @@ public class RegHandler implements HttpHandler {
 
     public static void main(String[] args) throws Exception, existUserEx {
         iniCfgFrmCfgfile();
+        drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
         Usr u=new Usr();
         u.uname="009";
         u.pwd="pp";
@@ -88,7 +89,7 @@ public class RegHandler implements HttpHandler {
 //    }
 
 
-    public static boolean existUser(Usr user) {
+    public static boolean existUser(Usr user) throws Exception {
         return existUser(user.uname);
     }
 
@@ -101,11 +102,11 @@ public class RegHandler implements HttpHandler {
         // record 自动生成构造函数、getters、equals、hashCode 和 toString 方法
     }
 
-    public static boolean existUser(String uname) {
+    public static boolean existUser(String uname) throws Exception {
 
-        Map jo = getObj(uname,  saveDirUsrs);
+        Usr jo = getObjById(uname,  saveDirUsrs,Usr.class);
         // 空安全处理，直接操作结果
-        if (jo.isEmpty()) {
+        if (jo.uname.equals("")) {
             return false;
         } else
             return true;

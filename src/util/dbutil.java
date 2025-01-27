@@ -6,6 +6,7 @@ import com.alibaba.fastjson2.JSON;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -193,13 +194,11 @@ public class dbutil {
             String s = addObjSqlt(obj, saveDir);
             System.out.println("endfun addobj().rzt=" + s);
             return s;
-        }
-        else  if (saveDir.startsWith("jdbc:h2")) {
+        } else if (saveDir.startsWith("jdbc:h2")) {
             String s = addObjMysql(obj, saveDir);
             System.out.println("endfun addobj().rzt=" + s);
             return s;
-        }
-        else if (saveDir.startsWith("json:")) {
+        } else if (saveDir.startsWith("json:")) {
             saveDir = saveDir.substring(5);
             System.out.println("savedir=" + saveDir);
             addObjDocdb(obj, saveDir);
@@ -214,7 +213,9 @@ public class dbutil {
             System.out.println("savedir=" + saveDir);
             addObjRds(obj, collName, saveDir);
         } else if (saveDir.startsWith("jdbc:mysql")) {
-            addObjMysql(obj, saveDir);
+            String s = addObjMysql(obj, saveDir);
+            System.out.println("endfun addobj().rzt=" + s);
+            return s;
         } else {
             //if (saveDir.startsWith("ini:"))
             //ini doc
@@ -362,15 +363,17 @@ public class dbutil {
      * @param saveDir
      * @return
      */
-    public static <T> T getObjById(String id, String saveDir, Class<T> cls) {
+    public static <T> T getObjById(String id, String saveDir, Class<T> cls) throws Exception {
 
         if (saveDir.endsWith(".db")) {
             SortedMap<String, Object> objSqlt = getObjSqlt(id, saveDir);
-            return toConvert(objSqlt, cls);
+//            if(objSqlt.isEmpty())
+//                return
+            return toObj(objSqlt, cls);
         } else if (saveDir.startsWith("jdbc:mysql")) {
-          //  return (T) getObjMysql(id, saveDir);
-            SortedMap<String, Object> objSqlt = getObjMysql(id, saveDir);
-            return toConvert(objSqlt, cls);
+            //  return (T) getObjMysql(id, saveDir);
+            SortedMap<String, Object> objSqlt = getMapMysql(id, saveDir);
+            return toObj(objSqlt, cls);
 
         } else {
             return (T) getObjIni(id, saveDir);
@@ -394,17 +397,67 @@ public class dbutil {
 //    }
 
     /**
-     * 使用类似 fastjson2 的库来将 Map 转换为对象
+     * 来将 Map 转换为对象
      *
-     * @param obj
+     * @param sortedMap
      * @param cls
      * @param <T>
      * @return
      */
-    private static <T> T toConvert(SortedMap<String, Object> obj, Class<T> cls) {
+    private static <T> T toObj(SortedMap<String, Object> sortedMap, Class<T> cls) throws Exception {
         // 将 Map 转换为 JSON 字符串，再反序列化为指定类型的对象
-        String jsonString = JSON.toJSONString(obj);
-        return JSON.parseObject(jsonString, cls);
+//        String jsonString = JSON.toJSONString(obj);
+//        return JSON.parseObject(jsonString, cls);
+
+        //    SortedMap<String, Object> sortedMap = new TreeMap<>();
+        if (sortedMap == null || cls == null) {
+            throw new IllegalArgumentException("toObj().sortedMap and cls cannot be null.");
+        }
+        // 使用反射创建目标对象实例
+        T obj = cls.getDeclaredConstructor().newInstance();
+
+
+        // 遍历 Map 并设置字段值
+        for (Map.Entry<String, Object> entry : sortedMap.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            setField(obj, key, value);
+        }
+
+        return obj;
+
+
+
+    }
+
+    /**
+     * 给对象属性设置值
+     *
+     * @param obj
+     * @param key
+     * @param value
+     * @param <T>
+     */
+    private static <T> void setField(T obj, String key, Object value) {
+
+        if (obj == null || key == null) {
+            throw new IllegalArgumentException("fun  setField().Object, key, and value cannot be null.");
+        }
+
+        // 获取 obj 的所有字段
+        Field[] fields = obj.getClass().getDeclaredFields();
+        for (Field fld : fields) {
+            if (fld.getName().equalsIgnoreCase(key)) { // 忽略大小写比较字段名
+                try {
+                    fld.setAccessible(true); // 确保字段可访问
+                    fld.set(obj, value); // 设置字段值
+                } catch (IllegalAccessException e) {
+                    //  throw new RuntimeException("Failed to set field value: " + key, e);
+                }
+                return; // 找到匹配字段后可以直接返回
+            }
+        }
+
     }
 
     @Deprecated
@@ -412,7 +465,7 @@ public class dbutil {
 
         if (saveDir.endsWith(".db")) {
             return getObjSqlt(id, saveDir);
-        } else if (saveDir.startsWith("jdbc:mysql")|| saveDir.startsWith("jdbc:h2")) {
+        } else if (saveDir.startsWith("jdbc:mysql") || saveDir.startsWith("jdbc:h2")) {
             return getObjSqlt(id, saveDir);
         } else {
             return getObjIni(id, saveDir);
@@ -494,10 +547,10 @@ public class dbutil {
         System.out.println("))");
         if (jdbcUrl.startsWith("jdbc:sqlite"))
             Class.forName("org.sqlite.JDBC");
-        if (jdbcUrl.startsWith("jdbc:mysql"))
+        else if (jdbcUrl.startsWith("jdbc:mysql"))
             Class.forName(toTrueDvr("com.mysql.cj.jdbc.Driver"));
 
-        else if(jdbcUrl.startsWith("jdbc:h2"))
+        else if (jdbcUrl.startsWith("jdbc:h2"))
             Class.forName("org.h2.Driver");
         //    mkdir2025(saveDir);
         //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
@@ -512,7 +565,7 @@ public class dbutil {
             // 转换 ResultSet 为 List<SortedMap<String, Object>>
             List<SortedMap<String, Object>> mapList = toMapList(rs);
             //System.out.println("");
-            System.out.println("endfun qrysql().ret=["+mapList.size()+"],"+encodeJson(get0(mapList)  ));
+            System.out.println("endfun qrysql().ret=[" + mapList.size() + "]," + encodeJson(get0(mapList)));
             return mapList;
         } catch (Exception e) {
             if (e.getMessage().contains("no such table")) {
@@ -533,15 +586,17 @@ public class dbutil {
     private static String toTrueDvr(String k) {
 
         String s1 = drvMap.get(k);
-        if(s1!=null)
-           return s1;
-        return  k;
+        if (s1 != null)
+            return s1;
+        return k;
     }
-    public static   Map<String, String> drvMap=new HashMap<>();
+
+    public static Map<String, String> drvMap = new HashMap<>();
+
     private static Object get0(List<SortedMap<String, Object>> mapList) {
-   if(mapList.isEmpty())
-       return new TreeMap<>();
-   return  mapList.get(0);
+        if (mapList.isEmpty())
+            return new TreeMap<>();
+        return mapList.get(0);
     }
 // // 转换 ResultSet 为 List<SortedMap<String, Object>>
 
@@ -837,20 +892,46 @@ public class dbutil {
         else
             return JSONObject.parseObject("{}");
     }
-    private static SortedMap<String, Object> getObjMysql(String id, String jdbcurl) {
+
+    private static SortedMap<String, Object> getMapMysql(String id, String jdbcurl) {
         var tbnm = getDatabaseFileName(jdbcurl);
-        if(jdbcurl.startsWith("jdbc:h2"))
-            tbnm=  getDatabaseFileName4H2(jdbcurl);
+        if (jdbcurl.startsWith("jdbc:h2"))
+            tbnm = getDatabaseFileName4H2(jdbcurl);
+        else if (jdbcurl.startsWith("jdbc:mysql"))
+            tbnm = getDatabaseFileName4mysql(jdbcurl);
         var sql = "select * from " + tbnm + " where id='" + id + "'";
         try {
+            var truedrv = toTrueDvr("com.mysql.cj.jdbc.Driver");
+            jdbcurl = toTrueJdbcUrl(truedrv, jdbcurl);
             return qrySqlAsMap(sql, jdbcurl);
         } catch (Exception e) {
-            if (e.getMessage().contains("no such table: tab1"))
+            String message = e.getMessage();
+            if (message.contains("no such table: "))
+                return new TreeMap<>();
+            if (message.startsWith("Table") && message.contains("not found"))
                 return new TreeMap<>();
             throw new RuntimeException(e);
         }
 
     }
+
+    private static String getDatabaseFileName4mysql(String jdbcurl) {
+
+
+        // Extract the file path from the URL
+        String filePath = jdbcurl.substring("jdbc:h2:file:".length());
+
+        // Extract and return the file name
+        int lastSlashIndex = filePath.lastIndexOf('/');
+        //    int lastSlashIndexDot = filePath.lastIndexOf('.');
+        if (lastSlashIndex != -1) {
+//filepath=c:/dbh2dir/usr.h2;MODE=MySQL
+            String nm = filePath.substring(lastSlashIndex + 1);
+            return nm;
+        }
+        return "";
+    }
+
     private static SortedMap<String, Object> getObjSqlt(String id, String jdbcurl) {
         var tbnm = getDatabaseFileName(jdbcurl);
         var sql = "select * from " + tbnm + " where id='" + id + "'";
@@ -876,12 +957,14 @@ public class dbutil {
     }
 
     public static String getDatabaseFileName(String databaseUrl) {
-        if (databaseUrl == null ) {
+        if (databaseUrl == null) {
             throw new IllegalArgumentException("Invalid SQLite JDBC URL: " + databaseUrl);
         }
 
-        if(databaseUrl.startsWith("jdbc:h2"))
-            return  getDatabaseFileName4H2(databaseUrl);
+        if (databaseUrl.startsWith("jdbc:h2"))
+            return getDatabaseFileName4H2(databaseUrl);
+        if (databaseUrl.startsWith("jdbc:mysql"))
+            return getDatabaseFileName4mysql(databaseUrl);
 
         // Extract the file path from the URL
         String filePath = databaseUrl.substring("jdbc:sqlite:".length());
@@ -898,12 +981,10 @@ public class dbutil {
     }
 
     /**
-     *
-     * @param databaseUrl  jdbc:h2:file:c:/dbh2dir/usr.h2;MODE=MySQL
+     * @param databaseUrl jdbc:h2:file:c:/dbh2dir/usr.h2;MODE=MySQL
      * @return
      */
     private static String getDatabaseFileName4H2(String databaseUrl) {
-
 
 
         // Extract the file path from the URL
@@ -1233,23 +1314,22 @@ public class dbutil {
                     Object value = field.get(obj); // Get the value of the field for the given object
                     //   System.out.println(fieldName + ": " + value);
 
-                    var colType=  getTypeSqlt(value);; //def sqlte type
-                    if(saveDir.startsWith("jdbc:mysql")|| saveDir.startsWith("jdbc:h2"))
-                        colType= getTypeMysql(value);
+                    var colType = getTypeSqlt(value);
+                    ; //def sqlte type
+                    if (saveDir.startsWith("jdbc:mysql") || saveDir.startsWith("jdbc:h2"))
+                        colType = getTypeMysql(value);
 
-                    String sql = "ALTER TABLE " + tbnm + " ADD COLUMN  " + fieldName + "  " + colType + " ";
-                    //  System.out.println(sql);
+                    String sql = "ALTER TABLE " + tbnm + " ADD COLUMN  `" + fieldName + "`  " + colType + " ";
+                    // ALTER TABLE usr ADD COLUMN c1 int;
+                    System.out.println(sql);
                     stmt.execute(sql);
                 } catch (Exception e) {
-                    if (e.getMessage().contains("duplicate column name"))
-                    {
+                    if (e.getMessage().contains("duplicate column name")) {
+
+                    } else if (e.getMessage().contains("Duplicate column name")) {
 
                     } else
-                    if(e.getMessage().contains("Duplicate column name"))
-                    {
-
-                    }else
-                    e.printStackTrace();
+                        e.printStackTrace();
                 }
 
             }
@@ -1290,20 +1370,29 @@ public class dbutil {
     }
 
     private static String addObjMysql(Object obj, String saveDir) throws Exception {
+        System.out.println("\r\n");
+        System.out.println("fun addObjMysql()");
+        System.out.println("jdbcurl=" + saveDir);
+        System.out.println(")");
+        String trueDvr = "org.h2.Driver";
+        if (saveDir.startsWith("jdbc:mysql")) {
+            trueDvr = toTrueDvr("com.mysql.cj.jdbc.Driver");
+            Class.forName(trueDvr);
+        } else
+            Class.forName("org.h2.Driver");
 
-        if(saveDir.startsWith("jdbc:mysql"))
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        else
-             Class.forName("org.h2.Driver");
-      //  mkdir2025(saveDir);
+        System.out.println("truedrv=" + trueDvr);
+        //  mkdir2025(saveDir);
         String tbnm = getDatabaseFileName(saveDir);
         //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
+        saveDir = toTrueJdbcUrl(trueDvr, saveDir);
         Connection conn = DriverManager.getConnection(saveDir);
         Statement stmt = conn.createStatement();
         //cret db todo
-        stmt.execute("CREATE TABLE IF NOT EXISTS "+tbnm+" (id VARCHAR(500) PRIMARY KEY)");
+        stmt.execute("CREATE TABLE IF NOT EXISTS " + tbnm + " (id VARCHAR(500) PRIMARY KEY)");
 
-        foreachObjFieldsCreateColume(obj, stmt, tbnm,saveDir);
+        var trueUrl = toTrueJdbcUrl(trueDvr, saveDir);
+        foreachObjFieldsCreateColume(obj, stmt, tbnm, trueUrl);
 
         String us = encodeJson(obj);
 
@@ -1321,5 +1410,16 @@ public class dbutil {
         return "executeUpdateRzt=" + i;
 
 
+    }
+
+    private static String toTrueJdbcUrl(String trueDvr, String saveDir) {
+        if (trueDvr.equals("org.h2.Driver")) {
+            var tbnm = getDatabaseFileName4mysql(saveDir);
+            var h2Tmplt = "jdbc:h2:file:c:/dbh2dir/@tbnm@.h2;MODE=MySQL";
+            var trueurl = h2Tmplt.replaceAll("@tbnm@", tbnm);
+            return trueurl;
+
+        } else
+            return saveDir;
     }
 }

@@ -3,7 +3,7 @@ package biz;
 import java.math.BigDecimal;
 
 public class Usr {
-    public String uname;
+    public String uname="";
     public String invtr;
     public String pwd;
 
