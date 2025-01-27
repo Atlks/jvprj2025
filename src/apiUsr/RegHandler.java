@@ -26,13 +26,18 @@ public class RegHandler implements HttpHandler {
         String pwd=    getRequestParameter(exchange,"pwd");
         String invtr=    getRequestParameter(exchange,"invtr");
         System.out.println(uname);
-
+        Usr u=new Usr();
+        u.uname=uname;
+        u.pwd=pwd;
+        u.invtr=invtr;
         String responseTxt = "";
         try {
-            responseTxt = reg(uname,pwd,invtr);
+            responseTxt = reg(u);
             wrtResp(exchange, responseTxt);
         } catch (Exception e) {
              throwEx(e);
+        } catch (existUserEx e) {
+            throw new RuntimeException(e);
         }
 
         //    }
@@ -41,7 +46,7 @@ public class RegHandler implements HttpHandler {
     public static void main(String[] args) throws Exception, existUserEx {
         iniCfgFrmCfgfile();
         Usr u=new Usr();
-        u.uname="008";
+        u.uname="009";
         u.pwd="pp";
         u.invtr="007";
 
@@ -53,7 +58,7 @@ public class RegHandler implements HttpHandler {
 
 
         if (existUser(user)) {
-            throw new existUserEx("err=existUserEx,euname="+user.uname);
+            throw new existUserEx("err=existUserEx,uname="+user.uname);
         }
         //  if(!existUser(uname))
 
@@ -64,23 +69,23 @@ public class RegHandler implements HttpHandler {
 
 
     }
-    public static String reg(String uname, String pwd,String invtr) throws Exception {
-
-
-        if (existUser(uname)) {
-            return "existUser";
-        }
-        //  if(!existUser(uname))
-
-        // 创建 User 对象
-        User user = new User(uname, uname, pwd,1, invtr);
-        //   saveDir = saveDir;
-        addObj(user, saveDirUsrs );
-        //  addObj(user, "u","jdbc:sqlite:/db2026/usrs.db");
-        return "ok";
-
-
-    }
+//    public static String reg(String uname, String pwd,String invtr) throws Exception {
+//
+//
+//        if (existUser(uname)) {
+//            return "existUser";
+//        }
+//        //  if(!existUser(uname))
+//
+//        // 创建 User 对象
+//        User user = new User(uname, uname, pwd,1, invtr);
+//        //   saveDir = saveDir;
+//        addObj(user, saveDirUsrs );
+//        //  addObj(user, "u","jdbc:sqlite:/db2026/usrs.db");
+//        return "ok";
+//
+//
+//    }
 
 
     public static boolean existUser(Usr user) {

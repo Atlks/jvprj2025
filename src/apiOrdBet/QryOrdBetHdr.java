@@ -22,7 +22,7 @@ import static util.dbutil.execQry;
 import static util.dbutil.qrySql;
 import static util.util2026.*;
 
-/**
+/**   查询规则，参数使用类型化，不要新定义dto，直接使用实体代替
  * http://localhost:8889/QryOrdBetHdr
  */
 public class QryOrdBetHdr extends BaseHdr {
@@ -42,7 +42,7 @@ public class QryOrdBetHdr extends BaseHdr {
         //blk login ed
         String uname = getcookie("uname", exchange);
         Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
-        queryParams4ordbet prm=toObjFrmMap(queryParams,queryParams4ordbet.class);
+        OrdBet prm=toObjFrmMap(queryParams,OrdBet.class);
 
         var list1 = qryOrdBet(prm);
         wrtResp(exchange, encodeJson(list1));
@@ -52,12 +52,12 @@ public class QryOrdBetHdr extends BaseHdr {
 
     public static void main(String[] args) throws Exception {
        iniCfgFrmCfgfile();;
-        queryParams4ordbet queryParams=new queryParams4ordbet();
+        OrdBet queryParams=new OrdBet();
         queryParams.uname="008";
         System.out.println(encodeJson( qryOrdBetSql(queryParams)));
     }
 
-    private Object qryOrdBet(queryParams4ordbet queryParams) throws Exception {
+    private Object qryOrdBet(OrdBet queryParams) throws Exception {
 
         var expression = "";
         String uname = queryParams.uname;
@@ -80,7 +80,7 @@ public class QryOrdBetHdr extends BaseHdr {
     }
 
 
-    private static Object qryOrdBetSql(queryParams4ordbet queryParams) throws Exception {
+    private static Object qryOrdBetSql(OrdBet queryParams) throws Exception {
 
         String expression="";
         if (!queryParams.uname.equals("")) {

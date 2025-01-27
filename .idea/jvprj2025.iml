@@ -29,5 +29,10 @@
     <orderEntry type="library" name="jackson-core-2.15.3" level="project" />
     <orderEntry type="library" name="jackson-annotations-2.15.3" level="project" />
     <orderEntry type="library" name="slf4j-api-2.0.9 (2)" level="project" />
+    <orderEntry type="library" name="mariadb-java-client-2.7.4" level="project" />
+    <orderEntry type="library" name="mariaDB4j-core-3.1.0" level="project" />
+    <orderEntry type="library" name="mariaDB4j-2.5.3" level="project" />
+    <orderEntry type="library" name="h2-1.4.200 (2)" level="project" />
+    <orderEntry type="library" name="h2-2.1.210" level="project" />
   </component>
 </module>

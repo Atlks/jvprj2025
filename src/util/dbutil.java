@@ -190,11 +190,16 @@ public class dbutil {
         String collName = "";
         String rzt = "";
         if (saveDir.endsWith(".db")) {
-
             String s = addObjSqlt(obj, saveDir);
             System.out.println("endfun addobj().rzt=" + s);
             return s;
-        } else if (saveDir.startsWith("json:")) {
+        }
+        else  if (saveDir.startsWith("jdbc:h2")) {
+            String s = addObjMysql(obj, saveDir);
+            System.out.println("endfun addobj().rzt=" + s);
+            return s;
+        }
+        else if (saveDir.startsWith("json:")) {
             saveDir = saveDir.substring(5);
             System.out.println("savedir=" + saveDir);
             addObjDocdb(obj, saveDir);
@@ -363,7 +368,10 @@ public class dbutil {
             SortedMap<String, Object> objSqlt = getObjSqlt(id, saveDir);
             return toConvert(objSqlt, cls);
         } else if (saveDir.startsWith("jdbc:mysql")) {
-            return (T) getObjSqlt(id, saveDir);
+          //  return (T) getObjMysql(id, saveDir);
+            SortedMap<String, Object> objSqlt = getObjMysql(id, saveDir);
+            return toConvert(objSqlt, cls);
+
         } else {
             return (T) getObjIni(id, saveDir);
         }
@@ -404,7 +412,7 @@ public class dbutil {
 
         if (saveDir.endsWith(".db")) {
             return getObjSqlt(id, saveDir);
-        } else if (saveDir.startsWith("jdbc:mysql")) {
+        } else if (saveDir.startsWith("jdbc:mysql")|| saveDir.startsWith("jdbc:h2")) {
             return getObjSqlt(id, saveDir);
         } else {
             return getObjIni(id, saveDir);
@@ -488,8 +496,9 @@ public class dbutil {
             Class.forName("org.sqlite.JDBC");
         if (jdbcUrl.startsWith("jdbc:mysql"))
             Class.forName("com.mysql.cj.jdbc.Driver");
-        else
-            Class.forName("org.sqlite.JDBC");
+
+        else if(jdbcUrl.startsWith("jdbc:h2"))
+            Class.forName("org.h2.Driver");
         //    mkdir2025(saveDir);
         //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
         // 建立连接
@@ -820,7 +829,20 @@ public class dbutil {
         else
             return JSONObject.parseObject("{}");
     }
+    private static SortedMap<String, Object> getObjMysql(String id, String jdbcurl) {
+        var tbnm = getDatabaseFileName(jdbcurl);
+        if(jdbcurl.startsWith("jdbc:h2"))
+            tbnm=  getDatabaseFileName4H2(jdbcurl);
+        var sql = "select * from " + tbnm + " where id='" + id + "'";
+        try {
+            return qrySqlAsMap(sql, jdbcurl);
+        } catch (Exception e) {
+            if (e.getMessage().contains("no such table: tab1"))
+                return new TreeMap<>();
+            throw new RuntimeException(e);
+        }
 
+    }
     private static SortedMap<String, Object> getObjSqlt(String id, String jdbcurl) {
         var tbnm = getDatabaseFileName(jdbcurl);
         var sql = "select * from " + tbnm + " where id='" + id + "'";
@@ -846,9 +868,12 @@ public class dbutil {
     }
 
     public static String getDatabaseFileName(String databaseUrl) {
-        if (databaseUrl == null || !databaseUrl.startsWith("jdbc:sqlite:")) {
+        if (databaseUrl == null ) {
             throw new IllegalArgumentException("Invalid SQLite JDBC URL: " + databaseUrl);
         }
+
+        if(databaseUrl.startsWith("jdbc:h2"))
+            return  getDatabaseFileName4H2(databaseUrl);
 
         // Extract the file path from the URL
         String filePath = databaseUrl.substring("jdbc:sqlite:".length());
@@ -864,6 +889,30 @@ public class dbutil {
         return filePath; // Return the full path if no slash is present
     }
 
+    /**
+     *
+     * @param databaseUrl  jdbc:h2:file:c:/dbh2dir/usr.h2;MODE=MySQL
+     * @return
+     */
+    private static String getDatabaseFileName4H2(String databaseUrl) {
+
+
+
+        // Extract the file path from the URL
+        String filePath = databaseUrl.substring("jdbc:h2:file:".length());
+
+        // Extract and return the file name
+        int lastSlashIndex = filePath.lastIndexOf('/');
+        int lastSlashIndexDot = filePath.lastIndexOf('.');
+        if (lastSlashIndex != -1) {
+//filepath=c:/dbh2dir/usr.h2;MODE=MySQL
+            String nm = filePath.substring(lastSlashIndex + 1, lastSlashIndexDot);
+            return nm;
+        }
+        filePath = filePath.substring(0, filePath.length() - 3);
+        return filePath; // Return the full path if no slash is presen
+    }
+
     private static String addObjSqlt(Object obj, String saveDir) throws Exception {
 
         Class.forName("org.sqlite.JDBC");
@@ -875,7 +924,7 @@ public class dbutil {
         String sql1 = "CREATE TABLE IF NOT EXISTS " + tbnm + " (id TEXT PRIMARY KEY)";
         stmt.execute(sql1);
 
-        foreachObjFieldsCreateColume(obj, stmt, tbnm);
+        foreachObjFieldsCreateColume(obj, stmt, tbnm, saveDir);
 
         String us = encodeJson(obj);
 
@@ -903,7 +952,7 @@ public class dbutil {
         Statement stmt = conn.createStatement();
         //  stmt.execute("CREATE TABLE IF NOT EXISTS tab1 (id TEXT PRIMARY KEY)");
         var tbnm = getDatabaseFileName(saveDir);
-        foreachObjFieldsCreateColume(obj, stmt, tbnm);
+        foreachObjFieldsCreateColume(obj, stmt, tbnm, saveDir);
 
         String us = encodeJson(obj);
 
@@ -1117,7 +1166,7 @@ public class dbutil {
     }
 
     //循环对象属性，创建对应的字段
-    private static void foreachObjFieldsCreateColume(Object obj, Statement stmt, String tbnm) throws Exception {
+    private static void foreachObjFieldsCreateColume(Object obj, Statement stmt, String tbnm, String saveDir) throws Exception {
 
         if (obj instanceof Map) {
             Map<String, Object> map = (Map) obj;
@@ -1175,18 +1224,45 @@ public class dbutil {
                     String fieldName = field.getName();
                     Object value = field.get(obj); // Get the value of the field for the given object
                     //   System.out.println(fieldName + ": " + value);
-                    String sql = "ALTER TABLE " + tbnm + " ADD COLUMN  " + fieldName + "  " + getTypeSqlt(value) + " ";
+
+                    var colType=  getTypeSqlt(value);; //def sqlte type
+                    if(saveDir.startsWith("jdbc:mysql")|| saveDir.startsWith("jdbc:h2"))
+                        colType= getTypeMysql(value);
+
+                    String sql = "ALTER TABLE " + tbnm + " ADD COLUMN  " + fieldName + "  " + colType + " ";
                     //  System.out.println(sql);
                     stmt.execute(sql);
                 } catch (Exception e) {
-                    if (!e.getMessage().contains("duplicate column name"))
-                        e.printStackTrace();
+                    if (e.getMessage().contains("duplicate column name"))
+                    {
+
+                    } else
+                    if(e.getMessage().contains("Duplicate column name"))
+                    {
+
+                    }else
+                    e.printStackTrace();
                 }
 
             }
         }
 
 
+    }
+
+    private static String getTypeMysql(Object value) {
+
+        if (value instanceof String)
+            return "VARCHAR(999)";
+        if (value instanceof int)
+            return "INT";
+
+        if (value instanceof long)
+            return "INT";
+        if (value instanceof BigDecimal)
+            return "DECIMAL(20, 2)";
+
+        return "VARCHAR(999)";
     }
 
     private static String getTypeSqlt(Object value) {
@@ -1205,18 +1281,37 @@ public class dbutil {
 
     }
 
-    private static void addObjMysql(Object obj, String saveDir) throws Exception {
+    private static String addObjMysql(Object obj, String saveDir) throws Exception {
 
-        Class.forName("org.sqlite.JDBC");
-        mkdir2025(saveDir);
+        if(saveDir.startsWith("jdbc:mysql"))
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        else
+             Class.forName("org.h2.Driver");
+      //  mkdir2025(saveDir);
+        String tbnm = getDatabaseFileName(saveDir);
         //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
         Connection conn = DriverManager.getConnection(saveDir);
         Statement stmt = conn.createStatement();
-        stmt.execute("CREATE TABLE IF NOT EXISTS tab1 (k TEXT PRIMARY KEY, v TEXT)");
+        //cret db todo
+        stmt.execute("CREATE TABLE IF NOT EXISTS "+tbnm+" (id VARCHAR(500) PRIMARY KEY)");
+
+        foreachObjFieldsCreateColume(obj, stmt, tbnm,saveDir);
+
         String us = encodeJson(obj);
-        String sql = "INSERT INTO tab1 (k, v) VALUES ('" + getField2025(obj, "id", "") + "', '" + us + "')";
+
+        String sql = "";
+        String id = (String) getField2025(obj, "id", "");
+
+
+        String cols = getCols(obj);
+        String valss = getValsSqlFmt(obj);
+        sql = "INSERT INTO " + tbnm + "  (" + cols + ") VALUES (" + valss + ")";
+
+
         System.out.println(sql);
-        stmt.execute(sql);
+        int i = stmt.executeUpdate(sql);
+        return "executeUpdateRzt=" + i;
+
 
     }
 }
