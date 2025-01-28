@@ -39,7 +39,7 @@ public class CmsBiz {
      */
     public static void calcCms4FrmOrdChrg(OrdChrg objChrg) throws Exception {
         Usr u=getObjById(objChrg.uname,saveDirUsrs, Usr.class);
-        String invtr= u.invtr;
+        String invtr= toStr( u.invtr);
         BigDecimal cmsMny=toBigDcmTwoDot(objChrg.getAmt().multiply( new BigDecimal(0.05)) );
         if(invtr.equals(""))
             return;
@@ -47,6 +47,12 @@ public class CmsBiz {
         updtTotalCmsAddamt(invtr,cmsMny);
         updtBlsYinliwlt(invtr,cmsMny);//balanceYinliwlt
 
+    }
+
+    private static String toStr(String invtr) {
+   if(invtr==null)
+       return  "";
+   return  invtr;
     }
 
 //    @Deprecated

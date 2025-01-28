@@ -257,7 +257,9 @@ public class dbutil {
             System.out.println("savedir=" + saveDir);
             addObjRds(obj, collName, saveDir);
         } else if (saveDir.startsWith("jdbc:mysql")) {
-            addObjMysql(obj, saveDir);
+            rzt = updtObjSqlt(obj, saveDir);
+            System.out.println("endfun updtObj().rzt=" + rzt);
+            return rzt;
         } else {
             //if (saveDir.startsWith("ini:"))
             //ini doc
@@ -449,6 +451,8 @@ public class dbutil {
         for (Field fld : fields) {
             if (fld.getName().equalsIgnoreCase(key)) { // 忽略大小写比较字段名
                 try {
+                    if(key.toLowerCase().equals("balance"))
+                        System.out.println("d1025");
                     fld.setAccessible(true); // 确保字段可访问
                     fld.set(obj, value); // 设置字段值
                 } catch (IllegalAccessException e) {
@@ -1041,15 +1045,26 @@ public class dbutil {
     }
 
     private static String updtObjSqlt(Object obj, String saveDir) throws Exception {
+      var urltrue="";
 
-        Class.forName("org.sqlite.JDBC");
+        if(saveDir.startsWith("jdbc:mysql"))
+        {
+            String mysqlDvr = "com.mysql.cj.jdbc.Driver";
+            var trueDvr=toTrueDvr(mysqlDvr);
+            Class.forName(trueDvr);
+            urltrue=toTrueJdbcUrl(trueDvr,saveDir);
+
+        }
+
+        if(saveDir.startsWith("jdbc:sqlite"))
+            Class.forName("org.sqlite.JDBC");
         mkdir2025(saveDir);
         //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
-        Connection conn = DriverManager.getConnection(saveDir);
+        Connection conn = DriverManager.getConnection(urltrue);
         Statement stmt = conn.createStatement();
         //  stmt.execute("CREATE TABLE IF NOT EXISTS tab1 (id TEXT PRIMARY KEY)");
-        var tbnm = getDatabaseFileName(saveDir);
-        foreachObjFieldsCreateColume(obj, stmt, tbnm, saveDir);
+        var tbnm = getDatabaseFileName(urltrue);
+        foreachObjFieldsCreateColume(obj, stmt, tbnm, urltrue);
 
         String us = encodeJson(obj);
 
@@ -1325,7 +1340,7 @@ public class dbutil {
                     var colType = getTypeSqlt(value);
                     ; //def sqlte type
                     if (saveDir.startsWith("jdbc:mysql") || saveDir.startsWith("jdbc:h2"))
-                        colType = getTypeMysql(value);
+                        colType = getTypeMysql(field.getType());
 
                     String sql = "ALTER TABLE " + tbnm + " ADD COLUMN  \"" + fieldName + "\"  " + colType + " ";
                     // ALTER TABLE usr ADD COLUMN c1 int;
@@ -1346,19 +1361,32 @@ public class dbutil {
 
     }
 
-    private static String getTypeMysql(Object value) {
-
-        if (value instanceof String)
+    private static String getTypeMysql(Class javatype) {
+        if (javatype == String.class)
             return "VARCHAR(999)";
-        if (value instanceof int)
+
+        if (javatype == int.class || javatype == Integer.class)
             return "INT";
 
-        if (value instanceof long)
-            return "INT";
-        if (value instanceof BigDecimal)
+        if (javatype == long.class || javatype == Long.class)
+            return "BIGINT";
+
+        if (javatype == BigDecimal.class)
             return "DECIMAL(20, 2)";
 
+        // 默认返回 VARCHAR(999)
         return "VARCHAR(999)";
+//        if (javatype instanceof String)
+//            return "VARCHAR(999)";
+//        if (javatype instanceof int)
+//            return "INT";
+//
+//        if (javatype instanceof long)
+//            return "BIGINT";
+//        if (javatype instanceof BigDecimal)
+//            return "DECIMAL(20, 2)";
+//
+//        return "VARCHAR(999)";
     }
 
     private static String getTypeSqlt(Object value) {
