@@ -29,8 +29,8 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
     public static void main(String[] args) throws Exception {
         iniCfgFrmCfgfile();
         ovrtTEst=true;
-        drvMap.put("com.mysql.cj.jdbc.Driver", "org.h2.Driver");
-        updateOrdChgSetCmplt("ordChrg2025-01-28T10-14-53");
+ //       drvMap.put("com.mysql.cj.jdbc.Driver", "org.h2.Driver");
+        updateOrdChgSetCmplt("ordChrg2025-01-28T20-33-09");
     }
     static boolean ovrtTEst=false;
     private static void updateOrdChgSetCmplt(String id) throws Exception {
@@ -84,10 +84,12 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         LogBls logBalance = new LogBls();
         logBalance.id = "LogBalance" + getFilenameFrmLocalTimeString();
         logBalance.uname = uname;
-        logBalance.change = "增加";
-        logBalance.amt = amt;
+        logBalance.changeTime=System.currentTimeMillis();
+        logBalance.changeType = "充值";  //充值增加
+        logBalance.changeMode="增加";
+        logBalance.changeAmount = amt;
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
-        logBalance.amtAfter = toBigDcmTwoDot(newBls);
+        logBalance.newBalance = toBigDcmTwoDot(newBls);
         System.out.println(" add balanceLog ");
         addObj(logBalance, saveUrlLogBalance);
 

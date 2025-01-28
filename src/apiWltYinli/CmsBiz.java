@@ -90,10 +90,10 @@ public class CmsBiz {
         LogBls logBalanceYlWlt=new LogBls();
         logBalanceYlWlt.id="LogBalanceYinliwlt"+getFilenameFrmLocalTimeString();
         logBalanceYlWlt.uname=uname;
-        logBalanceYlWlt.change="增加";
-        logBalanceYlWlt.amt=toBigDcmTwoDot(amt);
+        logBalanceYlWlt.changeMode="增加";
+        logBalanceYlWlt.changeAmount=toBigDcmTwoDot(amt);
         logBalanceYlWlt.amtBefore=toBigDcmTwoDot(nowAmt);
-        logBalanceYlWlt.amtAfter=toBigDcmTwoDot(newBls);
+        logBalanceYlWlt.newBalance=toBigDcmTwoDot(newBls);
         System.out.println(addObj(logBalanceYlWlt,saveUrlLogBalanceYinliWlt));
 
         System.out.println("endfun "+methodname);

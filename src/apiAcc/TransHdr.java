@@ -68,11 +68,11 @@ public class TransHdr extends BaseHdr {
         logBalance.id="LogBalance"+getFilenameFrmLocalTimeString();
         logBalance.uname= uname;
 
-        logBalance.amt= BigDecimal.valueOf(amt);
+        logBalance.changeAmount= BigDecimal.valueOf(amt);
         logBalance.amtBefore=toBigDcmTwoDot(nowAmt);
-        logBalance.amtAfter=toBigDcmTwoDot(newBls);
+        logBalance.newBalance=toBigDcmTwoDot(newBls);
 
-        logBalance.change="减去";
+        logBalance.changeMode="减去";
         System.out.println(" add balanceLog ");
         addObj(logBalance,saveUrlLogBalance);
 
@@ -83,10 +83,10 @@ public class TransHdr extends BaseHdr {
         LogBls logBalance2=new LogBls();
         logBalance2.id="LogBalanceYinliWlt"+getFilenameFrmLocalTimeString();
         logBalance2.uname=uname;
-        logBalance2.change="增加";
-        logBalance2.amt= BigDecimal.valueOf(amt);
+        logBalance2.changeMode="增加";
+        logBalance2.changeAmount= BigDecimal.valueOf(amt);
         logBalance2.amtBefore=nowAmt2;
-        logBalance2.amtAfter=newBls2;
+        logBalance2.newBalance=newBls2;
         addObj(logBalance2,saveUrlLogBalanceYinliWlt);
 
 

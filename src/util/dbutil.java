@@ -6,7 +6,6 @@ import com.alibaba.fastjson2.JSON;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -1352,7 +1351,10 @@ public class dbutil {
                     if (saveDir.startsWith("jdbc:mysql") || saveDir.startsWith("jdbc:h2"))
                         colType = getTypeMysql(field.getType());
 
-                    String sql = "ALTER TABLE " + tbnm + " ADD COLUMN  \"" + fieldName + "\"  " + colType + " ";
+                    String fldNameDbfmt = "\"" + fieldName + "\"";//h2 fmt
+                    if (saveDir.startsWith("jdbc:mysql"))
+                           fldNameDbfmt=fieldName;
+                    String sql = "ALTER TABLE " + tbnm + " ADD COLUMN  " + fldNameDbfmt + "  " + colType + " ";
                     // ALTER TABLE usr ADD COLUMN c1 int;
                     System.out.println(sql);
                     stmt.execute(sql);
@@ -1432,15 +1434,12 @@ public class dbutil {
         String tbnm = getDatabaseFileName(saveDir);
         //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
         saveDir = toTrueJdbcUrl(trueDvr, saveDir);
+        crtDatabase(saveDir,tbnm);
         Connection conn = DriverManager.getConnection(saveDir);
         Statement stmt = conn.createStatement();
         //  create database db2
         var trueUrl = toTrueJdbcUrl(trueDvr, saveDir);
-        if(trueUrl.startsWith("jdbc:mysql"))
-        {
-            var sqlCrtDb="create database "+tbnm;
-          //  stmt.execute(sqlCrtDb);
-        }
+
 
         //cret db todo
         stmt.execute("CREATE TABLE IF NOT EXISTS " + tbnm + " (id VARCHAR(500) PRIMARY KEY)");
@@ -1463,6 +1462,31 @@ public class dbutil {
         int i = stmt.executeUpdate(sql);
         return "executeUpdateRzt=" + i;
 
+
+    }
+
+    private static void crtDatabase(String jdbcurl, String tbnm) throws SQLException {
+        if(jdbcurl.startsWith("jdbc:mysql"))
+        {
+            var sqlCrtDb="create database "+tbnm+";";
+            //  stmt.execute(sqlCrtDb);
+
+            int lastSlashIndex = jdbcurl.lastIndexOf('/');
+            var url_noDB=jdbcurl.substring(0,lastSlashIndex);
+            Connection conn = DriverManager.getConnection(url_noDB+"/mysql");
+            Statement stmt = conn.createStatement();
+            try{
+                stmt.executeUpdate(sqlCrtDb);
+            } catch (Exception e) {
+                //database exists
+                if(e.getMessage().contains("Can't create database"))
+                {
+
+                }else
+                    e.printStackTrace();
+            }
+
+        }
 
     }
 
