@@ -10,6 +10,7 @@ import java.util.Map;
 
 import static java.time.LocalTime.now;
 import static util.dbutil.addObj;
+import static util.dbutil.drvMap;
 import static util.util2026.*;
 
 /**
@@ -61,6 +62,7 @@ public class AddOrdChargeHdr extends BaseHdr {
 
     public static void main(String[] args) throws Exception {
            iniCfgFrmCfgfile();
+        drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
         Map<String, Object> queryParams=new HashMap<>();
         queryParams.put("amt",new BigDecimal("888") );
         OrdChrg ord=new OrdChrg();

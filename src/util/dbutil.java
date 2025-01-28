@@ -567,7 +567,15 @@ public class dbutil {
             //System.out.println("");
             System.out.println("endfun qrysql().ret=[" + mapList.size() + "]," + encodeJson(get0(mapList)));
             return mapList;
-        } catch (Exception e) {
+        }catch (org.h2.jdbc.JdbcSQLSyntaxErrorException e)
+        {
+            if (e.getMessage().contains("not found (this database is empty)")) {
+                System.out.println("endfun qrysql().ret=[0]");
+                return new ArrayList<>();
+            }
+            e.printStackTrace();
+        }
+        catch (Exception e) {
             if (e.getMessage().contains("no such table")) {
                 System.out.println("endfun qrysql().ret=[0]");
                 return new ArrayList<>();
@@ -1319,7 +1327,7 @@ public class dbutil {
                     if (saveDir.startsWith("jdbc:mysql") || saveDir.startsWith("jdbc:h2"))
                         colType = getTypeMysql(value);
 
-                    String sql = "ALTER TABLE " + tbnm + " ADD COLUMN  `" + fieldName + "`  " + colType + " ";
+                    String sql = "ALTER TABLE " + tbnm + " ADD COLUMN  \"" + fieldName + "\"  " + colType + " ";
                     // ALTER TABLE usr ADD COLUMN c1 int;
                     System.out.println(sql);
                     stmt.execute(sql);
@@ -1412,10 +1420,12 @@ public class dbutil {
 
     }
 
+    //  //  SELECT * FROM USR WHERE  uname='009'
     private static String toTrueJdbcUrl(String trueDvr, String saveDir) {
         if (trueDvr.equals("org.h2.Driver")) {
+            //and url is mysql url
             var tbnm = getDatabaseFileName4mysql(saveDir);
-            var h2Tmplt = "jdbc:h2:file:c:/dbh2dir/@tbnm@.h2;MODE=MySQL";
+            var h2Tmplt = "jdbc:h2:file:c:/dbh2dir/@tbnm@.h2;MODE=MySQL;CASE_INSENSITIVE_IDENTIFIERS=TRUE";
             var trueurl = h2Tmplt.replaceAll("@tbnm@", tbnm);
             return trueurl;
 
