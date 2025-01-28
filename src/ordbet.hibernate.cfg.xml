@@ -18,8 +18,9 @@
         <property name="hibernate.c3p0.min_size">5</property>
         <property name="hibernate.c3p0.max_size">20</property>
 
-        <!-- Hibernate properties -->
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+        <!-- Hibernate6.6 properties -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        <property name="hibernate.dialect.storage_engine">innodb</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
 

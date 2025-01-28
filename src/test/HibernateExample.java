@@ -25,7 +25,7 @@ public class HibernateExample {
         try {
             // 1. 保存数据
             OrdBet newUser = new OrdBet();
-            newUser.uname="John Doe";
+            newUser.uname="John Doe2";
             newUser.id=newUser.uname;
           //  newUser.setEmail("john.doe@example.com");
 

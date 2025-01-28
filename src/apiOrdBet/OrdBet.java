@@ -1,7 +1,13 @@
 package apiOrdBet;
 
+//import javax.persistence.*;
+//import javax.persistence.Column;
+//import javax.persistence.Entity;
+//import javax.persistence.Id;
+//import javax.persistence.Table;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+//  must jakarta not javax
 
 @Entity
 @Table(name = "OrdBet")

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jboss-logging-3.5.0.Final (2)">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libHbnt/jboss-logging-3.5.0.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,12 +1,10 @@
 package apiUsr;
 
-import biz.Usr;
 import biz.existUserEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
-import java.util.Map;
 
 
 import static apis.BaseHdr.iniCfgFrmCfgfile;

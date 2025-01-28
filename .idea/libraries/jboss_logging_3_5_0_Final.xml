@@ -1,0 +1,24 @@
+<component name="libraryTable">
+  <library name="jboss-logging-3.5.0.Final">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libHbnt/jboss-logging-3.5.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libHbnt/jaxb-runtime-4.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libHbnt/jaxb-core-4.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libHbnt/txw2-4.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libHbnt/jandex-3.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libHbnt/jakarta.xml.bind-api-4.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libHbnt/jakarta.transaction-api-2.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libHbnt/jakarta.persistence-api-3.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libHbnt/jakarta.inject-api-2.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libHbnt/jakarta.activation-api-2.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libHbnt/istack-commons-runtime-4.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libHbnt/hibernate-core-6.6.5.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libHbnt/hibernate-commons-annotations-7.0.3.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libHbnt/byte-buddy-1.15.11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libHbnt/antlr4-runtime-4.13.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libHbnt/angus-activation-2.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

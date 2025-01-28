@@ -18,6 +18,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.alibaba.fastjson2.JSONArray;
+import com.sun.istack.NotNull;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 //import org.apache.lucene.analysis.standard.StandardAnalyzer;
 //import org.apache.lucene.document.Document;
 //import org.apache.lucene.index.IndexWriter;
@@ -181,7 +185,7 @@ public class dbutil {
      * @return
      * @throws Exception
      */
-    public static String addObj(Object obj, String saveDir) throws Exception {
+    public static String addObj(Object obj, String saveDir, Class class1) throws Exception {
         System.out.println("\r\n\r\n");
         System.out.println("fun addobj(");
         System.out.println("obj=" + encodeJson(obj));
@@ -189,7 +193,11 @@ public class dbutil {
         System.out.println(")");
         String collName = "";
         String rzt = "";
-        if (saveDir.endsWith(".db")) {
+        if (saveDir.startsWith("hbnt:")) {
+            String s = addObjHbnt(obj, saveDir, class1);
+            System.out.println("endfun addobj().rzt=" + s);
+            return s;
+        } else if (saveDir.endsWith(".db")) {
             String s = addObjSqlt(obj, saveDir);
             System.out.println("endfun addobj().rzt=" + s);
             return s;
@@ -224,6 +232,80 @@ public class dbutil {
         }
 
         System.out.println("endfun addobj()");
+        return "";
+    }
+
+    public static String addObj(Object obj, String saveDir) throws Exception {
+        System.out.println("\r\n\r\n");
+        System.out.println("fun addobj(");
+        System.out.println("obj=" + encodeJson(obj));
+        System.out.println("saveDir=" + saveDir);
+        System.out.println(")");
+        String collName = "";
+        String rzt = "";
+         if (saveDir.endsWith(".db")) {
+            String s = addObjSqlt(obj, saveDir);
+            System.out.println("endfun addobj().rzt=" + s);
+            return s;
+        } else if (saveDir.startsWith("jdbc:h2")) {
+            String s = addObjMysql(obj, saveDir);
+            System.out.println("endfun addobj().rzt=" + s);
+            return s;
+        } else if (saveDir.startsWith("json:")) {
+            saveDir = saveDir.substring(5);
+            System.out.println("savedir=" + saveDir);
+            addObjDocdb(obj, saveDir);
+
+
+        } else if (saveDir.startsWith("jdbc:lucene")) {
+            saveDir = saveDir.substring(11);
+            System.out.println("savedir=" + saveDir);
+            //addObjLucene(obj, collName, saveDir);
+        } else if (saveDir.startsWith("jdbc:redis")) {
+            saveDir = saveDir.substring(10);
+            System.out.println("savedir=" + saveDir);
+            addObjRds(obj, collName, saveDir);
+        } else if (saveDir.startsWith("jdbc:mysql")) {
+            String s = addObjMysql(obj, saveDir);
+            System.out.println("endfun addobj().rzt=" + s);
+            return s;
+        } else {
+            //if (saveDir.startsWith("ini:"))
+            //ini doc
+            saveDir = saveDir.substring(0);
+            System.out.println("savedir=" + saveDir);
+            addObjIni(obj, saveDir);
+        }
+
+        System.out.println("endfun addobj()");
+        return "";
+    }
+
+    private static String addObjHbnt(Object obj, String saveDir, Class class1) {
+        var hbntcfg = saveDir.substring(5);
+        SessionFactory factory = new Configuration()
+                .configure(hbntcfg)
+                .addAnnotatedClass(class1)
+                .buildSessionFactory();
+
+        // 创建 Session
+        Session session = factory.getCurrentSession();
+
+
+        // 1. 保存数据
+//            OrdBet newUser = new OrdBet();
+//            newUser.uname="John Doe2";
+//            newUser.id=newUser.uname;
+        //  newUser.setEmail("john.doe@example.com");
+
+        // 开启事务
+        session.beginTransaction();
+
+        // 保存用户
+        session.save(obj);
+
+        // 提交事务
+        session.getTransaction().commit();
         return "";
     }
 
@@ -428,7 +510,6 @@ public class dbutil {
         return obj;
 
 
-
     }
 
     /**
@@ -450,7 +531,7 @@ public class dbutil {
         for (Field fld : fields) {
             if (fld.getName().equalsIgnoreCase(key)) { // 忽略大小写比较字段名
                 try {
-                    if(key.toLowerCase().equals("balance"))
+                    if (key.toLowerCase().equals("balance"))
                         System.out.println("d1025");
                     fld.setAccessible(true); // 确保字段可访问
                     fld.set(obj, value); // 设置字段值
@@ -570,23 +651,19 @@ public class dbutil {
             //System.out.println("");
             System.out.println("endfun qrysql().ret=[" + mapList.size() + "]," + encodeJson(get0(mapList)));
             return mapList;
-        }
-        catch (org.h2.jdbc.JdbcSQLSyntaxErrorException e2)
-        {
+        } catch (org.h2.jdbc.JdbcSQLSyntaxErrorException e2) {
             if (e2.getMessage().contains("not found (this database is empty)")) {
                 System.out.println("endfun qrysql().ret=[0]");
                 return new ArrayList<>();
             }
             e2.printStackTrace();
-        }catch (java.sql.SQLSyntaxErrorException e)
-        {
-            if (e.getMessage().startsWith("Table") &&e.getMessage().contains( "doesn't exist")) {
+        } catch (java.sql.SQLSyntaxErrorException e) {
+            if (e.getMessage().startsWith("Table") && e.getMessage().contains("doesn't exist")) {
                 System.out.println("endfun qrysql().ret=[0]");
                 return new ArrayList<>();
             }
             e.printStackTrace();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             if (e.getMessage().contains("no such table")) {
                 System.out.println("endfun qrysql().ret=[0]");
                 return new ArrayList<>();
@@ -755,7 +832,7 @@ public class dbutil {
      * @return
      * @throws IOException
      */
-    private static SortedMap<String, Object> parseFileToSortedMapFrmIni(Path filePath) throws IOException {
+    private static SortedMap<String, Object> parseFileToSortedMapFrmIni( @NotNull Path filePath) throws IOException {
         // 读取文件内容为字符串
         String iniFileContent = Files.readString(filePath);
 
@@ -929,7 +1006,7 @@ public class dbutil {
                 return new TreeMap<>();
             if (message.startsWith("Table") && message.contains("not found"))
                 return new TreeMap<>();
-            if(message.contains("Unknown database '"))
+            if (message.contains("Unknown database '"))
                 return new TreeMap<>();
             throw new RuntimeException(e);
         }
@@ -1054,18 +1131,17 @@ public class dbutil {
     }
 
     private static String updtObjSqlt(Object obj, String saveDir) throws Exception {
-      var urltrue="";
+        var urltrue = "";
 
-        if(saveDir.startsWith("jdbc:mysql"))
-        {
+        if (saveDir.startsWith("jdbc:mysql")) {
             String mysqlDvr = "com.mysql.cj.jdbc.Driver";
-            var trueDvr=toTrueDvr(mysqlDvr);
+            var trueDvr = toTrueDvr(mysqlDvr);
             Class.forName(trueDvr);
-            urltrue=toTrueJdbcUrl(trueDvr,saveDir);
+            urltrue = toTrueJdbcUrl(trueDvr, saveDir);
 
         }
 
-        if(saveDir.startsWith("jdbc:sqlite"))
+        if (saveDir.startsWith("jdbc:sqlite"))
             Class.forName("org.sqlite.JDBC");
         mkdir2025(saveDir);
         //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
@@ -1353,7 +1429,7 @@ public class dbutil {
 
                     String fldNameDbfmt = "\"" + fieldName + "\"";//h2 fmt
                     if (saveDir.startsWith("jdbc:mysql"))
-                           fldNameDbfmt=fieldName;
+                        fldNameDbfmt = fieldName;
                     String sql = "ALTER TABLE " + tbnm + " ADD COLUMN  " + fldNameDbfmt + "  " + colType + " ";
                     // ALTER TABLE usr ADD COLUMN c1 int;
                     System.out.println(sql);
@@ -1434,7 +1510,7 @@ public class dbutil {
         String tbnm = getDatabaseFileName(saveDir);
         //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
         saveDir = toTrueJdbcUrl(trueDvr, saveDir);
-        crtDatabase(saveDir,tbnm);
+        crtDatabase(saveDir, tbnm);
         Connection conn = DriverManager.getConnection(saveDir);
         Statement stmt = conn.createStatement();
         //  create database db2
@@ -1466,23 +1542,21 @@ public class dbutil {
     }
 
     private static void crtDatabase(String jdbcurl, String tbnm) throws SQLException {
-        if(jdbcurl.startsWith("jdbc:mysql"))
-        {
-            var sqlCrtDb="create database "+tbnm+";";
+        if (jdbcurl.startsWith("jdbc:mysql")) {
+            var sqlCrtDb = "create database " + tbnm + ";";
             //  stmt.execute(sqlCrtDb);
 
             int lastSlashIndex = jdbcurl.lastIndexOf('/');
-            var url_noDB=jdbcurl.substring(0,lastSlashIndex);
-            Connection conn = DriverManager.getConnection(url_noDB+"/mysql");
+            var url_noDB = jdbcurl.substring(0, lastSlashIndex);
+            Connection conn = DriverManager.getConnection(url_noDB + "/mysql");
             Statement stmt = conn.createStatement();
-            try{
+            try {
                 stmt.executeUpdate(sqlCrtDb);
             } catch (Exception e) {
                 //database exists
-                if(e.getMessage().contains("Can't create database"))
-                {
+                if (e.getMessage().contains("Can't create database")) {
 
-                }else
+                } else
                     e.printStackTrace();
             }
 
