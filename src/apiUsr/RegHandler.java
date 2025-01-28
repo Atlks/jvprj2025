@@ -46,14 +46,14 @@ public class RegHandler implements HttpHandler {
     public static void main(String[] args) throws Exception, existUserEx {
         iniCfgFrmCfgfile();
         ovrwtest=true;
-        drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
+    //    drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
 //        Usr u=new Usr();
 //        u.uname="009";
 //        u.pwd="pp";
 //        u.invtr="007";
 //
 //        u.id=u.uname;
-
+        System.out.println(drvMap);
 
         Usr u=new Usr();
         u.uname="007";

@@ -571,9 +571,17 @@ public class dbutil {
             //System.out.println("");
             System.out.println("endfun qrysql().ret=[" + mapList.size() + "]," + encodeJson(get0(mapList)));
             return mapList;
-        }catch (org.h2.jdbc.JdbcSQLSyntaxErrorException e)
+        }
+        catch (org.h2.jdbc.JdbcSQLSyntaxErrorException e2)
         {
-            if (e.getMessage().contains("not found (this database is empty)")) {
+            if (e2.getMessage().contains("not found (this database is empty)")) {
+                System.out.println("endfun qrysql().ret=[0]");
+                return new ArrayList<>();
+            }
+            e2.printStackTrace();
+        }catch (java.sql.SQLSyntaxErrorException e)
+        {
+            if (e.getMessage().startsWith("Table") &&e.getMessage().contains( "doesn't exist")) {
                 System.out.println("endfun qrysql().ret=[0]");
                 return new ArrayList<>();
             }
@@ -921,6 +929,8 @@ public class dbutil {
             if (message.contains("no such table: "))
                 return new TreeMap<>();
             if (message.startsWith("Table") && message.contains("not found"))
+                return new TreeMap<>();
+            if(message.contains("Unknown database '"))
                 return new TreeMap<>();
             throw new RuntimeException(e);
         }
@@ -1424,10 +1434,18 @@ public class dbutil {
         saveDir = toTrueJdbcUrl(trueDvr, saveDir);
         Connection conn = DriverManager.getConnection(saveDir);
         Statement stmt = conn.createStatement();
+        //  create database db2
+        var trueUrl = toTrueJdbcUrl(trueDvr, saveDir);
+        if(trueUrl.startsWith("jdbc:mysql"))
+        {
+            var sqlCrtDb="create database "+tbnm;
+          //  stmt.execute(sqlCrtDb);
+        }
+
         //cret db todo
         stmt.execute("CREATE TABLE IF NOT EXISTS " + tbnm + " (id VARCHAR(500) PRIMARY KEY)");
 
-        var trueUrl = toTrueJdbcUrl(trueDvr, saveDir);
+
         foreachObjFieldsCreateColume(obj, stmt, tbnm, trueUrl);
 
         String us = encodeJson(obj);

@@ -40,7 +40,7 @@ setcookie("uname","007",exchange);//for test
 
         //test
      //   openMap4test();
-        dbutil.  drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
+    //    dbutil.  drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
 
 
         // 获取类加载器 /C:/Users/attil/IdeaProjects/jvprj2025/out/production/jvprj2025/
