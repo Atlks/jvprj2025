@@ -8,6 +8,15 @@ import static util.util2026.getField2025;
 
 public class OrmMysql extends OrmBase {
 
+    public   String _toSqlType(Class javatype) {
+        return switch (javatype.getSimpleName()) {
+            case "String" -> "VARCHAR(999)";
+            case "int", "Integer" -> "INT";
+            case "long", "Long" -> "BIGINT";
+            case "BigDecimal" -> "DECIMAL(20, 2)";
+            default -> "VARCHAR(999)";
+        };
+    }
 
 
 
@@ -18,22 +27,13 @@ public class OrmMysql extends OrmBase {
         Usr u = new Usr();
         u.id = "888";
         orm.merge(u);
-        
+
 
 
     }
 
 
 
-    public   String _toSqlType(Class javatype) {
-        return switch (javatype.getSimpleName()) {
-            case "String" -> "VARCHAR(999)";
-            case "int", "Integer" -> "INT";
-            case "long", "Long" -> "BIGINT";
-            case "BigDecimal" -> "DECIMAL(20, 2)";
-            default -> "VARCHAR(999)";
-        };
-    }
 
 
 
