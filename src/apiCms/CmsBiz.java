@@ -1,8 +1,9 @@
-package apiWltYinli;
+package apiCms;
 
 import apiAcc.LogBls;
 import apiAcc.OrdChrg;
 import apiUsr.Usr;
+import apiWltYinli.LogCms;
 
 import java.math.BigDecimal;
 import java.util.SortedMap;
@@ -29,7 +30,14 @@ public class CmsBiz {
         OrdChrg ord=new OrdChrg();
         ord.uname="008";
        ord.amt=new BigDecimal(100);
-        calcCms4FrmOrdChrg(ord);
+     //   calcCms4FrmOrdChrg(ord);
+
+
+          LogCms log=new LogCms();
+        log.id="LogCms"+getFilenameFrmLocalTimeString();
+        log.uname= "008";
+        log.commssionAmt=toBigDcmTwoDot(BigDecimal.valueOf(100));
+        addLogCms(log);
     }
     public static String saveUrlLogCms;
 
@@ -117,7 +125,20 @@ public class CmsBiz {
 
 
     }
+    private static void addLogCms(LogCms log) throws Exception {
 
+
+        //add balanceLog
+      //  LogCms log=new LogCms();
+        log.id="LogCms"+getFilenameFrmLocalTimeString();
+//        log.uname= uname;
+//        log.commssionAmt=toBigDcmTwoDot(amtCmsMny);
+        //  log.put("amtBefore",nowAmt);
+        //  log.put("amtAfter",newBls);
+        addObj(log,saveUrlLogCms,LogCms.class);
+
+
+    }
 
     private static void addLogCms(String uname, BigDecimal amtCmsMny) throws Exception {
 

@@ -2,7 +2,12 @@ package util;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSON;
-
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Environment;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.boot.MetadataSources;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -14,6 +19,8 @@ import java.sql.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,6 +29,7 @@ import com.sun.istack.NotNull;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.Environment;
 //import org.apache.lucene.analysis.standard.StandardAnalyzer;
 //import org.apache.lucene.document.Document;
 //import org.apache.lucene.index.IndexWriter;
@@ -185,16 +193,17 @@ public class dbutil {
      * @return
      * @throws Exception
      */
-    public static String addObj(Object obj, String saveDir, Class class1) throws Exception {
+    public static Object addObj(Object obj, String saveDir, Class class1) throws Exception {
         System.out.println("\r\n\r\n");
         System.out.println("fun addobj(");
         System.out.println("obj=" + encodeJson(obj));
         System.out.println("saveDir=" + saveDir);
+        System.out.println("class1=" + class1);
         System.out.println(")");
         String collName = "";
         String rzt = "";
         if (saveDir.startsWith("hbnt:")) {
-            String s = addObjHbnt(obj, saveDir, class1);
+            Object s = addObjHbnt(obj, saveDir, class1);
             System.out.println("endfun addobj().rzt=" + s);
             return s;
         } else if (saveDir.endsWith(".db")) {
@@ -280,8 +289,88 @@ public class dbutil {
         System.out.println("endfun addobj()");
         return "";
     }
+    private static Object addObjHbnt(Object obj, String saveDir, Class class1) throws Exception {
+        var jdbcUrl = saveDir.substring(5);
 
-    private static String addObjHbnt(Object obj, String saveDir, Class class1) {
+        var db=getDatabaseFileName4mysql(jdbcUrl);
+        crtDatabase(jdbcUrl,db);
+
+        // Hibernate 配置属性
+        Properties properties = new Properties();
+        properties.put(Environment.DRIVER, getDvr(jdbcUrl));
+        properties.put(Environment.URL, ""+jdbcUrl);
+        properties.put(Environment.USER, getUnameFromJdbcurl(jdbcUrl));
+        properties.put(Environment.PASS, getPwdFromJdbcurl(jdbcUrl));
+        properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
+    //    hibernate.dialect.storage_engine
+        properties.put(Environment.SHOW_SQL, "true");
+        properties.put(Environment.FORMAT_SQL, "true");
+        properties.put(Environment.STORAGE_ENGINE, "innodb");
+        //HBM2DDL_CHARSET_NAME
+        properties.put(Environment.HBM2DDL_AUTO, "update"); // 自动建表
+        properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
+
+        // 创建 ServiceRegistry
+        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                .applySettings(properties)
+                .build();
+
+        // 添加实体类映射
+        MetadataSources metadataSources = new MetadataSources(serviceRegistry);
+        metadataSources.addAnnotatedClass(class1); // 你的实体类
+
+        // 创建 SessionFactory
+        SessionFactory sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
+
+        // 获取 Session
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        // 示例操作
+
+        session.save(obj);
+
+        session.getTransaction().commit();
+        session.close();
+
+        // 关闭 SessionFactory
+        sessionFactory.close();
+
+
+
+        return obj;
+    }
+
+    private static String getPwdFromJdbcurl(String jdbcUrl) {
+        return getCredentialFromJdbcUrl(jdbcUrl, "password");
+    }
+
+    private static String getUnameFromJdbcurl(String jdbcUrl) {
+        return getCredentialFromJdbcUrl(jdbcUrl, "user");
+    }
+
+    private static String getCredentialFromJdbcUrl(String jdbcUrl, String type) {
+        // 使用正则表达式解析 "用户名:密码@host" 部分
+        Pattern pattern = Pattern.compile("jdbc:mysql://([^:@]+):([^:@]+)@");
+        Matcher matcher = pattern.matcher(jdbcUrl);
+
+        if (matcher.find()) {
+            if ("user".equals(type)) {
+                return matcher.group(1); // 获取用户名
+            } else if ("password".equals(type)) {
+                return matcher.group(2); // 获取密码
+            }
+        }
+        return null; // 如果匹配失败，返回 null
+    }
+
+    private static String getDvr(String jdbcUrl) {
+  if(jdbcUrl.startsWith("jdbc:mysql"))
+      return  "com.mysql.cj.jdbc.Driver";
+  return  "sqlt";
+    }
+
+    private static String addObjHbntCfgmd(Object obj, String saveDir, Class class1) {
         var hbntcfg = saveDir.substring(5);
         SessionFactory factory = new Configuration()
                 .configure(hbntcfg)
@@ -1545,6 +1634,7 @@ public class dbutil {
         if (jdbcurl.startsWith("jdbc:mysql")) {
             var sqlCrtDb = "create database " + tbnm + ";";
             //  stmt.execute(sqlCrtDb);
+            System.out.println(sqlCrtDb);
 
             int lastSlashIndex = jdbcurl.lastIndexOf('/');
             var url_noDB = jdbcurl.substring(0, lastSlashIndex);

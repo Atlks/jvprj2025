@@ -2,7 +2,7 @@ package apiAcc;
 
 import java.math.BigDecimal;
 
-import static apiWltYinli.CmsBiz.toBigDcmTwoDot;
+import static apiCms.CmsBiz.toBigDcmTwoDot;
 
 public class OrdChrg {
     public String uname;

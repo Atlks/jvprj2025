@@ -11,7 +11,7 @@ import static util.Fltr.fltr2501;
 import static util.Util2025.encodeJson;
 import static util.dbutil.*;
 import static util.util2026.*;
-import static apiWltYinli.CmsBiz.saveUrlLogCms;
+import static apiCms.CmsBiz.saveUrlLogCms;
 
 /**  app use ,so must hav uname
  * http://localhost:8889/QryLogCmsHdr

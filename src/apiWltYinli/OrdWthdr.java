@@ -3,7 +3,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
-import static apiWltYinli.CmsBiz.toBigDcmTwoDot;
+import static apiCms.CmsBiz.toBigDcmTwoDot;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 
 @Entity
