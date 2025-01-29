@@ -313,8 +313,8 @@ public class dbutil {
         session.beginTransaction();
 
         // 示例操作
-
-        session.save(obj);
+      //  session.find()
+        session.merge(obj);
 
         session.getTransaction().commit();
         session.close();
@@ -682,7 +682,7 @@ public class dbutil {
      * @param <T>
      * @return
      */
-    private static <T> T toObj(SortedMap<String, Object> sortedMap, Class<T> cls) throws Exception {
+    static <T> T toObj(SortedMap<String, Object> sortedMap, Class<T> cls) throws Exception {
         // 将 Map 转换为 JSON 字符串，再反序列化为指定类型的对象
 //        String jsonString = JSON.toJSONString(obj);
 //        return JSON.parseObject(jsonString, cls);
@@ -1457,7 +1457,7 @@ public class dbutil {
      * @param obj
      * @return
      */
-    private static String getValsSqlFmt(Object obj) throws Exception {
+    static String getValsSqlFmt(Object obj) throws Exception {
 
         List<String> valsList = new ArrayList<>();
 
@@ -1515,7 +1515,7 @@ public class dbutil {
         return String.valueOf(joinVals);
     }
 
-    private static String getCols(Object obj) throws Exception {
+    static String getCols(Object obj) throws Exception {
 
 
         List<String> colsList = new ArrayList<>();
@@ -1563,7 +1563,7 @@ public class dbutil {
 
     //  <property name="hibernate.dialect">org.hibernate.community.dialect.SQLiteDialect</property>
     //循环对象属性，创建对应的字段
-    private static void foreachObjFieldsCreateColume(Object obj, Statement stmt, String tbnm, String saveDir) throws Exception {
+    static void foreachObjFieldsCreateColume(Object obj, Statement stmt, String tbnm, String saveDir) throws Exception {
 
         if (obj instanceof Map) {
             Map<String, Object> map = (Map) obj;
@@ -1649,7 +1649,7 @@ public class dbutil {
 
     }
 
-    private static String getTypeMysql(Class javatype) {
+    static String getTypeMysql(Class javatype) {
         if (javatype == String.class)
             return "VARCHAR(999)";
 
@@ -1677,7 +1677,7 @@ public class dbutil {
 //        return "VARCHAR(999)";
     }
 
-    private static String getTypeSqlt(Object value) {
+    static String getTypeSqlt(Object value) {
 
         if (value instanceof String)
             return "text";

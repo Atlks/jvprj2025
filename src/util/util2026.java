@@ -73,6 +73,7 @@ public class util2026 {
 
         return result;
     }
+
     /**
      * 获取当前本地时间，并格式化为字符串。
      *
@@ -88,6 +89,7 @@ public class util2026 {
         // 格式化时间并返回
         return now.format(formatter);
     }
+
     /**
      * 将异常的堆栈跟踪转换为字符串
      *
@@ -100,6 +102,7 @@ public class util2026 {
         e.printStackTrace(pw);
         return sw.toString();
     }
+
     public static String getFilenameFrmLocalTimeString() {
         // 获取当前本地时间
         LocalDateTime now = LocalDateTime.now();
@@ -112,12 +115,14 @@ public class util2026 {
         // 格式化时间并返回
         return now.format(formatter);
     }
+
     public static boolean isSqldb(String saveUrl) {
 
-        if(   saveUrl.startsWith("jdbc:mysql") || saveUrl.startsWith("jdbc:sqlite"))
+        if (saveUrl.startsWith("jdbc:mysql") || saveUrl.startsWith("jdbc:sqlite"))
             return true;
-        return  false;
+        return false;
     }
+
     public static String getcookie(String cookieName, HttpExchange exchange) {
         // 获取请求头中的 Cookie
         List<String> cookieHeaders = exchange.getRequestHeaders().get("Cookie");
@@ -143,7 +148,7 @@ public class util2026 {
     }
 
     public static List<HttpCookie> HttpCookie_parse(String cookieHeader) {
-        List<HttpCookie> list=new ArrayList<>();
+        List<HttpCookie> list = new ArrayList<>();
         // 分割每个 Cookie 头中的多个 Cookie
         String[] cookies = cookieHeader.split(";\\s*");
         for (String cookie : cookies) {
@@ -152,11 +157,11 @@ public class util2026 {
             if (cookieParts.length == 2) {
                 String name = cookieParts[0];
                 String value = cookieParts[1];
-                HttpCookie ck=new HttpCookie(name,value);
+                HttpCookie ck = new HttpCookie(name, value);
                 list.add(ck);
             }
         }
-        return  list;
+        return list;
     }
 
 
@@ -206,56 +211,59 @@ public class util2026 {
 
         return result;
     }
-    public static void setcookie(String name, String val,HttpExchange exchange) {
+
+    public static void setcookie(String name, String val, HttpExchange exchange) {
         // 创建 Set-Cookie 头部内容
 
-     //   String cookie2 = "uname1=" + uname1 + "; Path=/; ";
+        //   String cookie2 = "uname1=" + uname1 + "; Path=/; ";
 
 
         // 获取当前时间，并设置半年后的时间戳（以 Expires 为参考）
         long halfYearInSeconds = 182L * 24 * 60 * 60;
         long expiryTimeInMillis = System.currentTimeMillis() + (halfYearInSeconds * 1000);
-     //周六, 26 7月 2025 13:14:05 GMT
+        //周六, 26 7月 2025 13:14:05 GMT
         String expiresDate = new java.text.SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'")
                 .format(new java.util.Date(expiryTimeInMillis));
 
         // 创建 Set-Cookie 头部内容
         //String cookie1 = "uname=" + uname + "; Path=/; HttpOnly;
-        String cookie1 = name+"=" + val + "; Path=/;  Max-Age=" + halfYearInSeconds + ";";
-            //    " Expires=" + expiresDate;
+        String cookie1 = name + "=" + val + "; Path=/;  Max-Age=" + halfYearInSeconds + ";";
+        //    " Expires=" + expiresDate;
         // 设置响应头中的 Set-Cookie
         exchange.getResponseHeaders().add("Set-Cookie", cookie1);
-     //   exchange.getResponseHeaders().add("Set-Cookie", cookie2);
+        //   exchange.getResponseHeaders().add("Set-Cookie", cookie2);
 
     }
+
     public static void throwEx(Exception e) {
-        if(e instanceof  RuntimeException)
-            throw  (RuntimeException)e;
+        if (e instanceof RuntimeException)
+            throw (RuntimeException) e;
         throw new RuntimeException(e);
 
     }
-    public static BigDecimal getFieldAsBigDecimal(Object obj, String fieldName, float defval)
-    {
-        Object o=getField2025(obj,fieldName,String.valueOf(defval));
-          if(o.toString().equals(""))
-              return      new BigDecimal(defval);
-            return  new BigDecimal(o.toString());
+
+    public static BigDecimal getFieldAsBigDecimal(Object obj, String fieldName, float defval) {
+        Object o = getField2025(obj, fieldName, String.valueOf(defval));
+        if (o.toString().equals(""))
+            return new BigDecimal(defval);
+        return new BigDecimal(o.toString());
     }
+
     /**
      * 获取对象属性
+     *
      * @param obj
      * @param fieldName
      * @return
      */
-    public static Object getField2025(Object obj, String fieldName,String defval) {
+    public static Object getField2025(Object obj, String fieldName, String defval) {
         if (obj == null || fieldName == null || fieldName.isEmpty()) {
             return defval; // 防御性编程，处理无效参数
         }
-        if(obj instanceof Map)
-        {
+        if (obj instanceof Map) {
             Object o = ((Map) obj).get(fieldName);
-            if(o==null)
-                o="";
+            if (o == null)
+                o = "";
             return o;
         }
 
@@ -279,8 +287,67 @@ public class util2026 {
         } catch (SecurityException e) {
             System.err.println("Access to field '" + fieldName + "' is restricted: " + e.getMessage());
         }
-        return  defval;
+        return defval;
     }
+
+    /**
+     * 复制属性
+     *
+     * @param <T>
+     */
+    static <T> void copyProps(T source, T target) {
+
+        if (target == null || source == null) {
+            throw new IllegalArgumentException("目标对象和源对象不能为空");
+        }
+
+        Class<?> clazz = source.getClass();
+        while (clazz != null) { // 处理继承层级
+            Field[] fields = clazz.getDeclaredFields();
+            for (Field field : fields) {
+                field.setAccessible(true);
+                try {
+                    Object value = field.get(source);
+                    field.set(target, value);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException("无法访问字段: " + field.getName(), e);
+                }
+            }
+            clazz = clazz.getSuperclass(); // 继续处理父类字段
+        }
+    }
+
+    public static Object getField2025(Object obj, String fieldName) throws Exception {
+        if (obj == null || fieldName == null || fieldName.isEmpty()) {
+            // 防御性编程，处理无效参数
+            throw new RuntimeException("some prm is null or empty");
+        }
+//        if(obj instanceof Map)
+//        {
+//            Object o = ((Map) obj).get(fieldName);
+//            if(o==null)
+//                o="";
+//            return o;
+//        }
+
+
+        // 获取类定义
+        Class<?> clazz = obj.getClass();
+
+        // 查找字段，包括私有字段
+        Field field = clazz.getDeclaredField(fieldName);
+
+        // 如果是私有字段，取消访问限制
+        field.setAccessible(true);
+
+        // 获取字段值并转换为字符串
+        Object value = field.get(obj);
+
+
+        return value;
+    }
+
+
     public static void wrtResp(HttpExchange exchange, String responseTxt) throws IOException {
         exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=utf-8");
         exchange.sendResponseHeaders(200, responseTxt.getBytes().length);
