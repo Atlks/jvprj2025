@@ -18,6 +18,7 @@ public class OrmMysql extends OrmBase {
         Usr u = new Usr();
         u.id = "888";
         orm.merge(u);
+        
 
 
     }

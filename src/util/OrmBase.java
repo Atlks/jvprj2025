@@ -70,7 +70,7 @@ public abstract class OrmBase implements OrmBaseItfs {
         stmt.execute("CREATE TABLE IF NOT EXISTS " + tbnm + " (id VARCHAR(500) PRIMARY KEY)");
 
 
-        CreateColumes(obj, stmt, tbnm, jdbcurl, (OrmBase) this);
+        _CreateColumes(obj, stmt, tbnm, jdbcurl);
 
 
         //--------crt  sql insert
@@ -86,7 +86,7 @@ public abstract class OrmBase implements OrmBaseItfs {
     }
 
     //循环对象属性，创建对应的字段
-    public static void CreateColumes(Object obj, Statement stmt, String tbnm, String saveDir, OrmBase ormItfs) throws Exception {
+    public   void _CreateColumes(Object obj, Statement stmt, String tbnm, String saveDir ) throws Exception {
 
         if (obj instanceof Map) {
             Map<String, Object> map = (Map) obj;
@@ -143,7 +143,7 @@ public abstract class OrmBase implements OrmBaseItfs {
                     field.setAccessible(true); // Allow access to private fields
                     String fieldName = field.getName();
 
-                    var colType = ormItfs._toSqlType(field.getClass());
+                    var colType = _toSqlType(field.getClass());
 
 
                     String fldNameDbfmt = "\"" + fieldName + "\"";//h2 fmt
