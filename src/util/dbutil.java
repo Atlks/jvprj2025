@@ -198,10 +198,11 @@ public class dbutil {
     public static Object addObj(Object obj, String saveDir, Class class1) throws Exception {
         System.out.println("\r\n\r\n");
      //   System.out.println("fun addobj(");
-        printLn("fun addobj(", BLUE);
-        System.out.println("obj=" + encodeJson(obj));
-        System.out.println("saveDir=" + saveDir);
-        System.out.println("class1=" + class1);
+        String runEmoji = "▶️";
+        printLn("▶️fun addobj(", BLUE);
+        printLn("obj=" + encodeJson(obj), GREEN);
+        printLn("saveDir=" + saveDir, GREEN);
+        printLn("class1=" + class1, GREEN);
         System.out.println(")");
         String collName = "";
         String rzt = "";
@@ -299,7 +300,7 @@ public class dbutil {
     }
 
     private static Object addObjHbnt(Object obj, String saveDir, Class class1) throws Exception {
-        printLn("fun addObjHbnt(", BLUE);
+        printLn("️▶️fun addObjHbnt(", BLUE);
         printLn("saveDir="+saveDir, GREEN);
         printLn("class1="+class1, GREEN);
         printLn("))", BLUE);
