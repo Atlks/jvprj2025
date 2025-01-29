@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="hibernate-community-dialects-6.4.0.Final">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libHbnt/hibernate-community-dialects-6.4.0.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

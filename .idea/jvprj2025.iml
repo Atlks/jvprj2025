@@ -50,5 +50,6 @@
     <orderEntry type="library" name="jboss-logging-3.5.0.Final" level="project" />
     <orderEntry type="library" name="classmate-1.6.0" level="project" />
     <orderEntry type="library" name="jboss-logging-3.5.0.Final (2)" level="project" />
+    <orderEntry type="library" name="hibernate-community-dialects-6.4.0.Final" level="project" />
   </component>
 </module>

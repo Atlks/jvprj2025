@@ -54,8 +54,9 @@ public class RegHandler implements HttpHandler {
         System.out.println(drvMap);
 
         Usr u=new Usr();
-        u.uname="007";
+        u.uname="009";
         u.pwd="pp";
+        u.invtr="007";
 
 
         u.id=u.uname;
@@ -73,7 +74,7 @@ public class RegHandler implements HttpHandler {
         //  if(!existUser(uname))
 
 
-        addObj(user,  saveDirUsrs);
+        addObj(user,  saveDirUsrs,Usr.class);
 
         return "ok";
 
@@ -114,6 +115,8 @@ public class RegHandler implements HttpHandler {
     public static boolean existUser(String uname) throws Exception {
 
         Usr jo = getObjById(uname,  saveDirUsrs,Usr.class);
+        if(jo==null)
+            return  false;
         // 空安全处理，直接操作结果
         if (jo.uname.equals("")) {
             return false;

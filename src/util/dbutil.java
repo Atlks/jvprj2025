@@ -299,35 +299,7 @@ public class dbutil {
     private static Object addObjHbnt(Object obj, String saveDir, Class class1) throws Exception {
         var jdbcUrl = saveDir.substring(5);
 
-        var db=getDatabaseFileName4mysql(jdbcUrl);
-        crtDatabase(jdbcUrl,db);
-
-        // Hibernate 配置属性
-        Properties properties = new Properties();
-        properties.put(Environment.DRIVER, getDvr(jdbcUrl));
-        properties.put(Environment.URL, ""+jdbcUrl);
-        properties.put(Environment.USER, getUnameFromJdbcurl(jdbcUrl));
-        properties.put(Environment.PASS, getPwdFromJdbcurl(jdbcUrl));
-        properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
-    //    hibernate.dialect.storage_engine
-        properties.put(Environment.SHOW_SQL, "true");
-        properties.put(Environment.FORMAT_SQL, "true");
-        properties.put(Environment.STORAGE_ENGINE, "innodb");
-        //HBM2DDL_CHARSET_NAME
-        properties.put(Environment.HBM2DDL_AUTO, "update"); // 自动建表
-        properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-
-        // 创建 ServiceRegistry
-        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                .applySettings(properties)
-                .build();
-
-        // 添加实体类映射
-        MetadataSources metadataSources = new MetadataSources(serviceRegistry);
-        metadataSources.addAnnotatedClass(class1); // 你的实体类
-
-        // 创建 SessionFactory
-        SessionFactory sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
+        SessionFactory sessionFactory = getSessionFactory(class1, jdbcUrl);
 
         // 获取 Session
         Session session = sessionFactory.openSession();
@@ -346,6 +318,39 @@ public class dbutil {
 
 
         return obj;
+    }
+
+    private static SessionFactory getSessionFactory(Class class1, String jdbcUrl) throws SQLException {
+        var db=getDatabaseFileName4mysql(jdbcUrl);
+        crtDatabase(jdbcUrl,db);
+
+        // Hibernate 配置属性
+        Properties properties = new Properties();
+        properties.put(Environment.DRIVER, getDvr(jdbcUrl));
+        properties.put(Environment.URL, ""+ jdbcUrl);
+        properties.put(Environment.USER, getUnameFromJdbcurl(jdbcUrl));
+        properties.put(Environment.PASS, getPwdFromJdbcurl(jdbcUrl));
+        properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
+        //    hibernate.dialect.storage_engine
+        properties.put(Environment.SHOW_SQL, "true");
+        properties.put(Environment.FORMAT_SQL, "true");
+        properties.put(Environment.STORAGE_ENGINE, "innodb");
+        //HBM2DDL_CHARSET_NAME
+        properties.put(Environment.HBM2DDL_AUTO, "update"); // 自动建表
+        properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
+
+        // 创建 ServiceRegistry
+        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                .applySettings(properties)
+                .build();
+
+        // 添加实体类映射
+        MetadataSources metadataSources = new MetadataSources(serviceRegistry);
+        metadataSources.addAnnotatedClass(class1); // 你的实体类
+
+        // 创建 SessionFactory
+        SessionFactory sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
+        return sessionFactory;
     }
 
 //    private static String getPwdFromJdbcurl(String jdbcUrl) {
@@ -554,10 +559,27 @@ public class dbutil {
             SortedMap<String, Object> objSqlt = getMapMysql(id, saveDir);
             return toObj(objSqlt, cls);
 
-        } else {
+        } else if(saveDir.startsWith("hbnt:"))
+        {
+            return  findByHbnt(id,saveDir,cls);
+        }
+
+        else {
             return (T) getObjIni(id, saveDir);
         }
 
+
+    }
+
+    private static <T> T findByHbnt(String id, String saveDir, Class<T> class1) throws Exception {
+
+        var jdbcUrl = saveDir.substring(5);
+
+        SessionFactory sessionFactory = getSessionFactory(class1, jdbcUrl);
+
+        try (Session session = sessionFactory.openSession()) {
+            return session.find(class1, id);
+        }
 
     }
 
@@ -1462,6 +1484,7 @@ public class dbutil {
         return String.join(",", colsList);
     }
 
+    //  <property name="hibernate.dialect">org.hibernate.community.dialect.SQLiteDialect</property>
     //循环对象属性，创建对应的字段
     private static void foreachObjFieldsCreateColume(Object obj, Statement stmt, String tbnm, String saveDir) throws Exception {
 
