@@ -1,4 +1,4 @@
-package apiAcc;
+package apiWltYinli;
 
 //jakarta.persistence.Entity（JPA 3.x, Jakarta EE 9 及以后）
 //javax.persistence.Entity  already dep
@@ -34,7 +34,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table
-public class LogBls {
+public class LogBlsLogYLwlt {
 
     @Id
     public String id;

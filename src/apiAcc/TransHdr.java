@@ -11,6 +11,7 @@ import java.util.TreeMap;
 
 import static apiUsr.RegHandler.saveDirUsrs;
 import static apiAcc.UpdtCompleteChargeHdr.saveUrlLogBalance;
+import static biz.BaseBiz.saveUrlLogBalanceYinliWlt;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static util.Util2025.encodeJson;
 import static util.dbutil.*;
@@ -22,7 +23,6 @@ import static apiCms.CmsBiz.toBigDcmTwoDot;
  */
 public class TransHdr extends BaseHdr {
 
-    public static String saveUrlLogBalanceYinliWlt;
 
     public static void main(String[] args) throws Exception {
       iniCfgFrmCfgfile();

@@ -1,4 +1,4 @@
-package apiWltYinli;
+package apiCms;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

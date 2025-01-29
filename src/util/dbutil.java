@@ -40,6 +40,8 @@ import org.hibernate.cfg.Environment;
 
 //import static util.Fltr.filterWithSpEL;
 import static util.Fltr.fltr2501;
+import static util.StrUtil.getPwdFromJdbcurl;
+import static util.StrUtil.getUnameFromJdbcurl;
 import static util.Util2025.*;
 import static util.UtilEncode.encodeFilename;
 import static util.util2026.*;
@@ -202,6 +204,10 @@ public class dbutil {
         System.out.println(")");
         String collName = "";
         String rzt = "";
+        //chk empty null
+        if(saveDir.equals(""))
+            throw  new RuntimeException("prm savadir/url=''");
+
         if (saveDir.startsWith("hbnt:")) {
             Object s = addObjHbnt(obj, saveDir, class1);
             System.out.println("endfun addobj().rzt=" + s);
@@ -244,6 +250,7 @@ public class dbutil {
         return "";
     }
 
+    @Deprecated
     public static String addObj(Object obj, String saveDir) throws Exception {
         System.out.println("\r\n\r\n");
         System.out.println("fun addobj(");
@@ -341,15 +348,15 @@ public class dbutil {
         return obj;
     }
 
-    private static String getPwdFromJdbcurl(String jdbcUrl) {
-        return getCredentialFromJdbcUrl(jdbcUrl, "password");
-    }
+//    private static String getPwdFromJdbcurl(String jdbcUrl) {
+//        return getCredentialFromJdbcUrl(jdbcUrl, "password");
+//    }
+//
+//    private static String getUnameFromJdbcurl(String jdbcUrl) {
+//        return getCredentialFromJdbcUrl(jdbcUrl, "user");
+//    }
 
-    private static String getUnameFromJdbcurl(String jdbcUrl) {
-        return getCredentialFromJdbcUrl(jdbcUrl, "user");
-    }
-
-    private static String getCredentialFromJdbcUrl(String jdbcUrl, String type) {
+    private static String getCredentialFromJdbcUrlUPhostMod(String jdbcUrl, String type) {
         // 使用正则表达式解析 "用户名:密码@host" 部分
         Pattern pattern = Pattern.compile("jdbc:mysql://([^:@]+):([^:@]+)@");
         Matcher matcher = pattern.matcher(jdbcUrl);
@@ -1110,13 +1117,17 @@ public class dbutil {
 
         // Extract and return the file name
         int lastSlashIndex = filePath.lastIndexOf('/');
+        int lastSlashIndexQueo = filePath.lastIndexOf('?');
         //    int lastSlashIndexDot = filePath.lastIndexOf('.');
-        if (lastSlashIndex != -1) {
+        if (lastSlashIndex != -1 && lastSlashIndexQueo==-1) {
 //filepath=c:/dbh2dir/usr.h2;MODE=MySQL
             String nm = filePath.substring(lastSlashIndex + 1);
             return nm;
+        }else{
+            String nm = filePath.substring(lastSlashIndex + 1,lastSlashIndexQueo);
+            return nm;
         }
-        return "";
+
     }
 
     private static SortedMap<String, Object> getObjSqlt(String id, String jdbcurl) {
@@ -1632,13 +1643,15 @@ public class dbutil {
 
     private static void crtDatabase(String jdbcurl, String tbnm) throws SQLException {
         if (jdbcurl.startsWith("jdbc:mysql")) {
-            var sqlCrtDb = "create database " + tbnm + ";";
+            var sqlCrtDb = "CREATE DATABASE IF NOT EXISTS " + tbnm + "";
             //  stmt.execute(sqlCrtDb);
             System.out.println(sqlCrtDb);
 
             int lastSlashIndex = jdbcurl.lastIndexOf('/');
             var url_noDB = jdbcurl.substring(0, lastSlashIndex);
-            Connection conn = DriverManager.getConnection(url_noDB + "/mysql");
+            String url = url_noDB + "/mysql?user="+getUnameFromJdbcurl(jdbcurl)+"&password="+getPwdFromJdbcurl(jdbcurl);
+            System.out.println("crtDB().url="+url);
+            Connection conn = DriverManager.getConnection(url);
             Statement stmt = conn.createStatement();
             try {
                 stmt.executeUpdate(sqlCrtDb);

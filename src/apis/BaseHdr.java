@@ -4,6 +4,7 @@ import apiAcc.UpdtCompleteChargeHdr;
 import apiOrdBet.QryOrdBetHdr;
 import apiUsr.RegHandler;
 import apiWltYinli.WithdrawHdr;
+import biz.BaseBiz;
 import test.UserBiz;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
-import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
+//import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 
 import static util.util2026.*;
 
@@ -52,7 +53,7 @@ setcookie("uname","007",exchange);//for test
         QryOrdBetHdr.  saveUrlOrdBet = (String) cfg.get("saveUrlOrdBet");
         saveUrlOrdChrg = (String) cfg.get("saveUrlOrdChrg");
         UpdtCompleteChargeHdr.    saveUrlLogBalance= (String) cfg.get("saveUrlLogBalance");
-        saveUrlLogBalanceYinliWlt=(String) cfg.get("saveUrlLogBalanceYinliWlt");
+    BaseBiz. saveUrlLogBalanceYinliWlt=(String) cfg.get("saveUrlLogBalanceYinliWlt");
         WithdrawHdr.   saveUrlOrdWthdr=(String) cfg.get("saveUrlOrdWthdr");
         CmsBiz.saveUrlLogCms =(String) cfg.get("saveUrlLogCms");
         System.out.println("ini cfg finish..");

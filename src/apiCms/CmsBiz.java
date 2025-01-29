@@ -3,7 +3,6 @@ package apiCms;
 import apiAcc.LogBls;
 import apiAcc.OrdChrg;
 import apiUsr.Usr;
-import apiWltYinli.LogCms;
 
 import java.math.BigDecimal;
 import java.util.SortedMap;
@@ -12,7 +11,8 @@ import java.util.TreeMap;
 
 import static apis.BaseHdr.iniCfgFrmCfgfile;
 import static apiUsr.RegHandler.saveDirUsrs;
-import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
+//import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
+import static biz.BaseBiz.saveUrlLogBalanceYinliWlt;
 import static util.dbutil.*;
 import static util.util2026.*;
 
