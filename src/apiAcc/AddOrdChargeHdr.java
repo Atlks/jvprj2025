@@ -62,7 +62,7 @@ public class AddOrdChargeHdr extends BaseHdr {
         queryParams.put("amt", new BigDecimal("888"));
 
         OrdChrg ord = new OrdChrg();
-        ord.uname = "007";
+        ord.uname = "009";
         ord.amt = new BigDecimal("888");
         ord.timestamp = System.currentTimeMillis();
         ord.id = "ordChrg" + getFilenameFrmLocalTimeString();

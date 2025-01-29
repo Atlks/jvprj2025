@@ -5,9 +5,13 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 
 import static apis.BaseHdr.iniCfgFrmCfgfile;
+import static util.EncodeUtil.encodeMd5;
 import static util.dbutil.*;
 import static util.util2026.*;
 
@@ -55,13 +59,16 @@ public class RegHandler implements HttpHandler {
 
         Usr u=new Usr();
         u.uname="009";
-        u.pwd="pp";
+        u.pwd=encodeMd5("pp");
         u.invtr="007";
 
 
         u.id=u.uname;
         reg(u);
     }
+
+
+
     public static boolean ovrwtest=false;
     public static String reg(Usr user) throws Exception, existUserEx {
 
