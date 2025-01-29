@@ -22,22 +22,22 @@ public class RegHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         // 检查请求方法
-     //   if ("GET".equals(exchange.getRequestMethod())) {
+        //   if ("GET".equals(exchange.getRequestMethod())) {
 
-        String uname=    getRequestParameter(exchange,"uname");
-        String pwd=    getRequestParameter(exchange,"pwd");
-        String invtr=    getRequestParameter(exchange,"invtr");
+        String uname = getRequestParameter(exchange, "uname");
+        String pwd = getRequestParameter(exchange, "pwd");
+        String invtr = getRequestParameter(exchange, "invtr");
         System.out.println(uname);
-        Usr u=new Usr();
-        u.uname=uname;
-        u.pwd=pwd;
-        u.invtr=invtr;
+        Usr u = new Usr();
+        u.uname = uname;
+        u.pwd = pwd;
+        u.invtr = invtr;
         String responseTxt = "";
         try {
             responseTxt = reg(u);
             wrtResp(exchange, responseTxt);
         } catch (Exception e) {
-             throwEx(e);
+            throwEx(e);
         } catch (existUserEx e) {
             throw new RuntimeException(e);
         }
@@ -47,8 +47,8 @@ public class RegHandler implements HttpHandler {
 
     public static void main(String[] args) throws Exception, existUserEx {
         iniCfgFrmCfgfile();
-        ovrwtest=true;
-    //    drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
+        ovrwtest = true;
+        //    drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
 //        Usr u=new Usr();
 //        u.uname="009";
 //        u.pwd="pp";
@@ -57,31 +57,31 @@ public class RegHandler implements HttpHandler {
 //        u.id=u.uname;
         System.out.println(drvMap);
 
-        Usr u=new Usr();
-        u.uname="009";
-        u.pwd=encodeMd5("pp");
-        u.invtr="007";
+        Usr u = new Usr();
+        u.uname = "009";
+        u.pwd = encodeMd5("pp");
+        u.invtr = "007";
 
 
-        u.id=u.uname;
+        u.id = u.uname;
         reg(u);
     }
 
 
+    public static boolean ovrwtest = false;
 
-    public static boolean ovrwtest=false;
     public static String reg(Usr user) throws Exception, existUserEx {
 
 
         if (existUser(user)) {
-            if(ovrwtest){}
-            else
-            throw new existUserEx("err=existUserEx,uname="+user.uname);
+            if (ovrwtest) {
+            } else
+                throw new existUserEx("err=existUserEx,uname=" + user.uname);
         }
         //  if(!existUser(uname))
 
 
-        addObj(user,  saveDirUsrs,Usr.class);
+        addObj(user, saveDirUsrs, Usr.class);
 
         return "ok";
 
@@ -114,16 +114,16 @@ public class RegHandler implements HttpHandler {
     public static String saveDirUsrs = "";
 
 
-    public record User(String id, String uname, String pwd, int age,String invtr) {
+    public record User(String id, String uname, String pwd, int age, String invtr) {
 
         // record 自动生成构造函数、getters、equals、hashCode 和 toString 方法
     }
 
     public static boolean existUser(String uname) throws Exception {
 
-        Usr jo = getObjById(uname,  saveDirUsrs,Usr.class);
-        if(jo==null)
-            return  false;
+        Usr jo = getObjById(uname, saveDirUsrs, Usr.class);
+        if (jo == null)
+            return false;
         // 空安全处理，直接操作结果
         if (jo.uname.equals("")) {
             return false;
