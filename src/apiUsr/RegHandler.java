@@ -3,6 +3,9 @@ package apiUsr;
 import biz.existUserEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import util.OrmBase;
+import util.OrmMysql;
+import util.SessionOrm;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -12,6 +15,7 @@ import java.security.NoSuchAlgorithmException;
 
 import static apis.BaseHdr.iniCfgFrmCfgfile;
 import static util.EncodeUtil.encodeMd5;
+import static util.SessionOrm.newSessionOrm;
 import static util.dbutil.*;
 import static util.util2026.*;
 
@@ -58,7 +62,7 @@ public class RegHandler implements HttpHandler {
         System.out.println(drvMap);
 
         Usr u = new Usr();
-        u.uname = "009";
+        u.uname = "0011";
         u.pwd = encodeMd5("pp");
         u.invtr = "007";
 
@@ -80,13 +84,22 @@ public class RegHandler implements HttpHandler {
         }
         //  if(!existUser(uname))
 
-
-        addObj(user, saveDirUsrs, Usr.class);
+    //    OrmMysql om=new OrmMysql();
+        OrmBase session=newSessionOrm(saveDirUsrs);
+      //  om.jdbcurl=saveDirUsrs;
+        //todo start tx
+        session.beginTransaction();
+        session.persist(user);
+        session.commit();
+        //finish tx
+      //  addObj(user, saveDirUsrs, Usr.class);
 
         return "ok";
 
 
     }
+
+
 //    public static String reg(String uname, String pwd,String invtr) throws Exception {
 //
 //

@@ -177,6 +177,9 @@ public abstract class OrmBase implements OrmBaseItfs {
     public  static <T> String getTableNameFromObjClass(Class<T> objClass) {
         return objClass.getSimpleName();
     }
-
+    public void beginTransaction() {
+    }
+    public void commit() {
+    }
 }
 

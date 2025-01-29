@@ -1,0 +1,32 @@
+package util;
+
+import java.lang.reflect.Field;
+
+public class SessionOrm extends OrmBase {
+    OrmBase om;
+
+    public SessionOrm(String saveDirUsrs) {
+        if (saveDirUsrs.startsWith("jdbc:mysql")) {
+            om = new OrmMysql();
+            om.jdbcurl = saveDirUsrs;
+
+        }
+
+    }
+
+    public static OrmBase newSessionOrm(String saveDirUsrs) {
+        if (saveDirUsrs.startsWith("jdbc:mysql")) {
+            OrmMysql   om = new OrmMysql();
+            om.jdbcurl = saveDirUsrs;
+            return  om;
+
+        }
+
+        return null;
+    }
+
+    @Override
+    public String _toSqlType(Class<? extends Field> aClass) {
+        return om._toSqlType(aClass);
+    }
+}

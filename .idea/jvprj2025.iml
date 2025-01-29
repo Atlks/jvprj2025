@@ -51,5 +51,17 @@
     <orderEntry type="library" name="classmate-1.6.0" level="project" />
     <orderEntry type="library" name="jboss-logging-3.5.0.Final (2)" level="project" />
     <orderEntry type="library" name="hibernate-community-dialects-6.4.0.Final" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/annotations/24.0.0/annotations-24.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.ideaLibSources/annotations-24.0.0-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="org.jetbrains.annotations-24.0.1" level="project" />
   </component>
 </module>

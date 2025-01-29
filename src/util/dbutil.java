@@ -2,13 +2,13 @@ package util;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSON;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Environment;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.boot.MetadataSources;
+//import org.hibernate.Session;
+//import org.hibernate.SessionFactory;
+//import org.hibernate.Transaction;
+//import org.hibernate.cfg.Environment;
+//import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+//import org.hibernate.service.ServiceRegistry;
+//import org.hibernate.boot.MetadataSources;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,8 +27,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.alibaba.fastjson2.JSONArray;
-import com.sun.istack.NotNull;
-import org.hibernate.cfg.Configuration;
+import org.jetbrains.annotations.NotNull;
+//import com.sun.istack.NotNull;
+//import org.hibernate.cfg.Configuration;
 //import org.apache.lucene.analysis.standard.StandardAnalyzer;
 //import org.apache.lucene.document.Document;
 //import org.apache.lucene.index.IndexWriter;
@@ -210,11 +211,7 @@ public class dbutil {
         if (saveDir.equals(""))
             throw new RuntimeException("prm savadir/url=''");
 
-        if (saveDir.startsWith("hbnt:")) {
-            Object s = addObjHbnt(obj, saveDir, class1);
-            System.out.println("endfun addobj().rzt=" + s);
-            return s;
-        } else if (saveDir.endsWith(".db")) {
+        if (saveDir.endsWith(".db")) {
             String s = addObjSqlt(obj, saveDir);
             System.out.println("endfun addobj().rzt=" + s);
             return s;
@@ -299,65 +296,65 @@ public class dbutil {
         return "";
     }
 
-    private static Object addObjHbnt(Object obj, String saveDir, Class class1) throws Exception {
-        printLn("️▶️fun addObjHbnt(", BLUE);
-        printLn("saveDir="+saveDir, GREEN);
-        printLn("class1="+class1, GREEN);
-        printLn("))", BLUE);
-        var jdbcUrl = saveDir.substring(5);
-
-        SessionFactory sessionFactory = getSessionFactory(class1, jdbcUrl);
-
-        // 获取 Session
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
-        // 示例操作
-      //  session.find()
-        session.merge(obj);
-
-        session.getTransaction().commit();
-        session.close();
-
-        // 关闭 SessionFactory
-        sessionFactory.close();
-
-        printLn("endfun addObjHbnt()", BLUE);
-        return obj;
-    }
-
-    private static SessionFactory getSessionFactory(Class class1, String jdbcUrl) throws SQLException {
-        var db = getDatabaseFileName4mysql(jdbcUrl);
-        crtDatabase(jdbcUrl, db);
-
-        // Hibernate 配置属性
-        Properties properties = new Properties();
-        properties.put(Environment.DRIVER, getDvr(jdbcUrl));
-        properties.put(Environment.URL, "" + jdbcUrl);
-        properties.put(Environment.USER, getUnameFromJdbcurl(jdbcUrl));
-        properties.put(Environment.PASS, getPwdFromJdbcurl(jdbcUrl));
-        properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
-        //    hibernate.dialect.storage_engine
-        properties.put(Environment.SHOW_SQL, "true");
-        properties.put(Environment.FORMAT_SQL, "true");
-        properties.put(Environment.STORAGE_ENGINE, "innodb");
-        //HBM2DDL_CHARSET_NAME
-        properties.put(Environment.HBM2DDL_AUTO, "update"); // 自动建表
-        properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-
-        // 创建 ServiceRegistry
-        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                .applySettings(properties)
-                .build();
-
-        // 添加实体类映射
-        MetadataSources metadataSources = new MetadataSources(serviceRegistry);
-        metadataSources.addAnnotatedClass(class1); // 你的实体类
-
-        // 创建 SessionFactory
-        SessionFactory sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
-        return sessionFactory;
-    }
+//    private static Object addObjHbnt(Object obj, String saveDir, Class class1) throws Exception {
+//        printLn("️▶️fun addObjHbnt(", BLUE);
+//        printLn("saveDir="+saveDir, GREEN);
+//        printLn("class1="+class1, GREEN);
+//        printLn("))", BLUE);
+//        var jdbcUrl = saveDir.substring(5);
+//
+//        SessionFactory sessionFactory = getSessionFactory(class1, jdbcUrl);
+//
+//        // 获取 Session
+//        Session session = sessionFactory.openSession();
+//        session.beginTransaction();
+//
+//        // 示例操作
+//      //  session.find()
+//        session.merge(obj);
+//
+//        session.getTransaction().commit();
+//        session.close();
+//
+//        // 关闭 SessionFactory
+//        sessionFactory.close();
+//
+//        printLn("endfun addObjHbnt()", BLUE);
+//        return obj;
+//    }
+//
+//    private static SessionFactory getSessionFactory(Class class1, String jdbcUrl) throws SQLException {
+//        var db = getDatabaseFileName4mysql(jdbcUrl);
+//        crtDatabase(jdbcUrl, db);
+//
+//        // Hibernate 配置属性
+//        Properties properties = new Properties();
+//        properties.put(Environment.DRIVER, getDvr(jdbcUrl));
+//        properties.put(Environment.URL, "" + jdbcUrl);
+//        properties.put(Environment.USER, getUnameFromJdbcurl(jdbcUrl));
+//        properties.put(Environment.PASS, getPwdFromJdbcurl(jdbcUrl));
+//        properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
+//        //    hibernate.dialect.storage_engine
+//        properties.put(Environment.SHOW_SQL, "true");
+//        properties.put(Environment.FORMAT_SQL, "true");
+//        properties.put(Environment.STORAGE_ENGINE, "innodb");
+//        //HBM2DDL_CHARSET_NAME
+//        properties.put(Environment.HBM2DDL_AUTO, "update"); // 自动建表
+//        properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
+//
+//        // 创建 ServiceRegistry
+//        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+//                .applySettings(properties)
+//                .build();
+//
+//        // 添加实体类映射
+//        MetadataSources metadataSources = new MetadataSources(serviceRegistry);
+//        metadataSources.addAnnotatedClass(class1); // 你的实体类
+//
+//        // 创建 SessionFactory
+//        SessionFactory sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
+//        return sessionFactory;
+//    }
 
 //    private static String getPwdFromJdbcurl(String jdbcUrl) {
 //        return getCredentialFromJdbcUrl(jdbcUrl, "password");
@@ -388,33 +385,33 @@ public class dbutil {
         return "sqlt";
     }
 
-    private static String addObjHbntCfgmd(Object obj, String saveDir, Class class1) {
-        var hbntcfg = saveDir.substring(5);
-        SessionFactory factory = new Configuration()
-                .configure(hbntcfg)
-                .addAnnotatedClass(class1)
-                .buildSessionFactory();
-
-        // 创建 Session
-        Session session = factory.getCurrentSession();
-
-
-        // 1. 保存数据
-//            OrdBet newUser = new OrdBet();
-//            newUser.uname="John Doe2";
-//            newUser.id=newUser.uname;
-        //  newUser.setEmail("john.doe@example.com");
-
-        // 开启事务
-        session.beginTransaction();
-
-        // 保存用户
-        session.save(obj);
-
-        // 提交事务
-        session.getTransaction().commit();
-        return "";
-    }
+//    private static String addObjHbntCfgmd(Object obj, String saveDir, Class class1) {
+//        var hbntcfg = saveDir.substring(5);
+//        SessionFactory factory = new Configuration()
+//                .configure(hbntcfg)
+//                .addAnnotatedClass(class1)
+//                .buildSessionFactory();
+//
+//        // 创建 Session
+//        Session session = factory.getCurrentSession();
+//
+//
+//        // 1. 保存数据
+////            OrdBet newUser = new OrdBet();
+////            newUser.uname="John Doe2";
+////            newUser.id=newUser.uname;
+//        //  newUser.setEmail("john.doe@example.com");
+//
+//        // 开启事务
+//        session.beginTransaction();
+//
+//        // 保存用户
+//        session.save(obj);
+//
+//        // 提交事务
+//        session.getTransaction().commit();
+//        return "";
+//    }
 
     public static Object updtObj(Object obj, String saveDir, Class class1) throws Exception {
         System.out.println("\r\n\r\n");
@@ -431,7 +428,7 @@ public class dbutil {
             return rzt;
 
         } else if (saveDir.startsWith("hbnt:")) {
-            return updtByHbnt(obj, saveDir, class1);
+          //  return updtByHbnt(obj, saveDir, class1);
         } else if (saveDir.startsWith("json:")) {
             saveDir = saveDir.substring(5);
             System.out.println("savedir=" + saveDir);
@@ -462,32 +459,32 @@ public class dbutil {
         return rzt;
     }
 
-    private static Object updtByHbnt(Object obj, String saveDir, Class class1) {
-        var jdbcUrl = saveDir.substring(5);
-
-        try (Session session = getSessionFactory(class1, jdbcUrl).openSession()) {
-            Transaction tx = session.beginTransaction();
-
-
-            session.merge(obj);  // 合并到持久化上下文
-            tx.commit();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-//        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+//    private static Object updtByHbnt(Object obj, String saveDir, Class class1) {
+//        var jdbcUrl = saveDir.substring(5);
+//
+//        try (Session session = getSessionFactory(class1, jdbcUrl).openSession()) {
 //            Transaction tx = session.beginTransaction();
 //
-//            User user = session.get(User.class, userId);  // 先获取对象
-//            if (user != null) {
-//                user.setName(newName);  // 修改字段
-//                session.update(user);   // 更新对象
-//            }
 //
+//            session.merge(obj);  // 合并到持久化上下文
 //            tx.commit();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
 //        }
-
-        return obj;
-    }
+////        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+////            Transaction tx = session.beginTransaction();
+////
+////            User user = session.get(User.class, userId);  // 先获取对象
+////            if (user != null) {
+////                user.setName(newName);  // 修改字段
+////                session.update(user);   // 更新对象
+////            }
+////
+////            tx.commit();
+////        }
+//
+//        return obj;
+//    }
 
     @Deprecated
     public static String updtObj(Object obj, String saveDir) throws Exception {
@@ -640,25 +637,26 @@ public class dbutil {
             return toObj(objSqlt, cls);
 
         } else if (saveDir.startsWith("hbnt:")) {
-            return findByHbnt(id, saveDir, cls);
+          //  return findByHbnt(id, saveDir, cls);
         } else {
             return (T) getObjIni(id, saveDir);
         }
 
 
+        return null;
     }
 
-    private static <T> T findByHbnt(String id, String saveDir, Class<T> class1) throws Exception {
-
-        var jdbcUrl = saveDir.substring(5);
-
-        SessionFactory sessionFactory = getSessionFactory(class1, jdbcUrl);
-
-        try (Session session = sessionFactory.openSession()) {
-            return session.find(class1, id);
-        }
-
-    }
+//    private static <T> T findByHbnt(String id, String saveDir, Class<T> class1) throws Exception {
+//
+//        var jdbcUrl = saveDir.substring(5);
+//
+//        SessionFactory sessionFactory = getSessionFactory(class1, jdbcUrl);
+//
+//        try (Session session = sessionFactory.openSession()) {
+//            return session.find(class1, id);
+//        }
+//
+//    }
 
     // Java 中的泛型在运行时是类型擦除的，因此无法直接使用 T.class，这会导致编译错误。为了修复并正确调用该方法，需要通过调用者显式传入 Class<T>，以便在运行时保留类型信息。
 //    public static <T> T getObjAsT(String id, String saveDir) {
@@ -846,12 +844,7 @@ public class dbutil {
             //System.out.println("");
             System.out.println("endfun qrysql().ret=[" + mapList.size() + "]," + encodeJson(get0(mapList)));
             return mapList;
-        } catch (org.h2.jdbc.JdbcSQLSyntaxErrorException e2) {
-            if (e2.getMessage().contains("not found (this database is empty)")) {
-                System.out.println("endfun qrysql().ret=[0]");
-                return new ArrayList<>();
-            }
-            e2.printStackTrace();
+
         } catch (java.sql.SQLSyntaxErrorException e) {
             if (e.getMessage().startsWith("Table") && e.getMessage().contains("doesn't exist")) {
                 System.out.println("endfun qrysql().ret=[0]");
@@ -1698,47 +1691,9 @@ public class dbutil {
         System.out.println("fun addObjMysql()");
         System.out.println("jdbcurl=" + saveDir);
         System.out.println(")");
-        String trueDvr = "org.h2.Driver";
-        if (saveDir.startsWith("jdbc:mysql")) {
-            trueDvr = toTrueDvr("com.mysql.cj.jdbc.Driver");
-            Class.forName(trueDvr);
-        } else
-            Class.forName("org.h2.Driver");
-
-        System.out.println("truedrv=" + trueDvr);
-        //  mkdir2025(saveDir);
-        String tbnm = getDatabaseFileName(saveDir);
-        //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
-        saveDir = toTrueJdbcUrl(trueDvr, saveDir);
-        crtDatabase(saveDir, tbnm);
-        Connection conn = DriverManager.getConnection(saveDir);
-        Statement stmt = conn.createStatement();
-        //  create database db2
-        var trueUrl = toTrueJdbcUrl(trueDvr, saveDir);
 
 
-        //cret db todo
-        stmt.execute("CREATE TABLE IF NOT EXISTS " + tbnm + " (id VARCHAR(500) PRIMARY KEY)");
-
-
-        foreachObjFieldsCreateColume(obj, stmt, tbnm, trueUrl);
-
-        String us = encodeJson(obj);
-
-        String sql = "";
-        String id = (String) getField2025(obj, "id", "");
-
-
-        String cols = getCols(obj);
-        String valss = getValsSqlFmt(obj);
-        sql = "INSERT INTO " + tbnm + "  (" + cols + ") VALUES (" + valss + ")";
-
-
-        System.out.println(sql);
-        int i = stmt.executeUpdate(sql);
-        return "executeUpdateRzt=" + i;
-
-
+        return saveDir;
     }
 
     private static void crtDatabase(String jdbcurl, String tbnm) throws SQLException {
