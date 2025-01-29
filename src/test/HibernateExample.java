@@ -6,8 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import java.util.List;
-
 public class HibernateExample {
     public static void main(String[] args) throws Exception, Throwable, HibernateException {
         System.out.println("Class path: " + System.getProperty("java.class.path"));
@@ -15,7 +13,7 @@ public class HibernateExample {
         // 创建 SessionFactory
         // C:\Users\attil\IdeaProjects\jvprj2025\cfg\ordbet.hibernate.cfg.xml
         SessionFactory factory = new Configuration()
-                .configure("ordbet.hibernate.cfg.xml")
+                .configure("yonjin/ordbet.hibernate.cfg.xml")
                 .addAnnotatedClass(OrdBet.class)
                 .buildSessionFactory();
 

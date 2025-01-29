@@ -4,10 +4,12 @@ import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSON;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Environment;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.boot.MetadataSources;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -26,10 +28,7 @@ import java.util.stream.Stream;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.sun.istack.NotNull;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.cfg.Environment;
 //import org.apache.lucene.analysis.standard.StandardAnalyzer;
 //import org.apache.lucene.document.Document;
 //import org.apache.lucene.index.IndexWriter;
@@ -205,8 +204,8 @@ public class dbutil {
         String collName = "";
         String rzt = "";
         //chk empty null
-        if(saveDir.equals(""))
-            throw  new RuntimeException("prm savadir/url=''");
+        if (saveDir.equals(""))
+            throw new RuntimeException("prm savadir/url=''");
 
         if (saveDir.startsWith("hbnt:")) {
             Object s = addObjHbnt(obj, saveDir, class1);
@@ -259,7 +258,7 @@ public class dbutil {
         System.out.println(")");
         String collName = "";
         String rzt = "";
-         if (saveDir.endsWith(".db")) {
+        if (saveDir.endsWith(".db")) {
             String s = addObjSqlt(obj, saveDir);
             System.out.println("endfun addobj().rzt=" + s);
             return s;
@@ -296,6 +295,7 @@ public class dbutil {
         System.out.println("endfun addobj()");
         return "";
     }
+
     private static Object addObjHbnt(Object obj, String saveDir, Class class1) throws Exception {
         var jdbcUrl = saveDir.substring(5);
 
@@ -316,18 +316,17 @@ public class dbutil {
         sessionFactory.close();
 
 
-
         return obj;
     }
 
     private static SessionFactory getSessionFactory(Class class1, String jdbcUrl) throws SQLException {
-        var db=getDatabaseFileName4mysql(jdbcUrl);
-        crtDatabase(jdbcUrl,db);
+        var db = getDatabaseFileName4mysql(jdbcUrl);
+        crtDatabase(jdbcUrl, db);
 
         // Hibernate 配置属性
         Properties properties = new Properties();
         properties.put(Environment.DRIVER, getDvr(jdbcUrl));
-        properties.put(Environment.URL, ""+ jdbcUrl);
+        properties.put(Environment.URL, "" + jdbcUrl);
         properties.put(Environment.USER, getUnameFromJdbcurl(jdbcUrl));
         properties.put(Environment.PASS, getPwdFromJdbcurl(jdbcUrl));
         properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
@@ -377,9 +376,9 @@ public class dbutil {
     }
 
     private static String getDvr(String jdbcUrl) {
-  if(jdbcUrl.startsWith("jdbc:mysql"))
-      return  "com.mysql.cj.jdbc.Driver";
-  return  "sqlt";
+        if (jdbcUrl.startsWith("jdbc:mysql"))
+            return "com.mysql.cj.jdbc.Driver";
+        return "sqlt";
     }
 
     private static String addObjHbntCfgmd(Object obj, String saveDir, Class class1) {
@@ -410,6 +409,80 @@ public class dbutil {
         return "";
     }
 
+    public static Object updtObj(Object obj, String saveDir, Class class1) throws Exception {
+        System.out.println("\r\n\r\n");
+        System.out.println("fun updtObj(");
+        System.out.println("obj=" + encodeJson(obj));
+        System.out.println("saveDir=" + saveDir);
+        System.out.println(")");
+        String collName = "";
+        var rzt = "";
+        if (saveDir.endsWith(".db")) {
+
+            rzt = updtObjSqlt(obj, saveDir);
+            System.out.println("endfun updtObj().rzt=" + rzt);
+            return rzt;
+
+        } else if (saveDir.startsWith("hbnt:")) {
+            return updtByHbnt(obj, saveDir, class1);
+        } else if (saveDir.startsWith("json:")) {
+            saveDir = saveDir.substring(5);
+            System.out.println("savedir=" + saveDir);
+            addObjDocdb(obj, saveDir);
+
+
+        } else if (saveDir.startsWith("jdbc:lucene")) {
+            saveDir = saveDir.substring(11);
+            System.out.println("savedir=" + saveDir);
+            //addObjLucene(obj, collName, saveDir);
+        } else if (saveDir.startsWith("jdbc:redis")) {
+            saveDir = saveDir.substring(10);
+            System.out.println("savedir=" + saveDir);
+            addObjRds(obj, collName, saveDir);
+        } else if (saveDir.startsWith("jdbc:mysql")) {
+            rzt = updtObjSqlt(obj, saveDir);
+            System.out.println("endfun updtObj().rzt=" + rzt);
+            return rzt;
+        } else {
+            //if (saveDir.startsWith("ini:"))
+            //ini doc
+            saveDir = saveDir.substring(0);
+            System.out.println("savedir=" + saveDir);
+            addObjIni(obj, saveDir);
+        }
+
+        System.out.println("endfun updtObj().rzt=" + rzt);
+        return rzt;
+    }
+
+    private static Object updtByHbnt(Object obj, String saveDir, Class class1) {
+        var jdbcUrl = saveDir.substring(5);
+
+        try (Session session = getSessionFactory(class1, jdbcUrl).openSession()) {
+            Transaction tx = session.beginTransaction();
+
+
+            session.merge(obj);  // 合并到持久化上下文
+            tx.commit();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+//        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+//            Transaction tx = session.beginTransaction();
+//
+//            User user = session.get(User.class, userId);  // 先获取对象
+//            if (user != null) {
+//                user.setName(newName);  // 修改字段
+//                session.update(user);   // 更新对象
+//            }
+//
+//            tx.commit();
+//        }
+
+        return obj;
+    }
+
+    @Deprecated
     public static String updtObj(Object obj, String saveDir) throws Exception {
         System.out.println("\r\n\r\n");
         System.out.println("fun updtObj(");
@@ -559,12 +632,9 @@ public class dbutil {
             SortedMap<String, Object> objSqlt = getMapMysql(id, saveDir);
             return toObj(objSqlt, cls);
 
-        } else if(saveDir.startsWith("hbnt:"))
-        {
-            return  findByHbnt(id,saveDir,cls);
-        }
-
-        else {
+        } else if (saveDir.startsWith("hbnt:")) {
+            return findByHbnt(id, saveDir, cls);
+        } else {
             return (T) getObjIni(id, saveDir);
         }
 
@@ -950,7 +1020,7 @@ public class dbutil {
      * @return
      * @throws IOException
      */
-    private static SortedMap<String, Object> parseFileToSortedMapFrmIni( @NotNull Path filePath) throws IOException {
+    private static SortedMap<String, Object> parseFileToSortedMapFrmIni(@NotNull Path filePath) throws IOException {
         // 读取文件内容为字符串
         String iniFileContent = Files.readString(filePath);
 
@@ -1141,12 +1211,12 @@ public class dbutil {
         int lastSlashIndex = filePath.lastIndexOf('/');
         int lastSlashIndexQueo = filePath.lastIndexOf('?');
         //    int lastSlashIndexDot = filePath.lastIndexOf('.');
-        if (lastSlashIndex != -1 && lastSlashIndexQueo==-1) {
+        if (lastSlashIndex != -1 && lastSlashIndexQueo == -1) {
 //filepath=c:/dbh2dir/usr.h2;MODE=MySQL
             String nm = filePath.substring(lastSlashIndex + 1);
             return nm;
-        }else{
-            String nm = filePath.substring(lastSlashIndex + 1,lastSlashIndexQueo);
+        } else {
+            String nm = filePath.substring(lastSlashIndex + 1, lastSlashIndexQueo);
             return nm;
         }
 
@@ -1672,8 +1742,8 @@ public class dbutil {
 
             int lastSlashIndex = jdbcurl.lastIndexOf('/');
             var url_noDB = jdbcurl.substring(0, lastSlashIndex);
-            String url = url_noDB + "/mysql?user="+getUnameFromJdbcurl(jdbcurl)+"&password="+getPwdFromJdbcurl(jdbcurl);
-            System.out.println("crtDB().url="+url);
+            String url = url_noDB + "/mysql?user=" + getUnameFromJdbcurl(jdbcurl) + "&password=" + getPwdFromJdbcurl(jdbcurl);
+            System.out.println("crtDB().url=" + url);
             Connection conn = DriverManager.getConnection(url);
             Statement stmt = conn.createStatement();
             try {

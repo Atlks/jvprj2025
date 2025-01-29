@@ -52,7 +52,7 @@ public class AddOrdChargeHdr extends BaseHdr {
 //        queryParams.put("timestamp", System.currentTimeMillis());
 //        queryParams.put("uname", uname);
 //        queryParams.put("id","ordChrg"+getFilenameFrmLocalTimeString());
-        addObj(ord, saveUrlOrdChrg);
+        addObj(ord, saveUrlOrdChrg,OrdChrg.class);
     }
 
     public static void main(String[] args) throws Exception {

@@ -46,11 +46,19 @@ public class AddOrdBetHdr extends BaseHdr {
     }
 
 
+    public static void main(String[] args) throws Exception {
 
-
-    public static boolean isLogined44(String uname) {
-        return uname.equals("");
+        iniCfgFrmCfgfile();;
+        OrdBet ord=new OrdBet();
+//        String now = String.valueOf(now());
+//        queryParams.put("datetime_utc", now);
+//        queryParams.put("datetime_local", getLocalTimeString());
+//        queryParams.put("timezone", now);
+        ord.timestamp=System.currentTimeMillis();
+        ord.uname="007";
+        ord.bettxt="龙湖和";
+        ord.id="ordBet"+getFilenameFrmLocalTimeString();
+        addObj(ord,saveUrlOrdBet,OrdBet.class);
     }
-
 
 }

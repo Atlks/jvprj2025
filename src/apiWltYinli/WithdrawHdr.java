@@ -29,7 +29,7 @@ public class WithdrawHdr extends BaseHdr {
         // ord.put("datetime_local", getLocalTimeString());
         //  ord.put("timezone", now);
      //   ord.timestamp=(System.currentTimeMillis());
-        ord.uname="008";
+        ord.uname="009";
         ord.amt=new BigDecimal(77);
       //  ord.id="ordWthdr"+getFilenameFrmLocalTimeString();
         Withdraw(ord);
@@ -55,7 +55,7 @@ public class WithdrawHdr extends BaseHdr {
 
         BigDecimal nowAmtFreez=toBigDcmTwoDot( getFieldAsBigDecimal(objU,"balanceYinliwltFreez",0)) ;
         objU.balanceYinliwltFreez=toBigDcmTwoDot(nowAmtFreez.add(ord.getAmt())) ;
-        updtObj(objU,saveDirUsrs);
+        updtObj(objU,saveDirUsrs,Usr.class);
 
 
 

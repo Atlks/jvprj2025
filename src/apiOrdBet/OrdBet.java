@@ -23,4 +23,5 @@ public class OrdBet {
 
     @Column(name = "uname", nullable = false)
     public String uname;
+    public String bettxt;
 }
