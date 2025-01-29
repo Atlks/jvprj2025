@@ -1,18 +1,22 @@
 package util;
 
+import jakarta.persistence.Id;
+
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
 
 
+import static util.ColorLogger.*;
 import static util.Util2025.encodeJson;
 import static util.dbutil.*;
 import static util.util2026.copyProps;
 import static util.util2026.getField2025;
 
-public abstract class OrmBase implements OrmBaseItfs {
+public abstract class OrmBase implements Session {
  //   String toSqlType(Class value);
  public String jdbcurl;
 
@@ -26,10 +30,21 @@ public abstract class OrmBase implements OrmBaseItfs {
      */
     @Override
     public <T> T find(Class<T> objClass, Object id) throws Exception {
+        System.out.println("\r\n\r\n");
+        //   System.out.println("fun merge(");
+        String runEmoji = "▶️";
+        printLn("▶️fun find(", BLUE);
+        printLn("objClass=" + objClass, GREEN);
+        printLn("id=" + id, GREEN);
+        System.out.println(")");
+
         var tbnm = getTableNameFromObjClass(objClass);
-        var sql = "select * from " + tbnm + " where id='" + id + "'";
+        var idFld= _getIdField(objClass);
+        var sql = "select * from " + tbnm + " where "+idFld+"='" + id + "'";
         try {
-            return (T) toObj(qrySqlAsMap(sql, jdbcurl),objClass) ;
+            T obj = toObj(qrySqlAsMap(sql, jdbcurl), objClass);
+            System.out.println("endfun find()");
+            return obj;
         } catch (Exception e) {
             if (e.getMessage().contains("no such table: tab1"))
                 return objClass.newInstance();
@@ -38,36 +53,70 @@ public abstract class OrmBase implements OrmBaseItfs {
     }
 
     /**
+     * 查找objClass 中的字段，如果字段有注解 @Id ，(jakarta.persistence.Id)
+     * 那么提取返回此字段的名称
+     * @param objClass
+     * @return
+     * @param <T>
+     */
+    private <T> String _getIdField(Class<T> objClass) {
+        for (Field field : objClass.getDeclaredFields()) {
+            if (field.isAnnotationPresent(Id.class)) {
+                return field.getName();
+            }
+        }
+        throw  new RuntimeException(objClass+" dont have anno @Id");
+       // return null; // 未找到 @Id 注解的字段
+    }
+
+    /**
      * add or updt
      *
-     * @param var1
+     * @param obj
      * @param <T>
      * @return
      */
     @Override
-    public <T> T merge(T var1) throws Exception {
-        T obj = (T) find(var1.getClass(), getField2025(var1, "id"));
-        copyProps(var1, obj);
+    public <T> T merge(T obj) throws Exception {
+        System.out.println("\r\n\r\n");
+        //   System.out.println("fun merge(");
+        String runEmoji = "▶️";
+        printLn("▶️fun merge(", BLUE);
+        printLn("obj=" + encodeJson(obj), GREEN);
+        System.out.println(")");
+
+        var idFld= _getIdField(obj.getClass());
+        T objInDb = (T) find(obj.getClass(), getField2025(obj, idFld));
+        copyProps(objInDb, obj);
         persist(obj);
+        System.out.println("endfun merge()");
         return obj;
     }
 
     /**
-     * save new
+     *   new
      *
      * @param obj
      * @param <T>
      * @return
      */
     public <T> T persist(T obj) throws Exception {
-        Connection conn = DriverManager.getConnection(jdbcurl);
-        Statement stmt = conn.createStatement();
+
+        System.out.println("\r\n\r\n");
+        //   System.out.println("fun addobj(");
+        String runEmoji = "▶️";
+        printLn("▶️fun persist(", BLUE);
+        printLn("obj=" + encodeJson(obj), GREEN);
+
+        System.out.println(")");
+        Statement stmt = Connection1.createStatement();
         //  create database db2
 
 
         //--------cret db todo
         String tbnm = (String) OrmBase.getTableNameFromObjClass(obj.getClass());
-        stmt.execute("CREATE TABLE IF NOT EXISTS " + tbnm + " (id VARCHAR(500) PRIMARY KEY)");
+        var idFld= _getIdField(obj.getClass());
+        stmt.execute("CREATE TABLE IF NOT EXISTS " + tbnm + " ("+idFld+" VARCHAR(500) PRIMARY KEY)");
 
 
         _CreateColumes(obj, stmt, tbnm, jdbcurl);
@@ -82,6 +131,7 @@ public abstract class OrmBase implements OrmBaseItfs {
         sql = "INSERT INTO " + tbnm + "  (" + cols + ") VALUES (" + valss + ")";
         System.out.println(sql);
         int i = stmt.executeUpdate(sql);
+        System.out.println("endfun persist()");
         return obj;
     }
 
@@ -125,7 +175,7 @@ public abstract class OrmBase implements OrmBaseItfs {
                     ;
                     System.out.println(name + ": " + value);
                     String sql = "ALTER TABLE " + tbnm + " ADD COLUMN  " + name + "  " + getTypeSqlt(value) + " ";
-                    System.out.println(sql);
+                 //   System.out.println(sql);
                     stmt.execute(sql);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -151,7 +201,7 @@ public abstract class OrmBase implements OrmBaseItfs {
                         fldNameDbfmt = fieldName;
                     String sql = "ALTER TABLE " + tbnm + " ADD COLUMN  " + fldNameDbfmt + "  " + colType + " ";
                     // ALTER TABLE usr ADD COLUMN c1 int;
-                    System.out.println(sql);
+                 //   System.out.println(sql);
                     stmt.execute(sql);
                 } catch (Exception e) {
                     if (e.getMessage().contains("duplicate column name")) {
@@ -177,9 +227,30 @@ public abstract class OrmBase implements OrmBaseItfs {
     public  static <T> String getTableNameFromObjClass(Class<T> objClass) {
         return objClass.getSimpleName();
     }
-    public void beginTransaction() {
+    Connection Connection1;
+    public Connection beginTransaction() throws SQLException {
+        System.out.println("\r\n");
+        Connection conn = DriverManager.getConnection(jdbcurl);
+        Connection1=conn;
+        Statement stmt = conn.createStatement();
+        //  create database db2
+
+
+        //--------cret db todo
+        conn.setAutoCommit(false);
+//    var setAtCmtRzt=    stmt.execute("SET autocommit = 0;");
+//        System.out.println("setAtCmtRzt="+setAtCmtRzt);
+        Statement stmt2 = conn.createStatement();
+        String sql = "START TRANSACTION;";
+        System.out.println(sql);
+        stmt2.execute(sql);
+        return  conn;
+
     }
-    public void commit() {
+    public void commit() throws SQLException {
+        Statement stmt2 = Connection1.createStatement();
+        System.out.println("commit;");
+         stmt2.execute("COMMIT;");
     }
 }
 

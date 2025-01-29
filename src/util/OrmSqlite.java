@@ -2,9 +2,7 @@ package util;
 
 import apiUsr.Usr;
 
-import java.lang.reflect.Field;
-
-public class OrmSqlite extends OrmBase{
+public class OrmSqlite extends OrmBase {
 
     public static void main(String[] args) throws Exception {
         OrmMysql orm = new OrmMysql();

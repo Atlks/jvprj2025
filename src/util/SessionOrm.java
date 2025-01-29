@@ -13,8 +13,18 @@ public class SessionOrm extends OrmBase {
         }
 
     }
+    public static Session openSession(String saveDirUsrs) {
+        if (saveDirUsrs.startsWith("jdbc:mysql")) {
+            OrmMysql   om = new OrmMysql();
+            om.jdbcurl = saveDirUsrs;
+            return  om;
 
-    public static OrmBase newSessionOrm(String saveDirUsrs) {
+        }
+
+        return null;
+    }
+
+    public static Session newSession(String saveDirUsrs) {
         if (saveDirUsrs.startsWith("jdbc:mysql")) {
             OrmMysql   om = new OrmMysql();
             om.jdbcurl = saveDirUsrs;

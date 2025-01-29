@@ -4,18 +4,15 @@ import biz.existUserEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import util.OrmBase;
-import util.OrmMysql;
-import util.SessionOrm;
+import util.Session;
 
 import java.io.IOException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 
 import static apis.BaseHdr.iniCfgFrmCfgfile;
 import static util.EncodeUtil.encodeMd5;
-import static util.SessionOrm.newSessionOrm;
+import static util.SessionOrm.newSession;
+import static util.SessionOrm.openSession;
 import static util.dbutil.*;
 import static util.util2026.*;
 
@@ -62,7 +59,7 @@ public class RegHandler implements HttpHandler {
         System.out.println(drvMap);
 
         Usr u = new Usr();
-        u.uname = "0011";
+        u.uname = "0016";
         u.pwd = encodeMd5("pp");
         u.invtr = "007";
 
@@ -84,15 +81,15 @@ public class RegHandler implements HttpHandler {
         }
         //  if(!existUser(uname))
 
-    //    OrmMysql om=new OrmMysql();
-        OrmBase session=newSessionOrm(saveDirUsrs);
-      //  om.jdbcurl=saveDirUsrs;
+        //    OrmMysql om=new OrmMysql();
+        Session session = openSession(saveDirUsrs);
+        //  om.jdbcurl=saveDirUsrs;
         //todo start tx
         session.beginTransaction();
         session.persist(user);
         session.commit();
         //finish tx
-      //  addObj(user, saveDirUsrs, Usr.class);
+        //  addObj(user, saveDirUsrs, Usr.class);
 
         return "ok";
 
@@ -134,7 +131,13 @@ public class RegHandler implements HttpHandler {
 
     public static boolean existUser(String uname) throws Exception {
 
-        Usr jo = getObjById(uname, saveDirUsrs, Usr.class);
+    //    Usr jo = getObjById(uname, saveDirUsrs, Usr.class);
+
+        Session session = openSession(saveDirUsrs);
+        //  om.jdbcurl=saveDirUsrs;
+        //todo start tx
+       // session.beginTransaction();
+        Usr jo =    session.find(Usr.class,uname);
         if (jo == null)
             return false;
         // 空安全处理，直接操作结果

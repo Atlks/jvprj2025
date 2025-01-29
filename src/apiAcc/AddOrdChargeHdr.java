@@ -2,12 +2,14 @@ package apiAcc;
 
 import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
+import util.Session;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 import static java.time.LocalTime.now;
+import static util.SessionOrm.openSession;
 import static util.dbutil.addObj;
 import static util.util2026.*;
 
@@ -46,13 +48,13 @@ public class AddOrdChargeHdr extends BaseHdr {
 
     private static void addOrdChg(OrdChrg ord) throws Exception {
         String now = String.valueOf(now());
-//        queryParams.put("datetime_utc", now);
-//        queryParams.put("datetime_local", getLocalTimeString());
-//        queryParams.put("timezone", now);
-//        queryParams.put("timestamp", System.currentTimeMillis());
-//        queryParams.put("uname", uname);
-//        queryParams.put("id","ordChrg"+getFilenameFrmLocalTimeString());
-        addObj(ord, saveUrlOrdChrg,OrdChrg.class);
+        Session session = openSession(saveUrlOrdChrg);
+        //  om.jdbcurl=saveDirUsrs;
+        //todo start tx
+        session.beginTransaction();
+        session.persist(ord);
+        session.commit();
+    //    addObj(ord, saveUrlOrdChrg,OrdChrg.class);
     }
 
     public static void main(String[] args) throws Exception {

@@ -3,7 +3,6 @@ package util;
 import apiUsr.Usr;
 
 
-import static util.dbutil.*;
 import static util.util2026.getField2025;
 
 public class OrmMysql extends OrmBase {
