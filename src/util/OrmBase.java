@@ -142,8 +142,9 @@ public abstract class OrmBase implements Session {
        if(objInDb==null)
            persist(obj);
        else{
-           //update
-           copyProps(objInDb, obj);
+           //update   //todo
+         //  copyProps(objInDb, obj);
+           copyProps(obj,objInDb);
            update(obj);
        }
        
@@ -157,7 +158,7 @@ public abstract class OrmBase implements Session {
         System.out.println("\r\n\r\n");
         //   System.out.println("fun addobj(");
         String runEmoji = "▶️";
-        printLn("▶️fun persist(", BLUE);
+        printLn("▶️fun update(", BLUE);
         printLn("obj=" + encodeJson(obj), GREEN);
 
         System.out.println(")");
