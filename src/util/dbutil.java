@@ -38,6 +38,7 @@ import org.hibernate.cfg.Configuration;
 //import org.apache.lucene.store.FSDirectory;
 
 //import static util.Fltr.filterWithSpEL;
+import static util.ColorLogger.*;
 import static util.Fltr.fltr2501;
 import static util.StrUtil.getPwdFromJdbcurl;
 import static util.StrUtil.getUnameFromJdbcurl;
@@ -196,7 +197,8 @@ public class dbutil {
      */
     public static Object addObj(Object obj, String saveDir, Class class1) throws Exception {
         System.out.println("\r\n\r\n");
-        System.out.println("fun addobj(");
+     //   System.out.println("fun addobj(");
+        printLn("fun addobj(", BLUE);
         System.out.println("obj=" + encodeJson(obj));
         System.out.println("saveDir=" + saveDir);
         System.out.println("class1=" + class1);
@@ -297,6 +299,10 @@ public class dbutil {
     }
 
     private static Object addObjHbnt(Object obj, String saveDir, Class class1) throws Exception {
+        printLn("fun addObjHbnt(", BLUE);
+        printLn("saveDir="+saveDir, GREEN);
+        printLn("class1="+class1, GREEN);
+        printLn("))", BLUE);
         var jdbcUrl = saveDir.substring(5);
 
         SessionFactory sessionFactory = getSessionFactory(class1, jdbcUrl);
@@ -315,7 +321,7 @@ public class dbutil {
         // 关闭 SessionFactory
         sessionFactory.close();
 
-
+        printLn("endfun addObjHbnt()", BLUE);
         return obj;
     }
 
