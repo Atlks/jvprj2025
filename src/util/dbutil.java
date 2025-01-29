@@ -198,7 +198,7 @@ public class dbutil {
      */
     public static Object addObj(Object obj, String saveDir, Class class1) throws Exception {
         System.out.println("\r\n\r\n");
-     //   System.out.println("fun addobj(");
+        //   System.out.println("fun addobj(");
         String runEmoji = "▶️";
         printLn("▶️fun addobj(", BLUE);
         printLn("obj=" + encodeJson(obj), GREEN);
@@ -397,9 +397,10 @@ public class dbutil {
 //
 //
 //        // 1. 保存数据
-////            OrdBet newUser = new OrdBet();
-////            newUser.uname="John Doe2";
-////            newUser.id=newUser.uname;
+
+    /// /            OrdBet newUser = new OrdBet();
+    /// /            newUser.uname="John Doe2";
+    /// /            newUser.id=newUser.uname;
 //        //  newUser.setEmail("john.doe@example.com");
 //
 //        // 开启事务
@@ -412,7 +413,6 @@ public class dbutil {
 //        session.getTransaction().commit();
 //        return "";
 //    }
-
     public static Object updtObj(Object obj, String saveDir, Class class1) throws Exception {
         System.out.println("\r\n\r\n");
         System.out.println("fun updtObj(");
@@ -428,7 +428,7 @@ public class dbutil {
             return rzt;
 
         } else if (saveDir.startsWith("hbnt:")) {
-          //  return updtByHbnt(obj, saveDir, class1);
+            //  return updtByHbnt(obj, saveDir, class1);
         } else if (saveDir.startsWith("json:")) {
             saveDir = saveDir.substring(5);
             System.out.println("savedir=" + saveDir);
@@ -471,21 +471,21 @@ public class dbutil {
 //        } catch (SQLException e) {
 //            throw new RuntimeException(e);
 //        }
-////        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-////            Transaction tx = session.beginTransaction();
-////
-////            User user = session.get(User.class, userId);  // 先获取对象
-////            if (user != null) {
-////                user.setName(newName);  // 修改字段
-////                session.update(user);   // 更新对象
-////            }
-////
-////            tx.commit();
-////        }
+
+    /// /        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+    /// /            Transaction tx = session.beginTransaction();
+    /// /
+    /// /            User user = session.get(User.class, userId);  // 先获取对象
+    /// /            if (user != null) {
+    /// /                user.setName(newName);  // 修改字段
+    /// /                session.update(user);   // 更新对象
+    /// /            }
+    /// /
+    /// /            tx.commit();
+    /// /        }
 //
 //        return obj;
 //    }
-
     @Deprecated
     public static String updtObj(Object obj, String saveDir) throws Exception {
         System.out.println("\r\n\r\n");
@@ -637,7 +637,7 @@ public class dbutil {
             return toObj(objSqlt, cls);
 
         } else if (saveDir.startsWith("hbnt:")) {
-          //  return findByHbnt(id, saveDir, cls);
+            //  return findByHbnt(id, saveDir, cls);
         } else {
             return (T) getObjIni(id, saveDir);
         }
@@ -802,6 +802,19 @@ public class dbutil {
         return stringObjectSortedMap.get(0);
     }
 
+    public static SortedMap<String, Object> qrySqlAsMap(String sql, Connection Connection1) {
+        try {
+            List<SortedMap<String, Object>> sortedMaps = qrySql(sql, Connection1);
+            if (sortedMaps.size() == 0)
+                return new TreeMap<>();
+            return sortedMaps.get(0);
+        } catch (Exception e) {
+            throwEx(e);
+
+        }
+        return new TreeMap<>();
+    }
+
     public static SortedMap<String, Object> qrySqlAsMap(String sql, String jdbcUrl) {
         try {
             List<SortedMap<String, Object>> sortedMaps = qrySql(sql, jdbcUrl);
@@ -815,6 +828,37 @@ public class dbutil {
         return new TreeMap<>();
     }
 
+    public static List<SortedMap<String, Object>> qrySql(String sql, Connection conn) throws Exception {
+        System.out.println("\r\n");
+        System.out.println("fun qrysql(");
+        System.out.println("sql=" + sql);
+
+        System.out.println("))");
+//        if (jdbcUrl.startsWith("jdbc:sqlite"))
+//            Class.forName("org.sqlite.JDBC");
+//        else if (jdbcUrl.startsWith("jdbc:mysql"))
+//            Class.forName(toTrueDvr("com.mysql.cj.jdbc.Driver"));
+//
+//        else if (jdbcUrl.startsWith("jdbc:h2"))
+//            Class.forName("org.h2.Driver");
+        //    mkdir2025(saveDir);
+        //    String url = "jdbc:sqlite:" + saveDir + collName + ".db";
+        // 建立连接
+        //   Connection conn = DriverManager.getConnection(jdbcUrl);
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery(sql);
+
+        // 转换 ResultSet 为 List<SortedMap<String, Object>>
+        List<SortedMap<String, Object>> mapList = toMapList(rs);
+        //System.out.println("");
+        System.out.println("endfun qrysql().ret=[" + mapList.size() + "]," + encodeJson(get0(mapList)));
+        return mapList;
+
+
+    }
 
     public static List<SortedMap<String, Object>> qrySql(String sql, String jdbcUrl) throws Exception {
         System.out.println("\r\n");
@@ -1361,7 +1405,7 @@ public class dbutil {
     }
 
     //根据obj字段值
-    private static String crtUpdtStmt(Object obj, String tbnm) {
+    static String crtUpdtStmt(Object obj, String tbnm) {
 
         if (obj instanceof Map) {
             Map<String, Object> m = (Map<String, Object>) obj;

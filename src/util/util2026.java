@@ -317,7 +317,7 @@ public class util2026 {
         }
     }
 
-    public static Object getField2025(Object obj, String fieldName) throws Exception {
+    public static Object getField2025(Object obj, String fieldName) throws NoSuchFieldException,Exception {
         if (obj == null || fieldName == null || fieldName.isEmpty()) {
             // 防御性编程，处理无效参数
             throw new RuntimeException("some prm is null or empty");

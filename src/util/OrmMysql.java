@@ -1,6 +1,7 @@
 package util;
 
 import apiUsr.Usr;
+import jakarta.persistence.LockModeType;
 
 
 import static util.util2026.getField2025;

@@ -8,6 +8,8 @@ import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
 
+import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
+
 
 /**
  *   // 唯一标识符
@@ -44,6 +46,11 @@ public class LogBls {
     public String changeType;
     public String changeMode;
     public BigDecimal amtBefore;
+
+    public BigDecimal getChangeAmount() {
+        return  toBigDecimal(changeAmount);
+    }
+
     public BigDecimal changeAmount;
     public BigDecimal newBalance;
     // 备注信息

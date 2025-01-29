@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.time.LocalTime.now;
-import static util.SessionOrm.openSession;
+
+import static util.OrmUtil.openSession;
 import static util.dbutil.addObj;
 import static util.util2026.*;
 

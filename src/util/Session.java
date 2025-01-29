@@ -1,5 +1,7 @@
 package util;
 
+import jakarta.persistence.LockModeType;
+
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,4 +21,6 @@ public interface Session {
     Connection beginTransaction() throws SQLException;
 
     void commit() throws SQLException;
+
+    <T> T find(Class<T> objClass, Object id, LockModeType lockModeType) throws Exception;
 }

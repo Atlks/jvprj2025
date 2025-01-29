@@ -11,8 +11,8 @@ import java.io.IOException;
 
 import static apis.BaseHdr.iniCfgFrmCfgfile;
 import static util.EncodeUtil.encodeMd5;
-import static util.SessionOrm.newSession;
-import static util.SessionOrm.openSession;
+
+import static util.OrmUtil.openSession;
 import static util.dbutil.*;
 import static util.util2026.*;
 
