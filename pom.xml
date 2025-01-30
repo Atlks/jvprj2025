@@ -56,9 +56,20 @@
     <dependencies>
 
         <dependency>
-            <groupId>uke</groupId>
-            <artifactId>ormJpaAt</artifactId>
-            <version>88</version> </dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-community-dialects</artifactId>
+            <version>6.4.0.Final</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.6.5.Final</version>
+
+        </dependency>
+
+
 
         <dependency>
             <groupId>org.xerial</groupId>
@@ -76,6 +87,31 @@
         </dependency>
 -->
 
+
+        <!-- Hibernate EntityManager (if you are using JPA) -->
+
+
+        <!-- Optional: Hibernate Validator (if you need validation support) -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.2.0.Final</version> <!-- Use the latest version -->
+        </dependency>
+
+        <!-- Optional: JPA (if you want to use Jakarta Persistence API) -->
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>3.1.0</version> <!-- Or use the version corresponding to your JPA implementation -->
+        </dependency>
+
+
+        <!-- MySQL JDBC Driver -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.30</version> <!-- Use the latest version -->
+        </dependency>
 
         <dependency>
             <groupId>com.example</groupId>

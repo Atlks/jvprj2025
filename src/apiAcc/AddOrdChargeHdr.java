@@ -2,15 +2,19 @@ package apiAcc;
 
 import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
-import util.Session;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 import static java.time.LocalTime.now;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.service.ServiceRegistry;
 
-import static util.OrmUtil.openSession;
+import static util.HbntUtil.openSession;
 import static util.dbutil.addObj;
 import static util.util2026.*;
 
@@ -54,7 +58,7 @@ public class AddOrdChargeHdr extends BaseHdr {
         //todo start tx
         session.beginTransaction();
         session.persist(ord);
-        session.commit();
+        session.getTransaction().commit();
     //    addObj(ord, saveUrlOrdChrg,OrdChrg.class);
     }
 

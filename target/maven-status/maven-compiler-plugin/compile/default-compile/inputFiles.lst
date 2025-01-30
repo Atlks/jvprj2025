@@ -32,11 +32,17 @@ C:\Users\attil\IdeaProjects\jvprj2025\src\MainApi.java
 C:\Users\attil\IdeaProjects\jvprj2025\src\org\hibernate\dialect\CustomSQLiteDialect.java
 C:\Users\attil\IdeaProjects\jvprj2025\src\test\AccBiz.java
 C:\Users\attil\IdeaProjects\jvprj2025\src\test\UserBiz.java
+C:\Users\attil\IdeaProjects\jvprj2025\src\util\ArrUtil.java
+C:\Users\attil\IdeaProjects\jvprj2025\src\util\ColorLogger.java
 C:\Users\attil\IdeaProjects\jvprj2025\src\util\CustomSQLiteConnection.java
+C:\Users\attil\IdeaProjects\jvprj2025\src\util\dbutil.java
+C:\Users\attil\IdeaProjects\jvprj2025\src\util\EncodeUtil.java
 C:\Users\attil\IdeaProjects\jvprj2025\src\util\Fltr.java
 C:\Users\attil\IdeaProjects\jvprj2025\src\util\MapList.java
 C:\Users\attil\IdeaProjects\jvprj2025\src\util\StrUtil.java
 C:\Users\attil\IdeaProjects\jvprj2025\src\util\ToXX.java
+C:\Users\attil\IdeaProjects\jvprj2025\src\util\Util2025.java
+C:\Users\attil\IdeaProjects\jvprj2025\src\util\util2026.java
 C:\Users\attil\IdeaProjects\jvprj2025\src\util\UtilEncode.java
 C:\Users\attil\IdeaProjects\jvprj2025\src\util\UtilMysql.java
 C:\Users\attil\IdeaProjects\jvprj2025\src\util\UtilSqlt.java
