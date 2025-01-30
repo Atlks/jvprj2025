@@ -17,8 +17,9 @@ import static util.util2026.throwEx;
 public class JdoPstsMngrIni implements PersistenceManager {
     public String saveDir;
 
-    public JdoPstsMngrIni(String saveDir) {
-        mkdir2025(saveDir);
+    public JdoPstsMngrIni(String saveDir0) {
+        mkdir2025(saveDir0);
+        saveDir=saveDir0;
     }
 
     public <T> T makePersistent(T obj) {
@@ -61,6 +62,7 @@ public class JdoPstsMngrIni implements PersistenceManager {
         } catch (Exception e) {
             throwEx(e);
         }
+        return null;
     }
 
     /**
