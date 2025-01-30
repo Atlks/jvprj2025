@@ -1,5 +1,6 @@
 package apiAcc;
 
+import apiOrdBet.OrdBet;
 import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -9,10 +10,7 @@ import java.util.Map;
 
 import static java.time.LocalTime.now;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.service.ServiceRegistry;
+import utilBiz.OrmUtilBiz;
 
 import static util.HbntUtil.openSession;
 import static util.dbutil.addObj;
@@ -53,7 +51,7 @@ public class AddOrdChargeHdr extends BaseHdr {
 
     private static void addOrdChg(OrdChrg ord) throws Exception {
         String now = String.valueOf(now());
-        Session session = openSession(saveUrlOrdChrg);
+        Session session = OrmUtilBiz. openSession(saveUrlOrdChrg);
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
         session.beginTransaction();

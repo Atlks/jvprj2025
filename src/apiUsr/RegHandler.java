@@ -3,8 +3,7 @@ package apiUsr;
 import biz.existUserEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.hibernate.Hibernate;
-import util.HbntUtil;
+import utilBiz.OrmUtilBiz;
 
 import java.io.IOException;
 
@@ -83,7 +82,7 @@ public class RegHandler implements HttpHandler {
         //  if(!existUser(uname))
 
         //    OrmMysql om=new OrmMysql();
-     org.hibernate.Session session = openSession(saveDirUsrs);
+     org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
         session.beginTransaction();
@@ -134,7 +133,7 @@ public class RegHandler implements HttpHandler {
 
     //    Usr jo = getObjById(uname, saveDirUsrs, Usr.class);
 
-     org.hibernate.Session session = openSession(saveDirUsrs);
+     org.hibernate.Session session =OrmUtilBiz. openSession(saveDirUsrs);
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
        // session.beginTransaction();

@@ -6,6 +6,7 @@ import apiUsr.Usr;
 import com.sun.net.httpserver.HttpExchange;
 import jakarta.persistence.LockModeType;
 import org.hibernate.Session;
+import utilBiz.OrmUtilBiz;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class TransHdr extends BaseHdr {
     private static void transToYinliWlt(LogBls lgblsDto) throws Exception, BalanceNotEnghou {
 
 
-        Session session = openSession(saveDirUsrs);
+        Session session = OrmUtilBiz. openSession(saveDirUsrs);
         //todo start tx
         session.beginTransaction();
 

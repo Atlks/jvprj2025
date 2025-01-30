@@ -1,6 +1,7 @@
 package util;
 
 import apiAcc.LogBls;
+import apiAcc.OrdChrg;
 import apiUsr.Usr;
 import apiWltYinli.LogBlsLogYLwlt;
 import org.hibernate.Session;
@@ -11,6 +12,7 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 
 import static util.StrUtil.getPwdFromJdbcurl;
@@ -20,7 +22,7 @@ import static util.dbutil.*;
 //ormUtilHbnt
 public class HbntUtil {
 
-    public static Session openSession(String jdbcUrl) throws SQLException {
+    public static Session openSession(String jdbcUrl, List<Class> li) throws SQLException {
 
         var db=getDatabaseFileName4mysql(jdbcUrl);
         crtDatabase(jdbcUrl,db);
@@ -47,9 +49,10 @@ public class HbntUtil {
 
         // 添加实体类映射
         MetadataSources metadataSources = new MetadataSources(serviceRegistry);
-        metadataSources.addAnnotatedClass(Usr.class); // 你的实体类
-        metadataSources.addAnnotatedClass(LogBls.class);
-        metadataSources.addAnnotatedClass(LogBlsLogYLwlt.class); //
+        for(Class cls : li)
+        {
+            metadataSources.addAnnotatedClasses(cls);
+        }
 
         // 创建 SessionFactory
         SessionFactory sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
