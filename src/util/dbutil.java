@@ -561,7 +561,7 @@ public class dbutil {
      * @param obj
      * @return
      */
-    private static String encodeIni(Object obj) {
+    static String encodeIni(Object obj) {
 
         if (obj instanceof Map) {
             return encodeIniMap((Map<String, Object>) obj);
@@ -1055,7 +1055,7 @@ public class dbutil {
 
     }
 
-    private static SortedMap<String, Object> toMapFrmInicontext(String iniFileContent) {
+    static SortedMap<String, Object> toMapFrmInicontext(String iniFileContent) {
         // 创建SortedMap来存储键值对
         SortedMap<String, Object> map = new TreeMap<>();
 

@@ -105,12 +105,24 @@
             <version>3.1.0</version> <!-- Or use the version corresponding to your JPA implementation -->
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/javax.jdo/jdo-api -->
+        <dependency>
+            <groupId>javax.jdo</groupId>
+            <artifactId>jdo-api</artifactId>
+            <version>3.2.1</version>
+        </dependency>
 
         <!-- MySQL JDBC Driver -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.30</version> <!-- Use the latest version -->
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.datanucleus/datanucleus-api-jdo -->
+        <dependency>
+            <groupId>org.datanucleus</groupId>
+            <artifactId>datanucleus-api-jdo</artifactId>
+            <version>6.0.4</version>
         </dependency>
 
         <dependency>
