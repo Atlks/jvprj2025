@@ -41,6 +41,7 @@ public class TransHdr extends BaseHdr {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
+      //  System.out.println(com.mysql.cj.jdbc.Driver);
       iniCfgFrmCfgfile();
         LogBls lgbls=new LogBls();
         lgbls.changeAmount= BigDecimal.valueOf(100.5);
