@@ -13,6 +13,18 @@ import java.util.*;
 
 public class util2026 {
 
+    static void removeFile(String fnamePath) {
+        File file = new File(fnamePath);
+        if (file.exists()) {
+            if (file.delete()) {
+                System.out.println("文件已成功删除: " + fnamePath);
+            } else {
+                System.err.println("文件删除失败: " + fnamePath);
+            }
+        } else {
+            System.err.println("文件不存在: " + fnamePath);
+        }
+    }
     /**
      * 解析 INI 配置文件
      *
