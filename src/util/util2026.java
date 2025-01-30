@@ -106,7 +106,7 @@ public class util2026 {
      * @param e 异常对象
      * @return 堆栈跟踪的字符串表示
      */
-    public static String getStackTraceAsString(Exception e) {
+    public static String getStackTraceAsString(Throwable e) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
@@ -357,8 +357,17 @@ public class util2026 {
 
         return value;
     }
-
-
+    public static String getCurrentMethodName() {
+        return StackWalker.getInstance()
+                .walk(frames -> frames.skip(1).findFirst().get().getMethodName());
+    }
+    public static void wrtRespErr(HttpExchange exchange, String responseTxt) throws IOException {
+        exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=utf-8");
+        exchange.sendResponseHeaders(500, responseTxt.getBytes().length);
+        OutputStream os = exchange.getResponseBody();
+        os.write(responseTxt.getBytes());
+        os.close();
+    }
     public static void wrtResp(HttpExchange exchange, String responseTxt) throws IOException {
         exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=utf-8");
         exchange.sendResponseHeaders(200, responseTxt.getBytes().length);

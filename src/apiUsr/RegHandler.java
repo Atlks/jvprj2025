@@ -1,5 +1,6 @@
 package apiUsr;
 
+import apis.BaseHdr;
 import biz.existUserEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -13,15 +14,22 @@ import static util.EncodeUtil.encodeMd5;
 
 
 import static util.HbntUtil.openSession;
+import static util.Util2025.encodeJson;
 import static util.dbutil.*;
 import static util.util2026.*;
 
 
 //  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
 // 自定义的请求处理器
-public class RegHandler implements HttpHandler {
+public class RegHandler extends BaseHdr implements HttpHandler {
+
+
+    /**
+     * @param exchange
+     * @throws Exception
+     */
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
+    protected void handle2(HttpExchange exchange) throws Exception, existUserEx {
         // 检查请求方法
         //   if ("GET".equals(exchange.getRequestMethod())) {
 
@@ -33,17 +41,12 @@ public class RegHandler implements HttpHandler {
         u.uname = uname;
         u.pwd = pwd;
         u.invtr = invtr;
+        u.id=uname;
         String responseTxt = "";
-        try {
+
             responseTxt = reg(u);
             wrtResp(exchange, responseTxt);
-        } catch (Exception e) {
-            throwEx(e);
-        } catch (existUserEx e) {
-            throw new RuntimeException(e);
-        }
 
-        //    }
     }
 
     public static void main(String[] args) throws Exception, existUserEx {
@@ -77,12 +80,19 @@ public class RegHandler implements HttpHandler {
         if (existUser(user)) {
             if (ovrwtest) {
             } else
-                throw new existUserEx("err=existUserEx,uname=" + user.uname);
+            {
+
+                existUserEx e = new existUserEx("存在用户");
+                e.fun=getCurrentMethodName();
+                e.funPrm=user;
+                throw e;
+            }
+
         }
         //  if(!existUser(uname))
 
-        //    OrmMysql om=new OrmMysql();
-     org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
+        //    OrmMysql om=new OrmMysql() ;
+        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
         session.beginTransaction();
@@ -131,13 +141,13 @@ public class RegHandler implements HttpHandler {
 
     public static boolean existUser(String uname) throws Exception {
 
-    //    Usr jo = getObjById(uname, saveDirUsrs, Usr.class);
+        //    Usr jo = getObjById(uname, saveDirUsrs, Usr.class);
 
-     org.hibernate.Session session =OrmUtilBiz. openSession(saveDirUsrs);
+        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
-       // session.beginTransaction();
-        Usr jo =    session.find(Usr.class,uname);
+        // session.beginTransaction();
+        Usr jo = session.find(Usr.class, uname);
         if (jo == null)
             return false;
         // 空安全处理，直接操作结果

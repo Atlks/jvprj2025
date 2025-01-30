@@ -2,9 +2,14 @@ package apis;
 
 import apiAcc.UpdtCompleteChargeHdr;
 import apiOrdBet.QryOrdBetHdr;
+import apiUsr.Err;
 import apiUsr.RegHandler;
+import apiUsr.ThrowableX;
+import apiUsr.UnameOrPwdErrEx;
 import apiWltYinli.WithdrawHdr;
 import biz.BaseBiz;
+import biz.existUserEx;
+import com.alibaba.fastjson2.JSON;
 import test.UserBiz;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -15,6 +20,8 @@ import java.util.Map;
 
 import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
+
+import static util.Util2025.encodeJson;
 
 import static util.util2026.*;
 
@@ -27,14 +34,48 @@ public abstract class BaseHdr implements HttpHandler {
             handle2(exchange);
 
 
-        } catch (Exception e) {
+        } catch (Throwable e) {
+            //  e.getStackTrace()
             e.printStackTrace();
-            //   wrtResp(exchange, e.getMessage());
-            wrtResp(exchange, getStackTraceAsString(e));
 
-            throw new RuntimeException(e);
+            //nml err
+            ThrowableX ex = new ThrowableX(e.getMessage());
+
+            //my throw ex.incld funprm
+            if (e instanceof ThrowableX) {
+                ex = (ThrowableX) e;
+                ex.errcode=e.getClass().getName();
+            }
+
+            String stackTraceAsString = getStackTraceAsString(e);
+            ex.stackTrace = stackTraceAsString;
+            wrtRespErr(exchange, encodeJson(ex));
+
+
+            // throw new RuntimeException(e);
 
         }
+    }
+
+    /**
+     * 使用fastjson2，，将jsonstr转换为err对象
+     *
+     * @param jsonStr
+     * @return
+     */
+    private Err toERR(String jsonStr) {
+
+        try {
+            if (jsonStr == null || jsonStr.isEmpty()) {
+                return new Err("", "", "", null);
+            }
+            return JSON.parseObject(jsonStr, Err.class);
+        } catch (Exception e) {
+            //not errmsg,just str msg ,or another type
+            return new Err(jsonStr, "", "", null);
+        }
+
+
     }
 
     public static void iniCfgFrmCfgfile() {
@@ -86,7 +127,7 @@ public abstract class BaseHdr implements HttpHandler {
         System.out.println("ini cfg finish..");
     }
 
-    protected abstract void handle2(HttpExchange exchange) throws Exception;
+    protected abstract void handle2(HttpExchange exchange) throws Throwable;
 
     public boolean isLogined(HttpExchange exchange) {
         String uname = getcookie("uname", exchange);

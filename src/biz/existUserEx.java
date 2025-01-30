@@ -1,6 +1,8 @@
 package biz;
 
-public class existUserEx extends Throwable {
+import apiUsr.ThrowableX;
+
+public class existUserEx extends ThrowableX {
     public existUserEx(String msg) {
         super( msg);
     }
