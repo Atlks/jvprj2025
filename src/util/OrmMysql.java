@@ -1,8 +1,16 @@
 package util;
 
 import apiUsr.Usr;
-import jakarta.persistence.LockModeType;
+import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaDelete;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.CriteriaUpdate;
+import jakarta.persistence.metamodel.Metamodel;
 
+
+import java.util.List;
+import java.util.Map;
 
 import static util.util2026.getField2025;
 
@@ -31,7 +39,6 @@ public class OrmMysql extends OrmBase {
 
 
     }
-
 
 
 }
