@@ -63,5 +63,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="org.jetbrains.annotations-24.0.1" level="project" />
+    <orderEntry type="library" name="ormJpaAt-88" level="project" />
   </component>
 </module>
