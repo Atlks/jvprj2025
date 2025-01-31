@@ -3,7 +3,12 @@ package apiUsr;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ThrowableX extends Throwable {
+public class ExceptionBase extends  Exception {
+
+    public ExceptionBase() {
+
+
+    }
 
     public String  timestamp;
     public String  details;
@@ -16,7 +21,7 @@ public class ThrowableX extends Throwable {
     public String   requestId;
     public  Throwable cause;
     public Map<String, Object> extraData=new HashMap<>();
-    public ThrowableX(String message) {
+    public ExceptionBase(String message) {
         super(message);
         errmsg=message;
 

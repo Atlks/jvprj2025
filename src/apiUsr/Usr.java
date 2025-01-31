@@ -25,4 +25,13 @@ public class Usr {
     public BigDecimal balanceYinliwlt;
     public BigDecimal balanceYinliwltFreez;
     public BigDecimal totalCommssionAmt;
+
+    public Usr(String uname, String pwd) {
+   this.uname=uname;
+   this.pwd=pwd;
+    }
+
+    public Usr() {
+
+    }
 }

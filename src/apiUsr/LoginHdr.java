@@ -50,7 +50,12 @@ public class LoginHdr  extends BaseHdr {
         Usr dto=new Usr();
         dto.uname=uname;
         dto.pwd=pwd;
-         throw new  UnameOrPwdErrEx(encodeJson(dto));
+
+        UnameOrPwdErrEx e = new UnameOrPwdErrEx("存在用户");
+        e.fun=getCurrentMethodName();
+        e.funPrm=new Usr(uname,pwd);
+
+         throw e;
     }
 
 

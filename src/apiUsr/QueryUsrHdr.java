@@ -2,6 +2,7 @@ package apiUsr;
 
 import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
+import utilBiz.OrmUtilBiz;
 //import org.apache.lucene.index.DirectoryReader;
 //import org.apache.lucene.index.Term;
 //import org.apache.lucene.search.*;
@@ -38,8 +39,13 @@ public class QueryUsrHdr extends BaseHdr {
         uname="ttt";
         if (uname.equals("")) {
             //need login
-            wrtResp(exchange, "needLogin");
-            return;
+            NeedLoginEx e = new NeedLoginEx("存在用户");
+            e.fun="QueryUsrHdr。"+getCurrentMethodName();
+            e.funPrm= (exchange);
+
+            throw e;
+          //  wrtResp(exchange, "needLogin");
+          //  return;
         }
 
         //blk login ed
@@ -51,31 +57,40 @@ public class QueryUsrHdr extends BaseHdr {
 
     private static List<SortedMap<String, Object>> qryuser(Map<String, String> queryParams) throws Exception {
         var expression = "";
-        String uname = queryParams.get("uname");
+        String uname =getFieldAsStrFrmMap( queryParams,"uname");
+
         if (isSqldb(saveDirUsrs)  ) {
             return qryuserSql(queryParams);
         } else if (saveDirUsrs.startsWith("lucene:")) {
             return  null;
-         //   return qryuserLucene(queryParams);
+            //   return qryuserLucene(queryParams);
         } else {
             //json doc ,ini ,redis ,lucene
             return qryuserIni(queryParams);
         }
-        //   return new ArrayList<SortedMap<String, Object>>();
+//        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
+//
+//        //todo start tx
+//        session.beginTransaction();
+//        Usr u=  session.find(Usr.class,uname);
+//        session.getTransaction().commit();
+    }
+
+    private static String getFieldAsStrFrmMap(Map<String, String> queryParams, String uname) {
+      return  queryParams.getOrDefault(uname,"");
     }
 
 
-
-
     static List<SortedMap<String, Object>> qryuserSql(Map<String, String> queryParams) throws Exception {
-        String uname = queryParams.get("uname");
+        String uname = queryParams.getOrDefault("uname","");
         var expression = "";
 
         //addObjMysql(obj, collName, saveDir);
         if (!uname.equals("")) {
-            expression = "uname like '%"+uname+"%'";
+            expression = " and uname like '%"+uname+"%'";
         }
-        var sql = "select * from tab1 where 1=1 and " + expression;
+        var sql = "select * from usr where 1=1  " + expression;
+        System.out.println(sql);
         var list1 = qrySql(sql, saveDirUsrs);
         return (List<SortedMap<String, Object>>) list1;
     }

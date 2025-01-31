@@ -1,6 +1,6 @@
 package apiUsr;
 
-public class UnameOrPwdErrEx extends Throwable {
+public class UnameOrPwdErrEx extends ExceptionBase {
     public UnameOrPwdErrEx(String s) {
    super(s);
     }
