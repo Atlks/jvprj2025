@@ -51,7 +51,7 @@ public class LoginHdr  extends BaseHdr {
         dto.uname=uname;
         dto.pwd=pwd;
 
-        UnameOrPwdErrEx e = new UnameOrPwdErrEx("存在用户");
+        UnameOrPwdErrEx e = new UnameOrPwdErrEx("用户名或密码错误");
         e.fun=getCurrentMethodName();
         e.funPrm=new Usr(uname,pwd);
 
