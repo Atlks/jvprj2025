@@ -375,7 +375,9 @@ public class util2026 {
         os.write(responseTxt.getBytes());
         os.close();
     }
-
+    public static String getFieldAsStrFrmMap(Map<String, String> queryParams, String uname) {
+        return  queryParams.getOrDefault(uname,"");
+    }
     public static String getRequestParameter(HttpExchange exchange, String name) {
         Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
         String id = queryParams.get(name); // 获取 id 参数

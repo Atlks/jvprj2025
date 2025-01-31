@@ -26,11 +26,6 @@ public class AddOrdChargeHdr extends BaseHdr {
     public void handle2(HttpExchange exchange) throws Exception {
 
 
-        if (isNotLogined(exchange)) {
-            //need login
-            wrtResp(exchange, "needLogin");
-            return;
-        }
 
         //blk login ed
         String uname = getcookie("uname", exchange);

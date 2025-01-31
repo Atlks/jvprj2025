@@ -3,6 +3,7 @@ package util;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import utilBiz.OrmUtilBiz;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static apiUsr.RegHandler.saveDirUsrs;
 import static util.ColorLogger.*;
 import static util.Fltr.fltr2501;
 import static util.StrUtil.getPwdFromJdbcurl;
@@ -653,6 +655,27 @@ public class dbutil {
 //        }
 //    }
 
+
+
+    public static PageResult<SortedMap<String, Object>> getPageResult(String sql, List<SortedMap<String, Object>> list1, long pageSize) throws SQLException {
+        String countSql = "SELECT COUNT(*) FROM (" + sql + ") t";
+        System.out.println("countSql="+countSql);
+        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
+
+        long totalRecords = ((Number) session.createNativeQuery(countSql)
+//                .setParameter(1, username)
+//                .setParameter(2, minAge)
+                .getSingleResult()).longValue();
+
+        long totalPages = (long) Math.ceil((double) totalRecords / pageSize);
+        return new PageResult<>(list1, totalRecords, totalPages);
+    }
+    public static List<SortedMap<String, Object>> getSortedMapsBypages( String sql,long pageSize, long pageNumber) throws Exception {
+        var sql_limt = sql + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1) * pageSize;
+        System.out.println(sql_limt);
+        var list1 = qrySql(sql_limt, saveDirUsrs);
+        return list1;
+    }
     /**
      * 来将 Map 转换为对象
      *

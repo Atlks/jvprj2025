@@ -1,3 +1,5 @@
+import apiAcc.AddOrdChargeHdr;
+import apiAcc.QueryOrdChrgHdr;
 import apiCms.QryTeamHdr;
 import apiOrdBet.AddOrdBetHdr;
 import apiOrdBet.QryOrdBetHdr;
@@ -34,6 +36,11 @@ public class MainApi {
         server.createContext("/AddOrdBetHdr", new AddOrdBetHdr());
         server.createContext("/QryOrdBetHdr", new QryOrdBetHdr());
         server.createContext("/QryTeamHdr", new QryTeamHdr());
+        server.createContext("/AddOrdChargeHdr", new AddOrdChargeHdr());
+        server.createContext("/QueryOrdChrgHdr", new QueryOrdChrgHdr());
+
+        http://localhost:8889/QueryOrdChrgHdr
+
       //  http://localhost:8889/
         // 启动服务器
         server.setExecutor(null); // 默认的线程池

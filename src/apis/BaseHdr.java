@@ -13,7 +13,9 @@ import com.sun.net.httpserver.HttpHandler;
 import apiCms.CmsBiz;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Map;
+import java.util.Set;
 
 import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
@@ -28,6 +30,25 @@ public abstract class BaseHdr implements HttpHandler {
 
         try {
             setcookie("uname", "007", exchange);//for test
+
+
+            if(needLoginAuth(exchange.getRequestURI()))
+            {
+                String uname = getcookie("uname", exchange);
+                //  uname="ttt";
+                if (uname.equals("")) {
+                    //need login
+                    NeedLoginEx e = new NeedLoginEx("需要登录");
+                    e.fun="QueryUsrHdr。"+getCurrentMethodName();
+                    e.funPrm= (exchange);
+
+                    throw e;
+                    //  wrtResp(exchange, "needLogin");
+                    //  return;
+                }
+            }
+
+
             handle2(exchange);
 
 
@@ -53,6 +74,16 @@ public abstract class BaseHdr implements HttpHandler {
             // throw new RuntimeException(e);
 
         }
+    }
+    private static final Set<String> NO_AUTH_PATHS = Set.of("/reg", "/login");
+    /**
+     * 判断是否需要登录的url    。。格式为  /reg
+     * @param requestURI
+     * @return   * @return `true` 需要登录，`false` 不需要登录
+     */
+    private boolean needLoginAuth(URI requestURI) {
+        String path = requestURI.getPath(); // 只取路径部分，不包括查询参数
+        return !NO_AUTH_PATHS.contains(path);
     }
 
     /**
