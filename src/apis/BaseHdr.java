@@ -2,10 +2,7 @@ package apis;
 
 import apiAcc.UpdtCompleteChargeHdr;
 import apiOrdBet.QryOrdBetHdr;
-import apiUsr.Err;
-import apiUsr.RegHandler;
-import apiUsr.ThrowableX;
-import apiUsr.UnameOrPwdErrEx;
+import apiUsr.*;
 import apiWltYinli.WithdrawHdr;
 import biz.BaseBiz;
 import biz.existUserEx;
@@ -39,11 +36,12 @@ public abstract class BaseHdr implements HttpHandler {
             e.printStackTrace();
 
             //nml err
-            ThrowableX ex = new ThrowableX(e.getMessage());
+            ExceptionBase ex = new ExceptionBase(e.getMessage());
+            ex.cause=e;
 
             //my throw ex.incld funprm
-            if (e instanceof ThrowableX) {
-                ex = (ThrowableX) e;
+            if (e instanceof ExceptionBase) {
+                ex = (ExceptionBase) e;
                 ex.errcode=e.getClass().getName();
             }
 
