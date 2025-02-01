@@ -1,6 +1,5 @@
 package apiUsr;
 
-import apiAcc.OrdChrg;
 import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 import org.hibernate.Session;
@@ -65,8 +64,15 @@ public class UserCentrHdr extends BaseHdr {
 //        session.getTransaction().commit();
     }
 
-
+   ;
     static Object qryuserSql(String uname, Map<String, String> queryParams) throws Exception {
+        Map<String, Object> prmMap = Map.of(
+                "fun", getCurrentMethodName(), "uname", uname,
+                "queryParams", queryParams
+        );
+        System.out.println(encodeJson(prmMap));
+        currFunPrms4dbg.set(prmMap);
+
 
         var sql = "select * from usr where uname=:uname   ";
         Map<String, Object> sqlprmMap = Map.of("sql", sql, "uname", uname);

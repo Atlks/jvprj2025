@@ -5,7 +5,6 @@ import apiOrdBet.QryOrdBetHdr;
 import apiUsr.*;
 import apiWltYinli.WithdrawHdr;
 import biz.BaseBiz;
-import biz.existUserEx;
 import com.alibaba.fastjson2.JSON;
 import test.UserBiz;
 import com.sun.net.httpserver.HttpExchange;
@@ -25,6 +24,8 @@ import static util.Util2025.encodeJson;
 import static util.util2026.*;
 
 public abstract class BaseHdr implements HttpHandler {
+
+    public static ThreadLocal<Object> currFunPrms4dbg =new ThreadLocal<>();
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
@@ -32,15 +33,14 @@ public abstract class BaseHdr implements HttpHandler {
             setcookie("uname", "007", exchange);//for test
 
 
-            if(needLoginAuth(exchange.getRequestURI()))
-            {
+            if (needLoginAuth(exchange.getRequestURI())) {
                 String uname = getcookie("uname", exchange);
                 //  uname="ttt";
                 if (uname.equals("")) {
                     //need login
                     NeedLoginEx e = new NeedLoginEx("需要登录");
-                    e.fun="QueryUsrHdr。"+getCurrentMethodName();
-                    e.funPrm= (exchange);
+                    e.fun = "QueryUsrHdr。" + getCurrentMethodName();
+                    e.funPrm = (exchange);
 
                     throw e;
                     //  wrtResp(exchange, "needLogin");
@@ -51,19 +51,30 @@ public abstract class BaseHdr implements HttpHandler {
 
             handle2(exchange);
 
+        }
+//        } catch (jakarta.persistence.NoResultException e) {
+//            ExceptionBase ex = new ExceptionBase(e.getMessage());
+//            ex.cause=e;
+//            ex.
+//        }
 
-        } catch (Throwable e) {
+        catch (Throwable e) {
             //  e.getStackTrace()
             e.printStackTrace();
 
             //nml err
             ExceptionBase ex = new ExceptionBase(e.getMessage());
-            ex.cause=e;
+
 
             //my throw ex.incld funprm
             if (e instanceof ExceptionBase) {
                 ex = (ExceptionBase) e;
                 ex.errcode=e.getClass().getName();
+            }else {
+                ex = new ExceptionBase(e.getMessage());
+                ex.cause=e;
+                ex.errcode=e.getClass().getName();
+                ex.funPrm=currFunPrms4dbg.get();
             }
 
             String stackTraceAsString = getStackTraceAsString(e);
