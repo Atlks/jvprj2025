@@ -13,7 +13,10 @@ import java.util.Map;
 import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static java.time.LocalTime.now;
+import static util.ColorLogger.*;
 import static util.HbntUtil.*;
+import static util.Util2025.encodeJson;
+import static util.Util2025.printlnx;
 import static util.util2026.*;
 import static apiCms.CmsBiz.toBigDcmTwoDot;
 
@@ -40,7 +43,9 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         //todo start tx
         session.beginTransaction();
         OrdChrg objChrg=  findByHbnt(OrdChrg.class,id,session);
-       //
+
+
+        System.out.println("\r\n----blk updt chg ord stat=ok");
         //update chr ord stat
      //   OrdChrg objChrg = find(id, saveUrlOrdChrg, OrdChrg.class);
         String stat = (String) getField2025(objChrg, "stat", "");
@@ -56,6 +61,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         if (stat.equals(""))
             objChrg.stat = "ok";
         mergeByHbnt(objChrg,session);
+        System.out.println("----endblk updt chg ord stat=ok");
       //  session.merge(objChrg);
 
         //----add blance n log
@@ -78,6 +84,12 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
 
 
     public static void updtBlsByAddChrg(OrdChrg objChrg, Session session) throws Exception {
+        printLn("\n▶️fun updtBlsByAddChrg(", BLUE);
+        printLn("objChrg= "+encodeJson(objChrg), GREEN);
+        System.out.println(")");
+      //  printlnx();
+     //   System.out.println("\r\n ▶fun updtBlsByAddChrg(objChrg= "+encodeJson(objChrg));
+
         String uname = objChrg.uname;
         BigDecimal amt = objChrg.getAmt();
 
@@ -107,7 +119,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         System.out.println(" add balanceLog ");
         persistByHbnt(logBalance,session);
 
-
+        System.out.println("✅endfun updtBlsByAddChrg()");
     }
 
 
