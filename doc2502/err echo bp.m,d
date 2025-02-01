@@ -1,0 +1,42 @@
+
+
+
+
+== fun 埋点
+
+    static Object qryuserSql(String uname, Map<String, String> queryParams) throws Exception {
+        Map<String, Object> prmMap = Map.of(
+                "fun", getCurrentMethodName(), "uname", uname,
+                "queryParams", queryParams
+        );
+        System.out.println(encodeJson(prmMap));
+        currFunPrms4dbg.set(prmMap);
+
+
+          public static ThreadLocal<Object> currFunPrms4dbg =new ThreadLocal<>()
+
+
+== echo err
+ catch (Throwable e) {
+            //  e.getStackTrace()
+            e.printStackTrace();
+
+            //nml err
+            ExceptionBase ex = new ExceptionBase(e.getMessage());
+
+
+            //my throw ex.incld funprm
+            if (e instanceof ExceptionBase) {
+                ex = (ExceptionBase) e;
+                ex.errcode=e.getClass().getName();
+            }else {
+                ex = new ExceptionBase(e.getMessage());
+                ex.cause=e;
+                ex.errcode=e.getClass().getName();
+                ex.funPrm=currFunPrms4dbg.get();
+            }
+
+            String stackTraceAsString = getStackTraceAsString(e);
+            ex.stackTrace = stackTraceAsString;
+            wrtRespErr(exchange, encodeJson(ex));
+
