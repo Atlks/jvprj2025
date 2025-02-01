@@ -24,6 +24,13 @@ public class Usr {
     public BigDecimal balanceFreez;// avdBls
     public BigDecimal balanceYinliwlt;
     public BigDecimal balanceYinliwltFreez;
+
+    public BigDecimal getTotalCommssionAmt() {
+         if(totalCommssionAmt==null )
+                  return BigDecimal.valueOf(0);
+        return BigDecimal.valueOf(0);
+    }
+
     public BigDecimal totalCommssionAmt;
 
     public Usr(String uname, String pwd) {

@@ -366,9 +366,10 @@ public class dbutil {
     }
 
     public static String getDvr(String jdbcUrl) {
-        if (jdbcUrl.startsWith("jdbc:mysql"))
-            return "com.mysql.cj.jdbc.Driver";
-        return "sqlt";
+        return  "com.p6spy.engine.spy.P6SpyDriver";
+//        if (jdbcUrl.startsWith("jdbc:mysql"))
+//            return "com.mysql.cj.jdbc.Driver";
+//        return "sqlt";
     }
 
 //    private static String addObjHbntCfgmd(Object obj, String saveDir, Class class1) {

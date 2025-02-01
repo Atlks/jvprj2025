@@ -1,8 +1,8 @@
 package apiCms;
 
-import apiAcc.LogBls;
 import apiAcc.OrdChrg;
 import apiUsr.Usr;
+import apiWltYinli.LogBlsLogYLwlt;
 import org.hibernate.Session;
 
 import java.math.BigDecimal;
@@ -11,10 +11,7 @@ import java.util.TreeMap;
 
 
 import static apis.BaseHdr.iniCfgFrmCfgfile;
-import static apiUsr.RegHandler.saveDirUsrs;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
-import static biz.BaseBiz.saveUrlLogBalanceYinliWlt;
-import static util.dbutil.*;
 import static util.util2026.*;
 
 public class CmsBiz {
@@ -49,7 +46,7 @@ public class CmsBiz {
      * @param session
      */
     public static void calcCms4FrmOrdChrg(OrdChrg objChrg, Session session) throws Exception {
-        Usr u=getObjById(objChrg.uname,saveDirUsrs, Usr.class);
+        Usr u= session.find( Usr.class,objChrg.uname);
         String invtr= toStr( u.invtr);
         BigDecimal cmsMny=toBigDcmTwoDot(objChrg.getAmt().multiply( new BigDecimal(0.05)) );
         if(invtr.equals(""))
@@ -60,10 +57,16 @@ public class CmsBiz {
         log.uname= u.invtr;
         log.commssionAmt=cmsMny;
 
+        //-------updt invtr ttl cms amd and cmslog
+        System.out.println("\r\n-----------------updt invtr ttl cms amd and cmslog");
         addLogCms(log,session);
-        updtTotalCmsAddamt(invtr,cmsMny,session);
+        session.flush();
+        updtTotalCmsAddamt4invtr(invtr,cmsMny,session);
+        session.flush();
+        System.out.println("end  invtr ttl cms amd and cmslog");
 
         //------------
+        System.out.println("\r\n-----------------updt invtr yl wlt ,,,bls n log");
         updtBlsYinliwlt(invtr,cmsMny,session);//balanceYinliwlt
 
     }
@@ -104,9 +107,10 @@ public class CmsBiz {
         BigDecimal newBls=nowAmt.add(amt);
         objU.balanceYinliwlt=toBigDcmTwoDot (newBls);
         System.out.println(session.merge(objU));  ;
+        session.flush();
 
         //add balanceLog yonjin wlt
-        LogBls logBalanceYlWlt=new LogBls();
+        LogBlsLogYLwlt logBalanceYlWlt=new LogBlsLogYLwlt();
         logBalanceYlWlt.id="LogBalanceYinliwlt"+getFilenameFrmLocalTimeString();
         logBalanceYlWlt.uname=uname;
         logBalanceYlWlt.changeMode="增加";
@@ -114,13 +118,16 @@ public class CmsBiz {
         logBalanceYlWlt.amtBefore=toBigDcmTwoDot(nowAmt);
         logBalanceYlWlt.newBalance=toBigDcmTwoDot(newBls);
         session.persist(logBalanceYlWlt);
+        session.flush();
 
-        System.out.println("endfun "+methodname);
+        System.out.println("endfun "+methodname+"()");
     }
 
 
-    private static void updtTotalCmsAddamt(String uname, BigDecimal cmsMny, Session session) throws Exception {
+    private static void updtTotalCmsAddamt4invtr(String uname, BigDecimal cmsMny, Session session) throws Exception {
 
+        System.out.println("\r\n");
+        System.out.println("fun updtTotalCmsAddamt4invtr(uname="+uname+",cms money="+cmsMny+")");
         Usr objU = session.find(Usr.class,uname);
         if(objU.id==null)
         {
@@ -129,12 +136,12 @@ public class CmsBiz {
         }
 
 
-        BigDecimal nowAmt=objU.totalCommssionAmt;
+        BigDecimal nowAmt=  (objU.getTotalCommssionAmt());
         BigDecimal newBls=nowAmt.add(cmsMny);
         objU.totalCommssionAmt =toBigDcmTwoDot (newBls);
         session.merge(objU);
-
-
+        session.flush();
+        System.out.println("endfun updtTotalCmsAddamt4invtr()");
     }
     private static void addLogCms(LogCms log, Session session) throws Exception {
 

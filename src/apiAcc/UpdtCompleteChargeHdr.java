@@ -61,6 +61,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         //----add blance n log
         String uname = objChrg.uname;
         updtBlsByAddChrg(objChrg,session);
+        System.out.println("\n\r\n--------------- after kmplt chrg");
 
         //--------------calc yonjin
         Usr u = new Usr();
@@ -88,7 +89,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         BigDecimal newBls = nowAmt.add(amt);
         objU.balance = toBigDcmTwoDot(newBls);
         session.merge(objU);
-
+        session.flush();
         //add balanceLog
         LogBls logBalance = new LogBls();
         logBalance.id = "LogBalance" + getFilenameFrmLocalTimeString();
@@ -101,6 +102,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         logBalance.newBalance = toBigDcmTwoDot(newBls);
         System.out.println(" add balanceLog ");
         session.persist(logBalance);
+        session.flush();
 
     }
 

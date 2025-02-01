@@ -2,6 +2,7 @@ package utilBiz;
 
 import apiAcc.LogBls;
 import apiAcc.OrdChrg;
+import apiCms.LogCms;
 import apiOrdBet.OrdBet;
 import apiUsr.Usr;
 import apiWltYinli.LogBlsLogYLwlt;
@@ -27,6 +28,7 @@ public class OrmUtilBiz {
             li.add(OrdChrg.class);
             li.add(Usr.class);
             li.add(OrdBet.class);
+            li.add(LogCms.class);
             return    HbntUtil.openSession(jdbcUrl,li);
         }
         //def ini impt
