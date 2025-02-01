@@ -55,7 +55,9 @@ public class TransHdr extends BaseHdr {
     private static void transToYinliWlt(LogBls lgblsDto) throws Exception, BalanceNotEnghou {
 
 
-        Session session = OrmUtilBiz. openSession(saveDirUsrs);
+        try(  Session session = OrmUtilBiz. openSession(saveDirUsrs)){
+
+
         //todo start tx
         session.beginTransaction();
 
@@ -119,6 +121,7 @@ public class TransHdr extends BaseHdr {
 
         session.getTransaction().commit();
         //adjst yinliwlt balnce
+        }
 
     }
 

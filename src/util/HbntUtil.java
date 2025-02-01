@@ -15,6 +15,7 @@ import java.util.Properties;
 import static util.StrUtil.getPwdFromJdbcurl;
 import static util.StrUtil.getUnameFromJdbcurl;
 import static util.Util2025.encodeJson;
+import static util.Util2025.encodeJsonObj;
 import static util.dbutil.*;
 
 //ormUtilHbnt
@@ -106,36 +107,41 @@ public class HbntUtil {
     }
 
     public static void persistByHbnt(Object var1, Session session) {
-        System.out.println("\r\nfun persistByHbnt(o="+encodeJson(var1));
+        System.out.println("\r\n▶\uFE0Ffun persistByHbnt(o="+encodeJsonObj(var1));
+
+        System.out.println("persistByHbnt("+ var1.getClass().getName());
         session.persist(var1);
         session.flush();
-        System.out.println("endfun persistByHbnt()");
+        System.out.println("✅endfun persistByHbnt()");
     }
 
     public static <T> T mergeByHbnt(T  t, Session session) {
-        System.out.println("\r\nfun updtByHbnt(t="+encodeJson(t));
+        System.out.println("\r\n▶\uFE0Ffun mergeByHbnt(t="+encodeJsonObj(t));
+        System.out.println("mergeByHbnt("+ t.getClass().getName());
         T rzt = session.merge(t);
         //   session.merge(objU);
         session.flush();
-        System.out.println("endfun updtByHbnt.ret="+ encodeJson(rzt));
+        System.out.println("✅endfun mergeByHbnt.ret="+ encodeJson(rzt));
         return rzt;
     }
 
-    public static  <T> T findByHbnt(Class<T> ordChrgClass, String id, Session session) {
-        System.out.println("\r\nfun findByHbnt(class="+ordChrgClass+",id="+id);
-        T t = session.find(ordChrgClass, id);
-        System.out.println("endfun findByHbnt.ret="+ encodeJson(t));
-        return t;
+    public static  <T> T findByHbnt(Class<T> t, String id, Session session) {
+        System.out.println("\r\n▶\uFE0Ffun findByHbnt(class="+t+",id="+id);
+      //  System.out.println("findByHbnt("+ t.getClass().getName()+",id="+id);
+        T rzt = session.find(t, id);
+        System.out.println("✅endfun findByHbnt.ret="+ encodeJson(rzt));
+        return rzt;
 
     }
 
 
-    public static <T> T findByHbnt(Class<T> usrClass, String id, LockModeType lockModeType, Session session) {
+    public static <T> T findByHbnt(Class<T> t, String id, LockModeType lockModeType, Session session) {
 
-        System.out.println("\r\nfun findByHbnt(class="+usrClass+",id="+id+",LockModeType="+lockModeType);
-        T t = session.find(usrClass, id,lockModeType);
-        System.out.println("endfun findByHbnt.ret="+ encodeJson(t));
-        return t;
+        System.out.println("\r\n▶\uFE0Ffun findByHbnt(class="+t+",id="+id+",LockModeType="+lockModeType);
+      //  System.out.println("findByHbnt("+ t+"。。。");
+        T rzt = session.find(t, id,lockModeType);
+        System.out.println("✅endfun findByHbnt.ret="+ encodeJson(rzt));
+        return rzt;
     }
 
 }

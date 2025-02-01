@@ -41,11 +41,11 @@ public class RegHandler extends BaseHdr implements HttpHandler {
         u.uname = uname;
         u.pwd = pwd;
         u.invtr = invtr;
-        u.id=uname;
+        u.id = uname;
         String responseTxt = "";
 
-            responseTxt = reg(u);
-            wrtResp(exchange, responseTxt);
+        responseTxt = reg(u);
+        wrtResp(exchange, responseTxt);
 
     }
 
@@ -79,12 +79,11 @@ public class RegHandler extends BaseHdr implements HttpHandler {
 
         if (existUser(user)) {
             if (ovrwtest) {
-            } else
-            {
+            } else {
 
                 existUserEx e = new existUserEx("存在用户");
-                e.fun=getCurrentMethodName();
-                e.funPrm=user;
+                e.fun = getCurrentMethodName();
+                e.funPrm = user;
                 throw e;
             }
 

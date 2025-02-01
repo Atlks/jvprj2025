@@ -72,10 +72,38 @@ public class Util2025 {
         return JSON.toJSONString(obj);
     }
 
+    @Deprecated
     public static String encodeJson(Object obj) {
-        if (obj == null)
+      try{
+          if (obj == null)
+              return "{}";
+          return JSON.toJSONString(obj);
+      } catch (Exception e) {
+          return "{}";
+      }
+
+    }
+
+    public static String encodeJsonObj(Object obj) {
+        try{
+            if (obj == null)
+                return "{}";
+            return JSON.toJSONString(obj);
+        } catch (Exception e) {
             return "{}";
-        return JSON.toJSONString(obj);
+        }
+
+    }
+
+    public static String encodeJsonArray(Object obj) {
+        try{
+            if (obj == null)
+                return "[]";
+            return JSON.toJSONString(obj);
+        } catch (Exception e) {
+            return "[]";
+        }
+
     }
 
 //    public static String sendGetWzAuthV2(String url String, String username, String password) {
