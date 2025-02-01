@@ -1,9 +1,6 @@
 package util;
 
-import apiAcc.LogBls;
-import apiAcc.OrdChrg;
-import apiUsr.Usr;
-import apiWltYinli.LogBlsLogYLwlt;
+import jakarta.persistence.LockModeType;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -38,7 +35,7 @@ public class HbntUtil {
         //    hibernate.dialect.storage_engine
         properties.put(Environment.SHOW_SQL, "true");
 
-        properties.put(Environment.FORMAT_SQL, "true");
+     //   properties.put(Environment.FORMAT_SQL, "true");
         properties.put(Environment.STORAGE_ENGINE, "innodb");
         //HBM2DDL_CHARSET_NAME
         properties.put(Environment.HBM2DDL_AUTO, "update"); // 自动建表
@@ -112,10 +109,10 @@ public class HbntUtil {
         System.out.println("\r\nfun persistByHbnt(o="+encodeJson(var1));
         session.persist(var1);
         session.flush();
-        System.out.println("endfun updtByHbnt()");
+        System.out.println("endfun persistByHbnt()");
     }
 
-    public static <T> T updtByHbnt(T  t, Session session) {
+    public static <T> T mergeByHbnt(T  t, Session session) {
         System.out.println("\r\nfun updtByHbnt(t="+encodeJson(t));
         T merge = session.merge(t);
         //   session.merge(objU);
@@ -130,6 +127,15 @@ public class HbntUtil {
         System.out.println("endfun findByHbnt.ret="+ encodeJson(t));
         return t;
 
+    }
+
+
+    public static <T> T findByHbnt(Class<T> usrClass, String id, LockModeType lockModeType, Session session) {
+
+        System.out.println("\r\nfun findByHbnt(class="+usrClass+",id="+id+",LockModeType="+lockModeType);
+        T t = session.find(usrClass, id,lockModeType);
+        System.out.println("endfun findByHbnt.ret="+ encodeJson(t));
+        return t;
     }
 
 }

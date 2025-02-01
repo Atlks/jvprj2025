@@ -14,7 +14,6 @@ import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static java.time.LocalTime.now;
 import static util.HbntUtil.*;
-import static util.Util2025.encodeJson;
 import static util.util2026.*;
 import static apiCms.CmsBiz.toBigDcmTwoDot;
 
@@ -56,7 +55,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         }
         if (stat.equals(""))
             objChrg.stat = "ok";
-        updtByHbnt(objChrg,session);
+        mergeByHbnt(objChrg,session);
       //  session.merge(objChrg);
 
         //----add blance n log
@@ -93,7 +92,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
 
         BigDecimal newBls = nowAmt.add(amt);
         objU.balance = toBigDcmTwoDot(newBls);
-        updtByHbnt(objU,session);
+        mergeByHbnt(objU,session);
 
         //add balanceLog
         LogBls logBalance = new LogBls();

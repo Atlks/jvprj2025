@@ -16,8 +16,7 @@ import java.util.TreeMap;
 import static apiUsr.RegHandler.saveDirUsrs;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 
-import static util.HbntUtil.openSession;
-
+import static util.HbntUtil.*;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
 import static apiCms.CmsBiz.toBigDcmTwoDot;
@@ -64,7 +63,7 @@ public class TransHdr extends BaseHdr {
 //        User user = session.find(User.class, 1, LockModeType.PESSIMISTIC_WRITE);
         //add blance
         String uname = lgblsDto.uname;
-        Usr objU = session.find(Usr.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE);
+        Usr objU =findByHbnt(Usr.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE,session);
         //       getObjById(uname, saveDirUsrs,Usr.class);
         if (objU.id == null) {
             objU.id = uname;
@@ -90,7 +89,7 @@ public class TransHdr extends BaseHdr {
         BigDecimal newBls2 = nowAmt2.add(toBigDecimal(amt));
         objU.balanceYinliwlt = newBls2;
         //  updtObj(objU,saveDirUsrs);
-        session.merge(objU);
+        mergeByHbnt(objU,session);
 
         //------------add balanceLog
         LogBls logBalance = new LogBls();
@@ -104,7 +103,7 @@ public class TransHdr extends BaseHdr {
         logBalance.changeMode = "减去";
         System.out.println(" add balanceLog ");
         //  addObj(logBalance,saveUrlLogBalance);
-        session.persist(logBalance);
+         persistByHbnt(logBalance,session);
 
 
         //--------------add logBlsYinliWlt
@@ -116,12 +115,14 @@ public class TransHdr extends BaseHdr {
         logBlsYinliWlt.amtBefore = nowAmt2;
         logBlsYinliWlt.newBalance = newBls2;
         // addObj(logBlsYinliWlt,saveUrlLogBalanceYinliWlt);
-        session.persist(logBlsYinliWlt);
+        persistByHbnt(logBlsYinliWlt,session);
 
         session.getTransaction().commit();
         //adjst yinliwlt balnce
 
     }
+
+
 
 
     @Override
