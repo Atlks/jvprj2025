@@ -3,7 +3,10 @@ package apiOrdBet;
 import apis.BaseHdr;
 import com.alibaba.fastjson2.JSON;
 import com.sun.net.httpserver.HttpExchange;
+import org.hibernate.Session;
+import utilBiz.OrmUtilBiz;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 
@@ -22,11 +25,6 @@ public class AddOrdBetHdr extends BaseHdr {
 
 
 
-        if (isNotLogined(exchange)) {
-            //need login
-            wrtResp(exchange, "needLogin");
-            return;
-        }
 
         //blk login ed
         String uname = getcookie("uname", exchange);
@@ -39,9 +37,19 @@ public class AddOrdBetHdr extends BaseHdr {
         ord.timestamp=System.currentTimeMillis();
         ord.uname=uname;
         ord.id="ordBet"+getFilenameFrmLocalTimeString();
-        addObj(queryParams,   saveUrlOrdBet);
+        addOrdBet(ord,   saveUrlOrdBet);
         wrtResp(exchange, "ok");
 
+
+    }
+
+    private void addOrdBet(OrdBet ord, String saveUrlOrdBet) throws SQLException {
+        Session session = OrmUtilBiz. openSession(saveUrlOrdBet);
+        //  om.jdbcurl=saveDirUsrs;
+        //todo start tx
+        session.beginTransaction();
+        session.persist(ord);
+        session.getTransaction().commit();
 
     }
 

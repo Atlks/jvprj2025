@@ -6,12 +6,13 @@ package apiOrdBet;
 //import javax.persistence.Id;
 //import javax.persistence.Table;
 
+import biz.baseObj;
 import jakarta.persistence.*;
 //  must jakarta not javax
 
 @Entity
 @Table(name = "OrdBet")
-public class OrdBet {
+public class OrdBet extends baseObj {
 
 
 

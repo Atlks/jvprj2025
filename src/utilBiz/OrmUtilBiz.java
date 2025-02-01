@@ -2,6 +2,7 @@ package utilBiz;
 
 import apiAcc.LogBls;
 import apiAcc.OrdChrg;
+import apiOrdBet.OrdBet;
 import apiUsr.Usr;
 import apiWltYinli.LogBlsLogYLwlt;
 import org.hibernate.Session;
@@ -25,6 +26,7 @@ public class OrmUtilBiz {
             li.add(LogBlsLogYLwlt.class);
             li.add(OrdChrg.class);
             li.add(Usr.class);
+            li.add(OrdBet.class);
             return    HbntUtil.openSession(jdbcUrl,li);
         }
         //def ini impt

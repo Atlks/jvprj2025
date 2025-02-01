@@ -1,25 +1,22 @@
 package apiOrdBet;
 
+import apiAcc.OrdChrg;
 import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
+import org.hibernate.Session;
+import utilBiz.OrmUtilBiz;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.function.Function;
 
 //import static apiUsr.QueryUsrHdr.qryuserLucene;
 
 
-
-import static apiUsr.RegHandler.saveDirUsrs;
+import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
 import static java.time.LocalTime.now;
 import static util.ToXX.toObjFrmMap;
 import static util.Util2025.encodeJson;
-import static util.dbutil.execQry;
-import static util.dbutil.qrySql;
+import static util.dbutil.*;
 import static util.util2026.*;
 
 /**   查询规则，参数使用类型化，不要新定义dto，直接使用实体代替
@@ -33,18 +30,15 @@ public class QryOrdBetHdr extends BaseHdr {
     public void handle2( HttpExchange exchange) throws Exception {
 
 
-        if (isNotLogined(exchange)) {
-            //need login
-            wrtResp(exchange, "needLogin需要登录");
-            return;
-        }
+
 
         //blk login ed
         String uname = getcookie("uname", exchange);
         Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
         OrdBet prm=toObjFrmMap(queryParams,OrdBet.class);
+        prm.uname=uname;
 
-        var list1 = qryOrdBet(prm);
+        var list1 = qryOrdBet(uname,prm);
         wrtResp(exchange, encodeJson(list1));
 
 
@@ -57,10 +51,10 @@ public class QryOrdBetHdr extends BaseHdr {
         System.out.println(encodeJson( qryOrdBetSql(queryParams)));
     }
 
-    private Object qryOrdBet(OrdBet queryParams) throws Exception {
+    private Object qryOrdBet(String uname, OrdBet queryParams) throws Exception {
 
         var expression = "";
-        String uname = queryParams.uname;
+    //    String uname = queryParams.uname;
 
         if (isSqldb(saveUrlOrdBet)  ) {
             return qryOrdBetSql(queryParams);
@@ -82,14 +76,16 @@ public class QryOrdBetHdr extends BaseHdr {
 
     private static Object qryOrdBetSql(OrdBet queryParams) throws Exception {
 
-        String expression="";
-        if (!queryParams.uname.equals("")) {
-            String uname=queryParams.uname;
-            expression = "uname like '%"+uname+"%'";
-        }
-        var sql = "select * from ordbet where 1=1 and " + expression;
-        var list1 = qrySql(sql, saveUrlOrdBet);
-        return   list1;
+
+        var sql = "select * from ordbet where uname =:uname order by timestamp desc " ;
+        Map<String, Object> sqlprmMap= Map.of( "sql",sql,   "uname",queryParams.uname);
+        System.out.println( encodeJson(sqlprmMap));
+        Session session = OrmUtilBiz. openSession(saveUrlOrdChrg);
+        List<OrdBet> lst = getQrySql( sql, sqlprmMap, session,OrdBet.class );
+        //    var list1 = getSortedMapsBypages( sql,pageSize, pageNumber);
+        // 1️⃣ 计算总记录数
+        return getPageResult( lst,queryParams.pagesize,queryParams.page);
+
 
     }
 

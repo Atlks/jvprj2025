@@ -662,26 +662,43 @@ public class dbutil {
         for (Map.Entry<String, Object> entry : sqlprmMap.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
-            if(Objects.equals(key, "sql"))
+            if (Objects.equals(key, "sql"))
                 continue;
-            System.out.println("setprm key="+key+",v="+value);
+            System.out.println("setprm key=" + key + ",v=" + value);
             nativeQuery = nativeQuery
                     .setParameter(key, value);
         }
 
     }
-    public static List<OrdChrg> getQrySql(String sql, Map<String, Object> sqlprmMap, int pageNumber, int pageSize, Session session ) {
+
+    public static <T> List<T> getQrySql(String sql, Map<String, Object> sqlprmMap, Session session, Class<T> cls) {
         // 防止 SQL 注入  // 安全参数绑定
-        NativeQuery<OrdChrg> nativeQuery = session.createNativeQuery(sql, OrdChrg.class);
+        NativeQuery<?> nativeQuery = session.createNativeQuery(sql, cls);
         setPrmts4sql(sqlprmMap, nativeQuery);
 
+    //    nativeQuery.getResultCount();
+        // 设置分页
+//        nativeQuery.setFirstResult(getstartPosition(pageNumber, pageSize));
+//        nativeQuery.setMaxResults(pageSize);
+        //       .setParameter("age", 18);
+        List<T> lst = (List<T>) nativeQuery.getResultList();
+        return lst;
+    }
+
+    public static List<?> getQrySql(String sql, Map<String, Object> sqlprmMap, int pageNumber, int pageSize, Session session) {
+        // 防止 SQL 注入  // 安全参数绑定
+        NativeQuery<?> nativeQuery = session.createNativeQuery(sql, OrdChrg.class);
+        setPrmts4sql(sqlprmMap, nativeQuery);
+
+        nativeQuery.getResultCount();
         // 设置分页
         nativeQuery.setFirstResult(getstartPosition(pageNumber, pageSize));
         nativeQuery.setMaxResults(pageSize);
         //       .setParameter("age", 18);
-        List<OrdChrg> lst =   nativeQuery.getResultList();
+        List<?> lst = nativeQuery.getResultList();
         return lst;
     }
+
     public static int getstartPosition(int pageNumber, int pageSize) {
 
         int startPosition = (pageNumber - 1) * pageSize; // 计算起始行
@@ -700,11 +717,11 @@ public class dbutil {
      */
     public static PageResult<SortedMap<String, Object>> getPageResult(String sql, Map<String, Object> sqlprmMap, List list1, long pageSize) throws SQLException {
         String countSql = "SELECT COUNT(*) FROM (" + sql + ") t";
-        System.out.println("countSql="+countSql);
+        System.out.println("countSql=" + countSql);
         org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
 
         NativeQuery nativeQuery = session.createNativeQuery(countSql);
-        setPrmts4sql(sqlprmMap,nativeQuery);
+        setPrmts4sql(sqlprmMap, nativeQuery);
         long totalRecords = ((Number) nativeQuery
 //                .setParameter(1, username)
 //                .setParameter(2, minAge)
@@ -713,12 +730,42 @@ public class dbutil {
         long totalPages = (long) Math.ceil((double) totalRecords / pageSize);
         return new PageResult<>(list1, totalRecords, totalPages);
     }
-    public static List<SortedMap<String, Object>> getSortedMapsBypages( String sql,long pageSize, long pageNumber) throws Exception {
+
+    public static <T> PageResult<T> getPageResult(List<T> list1, int pageSize, int pageNumber) {
+        long totalRecords = list1.size();
+        long totalPages = (long) Math.ceil((double) totalRecords / pageSize);
+
+
+        int fromIndex = getstartPosition(pageNumber, pageSize);
+     if( fromIndex+1>list1.size())
+     {
+         //ret
+         return new PageResult<>(new ArrayList<>(), totalRecords, totalPages);
+     }
+
+     //   List<T> listPageed=new ArrayList<>();
+
+        //last page
+        int endidx = fromIndex + pageSize;
+       if(endidx>(list1.size()-1))
+       {
+           endidx=list1.size();
+         //  List<T> listPageed = list1.subList(fromIndex, endidx);
+         //  return new PageResult<>(listPageed, totalRecords, totalPages);
+       }
+
+        System.out.println( "sublist frmidx="+fromIndex+",endidx="+endidx);
+        List<T> listPageed = list1.subList(fromIndex, endidx);
+        return new PageResult<>(listPageed, totalRecords, totalPages);
+    }
+
+    public static List<SortedMap<String, Object>> getSortedMapsBypages(String sql, long pageSize, long pageNumber) throws Exception {
         var sql_limt = sql + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1) * pageSize;
         System.out.println(sql_limt);
         var list1 = qrySql(sql_limt, saveDirUsrs);
         return list1;
     }
+
     /**
      * 来将 Map 转换为对象
      *
@@ -1111,7 +1158,7 @@ public class dbutil {
      * @return
      * @throws IOException
      */
-    private static SortedMap<String, Object> parseFileToSortedMapFrmIni( Path filePath) throws IOException {
+    private static SortedMap<String, Object> parseFileToSortedMapFrmIni(Path filePath) throws IOException {
         // 读取文件内容为字符串
         String iniFileContent = Files.readString(filePath);
 
