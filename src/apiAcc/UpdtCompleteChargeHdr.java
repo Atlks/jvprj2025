@@ -11,10 +11,9 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
-import static apiUsr.RegHandler.saveDirUsrs;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static java.time.LocalTime.now;
-import static util.dbutil.*;
+import static util.Util2025.encodeJson;
 import static util.util2026.*;
 import static apiCms.CmsBiz.toBigDcmTwoDot;
 
@@ -40,7 +39,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
         session.beginTransaction();
-        OrdChrg objChrg=  session.find(OrdChrg.class,id);
+        OrdChrg objChrg=  findByHbnt(OrdChrg.class,id,session);
        //
         //update chr ord stat
      //   OrdChrg objChrg = find(id, saveUrlOrdChrg, OrdChrg.class);
@@ -56,7 +55,8 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         }
         if (stat.equals(""))
             objChrg.stat = "ok";
-        session.merge(objChrg);
+        updtByHbnt(objChrg,session);
+      //  session.merge(objChrg);
 
         //----add blance n log
         String uname = objChrg.uname;
@@ -75,13 +75,30 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         System.out.println("\n\r\n---------endblk  calcCms4FrmOrdChrg");
     }
 
+    private static <T> T updtByHbnt(T  t, Session session) {
+        System.out.println("\r\nfun updtByHbnt(t="+encodeJson(t));
+        T merge = session.merge(t);
+     //   session.merge(objU);
+        session.flush();
+        System.out.println("endfun updtByHbnt.ret="+ encodeJson(merge));
+        return merge;
+    }
+
+    private static  <T> T findByHbnt(Class<T> ordChrgClass, String id, Session session) {
+        System.out.println("\r\nfun findByHbnt(class="+ordChrgClass+",id="+id);
+        T t = session.find(ordChrgClass, id);
+        System.out.println("endfun findByHbnt.ret="+ encodeJson(t));
+        return t;
+  
+    }
+
 
     public static void updtBlsByAddChrg(OrdChrg objChrg, Session session) throws Exception {
         String uname = objChrg.uname;
         BigDecimal amt = objChrg.getAmt();
 
 
-        Usr objU =  session.find(Usr.class,uname);
+        Usr objU =  findByHbnt(Usr.class,uname,session);
         if (objU.id == null) {
             objU.id = uname;
             objU.uname = uname;
@@ -91,8 +108,8 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
 
         BigDecimal newBls = nowAmt.add(amt);
         objU.balance = toBigDcmTwoDot(newBls);
-        session.merge(objU);
-        session.flush();
+        updtByHbnt(objU,session);
+
         //add balanceLog
         LogBls logBalance = new LogBls();
         logBalance.id = "LogBalance" + getFilenameFrmLocalTimeString();
@@ -104,9 +121,16 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
         logBalance.newBalance = toBigDcmTwoDot(newBls);
         System.out.println(" add balanceLog ");
-        session.persist(logBalance);
-        session.flush();
+        persistByHbnt(logBalance,session);
 
+
+    }
+
+    private static void persistByHbnt(Object var1, Session session) {
+        System.out.println("\r\nfun persistByHbnt(o="+encodeJson(var1));
+        session.persist(var1);
+        session.flush();
+        System.out.println("endfun updtByHbnt()");
     }
 
 
