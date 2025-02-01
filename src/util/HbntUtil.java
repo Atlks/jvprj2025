@@ -17,6 +17,7 @@ import java.util.Properties;
 
 import static util.StrUtil.getPwdFromJdbcurl;
 import static util.StrUtil.getUnameFromJdbcurl;
+import static util.Util2025.encodeJson;
 import static util.dbutil.*;
 
 //ormUtilHbnt
@@ -104,6 +105,30 @@ public class HbntUtil {
 
         // Build the SessionFactory
 //        sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
+    }
+
+    public static void persistByHbnt(Object var1, Session session) {
+        System.out.println("\r\nfun persistByHbnt(o="+encodeJson(var1));
+        session.persist(var1);
+        session.flush();
+        System.out.println("endfun updtByHbnt()");
+    }
+
+    public static <T> T updtByHbnt(T  t, Session session) {
+        System.out.println("\r\nfun updtByHbnt(t="+encodeJson(t));
+        T merge = session.merge(t);
+        //   session.merge(objU);
+        session.flush();
+        System.out.println("endfun updtByHbnt.ret="+ encodeJson(merge));
+        return merge;
+    }
+
+    public static  <T> T findByHbnt(Class<T> ordChrgClass, String id, Session session) {
+        System.out.println("\r\nfun findByHbnt(class="+ordChrgClass+",id="+id);
+        T t = session.find(ordChrgClass, id);
+        System.out.println("endfun findByHbnt.ret="+ encodeJson(t));
+        return t;
 
     }
 

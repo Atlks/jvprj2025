@@ -13,6 +13,7 @@ import java.util.Map;
 import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static java.time.LocalTime.now;
+import static util.HbntUtil.*;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
 import static apiCms.CmsBiz.toBigDcmTwoDot;
@@ -75,22 +76,6 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         System.out.println("\n\r\n---------endblk  calcCms4FrmOrdChrg");
     }
 
-    private static <T> T updtByHbnt(T  t, Session session) {
-        System.out.println("\r\nfun updtByHbnt(t="+encodeJson(t));
-        T merge = session.merge(t);
-     //   session.merge(objU);
-        session.flush();
-        System.out.println("endfun updtByHbnt.ret="+ encodeJson(merge));
-        return merge;
-    }
-
-    private static  <T> T findByHbnt(Class<T> ordChrgClass, String id, Session session) {
-        System.out.println("\r\nfun findByHbnt(class="+ordChrgClass+",id="+id);
-        T t = session.find(ordChrgClass, id);
-        System.out.println("endfun findByHbnt.ret="+ encodeJson(t));
-        return t;
-  
-    }
 
 
     public static void updtBlsByAddChrg(OrdChrg objChrg, Session session) throws Exception {
@@ -126,12 +111,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
 
     }
 
-    private static void persistByHbnt(Object var1, Session session) {
-        System.out.println("\r\nfun persistByHbnt(o="+encodeJson(var1));
-        session.persist(var1);
-        session.flush();
-        System.out.println("endfun updtByHbnt()");
-    }
+
 
 
     private static void calcCms(String uname, BigDecimal amt) {
