@@ -1,4 +1,4 @@
-package apiUsr;
+package util;
 
 public class Err {
     public String errmsg;

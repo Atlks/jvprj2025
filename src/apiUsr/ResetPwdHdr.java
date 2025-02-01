@@ -15,12 +15,7 @@ public class ResetPwdHdr extends BaseHdr {
     public void handle2(HttpExchange exchange) throws Exception {
 
 
-        String uname = getcookie("uname", exchange);
-        if (uname.equals("")) {
-            //need login
-            wrtResp(exchange, "needLogin");
-            return;
-        }
+
 
         //blk login ed
 //        Object acclog = null;

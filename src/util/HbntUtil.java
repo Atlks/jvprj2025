@@ -114,11 +114,11 @@ public class HbntUtil {
 
     public static <T> T mergeByHbnt(T  t, Session session) {
         System.out.println("\r\nfun updtByHbnt(t="+encodeJson(t));
-        T merge = session.merge(t);
+        T rzt = session.merge(t);
         //   session.merge(objU);
         session.flush();
-        System.out.println("endfun updtByHbnt.ret="+ encodeJson(merge));
-        return merge;
+        System.out.println("endfun updtByHbnt.ret="+ encodeJson(rzt));
+        return rzt;
     }
 
     public static  <T> T findByHbnt(Class<T> ordChrgClass, String id, Session session) {

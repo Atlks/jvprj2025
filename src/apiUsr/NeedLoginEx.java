@@ -1,6 +1,8 @@
 package apiUsr;
 
-public class NeedLoginEx extends  ExceptionBase {
+import util.ExceptionBase;
+
+public class NeedLoginEx extends ExceptionBase {
     public NeedLoginEx(String s) {
   super(s);
     }

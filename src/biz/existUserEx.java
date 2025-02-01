@@ -1,7 +1,6 @@
 package biz;
 
-import apiUsr.ExceptionBase;
-import apiUsr.ThrowableX;
+import util.ExceptionBase;
 
 public class existUserEx extends ExceptionBase {
     public existUserEx(String msg) {

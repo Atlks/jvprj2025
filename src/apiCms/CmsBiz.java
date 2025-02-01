@@ -172,7 +172,7 @@ public class CmsBiz {
         //  log.put("amtBefore",nowAmt);
         //  log.put("amtAfter",newBls);
         persistByHbnt(log,session);
-        System.out.println("endfun addLogCms");
+        System.out.println("\uD83D\uDED1endfun addLogCms");
 
     }
 
