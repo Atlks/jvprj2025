@@ -29,7 +29,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         iniCfgFrmCfgfile();
         ovrtTEst=true;
  //       drvMap.put("com.mysql.cj.jdbc.Driver", "org.h2.Driver");
-        updateOrdChgSetCmplt("ordChrg2025-01-31T15-33-28");
+        updateOrdChgSetCmplt("ordChrg2025-01-30T01-06-59");
     }
     static boolean ovrtTEst=false;
     private static void updateOrdChgSetCmplt(String id) throws Exception {
