@@ -676,7 +676,7 @@ public class dbutil {
         NativeQuery<?> nativeQuery = session.createNativeQuery(sql, cls);
         setPrmts4sql(sqlprmMap, nativeQuery);
 
-    //    nativeQuery.getResultCount();
+        //    nativeQuery.getResultCount();
         // 设置分页
 //        nativeQuery.setFirstResult(getstartPosition(pageNumber, pageSize));
 //        nativeQuery.setMaxResults(pageSize);
@@ -737,24 +737,22 @@ public class dbutil {
 
 
         int fromIndex = getstartPosition(pageNumber, pageSize);
-     if( fromIndex+1>list1.size())
-     {
-         //ret
-         return new PageResult<>(new ArrayList<>(), totalRecords, totalPages);
-     }
+        if (fromIndex + 1 > list1.size()) {
+            //ret
+            return new PageResult<>(new ArrayList<>(), totalRecords, totalPages);
+        }
 
-     //   List<T> listPageed=new ArrayList<>();
+        //   List<T> listPageed=new ArrayList<>();
 
         //last page
         int endidx = fromIndex + pageSize;
-       if(endidx>(list1.size()-1))
-       {
-           endidx=list1.size();
-         //  List<T> listPageed = list1.subList(fromIndex, endidx);
-         //  return new PageResult<>(listPageed, totalRecords, totalPages);
-       }
+        if (endidx > (list1.size() - 1)) {
+            endidx = list1.size();
+            //  List<T> listPageed = list1.subList(fromIndex, endidx);
+            //  return new PageResult<>(listPageed, totalRecords, totalPages);
+        }
 
-        System.out.println( "sublist frmidx="+fromIndex+",endidx="+endidx);
+        System.out.println("sublist frmidx=" + fromIndex + ",endidx=" + endidx);
         List<T> listPageed = list1.subList(fromIndex, endidx);
         return new PageResult<>(listPageed, totalRecords, totalPages);
     }
