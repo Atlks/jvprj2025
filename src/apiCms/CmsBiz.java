@@ -113,8 +113,8 @@ public class CmsBiz {
         BigDecimal nowAmt= getFieldAsBigDecimal(objU,"balanceYinliwlt",0);
         BigDecimal newBls=nowAmt.add(amt);
         objU.balanceYinliwlt=toBigDcmTwoDot (newBls);
-        System.out.println(session.merge(objU));  ;
-        session.flush();
+        mergeByHbnt(objU,session);  ;
+
 
         //add balanceLog yonjin wlt
         LogBlsLogYLwlt logBalanceYlWlt=new LogBlsLogYLwlt();
@@ -124,8 +124,8 @@ public class CmsBiz {
         logBalanceYlWlt.changeAmount=toBigDcmTwoDot(amt);
         logBalanceYlWlt.amtBefore=toBigDcmTwoDot(nowAmt);
         logBalanceYlWlt.newBalance=toBigDcmTwoDot(newBls);
-        session.persist(logBalanceYlWlt);
-        session.flush();
+        persistByHbnt(logBalanceYlWlt,session);
+
 
         System.out.println("endfun "+methodname+"()");
     }
