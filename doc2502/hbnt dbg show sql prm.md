@@ -1,6 +1,6 @@
 
 
-
+= kmplt fun log..then not need sql log
 
 =chg drv to p6spy drv
 

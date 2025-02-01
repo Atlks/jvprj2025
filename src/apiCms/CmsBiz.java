@@ -12,6 +12,7 @@ import java.util.TreeMap;
 
 import static apis.BaseHdr.iniCfgFrmCfgfile;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
+import static util.Util2025.encodeJson;
 import static util.util2026.*;
 
 public class CmsBiz {
@@ -46,6 +47,10 @@ public class CmsBiz {
      * @param session
      */
     public static void calcCms4FrmOrdChrg(OrdChrg objChrg, Session session) throws Exception {
+        System.out.println( "fun calcCms4FrmOrdChrg（");
+        System.out.println(encodeJson(objChrg));
+        System.out.println(")");
+
         Usr u= session.find( Usr.class,objChrg.uname);
         String invtr= toStr( u.invtr);
         BigDecimal cmsMny=toBigDcmTwoDot(objChrg.getAmt().multiply( new BigDecimal(0.05)) );
@@ -58,17 +63,21 @@ public class CmsBiz {
         log.commssionAmt=cmsMny;
 
         //-------updt invtr ttl cms amd and cmslog
-        System.out.println("\r\n-----------------updt invtr ttl cms amd and cmslog");
+        System.out.println("\r\n-------------blk updt invtr ttl cms amd and cmslog");
         addLogCms(log,session);
         session.flush();
         updtTotalCmsAddamt4invtr(invtr,cmsMny,session);
         session.flush();
-        System.out.println("end  invtr ttl cms amd and cmslog");
+      //  System.out.println("end  invtr ttl cms amd and cmslog");
 
         //------------
-        System.out.println("\r\n-----------------updt invtr yl wlt ,,,bls n log");
-        updtBlsYinliwlt(invtr,cmsMny,session);//balanceYinliwlt
+        System.out.println("---------------endblk  updt invtr yl wlt ,,,bls n log");
 
+
+        System.out.println("\r\n-----------------blk updtBlsYinliwlt");
+        updtBlsYinliwlt(invtr,cmsMny,session);//balanceYinliwlt
+        System.out.println("\r\n-----------------endblk updtBlsYinliwlt");
+        System.out.println( "endfun calcCms4FrmOrdChrg");
     }
 
     private static String toStr(String invtr) {
@@ -144,7 +153,7 @@ public class CmsBiz {
         System.out.println("endfun updtTotalCmsAddamt4invtr()");
     }
     private static void addLogCms(LogCms log, Session session) throws Exception {
-
+        System.out.println("fun addLogCms(log="+encodeJson(log));
 
         //add balanceLog
       //  LogCms log=new LogCms();
@@ -154,7 +163,7 @@ public class CmsBiz {
         //  log.put("amtBefore",nowAmt);
         //  log.put("amtAfter",newBls);
         session.persist(log);
-
+        System.out.println("endfun addLogCms");
 
     }
 

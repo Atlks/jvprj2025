@@ -61,8 +61,10 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         //----add blance n log
         String uname = objChrg.uname;
         updtBlsByAddChrg(objChrg,session);
-        System.out.println("\n\r\n--------------- after kmplt chrg");
+        System.out.println("\n\r\n---------endblk  kmplt chrg");
 
+
+        System.out.println("\n\r\n---------blk  calcCms4FrmOrdChrg");
         //--------------calc yonjin
         Usr u = new Usr();
         // u.invtr=objU.get("invtr").toString();
@@ -70,6 +72,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         CmsBiz.calcCms4FrmOrdChrg(objChrg,session);
         // calcCms(uname,amt);
         session.getTransaction().commit();
+        System.out.println("\n\r\n---------endblk  calcCms4FrmOrdChrg");
     }
 
 
