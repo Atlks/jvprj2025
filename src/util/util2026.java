@@ -327,7 +327,9 @@ public class util2026 {
             clazz = clazz.getSuperclass(); // 继续处理父类字段
         }
     }
-
+//    publicpublic static String getFieldAsStrFrmMap(Map<String, String> queryParams, String uname) {
+//        return  queryParams.getOrDefault(uname,"");
+//    }
     public static Object getField2025(Object obj, String fieldName) throws NoSuchFieldException,Exception {
         if (obj == null || fieldName == null || fieldName.isEmpty()) {
             // 防御性编程，处理无效参数

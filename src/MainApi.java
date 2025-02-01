@@ -6,6 +6,7 @@ import apiOrdBet.QryOrdBetHdr;
 import apiUsr.LoginHdr;
 import apiUsr.QueryUsrHdr;
 import apiUsr.RegHandler;
+import apiUsr.UserCentrHdr;
 import apis.*;
 import com.sun.net.httpserver.HttpServer;
 
@@ -38,6 +39,8 @@ public class MainApi {
         server.createContext("/QryTeamHdr", new QryTeamHdr());
         server.createContext("/AddOrdChargeHdr", new AddOrdChargeHdr());
         server.createContext("/QueryOrdChrgHdr", new QueryOrdChrgHdr());
+        server.createContext("/UserCentrHdr", new UserCentrHdr());
+
 
         http://localhost:8889/QueryOrdChrgHdr
 

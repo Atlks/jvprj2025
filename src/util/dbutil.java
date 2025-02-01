@@ -1,8 +1,11 @@
 package util;
 
+import apiAcc.OrdChrg;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
 import utilBiz.OrmUtilBiz;
 
 import java.io.File;
@@ -655,14 +658,54 @@ public class dbutil {
 //        }
 //    }
 
+    public static void setPrmts4sql(Map<String, Object> sqlprmMap, NativeQuery<?> nativeQuery) {
+        for (Map.Entry<String, Object> entry : sqlprmMap.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            if(Objects.equals(key, "sql"))
+                continue;
+            System.out.println("setprm key="+key+",v="+value);
+            nativeQuery = nativeQuery
+                    .setParameter(key, value);
+        }
 
+    }
+    public static List<OrdChrg> getQrySql(String sql, Map<String, Object> sqlprmMap, int pageNumber, int pageSize, Session session ) {
+        // 防止 SQL 注入  // 安全参数绑定
+        NativeQuery<OrdChrg> nativeQuery = session.createNativeQuery(sql, OrdChrg.class);
+        setPrmts4sql(sqlprmMap, nativeQuery);
 
-    public static PageResult<SortedMap<String, Object>> getPageResult(String sql, List<SortedMap<String, Object>> list1, long pageSize) throws SQLException {
+        // 设置分页
+        nativeQuery.setFirstResult(getstartPosition(pageNumber, pageSize));
+        nativeQuery.setMaxResults(pageSize);
+        //       .setParameter("age", 18);
+        List<OrdChrg> lst =   nativeQuery.getResultList();
+        return lst;
+    }
+    public static int getstartPosition(int pageNumber, int pageSize) {
+
+        int startPosition = (pageNumber - 1) * pageSize; // 计算起始行
+        return startPosition;
+    }
+
+    /**
+     * 错误的 COUNT(*) 查询 👉 COUNT(*) 语句不能直接嵌套在 FROM (...)，如果 sql 本身包含 ORDER BY，可能会报错。
+     *
+     * @param sql
+     * @param sqlprmMap
+     * @param list1
+     * @param pageSize
+     * @return
+     * @throws SQLException
+     */
+    public static PageResult<SortedMap<String, Object>> getPageResult(String sql, Map<String, Object> sqlprmMap, List list1, long pageSize) throws SQLException {
         String countSql = "SELECT COUNT(*) FROM (" + sql + ") t";
         System.out.println("countSql="+countSql);
         org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
 
-        long totalRecords = ((Number) session.createNativeQuery(countSql)
+        NativeQuery nativeQuery = session.createNativeQuery(countSql);
+        setPrmts4sql(sqlprmMap,nativeQuery);
+        long totalRecords = ((Number) nativeQuery
 //                .setParameter(1, username)
 //                .setParameter(2, minAge)
                 .getSingleResult()).longValue();

@@ -62,9 +62,9 @@ public class RegHandler extends BaseHdr implements HttpHandler {
         System.out.println(drvMap);
 
         Usr u = new Usr();
-        u.uname = "0016";
+        u.uname = "007";
         u.pwd = encodeMd5("pp");
-        u.invtr = "007";
+        u.invtr = "";
 
 
         u.id = u.uname;
