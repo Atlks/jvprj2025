@@ -4,6 +4,8 @@ import apiCms.CmsBiz;
 import apis.BaseHdr;
 import apiUsr.Usr;
 import com.sun.net.httpserver.HttpExchange;
+import org.hibernate.Session;
+import utilBiz.OrmUtilBiz;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -27,12 +29,21 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         iniCfgFrmCfgfile();
         ovrtTEst=true;
  //       drvMap.put("com.mysql.cj.jdbc.Driver", "org.h2.Driver");
-        updateOrdChgSetCmplt("ordChrg2025-01-28T20-33-09");
+        updateOrdChgSetCmplt("ordChrg2025-01-31T15-33-28");
     }
     static boolean ovrtTEst=false;
     private static void updateOrdChgSetCmplt(String id) throws Exception {
+
+        org.hibernate.Session session = OrmUtilBiz.openSession(saveUrlOrdChrg);
+
+        //------------chge regch stat=ok
+        //  om.jdbcurl=saveDirUsrs;
+        //todo start tx
+        session.beginTransaction();
+        OrdChrg objChrg=  session.find(OrdChrg.class,id);
+       //
         //update chr ord stat
-        OrdChrg objChrg = getObjById(id, saveUrlOrdChrg, OrdChrg.class);
+     //   OrdChrg objChrg = find(id, saveUrlOrdChrg, OrdChrg.class);
         String stat = (String) getField2025(objChrg, "stat", "");
         BigDecimal amt = objChrg.amt;
         if (stat.equals("ok")) {
@@ -45,27 +56,28 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         }
         if (stat.equals(""))
             objChrg.stat = "ok";
-        updtObj(objChrg, saveUrlOrdChrg);
+        session.merge(objChrg);
 
         //----add blance n log
         String uname = objChrg.uname;
-        updtBlsByAddChrg(objChrg);
+        updtBlsByAddChrg(objChrg,session);
 
-        //calc yonjin
+        //--------------calc yonjin
         Usr u = new Usr();
         // u.invtr=objU.get("invtr").toString();
         //  calcCms4chrgU(u,amt);
-        CmsBiz.calcCms4FrmOrdChrg(objChrg);
+        CmsBiz.calcCms4FrmOrdChrg(objChrg,session);
         // calcCms(uname,amt);
+        session.getTransaction().commit();
     }
 
 
-    public static void updtBlsByAddChrg(OrdChrg objChrg) throws Exception {
+    public static void updtBlsByAddChrg(OrdChrg objChrg, Session session) throws Exception {
         String uname = objChrg.uname;
         BigDecimal amt = objChrg.getAmt();
 
 
-        Usr objU = getObjById(uname, saveDirUsrs, Usr.class);
+        Usr objU =  session.find(Usr.class,uname);
         if (objU.id == null) {
             objU.id = uname;
             objU.uname = uname;
@@ -75,7 +87,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
 
         BigDecimal newBls = nowAmt.add(amt);
         objU.balance = toBigDcmTwoDot(newBls);
-        updtObj(objU, saveDirUsrs);
+        session.merge(objU);
 
         //add balanceLog
         LogBls logBalance = new LogBls();
@@ -88,7 +100,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
         logBalance.newBalance = toBigDcmTwoDot(newBls);
         System.out.println(" add balanceLog ");
-        addObj(logBalance, saveUrlLogBalance);
+        session.persist(logBalance);
 
     }
 
