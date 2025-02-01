@@ -5,6 +5,9 @@ import java.util.Map;
 
 public class ExceptionBase extends  Exception {
 
+    public String url;
+    public String urlprm;
+
     public ExceptionBase() {
 
 

@@ -24,11 +24,15 @@ import static util.Util2025.encodeJson;
 import static util.util2026.*;
 
 public abstract class BaseHdr implements HttpHandler {
-
+    //wz qrystr
+    public static ThreadLocal<String> curUrl =new ThreadLocal<>();
+    public static ThreadLocal<String> curUrlPrm =new ThreadLocal<>();
     public static ThreadLocal<Object> currFunPrms4dbg =new ThreadLocal<>();
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-
+        //wz qrystr
+       curUrl.set(encodeJson(exchange.getRequestURI()));
+    //   curUrlPrm.set(exchange.getrequ);
         try {
             setcookie("uname", "007", exchange);//for test
 
@@ -75,6 +79,8 @@ public abstract class BaseHdr implements HttpHandler {
                 ex.cause=e;
                 ex.errcode=e.getClass().getName();
                 ex.funPrm=currFunPrms4dbg.get();
+                ex.url=curUrl.get();
+                ex.urlprm=curUrlPrm.get();
             }
 
             String stackTraceAsString = getStackTraceAsString(e);
