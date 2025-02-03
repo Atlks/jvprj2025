@@ -128,7 +128,7 @@ public class util2026 {
 
     public static boolean isSqldb(String saveUrl) {
 
-        if (saveUrl.startsWith("jdbc:mysql") || saveUrl.startsWith("jdbc:sqlite"))
+        if (saveUrl.startsWith("jdbc:") || saveUrl.startsWith("jdbc:"))
             return true;
         return false;
     }

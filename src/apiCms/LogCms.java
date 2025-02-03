@@ -1,5 +1,6 @@
 package apiCms;
 
+import biz.baseObj;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -7,7 +8,7 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 @Entity
 @Table
-public class LogCms {
+public class LogCms extends baseObj {
 
     @Id
     public String id;

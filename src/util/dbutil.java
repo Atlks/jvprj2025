@@ -691,7 +691,7 @@ public class dbutil {
         NativeQuery<?> nativeQuery = session.createNativeQuery(sql, OrdChrg.class);
         setPrmts4sql(sqlprmMap, nativeQuery);
 
-        nativeQuery.getResultCount();
+    //    nativeQuery.getResultCount();
         // 设置分页
         nativeQuery.setFirstResult(getstartPosition(pageNumber, pageSize));
         nativeQuery.setMaxResults(pageSize);
@@ -706,6 +706,28 @@ public class dbutil {
         return startPosition;
     }
 
+
+    public static PageResult<?> getPageResult(String sql, Map<String, Object> sqlprmMap, int pageNumber, int pageSize , Session session) throws SQLException {
+
+
+
+        NativeQuery nativeQuery = session.createNativeQuery(sql);
+        setPrmts4sql(sqlprmMap, nativeQuery);
+        // 设置分页
+        nativeQuery.setFirstResult(getstartPosition(pageNumber, pageSize));
+        nativeQuery.setMaxResults(pageSize);
+        //       .setParameter("age", 18);
+        List<?> list1 = nativeQuery.getResultList();
+
+
+        //------------page
+        long totalRecords =nativeQuery.getResultCount();
+
+
+        long totalPages = (long) Math.ceil((double) totalRecords / pageSize);
+        return new PageResult<>(list1, totalRecords, totalPages);
+    }
+
     /**
      * 错误的 COUNT(*) 查询 👉 COUNT(*) 语句不能直接嵌套在 FROM (...)，如果 sql 本身包含 ORDER BY，可能会报错。
      *
@@ -716,6 +738,7 @@ public class dbutil {
      * @return
      * @throws SQLException
      */
+    @Deprecated
     public static PageResult<SortedMap<String, Object>> getPageResult(String sql, Map<String, Object> sqlprmMap, List list1, long pageSize) throws SQLException {
         String countSql = "SELECT COUNT(*) FROM (" + sql + ") t";
         System.out.println("countSql=" + countSql);
@@ -732,6 +755,7 @@ public class dbutil {
         return new PageResult<>(list1, totalRecords, totalPages);
     }
 
+    @Deprecated
     public static <T> PageResult<T> getPageResult(List<T> list1, int pageSize, int pageNumber) {
         long totalRecords = list1.size();
         long totalPages = (long) Math.ceil((double) totalRecords / pageSize);
