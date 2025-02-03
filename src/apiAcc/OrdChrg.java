@@ -3,11 +3,15 @@ package apiAcc;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.math.BigDecimal;
 
 import static apiCms.CmsBiz.toBigDcmTwoDot;
 @Entity
+@DynamicUpdate  // 仅更新被修改的字段
+@DynamicInsert //如果还希望 INSERT 时也只插入非 null 的字段，可以搭配
 @Table
 public class OrdChrg {
     public String uname;
