@@ -755,6 +755,14 @@ public class dbutil {
         return new PageResult<>(list1, totalRecords, totalPages);
     }
 
+    /**
+     * back pagging
+     * @param list1
+     * @param pageSize
+     * @param pageNumber
+     * @return
+     * @param <T>
+     */
     @Deprecated
     public static <T> PageResult<T> getPageResult(List<T> list1, int pageSize, int pageNumber) {
         long totalRecords = list1.size();

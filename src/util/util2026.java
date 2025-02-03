@@ -1,5 +1,6 @@
 package util;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.*;
@@ -370,12 +371,22 @@ public class util2026 {
         os.write(responseTxt.getBytes());
         os.close();
     }
+
+
+
     public static void wrtResp(HttpExchange exchange, String responseTxt) throws IOException {
         exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=utf-8");
         exchange.sendResponseHeaders(200, responseTxt.getBytes().length);
         OutputStream os = exchange.getResponseBody();
         os.write(responseTxt.getBytes());
         os.close();
+    }
+
+    public static void iniHttpExchg(HttpExchangeImp he, Map<String, String> reqhdr, String ResponseBodyoutputStreamF) throws FileNotFoundException {
+        he.setRequestHeaders(reqhdr);
+        he.setResponseHeaders(new Headers());
+        OutputStream outputStream = new FileOutputStream(ResponseBodyoutputStreamF); // 创建一个输出流
+        he.setResponseBody(outputStream);
     }
     public static String getFieldAsStrFrmMap(Map<String, String> queryParams, String uname) {
         return  queryParams.getOrDefault(uname,"");

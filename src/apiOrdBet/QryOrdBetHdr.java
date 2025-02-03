@@ -1,11 +1,18 @@
 package apiOrdBet;
 
 import apiAcc.OrdChrg;
+import apiCms.QryLogCmsHdr;
 import apis.BaseHdr;
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import org.hibernate.Session;
+import util.HttpExchangeImp;
 import utilBiz.OrmUtilBiz;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +21,7 @@ import java.util.Map;
 
 import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
 import static java.time.LocalTime.now;
+import static util.Qry.convertSqlToSpEL;
 import static util.ToXX.toObjFrmMap;
 import static util.Util2025.encodeJson;
 import static util.dbutil.*;
@@ -48,8 +56,17 @@ public class QryOrdBetHdr extends BaseHdr {
        iniCfgFrmCfgfile();;
         OrdBet queryParams=new OrdBet();
         queryParams.uname="008";
-        System.out.println(encodeJson( qryOrdBetSql(queryParams)));
+    //    System.out.println(encodeJson( qryOrdBetSql(queryParams)));
+
+
+        HttpExchangeImp he = new HttpExchangeImp("http://localhost:8889/QryLogCmsHdr", "uname=008","output2025.txt");
+        // he.setAttribute();
+
+        // setcookie("uname","007",he);
+        new QryOrdBetHdr().handle2(he);
     }
+
+
 
     private Object qryOrdBet(String uname, OrdBet queryParams) throws Exception {
 
@@ -80,6 +97,7 @@ public class QryOrdBetHdr extends BaseHdr {
         var sql = "select * from ordbet where uname =:uname order by timestamp desc " ;
         Map<String, Object> sqlprmMap= Map.of( "sql",sql,   "uname",queryParams.uname);
         System.out.println( encodeJson(sqlprmMap));
+        System.out.println("spel="+convertSqlToSpEL(sql));
         Session session = OrmUtilBiz. openSession(saveUrlOrdChrg);
         List<OrdBet> lst = getQrySql( sql, sqlprmMap, session,OrdBet.class );
         //    var list1 = getSortedMapsBypages( sql,pageSize, pageNumber);

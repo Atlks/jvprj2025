@@ -6,8 +6,11 @@ import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static util.util2026.iniHttpExchg;
 
 
 public class HttpExchangeImp extends HttpExchange {
@@ -15,6 +18,22 @@ public class HttpExchangeImp extends HttpExchange {
     private Map<String, String> reqHdr;
     private Headers rspsHdrs;
     private OutputStream OutputStream1;
+
+    public HttpExchangeImp(String url, String cookiestr, String respOutStream_file) throws FileNotFoundException {
+
+        setRequestURI(url);
+
+        Map<String, String> reqhdr = new HashMap<>();
+        reqhdr.put("Cookie", cookiestr);
+
+
+        iniHttpExchg(this, reqhdr, respOutStream_file);
+
+    }
+
+    public HttpExchangeImp() {
+
+    }
 
     /**
      * {@inheritDoc}
