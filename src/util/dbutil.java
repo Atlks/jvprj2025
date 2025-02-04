@@ -1,6 +1,7 @@
 package util;
 
 import apiAcc.OrdChrg;
+import biz.baseObj;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
@@ -793,8 +794,14 @@ public class dbutil {
         return new PageResult<>(listPageed, totalRecords, totalPages);
     }
 
-
-
+@Deprecated
+    public static <T> PageResult<T> getPageResult2025(String sql, Map<String, Object> sqlprmMap, baseObj pageDto, Session session, Class class1) {
+        List<T> lst = nativeQueryGetResultList(sql, sqlprmMap, session,class1 );
+        //    var list1 = getSortedMapsBypages( sql,pageSize, pageNumber);
+        // 1️⃣ 计算总记录数
+        var list1 = getPageResult( lst, pageDto.pagesize, pageDto.page);
+        return list1;
+    }
     public static List<SortedMap<String, Object>> getSortedMapsBypages(String sql, long pageSize, long pageNumber) throws Exception {
         var sql_limt = sql + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1) * pageSize;
         System.out.println(sql_limt);

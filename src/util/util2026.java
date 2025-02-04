@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static util.ToXX.toObjFrmMap;
+
 public class util2026 {
 
     static void removeFile(String fnamePath) {
@@ -382,6 +384,8 @@ public class util2026 {
         os.close();
     }
 
+
+
     public static String getSqlPrmVal(Object o) {
         if(o.getClass()==String.class)
             return  "'"+o.toString()+"'";
@@ -407,41 +411,7 @@ public class util2026 {
        return  getRequestParameters(exchange.getRequestURI());
     }
 
-    // 解析查询参数的方法
-    public static Map<String, String> getRequestParameters(URI uri) {
-        Map<String, String> queryParams = new HashMap<>();
-        String query = uri.getQuery(); // 获取查询字符串（例如 ?id=123）
-        if (query != null) {
-            String[] pairs = query.split("&"); // 按 & 分割多个参数
-            for (String pair : pairs) {
-                String[] keyValue = pair.split("=", 2); // 按 = 分割键值对
-                if (keyValue.length == 2) {
-                    queryParams.put(keyValue[0], keyValue[1]);
-                } else {
-                    queryParams.put(keyValue[0], ""); // 没有值时设为空字符串
-                }
-            }
-        }
-        return queryParams;
-    }
 
-    // 解析查询参数的方法
-    public static Map<String, String> parseQueryParams(URI uri) {
-        Map<String, String> queryParams = new HashMap<>();
-        String query = uri.getQuery(); // 获取查询字符串（例如 ?id=123）
-        if (query != null) {
-            String[] pairs = query.split("&"); // 按 & 分割多个参数
-            for (String pair : pairs) {
-                String[] keyValue = pair.split("=", 2); // 按 = 分割键值对
-                if (keyValue.length == 2) {
-                    queryParams.put(keyValue[0], keyValue[1]);
-                } else {
-                    queryParams.put(keyValue[0], ""); // 没有值时设为空字符串
-                }
-            }
-        }
-        return queryParams;
-    }
 
 
 }
