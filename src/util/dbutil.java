@@ -26,6 +26,7 @@ import java.util.stream.Stream;
 
 import static apiUsr.RegHandler.saveDirUsrs;
 import static com.alibaba.fastjson2.util.TypeUtils.toLong;
+import static util.ArrUtil.subList2025;
 import static util.ColorLogger.*;
 import static util.Fltr.fltr2501;
 import static util.StrUtil.getPwdFromJdbcurl;
