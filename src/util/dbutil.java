@@ -788,27 +788,11 @@ public class dbutil {
         long totalRecords = list1.size();
         long totalPages = (long) Math.ceil((double) totalRecords / pageSize);
 
-
-        int fromIndex = getstartPosition(pageNumber, pageSize);
-        if (fromIndex + 1 > list1.size()) {
-            //ret
-            return new PageResult<>(new ArrayList<>(), totalRecords, totalPages);
-        }
-
-        //   List<T> listPageed=new ArrayList<>();
-
-        //last page
-        int endidx = fromIndex + pageSize;
-        if (endidx > (list1.size() - 1)) {
-            endidx = list1.size();
-            //  List<T> listPageed = list1.subList(fromIndex, endidx);
-            //  return new PageResult<>(listPageed, totalRecords, totalPages);
-        }
-
-        System.out.println("sublist frmidx=" + fromIndex + ",endidx=" + endidx);
-        List<T> listPageed = list1.subList(fromIndex, endidx);
+        List<T> listPageed = subList2025(list1,pageSize, pageNumber);
         return new PageResult<>(listPageed, totalRecords, totalPages);
     }
+
+
 
     public static List<SortedMap<String, Object>> getSortedMapsBypages(String sql, long pageSize, long pageNumber) throws Exception {
         var sql_limt = sql + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1) * pageSize;

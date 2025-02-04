@@ -3,9 +3,44 @@ package util;
 //import org.springframework.expression.spel.standard.SpelExpressionParser;
 //import org.springframework.expression.spel.support.StandardEvaluationContext;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static util.dbutil.getstartPosition;
+
 public class ArrUtil {
 
+    public static <T> List<T> subList2025(List<T> list1, int pageNumber, int pageSize) {
 
+        int fromIndex = getstartPosition(pageNumber, pageSize);
+        if (fromIndex + 1 > list1.size()) {
+            //ret
+            return  new ArrayList<>();
+            // return new PageResult<>(new ArrayList<>(), totalRecords, totalPages);
+        }
+
+        //   List<T> listPageed=new ArrayList<>();
+
+        //last page
+
+        int sizeList = list1.size();
+
+        int endidx = getEndidx(pageSize, fromIndex, sizeList);
+
+        System.out.println("sublist frmidx=" + fromIndex + ",endidx=" + endidx);
+        List<T> listPageed =list1. subList(fromIndex, endidx);
+        return listPageed;
+    }
+
+    static int getEndidx(int pageSize, int fromIndex, int sizeList) {
+        int endidx = fromIndex + pageSize;
+        if (endidx > (sizeList - 1)) {
+            endidx = sizeList;
+            //  List<T> listPageed = list1.subList(fromIndex, endidx);
+            //  return new PageResult<>(listPageed, totalRecords, totalPages);
+        }
+        return endidx;
+    }
     /**
      * 使用 SpEL 表达式对列表进行排序
      *

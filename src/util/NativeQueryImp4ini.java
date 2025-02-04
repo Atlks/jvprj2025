@@ -17,6 +17,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import static test.QryLstByHbntTest.getOrderbyFromSql;
+import static util.ArrUtil.getEndidx;
 import static util.OrdUtil.delOrderby;
 import static util.OrdUtil.orderBySqlOrderMode;
 import static util.Qry.*;
@@ -26,10 +27,14 @@ import static util.util2026.getSqlPrmVal;
 public class NativeQueryImp4ini<T> implements NativeQuery {
     public String saveUrl;
     public Class<T> aClass;
-    private String sql="";
+    private String sql = "";
+    private int offset=0;
+    private int pagesize=-1;
+    private ArrayList<Object> resultList;
+    private int resultListCount;
 
     public NativeQueryImp4ini(String sql, Class aClass) {
-  this.sql=sql;
+        this.sql = sql;
     }
 
     /**
@@ -39,12 +44,36 @@ public class NativeQueryImp4ini<T> implements NativeQuery {
      */
     @Override
     public NativeQuery setParameter(String s, Object o) {
-        var sqlPrmVal=getSqlPrmVal(o);
-        this.sql=this.sql.replaceAll(":"+s,sqlPrmVal);
+        var sqlPrmVal = getSqlPrmVal(o);
+        this.sql = this.sql.replaceAll(":" + s, sqlPrmVal);
         return this;
     }
 
+    /**
+     * @return
+     */
+    @Override
+    public long getResultCount() {
+        return resultListCount;
+    }
 
+    /**startPosition   offset
+     * @return
+     */
+    @Override
+    public NativeQuery setFirstResult(int offset) {
+        this.offset = offset;
+        return this;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public NativeQuery setMaxResults(int pagesize) {
+        this.pagesize = pagesize;
+        return this;
+    }
 
 
     /**
@@ -52,24 +81,59 @@ public class NativeQueryImp4ini<T> implements NativeQuery {
      */
     @Override
     public List getResultList() {
-
-        this.sql=delOrderby(sql);
-       var spel= convertSqlToSpEL(this.sql);
-        System.out.println("spel ="+spel);
-        var colName=saveUrl+aClass.getName();
-        List<T> list1  = null;
+this.getResultCount();
+        this.sql = delOrderby(sql);
+        var spel = convertSqlToSpEL(this.sql);
+        System.out.println("spel =" + spel);
+        var colName = saveUrl + aClass.getName();
+        List<T> list1 = null;
         try {
-            list1 = findObjsAllIni(colName,this.aClass);
+            list1 = findObjsAllIni(colName, this.aClass);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
         List<?> fltedLst = filterWithSpEL(list1, spel);
 
-        List<?>    lstOrded=orderBySqlOrderMode(fltedLst,getOrderbyFromSql(sql));
-        return lstOrded;
-    }
+         this.resultListCount=fltedLst.size();
 
+        if(pagesize>0) {
+            int fromIndex = offset;
+            if (fromIndex + 1 > fltedLst.size()) {
+                //ret
+                this.resultList= new ArrayList<>();
+                return new ArrayList<>();
+                // return new PageResult<>(new ArrayList<>(), totalRecords, totalPages);
+            }
+        }
+
+        List<?> lstOrded = orderBySqlOrderMode(fltedLst, getOrderbyFromSql(sql));
+
+
+        if(pagesize==-1)
+            return  lstOrded;
+    //    subList2025
+        if(pagesize>0)
+        {
+            int fromIndex = offset;
+            if (fromIndex + 1 > list1.size()) {
+                //ret
+                return  new ArrayList<>();
+                // return new PageResult<>(new ArrayList<>(), totalRecords, totalPages);
+            }
+
+            //   List<T> listPageed=new ArrayList<>();
+
+            //last page
+
+            int sizeList = list1.size();
+            int endidx = getEndidx(pagesize, fromIndex, sizeList);
+            return lstOrded.subList(fromIndex,endidx);
+        }
+
+
+        return List.of();
+    }
 
 
     /**
@@ -568,14 +632,6 @@ public class NativeQueryImp4ini<T> implements NativeQuery {
     }
 
     /**
-     * @return
-     */
-    @Override
-    public long getResultCount() {
-        return 0;
-    }
-
-    /**
      * @param keyedPage
      * @return
      */
@@ -671,15 +727,6 @@ public class NativeQueryImp4ini<T> implements NativeQuery {
     }
 
     /**
-     * @param i
-     * @return
-     */
-    @Override
-    public NativeQuery setMaxResults(int i) {
-        return null;
-    }
-
-    /**
      * @return
      */
     @Override
@@ -687,14 +734,6 @@ public class NativeQueryImp4ini<T> implements NativeQuery {
         return 0;
     }
 
-    /**
-     * @param i
-     * @return
-     */
-    @Override
-    public NativeQuery setFirstResult(int i) {
-        return null;
-    }
 
     /**
      * @param page
@@ -981,7 +1020,7 @@ public class NativeQueryImp4ini<T> implements NativeQuery {
      * @return
      */
     @Override
-    public Parameter<T> getParameter(String s, Class  aClass) {
+    public Parameter<T> getParameter(String s, Class aClass) {
         return null;
     }
 
@@ -1000,7 +1039,7 @@ public class NativeQueryImp4ini<T> implements NativeQuery {
      * @return
      */
 
-    public Parameter<T> getParameter(int i, Class  aClass) {
+    public Parameter<T> getParameter(int i, Class aClass) {
         return null;
     }
 
@@ -1018,7 +1057,7 @@ public class NativeQueryImp4ini<T> implements NativeQuery {
      * @return
      */
     @Override
-    public T getParameterValue(Parameter  parameter) {
+    public T getParameterValue(Parameter parameter) {
         return null;
     }
 
@@ -1039,7 +1078,6 @@ public class NativeQueryImp4ini<T> implements NativeQuery {
     public Object getParameterValue(int i) {
         return null;
     }
-
 
 
     /**
