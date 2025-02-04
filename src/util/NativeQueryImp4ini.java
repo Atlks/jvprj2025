@@ -16,9 +16,12 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Stream;
 
-import static util.Qry.convertSqlToSpEL;
-import static util.Qry.filterWithSpEL;
+import static test.QryLstByHbntTest.getOrderbyFromSql;
+import static util.OrdUtil.delOrderby;
+import static util.OrdUtil.orderBySqlOrderMode;
+import static util.Qry.*;
 import static util.dbutil.*;
+import static util.util2026.getSqlPrmVal;
 
 public class NativeQueryImp4ini<T> implements NativeQuery {
     public String saveUrl;
@@ -29,6 +32,19 @@ public class NativeQueryImp4ini<T> implements NativeQuery {
   this.sql=sql;
     }
 
+    /**
+     * @param s
+     * @param o
+     * @return
+     */
+    @Override
+    public NativeQuery setParameter(String s, Object o) {
+        var sqlPrmVal=getSqlPrmVal(o);
+        this.sql=this.sql.replaceAll(":"+s,sqlPrmVal);
+        return this;
+    }
+
+
 
 
     /**
@@ -36,6 +52,8 @@ public class NativeQueryImp4ini<T> implements NativeQuery {
      */
     @Override
     public List getResultList() {
+
+        this.sql=delOrderby(sql);
        var spel= convertSqlToSpEL(this.sql);
         System.out.println("spel ="+spel);
         var colName=saveUrl+aClass.getName();
@@ -45,8 +63,14 @@ public class NativeQueryImp4ini<T> implements NativeQuery {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return  filterWithSpEL(list1,spel);
+
+        List<?> fltedLst = filterWithSpEL(list1, spel);
+
+        List<?>    lstOrded=orderBySqlOrderMode(fltedLst,getOrderbyFromSql(sql));
+        return lstOrded;
     }
+
+
 
     /**
      * @param s
@@ -857,15 +881,6 @@ public class NativeQueryImp4ini<T> implements NativeQuery {
         return null;
     }
 
-    /**
-     * @param s
-     * @param o
-     * @return
-     */
-    @Override
-    public NativeQuery setParameter(String s, Object o) {
-        return null;
-    }
 
     /**
      * @param s

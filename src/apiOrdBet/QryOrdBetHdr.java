@@ -6,14 +6,19 @@ import org.hibernate.Session;
 import util.HttpExchangeImp;
 import utilBiz.OrmUtilBiz;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 //import static apiUsr.QueryUsrHdr.qryuserLucene;
 
 
 import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
 import static java.time.LocalTime.now;
+import static util.OrdUtil.orderBySqlOrderMode;
 import static util.Qry.convertSqlToSpEL;
 import static util.ToXX.toObjFrmMap;
 import static util.Util2025.encodeJson;
@@ -46,19 +51,6 @@ public class QryOrdBetHdr extends BaseHdr {
 
     }
 
-    public static void main(String[] args) throws Exception {
-       iniCfgFrmCfgfile();;
-        OrdBet queryParams=new OrdBet();
-        queryParams.uname="008";
-    //    System.out.println(encodeJson( qryOrdBetSql(queryParams)));
-
-
-        HttpExchangeImp he = new HttpExchangeImp("http://localhost:8889/QryLogCmsHdr", "uname=008","output2025.txt");
-
-     //   new QryOrdBetHdr().handle2(he);
-        OrdBet prm=new OrdBet();prm.uname="008";
-        System.out.println(encodeJsonObj(new QryOrdBetHdr().  qryOrdBetSql4t(prm)));   ;
-    }
 
 
 
@@ -85,21 +77,10 @@ public class QryOrdBetHdr extends BaseHdr {
       //  return null;
     }
 
-    private static Object qryOrdBetSql4t(OrdBet queryParams) throws Exception {
-
-     //   order by timestamp desc
-        var sql = "select * from ordbet where uname != null and uname ='008'" ;
-        Map<String, Object> sqlprmMap= Map.of( "sql",sql,   "uname",queryParams.uname);
-        System.out.println( encodeJson(sqlprmMap));
-        System.out.println("spel="+convertSqlToSpEL(sql));
-        Session session = OrmUtilBiz. openSession(saveUrlOrdChrg);
-        List<OrdBet> lst = nativeQueryGetResultList( sql, sqlprmMap, session,OrdBet.class );
-        //    var list1 = getSortedMapsBypages( sql,pageSize, pageNumber);
-        // 1️⃣ 计算总记录数
-        return lst;
 
 
-    }
+
+
     private static Object qryOrdBetSql(OrdBet queryParams) throws Exception {
 
 

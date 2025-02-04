@@ -382,6 +382,12 @@ public class util2026 {
         os.close();
     }
 
+    public static String getSqlPrmVal(Object o) {
+        if(o.getClass()==String.class)
+            return  "'"+o.toString()+"'";
+        return  o.toString();
+    }
+
     public static void iniHttpExchg(HttpExchangeImp he, Map<String, String> reqhdr, String ResponseBodyoutputStreamF) throws FileNotFoundException {
         he.setRequestHeaders(reqhdr);
         he.setResponseHeaders(new Headers());
