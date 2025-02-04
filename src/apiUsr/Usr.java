@@ -32,6 +32,10 @@ public class Usr {
     public BigDecimal balanceYinliwlt;
     public BigDecimal balanceYinliwltFreez;
 
+    public Usr(String uname) {
+  this.uname=uname;
+    }
+
     public BigDecimal getTotalCommssionAmt() {
          if(totalCommssionAmt==null )
                   return BigDecimal.valueOf(0);

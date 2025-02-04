@@ -1,18 +1,11 @@
 package apiOrdBet;
 
-import apiAcc.OrdChrg;
-import apiCms.QryLogCmsHdr;
 import apis.BaseHdr;
-import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import org.hibernate.Session;
 import util.HttpExchangeImp;
 import utilBiz.OrmUtilBiz;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +17,7 @@ import static java.time.LocalTime.now;
 import static util.Qry.convertSqlToSpEL;
 import static util.ToXX.toObjFrmMap;
 import static util.Util2025.encodeJson;
+import static util.Util2025.encodeJsonObj;
 import static util.dbutil.*;
 import static util.util2026.*;
 
@@ -60,10 +54,10 @@ public class QryOrdBetHdr extends BaseHdr {
 
 
         HttpExchangeImp he = new HttpExchangeImp("http://localhost:8889/QryLogCmsHdr", "uname=008","output2025.txt");
-        // he.setAttribute();
 
-        // setcookie("uname","007",he);
-        new QryOrdBetHdr().handle2(he);
+     //   new QryOrdBetHdr().handle2(he);
+        OrdBet prm=new OrdBet();prm.uname="008";
+        System.out.println(encodeJsonObj(new QryOrdBetHdr().  qryOrdBetSql4t(prm)));   ;
     }
 
 
@@ -78,7 +72,8 @@ public class QryOrdBetHdr extends BaseHdr {
 
         } else {
             //json doc ,ini ,redis ,lucene
-           // return qryOrdBetIni(queryParams);
+            return qryOrdBetSql(queryParams);
+          //  return qryOrdBetIni(queryParams);
         }
 //        //    addMapx("spdbfun",QryOrdBetHdr::qryOrdBetIni);
 //        HashMap<String, Function<Map<String, String>, Object>> mapFuns = new HashMap<>();
@@ -87,10 +82,24 @@ public class QryOrdBetHdr extends BaseHdr {
 //        mapFuns.put("arrFun", QryOrdBetHdr::qryOrdBetIni);
   //      return execQry(saveUrlOrdBet, mapFuns);
 
-        return null;
+      //  return null;
     }
 
+    private static Object qryOrdBetSql4t(OrdBet queryParams) throws Exception {
 
+     //   order by timestamp desc
+        var sql = "select * from ordbet where uname != null and uname ='008'" ;
+        Map<String, Object> sqlprmMap= Map.of( "sql",sql,   "uname",queryParams.uname);
+        System.out.println( encodeJson(sqlprmMap));
+        System.out.println("spel="+convertSqlToSpEL(sql));
+        Session session = OrmUtilBiz. openSession(saveUrlOrdChrg);
+        List<OrdBet> lst = nativeQueryGetResultList( sql, sqlprmMap, session,OrdBet.class );
+        //    var list1 = getSortedMapsBypages( sql,pageSize, pageNumber);
+        // 1️⃣ 计算总记录数
+        return lst;
+
+
+    }
     private static Object qryOrdBetSql(OrdBet queryParams) throws Exception {
 
 
@@ -99,7 +108,7 @@ public class QryOrdBetHdr extends BaseHdr {
         System.out.println( encodeJson(sqlprmMap));
         System.out.println("spel="+convertSqlToSpEL(sql));
         Session session = OrmUtilBiz. openSession(saveUrlOrdChrg);
-        List<OrdBet> lst = getQrySql( sql, sqlprmMap, session,OrdBet.class );
+        List<OrdBet> lst = nativeQueryGetResultList( sql, sqlprmMap, session,OrdBet.class );
         //    var list1 = getSortedMapsBypages( sql,pageSize, pageNumber);
         // 1️⃣ 计算总记录数
         return getPageResult( lst,queryParams.pagesize,queryParams.page);
@@ -108,7 +117,7 @@ public class QryOrdBetHdr extends BaseHdr {
     }
 
 
-    private static Object qryOrdBetIni(Map<String, String> queryParams) {
+    private static Object qryOrdBetIni(OrdBet queryParams) {
 
         String uname = (String) getField2025(queryParams, "uname", "");
         var expression = "";

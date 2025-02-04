@@ -20,8 +20,9 @@ import org.hibernate.stat.SessionStatistics;
 import java.util.List;
 import java.util.Map;
 
-public abstract   class SessionImpBase   implements Session {
+public abstract   class SessionImpBase<R>    implements Session {
     Transaction Transaction1=new TransactionImp();
+    private Class  class1;
 
     /**
      *
@@ -423,15 +424,7 @@ public abstract   class SessionImpBase   implements Session {
 
     }
 
-    /**
-     * @param t
-     * @param <T>
-     * @return
-     */
-    @Override
-    public <T> T merge(T t) {
-        return null;
-    }
+
 
     /**
      * @param s
@@ -601,16 +594,9 @@ public abstract   class SessionImpBase   implements Session {
 
     }
 
-    /**
-     * @param aClass
-     * @param o
-     * @param <T>
-     * @return
-     */
-    @Override
-    public <T> T find(Class<T> aClass, Object o) {
-        return null;
-    }
+//    public abstract <R> NativeQuery<R> createNativeQuery(String var1, Class<R> var2);
+
+
 
     /**
      * @param aClass
@@ -1375,8 +1361,8 @@ public abstract   class SessionImpBase   implements Session {
      * @param s
      * @deprecated
      */
-    @Override
-    public NativeQuery createNativeQuery(String s) {
+    //@Override
+    public NativeQuery NativeQuery(String s) {
         return null;
     }
 
@@ -1384,11 +1370,15 @@ public abstract   class SessionImpBase   implements Session {
      * @param s
      * @param aClass
      * @param s1
-     * @param <R>
+
+
+
+
      * @return
      */
     @Override
-    public <R> NativeQuery<R> createNativeQuery(String s, Class<R> aClass, String s1) {
+    public  NativeQuery createNativeQuery(String s, Class aClass, String s1) {
+          this.class1=  aClass;
         return null;
     }
 
@@ -1402,6 +1392,16 @@ public abstract   class SessionImpBase   implements Session {
         return null;
     }
 
+
+
+    /**
+     * @param s
+     * @deprecated
+     */
+    @Override
+    public NativeQuery createNativeQuery(String s) {
+        return null;
+    }
     /**
      * @param s
      * @param s1
@@ -1506,4 +1506,6 @@ public abstract   class SessionImpBase   implements Session {
     public Query createQuery(CriteriaUpdate criteriaUpdate) {
         return null;
     }
+
+
 }

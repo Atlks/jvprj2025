@@ -55,6 +55,23 @@
     </repositories>
     <dependencies>
 
+
+            <!-- Spring Core（包含 SpEL）-->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>6.2.1</version>
+            </dependency>
+
+
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>6.2.1</version>
+        </dependency>
+
+
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-community-dialects</artifactId>

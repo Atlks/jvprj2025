@@ -1,8 +1,10 @@
 package util;
 
+import jakarta.persistence.LockModeType;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
+
+import java.util.Map;
 
 import static util.Util2025.mkdir2025;
 import static util.Util2025.writeFile2501;
@@ -10,7 +12,7 @@ import static util.UtilEncode.encodeFilename;
 import static util.dbutil.*;
 import static util.util2026.*;
 
-public class SessionImpIni extends SessionImpBase implements Session {
+public class SessionImpIni<R,T> extends SessionImpBase implements Session {
 
     private final String saveDir;
  ;
@@ -29,8 +31,8 @@ public class SessionImpIni extends SessionImpBase implements Session {
         String fname = (String) getField2025(obj, "id", "");
         //todo need fname encode
         fname = encodeFilename(fname) + ".ini";
-
-        String fnamePath = saveDir + "/" + fname;
+var collName=obj.getClass().getName();
+        String fnamePath = saveDir +collName +"/" + fname;
         System.out.println("fnamePath=" + fnamePath);
         writeFile2501(fnamePath, encodeIni(obj));
 
@@ -38,7 +40,7 @@ public class SessionImpIni extends SessionImpBase implements Session {
     }
 
     /**
-     * @param t
+
      * @param <T>
      * @return
      */
@@ -52,7 +54,7 @@ public class SessionImpIni extends SessionImpBase implements Session {
     }
 
     /**
-     * @param o
+
      */
     @Override
     public void remove(Object obj) {
@@ -66,19 +68,23 @@ public class SessionImpIni extends SessionImpBase implements Session {
     }
 
 
+
+
+
+
     /**
      * @param aClass
-     * @param o
+
      * @param <T>
      * @return
      */
     @Override
     public <T> T find(Class<T> aClass, Object id) {
 
-
+        var collName=aClass.getName();
         String fname = encodeFilename(id.toString()) + ".ini";
 
-        String collPath = saveDir + "/" + aClass.getSimpleName();
+        String collPath = saveDir + "/" + aClass.getName();
         String fnamePath = collPath + "/" + fname;
         System.out.println("fnamePath=" + fnamePath);
 
@@ -94,10 +100,26 @@ public class SessionImpIni extends SessionImpBase implements Session {
     /**
      * @param s
      * @param aClass
+     * @param s1
      * @return
      */
     @Override
-    public NativeQuery createNativeQuery(String s, Class aClass) {
+    public NativeQuery createNativeQuery(String s, Class aClass, String s1) {
         return null;
     }
+
+
+    /**
+
+     * @param aClass
+     * @return
+     */
+    @Override
+    public NativeQuery createNativeQuery(String sql, Class aClass) {
+        NativeQueryImp4ini  nq=new NativeQueryImp4ini(sql,aClass);
+        nq.saveUrl=this.saveDir;
+        nq.aClass=aClass;
+        return nq;
+    }
+
 }

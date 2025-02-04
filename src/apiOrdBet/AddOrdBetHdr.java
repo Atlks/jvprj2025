@@ -4,6 +4,7 @@ import apis.BaseHdr;
 import com.alibaba.fastjson2.JSON;
 import com.sun.net.httpserver.HttpExchange;
 import org.hibernate.Session;
+import util.HttpExchangeImp;
 import utilBiz.OrmUtilBiz;
 
 import java.sql.SQLException;
@@ -66,7 +67,11 @@ public class AddOrdBetHdr extends BaseHdr {
         ord.uname="007";
         ord.bettxt="龙湖和";
         ord.id="ordBet"+getFilenameFrmLocalTimeString();
-        addObj(ord,saveUrlOrdBet,OrdBet.class);
+     //   addObj(ord,saveUrlOrdBet,OrdBet.class);
+
+        HttpExchangeImp he = new HttpExchangeImp("http://localhost:8889/QryLogCmsHdr?bettxt=龙湖和", "uname=009","output2025.txt");
+
+        new AddOrdBetHdr().handle2(he);
     }
 
 }

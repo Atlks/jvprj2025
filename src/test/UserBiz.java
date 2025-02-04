@@ -2,6 +2,12 @@ package test;
 
 import apiUsr.RegHandler;
 import biz.existUserEx;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
+
+import java.util.List;
+import java.util.SortedMap;
 
 import static apiUsr.RegHandler.reg;
 
@@ -46,21 +52,7 @@ public class UserBiz {
     }
 
 
-//    @SuppressWarnings("unchecked")
-//    private static List<SortedMap<String, Object>> filterWithSpEL(List<SortedMap<String, Object>> list1) {
-//        // 创建 SpEL 解析器
-//        ExpressionParser parser = new SpelExpressionParser();
-//
-//        // 定义过滤表达式，使用 SpEL 的集合操作
-//        String expression = "#list1.?[uname == 'unm2' && pwd == 'pp']";
-//
-//        // 创建上下文并设置变量
-//        StandardEvaluationContext context = new StandardEvaluationContext();
-//        context.setVariable("list1", list1); // 将 list1 设置为变量
-//
-//        // 解析并返回结果
-//        return (List<SortedMap<String, Object>>) parser.parseExpression(expression).getValue(context);
-//    }
+
 
 
 //    public static String logOut() {

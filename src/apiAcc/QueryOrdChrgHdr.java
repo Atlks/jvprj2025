@@ -70,7 +70,7 @@ public class QueryOrdChrgHdr extends BaseHdr {
 
 
         Session session = OrmUtilBiz. openSession(saveUrlOrdChrg);
-        List<OrdChrg> lst = (List<OrdChrg>) getQrySql( sql, sqlprmMap, (int) pageNumber,pageSize, session );
+        List<OrdChrg> lst = (List<OrdChrg>) nativeQueryGetResultList( sql, sqlprmMap, (int) pageNumber,pageSize, session );
         //    var list1 = getSortedMapsBypages( sql,pageSize, pageNumber);
         // 1️⃣ 计算总记录数
         return getPageResult( sqlNoOrd,sqlprmMap,lst,pageSize);

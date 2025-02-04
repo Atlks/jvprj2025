@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static apiUsr.RegHandler.saveDirUsrs;
+import static com.alibaba.fastjson2.util.TypeUtils.toLong;
 import static util.ColorLogger.*;
 import static util.Fltr.fltr2501;
 import static util.StrUtil.getPwdFromJdbcurl;
@@ -64,7 +65,7 @@ public class dbutil {
             return new ArrayList<>();
 
 
-        List<SortedMap<String, Object>> result = findObjsAll(saveDir);
+        List<?> result = findObjsAll(saveDir);
 
         if (result.isEmpty())
             return result;
@@ -73,13 +74,13 @@ public class dbutil {
             return result;
 
 
-        result = fltr2501(result, filter1);
+        result = fltr2501((List<SortedMap<String, Object>>) result, filter1);
 
         return result;
 
     }
 
-    public static List<SortedMap<String, Object>> findObjsAll(String saveDir) {
+    public static List<?> findObjsAll(String saveDir) {
         //null chk
         if (saveDir == null || saveDir.equals(""))
             return new ArrayList<>();
@@ -112,14 +113,32 @@ public class dbutil {
         return null;
     }
 
-    static List<SortedMap<String, Object>> findObjsAllIni(String saveDir) {
-
+    static <T> List<T> findObjsAllIni(String saveDir, Class<T> class1) throws Exception {
+        System.out.println(" fun findObjsAllIni(savedir=" + saveDir);
         //nullchk
         if (saveDir == null || saveDir.equals(""))
             return new ArrayList<>();
 
 
         List<SortedMap<String, Object>> result = getSortedMapsFrmINiFmt(saveDir);
+        List<T> newx = new ArrayList<>();
+        for (SortedMap<String, Object> m : result) {
+            newx.add((toObj(m, class1)));
+        }
+
+        return newx;
+
+
+    }
+
+    static List<?> findObjsAllIni(String saveDir) {
+        System.out.println(" fun findObjsAllIni(savedir=" + saveDir);
+        //nullchk
+        if (saveDir == null || saveDir.equals(""))
+            return new ArrayList<>();
+
+
+        List<?> result = getSortedMapsFrmINiFmt(saveDir);
 
 
         return result;
@@ -366,7 +385,7 @@ public class dbutil {
     }
 
     public static String getDvr(String jdbcUrl) {
-        return  "com.p6spy.engine.spy.P6SpyDriver";
+        return "com.p6spy.engine.spy.P6SpyDriver";
 //        if (jdbcUrl.startsWith("jdbc:mysql"))
 //            return "com.mysql.cj.jdbc.Driver";
 //        return "sqlt";
@@ -672,8 +691,9 @@ public class dbutil {
 
     }
 
-    public static <T> List<T> getQrySql(String sql, Map<String, Object> sqlprmMap, Session session, Class<T> cls) {
+    public static <T> List<T> nativeQueryGetResultList(String sql, Map<String, Object> sqlprmMap, Session session, Class<T> cls) {
         // 防止 SQL 注入  // 安全参数绑定
+        //  nativeQuerygetResultList
         NativeQuery<?> nativeQuery = session.createNativeQuery(sql, cls);
         setPrmts4sql(sqlprmMap, nativeQuery);
 
@@ -686,12 +706,12 @@ public class dbutil {
         return lst;
     }
 
-    public static List<?> getQrySql(String sql, Map<String, Object> sqlprmMap, int pageNumber, int pageSize, Session session) {
+    public static List<?> nativeQueryGetResultList(String sql, Map<String, Object> sqlprmMap, int pageNumber, int pageSize, Session session) {
         // 防止 SQL 注入  // 安全参数绑定
         NativeQuery<?> nativeQuery = session.createNativeQuery(sql, OrdChrg.class);
         setPrmts4sql(sqlprmMap, nativeQuery);
 
-    //    nativeQuery.getResultCount();
+        //    nativeQuery.getResultCount();
         // 设置分页
         nativeQuery.setFirstResult(getstartPosition(pageNumber, pageSize));
         nativeQuery.setMaxResults(pageSize);
@@ -707,8 +727,7 @@ public class dbutil {
     }
 
 
-    public static PageResult<?> getPageResult(String sql, Map<String, Object> sqlprmMap, int pageNumber, int pageSize , Session session) throws SQLException {
-
+    public static PageResult<?> getPageResult(String sql, Map<String, Object> sqlprmMap, int pageNumber, int pageSize, Session session) throws SQLException {
 
 
         NativeQuery nativeQuery = session.createNativeQuery(sql);
@@ -721,7 +740,7 @@ public class dbutil {
 
 
         //------------page
-        long totalRecords =nativeQuery.getResultCount();
+        long totalRecords = nativeQuery.getResultCount();
 
 
         long totalPages = (long) Math.ceil((double) totalRecords / pageSize);
@@ -757,11 +776,12 @@ public class dbutil {
 
     /**
      * back pagging
+     *
      * @param list1
      * @param pageSize
      * @param pageNumber
-     * @return
      * @param <T>
+     * @return
      */
     @Deprecated
     public static <T> PageResult<T> getPageResult(List<T> list1, int pageSize, int pageNumber) {
@@ -849,10 +869,14 @@ public class dbutil {
         for (Field fld : fields) {
             if (fld.getName().equalsIgnoreCase(key)) { // 忽略大小写比较字段名
                 try {
-                    if (key.toLowerCase().equals("balance"))
+                    if (key.toLowerCase().equals("timestamp"))
                         System.out.println("d1025");
                     fld.setAccessible(true); // 确保字段可访问
-                    fld.set(obj, value); // 设置字段值
+
+                    if (value.getClass() == String.class && ( fld.getType() == Long.class|| fld.getType().getName().equals("long") ))
+                        setLong2025(fld, obj, toLong(value.toString()));
+                    else
+                        fld.set(obj, value); // 设置字段值
                 } catch (IllegalAccessException e) {
                     //  throw new RuntimeException("Failed to set field value: " + key, e);
                 }
@@ -860,6 +884,10 @@ public class dbutil {
             }
         }
 
+    }
+
+    private static void setLong2025(Field fld, Object obj, Long aLong) throws IllegalAccessException {
+        fld.set(obj, aLong);
     }
 
     @Deprecated

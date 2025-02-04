@@ -23,6 +23,6 @@ public class OrdBet extends baseObj {
     public long timestamp;
 
     @Column(name = "uname", nullable = false)
-    public String uname;
+    public String uname="";
     public String bettxt;
 }
