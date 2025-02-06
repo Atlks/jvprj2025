@@ -5,7 +5,11 @@ import java.util.regex.Pattern;
 
 public class StrUtil {
 
-
+    public static String toStr(Object invtr) {
+        if(invtr==null)
+            return  "";
+        return  invtr.toString();
+    }
     public static String getPwdFromJdbcurl(String jdbcUrl) {
         return getParameterFromJdbcUrl(jdbcUrl, "password");
     }

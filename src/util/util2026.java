@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static util.ToXX.parseQueryParams;
 import static util.ToXX.toObjFrmMap;
 
 public class util2026 {
@@ -408,7 +409,8 @@ public class util2026 {
     }
 
     public static Map<String, String> getRequestParameters(HttpExchange exchange) {
-       return  getRequestParameters(exchange.getRequestURI());
+       return  parseQueryParams(exchange.getRequestURI());
+               //getRequestParameters(exchange.getRequestURI());
     }
 
 

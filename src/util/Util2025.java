@@ -2,6 +2,7 @@ package util;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSONWriter;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -77,7 +78,9 @@ public class Util2025 {
       try{
           if (obj == null)
               return "{}";
-          return JSON.toJSONString(obj);
+      //   return com.alibaba.fastjson2.JSON.toJSONString(obj);
+          return    com.alibaba.fastjson2.JSON.toJSONString(obj, JSONWriter.Feature.PrettyFormat);
+
       } catch (Exception e) {
           return "{}";
       }

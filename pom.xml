@@ -56,6 +56,12 @@
     <dependencies>
 
 
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version>
+        </dependency>
+
             <!-- Spring Core（包含 SpEL）-->
             <dependency>
                 <groupId>org.springframework</groupId>
