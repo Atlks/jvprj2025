@@ -18,6 +18,7 @@ import java.util.List;
 public class OrmUtilBiz {
 
     public static Session openSession(String jdbcUrl) throws SQLException {
+        System.out.println("openSession(url="+jdbcUrl);
         if(jdbcUrl.startsWith("jdbc:"))
         {
             // 添加实体类映射

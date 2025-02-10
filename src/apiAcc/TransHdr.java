@@ -19,6 +19,7 @@ import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static util.HbntUtil.*;
 import static util.ToXX.parseQueryParams;
 import static util.Util2025.encodeJson;
+import static util.Util2025.encodeJsonObj;
 import static util.util2026.*;
 import static apiCms.CmsBiz.toBigDcmTwoDot;
 
@@ -49,12 +50,12 @@ public class TransHdr extends BaseHdr {
         iniCfgFrmCfgfile();
         LogBls lgbls = new LogBls();
         lgbls.changeAmount = BigDecimal.valueOf(100.5);
-        lgbls.uname = "008";
+        lgbls.uname = "009";
         transToYinliWlt(lgbls);
     }
 
     private static void transToYinliWlt(LogBls lgblsDto) throws Exception, BalanceNotEnghou {
-
+        System.out.println("▶\uFE0Ffun "+getCurrentMethodName()+"(lgblsDto="+encodeJsonObj(lgblsDto));
 
         try(  Session session = OrmUtilBiz. openSession(saveDirUsrs)){
 
