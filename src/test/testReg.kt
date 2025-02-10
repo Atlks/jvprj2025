@@ -4,7 +4,15 @@ package test;
 import apiUsr.RegHandler
 import apis.BaseHdr
 import util.HttpExchangeImp
+//import org.junit.jupiter.params.ParameterizedTest
+//import org.junit.jupiter.params.provider.CsvSource
+//import kotlin.test.assertEquals
+//import io.mockk.every
+//import io.mockk.mockk
+//import org.junit.jupiter.api.Test
+//import kotlin.test.assertEquals
 
+//@Test
 fun main() {
 
     BaseHdr.iniCfgFrmCfgfile()
