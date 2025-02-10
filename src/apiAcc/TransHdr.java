@@ -55,79 +55,79 @@ public class TransHdr extends BaseHdr {
     }
 
     private static void transToYinliWlt(LogBls lgblsDto) throws Exception, BalanceNotEnghou {
-        System.out.println("▶\uFE0Ffun "+getCurrentMethodName()+"(lgblsDto="+encodeJsonObj(lgblsDto));
+        System.out.println("▶\uFE0Ffun " + getCurrentMethodName() + "(lgblsDto=" + encodeJsonObj(lgblsDto));
 
-        try(  Session session = OrmUtilBiz. openSession(saveDirUsrs)){
+        try (Session session = OrmUtilBiz.openSession(saveDirUsrs)) {
 
 
-        //todo start tx
-        session.beginTransaction();
+            //todo start tx
+            session.beginTransaction();
 
-        // 获取对象并加悲观锁
+            // 获取对象并加悲观锁
 //        User user = session.find(User.class, 1, LockModeType.PESSIMISTIC_WRITE);
-        //add blance
-        String uname = lgblsDto.uname;
-        Usr objU =findByHbnt(Usr.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE,session);
-        //       getObjById(uname, saveDirUsrs,Usr.class);
-        if (objU.id == null) {
-            objU.id = uname;
-            objU.uname = uname;
+            //add blance
+            String uname = lgblsDto.uname;
+            Usr objU = findByHbnt(Usr.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE, session);
+            //       getObjById(uname, saveDirUsrs,Usr.class);
+            if (objU.id == null) {
+                objU.id = uname;
+                objU.uname = uname;
+            }
+
+
+            //  放在一起一快存储，解决了十五问题事务。。。
+            BigDecimal nowAmt = getFieldAsBigDecimal(objU, "balance", 0);
+            if (lgblsDto.getChangeAmount().compareTo(nowAmt) > 0) {
+                SortedMap<String, Object> m = new TreeMap<>();
+                m.put("method", "transToYinliWlt()");
+                m.put("prm", "amt=" + lgblsDto.getChangeAmount() + ",uname=" + uname);
+                m.put("nowAmtBls", nowAmt);
+                throw new BalanceNotEnghou(encodeJson(m));
+            }
+
+            BigDecimal amt = lgblsDto.getChangeAmount();
+            BigDecimal newBls = nowAmt.subtract(toBigDecimal(amt));
+            objU.balance = newBls;
+
+            BigDecimal nowAmt2 = getFieldAsBigDecimal(objU, "balanceYinliwlt", 0);
+            BigDecimal newBls2 = nowAmt2.add(toBigDecimal(amt));
+            objU.balanceYinliwlt = newBls2;
+            //  updtObj(objU,saveDirUsrs);
+            mergeByHbnt(objU, session);
+
+            //------------add balanceLog
+            LogBls logBalance = new LogBls();
+            logBalance.id = "LogBalance" + getFilenameFrmLocalTimeString();
+            logBalance.uname = uname;
+
+            logBalance.changeAmount = lgblsDto.getChangeAmount();
+            logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
+            logBalance.newBalance = toBigDcmTwoDot(newBls);
+
+            logBalance.changeMode = "减去";
+            System.out.println(" add balanceLog ");
+            //  addObj(logBalance,saveUrlLogBalance);
+            persistByHbnt(logBalance, session);
+
+
+            //--------------add logBlsYinliWlt
+            LogBlsLogYLwlt logBlsYinliWlt = new LogBlsLogYLwlt();
+            logBlsYinliWlt.id = "LogBalanceYinliWlt" + getFilenameFrmLocalTimeString();
+            logBlsYinliWlt.uname = uname;
+            logBlsYinliWlt.changeMode = "增加";
+            logBlsYinliWlt.changeAmount = lgblsDto.getChangeAmount();
+            logBlsYinliWlt.amtBefore = nowAmt2;
+            logBlsYinliWlt.newBalance = newBls2;
+            // addObj(logBlsYinliWlt,saveUrlLogBalanceYinliWlt);
+            persistByHbnt(logBlsYinliWlt, session);
+
+            session.getTransaction().commit();
+            //adjst yinliwlt balnce
         }
 
-
-        //  放在一起一快存储，解决了十五问题事务。。。
-        BigDecimal nowAmt = getFieldAsBigDecimal(objU, "balance", 0);
-        if (lgblsDto.getChangeAmount().compareTo(nowAmt) > 0) {
-            SortedMap<String, Object> m = new TreeMap<>();
-            m.put("method", "transToYinliWlt()");
-            m.put("prm", "amt=" + lgblsDto.getChangeAmount() + ",uname=" + uname);
-            m.put("nowAmtBls", nowAmt);
-            throw new BalanceNotEnghou(encodeJson(m));
-        }
-
-        BigDecimal amt = lgblsDto.getChangeAmount();
-        BigDecimal newBls = nowAmt.subtract(toBigDecimal(amt));
-        objU.balance = newBls;
-
-        BigDecimal nowAmt2 = getFieldAsBigDecimal(objU, "balanceYinliwlt", 0);
-        BigDecimal newBls2 = nowAmt2.add(toBigDecimal(amt));
-        objU.balanceYinliwlt = newBls2;
-        //  updtObj(objU,saveDirUsrs);
-        mergeByHbnt(objU,session);
-
-        //------------add balanceLog
-        LogBls logBalance = new LogBls();
-        logBalance.id = "LogBalance" + getFilenameFrmLocalTimeString();
-        logBalance.uname = uname;
-
-        logBalance.changeAmount = lgblsDto.getChangeAmount();
-        logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
-        logBalance.newBalance = toBigDcmTwoDot(newBls);
-
-        logBalance.changeMode = "减去";
-        System.out.println(" add balanceLog ");
-        //  addObj(logBalance,saveUrlLogBalance);
-         persistByHbnt(logBalance,session);
-
-
-        //--------------add logBlsYinliWlt
-        LogBlsLogYLwlt logBlsYinliWlt = new LogBlsLogYLwlt();
-        logBlsYinliWlt.id = "LogBalanceYinliWlt" + getFilenameFrmLocalTimeString();
-        logBlsYinliWlt.uname = uname;
-        logBlsYinliWlt.changeMode = "增加";
-        logBlsYinliWlt.changeAmount = lgblsDto.getChangeAmount();
-        logBlsYinliWlt.amtBefore = nowAmt2;
-        logBlsYinliWlt.newBalance = newBls2;
-        // addObj(logBlsYinliWlt,saveUrlLogBalanceYinliWlt);
-        persistByHbnt(logBlsYinliWlt,session);
-
-        session.getTransaction().commit();
-        //adjst yinliwlt balnce
-        }
+        System.out.println("✅endfun "+getCurrentMethodName());
 
     }
-
-
 
 
     @Override
