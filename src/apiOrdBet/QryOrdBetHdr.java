@@ -32,14 +32,14 @@ public class QryOrdBetHdr extends BaseHdr {
 
         //blk login ed
         String uname = getcookie("uname", exchange);
-        OrdBet qryDto=toObjFrmQrystr(exchange,OrdBet.class);
+        OrdBet qryDto4page=toObjFrmQrystr(exchange,OrdBet.class);
 
         var sql = "select * from ordbet where uname =:uname order by timestamp desc " ;
         Map<String, Object> sqlprmMap= Map.of( "sql",sql,   "uname",uname);
         System.out.println( encodeJson(sqlprmMap));
    //     System.out.println("spel="+convertSqlToSpEL(sql));
         Session session = OrmUtilBiz. openSession(saveUrlOrdChrg);
-        var list1 = getPageResult2025(sql, sqlprmMap, qryDto,session,OrdBet.class);
+        var list1 = getPageResult2025(sql, sqlprmMap, qryDto4page,session,OrdBet.class);
         wrtResp(exchange, encodeJson(list1));
 
     }

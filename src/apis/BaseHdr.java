@@ -66,7 +66,7 @@ public abstract class BaseHdr implements HttpHandler {
 
         catch (Throwable e) {
             //  e.getStackTrace()
-            e.printStackTrace();
+           // e.printStackTrace();
 
             //nml err
             ExceptionBase ex = new ExceptionBase(e.getMessage());
@@ -87,7 +87,9 @@ public abstract class BaseHdr implements HttpHandler {
 
             String stackTraceAsString = getStackTraceAsString(e);
             ex.stackTrace = stackTraceAsString;
-            wrtRespErr(exchange, encodeJson(ex));
+            String responseTxt = encodeJson(ex);
+            System.out.println("rsps="+responseTxt);
+            wrtRespErr(exchange, responseTxt);
 
 
             // throw new RuntimeException(e);

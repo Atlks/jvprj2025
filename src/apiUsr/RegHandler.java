@@ -15,6 +15,7 @@ import static util.EncodeUtil.encodeMd5;
 
 import static util.HbntUtil.openSession;
 import static util.Util2025.encodeJson;
+import static util.Util2025.encodeJsonObj;
 import static util.dbutil.*;
 import static util.util2026.*;
 
@@ -29,7 +30,7 @@ public class RegHandler extends BaseHdr implements HttpHandler {
      * @throws Exception
      */
     @Override
-    protected void handle2(HttpExchange exchange) throws Exception, existUserEx {
+    public void handle2(HttpExchange exchange) throws Exception, existUserEx {
         // 检查请求方法
         //   if ("GET".equals(exchange.getRequestMethod())) {
 
@@ -76,7 +77,7 @@ public class RegHandler extends BaseHdr implements HttpHandler {
 
     public static String reg(Usr user) throws Exception, existUserEx {
 
-
+        System.out.println("▶\uFE0Ffun "+getCurrentMethodName()+"(u="+encodeJsonObj(user));
         if (existUser(user)) {
             if (ovrwtest) {
             } else {
