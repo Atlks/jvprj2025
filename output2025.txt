@@ -1,0 +1,19 @@
+{
+	"errcode":"biz.existUserEx",
+	"errmsg":"存在用户",
+	"extraData":{
+		
+	},
+	"fun":"reg",
+	"funPrm":{
+		"id":"8",
+		"pwd":"ppp",
+		"uname":"8"
+	},
+	"localizedMessage":"存在用户",
+	"message":"存在用户",
+	"stackTrace":"biz.existUserEx: 存在用户\r\n\tat apiUsr.RegHandler.reg(RegHandler.java:85)\r\n\tat apiUsr.RegHandler.handle2(RegHandler.java:48)\r\n\tat apis.BaseHdr.handle(BaseHdr.java:58)\r\n\tat test.TestRegKt.main(testReg.kt:21)\r\n\tat test.TestRegKt.main(testReg.kt)\r\n",
+	"suppressed":[
+		
+	]
+}

@@ -1,0 +1,2 @@
+file 'C:\Users\attil\IdeaProjects\jvprj2025\alarmPre.wav'
+file 'C:\cfg\搭尬.wav'

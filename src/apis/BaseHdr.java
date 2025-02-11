@@ -34,6 +34,7 @@ public abstract class BaseHdr implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         //wz qrystr
        curUrl.set(encodeJson(exchange.getRequestURI()));
+        System.out.println("");
     //   curUrlPrm.set(exchange.getrequ);
         try {
             setcookie("uname", "007", exchange);//for test

@@ -1,0 +1,36 @@
+ffmpeg version n5.1.3-5-gc36f69d7e3 Copyright (c) 2000-2022 the FFmpeg developers
+  built with Microsoft (R) C/C++ Optimizing Compiler Version 19.16.27026.1 for x86
+  configuration: --toolchain=msvc --arch=x86 --enable-yasm --enable-asm --disable-shared --enable-static --disable-programs --enable-swresample --enable-swscale --enable-gpl --enable-libx264 --enable-libx265 --enable-ffmpeg --enable-ffplay --prefix=../build32/
+  libavutil      57. 28.100 / 57. 28.100
+  libavcodec     59. 37.100 / 59. 37.100
+  libavformat    59. 27.100 / 59. 27.100
+  libavdevice    59.  7.100 / 59.  7.100
+  libavfilter     8. 44.100 /  8. 44.100
+  libswscale      6.  7.100 /  6.  7.100
+  libswresample   4.  7.100 /  4.  7.100
+  libpostproc    56.  6.100 / 56.  6.100
+Guessed Channel Layout for Input Stream #0.0 : stereo
+Input #0, wav, from 'C:\Users\attil\IdeaProjects\jvprj2025\alarmPre.wav':
+  Metadata:
+    encoder         : Lavf59.27.100
+  Duration: 00:00:00.80, bitrate: 1411 kb/s
+  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 44100 Hz, stereo, s16, 1411 kb/s
+Guessed Channel Layout for Input Stream #1.0 : mono
+Input #1, wav, from 'C:\cfg\搭尬.wav':
+  Metadata:
+    encoder         : Lavf59.27.100
+  Duration: 00:00:01.06, bitrate: 384 kb/s
+  Stream #1:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 24000 Hz, mono, s16, 384 kb/s
+Stream mapping:
+  Stream #0:0 (pcm_s16le) -> concat
+  Stream #1:0 (pcm_s16le) -> concat
+  concat:out:a0 -> Stream #0:0 (pcm_s16le)
+Press [q] to stop, [?] for help
+Output #0, wav, to 'didiDaga.wav':
+  Metadata:
+    ISFT            : Lavf59.27.100
+  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 44100 Hz, stereo, s16, 1411 kb/s
+    Metadata:
+      encoder         : Lavc59.37.100 pcm_s16le
+size=       4kB time=00:00:00.02 bitrate=1438.1kbits/s speed=11.6x    size=     320kB time=00:00:01.85 bitrate=1411.5kbits/s speed= 232x    
+video:0kB audio:320kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.023824%
