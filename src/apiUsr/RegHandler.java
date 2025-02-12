@@ -23,7 +23,7 @@ import static util.util2026.*;
 @Component
 //  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
 // 自定义的请求处理器
-public class RegHandler extends BaseHdr implements HttpHandler {
+public class RegHandler extends BaseHdr   {
 
 
     /**
@@ -70,7 +70,7 @@ public class RegHandler extends BaseHdr implements HttpHandler {
 
 
         u.id = u.uname;
-        reg(u);
+     //   reg(u);
        new RegHandler(). testAop(88888);
     }
 
@@ -81,7 +81,7 @@ public class RegHandler extends BaseHdr implements HttpHandler {
 
     public static boolean ovrwtest = false;
 
-    public static String reg(Usr user) throws Exception, existUserEx {
+    public   String reg(Usr user) throws Exception, existUserEx {
 
         System.out.println("▶\uFE0Ffun "+getCurrentMethodName()+"(u="+encodeJsonObj(user));
         if (existUser(user)) {

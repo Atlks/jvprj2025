@@ -16,13 +16,17 @@ import static java.io.IO.println;
 @Component
 public class MyAspect {
 
-    @Before("execution(* *.*(..))")
+
+
+    //拦截所有类的所有方法，（包括静态方法，动态方法）   不能拦截所有方法，  匹配所有方法（包括 Solon 框架内部的方法），可能导致 AOP 失效或行为异常。
+
+    @Before("execution(* apiUsr..*(..))") // 只拦截 `apiUsr` 包下的所有方法
     public  void before(JoinPoint joinPoint ) {
         println("Before method: ${joinPoint.signature.name}");
     }
     //execution(<访问修饰符> <返回类型> <类名>.<方法名>(<参数类型>))
     // 对所有类的静态方法进行拦截
-    @Around("execution(* apiUsr.*.*(..))")
+    @Around("execution(* *.*(..))")
     public Object logMethodParameters(ProceedingJoinPoint joinPoint) throws Throwable {
         // 获取方法名
         String methodName = joinPoint.getSignature().getName();
@@ -37,6 +41,10 @@ public class MyAspect {
         // 执行方法并返回结果
         return joinPoint.proceed();
     }
+
+
+    //  @Before("execution(* *.*(..))")
+    //   @Around("execution(* apiUsr.RegHandler.handle(..))") // 只拦截 RegHandler.handle()
 
 //    @Before("execution(public static * com.example.MyClass.myStaticMethod(..))")
 //    public void beforeStaticMethod(JoinPoint joinPoint) {

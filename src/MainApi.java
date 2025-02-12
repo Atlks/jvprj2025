@@ -9,6 +9,8 @@ import apiUsr.RegHandler;
 import apiUsr.UserCentrHdr;
 import apis.*;
 import com.sun.net.httpserver.HttpServer;
+import org.noear.solon.annotation.SolonMain;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -16,7 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static apis.BaseHdr.iniCfgFrmCfgfile;
-
+@SolonMain
+@ComponentScan("apiUsr")
 public class MainApi {
     public static void main(String[] args) throws IOException {
 

@@ -6,6 +6,7 @@ import apiUsr.*;
 import apiWltYinli.WithdrawHdr;
 import biz.BaseBiz;
 import com.alibaba.fastjson2.JSON;
+import org.noear.solon.annotation.Component;
 import test.UserBiz;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -24,7 +25,7 @@ import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
 import static util.Util2025.encodeJson;
 
 import static util.util2026.*;
-
+@Component
 public abstract class BaseHdr implements HttpHandler {
     //wz qrystr
     public static ThreadLocal<String> curUrl =new ThreadLocal<>();
