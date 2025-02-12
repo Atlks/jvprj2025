@@ -97,7 +97,35 @@
                 <version>6.2.1</version>
             </dependency>
 
+        <!-- Spring AOP依赖 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>6.2.1</version> <!-- 使用Spring 6.x版本 -->
+        </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.noear/solon -->
+        <dependency>
+            <groupId>org.noear</groupId>
+            <artifactId>solon</artifactId>
+            <version>2.9.4</version>
+        </dependency>
+
+
+        <!-- AspectJ依赖（用于增强AOP的功能） -->
+        <!-- AspectJ 依赖 -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.9.1</version>
+        </dependency>
+
+        <!-- Spring Context依赖（确保@Component工作正常） -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>6.2.1</version> <!-- 确保版本一致 -->
+        </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>

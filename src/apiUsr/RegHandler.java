@@ -4,6 +4,7 @@ import apis.BaseHdr;
 import biz.existUserEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.noear.solon.annotation.Component;
 import utilBiz.OrmUtilBiz;
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ import static util.Util2025.encodeJsonObj;
 import static util.dbutil.*;
 import static util.util2026.*;
 
-
+@Component
 //  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
 // 自定义的请求处理器
 public class RegHandler extends BaseHdr implements HttpHandler {
@@ -70,6 +71,11 @@ public class RegHandler extends BaseHdr implements HttpHandler {
 
         u.id = u.uname;
         reg(u);
+       new RegHandler(). testAop(88888);
+    }
+
+    public   void testAop(int i) {
+        System.out.println(i);
     }
 
 
