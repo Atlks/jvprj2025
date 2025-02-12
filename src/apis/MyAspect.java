@@ -1,3 +1,6 @@
+
+//  MyAspect.java
+
 package apis;
 
 import org.aspectj.lang.JoinPoint;
@@ -25,8 +28,8 @@ public class MyAspect {
         println("Before method: ${joinPoint.signature.name}");
     }
     //execution(<访问修饰符> <返回类型> <类名>.<方法名>(<参数类型>))
-    // 对所有类的静态方法进行拦截
-    @Around("execution(* *.*(..))")
+    // 对apiusr包下边所有类的方法进行拦截
+    @Around("execution(* apiUsr..*.*(..))")
     public Object logMethodParameters(ProceedingJoinPoint joinPoint) throws Throwable {
         // 获取方法名
         String methodName = joinPoint.getSignature().getName();

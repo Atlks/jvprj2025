@@ -1,16 +1,21 @@
+//RegHandler.java
+
 package apiUsr;
 
 import apis.BaseHdr;
 import biz.existUserEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.noear.solon.annotation.Bean;
 import org.noear.solon.annotation.Component;
+import org.noear.solon.annotation.Inject;
 import utilBiz.OrmUtilBiz;
 
 import java.io.IOException;
 
 
 import static apis.BaseHdr.iniCfgFrmCfgfile;
+import static util.AopUtil.invokeMethod2025;
 import static util.EncodeUtil.encodeMd5;
 
 
@@ -25,7 +30,10 @@ import static util.util2026.*;
 // 自定义的请求处理器
 public class RegHandler extends BaseHdr   {
 
-
+  //  @Bean
+    public RegHandler() { // 确保它是 Solon 代理的 Bean
+        System.out.println("RegHandler 已创建");
+    }
     /**
      * @param exchange
      * @throws Exception
@@ -46,10 +54,13 @@ public class RegHandler extends BaseHdr   {
         u.id = uname;
         String responseTxt = "";
 
-        responseTxt = reg(u);
+     //   invokeMethod2025(this,"reg",u);
+        responseTxt=  reg(u);
         wrtResp(exchange, responseTxt);
 
     }
+
+
 
     public static void main(String[] args) throws Exception, existUserEx {
         iniCfgFrmCfgfile();
@@ -132,7 +143,7 @@ public class RegHandler extends BaseHdr   {
 //    }
 
 
-    public static boolean existUser(Usr user) throws Exception {
+    public   boolean existUser(Usr user) throws Exception {
         return existUser(user.uname);
     }
 
@@ -145,7 +156,7 @@ public class RegHandler extends BaseHdr   {
         // record 自动生成构造函数、getters、equals、hashCode 和 toString 方法
     }
 
-    public static boolean existUser(String uname) throws Exception {
+    public   boolean existUser(String uname) throws Exception {
 
         //    Usr jo = getObjById(uname, saveDirUsrs, Usr.class);
 
