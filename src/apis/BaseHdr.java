@@ -58,6 +58,8 @@ public abstract class BaseHdr implements HttpHandler {
 
             System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
             handle2(exchange);
+            System.out.println("endfun handle2()");
+            System.out.println("endfun handle()");
 
         }
 //        } catch (jakarta.persistence.NoResultException e) {

@@ -12,7 +12,7 @@
 	},
 	"localizedMessage":"存在用户",
 	"message":"存在用户",
-	"stackTrace":"biz.existUserEx: 存在用户\r\n\tat apiUsr.RegHandler.reg(RegHandler.java:91)\r\n\tat apiUsr.RegHandler.handle2(RegHandler.java:49)\r\n\tat apis.BaseHdr.handle(BaseHdr.java:60)\r\n\tat test.TestRegKt.main(testReg.kt:41)\r\n\tat test.TestRegKt.main(testReg.kt)\r\n",
+	"stackTrace":"biz.existUserEx: 存在用户\r\n\tat apiUsr.RegHandler.reg(RegHandler.java:91)\r\n\tat apiUsr.RegHandler.handle2(RegHandler.java:49)\r\n\tat apis.BaseHdr.handle(BaseHdr.java:60)\r\n\tat test.TestRegKt.main(testReg.kt:23)\r\n\tat test.TestRegKt.main(testReg.kt)\r\n",
 	"suppressed":[
 		
 	]
