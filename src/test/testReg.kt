@@ -15,7 +15,7 @@ fun main() {
     // println(RegHandler::class)
     BaseHdr.iniCfgFrmCfgfile()
     //  StaticMethodAOP. enhanceClass(RegHandler::class.toString());
-    val he: HttpExchange = HttpExchangeImp("http://localhost:8889/reg?uname=qq&pwd=ppp", "uname=0091", "output2025.txt")
+    val he: HttpExchange = HttpExchangeImp("http://localhost:8889/reg?uname=qq1&pwd=ppp", "uname=0091", "output2025.txt")
     //  val Object1 = RegHandler()
 
 

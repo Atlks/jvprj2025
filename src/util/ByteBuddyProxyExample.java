@@ -30,6 +30,9 @@ public class ByteBuddyProxyExample {
 
               //  .method(ElementMatchers.not(declaredBy))  // Avoid Object methods like clone, toString, etc.
                 .intercept(MethodDelegation.to(new MethodInterceptor()))  // 拦截方法调用
+
+                .method(ElementMatchers.named("reg"))
+                .intercept(MethodDelegation.to(new MethodInterceptor()))  //
                 .make()
                 .load(clazz.getClassLoader())  // 使用类加载器加载代理类
                 .getLoaded()  // 获取代理类
@@ -46,7 +49,7 @@ public class ByteBuddyProxyExample {
                                  @AllArguments Object[] args) throws Exception {
          //   System.out.println("Before method");
          //   Method method=null;
-            System.out.println("fun " + method.getName());
+            System.out.println("!fun " + method.getName());
             try {
                 // 你可以选择在这里调用原始方法
                 // return superCall.call();  // Call the original method
@@ -55,7 +58,7 @@ public class ByteBuddyProxyExample {
                 e.printStackTrace();
                 throw  e;
             } finally {
-               System.out.println("endfun " + method.getName());
+               System.out.println("!!endfun " + method.getName());
             }
         }
     }
