@@ -124,23 +124,25 @@ public class util2026 {
      */
     /**
      * 获取方法名称，兼容实例方法
-     * @param methodRef
+
      * @return
      * @param <T>
      * @param <R>
      */
-    public static <T, R> String nameofSingleParam(Function<T, R> methodRef) {
+    public static <T, R> String nameofSingleParam(Function<T, R> function) {
         try {
-            // 获取SerializedLambda对象
-            Method method = methodRef.getClass().getDeclaredMethod("writeReplace");
-            method.setAccessible(true);  // 设置可访问性
-            SerializedLambda lambda = (SerializedLambda) method.invoke(methodRef);
+            // 获取 SerializedLambda
+            Method writeReplace = function.getClass().getDeclaredMethod("writeReplace");
+            writeReplace.setAccessible(true);
+            SerializedLambda serializedLambda = (SerializedLambda) writeReplace.invoke(function);
 
-            // 获取方法名称
-            return lambda.getImplMethodName();
+            // 获取方法名
+            String implMethodName = serializedLambda.getImplMethodName();
+
+            return implMethodName;
         } catch (Exception e) {
             e.printStackTrace();
-            return "UnknownMethod";
+            return null;
         }
     }
 

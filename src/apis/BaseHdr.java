@@ -31,6 +31,8 @@ public abstract class BaseHdr implements HttpHandler {
     //wz qrystr
     public static ThreadLocal<String> curUrl = new ThreadLocal<>();
     public static ThreadLocal<String> curUrlPrm = new ThreadLocal<>();
+    public static ThreadLocal<String> curFun4dbg = new ThreadLocal<>();
+
     public static ThreadLocal<Object> currFunPrms4dbg = new ThreadLocal<>();
 
     @Override
@@ -39,6 +41,8 @@ public abstract class BaseHdr implements HttpHandler {
         curUrl.set(encodeJson(exchange.getRequestURI()));
         System.out.println("▶\uFE0Ffun handle(url=" + exchange.getRequestURI());
         //   curUrlPrm.set(exchange.getrequ);
+
+        ExceptionBase ex = new ExceptionBase("");
         try {
             setcookie("uname", "007", exchange);//for test
 
@@ -63,50 +67,64 @@ public abstract class BaseHdr implements HttpHandler {
             System.out.println("endfun handle2()");
             System.out.println("endfun handle()");
 
-        }
-//        } catch (jakarta.persistence.NoResultException e) {
-//            ExceptionBase ex = new ExceptionBase(e.getMessage());
-//            ex.cause=e;
-//            ex.
-//        }
+        } catch (java.lang.reflect.InvocationTargetException e) {
+            ex = new ExceptionBase(e.getMessage());
+            ex.cause = e;
+            Throwable cause = e.getCause();
+          
+            ex.errcode = cause.getClass().getName();
+            ex.errmsg=e.getCause().getMessage();
+            String stackTraceAsString = getStackTraceAsString(e);
+            ex.stackTrace = stackTraceAsString;
 
-        catch (Throwable e) {
-            //  e.getStackTrace()
-            // e.printStackTrace();
+        } catch (Throwable e) {
+
             System.out.println(
                     "⚠\uFE0F e="
                             + e.getMessage() + "\nStackTrace="
                             + getStackTraceAsString(e)
                             + "\n end stacktrace......................"
             );
-            //nml err
-            ExceptionBase ex = new ExceptionBase(e.getMessage());
 
 
             //my throw ex.incld funprm
             if (e instanceof ExceptionBase) {
                 ex = (ExceptionBase) e;
                 ex.errcode = e.getClass().getName();
+                String stackTraceAsString = getStackTraceAsString(e);
+                ex.stackTrace = stackTraceAsString;
+
             } else {
-                //cvt to cstm ex
+                //nml err
                 ex = new ExceptionBase(e.getMessage());
+
+                //cvt to cstm ex
+                String message = e.getMessage();
+                ex = new ExceptionBase(message);
                 ex.cause = e;
                 ex.errcode = e.getClass().getName();
-                ex.funPrm = currFunPrms4dbg.get();
-                ex.url = curUrl.get();
-                ex.urlprm = curUrlPrm.get();
+                String stackTraceAsString = getStackTraceAsString(e);
+                ex.stackTrace = stackTraceAsString;
             }
 
-            String stackTraceAsString = getStackTraceAsString(e);
-            ex.stackTrace = stackTraceAsString;
-            String responseTxt = encodeJson(ex);
-            System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
-            wrtRespErr(exchange, responseTxt);
+
+
 
 
             // throw new RuntimeException(e);
 
         }
+        //end catch
+
+       //ex.fun  from stacktrace
+        ex.fun=curFun4dbg.get();
+        ex.funPrm = currFunPrms4dbg.get();
+        ex.url = curUrl.get();
+        ex.urlprm = curUrlPrm.get();
+
+        String responseTxt = encodeJson(ex);
+        System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
+        wrtRespErr(exchange, responseTxt);
     }
 
     private static final Set<String> NO_AUTH_PATHS = Set.of("/reg", "/login");

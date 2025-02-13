@@ -3,6 +3,8 @@ package util;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import static apis.BaseHdr.curFun4dbg;
+import static apis.BaseHdr.currFunPrms4dbg;
 import static util.Util2025.encodeJson;
 
 public class AopUtil {
@@ -18,6 +20,8 @@ public class AopUtil {
     public static Object invokeMethod2025(Object object, String methodName, Object... objs) throws  Exception {
         try {
             System.out.println("▶\uFE0Ffun "+methodName+"("+encodeJson(objs));
+            curFun4dbg.set(methodName);
+            currFunPrms4dbg.set(objs);
             // Get the class type of the object
             Class<?> clazz = object.getClass();
 
