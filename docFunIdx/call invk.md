@@ -1,3 +1,11 @@
+
+trace ivk chin,,, aop  
+
+    reg4bzRzt= (String) invokeMethod2025(this,"reg4bz",u);
+
+
+
+
 package util;
 
 import java.lang.reflect.InvocationTargetException;

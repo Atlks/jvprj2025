@@ -5,23 +5,17 @@ package apiUsr;
 import apis.BaseHdr;
 import biz.existUserEx;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import org.noear.solon.annotation.Bean;
 import org.noear.solon.annotation.Component;
-import org.noear.solon.annotation.Inject;
+import util.util2026;
 import utilBiz.OrmUtilBiz;
 
-import java.io.IOException;
 
+import java.util.function.Function;
 
-import static apis.BaseHdr.iniCfgFrmCfgfile;
 import static util.AopUtil.invokeMethod2025;
 import static util.EncodeUtil.encodeMd5;
 
 
-import static util.HbntUtil.openSession;
-import static util.Util2025.encodeJson;
-import static util.Util2025.encodeJsonObj;
 import static util.dbutil.*;
 import static util.util2026.*;
 
@@ -52,13 +46,29 @@ public class RegHandler extends BaseHdr   {
         u.pwd = pwd;
         u.invtr = invtr;
         u.id = uname;
-        String responseTxt = "";
+        String reg4bzRzt = "";
 
-     //   invokeMethod2025(this,"reg",u);
-        responseTxt=  reg(u);
-        wrtResp(exchange, responseTxt);
+
+       // reg4bzRzt=  reg4bz(u);   // 自动获取方法名
+        // 创建实例
+        RegHandler handler = new RegHandler();
+        // 自定义异常处理的函数接口
+        Function<Usr, String> methodRef = user -> {
+            try {
+                return handler.reg4bz(user);  // 调用 reg4bz 方法并处理异常
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null; // 或者返回默认值
+            }
+        };
+      //   Function<Usr, String> methodRef = handler::reg4bz;
+        String methodName = nameofSingleParam(methodRef);
+        reg4bzRzt= (String) invokeMethod2025(this, methodName,u);
+        System.out.println("reg4bzRzt="+reg4bzRzt);
+        wrtResp(exchange, reg4bzRzt);
 
     }
+
 
 
 
@@ -92,9 +102,9 @@ public class RegHandler extends BaseHdr   {
 
     public static boolean ovrwtest = false;
 
-    public   String reg(Usr user) throws Exception, existUserEx {
-
-        System.out.println("▶\uFE0Ffun "+getCurrentMethodName()+"(u="+encodeJsonObj(user));
+    public   String reg4bz(Usr user) throws Exception, existUserEx {
+       // System.out.println("fun reg4bz");
+      //  System.out.println("▶\uFE0Ffun "+getCurrentMethodName()+"(u="+encodeJsonObj(user));
         if (existUser(user)) {
             if (ovrwtest) {
             } else {

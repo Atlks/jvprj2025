@@ -24,8 +24,8 @@ fun main() {
   //  val proxy = CGLIBProxyExample.getProxyObj(RegHandler::class.java)
     val proxy =   ByteBuddyProxyExample.createProxy(RegHandler::class.java)
     println("aopClass="+proxy.javaClass.name)
-        proxy.handle(he)
-  //    RegHandler().handle(he)
+   //     proxy.handle(he)
+      RegHandler().handle(he)
 }
 
 fun main22() {

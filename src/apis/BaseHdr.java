@@ -25,18 +25,20 @@ import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
 import static util.Util2025.encodeJson;
 
 import static util.util2026.*;
+
 @Component
 public abstract class BaseHdr implements HttpHandler {
     //wz qrystr
-    public static ThreadLocal<String> curUrl =new ThreadLocal<>();
-    public static ThreadLocal<String> curUrlPrm =new ThreadLocal<>();
-    public static ThreadLocal<Object> currFunPrms4dbg =new ThreadLocal<>();
+    public static ThreadLocal<String> curUrl = new ThreadLocal<>();
+    public static ThreadLocal<String> curUrlPrm = new ThreadLocal<>();
+    public static ThreadLocal<Object> currFunPrms4dbg = new ThreadLocal<>();
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         //wz qrystr
-       curUrl.set(encodeJson(exchange.getRequestURI()));
-        System.out.println("▶\uFE0Ffun handle(url="+exchange.getRequestURI());
-    //   curUrlPrm.set(exchange.getrequ);
+        curUrl.set(encodeJson(exchange.getRequestURI()));
+        System.out.println("▶\uFE0Ffun handle(url=" + exchange.getRequestURI());
+        //   curUrlPrm.set(exchange.getrequ);
         try {
             setcookie("uname", "007", exchange);//for test
 
@@ -70,8 +72,13 @@ public abstract class BaseHdr implements HttpHandler {
 
         catch (Throwable e) {
             //  e.getStackTrace()
-           // e.printStackTrace();
-
+            // e.printStackTrace();
+            System.out.println(
+                    "⚠\uFE0F e="
+                            + e.getMessage() + "\nStackTrace="
+                            + getStackTraceAsString(e)
+                            + "\n end stacktrace......................"
+            );
             //nml err
             ExceptionBase ex = new ExceptionBase(e.getMessage());
 
@@ -79,20 +86,21 @@ public abstract class BaseHdr implements HttpHandler {
             //my throw ex.incld funprm
             if (e instanceof ExceptionBase) {
                 ex = (ExceptionBase) e;
-                ex.errcode=e.getClass().getName();
-            }else {
+                ex.errcode = e.getClass().getName();
+            } else {
+                //cvt to cstm ex
                 ex = new ExceptionBase(e.getMessage());
-                ex.cause=e;
-                ex.errcode=e.getClass().getName();
-                ex.funPrm=currFunPrms4dbg.get();
-                ex.url=curUrl.get();
-                ex.urlprm=curUrlPrm.get();
+                ex.cause = e;
+                ex.errcode = e.getClass().getName();
+                ex.funPrm = currFunPrms4dbg.get();
+                ex.url = curUrl.get();
+                ex.urlprm = curUrlPrm.get();
             }
 
             String stackTraceAsString = getStackTraceAsString(e);
             ex.stackTrace = stackTraceAsString;
             String responseTxt = encodeJson(ex);
-            System.out.println("rsps="+responseTxt);
+            System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
             wrtRespErr(exchange, responseTxt);
 
 
@@ -100,11 +108,14 @@ public abstract class BaseHdr implements HttpHandler {
 
         }
     }
+
     private static final Set<String> NO_AUTH_PATHS = Set.of("/reg", "/login");
+
     /**
      * 判断是否需要登录的url    。。格式为  /reg
+     *
      * @param requestURI
-     * @return   * @return `true` 需要登录，`false` 不需要登录
+     * @return * @return `true` 需要登录，`false` 不需要登录
      */
     private boolean needLoginAuth(URI requestURI) {
         String path = requestURI.getPath(); // 只取路径部分，不包括查询参数

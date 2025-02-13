@@ -4,16 +4,20 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.*;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.HttpCookie;
-import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static util.ToXX.parseQueryParams;
-import static util.ToXX.toObjFrmMap;
 
 public class util2026 {
 
@@ -104,6 +108,53 @@ public class util2026 {
         return now.format(formatter);
     }
 
+    /**
+     * 获取方法名称，，兼容实例方法
+     * @param methodRef
+     * @return
+     * @param <T>
+     * @param <R>
+     */
+    public static <T, R> String nameofSingleParam(Function<T, R> methodRef) {
+        try {
+            // 获取方法引用指向的目标方法
+            Method method = ((Method) methodRef.getClass().getDeclaredMethods()[0]);
+
+            // 返回方法的名称
+            return method.getName();
+        } catch (Exception e) {
+            throw new RuntimeException("无法解析方法名称", e);
+        }
+    }
+
+//    public static <T, R> String nameofSnglPrm(Function<T, R> methodRef) {
+//        try {
+//            Method method = methodRef.getClass().getDeclaredMethod("writeReplace");
+//            method.setAccessible(true);
+//            SerializedLambda lambda = (SerializedLambda) method.invoke(methodRef);
+//            return lambda.getImplMethodName();
+//        } catch (Exception e) {
+//            throw new RuntimeException("无法解析方法名称", e);
+//        }
+//    }
+    public static <T> String nameofSnglPrmV2(Consumer<T> methodRef) {
+        try {
+            Method method = MethodHandles.lookup()
+                    .revealDirect((MethodHandle) methodRef)
+                    .reflectAs(Method.class, MethodHandles.lookup());
+            return method.getName();
+        } catch (Exception e) {
+            throw new RuntimeException("无法获取方法名称", e);
+        }
+    }
+    public static String nameof(Function<?, ?> methodRef) {
+        try {
+            Method method = methodRef.getClass().getDeclaredMethods()[0];
+            return method.getName();
+        } catch (Exception e) {
+            throw new RuntimeException("无法获取方法名称", e);
+        }
+    }
     /**
      * 将异常的堆栈跟踪转换为字符串
      *
@@ -378,6 +429,8 @@ public class util2026 {
 
 
     public static void wrtResp(HttpExchange exchange, String responseTxt) throws IOException {
+      if( responseTxt==null)
+          responseTxt="";
         exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=utf-8");
         exchange.sendResponseHeaders(200, responseTxt.getBytes().length);
         OutputStream os = exchange.getResponseBody();
@@ -412,7 +465,6 @@ public class util2026 {
        return  parseQueryParams(exchange.getRequestURI());
                //getRequestParameters(exchange.getRequestURI());
     }
-
 
 
 
