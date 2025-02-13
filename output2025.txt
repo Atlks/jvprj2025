@@ -1,7 +1,7 @@
 {
 	"cause":{
-		"localizedMessage":"apiUsr.RegHandler.apply(apiUsr.Usr)",
-		"message":"apiUsr.RegHandler.apply(apiUsr.Usr)",
+		"localizedMessage":"apiUsr.RegHandler.UnknownMethod(apiUsr.Usr)",
+		"message":"apiUsr.RegHandler.UnknownMethod(apiUsr.Usr)",
 		"stackTrace":[
 			{
 				"fileName":"Class.java",
@@ -17,7 +17,7 @@
 			},
 			{
 				"fileName":"RegHandler.java",
-				"lineNumber":66,
+				"lineNumber":67,
 				"className":"apiUsr.RegHandler",
 				"methodName":"handle2"
 			},
@@ -45,13 +45,13 @@
 		]
 	},
 	"errcode":"java.lang.NoSuchMethodException",
-	"errmsg":"apiUsr.RegHandler.apply(apiUsr.Usr)",
+	"errmsg":"apiUsr.RegHandler.UnknownMethod(apiUsr.Usr)",
 	"extraData":{
 		
 	},
-	"localizedMessage":"apiUsr.RegHandler.apply(apiUsr.Usr)",
-	"message":"apiUsr.RegHandler.apply(apiUsr.Usr)",
-	"stackTrace":"java.lang.NoSuchMethodException: apiUsr.RegHandler.apply(apiUsr.Usr)\r\n\tat java.base/java.lang.Class.getMethod(Class.java:2454)\r\n\tat util.AopUtil.invokeMethod2025(AopUtil.java:31)\r\n\tat apiUsr.RegHandler.handle2(RegHandler.java:66)\r\n\tat apis.BaseHdr.handle(BaseHdr.java:62)\r\n\tat test.TestRegKt.main(testReg.kt:28)\r\n\tat test.TestRegKt.main(testReg.kt)\r\n",
+	"localizedMessage":"apiUsr.RegHandler.UnknownMethod(apiUsr.Usr)",
+	"message":"apiUsr.RegHandler.UnknownMethod(apiUsr.Usr)",
+	"stackTrace":"java.lang.NoSuchMethodException: apiUsr.RegHandler.UnknownMethod(apiUsr.Usr)\r\n\tat java.base/java.lang.Class.getMethod(Class.java:2454)\r\n\tat util.AopUtil.invokeMethod2025(AopUtil.java:31)\r\n\tat apiUsr.RegHandler.handle2(RegHandler.java:67)\r\n\tat apis.BaseHdr.handle(BaseHdr.java:62)\r\n\tat test.TestRegKt.main(testReg.kt:28)\r\n\tat test.TestRegKt.main(testReg.kt)\r\n",
 	"suppressed":[
 		
 	],

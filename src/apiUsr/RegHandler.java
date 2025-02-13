@@ -50,11 +50,12 @@ public class RegHandler extends BaseHdr   {
 
 
        // reg4bzRzt=  reg4bz(u);   // 自动获取方法名
-        // 创建实例
-        RegHandler handler = new RegHandler();
+
         // 自定义异常处理的函数接口
         Function<Usr, String> methodRef = user -> {
             try {
+                // 创建实例
+                RegHandler handler = new RegHandler();
                 return handler.reg4bz(user);  // 调用 reg4bz 方法并处理异常
             } catch (Exception e) {
                 e.printStackTrace();

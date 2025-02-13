@@ -115,15 +115,32 @@ public class util2026 {
      * @param <T>
      * @param <R>
      */
+    /**
+     * 获取方法名称，兼容实例方法
+     * @param methodRef
+     * @return
+     * @param <T>
+     * @param <R>
+     */
+    /**
+     * 获取方法名称，兼容实例方法
+     * @param methodRef
+     * @return
+     * @param <T>
+     * @param <R>
+     */
     public static <T, R> String nameofSingleParam(Function<T, R> methodRef) {
         try {
-            // 获取方法引用指向的目标方法
-            Method method = ((Method) methodRef.getClass().getDeclaredMethods()[0]);
+            // 获取SerializedLambda对象
+            Method method = methodRef.getClass().getDeclaredMethod("writeReplace");
+            method.setAccessible(true);  // 设置可访问性
+            SerializedLambda lambda = (SerializedLambda) method.invoke(methodRef);
 
-            // 返回方法的名称
-            return method.getName();
+            // 获取方法名称
+            return lambda.getImplMethodName();
         } catch (Exception e) {
-            throw new RuntimeException("无法解析方法名称", e);
+            e.printStackTrace();
+            return "UnknownMethod";
         }
     }
 
