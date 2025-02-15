@@ -441,8 +441,14 @@ public class util2026 {
         exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=utf-8");
         exchange.sendResponseHeaders(500, responseTxt.getBytes().length);
         OutputStream os = exchange.getResponseBody();
-        os.write(responseTxt.getBytes());
-        os.close();
+
+        try{
+            os.write(responseTxt.getBytes());
+            os.close();
+        } catch (IOException e) {
+            System.out.println("warning::"+e.getMessage());
+        }
+
     }
 
 
