@@ -64,7 +64,8 @@ public class RegHandler extends BaseHdr   {
         };
       //   Function<Usr, String> methodRef = handler::reg4bz;
      //   String methodName = nameofSingleParam(methodRef);
-        reg4bzRzt= (String) invokeMethod2025(this, "reg4bz",u);
+      //  reg4bzRzt= (String) invokeMethod2025(this, "reg4bz",u);
+        reg4bzRzt=reg4bz(u);
         System.out.println("reg4bzRzt="+reg4bzRzt);
         wrtResp(exchange, reg4bzRzt);
 

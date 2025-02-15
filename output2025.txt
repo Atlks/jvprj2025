@@ -1,1 +1,0 @@
-util.ByteBuddyProxyExample$MethodInterceptor@42eca56e

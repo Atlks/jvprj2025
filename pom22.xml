@@ -55,19 +55,6 @@
     </repositories>
     <dependencies>
 
-
-        <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm</artifactId>
-            <version>9.7</version>  <!-- 确保是 9.5 以上 -->
-        </dependency>
-        <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm-commons</artifactId>
-            <version>9.7</version>
-        </dependency>
-
-
         <!-- JUnit 5 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -381,7 +368,8 @@
                     <target>21</target>
                     <release>21</release> <!-- Set your Java version -->
                     <compilerArgs>
-                     </compilerArgs>
+                       <!--   <arg> --  enable-preview</arg> Enable preview features -->
+                    </compilerArgs>
                 </configuration>
             </plugin>
 

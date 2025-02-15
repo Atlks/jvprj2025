@@ -31,8 +31,8 @@ public class ByteBuddyProxyExample {
                 //  .method(ElementMatchers.not(declaredBy))  // Avoid Object methods like clone, toString, etc.
                 .intercept(MethodDelegation.to(new MethodInterceptor()))  // 拦截方法调用
 
-                .method(ElementMatchers.named("reg"))
-                .intercept(MethodDelegation.to(new MethodInterceptor()))  //
+             //   .method(ElementMatchers.named("reg"))
+           //     .intercept(MethodDelegation.to(new MethodInterceptor()))  //
                 .make()
                 .load(clazz.getClassLoader())  // 使用类加载器加载代理类
                 .getLoaded()  // 获取代理类

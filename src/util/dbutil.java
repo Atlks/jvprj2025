@@ -1863,10 +1863,9 @@ public class dbutil {
 
         if (value instanceof String)
             return "text";
-        if (value instanceof int)
+        if (value instanceof Integer)  // int 应该用 Integer
             return "integer";
-
-        if (value instanceof long)
+        if (value instanceof Long)     // long 应该用 Long
             return "integer";
         if (value instanceof BigDecimal)
             return "real";

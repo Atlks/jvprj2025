@@ -10,11 +10,11 @@
         <module name="ormJpaAt" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="23" />
+    <bytecodeTargetLevel target="21" />
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="ormJpaAt" options="--enable-preview" />
+      <module name="ormJpaAt" options="" />
     </option>
   </component>
 </project>

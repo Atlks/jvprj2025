@@ -1,12 +1,14 @@
 //test .kt
 package test;
 
+//import MyProxyExample.MyProxyExample
 import apiUsr.RegHandler
 import apis.BaseHdr
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.noear.solon.Solon
 import org.noear.solon.core.AppContext
+import util.AOPASM
 import util.ByteBuddyProxyExample
 import util.HttpExchangeImp
 fun main() {
@@ -22,10 +24,20 @@ fun main() {
     // 创建目标对象
 
   //  val proxy = CGLIBProxyExample.getProxyObj(RegHandler::class.java)
-    val proxy =   ByteBuddyProxyExample.createProxy(RegHandler::class.java)
-    println("aopClass="+proxy.javaClass.name)
-       proxy.handle(he)
+//    val proxy =   ByteBuddyProxyExample.createProxy(RegHandler::class.java)
+//    println("aopClass="+proxy.javaClass.name)
+//       proxy.handle(he)
+//
+//    val proxy:RegHandler =   MyProxyExample.createProxy(RegHandler::class.java)
+//    println("aopClass="+proxy.javaClass.name)
+//    proxy.handle(he)
+
+  // AOPASM.invk(RegHandler::class.java,"handle",he);
     //  RegHandler().handle(he)
+    val proxy: RegHandler = AOPASM.createProxy(RegHandler::class.java) as RegHandler
+
+    println("aopClass="+proxy.javaClass.name)
+    proxy.handle(he)
 
     //cglib ver old too lold ,,use byte ubddy bttr
 //    val service: RegHandler = cglibProxy.createProxy<RegHandler>(RegHandler::class.java)
