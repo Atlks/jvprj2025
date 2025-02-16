@@ -11,7 +11,8 @@ import com.sun.net.httpserver.HttpHandler
 import org.noear.solon.Solon
 import org.noear.solon.core.AppContext
 import util.AOPASM
-import util.ByteBuddyProxyExample
+import util.AOPASM.customClassLoader
+import util.CustomClassLoader
 import util.ExceptionBase
 import util.HttpExchangeImp
 fun main() {
@@ -38,17 +39,35 @@ fun main() {
   // AOPASM.invk(RegHandler::class.java,"handle",he);
     //  RegHandler().handle(he)
  //   apis.BaseHdr
-    AOPASM.getClassMdfed(ExceptionBase::class.java)
-    AOPASM.getClassMdfed(existUserEx::class.java)
-    AOPASM.getClassMdfed(NeedLoginEx::class.java)
+    AOPASM.defineClassX(ExceptionBase::class.java)
+    AOPASM.defineClassX(existUserEx::class.java)
+    AOPASM.defineClassX(NeedLoginEx::class.java)
 
-    AOPASM.getClassMdfed(HttpHandler::class.java)
-    AOPASM.getClassMdfed(BaseHdr::class.java)
-    AOPASM.getClassMdfed(RegHandler::class.java)
-    val proxy: RegHandler = AOPASM.createProxy(RegHandler::class.java) as RegHandler
+    AOPASM.defineClassX(HttpHandler::class.java)
+    AOPASM.defineClassX(BaseHdr::class.java)
+    AOPASM.defineClassX(RegHandler::class.java)
+
+
+  //  var proxy = AOPASM.createProxy(RegHandler::class.java) as  RegHandler
+
+    val parentClassLoader = Thread.currentThread().contextClassLoader
+    println("targetClassClass currentThread Classlodr=$parentClassLoader")
+   // val parentClassLoader2: ClassLoader = targetClassClass.getClassLoader() // 用目标类的 ClassLoader
+    println("targetClassClass   Classlodr=$parentClassLoader")
+    if (customClassLoader == null) {
+        customClassLoader = CustomClassLoader(parentClassLoader)
+    }
+
+    val proxy = customClassLoader.loadClassx("apiUsr.RegHandler").getDeclaredConstructor().newInstance() as apiUsr.RegHandler
+
 
     println("aopClass="+proxy.javaClass.name)
-    proxy.handle(he)
+    println("classLoader="+proxy.javaClass.classLoader)
+    proxy.handle(he);
+   // println(customClassLoader)
+    //customClassLoader
+  //  proxy=proxy as customClassLoader.get
+
 
     //cglib ver old too lold ,,use byte ubddy bttr
 //    val service: RegHandler = cglibProxy.createProxy<RegHandler>(RegHandler::class.java)
