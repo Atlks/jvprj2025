@@ -58,7 +58,7 @@ fun main() {
         customClassLoader = CustomClassLoader(parentClassLoader)
     }
 
-    val proxy = customClassLoader.loadClassx("apiUsr.RegHandler").getDeclaredConstructor().newInstance() as apiUsr.RegHandler
+    val proxy = customClassLoader.loadClassx("apiUsr.RegHandler").getDeclaredConstructor().newInstance() as HttpHandler
 
 
     println("aopClass="+proxy.javaClass.name)

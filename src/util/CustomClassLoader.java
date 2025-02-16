@@ -75,9 +75,9 @@ public class CustomClassLoader extends ClassLoader {
         if (name.startsWith("java.") || name.startsWith("jdk.")) {
             return super.loadClass(name, resolve);
         }
-        if (name.startsWith("com.sun.") || name.startsWith("jdk.")) {
-            return super.loadClass(name, resolve);
-        }
+//        if (name.startsWith("com.sun.") || name.startsWith("jdk.")) {
+//            return super.loadClass(name, resolve);
+//        }
 
 // 如果是目标类，我们用自定义加载逻辑
     //    return  defineClass()
