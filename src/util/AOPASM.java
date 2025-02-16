@@ -145,7 +145,10 @@ public class AOPASM {
                     }
 
                     // 调用 toString() 转换为字符串
-                    MethodVisitor8.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;", false);
+                //    MethodVisitor8.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;", false);
+                    // 调用 encodeJson() 代替 toString()
+                    //  MethodVisitor8.visitMethodInsn(INVOKESTATIC, "你的类的全限定名",   "encodeJson"
+                    MethodVisitor8.visitMethodInsn(INVOKESTATIC, "util/Util2025", "encodeJson", "(Ljava/lang/Object;)Ljava/lang/String;", false);
 
                     // 追加到日志字符串
                     MethodVisitor8.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "concat", "(Ljava/lang/String;)Ljava/lang/String;", false);
@@ -159,16 +162,44 @@ public class AOPASM {
                 super.visitCode();
             }
 
+            // 输出函数返回值 ，  返回值 用 encodeJson编码，方便输出对象
+            //输出格式为  endfun methodName().ret=encodejson(returnVal)
             @Override
+
             public void visitInsn(int opcode) {
                 // 在方法返回之前插入日志（但不影响 return 语句）
                 if ((opcode >= IRETURN && opcode <= RETURN) || opcode == ATHROW) {
-                    MethodVisitor8.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-                    MethodVisitor8.visitLdcInsn("!!endfun " + name + " ");
-                    MethodVisitor8.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
+                    mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+
+                    // 处理非 void 方法的返回值
+                    if (opcode != RETURN) { // 说明方法有返回值
+                        // 复制返回值到栈顶，防止被消费（因为 `encodeJson` 调用后，原值会丢失）
+                        mv.visitInsn(DUP);
+
+                        // 调用 encodeJson 进行序列化
+                        mv.visitMethodInsn(INVOKESTATIC, "util/Util2025", "encodeJson", "(Ljava/lang/Object;)Ljava/lang/String;", false);
+                    } else {
+                        // void 方法，直接使用 "null" 作为返回值
+                        mv.visitLdcInsn("null");
+                    }
+
+                    // 先加载日志前缀 `!!endfun 方法名().ret= `
+                    mv.visitLdcInsn("!!endfun " + name + "().ret= ");
+
+                    // 交换栈顶顺序，确保 `!!endfun 方法名().ret= ` 先拼接，返回值在后
+                    mv.visitInsn(SWAP);
+
+                    // 拼接字符串
+                    mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "concat", "(Ljava/lang/String;)Ljava/lang/String;", false);
+
+                    // 输出日志
+                    mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
                 }
                 super.visitInsn(opcode);
             }
+
+
+
         };
         return methodVisitorAddLog;
     }

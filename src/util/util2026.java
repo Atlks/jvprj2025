@@ -18,8 +18,13 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import static util.ToXX.parseQueryParams;
+import static util.Util2025.encodeJson;
 
 public class util2026 {
+
+    public static void main(String[] args) {
+        System.out.println(encodeJson(11));
+    }
 
     static void removeFile(String fnamePath) {
         File file = new File(fnamePath);
