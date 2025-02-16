@@ -71,11 +71,21 @@ public abstract class BaseHdr implements HttpHandler {
             ex = new ExceptionBase(e.getMessage());
             ex.cause = e;
             Throwable cause = e.getCause();
-          
+
             ex.errcode = cause.getClass().getName();
             ex.errmsg=e.getCause().getMessage();
             String stackTraceAsString = getStackTraceAsString(e);
-            ex.stackTrace = stackTraceAsString;
+
+
+
+            ex.fun=curFun4dbg.get();
+            ex.funPrm = currFunPrms4dbg.get();
+            ex.url = curUrl.get();
+            ex.urlprm = curUrlPrm.get();
+
+            String responseTxt = encodeJson(ex);
+            System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
+            wrtRespErr(exchange, responseTxt);
 
         } catch (Throwable e) {
 
@@ -108,6 +118,15 @@ public abstract class BaseHdr implements HttpHandler {
             }
 
 
+            ex.fun=curFun4dbg.get();
+            ex.funPrm = currFunPrms4dbg.get();
+            ex.url = curUrl.get();
+            ex.urlprm = curUrlPrm.get();
+
+            String responseTxt = encodeJson(ex);
+            System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
+            wrtRespErr(exchange, responseTxt);
+
 
 
 
@@ -116,15 +135,9 @@ public abstract class BaseHdr implements HttpHandler {
         }
         //end catch
 
+        //not ex ,just all ok blk
        //ex.fun  from stacktrace
-        ex.fun=curFun4dbg.get();
-        ex.funPrm = currFunPrms4dbg.get();
-        ex.url = curUrl.get();
-        ex.urlprm = curUrlPrm.get();
 
-        String responseTxt = encodeJson(ex);
-        System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
-        wrtRespErr(exchange, responseTxt);
     }
 
     private static final Set<String> NO_AUTH_PATHS = Set.of("/reg", "/login");

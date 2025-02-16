@@ -15,13 +15,13 @@ import static util.CustomClassLoader.defineClassX;
 public class AOPASM {
     public static void main(String[] args) throws Exception {
         // 目标类的全限定类名（原始类）
-        Class<?> targetClassClass = TargetClass.class;
-        String mthName = "sayHello";
+//        Class<?> targetClassClass = TargetClass.class;
+//        String mthName = "sayHello";
 
         //invk(targetClassClass, mthName);
     }
 
-    public static Object createProxy(Class<?> targetClassClass ) throws Exception {
+    public static Object createProxy(Class<?> targetClassClass) throws Exception {
         // **如果是接口，直接返回 null**
         if (targetClassClass.isInterface()) {
             return null;
@@ -30,7 +30,7 @@ public class AOPASM {
         Class<?> modifiedClass = defineClassX(targetClassClass);
 
         Object instance = getObject(modifiedClass);
-        return  instance;
+        return instance;
 
         //        Object instance = modifiedClass.getDeclaredConstructor().newInstance();
     }
@@ -62,7 +62,8 @@ public class AOPASM {
 //
 //        Constructor<?> constructor = modifiedClass.getDeclaredConstructor();
 //        constructor.setAccessible(true); // 允许访问私有或默认构造器
-////        Object instance = modifiedClass.getDeclaredConstructor().newInstance();
+
+    /// /        Object instance = modifiedClass.getDeclaredConstructor().newInstance();
 //        Object instance =constructor.newInstance();
 //
 //        // 4. 通过反射调用方法，验证是否打印日志
@@ -84,13 +85,11 @@ public class AOPASM {
             @Override
             public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
 
-                if(name.equals("reg4bz"))
-
-                {
+                if (name.equals("reg4bz")) {
                     System.out.println("Dbg");
-                  //  (LapiUsr/Usr;)Ljava/lang/String;
+                    //  (LapiUsr/Usr;)Ljava/lang/String;
                     //说明 参数是usr,fanhuizhi str
-                 }
+                }
                 MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
 
                 // 过滤掉构造方法和 Object 的方法
@@ -100,23 +99,39 @@ public class AOPASM {
                         public void visitCode() {
 
                             System.out.println(" fun vist code()");
-                            System.out.println("name="+name);
-                            System.out.println("emthd descriptor="+descriptor);
+                            System.out.println("name=" + name);
+                            System.out.println("emthd descriptor=" + descriptor);
                             // 方法执行前：System.out.println("Method " + name + " start");
                             mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
                             mv.visitLdcInsn("!fun " + name + " (");
 
                             // 处理参数（拼接字符串） argumentTypes=usr is ok
                             Type[] argumentTypes = Type.getArgumentTypes(descriptor);
+
+                            // 计算参数起始索引
+                            boolean isStatic = (access & Opcodes.ACC_STATIC) != 0;
+                            int paramIndex = isStatic ? 0 : 1;  // 非静态方法参数从1开始，静态方法从0开始
+
                             for (int i = 0; i < argumentTypes.length; i++) {
-                                // 访问局部变量（方法参数从索引 0 开始）
-                                mv.visitVarInsn(ALOAD, i);
-                             //   对 Object 调用 toString() 转换为字符串
+                                Type type = argumentTypes[i];
+
+                                if (type.getSort() >= Type.BOOLEAN && type.getSort() <= Type.DOUBLE) {
+                                    // 处理基本类型（int, boolean, long, double等）
+                                    boxPrimitive(type, paramIndex, mv);
+                                } else {
+                                    // 处理对象类型
+                                    mv.visitVarInsn(ALOAD, paramIndex);
+                                }
+
+                                // 调用 toString() 转换为字符串
                                 mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;", false);
 
-                                // 拼接参数   使用 concat() 拼接到日志信息中
+                                // 追加到日志字符串
                                 mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "concat", "(Ljava/lang/String;)Ljava/lang/String;", false);
+
+                                paramIndex += type.getSize(); // long 和 double 需要占2个槽
                             }
+
 
                             mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
                             System.out.println(" endfun vist code()");
@@ -149,15 +164,53 @@ public class AOPASM {
                 name.equals("getClass") || name.equals("notify") || name.equals("notifyAll") || name.equals("wait");
     }
 
+    /**
+     * 处理基本类型的装箱 (Boxing primitive types to Object)
+     */
+    private static void boxPrimitive(Type type, int index, MethodVisitor mv) {
+        switch (type.getSort()) {
+            case Type.INT:
+                mv.visitVarInsn(ILOAD, index);
+                mv.visitMethodInsn(INVOKESTATIC, "java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;", false);
+                break;
+            case Type.BOOLEAN:
+                mv.visitVarInsn(ILOAD, index);
+                mv.visitMethodInsn(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false);
+                break;
+            case Type.LONG:
+                mv.visitVarInsn(LLOAD, index);
+                mv.visitMethodInsn(INVOKESTATIC, "java/lang/Long", "valueOf", "(J)Ljava/lang/Long;", false);
+                break;
+            case Type.DOUBLE:
+                mv.visitVarInsn(DLOAD, index);
+                mv.visitMethodInsn(INVOKESTATIC, "java/lang/Double", "valueOf", "(D)Ljava/lang/Double;", false);
+                break;
+            case Type.FLOAT:
+                mv.visitVarInsn(FLOAD, index);
+                mv.visitMethodInsn(INVOKESTATIC, "java/lang/Float", "valueOf", "(F)Ljava/lang/Float;", false);
+                break;
+            case Type.CHAR:
+                mv.visitVarInsn(ILOAD, index);
+                mv.visitMethodInsn(INVOKESTATIC, "java/lang/Character", "valueOf", "(C)Ljava/lang/Character;", false);
+                break;
+            case Type.BYTE:
+                mv.visitVarInsn(ILOAD, index);
+                mv.visitMethodInsn(INVOKESTATIC, "java/lang/Byte", "valueOf", "(B)Ljava/lang/Byte;", false);
+                break;
+            case Type.SHORT:
+                mv.visitVarInsn(ILOAD, index);
+                mv.visitMethodInsn(INVOKESTATIC, "java/lang/Short", "valueOf", "(S)Ljava/lang/Short;", false);
+                break;
+        }
 
-
+    }
 }
 
 // 目标类（用于测试）
-  class TargetClass {
-    public TargetClass() {}  // 让构造方法可访问
-    public void sayHello() {
-        System.out.println("Hello, ASM!");
-    }
-}
+//  class TargetClass {
+//    public TargetClass() {}  // 让构造方法可访问
+//    public void sayHello() {
+//        System.out.println("Hello, ASM!");
+//    }
+//}
 
