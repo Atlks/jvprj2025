@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 
 
 import static org.objectweb.asm.Opcodes.*;
+import static util.CustomClassLoader.defineClassX;
 
 public class AOPASM {
     public static void main(String[] args) throws Exception {
@@ -43,31 +44,6 @@ public class AOPASM {
         return instance;
     }
 
-    public static  CustomClassLoader customClassLoader;
-    public static Class<?> defineClassX(Class<?> targetClassClass) throws Exception {
-        String className = targetClassClass.getName();
-        System.out.println("fun loadclassx(clas="+targetClassClass);
-        // 1. 读取字节码并修改
-        byte[] modifiedClassBytes = modifyClass(className);
-
-        // 2. 写入新字节码（可选，方便调试）
-        File file = new File("TargetClassModified.class");
-        try (FileOutputStream fos = new FileOutputStream(file)) {
-            fos.write(modifiedClassBytes);
-        }
-
-
-        ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
-        System.out.println("targetClassClass currentThread Classlodr="+parentClassLoader);
-        ClassLoader parentClassLoader2 = targetClassClass.getClassLoader(); // 用目标类的 ClassLoader
-        System.out.println("targetClassClass   Classlodr="+parentClassLoader);
-        if(customClassLoader==null){
-              customClassLoader = new CustomClassLoader(parentClassLoader);
-        }
-
-        Class<?> modifiedClass = customClassLoader.defineClass(className, modifiedClassBytes);
-        return modifiedClass;
-    }
 
 //    @Deprecated
 //    public static void invk(Class<?> targetClassClass, String mthName,Object... objs) throws Exception {
@@ -104,21 +80,46 @@ public class AOPASM {
     public static byte[] modifyClass(String className) throws Exception {
         ClassReader cr = new ClassReader(className);
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
-        ClassVisitor cv = new ClassVisitor(ASM9, cw) {
+        ClassVisitor classVisitor1 = new ClassVisitor(ASM9, cw) {
             @Override
             public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+
+                if(name.equals("reg4bz"))
+
+                {
+                    System.out.println("Dbg");
+                  //  (LapiUsr/Usr;)Ljava/lang/String;
+                    //说明 参数是usr,fanhuizhi str
+                 }
                 MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
 
                 // 过滤掉构造方法和 Object 的方法
                 if (!name.equals("<init>") && !name.equals("<clinit>") && !isObjectMethod(name)) {
-                    return new MethodVisitor(ASM9, mv) {
+                    MethodVisitor methodVisitor = new MethodVisitor(ASM9, mv) {
                         @Override
                         public void visitCode() {
+
+                            System.out.println(" fun vist code()");
+                            System.out.println("name="+name);
+                            System.out.println("emthd descriptor="+descriptor);
                             // 方法执行前：System.out.println("Method " + name + " start");
                             mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-                            mv.visitLdcInsn("!fun " + name + " ()");
-                            mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
+                            mv.visitLdcInsn("!fun " + name + " (");
 
+                            // 处理参数（拼接字符串） argumentTypes=usr is ok
+                            Type[] argumentTypes = Type.getArgumentTypes(descriptor);
+                            for (int i = 0; i < argumentTypes.length; i++) {
+                                // 访问局部变量（方法参数从索引 0 开始）
+                                mv.visitVarInsn(ALOAD, i);
+                             //   对 Object 调用 toString() 转换为字符串
+                                mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;", false);
+
+                                // 拼接参数   使用 concat() 拼接到日志信息中
+                                mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "concat", "(Ljava/lang/String;)Ljava/lang/String;", false);
+                            }
+
+                            mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
+                            System.out.println(" endfun vist code()");
                             super.visitCode();
                         }
 
@@ -133,11 +134,12 @@ public class AOPASM {
                             super.visitInsn(opcode);
                         }
                     };
+                    return methodVisitor;
                 }
                 return mv;
             }
         };
-        cr.accept(cv, 0);
+        cr.accept(classVisitor1, 0);
         return cw.toByteArray();
     }
 

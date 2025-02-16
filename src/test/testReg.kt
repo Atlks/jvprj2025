@@ -43,13 +43,13 @@ fun main() {
   // AOPASM.invk(RegHandler::class.java,"handle",he);
     //  RegHandler().handle(he)
  //   apis.BaseHdr
-    AOPASM.defineClassX(ExceptionBase::class.java)
-    AOPASM.defineClassX(existUserEx::class.java)
-    AOPASM.defineClassX(NeedLoginEx::class.java)
+ //   AOPASM.defineClassX(ExceptionBase::class.java)
+//    AOPASM.defineClassX(existUserEx::class.java)
+//    AOPASM.defineClassX(NeedLoginEx::class.java)
 
-    AOPASM.defineClassX(HttpHandler::class.java)
-    AOPASM.defineClassX(BaseHdr::class.java)
-    AOPASM.defineClassX(RegHandler::class.java)
+//    AOPASM.defineClassX(HttpHandler::class.java)
+ //   AOPASM.defineClassX(BaseHdr::class.java)
+ //   AOPASM.defineClassX(RegHandler::class.java)
 
 
 
