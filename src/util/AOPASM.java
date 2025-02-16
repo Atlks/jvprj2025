@@ -4,7 +4,6 @@ import org.objectweb.asm.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.lang.reflect.Method;
 import  java.lang.reflect.Constructor;
 
 
@@ -20,7 +19,25 @@ public class AOPASM {
     }
 
     public static Object createProxy(Class<?> targetClassClass ) throws Exception {
+        // **如果是接口，直接返回 null**
+        if (targetClassClass.isInterface()) {
+            return null;
+        }
+
+        Class<?> modifiedClass = getClassMdfed(targetClassClass);
+
+        Constructor<?> constructor = modifiedClass.getDeclaredConstructor();
+        constructor.setAccessible(true); // 允许访问私有或默认构造器
+
+        Object instance = constructor.newInstance();
+        return  instance;
+
+        //        Object instance = modifiedClass.getDeclaredConstructor().newInstance();
+    }
+    public static  CustomClassLoader customClassLoader;
+    public static Class<?> getClassMdfed(Class<?> targetClassClass) throws Exception {
         String className = targetClassClass.getName();
+        System.out.println("fun loadclassx(clas="+targetClassClass);
         // 1. 读取字节码并修改
         byte[] modifiedClassBytes = modifyClass(className);
 
@@ -32,15 +49,15 @@ public class AOPASM {
 
 
         ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
+        System.out.println("targetClassClass currentThread Classlodr="+parentClassLoader);
         ClassLoader parentClassLoader2 = targetClassClass.getClassLoader(); // 用目标类的 ClassLoader
+        System.out.println("targetClassClass   Classlodr="+parentClassLoader);
+        if(customClassLoader==null){
+              customClassLoader = new CustomClassLoader(parentClassLoader);
+        }
 
-        Class<?> modifiedClass = new CustomClassLoader(parentClassLoader).defineClass(className, modifiedClassBytes);
-
-        Constructor<?> constructor = modifiedClass.getDeclaredConstructor();
-        constructor.setAccessible(true); // 允许访问私有或默认构造器
-//        Object instance = modifiedClass.getDeclaredConstructor().newInstance();
-        Object instance = constructor.newInstance();
-        return  instance;
+        Class<?> modifiedClass = customClassLoader.defineClass(className, modifiedClassBytes);
+        return modifiedClass;
     }
 
 //    @Deprecated
@@ -127,9 +144,66 @@ public class AOPASM {
         public CustomClassLoader(ClassLoader parent) {
             super(parent); // 继承当前 ClassLoader
         }
-        public Class<?> defineClass(String name, byte[] b) {
-            return defineClass(name, b, 0, b.length);
+
+        /**
+         *  关键改动：
+         *
+         * 只有修改过的类才会用 defineClass 加载，其他类都交给 原 ClassLoader 加载。
+         * 避免 ClassCastException，因为 只有 RegHandler 发生了字节码变更。
+         * @param name
+         * @param bytes
+         * @return
+         */
+        public Class<?> defineClass(String name, byte[] bytes) {
+            // **检查是否已加载**
+            try {
+                return loadClass(name);
+            } catch (ClassNotFoundException e) {
+                // 只有找不到时，才真正定义
+                try{
+                    return defineClass(name, bytes, 0, bytes.length);
+                } catch (Throwable ex) {
+                 //  e.printStackTrace();
+                }
+
+            }
+
+//            if (bytes != null) {
+//                return defineClass(name, bytes, 0, bytes.length);
+//            } else {
+//                try {
+//                    return super.loadClass(name); // 复用原来的类
+//                } catch (ClassNotFoundException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+            try {
+                return loadClass(name);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
         }
+//            return defineClass(name, b, 0, b.length);
+//        }
+
+        @Override
+        protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+            // 让 JDK 类和第三方库都由系统加载
+            if (name.startsWith("java.") || name.startsWith("jdk.")) {
+                return super.loadClass(name, resolve);
+            }
+            if (name.startsWith("com.sun.") || name.startsWith("jdk.")) {
+                return super.loadClass(name, resolve);
+            }
+
+
+            return findClass(name);
+        }
+//        @Override
+//        protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+//            // 只加载修改过的类，其他类全部交给父 `ClassLoader`
+//            return super.loadClass(name, resolve);
+//        }
     }
 }
 

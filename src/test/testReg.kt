@@ -2,14 +2,17 @@
 package test;
 
 //import MyProxyExample.MyProxyExample
+import apiUsr.NeedLoginEx
 import apiUsr.RegHandler
 import apis.BaseHdr
+import biz.existUserEx
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.noear.solon.Solon
 import org.noear.solon.core.AppContext
 import util.AOPASM
 import util.ByteBuddyProxyExample
+import util.ExceptionBase
 import util.HttpExchangeImp
 fun main() {
     println(33)
@@ -24,7 +27,7 @@ fun main() {
     // 创建目标对象
 
   //  val proxy = CGLIBProxyExample.getProxyObj(RegHandler::class.java)
-//    val proxy =   ByteBuddyProxyExample.createProxy(RegHandler::class.java)
+  //  val proxy =   ByteBuddyProxyExample.createProxy(RegHandler::class.java)
 //    println("aopClass="+proxy.javaClass.name)
 //       proxy.handle(he)
 //
@@ -34,6 +37,14 @@ fun main() {
 
   // AOPASM.invk(RegHandler::class.java,"handle",he);
     //  RegHandler().handle(he)
+ //   apis.BaseHdr
+    AOPASM.getClassMdfed(ExceptionBase::class.java)
+    AOPASM.getClassMdfed(existUserEx::class.java)
+    AOPASM.getClassMdfed(NeedLoginEx::class.java)
+
+    AOPASM.getClassMdfed(HttpHandler::class.java)
+    AOPASM.getClassMdfed(BaseHdr::class.java)
+    AOPASM.getClassMdfed(RegHandler::class.java)
     val proxy: RegHandler = AOPASM.createProxy(RegHandler::class.java) as RegHandler
 
     println("aopClass="+proxy.javaClass.name)
