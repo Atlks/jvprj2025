@@ -17,7 +17,7 @@ public class ExceptionBase extends  Exception {
     public String  details;
     public String errmsg;
     public String errcode;
-    public  String fun;
+    public  String fun="";
     public  Object funPrm;
     public Object info;
     public String stackTrace;

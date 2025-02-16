@@ -18,7 +18,7 @@ import java.util.List;
 public class OrmUtilBiz {
 
     public static Session openSession(String jdbcUrl) throws SQLException {
-        System.out.println("openSession(url="+jdbcUrl);
+        System.out.println("▶\uFE0F fun openSession(url="+jdbcUrl);
         if(jdbcUrl.equals(""))
             throw  new RuntimeException("openSession().jdbcurl is empty");
         if(jdbcUrl.startsWith("jdbc:"))
@@ -32,7 +32,10 @@ public class OrmUtilBiz {
             li.add(Usr.class);
             li.add(OrdBet.class);
             li.add(LogCms.class);
-            return    HbntUtil.openSession(jdbcUrl,li);
+
+            Session session = HbntUtil.openSession(jdbcUrl, li);
+            System.out.println("✅endfun openSession()");
+            return session;
         }
         //def ini impt
         return  new SessionImpIni(jdbcUrl);

@@ -90,19 +90,19 @@ public class AOPASM {
                     //  (LapiUsr/Usr;)Ljava/lang/String;
                     //说明 参数是usr,fanhuizhi str
                 }
-                MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
+                MethodVisitor MethodVisitor_superVM = super.visitMethod(access, name, descriptor, signature, exceptions);
 
                 if(name.equals("handle") ||name.equals("handle2")  )
-                    return  mv;
+                    return  MethodVisitor_superVM;
 
                 // 过滤掉构造方法和 Object 的方法
                 if (!name.equals("<init>") && !name.equals("<clinit>") && !isObjectMethod(name)) {
-                    MethodVisitor methodVisitorAddLog = getMethodVisitor4addlog(access, name, descriptor, mv);
+                    MethodVisitor methodVisitorAddLog = getMethodVisitor4addlog(access, name, descriptor, MethodVisitor_superVM);
                     return methodVisitorAddLog;
                 }
 
                 //else  ret ori mtod
-                return mv;
+                return MethodVisitor_superVM;
             }
 
 
@@ -114,8 +114,8 @@ public class AOPASM {
 
 
     @NotNull
-    public static MethodVisitor getMethodVisitor4addlog(int access, String name, String descriptor, MethodVisitor mv) {
-        MethodVisitor methodVisitorAddLog = new MethodVisitor(ASM9, mv) {
+    public static MethodVisitor getMethodVisitor4addlog(int access, String name, String descriptor, MethodVisitor MethodVisitor8) {
+        MethodVisitor methodVisitorAddLog = new MethodVisitor(ASM9, MethodVisitor8) {
             @Override
             public void visitCode() {
 
@@ -123,8 +123,8 @@ public class AOPASM {
                 System.out.println("name=" + name);
                 System.out.println("emthd descriptor=" + descriptor);
                 // 方法执行前：System.out.println("Method " + name + " start");
-                mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-                mv.visitLdcInsn("!fun " + name + " (");
+                MethodVisitor8.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+                MethodVisitor8.visitLdcInsn("!fun " + name + " (");
 
                 // 处理参数（拼接字符串） argumentTypes=usr is ok
                 Type[] argumentTypes = Type.getArgumentTypes(descriptor);
@@ -138,23 +138,23 @@ public class AOPASM {
 
                     if (type.getSort() >= Type.BOOLEAN && type.getSort() <= Type.DOUBLE) {
                         // 处理基本类型（int, boolean, long, double等）
-                        boxPrimitive(type, paramIndex, mv);
+                        boxPrimitive(type, paramIndex, MethodVisitor8);
                     } else {
                         // 处理对象类型
-                        mv.visitVarInsn(ALOAD, paramIndex);
+                        MethodVisitor8.visitVarInsn(ALOAD, paramIndex);
                     }
 
                     // 调用 toString() 转换为字符串
-                    mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;", false);
+                    MethodVisitor8.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;", false);
 
                     // 追加到日志字符串
-                    mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "concat", "(Ljava/lang/String;)Ljava/lang/String;", false);
+                    MethodVisitor8.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "concat", "(Ljava/lang/String;)Ljava/lang/String;", false);
 
                     paramIndex += type.getSize(); // long 和 double 需要占2个槽
                 }
 
 
-                mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
+                MethodVisitor8.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
                 System.out.println(" endfun vist code()");
                 super.visitCode();
             }
@@ -163,9 +163,9 @@ public class AOPASM {
             public void visitInsn(int opcode) {
                 // 在方法返回之前插入日志（但不影响 return 语句）
                 if ((opcode >= IRETURN && opcode <= RETURN) || opcode == ATHROW) {
-                    mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-                    mv.visitLdcInsn("!!endfun " + name + " ");
-                    mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
+                    MethodVisitor8.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+                    MethodVisitor8.visitLdcInsn("!!endfun " + name + " ");
+                    MethodVisitor8.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
                 }
                 super.visitInsn(opcode);
             }

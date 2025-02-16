@@ -22,7 +22,7 @@ import static util.dbutil.*;
 public class HbntUtil {
 
     public static Session openSession(String jdbcUrl, List<Class> li) throws SQLException {
-
+        System.out.println("▶\uFE0F fun openSession(url="+jdbcUrl+",listClass="+encodeJsonObj(li));
         var db=getDatabaseFileName4mysql(jdbcUrl);
         crtDatabase(jdbcUrl,db);
 
@@ -62,6 +62,7 @@ public class HbntUtil {
 
         // 获取 Session
         Session session = sessionFactory.openSession();
+        System.out.println("✅endfun openSession()");
         return  session;
 
 

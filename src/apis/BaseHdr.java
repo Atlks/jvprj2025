@@ -78,8 +78,10 @@ public abstract class BaseHdr implements HttpHandler {
 
 
 
-            ex.fun=curFun4dbg.get();
-            ex.funPrm = currFunPrms4dbg.get();
+            if(ex.fun.equals(""))
+                ex.fun=curFun4dbg.get();
+            if(ex.funPrm==null)
+                ex.funPrm = currFunPrms4dbg.get();
             ex.url = curUrl.get();
             ex.urlprm = curUrlPrm.get();
 
@@ -117,8 +119,9 @@ public abstract class BaseHdr implements HttpHandler {
                 ex.stackTrace = stackTraceAsString;
             }
 
-
+           if(ex.fun.equals(""))
             ex.fun=curFun4dbg.get();
+           if(ex.funPrm==null)
             ex.funPrm = currFunPrms4dbg.get();
             ex.url = curUrl.get();
             ex.urlprm = curUrlPrm.get();
