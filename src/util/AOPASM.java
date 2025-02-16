@@ -205,7 +205,7 @@ public class AOPASM {
     }
 
     // 过滤 Object 类的方法
-    private static boolean isObjectMethod(String name) {
+    public static boolean isObjectMethod(String name) {
         return name.equals("toString") || name.equals("equals") || name.equals("hashCode") ||
                 name.equals("getClass") || name.equals("notify") || name.equals("notifyAll") || name.equals("wait");
     }

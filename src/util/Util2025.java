@@ -72,7 +72,22 @@ public class Util2025 {
             return "{}";
         return JSON.toJSONString(obj);
     }
+    public static String encodeJson4dbgShowVal(boolean obj) {
 
+        if(obj==true)
+            return  "true";
+        else
+            return "false";
+         //   return obj ;  // 直接返回 "true" 或 "false"
+
+    }
+    public static String encodeJson4dbgShowVal(Object obj) {
+        if (obj instanceof Boolean) {
+            return obj.toString();  // 直接返回 "true" 或 "false"
+        }
+
+        return    com.alibaba.fastjson2.JSON.toJSONString(obj, JSONWriter.Feature.PrettyFormat);
+    }
     @Deprecated
     public static String encodeJson(Object obj) {
       try{
