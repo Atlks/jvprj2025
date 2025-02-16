@@ -173,7 +173,7 @@ public abstract class BaseHdr implements HttpHandler {
 
 
     }
-
+    public static String saveDirUsrs = "";
     public static void iniCfgFrmCfgfile() {
 
         //test
@@ -184,7 +184,7 @@ public abstract class BaseHdr implements HttpHandler {
         // 获取类加载器 /C:/Users/attil/IdeaProjects/jvprj2025/out/production/jvprj2025/
         String rootPath = UserBiz.class.getClassLoader().getResource("").getPath();
         Map cfg = parse_ini_fileNosec(rootPath + "../../cfg/dbcfg.ini");
-        RegHandler.saveDirUsrs = (String) cfg.get("saveDirUsrs");
+        saveDirUsrs = (String) cfg.get("saveDirUsrs");
         // saveDirAcc= (String) cfg.get("saveDirAcc");
         //   savedirOrd= (String) cfg.get("savedirOrd");
         //QryOrdBetHdr.saveUrlOrdBet

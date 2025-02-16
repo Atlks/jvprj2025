@@ -2,11 +2,8 @@
 package test;
 
 //import MyProxyExample.MyProxyExample
-import apiUsr.NeedLoginEx
 import apiUsr.RegHandler
 import apis.BaseHdr
-import biz.existUserEx
-import com.mysql.cj.x.protobuf.MysqlxExpr
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.noear.solon.Solon
@@ -14,11 +11,8 @@ import org.noear.solon.core.AppContext
 import util.AOPASM
 //import util.AOPASM.customClassLoader
 import util.AOPASM.getObject
-import util.CustomClassLoader
-import util.ExceptionBase
 import util.HttpExchangeImp
 import java.io.File
-import java.lang.reflect.Method
 
 fun main() {
     println(33)
@@ -64,17 +58,17 @@ fun main() {
 
 //    val proxy = customClassLoader.loadClassx("apiUsr.RegHandler").getDeclaredConstructor().newInstance() as HttpHandler
 
-    var proxyClass = AOPASM.createProxy(RegHandler::class.java)
+    var proxyClassObjIns = AOPASM.createProxy(RegHandler::class.java)
 
-    println("aopClass=" + proxyClass.javaClass.name)
-    println("classLoader=" + proxyClass.javaClass.classLoader)
+    println("aopClass=" + proxyClassObjIns.javaClass.name)
+    println("classLoader=" + proxyClassObjIns.javaClass.classLoader)
     // 获取代理类的 Class
 
-    var instance: Any = getObject(proxyClass.javaClass)
+  //  var instance: Any = getObject( proxyClassObjIns.javaClass)
 // 获取 `handle` 方法
-    val method = proxyClass.javaClass.getMethod("handle", HttpExchange::class.java)
+    val method = RegHandler::class.java.getMethod("handle", HttpExchange::class.java)
     method.setAccessible(true);  // 显式允许访问
-    method.invoke(instance, he);
+    method.invoke(proxyClassObjIns, he);
 
     println("------------resp out :\n"+readFile("output2025.txt"));
     //  proxy.handle(he);

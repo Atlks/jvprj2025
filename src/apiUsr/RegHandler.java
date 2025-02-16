@@ -160,7 +160,7 @@ public class RegHandler extends BaseHdr   {
     }
 
 
-    public static String saveDirUsrs = "";
+
 
 
     public record User(String id, String uname, String pwd, int age, String invtr) {
