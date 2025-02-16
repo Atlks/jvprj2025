@@ -1,10 +1,12 @@
 package util;
 
+import org.jetbrains.annotations.NotNull;
 import org.objectweb.asm.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import  java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 
 import static org.objectweb.asm.Opcodes.*;
@@ -26,14 +28,21 @@ public class AOPASM {
 
         Class<?> modifiedClass = defineClassX(targetClassClass);
 
-        Constructor<?> constructor = modifiedClass.getDeclaredConstructor();
-        constructor.setAccessible(true); // 允许访问私有或默认构造器
-
-        Object instance = constructor.newInstance();
+        Object instance = getObject(modifiedClass);
         return  instance;
 
         //        Object instance = modifiedClass.getDeclaredConstructor().newInstance();
     }
+
+    @NotNull
+    public static Object getObject(Class<?> modifiedClass) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        Constructor<?> constructor = modifiedClass.getDeclaredConstructor();
+        constructor.setAccessible(true); // 允许访问私有或默认构造器
+
+        Object instance = constructor.newInstance();
+        return instance;
+    }
+
     public static  CustomClassLoader customClassLoader;
     public static Class<?> defineClassX(Class<?> targetClassClass) throws Exception {
         String className = targetClassClass.getName();

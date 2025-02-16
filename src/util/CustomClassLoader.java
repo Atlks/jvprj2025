@@ -27,11 +27,18 @@ public class CustomClassLoader extends ClassLoader {
 //            try {
 //                return loadClass(name);
 //            } catch (ClassNotFoundException e) {
-        // 只有找不到时，才真正定义
+
         try{
-            Class<?> aClass = defineClass(name, bytes, 0, bytes.length);
-            classMap.put(name,aClass);
-            return aClass;
+            // 只有找不到时，才真正定义
+            var cls=classMap.get(name);
+            if(cls==null)
+            {
+                Class<?> aClass = defineClass(name, bytes, 0, bytes.length);
+                classMap.put(name,aClass);
+                return aClass;
+            }else
+                return  cls;
+
         } catch (Throwable ex) {
             //   e.printStackTrace();
         }
@@ -78,10 +85,16 @@ public class CustomClassLoader extends ClassLoader {
 //        if (name.startsWith("com.sun.") || name.startsWith("jdk.")) {
 //            return super.loadClass(name, resolve);
 //        }
-
+        var cls=classMap.get(name);
+        if(cls==null)
+        {
+            return super.loadClass(name, resolve);
+        }else{
+            return classMap.get(name);
+        }
 // 如果是目标类，我们用自定义加载逻辑
     //    return  defineClass()
-        return findClass(name);
+
     }
 
     @NotNull

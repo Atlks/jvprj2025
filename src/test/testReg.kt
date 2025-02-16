@@ -6,15 +6,19 @@ import apiUsr.NeedLoginEx
 import apiUsr.RegHandler
 import apis.BaseHdr
 import biz.existUserEx
+import com.mysql.cj.x.protobuf.MysqlxExpr
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.noear.solon.Solon
 import org.noear.solon.core.AppContext
 import util.AOPASM
 import util.AOPASM.customClassLoader
+import util.AOPASM.getObject
 import util.CustomClassLoader
 import util.ExceptionBase
 import util.HttpExchangeImp
+import java.lang.reflect.Method
+
 fun main() {
     println(33)
     //C:\Users\attil\IdeaProjects\jvprj2025\target\classes\apiUsr\RegHandler.class
@@ -48,22 +52,29 @@ fun main() {
     AOPASM.defineClassX(RegHandler::class.java)
 
 
-  //  var proxy = AOPASM.createProxy(RegHandler::class.java) as  RegHandler
 
-    val parentClassLoader = Thread.currentThread().contextClassLoader
-    println("targetClassClass currentThread Classlodr=$parentClassLoader")
-   // val parentClassLoader2: ClassLoader = targetClassClass.getClassLoader() // 用目标类的 ClassLoader
-    println("targetClassClass   Classlodr=$parentClassLoader")
-    if (customClassLoader == null) {
-        customClassLoader = CustomClassLoader(parentClassLoader)
-    }
+//    val parentClassLoader = Thread.currentThread().contextClassLoader
+//    println("targetClassClass currentThread Classlodr=$parentClassLoader")
+//   // val parentClassLoader2: ClassLoader = targetClassClass.getClassLoader() // 用目标类的 ClassLoader
+//    println("targetClassClass   Classlodr=$parentClassLoader")
+//    if (customClassLoader == null) {
+//        customClassLoader = CustomClassLoader(parentClassLoader)
+//    }
 
-    val proxy = customClassLoader.loadClassx("apiUsr.RegHandler").getDeclaredConstructor().newInstance() as HttpHandler
+//    val proxy = customClassLoader.loadClassx("apiUsr.RegHandler").getDeclaredConstructor().newInstance() as HttpHandler
 
+      var proxyClass = AOPASM.createProxy(RegHandler::class.java)
 
-    println("aopClass="+proxy.javaClass.name)
-    println("classLoader="+proxy.javaClass.classLoader)
-    proxy.handle(he);
+    println("aopClass="+proxyClass.javaClass.name)
+    println("classLoader="+proxyClass.javaClass.classLoader)
+    // 获取代理类的 Class
+
+    var instance: Any=getObject(proxyClass.javaClass)
+// 获取 `handle` 方法
+    val method = proxyClass.javaClass.getMethod("handle", HttpExchange::class.java)
+    method.setAccessible(true);  // 显式允许访问
+        method.invoke(instance,he);
+  //  proxy.handle(he);
    // println(customClassLoader)
     //customClassLoader
   //  proxy=proxy as customClassLoader.get
