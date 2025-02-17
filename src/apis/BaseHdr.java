@@ -34,6 +34,8 @@ import static util.util2026.*;
 
 @Component
 public abstract class BaseHdr implements HttpHandler {
+
+    public  org.hibernate.Session session;
     //wz qrystr
     public static ThreadLocal<String> curUrl = new ThreadLocal<>();
     public static ThreadLocal<String> curUrlPrm = new ThreadLocal<>();
@@ -77,7 +79,8 @@ public abstract class BaseHdr implements HttpHandler {
             Class<?> modifiedClass = getAClassExted(aClass);
             Object instance = modifiedClass.getDeclaredConstructor().newInstance();
 //            setField(instance,"session",new SessionProvider().provide());
-            setField(instance, Session.class,  new SessionProvider().provide());
+            //new SessionProvider().provide()
+            setField(instance, Session.class, session );
             Method method = modifiedClass.getMethod("handle2", HttpExchange.class);
             method.invoke(instance, exchange);
 

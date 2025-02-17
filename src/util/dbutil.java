@@ -790,18 +790,19 @@ public class dbutil {
         long totalRecords = list1.size();
         long totalPages = (long) Math.ceil((double) totalRecords / pageSize);
 
-        List<T> listPageed = subList2025(list1,pageSize, pageNumber);
+        List<T> listPageed = subList2025(list1, pageSize, pageNumber);
         return new PageResult<>(listPageed, totalRecords, totalPages);
     }
 
-@Deprecated
+    @Deprecated
     public static <T> PageResult<T> getPageResult2025(String sql, Map<String, Object> sqlprmMap, baseObj pageDto, Session session, Class class1) {
-        List<T> lst = nativeQueryGetResultList(sql, sqlprmMap, session,class1 );
+        List<T> lst = nativeQueryGetResultList(sql, sqlprmMap, session, class1);
         //    var list1 = getSortedMapsBypages( sql,pageSize, pageNumber);
         // 1️⃣ 计算总记录数
-        var list1 = getPageResult( lst, pageDto.pagesize, pageDto.page);
+        var list1 = getPageResult(lst, pageDto.pagesize, pageDto.page);
         return list1;
     }
+
     public static List<SortedMap<String, Object>> getSortedMapsBypages(String sql, long pageSize, long pageNumber) throws Exception {
         var sql_limt = sql + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1) * pageSize;
         System.out.println(sql_limt);
@@ -865,7 +866,7 @@ public class dbutil {
                         System.out.println("d1025");
                     fld.setAccessible(true); // 确保字段可访问
 
-                    if (value.getClass() == String.class && ( fld.getType() == Long.class|| fld.getType().getName().equals("long") ))
+                    if (value.getClass() == String.class && (fld.getType() == Long.class || fld.getType().getName().equals("long")))
                         setLong2025(fld, obj, toLong(value.toString()));
                     else
                         fld.set(obj, value); // 设置字段值
@@ -880,7 +881,8 @@ public class dbutil {
 
 
     public static <T> void setField(T obj, Class<?> key, Object value) {
-
+        if (value == null)
+            System.out.println("waring: setField(obj=" + obj + ",key=" + key.toString() + ",val=" + value);
         if (obj == null || key == null) {
             throw new IllegalArgumentException("fun  setField().Object, key, and value cannot be null.");
         }
@@ -888,18 +890,18 @@ public class dbutil {
         // 获取 obj 的所有字段
         Field[] fields = obj.getClass().getDeclaredFields();
         for (Field fld : fields) {
-            if (fld.getType()==key) { // 忽略大小写比较字段名
+            if (fld.getType() == key) { // 忽略大小写比较字段名
                 try {
 
                     fld.setAccessible(true); // 确保字段可访问
 
-                    if (value.getClass() == String.class && ( fld.getType() == Long.class|| fld.getType().getName().equals("long") ))
+                    if (value.getClass() == String.class && (fld.getType() == Long.class || fld.getType().getName().equals("long")))
                         setLong2025(fld, obj, toLong(value.toString()));
                     else
                         fld.set(obj, value); // 设置字段值
                 } catch (IllegalAccessException e) {
                     //  throw new RuntimeException("Failed to set field value: " + key, e);
-                    System.out.println("waring: setField(obj="+obj+",key="+key.toString()+",val="+value);
+                    System.out.println("waring: setField(obj=" + obj + ",key=" + key.toString() + ",val=" + value);
                 }
 
             }

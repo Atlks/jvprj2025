@@ -29,6 +29,7 @@ public class RegHandler extends BaseHdr   {
   //  @Inject // 可选，PicoContainer 其实不依赖 @Inject，但能增加可读性
     public RegHandler(Session session){
         this.session = session;
+        super.session=session;
     }
 
   //  @Bean
@@ -129,7 +130,7 @@ public class RegHandler extends BaseHdr   {
         //  if(!existUser(uname))
 
         //    OrmMysql om=new OrmMysql() ;
-        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
+//        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
         session.beginTransaction();
@@ -191,7 +192,7 @@ public class RegHandler extends BaseHdr   {
 
         //    Usr jo = getObjById(uname, saveDirUsrs, Usr.class);
 
-        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
+//        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
         // session.beginTransaction();
