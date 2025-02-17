@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 
+import static util.ColorLogger.*;
 import static util.StrUtil.getPwdFromJdbcurl;
 import static util.StrUtil.getUnameFromJdbcurl;
 import static util.Util2025.encodeJson;
@@ -22,7 +23,10 @@ import static util.dbutil.*;
 public class HbntUtil {
 
     public static Session openSession(String jdbcUrl, List<Class> li) throws SQLException {
-        System.out.println("▶\uFE0F fun openSession(url="+jdbcUrl+",listClass="+encodeJsonObj(li));
+        String mthClr=colorStr("openSession",YELLOW_bright);
+        String urlClr=colorStr(jdbcUrl,GREEN);
+        String liClr=colorStr(encodeJsonObj(li),GREEN);
+        System.out.println("▶\uFE0F fun "+mthClr+"(url="+urlClr+",listClass="+liClr);
         var db=getDatabaseFileName4mysql(jdbcUrl);
         crtDatabase(jdbcUrl,db);
 

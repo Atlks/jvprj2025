@@ -26,6 +26,7 @@ import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
 import static test.LogJavassist.getAClassExted;
 import static util.Util2025.encodeJson;
 
+import static util.Util2025.printlnx;
 import static util.util2026.*;
 
 @Component
@@ -40,6 +41,7 @@ public abstract class BaseHdr implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         //wz qrystr
+      //  printlnx();
         curUrl.set(encodeJson(exchange.getRequestURI()));
         System.out.println("▶\uFE0Ffun handle(url=" + exchange.getRequestURI());
         //   curUrlPrm.set(exchange.getrequ);
@@ -64,7 +66,7 @@ public abstract class BaseHdr implements HttpHandler {
                 }
             }
 
-            System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
+          //  System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
         //    handle2(exchange);
 
             Class<?> aClass =this.getClass();
@@ -73,7 +75,7 @@ public abstract class BaseHdr implements HttpHandler {
             Method method = modifiedClass.getMethod("handle2", HttpExchange.class);
             method.invoke(instance, exchange);
 
-            System.out.println("endfun handle2()");
+      //      System.out.println("endfun handle2()");
             System.out.println("endfun handle()");
 
         } catch (java.lang.reflect.InvocationTargetException e) {
@@ -84,15 +86,9 @@ public abstract class BaseHdr implements HttpHandler {
             ex.errcode = cause.getClass().getName();
             ex.errmsg=e.getCause().getMessage();
             String stackTraceAsString = getStackTraceAsString(e);
+            ex.stackTrace = stackTraceAsString;
 
-
-
-            if(ex.fun.equals(""))
-                ex.fun=curFun4dbg.get();
-            if(ex.funPrm==null)
-                ex.funPrm = currFunPrms4dbg.get();
-            ex.url = curUrl.get();
-            ex.urlprm = curUrlPrm.get();
+            addInfo2ex(ex);
 
             String responseTxt = encodeJson(ex);
             System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
@@ -107,13 +103,14 @@ public abstract class BaseHdr implements HttpHandler {
                             + "\n end stacktrace......................"
             );
 
+            String stackTraceAsString = getStackTraceAsString(e);
+            ex.stackTrace = stackTraceAsString;
 
             //my throw ex.incld funprm
             if (e instanceof ExceptionBase) {
                 ex = (ExceptionBase) e;
                 ex.errcode = e.getClass().getName();
-                String stackTraceAsString = getStackTraceAsString(e);
-                ex.stackTrace = stackTraceAsString;
+
 
             } else {
                 //nml err
@@ -124,16 +121,10 @@ public abstract class BaseHdr implements HttpHandler {
                 ex = new ExceptionBase(message);
                 ex.cause = e;
                 ex.errcode = e.getClass().getName();
-                String stackTraceAsString = getStackTraceAsString(e);
-                ex.stackTrace = stackTraceAsString;
+
             }
 
-           if(ex.fun.equals(""))
-            ex.fun=curFun4dbg.get();
-           if(ex.funPrm==null)
-            ex.funPrm = currFunPrms4dbg.get();
-            ex.url = curUrl.get();
-            ex.urlprm = curUrlPrm.get();
+            addInfo2ex(ex);
 
             String responseTxt = encodeJson(ex);
             System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
@@ -150,6 +141,15 @@ public abstract class BaseHdr implements HttpHandler {
         //not ex ,just all ok blk
        //ex.fun  from stacktrace
 
+    }
+
+    private static void addInfo2ex(ExceptionBase ex) {
+        if(ex.fun.equals(""))
+            ex.fun=curFun4dbg.get();
+        if(ex.funPrm==null)
+            ex.funPrm = currFunPrms4dbg.get();
+        ex.url = curUrl.get();
+        ex.urlprm = curUrlPrm.get();
     }
 
     private static final Set<String> NO_AUTH_PATHS = Set.of("/reg", "/login");

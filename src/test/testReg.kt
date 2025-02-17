@@ -6,6 +6,7 @@ import apiUsr.RegHandler
 import apis.BaseHdr
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
+import org.fusesource.jansi.AnsiConsole
 import org.noear.solon.Solon
 import org.noear.solon.core.AppContext
 import util.AOPASM
@@ -14,7 +15,7 @@ import util.AOPASM.getObject
 import util.HttpExchangeImp
 import java.io.File
 fun main(){
-
+  //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
     BaseHdr.iniCfgFrmCfgfile()
     val he: HttpExchange =
         HttpExchangeImp("http://localhost:8889/reg?uname=qq1&pwd=ppp", "uname=0091", "output2025.txt")

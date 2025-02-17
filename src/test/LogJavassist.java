@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 
 import static java.lang.reflect.AccessibleObject.setAccessible;
+import static util.ColorLogger.*;
 import static util.Util2025.encodeJson;
 
 public class LogJavassist {
@@ -72,21 +73,28 @@ public class LogJavassist {
 //            ctMethod.insertBefore("System.out.println(\"!fun " + methodName + "()\");");
 
             // 在方法前后插入日志，调用 encodeJson 方法
+            String mth="▶\uFE0F"+colorStr(methodName,YELLOW_bright);
             String logCode =
                     "{ " +
                             "  String jsonArgs = util.Util2025.encodeJson($args); " + // 调用封装的 encodeJson 方法
-                            "  System.out.println(\"!!fun " + methodName + "(), args=\" + jsonArgs);" +
+                            "  System.out.println(" +
+                            "\""+
+                            "fun " + mth + "(), " +
+                            "args=" +
+                            "\" " +
+                            "+ util.ColorLogger.colorStr(jsonArgs,util.ColorLogger.GREEN));" +
                             "}";
 
             ctMethod.insertBefore(logCode);
 
 
-            System.out.println(encodeJson(true));
+           // System.out.println(encodeJson(true));
             // 方法返回值序列化日志
+            String mth_end="✅"+methodName;
             String returnSerializationCode =
                     "{ " +
                             "  String jsonRet = util.Util2025.encodeJson4dbgShowVal($_); " +  // 调用自定义方法
-                            "  System.out.println(\"!!endfunx " + methodName + "(), return:\" + jsonRet);" +
+                            "  System.out.println(\"endfunx " + mth_end + "(), return:\" + jsonRet);" +
                             "}";
 
 

@@ -15,10 +15,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static util.ColorLogger.*;
+
 public class OrmUtilBiz {
 
     public static Session openSession(String jdbcUrl) throws SQLException {
-        System.out.println("▶\uFE0F fun openSession(url="+jdbcUrl);
+        String mthClr=colorStr("openSession",YELLOW_bright);
+        System.out.println("▶\uFE0F fun "+mthClr+"(url="+colorStr(jdbcUrl,GREEN));
         if(jdbcUrl.equals(""))
             throw  new RuntimeException("openSession().jdbcurl is empty");
         if(jdbcUrl.startsWith("jdbc:"))
