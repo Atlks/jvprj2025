@@ -3,6 +3,7 @@ package util;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSONWriter;
+import com.sun.net.httpserver.HttpExchange;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -20,14 +21,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Base64;
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.UUID;
-
-
-
-
+import java.util.*;
 
 
 public class Util2025 {
@@ -88,6 +82,79 @@ public class Util2025 {
 
         return    com.alibaba.fastjson2.JSON.toJSONString(obj, JSONWriter.Feature.PrettyFormat);
     }
+
+    public static String encodeJsonV2(Object obj) {
+        try{
+            if (obj == null)
+                return "{}";
+            //   return com.alibaba.fastjson2.JSON.toJSONString(obj);
+            // 如果是数组或列表
+            if (obj instanceof Object[]) {
+                List<Object> list = new ArrayList<>();
+                for (Object obj1 : (Object[]) obj) {
+                    if (obj1 instanceof HttpExchange) {
+                        list.add(toExchgDt((HttpExchange) obj1));
+                    }else
+                        list.add( obj1);
+                }
+                return JSON.toJSONString(list, JSONWriter.Feature.PrettyFormat);
+            } else if (obj instanceof Collection<?>) {
+                List<Object> list = new ArrayList<>();
+                for (Object obj1 : (Collection<?>) obj) {
+                    if (obj1 instanceof HttpExchange) {
+                        list.add(toExchgDt((HttpExchange) obj1));
+                    }
+                }
+                return JSON.toJSONString(list, JSONWriter.Feature.PrettyFormat);
+            }
+
+            if(obj instanceof HttpExchange){
+                HttpExchange HttpExchange1= (HttpExchange) obj;
+                Map<String, Object> exchangeData=toExchgDt(HttpExchange1);
+                return    com.alibaba.fastjson2.JSON.toJSONString(exchangeData, JSONWriter.Feature.PrettyFormat);
+            }
+            return    com.alibaba.fastjson2.JSON.toJSONString(obj, JSONWriter.Feature.PrettyFormat);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "{}";
+        }
+
+    }
+
+    private static Map<String, Object> toExchgDt(HttpExchange exchange) throws IOException {
+        Map<String, Object> exchangeData = new HashMap<>();
+
+        // 获取请求方法和 URI
+        exchangeData.put("method", exchange.getRequestMethod());
+        exchangeData.put("uri", exchange.getRequestURI().toString());
+
+        // 获取请求头
+        Map<String, String> headers = new HashMap<>();
+        exchange.getRequestHeaders().forEach((key, values) -> headers.put(key, String.join(", ", values)));
+        exchangeData.put("headers", headers);
+
+        // 读取请求体
+        exchangeData.put("body", readRequestBody(exchange));
+    return exchangeData;
+    }
+
+    private static String readRequestBody(HttpExchange exchange) throws IOException {
+        InputStream is = exchange.getRequestBody();
+        if (is == null) {
+            return "";
+        }
+
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        byte[] data = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = is.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, bytesRead);
+        }
+        return buffer.toString("UTF-8");
+    }
+
+
     @Deprecated
     public static String encodeJson(Object obj) {
       try{

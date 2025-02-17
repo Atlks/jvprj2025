@@ -26,6 +26,7 @@ import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 
 import static test.LogJavassist.getAClassExted;
+import static util.ColorLogger.*;
 import static util.Util2025.encodeJson;
 
 import static util.Util2025.printlnx;
@@ -47,8 +48,10 @@ public abstract class BaseHdr implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         //wz qrystr
       //  printlnx();
+       String mth= colorStr("handle",YELLOW_bright);
+        String prmurl= colorStr(String.valueOf(exchange.getRequestURI()),GREEN);
         curUrl.set(encodeJson(exchange.getRequestURI()));
-        System.out.println("▶\uFE0Ffun handle(url=" + exchange.getRequestURI());
+        System.out.println("▶\uFE0Ffun "+mth+"(url=" + prmurl);
         //   curUrlPrm.set(exchange.getrequ);
 
         ExceptionBase ex = new ExceptionBase("");

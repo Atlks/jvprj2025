@@ -76,7 +76,7 @@ public class LogJavassist {
             String mth="▶\uFE0F"+colorStr(methodName,YELLOW_bright);
             String logCode =
                     "{ " +
-                            "  String jsonArgs = util.Util2025.encodeJson($args); " + // 调用封装的 encodeJson 方法
+                            "  String jsonArgs = util.Util2025.encodeJsonV2($args); " + // 调用封装的 encodeJson 方法
                             "  System.out.println(" +
                             "\""+
                             "fun " + mth + "(), " +
