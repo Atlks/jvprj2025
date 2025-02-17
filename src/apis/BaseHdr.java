@@ -6,6 +6,7 @@ import apiUsr.*;
 import apiWltYinli.WithdrawHdr;
 import biz.BaseBiz;
 import com.alibaba.fastjson2.JSON;
+import org.hibernate.Session;
 import org.noear.solon.annotation.Component;
 import test.UserBiz;
 import com.sun.net.httpserver.HttpExchange;
@@ -13,6 +14,7 @@ import com.sun.net.httpserver.HttpHandler;
 import apiCms.CmsBiz;
 import util.Err;
 import util.ExceptionBase;
+import util.SessionProvider;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -27,6 +29,7 @@ import static test.LogJavassist.getAClassExted;
 import static util.Util2025.encodeJson;
 
 import static util.Util2025.printlnx;
+import static util.dbutil.setField;
 import static util.util2026.*;
 
 @Component
@@ -50,7 +53,7 @@ public abstract class BaseHdr implements HttpHandler {
         try {
             setcookie("uname", "007", exchange);//for test
 
-
+            //---------blk chk auth
             if (needLoginAuth(exchange.getRequestURI())) {
                 String uname = getcookie("uname", exchange);
                 //  uname="ttt";
@@ -69,9 +72,12 @@ public abstract class BaseHdr implements HttpHandler {
           //  System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
         //    handle2(exchange);
 
+            //-------------------
             Class<?> aClass =this.getClass();
             Class<?> modifiedClass = getAClassExted(aClass);
             Object instance = modifiedClass.getDeclaredConstructor().newInstance();
+//            setField(instance,"session",new SessionProvider().provide());
+            setField(instance, Session.class,  new SessionProvider().provide());
             Method method = modifiedClass.getMethod("handle2", HttpExchange.class);
             method.invoke(instance, exchange);
 

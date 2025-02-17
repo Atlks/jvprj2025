@@ -5,7 +5,9 @@ package apiUsr;
 import apis.BaseHdr;
 import biz.existUserEx;
 import com.sun.net.httpserver.HttpExchange;
+import org.hibernate.Session;
 import org.noear.solon.annotation.Component;
+import org.picocontainer.annotations.Inject;
 import util.util2026;
 import utilBiz.OrmUtilBiz;
 
@@ -23,6 +25,11 @@ import static util.util2026.*;
 //  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
 // 自定义的请求处理器
 public class RegHandler extends BaseHdr   {
+
+  //  @Inject // 可选，PicoContainer 其实不依赖 @Inject，但能增加可读性
+    public RegHandler(Session session){
+        this.session = session;
+    }
 
   //  @Bean
     public RegHandler() { // 确保它是 Solon 代理的 Bean
@@ -52,16 +59,16 @@ public class RegHandler extends BaseHdr   {
        // reg4bzRzt=  reg4bz(u);   // 自动获取方法名
 
         // 自定义异常处理的函数接口
-        Function<Usr, String> methodRef = user -> {
-            try {
-                // 创建实例
-                RegHandler handler = new RegHandler();
-                return handler.reg4bz(user);  // 调用 reg4bz 方法并处理异常
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null; // 或者返回默认值
-            }
-        };
+//        Function<Usr, String> methodRef = user -> {
+//            try {
+//                // 创建实例
+//                RegHandler handler = new RegHandler();
+//                return handler.reg4bz(user);  // 调用 reg4bz 方法并处理异常
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                return null; // 或者返回默认值
+//            }
+//        };
       //   Function<Usr, String> methodRef = handler::reg4bz;
      //   String methodName = nameofSingleParam(methodRef);
       //  reg4bzRzt= (String) invokeMethod2025(this, "reg4bz",u);
@@ -71,8 +78,9 @@ public class RegHandler extends BaseHdr   {
 
     }
 
-
-
+//    public void setSession(Session session) {
+//        this.session = session;
+//    }
 
     public static void main(String[] args) throws Exception, existUserEx {
         iniCfgFrmCfgfile();
@@ -154,19 +162,30 @@ public class RegHandler extends BaseHdr   {
 //
 //    }
 
-
+    org.hibernate.Session session;
     public   boolean existUser(Usr user) throws Exception {
-        return existUser(user.uname);
+//        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
+        //  om.jdbcurl=saveDirUsrs;
+        //todo start tx
+        // session.beginTransaction();
+        Usr jo = session.find(Usr.class, user.uname);
+        if (jo == null)
+            return false;
+        // 空安全处理，直接操作结果
+        if (jo.uname.equals("")) {
+            return false;
+        } else
+            return true;
     }
 
 
 
 
 
-    public record User(String id, String uname, String pwd, int age, String invtr) {
-
-        // record 自动生成构造函数、getters、equals、hashCode 和 toString 方法
-    }
+//    public record User(String id, String uname, String pwd, int age, String invtr) {
+//
+//        // record 自动生成构造函数、getters、equals、hashCode 和 toString 方法
+//    }
 
     public   boolean existUser(String uname) throws Exception {
 

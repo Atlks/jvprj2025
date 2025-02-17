@@ -1,1 +1,77 @@
-ok
+{
+	"cause":{
+		"cause":{
+			"errmsg":"存在用户",
+			"extraData":{
+				
+			},
+			"fun":"reg4bz",
+			"funPrm":{
+				"id":"qq2",
+				"pwd":"ppp",
+				"uname":"qq2"
+			},
+			"localizedMessage":"存在用户",
+			"message":"存在用户",
+			"suppressed":[
+				
+			]
+		},
+		"stackTrace":[
+			{
+				"fileName":"DirectMethodHandleAccessor.java",
+				"lineNumber":118,
+				"className":"jdk.internal.reflect.DirectMethodHandleAccessor",
+				"methodName":"invoke"
+			},
+			{
+				"fileName":"Method.java",
+				"lineNumber":580,
+				"className":"java.lang.reflect.Method",
+				"methodName":"invoke"
+			},
+			{
+				"fileName":"BaseHdr.java",
+				"lineNumber":82,
+				"className":"apis.BaseHdr",
+				"methodName":"handle"
+			},
+			{
+				"fileName":"ioct.java",
+				"lineNumber":45,
+				"className":"test.ioct",
+				"methodName":"main"
+			}
+		],
+		"suppressed":[
+			
+		],
+		"targetException":{
+			"errmsg":"存在用户",
+			"extraData":{
+				
+			},
+			"fun":"reg4bz",
+			"funPrm":{
+				"id":"qq2",
+				"pwd":"ppp",
+				"uname":"qq2"
+			},
+			"localizedMessage":"存在用户",
+			"message":"存在用户",
+			"suppressed":[
+				
+			]
+		}
+	},
+	"errcode":"biz.existUserEx",
+	"errmsg":"存在用户",
+	"extraData":{
+		
+	},
+	"stackTrace":"java.lang.reflect.InvocationTargetException\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:118)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:580)\r\n\tat apis.BaseHdr.handle(BaseHdr.java:82)\r\n\tat test.ioct.main(ioct.java:45)\r\nCaused by: biz.existUserEx: 存在用户\r\n\tat apiUsr.RegHandler.reg4bz(RegHandler.java:122)\r\n\tat apiUsr.RegHandler.handle2(RegHandler.java:75)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)\r\n\t... 3 more\r\n",
+	"suppressed":[
+		
+	],
+	"url":"\"http://localhost:8889/reg?uname=qq2&pwd=ppp\""
+}

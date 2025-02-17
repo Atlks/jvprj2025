@@ -22,7 +22,7 @@ public class UserBiz {
 
 
         // 创建 User 对象
-        RegHandler.User user = new RegHandler.User("u1", "u1", "", 1,"");
+   //     RegHandler.User user = new RegHandler.User("u1", "u1", "", 1,"");
 //        reg( new RegHandler.User("u1", "u1", "",1));
 //        reg( new RegHandler.User("u2", "u2", "",2));
 //        reg( new RegHandler.User("u3", "u3", "",3));
