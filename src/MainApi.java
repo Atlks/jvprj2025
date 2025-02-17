@@ -10,6 +10,7 @@ import apiUsr.UserCentrHdr;
 import apis.*;
 import com.sun.net.httpserver.HttpServer;
 import org.noear.solon.annotation.SolonMain;
+import org.picocontainer.MutablePicoContainer;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.io.IOException;
@@ -18,6 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static apis.BaseHdr.iniCfgFrmCfgfile;
+import static util.IocUtil.iniIocContainr;
+
 @SolonMain
 @ComponentScan("apiUsr")
 public class MainApi {
@@ -32,10 +35,14 @@ public class MainApi {
         int port = 8889;
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
+        MutablePicoContainer container = iniIocContainr();
         // 定义一个上下文，绑定到 "/api/hello" 路径
         server.createContext("/hello", new HelloHandler());
-        server.createContext("/reg", new RegHandler());
-        server.createContext("/login", new LoginHdr());
+
+
+
+        server.createContext("/reg", container.getComponent(RegHandler.class));
+        server.createContext("/login", container.getComponent(LoginHdr.class));
         server.createContext("/QueryUsr", new QueryUsrHdr());
         server.createContext("/AddOrdBetHdr", new AddOrdBetHdr());
         server.createContext("/QryOrdBetHdr", new QryOrdBetHdr());
@@ -45,19 +52,20 @@ public class MainApi {
         server.createContext("/UserCentrHdr", new UserCentrHdr());
 
 
-        http://localhost:8889/QueryOrdChrgHdr
+        http:
+//localhost:8889/QueryOrdChrgHdr
 
-      //  http://localhost:8889/
+        //  http://localhost:8889/
         // 启动服务器
         server.setExecutor(null); // 默认的线程池
         server.start();
-        System.out.println("http://localhost:"+port+"/QueryUsr");
+        System.out.println("http://localhost:" + port + "/QueryUsr");
         System.out.println("Server started on port 8080");
     }
 
     public static void openMap4test() {
 
-      //  drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
+        //  drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
 
     }
 
@@ -65,7 +73,6 @@ public class MainApi {
         iniCfgFrmCfgfile();
         //   saveUrlOrdChrg
     }
-
 
 
 }

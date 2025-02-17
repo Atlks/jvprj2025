@@ -5,6 +5,7 @@ import apis.BaseHdr;
 import com.mysql.cj.xdevapi.Client;
 import com.sun.net.httpserver.HttpExchange;
 import org.hibernate.Session;
+import org.jetbrains.annotations.NotNull;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.injectors.ProviderAdapter;
@@ -17,28 +18,20 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import static apis.BaseHdr.saveDirUsrs;
+import static util.IocUtil.iniIocContainr;
 
 public class ioct
 {
 
     public static void main(String[] args) throws IOException, SQLException {
 //        MutablePicoContainer container = new DefaultPicoContainer(new org.picocontainer.injectors.FieldInjection());
-        BaseHdr.iniCfgFrmCfgfile();
+
 
         HttpExchange he  =
                new HttpExchangeImp("http://localhost:8889/reg?uname=qq2&pwd=ppp", "uname=0093", "output2025.txt");
 
 
-        MutablePicoContainer container = new DefaultPicoContainer();
-
-
-
-
-//        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
-        // **使用 Provider，每次获取都是新的 `Session`**
-        container.addAdapter(new SessionProvider());
-        // 注册组件
-        container.addComponent(RegHandler.class);
+        MutablePicoContainer container = iniIocContainr();
 
         // 获取 Client 实例
         RegHandler client = container.getComponent(RegHandler.class);
@@ -47,4 +40,6 @@ public class ioct
        // client.setService(container.getComponent(Service.class));
 
     }
+
+
 }
