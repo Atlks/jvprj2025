@@ -18,7 +18,7 @@ fun main(){
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
     BaseHdr.iniCfgFrmCfgfile()
     val he: HttpExchange =
-        HttpExchangeImp("http://localhost:8889/reg?uname=qq1&pwd=ppp", "uname=0091", "output2025.txt")
+        HttpExchangeImp("http://localhost:8889/reg?uname=qq2&pwd=ppp", "uname=0093", "output2025.txt")
 
     RegHandler().handle(he);
     println("------------resp out :\n"+readFile("output2025.txt"));

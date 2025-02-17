@@ -76,7 +76,7 @@ public abstract class BaseHdr implements HttpHandler {
             method.invoke(instance, exchange);
 
       //      System.out.println("endfun handle2()");
-            System.out.println("endfun handle()");
+            System.out.println("✅endfun handle()");
 
         } catch (java.lang.reflect.InvocationTargetException e) {
             ex = new ExceptionBase(e.getMessage());
