@@ -1,18 +1,80 @@
 {
+	"cause":{
+		"cause":{
+			"errmsg":"存在用户",
+			"extraData":{
+				
+			},
+			"fun":"reg4bz",
+			"funPrm":{
+				"id":"qq1",
+				"pwd":"ppp",
+				"uname":"qq1"
+			},
+			"localizedMessage":"存在用户",
+			"message":"存在用户",
+			"suppressed":[
+				
+			]
+		},
+		"stackTrace":[
+			{
+				"fileName":"DirectMethodHandleAccessor.java",
+				"lineNumber":118,
+				"className":"jdk.internal.reflect.DirectMethodHandleAccessor",
+				"methodName":"invoke"
+			},
+			{
+				"fileName":"Method.java",
+				"lineNumber":580,
+				"className":"java.lang.reflect.Method",
+				"methodName":"invoke"
+			},
+			{
+				"fileName":"BaseHdr.java",
+				"lineNumber":74,
+				"className":"apis.BaseHdr",
+				"methodName":"handle"
+			},
+			{
+				"fileName":"testReg.kt",
+				"lineNumber":22,
+				"className":"test.TestRegKt",
+				"methodName":"main"
+			},
+			{
+				"fileName":"testReg.kt",
+				"lineNumber":-1,
+				"className":"test.TestRegKt",
+				"methodName":"main"
+			}
+		],
+		"suppressed":[
+			
+		],
+		"targetException":{
+			"errmsg":"存在用户",
+			"extraData":{
+				
+			},
+			"fun":"reg4bz",
+			"funPrm":{
+				"id":"qq1",
+				"pwd":"ppp",
+				"uname":"qq1"
+			},
+			"localizedMessage":"存在用户",
+			"message":"存在用户",
+			"suppressed":[
+				
+			]
+		}
+	},
 	"errcode":"biz.existUserEx",
 	"errmsg":"存在用户",
 	"extraData":{
 		
 	},
-	"fun":"reg4bz",
-	"funPrm":{
-		"id":"qq1",
-		"pwd":"ppp",
-		"uname":"qq1"
-	},
-	"localizedMessage":"存在用户",
-	"message":"存在用户",
-	"stackTrace":"biz.existUserEx: 存在用户\r\n\tat apiUsr.RegHandler.reg4bz(RegHandler.java:114)\r\n\tat apiUsr.RegHandler.handle2(RegHandler.java:68)\r\n\tat apis.BaseHdr.handle(BaseHdr.java:66)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:580)\r\n\tat test.LogJavassist.main(LogJavassist.java:36)\r\n",
 	"suppressed":[
 		
 	],

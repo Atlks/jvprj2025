@@ -42,7 +42,7 @@ public class LogJavassist {
 
     }
 
-    private static Class<?> getAClassExted(Class<?> aClass) throws NotFoundException, CannotCompileException, IOException {
+    public static Class<?> getAClassExted(Class<?> aClass) throws NotFoundException, CannotCompileException, IOException {
         ClassPool pool = ClassPool.getDefault();
 
         if (pool.find("apiUsr.RegHandler") == null) {

@@ -15,6 +15,7 @@ import util.Err;
 import util.ExceptionBase;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.Map;
 import java.util.Set;
@@ -22,6 +23,7 @@ import java.util.Set;
 import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 
+import static test.LogJavassist.getAClassExted;
 import static util.Util2025.encodeJson;
 
 import static util.util2026.*;
@@ -63,7 +65,14 @@ public abstract class BaseHdr implements HttpHandler {
             }
 
             System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
-            handle2(exchange);
+        //    handle2(exchange);
+
+            Class<?> aClass =this.getClass();
+            Class<?> modifiedClass = getAClassExted(aClass);
+            Object instance = modifiedClass.getDeclaredConstructor().newInstance();
+            Method method = modifiedClass.getMethod("handle2", HttpExchange.class);
+            method.invoke(instance, exchange);
+
             System.out.println("endfun handle2()");
             System.out.println("endfun handle()");
 

@@ -13,8 +13,17 @@ import util.AOPASM
 import util.AOPASM.getObject
 import util.HttpExchangeImp
 import java.io.File
+fun main(){
 
-fun main() {
+    BaseHdr.iniCfgFrmCfgfile()
+    val he: HttpExchange =
+        HttpExchangeImp("http://localhost:8889/reg?uname=qq1&pwd=ppp", "uname=0091", "output2025.txt")
+
+    RegHandler().handle(he);
+    println("------------resp out :\n"+readFile("output2025.txt"));
+}
+
+fun main4asm() {
     println(33)
     //C:\Users\attil\IdeaProjects\jvprj2025\target\classes\apiUsr\RegHandler.class
     // println(RegHandler::class)
