@@ -1,4 +1,4 @@
-package util;
+package entityx;
 
 import java.util.List;
 

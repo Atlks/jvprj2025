@@ -5,6 +5,7 @@ import biz.baseObj;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import entityx.PageResult;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import utilBiz.OrmUtilBiz;
@@ -729,25 +730,11 @@ public class dbutil {
     }
 
 
-    public static PageResult<?> getPageResult(String sql, Map<String, Object> sqlprmMap, int pageNumber, int pageSize, Session session) throws SQLException {
+    public static PageResult<?> getPageResultByHbnt(String sql, Map<String, Object> sqlprmMap, int pageNumber, int pageSize, Session session) throws SQLException {
 
 
-        NativeQuery nativeQuery = session.createNativeQuery(sql);
-        setPrmts4sql(sqlprmMap, nativeQuery);
-        // 设置分页
-        nativeQuery.setFirstResult(getstartPosition(pageNumber, pageSize));
-        nativeQuery.setMaxResults(pageSize);
-        //       .setParameter("age", 18);
-        List<?> list1 = nativeQuery.getResultList();
-
-
-        //------------page
-        long totalRecords = nativeQuery.getResultCount();
-
-
-        long totalPages = (long) Math.ceil((double) totalRecords / pageSize);
-        return new PageResult<>(list1, totalRecords, totalPages);
-    }
+        return  Pagging.getPageResultByHbnt(sql,sqlprmMap,pageNumber,pageSize,session);
+     }
 
     /**
      * 错误的 COUNT(*) 查询 👉 COUNT(*) 语句不能直接嵌套在 FROM (...)，如果 sql 本身包含 ORDER BY，可能会报错。
@@ -760,20 +747,8 @@ public class dbutil {
      * @throws SQLException
      */
     @Deprecated
-    public static PageResult<SortedMap<String, Object>> getPageResult(String sql, Map<String, Object> sqlprmMap, List list1, long pageSize) throws SQLException {
-        String countSql = "SELECT COUNT(*) FROM (" + sql + ") t";
-        System.out.println("countSql=" + countSql);
-        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
-
-        NativeQuery nativeQuery = session.createNativeQuery(countSql);
-        setPrmts4sql(sqlprmMap, nativeQuery);
-        long totalRecords = ((Number) nativeQuery
-//                .setParameter(1, username)
-//                .setParameter(2, minAge)
-                .getSingleResult()).longValue();
-
-        long totalPages = (long) Math.ceil((double) totalRecords / pageSize);
-        return new PageResult<>(list1, totalRecords, totalPages);
+    public static PageResult<SortedMap<String, Object>> getPageResultByCntsql(String sql, Map<String, Object> sqlprmMap, List list1, long pageSize) throws SQLException {
+        return  Pagging.getPageResultByCntsql(sql,sqlprmMap,list1,pageSize,null);
     }
 
     /**
@@ -785,8 +760,8 @@ public class dbutil {
      * @param <T>
      * @return
      */
-    @Deprecated
-    public static <T> PageResult<T> getPageResult(List<T> list1, int pageSize, int pageNumber) {
+
+    public static <T> PageResult<T> getPageResultBySblst(List<T> list1, int pageSize, int pageNumber) {
         long totalRecords = list1.size();
         long totalPages = (long) Math.ceil((double) totalRecords / pageSize);
 
@@ -794,12 +769,12 @@ public class dbutil {
         return new PageResult<>(listPageed, totalRecords, totalPages);
     }
 
-    @Deprecated
-    public static <T> PageResult<T> getPageResult2025(String sql, Map<String, Object> sqlprmMap, baseObj pageDto, Session session, Class class1) {
+
+    public static <T> PageResult<T> getPageResultBySublist(String sql, Map<String, Object> sqlprmMap, baseObj pageDto, Session session, Class class1) {
         List<T> lst = nativeQueryGetResultList(sql, sqlprmMap, session, class1);
         //    var list1 = getSortedMapsBypages( sql,pageSize, pageNumber);
         // 1️⃣ 计算总记录数
-        var list1 = getPageResult(lst, pageDto.pagesize, pageDto.page);
+        var list1 = getPageResultBySblst(lst, pageDto.pagesize, pageDto.page);
         return list1;
     }
 

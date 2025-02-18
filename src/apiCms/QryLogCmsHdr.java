@@ -5,7 +5,7 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import org.hibernate.Session;
 import util.HttpExchangeImp;
-import util.PageResult;
+import entityx.PageResult;
 import utilBiz.OrmUtilBiz;
 
 import java.io.FileOutputStream;
@@ -92,7 +92,7 @@ public class QryLogCmsHdr extends BaseHdr {
         System.out.println(encodeJson(sqlprmMap));
 
         Session session = OrmUtilBiz.openSession(saveUrlOrdChrg);
-        PageResult<?> rzt = getPageResult(sql, sqlprmMap, qryDto.page, qryDto.pagesize, session);
+        PageResult<?> rzt = getPageResultByHbnt(sql, sqlprmMap, qryDto.page, qryDto.pagesize, session);
         //    var list1 = getSortedMapsBypages( sql,pageSize, pageNumber);
         // 1️⃣ 计算总记录数
         // return getPageResult( sqlNoOrd,sqlprmMap,lst,pageSize);

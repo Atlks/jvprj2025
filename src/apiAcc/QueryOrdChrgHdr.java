@@ -3,13 +3,12 @@ package apiAcc;
 import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 import org.hibernate.Session;
-import util.PageResult;
+import entityx.PageResult;
 import utilBiz.OrmUtilBiz;
 
 import java.util.*;
 
 import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
-import static apiUsr.RegHandler.saveDirUsrs;
 import static util.ToXX.parseQueryParams;
 import static util.Util2025.encodeJson;
 import static util.dbutil.*;
@@ -74,7 +73,7 @@ public class QueryOrdChrgHdr extends BaseHdr {
         List<OrdChrg> lst = (List<OrdChrg>) nativeQueryGetResultList( sql, sqlprmMap, (int) pageNumber,pageSize, session );
         //    var list1 = getSortedMapsBypages( sql,pageSize, pageNumber);
         // 1️⃣ 计算总记录数
-        return getPageResult( sqlNoOrd,sqlprmMap,lst,pageSize);
+        return getPageResultByCntsql( sqlNoOrd,sqlprmMap,lst,pageSize);
     }
 
 
