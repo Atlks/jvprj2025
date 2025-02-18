@@ -24,8 +24,8 @@ import static util.util2026.*;
 public class AddOrdChargeHdr extends BaseHdr {
     public static String saveUrlOrdChrg;
 
-    public AddOrdChargeHdr() {
-    }
+//    public AddOrdChargeHdr() {
+//    }
 
     public AddOrdChargeHdr(Session sess) {
  this.session=sess;

@@ -16,6 +16,7 @@ import entityx.Err;
 import entityx.ExceptionBase;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.Map;
@@ -83,7 +84,17 @@ public abstract class BaseHdr implements HttpHandler {
             //-------------------
             Class<?> aClass =this.getClass();
             Class<?> modifiedClass = getAClassExted(aClass);
-            Object instance = modifiedClass.getDeclaredConstructor().newInstance();
+            Object instance ;
+            try{
+                instance= modifiedClass.getConstructor().newInstance();
+            } catch (NoSuchMethodException e) {
+               // 没有无参构造函数
+                Constructor<?> constructor = modifiedClass.getConstructor(Session.class); // 指定参数类型
+                  instance = constructor.newInstance( session);
+
+                  //other dync fore
+            }
+
 //            setField(instance,"session",new SessionProvider().provide());
             //new SessionProvider().provide()
             setField(instance, Session.class, session );
