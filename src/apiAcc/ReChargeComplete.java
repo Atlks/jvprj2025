@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import static apiCms.CmsBiz.toBigDcmTwoDot;
 import static apis.BaseHdr.iniCfgFrmCfgfile;
 import static util.HbntUtil.*;
+import static util.TransactMng.beginTransaction;
 import static util.dbutil.setField;
 import static util.util2026.*;
 
@@ -38,7 +39,7 @@ public class ReChargeComplete extends AopBase  {
     public   void updateOrdChgSetCmpltBiz(String id) throws Exception {
 
         Session session = sessionFactory.getCurrentSession();
-
+        beginTransaction(session);
         //------------blk chge regch stat=ok
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
