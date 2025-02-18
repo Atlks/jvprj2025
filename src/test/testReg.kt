@@ -3,7 +3,8 @@ package test;
 
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
-import AppConfig
+import cfg.AppConfig
+import cfg.IocPicoCfg.iniIocContainr
 import apiUsr.RegHandler
 import apis.BaseHdr
 import com.sun.net.httpserver.HttpExchange
@@ -13,7 +14,7 @@ import org.noear.solon.core.AppContext
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import util.HttpExchangeImp
-import util.IocUtil.iniIocContainr
+
 import utilDep.AOPASM
 import java.io.File
 

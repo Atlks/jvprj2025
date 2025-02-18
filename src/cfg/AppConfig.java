@@ -1,5 +1,9 @@
+package cfg;
+
+import apiUsr.QueryUsrHdr;
 import apis.BaseHdr;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.*;
@@ -32,6 +36,14 @@ public class AppConfig {
         SessionFactory sessionFactory = getSessionFactory(saveDirUsrs, li);
 
         return sessionFactory;
+    }
+
+
+    //手动注入class
+    @Bean
+    public QueryUsrHdr queryUsrHdr(@Autowired SessionFactory sessionFactory) {
+        // 确保 sessionFactory 被正确注入
+        return new QueryUsrHdr(sessionFactory);
     }
 
     @Bean

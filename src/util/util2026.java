@@ -26,7 +26,36 @@ public class util2026 {
         System.out.println(encodeJson(11));
     }
 
-    static void removeFile(String fnamePath) {
+
+    public static void scanClasses(File dir, String basePath, List<Class<?>> classList) {
+        File[] files = dir.listFiles();
+        if (files == null) return;
+
+        for (File file : files) {
+            if (file.isDirectory()) {
+                scanClasses(file, basePath, classList);
+            } else if (file.getName().endsWith(".class")) {
+                String className = file.getAbsolutePath()
+                        .replace(basePath, "")
+                        .replace(".class", "")
+                        .replace(File.separator, ".");
+                if (className.startsWith(".")) {
+                    className = className.substring(1);
+                }
+                try {
+                    Class<?> clazz = Class.forName(className);
+                    classList.add(clazz);
+                } catch (ClassNotFoundException e) {
+                    System.err.println("加载失败: " + className);
+                } catch (Throwable e) {
+                    System.err.println("加载失败: " + className);
+                }
+            }
+        }
+    }
+
+
+    public static void removeFile(String fnamePath) {
         File file = new File(fnamePath);
         if (file.exists()) {
             if (file.delete()) {

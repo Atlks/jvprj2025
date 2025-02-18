@@ -4,6 +4,6 @@
 //
 //@Configuration
 //@EnableAspectJAutoProxy
-//public class AppConfig {
+//public class cfg.AppConfig {
 //    // 其他配置
 //}

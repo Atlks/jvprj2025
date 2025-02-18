@@ -8,18 +8,19 @@ import apiUsr.QueryUsrHdr;
 import apiUsr.RegHandler;
 import apiUsr.UserCentrHdr;
 import apis.*;
+import cfg.AppConfig;
+import cfg.IocPicoCfg;
 import com.sun.net.httpserver.HttpServer;
 import org.noear.solon.annotation.SolonMain;
 import org.picocontainer.MutablePicoContainer;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.HashMap;
-import java.util.Map;
 
 import static apis.BaseHdr.iniCfgFrmCfgfile;
-import static util.IocUtil.iniIocContainr;
+//import static cfg.IocPicoCfg.iniIocContainr;
 
 @SolonMain
 @ComponentScan("apiUsr")
@@ -35,22 +36,27 @@ public class MainApi {
         int port = 8889;
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
-        MutablePicoContainer container = iniIocContainr();
+        MutablePicoContainer container = IocPicoCfg.iniIocContainr();
+             AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         // 定义一个上下文，绑定到 "/api/hello" 路径
         server.createContext("/hello", new HelloHandler());
 
 
-
         server.createContext("/reg", container.getComponent(RegHandler.class));
         server.createContext("/login", container.getComponent(LoginHdr.class));
-        server.createContext("/QueryUsr", new QueryUsrHdr());
+        server.createContext("/QueryUsr", context.getBean(QueryUsrHdr.class) );
         server.createContext("/AddOrdBetHdr",
-                container.getComponent(AddOrdBetHdr.class)  );
+                container.getComponent(AddOrdBetHdr.class));
         server.createContext("/QryOrdBetHdr", new QryOrdBetHdr());
         server.createContext("/QryTeamHdr", new QryTeamHdr());
+
+
+
+//        AddOrdBetHdr bean = context.getBean(AddOrdBetHdr.class);
+
         server.createContext("/AddOrdChargeHdr",
-                container.getComponent(RegHandler.class)
-              );
+                container.getComponent(AddOrdChargeHdr.class)
+        );
         server.createContext("/QueryOrdChrgHdr", new QueryOrdChrgHdr());
         server.createContext("/UserCentrHdr", new UserCentrHdr());
 

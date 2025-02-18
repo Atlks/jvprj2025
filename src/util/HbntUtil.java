@@ -15,12 +15,13 @@ import java.util.List;
 import java.util.Properties;
 
 import static util.ColorLogger.*;
-import static util.IocUtil.scanClasses;
+//import static cfg.IocPicoCfg.scanClasses;
 import static util.StrUtil.getPwdFromJdbcurl;
 import static util.StrUtil.getUnameFromJdbcurl;
 import static util.Util2025.encodeJson;
 import static util.Util2025.encodeJsonObj;
 import static util.dbutil.*;
+import static util.util2026.scanClasses;
 
 //ormUtilHbnt
 public class HbntUtil {

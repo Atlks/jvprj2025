@@ -4,7 +4,7 @@ package test;
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
 import cfg.AppConfig
-import apiOrdBet.AddOrdBetHdr
+import apiUsr.QueryUsrHdr
 import apis.BaseHdr
 import com.sun.net.httpserver.HttpExchange
 import org.springframework.context.ApplicationContext
@@ -16,7 +16,7 @@ fun main() {
     //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
     BaseHdr.iniCfgFrmCfgfile()
     val he: HttpExchange =
-        HttpExchangeImp("http://localhost:8889/AddOrdBetHdr?bettxt=龙湖和", "uname=008", "output2025.txt")
+        HttpExchangeImp("http://localhost:8889/QueryUsrHdr?bettxt=龙湖和", "uname=008", "output2025.txt")
 //    val container = iniIocContainr()
 //  //  println(    container.getComponent(SessionFactory::class.java))
 //    val component = container.getComponent(AddOrdBetHdr::class.java)
@@ -24,7 +24,7 @@ fun main() {
 //    obj.handle(he);
 
     val context: ApplicationContext = AnnotationConfigApplicationContext(AppConfig::class.java)
-    val bean: AddOrdBetHdr = context.getBean<AddOrdBetHdr>(AddOrdBetHdr::class.java)
+    val bean: QueryUsrHdr = context.getBean<QueryUsrHdr>(QueryUsrHdr::class.java)
     bean.handle(he);
 
 }

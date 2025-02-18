@@ -1,3 +1,5 @@
+package cfg;
+
 import apis.BaseHdr;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;

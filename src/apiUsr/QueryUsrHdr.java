@@ -2,6 +2,9 @@ package apiUsr;
 
 import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import utilBiz.OrmUtilBiz;
 //import org.apache.lucene.index.DirectoryReader;
 //import org.apache.lucene.index.Term;
@@ -20,8 +23,14 @@ import static util.dbutil.*;
 
 import static util.util2026.*;
 
+@Component
 public class QueryUsrHdr extends BaseHdr {
 
+    @Autowired
+    public QueryUsrHdr(SessionFactory sessionFactory1){
+        this.sessionFactory = sessionFactory1;
+        super.sessionFactory=sessionFactory1;
+    }
     public static void main(String[] args) throws Exception {
         iniCfgFrmCfgfile();
         Map<String, String> queryParams = Map.of(
@@ -38,16 +47,7 @@ public class QueryUsrHdr extends BaseHdr {
 
         String uname = getcookie("uname", exchange);
         uname="ttt";
-        if (uname.equals("")) {
-            //need login
-            NeedLoginEx e = new NeedLoginEx("存在用户");
-            e.fun="QueryUsrHdr。"+getCurrentMethodName();
-            e.funPrm= (exchange);
 
-            throw e;
-          //  wrtResp(exchange, "needLogin");
-          //  return;
-        }
 
         //blk login ed
         // qryuser(exchange);
