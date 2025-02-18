@@ -25,7 +25,7 @@ fun main() {
     //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
     BaseHdr.iniCfgFrmCfgfile()
     val he: HttpExchange =
-        HttpExchangeImp("http://localhost:8889/reg?uname=007&pwd=ppp", "uname=008", "output2025.txt")
+        HttpExchangeImp("http://localhost:8889/AddOrdBetHdr?bettxt=龙湖和", "uname=008", "output2025.txt")
 //    val container = iniIocContainr()
 //  //  println(    container.getComponent(SessionFactory::class.java))
 //    val component = container.getComponent(AddOrdBetHdr::class.java)

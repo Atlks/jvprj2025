@@ -52,13 +52,13 @@ public class AddOrdBetHdr extends BaseHdr {
         ord.timestamp=System.currentTimeMillis();
         ord.uname=uname;
         ord.id="ordBet"+getFilenameFrmLocalTimeString();
-        addOrdBet(ord,   saveUrlOrdBet);
+        addOrdBet(ord);
         wrtResp(exchange, "ok");
 
 
     }
 
-    private void addOrdBet(OrdBet ord, String saveUrlOrdBet) throws SQLException {
+    public void addOrdBet(OrdBet ord) throws SQLException {
         Session session =sessionFactory.getCurrentSession();
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
