@@ -1,4 +1,4 @@
-package apiAcc;
+package entityx;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

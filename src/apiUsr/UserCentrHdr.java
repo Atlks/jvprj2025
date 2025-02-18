@@ -2,6 +2,7 @@ package apiUsr;
 
 import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
+import entityx.Usr;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import utilBiz.OrmUtilBiz;
@@ -11,7 +12,6 @@ import java.util.Map;
 import java.util.SortedMap;
 
 import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
-import static apiUsr.RegHandler.saveDirUsrs;
 import static util.ToXX.parseQueryParams;
 import static util.Util2025.encodeJson;
 import static util.dbutil.*;

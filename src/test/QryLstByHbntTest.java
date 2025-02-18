@@ -1,7 +1,6 @@
 package test;
 
-import apiOrdBet.OrdBet;
-import apiOrdBet.QryOrdBetHdr;
+import entityx.OrdBet;
 import org.hibernate.Session;
 import util.HttpExchangeImp;
 import utilBiz.OrmUtilBiz;
@@ -13,7 +12,6 @@ import java.util.regex.Pattern;
 
 import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
 import static apis.BaseHdr.iniCfgFrmCfgfile;
-import static util.OrdUtil.orderBySqlOrderMode;
 import static util.Qry.convertSqlToSpEL;
 import static util.Util2025.encodeJson;
 import static util.Util2025.encodeJsonObj;

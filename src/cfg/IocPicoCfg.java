@@ -85,6 +85,11 @@ public class IocPicoCfg {
             // 注册到 PicoContainer
             for (Class<?> clazz : classList) {
                 try {
+                    if(clazz.getName().startsWith("entityx."))
+                        continue;
+                    if(clazz.getName().startsWith("test."))
+                        continue;
+
                     container888.addComponent(clazz);
                     System.out.println("已注册: " + clazz.getName());
                 } catch (Exception e) {

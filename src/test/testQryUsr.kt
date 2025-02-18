@@ -6,6 +6,7 @@ package test;
 import cfg.AppConfig
 import apiUsr.QueryUsrHdr
 import apis.BaseHdr
+import cfg.IocPicoCfg
 import com.sun.net.httpserver.HttpExchange
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
@@ -17,7 +18,7 @@ fun main() {
     BaseHdr.iniCfgFrmCfgfile()
     val he: HttpExchange =
         HttpExchangeImp("http://localhost:8889/QueryUsrHdr?bettxt=龙湖和", "uname=008", "output2025.txt")
-//    val container = iniIocContainr()
+    val container =IocPicoCfg. iniIocContainr()
 //  //  println(    container.getComponent(SessionFactory::class.java))
 //    val component = container.getComponent(AddOrdBetHdr::class.java)
 //    var obj= component as AddOrdBetHdr

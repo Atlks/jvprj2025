@@ -140,8 +140,12 @@ public class HbntUtil {
         // 注册到 hbnt
         for (Class<?> clazz : classList) {
             try {
-                metadataSources.addAnnotatedClasses(clazz);
-                System.out.println("hbnt已注册hbnt: " + clazz.getName());
+                if(clazz.getName().startsWith("entityx"))
+                {
+                    metadataSources.addAnnotatedClasses(clazz);
+                    System.out.println("hbnt已注册hbnt: " + clazz.getName());
+                }
+
             } catch (Exception e) {
                 System.err.println("hbnt注册失败: " + clazz.getName());
                 System.err.println("hbnt注册失败msg: " + e.getMessage());

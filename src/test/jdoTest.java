@@ -1,9 +1,9 @@
 package test;
 
-import apiAcc.LogBls;
-import apiAcc.OrdChrg;
-import apiUsr.Usr;
-import apiWltYinli.LogBlsLogYLwlt;
+import entityx.LogBls;
+import entityx.OrdChrg;
+import entityx.Usr;
+import entityx.LogBlsLogYLwlt;
 import utilFuchr.JdoPstsMngrHbnt;
 import utilFuchr.JdoPstsMngrIni;
 

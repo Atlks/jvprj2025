@@ -2,6 +2,7 @@ package apiUsr;
 
 import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
+import entityx.Usr;
 import utilBiz.OrmUtilBiz;
 
 import java.sql.SQLException;

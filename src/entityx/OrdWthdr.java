@@ -1,4 +1,4 @@
-package apiWltYinli;
+package entityx;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;

@@ -1,18 +1,16 @@
 package apiUsr;
 
 import apis.BaseHdr;
-import com.alibaba.fastjson2.JSONObject;
 import com.sun.net.httpserver.HttpExchange;
+import entityx.Usr;
 import jakarta.persistence.LockModeType;
 import utilBiz.OrmUtilBiz;
 
 
-import static apiUsr.RegHandler.saveDirUsrs;
 import static util.EncodeUtil.encodeMd5;
 import static util.HbntUtil.findByHbnt;
 import static util.HbntUtil.mergeByHbnt;
 import static util.dbutil.addObj;
-import static util.dbutil.getObjDocdb;
 import static util.util2026.*;
 
 public class UpdtPwdHdr extends BaseHdr {

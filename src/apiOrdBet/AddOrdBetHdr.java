@@ -1,20 +1,17 @@
 package apiOrdBet;
 
 import apis.BaseHdr;
-import com.alibaba.fastjson2.JSON;
 import com.sun.net.httpserver.HttpExchange;
+import entityx.OrdBet;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import util.HttpExchangeImp;
-import utilBiz.OrmUtilBiz;
 
 import java.sql.SQLException;
 import java.util.Map;
 
 
-import static apiOrdBet.QryOrdBetHdr.saveUrlOrdBet;
 import static java.time.LocalTime.now;
 import static util.ToXX.parseQueryParams;
 import static util.ToXX.toObjFrmMap;

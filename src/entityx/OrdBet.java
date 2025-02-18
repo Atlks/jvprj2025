@@ -1,4 +1,4 @@
-package apiOrdBet;
+package entityx;
 
 //import javax.persistence.*;
 //import javax.persistence.Column;
@@ -6,7 +6,6 @@ package apiOrdBet;
 //import javax.persistence.Id;
 //import javax.persistence.Table;
 
-import entityx.baseObj;
 import jakarta.persistence.*;
 //  must jakarta not javax
 

@@ -2,6 +2,7 @@ package apiOrdBet;
 
 import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
+import entityx.OrdBet;
 import org.hibernate.Session;
 import utilBiz.OrmUtilBiz;
 
@@ -15,7 +16,6 @@ import static java.time.LocalTime.now;
 import static util.Pagging.getPageResultByHbntV2;
 import static util.ToXX.toObjFrmQrystr;
 import static util.Util2025.encodeJson;
-import static util.dbutil.*;
 import static util.util2026.*;
 
 /**   查询规则，参数使用类型化，不要新定义dto，直接使用实体代替

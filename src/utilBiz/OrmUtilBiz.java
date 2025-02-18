@@ -1,13 +1,12 @@
 package utilBiz;
 
-import apiAcc.LogBls;
-import apiAcc.OrdChrg;
-import apiCms.LogCms;
-import apiOrdBet.OrdBet;
-import apiUsr.Usr;
-import apiWltYinli.LogBlsLogYLwlt;
+import entityx.LogBls;
+import entityx.OrdChrg;
+import entityx.LogCms;
+import entityx.OrdBet;
+import entityx.Usr;
+import entityx.LogBlsLogYLwlt;
 import org.hibernate.Session;
-import org.hibernate.boot.MetadataSources;
 import util.HbntUtil;
 import util.SessionImpIni;
 

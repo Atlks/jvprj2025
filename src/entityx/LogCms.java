@@ -1,6 +1,5 @@
-package apiCms;
+package entityx;
 
-import entityx.baseObj;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;

@@ -1,12 +1,10 @@
 package test;
 
-import apiUsr.Usr;
+import entityx.Usr;
 import org.hibernate.Session;
 import utilBiz.OrmUtilBiz;
 
 import java.sql.SQLException;
-
-import static apiUsr.RegHandler.saveDirUsrs;
 
 public class HbntIniTest {
 

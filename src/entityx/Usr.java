@@ -1,6 +1,5 @@
-package apiUsr;
+package entityx;
 
-import com.alibaba.fastjson2.function.impl.ToBigDecimal;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;

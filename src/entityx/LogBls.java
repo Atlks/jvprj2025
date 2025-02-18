@@ -1,4 +1,4 @@
-package apiAcc;
+package entityx;
 
 //jakarta.persistence.Entity（JPA 3.x, Jakarta EE 9 及以后）
 //javax.persistence.Entity  already dep

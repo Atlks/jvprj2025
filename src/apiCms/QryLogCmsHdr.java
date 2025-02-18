@@ -3,6 +3,7 @@ package apiCms;
 import apis.BaseHdr;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
+import entityx.LogCms;
 import org.hibernate.Session;
 import util.HttpExchangeImp;
 import entityx.PageResult;

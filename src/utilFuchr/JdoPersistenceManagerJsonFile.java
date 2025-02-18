@@ -1,6 +1,6 @@
 package utilFuchr;
 
-import apiUsr.Usr;
+import entityx.Usr;
 import com.alibaba.fastjson2.JSON;
 import java.io.File;
 import java.io.FileWriter;

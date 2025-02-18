@@ -4,9 +4,9 @@ package apiUsr;
 
 import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
+import entityx.Usr;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 

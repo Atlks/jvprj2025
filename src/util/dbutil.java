@@ -1,6 +1,6 @@
 package util;
 
-import apiAcc.OrdChrg;
+import entityx.OrdChrg;
 import entityx.baseObj;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
