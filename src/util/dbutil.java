@@ -835,17 +835,21 @@ public class dbutil {
         }
 
         // 获取 obj 的所有字段
-        Field[] fields = obj.getClass().getDeclaredFields();
+        Field[] fields = obj.getClass().getFields();
         for (Field fld : fields) {
             if (fld.getType() == key) { // 忽略大小写比较字段名
                 try {
 
                     fld.setAccessible(true); // 确保字段可访问
-
-                    if (value.getClass() == String.class && (fld.getType() == Long.class || fld.getType().getName().equals("long")))
-                        setLong2025(fld, obj, toLong(value.toString()));
-                    else
+                    if (value==null)
                         fld.set(obj, value); // 设置字段值
+                    else{
+                        if (value.getClass() == String.class && (fld.getType() == Long.class || fld.getType().getName().equals("long")))
+                            setLong2025(fld, obj, toLong(value.toString()));
+                        else
+                            fld.set(obj, value); // 设置字段值
+                    }
+
                 } catch (IllegalAccessException e) {
                     //  throw new RuntimeException("Failed to set field value: " + key, e);
                     System.out.println("waring: setField(obj=" + obj + ",key=" + key.toString() + ",val=" + value);

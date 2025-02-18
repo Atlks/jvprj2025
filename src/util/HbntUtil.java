@@ -112,7 +112,10 @@ public class HbntUtil {
     }
 
     public static void persistByHbnt(Object var1, Session session) {
-        System.out.println("\r\n▶\uFE0Ffun persistByHbnt(o="+encodeJsonObj(var1));
+
+        String mth= colorStr("persistByHbnt",YELLOW_bright);
+        String prmurl= colorStr(encodeJsonObj(var1),GREEN);
+        System.out.println("\r\n▶\uFE0Ffun "+mth+"(o="+prmurl);
 
         System.out.println("persistByHbnt("+ var1.getClass().getName());
         session.persist(var1);

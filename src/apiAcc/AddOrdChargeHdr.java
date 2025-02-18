@@ -24,6 +24,13 @@ import static util.util2026.*;
 public class AddOrdChargeHdr extends BaseHdr {
     public static String saveUrlOrdChrg;
 
+    public AddOrdChargeHdr() {
+    }
+
+    public AddOrdChargeHdr(Session sess) {
+ this.session=sess;
+    }
+
     @Override
     public void handle2(HttpExchange exchange) throws Exception {
 
@@ -46,16 +53,16 @@ public class AddOrdChargeHdr extends BaseHdr {
     }
 
 
-    private static void addOrdChg(OrdChrg ord) throws Exception {
+    private   void addOrdChg(OrdChrg ord) throws Exception {
         String now = String.valueOf(now());
         // 使用 try-with-resources 自动关闭
-      try(  Session session = OrmUtilBiz. openSession(saveUrlOrdChrg)) {
+      //try(  Session session = OrmUtilBiz. openSession(saveUrlOrdChrg)) {
           //  om.jdbcurl=saveDirUsrs;
           //todo start tx
           session.beginTransaction();
           persistByHbnt(ord,session);
           session.getTransaction().commit();
-      }
+   //   }
     //    addObj(ord, saveUrlOrdChrg,OrdChrg.class);
     }
 
@@ -72,7 +79,7 @@ public class AddOrdChargeHdr extends BaseHdr {
         ord.id = "ordChrg" + getFilenameFrmLocalTimeString();
         System.out.println("ordid=" + ord.id
         );
-        addOrdChg(ord);
+     //   addOrdChg(ord);
     }
 
 

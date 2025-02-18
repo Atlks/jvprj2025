@@ -57,6 +57,8 @@ public class IocUtil {
                     System.out.println("已注册: " + clazz.getName());
                 } catch (Exception e) {
                     System.err.println("注册失败: " + clazz.getName());
+                    System.err.println("注册失败msg: " + e.getMessage());
+                  //  System.err.println("注册失败: " + clazz.getName());
                 }
             }
         } catch (Exception e) {

@@ -35,6 +35,11 @@ import static util.util2026.*;
 public abstract class BaseHdr implements HttpHandler {
 
     public  org.hibernate.Session session;
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
     //wz qrystr
     public static ThreadLocal<String> curUrl = new ThreadLocal<>();
     public static ThreadLocal<String> curUrlPrm = new ThreadLocal<>();
