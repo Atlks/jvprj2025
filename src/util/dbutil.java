@@ -805,7 +805,7 @@ public class dbutil {
         }
 
         // 获取 obj 的所有字段
-        Field[] fields = obj.getClass().getDeclaredFields();
+        Field[] fields = obj.getClass().getFields();
         for (Field fld : fields) {
             if (fld.getName().equalsIgnoreCase(key)) { // 忽略大小写比较字段名
                 try {
@@ -849,6 +849,7 @@ public class dbutil {
                         else
                             fld.set(obj, value); // 设置字段值
                     }
+
 
                 } catch (IllegalAccessException e) {
                     //  throw new RuntimeException("Failed to set field value: " + key, e);

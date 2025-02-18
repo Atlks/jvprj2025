@@ -9,7 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.time.LocalTime.now;
+
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import utilBiz.OrmUtilBiz;
 
 import static util.HbntUtil.openSession;
@@ -24,18 +27,20 @@ import static util.util2026.*;
 public class AddOrdChargeHdr extends BaseHdr {
     public static String saveUrlOrdChrg;
 
-//    public AddOrdChargeHdr() {
+    //    public AddOrdChargeHdr() {
 //    }
+//    @Autowired
+//    public SessionFactory sessionFactory;
 
-    public AddOrdChargeHdr(Session sess) {
- this.session=sess;
+    public AddOrdChargeHdr(SessionFactory sess) {
+        this.sessionFactory = sess;
     }
 
     @Override
     public void handle2(HttpExchange exchange) throws Exception {
 
 
-
+        System.out.println(sessionFactory);
         //blk login ed
         String uname = getcookie("uname", exchange);
         Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
@@ -52,23 +57,23 @@ public class AddOrdChargeHdr extends BaseHdr {
 
     }
 
-
-    private   void addOrdChg(OrdChrg ord) throws Exception {
+    private void addOrdChg(OrdChrg ord) throws Exception {
         String now = String.valueOf(now());
         // 使用 try-with-resources 自动关闭
-      //try(  Session session = OrmUtilBiz. openSession(saveUrlOrdChrg)) {
-          //  om.jdbcurl=saveDirUsrs;
-          //todo start tx
-          session.beginTransaction();
-          persistByHbnt(ord,session);
-          session.getTransaction().commit();
-   //   }
-    //    addObj(ord, saveUrlOrdChrg,OrdChrg.class);
+        //try(  Session session = OrmUtilBiz. openSession(saveUrlOrdChrg)) {
+        //  om.jdbcurl=saveDirUsrs;
+        //todo start tx
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        persistByHbnt(ord, session);
+        session.getTransaction().commit();
+        //   }
+        //    addObj(ord, saveUrlOrdChrg,OrdChrg.class);
     }
 
     public static void main(String[] args) throws Exception {
         iniCfgFrmCfgfile();
-       // drvMap.put("com.mysql.cj.jdbc.Driver", "org.h2.Driver");
+        // drvMap.put("com.mysql.cj.jdbc.Driver", "org.h2.Driver");
         Map<String, Object> queryParams = new HashMap<>();
         queryParams.put("amt", new BigDecimal("888"));
 
@@ -79,7 +84,7 @@ public class AddOrdChargeHdr extends BaseHdr {
         ord.id = "ordChrg" + getFilenameFrmLocalTimeString();
         System.out.println("ordid=" + ord.id
         );
-     //   addOrdChg(ord);
+        //   addOrdChg(ord);
     }
 
 

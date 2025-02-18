@@ -8,11 +8,14 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
+import java.io.File;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import static util.ColorLogger.*;
+import static util.IocUtil.scanClasses;
 import static util.StrUtil.getPwdFromJdbcurl;
 import static util.StrUtil.getUnameFromJdbcurl;
 import static util.Util2025.encodeJson;
@@ -27,42 +30,9 @@ public class HbntUtil {
         String urlClr=colorStr(jdbcUrl,GREEN);
         String liClr=colorStr(encodeJsonObj(li),GREEN);
         System.out.println("▶\uFE0F fun "+mthClr+"(url="+urlClr+",listClass="+liClr);
-        var db=getDatabaseFileName4mysql(jdbcUrl);
-        crtDatabase(jdbcUrl,db);
 
-        // Hibernate 配置属性
-        Properties properties = new Properties();
-        properties.put(Environment.DRIVER, getDvr(jdbcUrl));
-        properties.put(Environment.URL, ""+jdbcUrl);
-        properties.put(Environment.USER, getUnameFromJdbcurl(jdbcUrl));
-        properties.put(Environment.PASS, getPwdFromJdbcurl(jdbcUrl));
-        properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
-        //    hibernate.dialect.storage_engine
-        properties.put(Environment.SHOW_SQL, "true");
 
-     //   properties.put(Environment.FORMAT_SQL, "true");
-        properties.put(Environment.STORAGE_ENGINE, "innodb");
-        //HBM2DDL_CHARSET_NAME
-        properties.put(Environment.HBM2DDL_AUTO, "update"); // 自动建表
-        properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-
-        properties.put( Environment.ORDER_INSERTS, "false");
-        properties.put( Environment.ORDER_UPDATES, "false");
-
-        // 创建 ServiceRegistry
-        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                .applySettings(properties)
-                .build();
-
-        // 添加实体类映射
-        MetadataSources metadataSources = new MetadataSources(serviceRegistry);
-        for(Class cls : li)
-        {
-            metadataSources.addAnnotatedClasses(cls);
-        }
-
-        // 创建 SessionFactory
-        SessionFactory sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
+        SessionFactory sessionFactory = getSessionFactory(jdbcUrl, li);
 
         // 获取 Session
         Session session = sessionFactory.openSession();
@@ -108,6 +78,75 @@ public class HbntUtil {
 
         // Build the SessionFactory
 //        sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
+    }
+
+    public static SessionFactory getSessionFactory(String jdbcUrl, List<Class> li) throws SQLException {
+        var db=getDatabaseFileName4mysql(jdbcUrl);
+        crtDatabase(jdbcUrl,db);
+
+        // Hibernate 配置属性
+        Properties properties = new Properties();
+        properties.put(Environment.DRIVER, getDvr(jdbcUrl));
+        properties.put(Environment.URL, ""+ jdbcUrl);
+        properties.put(Environment.USER, getUnameFromJdbcurl(jdbcUrl));
+        properties.put(Environment.PASS, getPwdFromJdbcurl(jdbcUrl));
+        properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
+        //    hibernate.dialect.storage_engine
+        properties.put(Environment.SHOW_SQL, "true");
+
+        //   properties.put(Environment.FORMAT_SQL, "true");
+        properties.put(Environment.STORAGE_ENGINE, "innodb");
+        //HBM2DDL_CHARSET_NAME
+        properties.put(Environment.HBM2DDL_AUTO, "update"); // 自动建表
+        properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
+
+        properties.put( Environment.ORDER_INSERTS, "false");
+        properties.put( Environment.ORDER_UPDATES, "false");
+
+        // 创建 ServiceRegistry
+        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                .applySettings(properties)
+                .build();
+
+        // 添加实体类映射
+        MetadataSources metadataSources = new MetadataSources(serviceRegistry);
+        for(Class cls : li)
+        {
+            metadataSources.addAnnotatedClasses(cls);
+        }
+        addAnnotatedClasses2025(metadataSources);
+
+        // 创建 SessionFactory
+        SessionFactory sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
+        return sessionFactory;
+    }
+
+    private static void addAnnotatedClasses2025(MetadataSources metadataSources) {
+
+        // 获取 classes 目录
+        String classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        File classDir = new File(classpath);
+        if (!classDir.exists() || !classDir.isDirectory()) {
+            System.err.println("classes 目录不存在！");
+            return;
+        }
+
+        // 递归扫描 .class 文件
+        List<Class<?>> classList = new ArrayList<>();
+        scanClasses(classDir, classDir.getAbsolutePath(), classList);
+
+        // 注册到 hbnt
+        for (Class<?> clazz : classList) {
+            try {
+                metadataSources.addAnnotatedClasses(clazz);
+                System.out.println("hbnt已注册hbnt: " + clazz.getName());
+            } catch (Exception e) {
+                System.err.println("hbnt注册失败: " + clazz.getName());
+                System.err.println("hbnt注册失败msg: " + e.getMessage());
+                //  System.err.println("注册失败: " + clazz.getName());
+            }
+        }
 
     }
 

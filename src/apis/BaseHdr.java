@@ -7,7 +7,10 @@ import apiWltYinli.WithdrawHdr;
 import biz.BaseBiz;
 import com.alibaba.fastjson2.JSON;
 import org.hibernate.Session;
-import org.noear.solon.annotation.Component;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import test.UserBiz;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -17,6 +20,7 @@ import entityx.ExceptionBase;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.Map;
@@ -35,10 +39,12 @@ import static util.util2026.*;
 @Component
 public abstract class BaseHdr implements HttpHandler {
 
-    public  org.hibernate.Session session;
 
-    public void setSession(Session session) {
-        this.session = session;
+    @Autowired
+    public SessionFactory sessionFactory;
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     //wz qrystr
@@ -89,16 +95,20 @@ public abstract class BaseHdr implements HttpHandler {
                 instance= modifiedClass.getConstructor().newInstance();
             } catch (NoSuchMethodException e) {
                // 没有无参构造函数
-                Constructor<?> constructor = modifiedClass.getConstructor(Session.class); // 指定参数类型
-                  instance = constructor.newInstance( session);
+                Constructor<?> constructor = modifiedClass.getConstructor(SessionFactory.class); // 指定参数类型
+                  instance = constructor.newInstance( sessionFactory);
 
                   //other dync fore
             }
 
 //            setField(instance,"session",new SessionProvider().provide());
             //new SessionProvider().provide()
-            setField(instance, Session.class, session );
+            setField(instance, SessionFactory.class, sessionFactory );
+            System.out.println("inst="+instance);
+            System.out.println("insts.sessFctry="+getField(instance,"sessionFactory"));
             Method method = modifiedClass.getMethod("handle2", HttpExchange.class);
+            setField(instance, "sessionFactory", sessionFactory );
+
             method.invoke(instance, exchange);
 
       //      System.out.println("endfun handle2()");
@@ -167,6 +177,21 @@ public abstract class BaseHdr implements HttpHandler {
         //not ex ,just all ok blk
        //ex.fun  from stacktrace
 
+    }
+
+    private Object getField(Object instance, String fieldName) {
+
+        if (instance == null || fieldName == null || fieldName.isEmpty()) {
+            throw new IllegalArgumentException("实例或字段名不能为空");
+        }
+        try {
+            Class<?> clazz = instance.getClass();
+            Field field = clazz.getField(fieldName);
+            field.setAccessible(true); // 允许访问私有字段
+            return field.get(instance);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException("获取字段失败: " + fieldName, e);
+        }
     }
 
     private static void addInfo2ex(ExceptionBase ex) {

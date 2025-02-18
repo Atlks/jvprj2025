@@ -3,12 +3,15 @@ package test;
 
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
+import AppConfig
 import apiUsr.RegHandler
 import apis.BaseHdr
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.noear.solon.Solon
 import org.noear.solon.core.AppContext
+import org.springframework.context.ApplicationContext
+import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import util.HttpExchangeImp
 import util.IocUtil.iniIocContainr
 import utilDep.AOPASM
@@ -16,6 +19,17 @@ import java.io.File
 
 
 fun main(){
+    //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
+    BaseHdr.iniCfgFrmCfgfile()
+    val he: HttpExchange =
+        HttpExchangeImp("http://localhost:8889/reg?uname=007&pwd=ppp", "uname=0093", "output2025.txt")
+   val container = iniIocContainr()
+    val context: ApplicationContext = AnnotationConfigApplicationContext(AppConfig::class.java)
+    val RegHandler1: RegHandler = context.getBean<RegHandler>(RegHandler::class.java)
+    RegHandler1.handle(he);
+    println("------------resp out :\n"+readFile("output2025.txt"));
+}
+fun main230(){
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
     BaseHdr.iniCfgFrmCfgfile()
     val he: HttpExchange =

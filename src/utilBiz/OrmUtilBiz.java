@@ -35,6 +35,7 @@ public class OrmUtilBiz {
             li.add(Usr.class);
             li.add(OrdBet.class);
             li.add(LogCms.class);
+            //todo dync cls
 
             Session session = HbntUtil.openSession(jdbcUrl, li);
             System.out.println("✅endfun openSession()");

@@ -5,7 +5,9 @@ package apiUsr;
 import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 import org.hibernate.Session;
-import org.noear.solon.annotation.Component;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 
 import static util.EncodeUtil.encodeMd5;
@@ -13,16 +15,16 @@ import static util.EncodeUtil.encodeMd5;
 
 import static util.dbutil.*;
 import static util.util2026.*;
+@Component  // 让 Spring 自动管理这个 Bean
 
-@Component
 //  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
 // 自定义的请求处理器
 public class RegHandler extends BaseHdr   {
 
   //  @Inject // 可选，PicoContainer 其实不依赖 @Inject，但能增加可读性
-    public RegHandler(Session session){
-        this.session = session;
-        super.session=session;
+    public RegHandler(SessionFactory sessionFactory1){
+        this.sessionFactory = sessionFactory1;
+        super.sessionFactory=sessionFactory1;
     }
 
   //  @Bean
@@ -126,6 +128,7 @@ public class RegHandler extends BaseHdr   {
 //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
+        Session session=sessionFactory.getCurrentSession();
         session.beginTransaction();
         session.persist(user);
         session.getTransaction().commit();
@@ -155,13 +158,14 @@ public class RegHandler extends BaseHdr   {
 //
 //
 //    }
-
-    org.hibernate.Session session;
+//@Autowired
+//    org.hibernate.Session session;
     public   boolean existUser(Usr user) throws Exception {
 //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
         // session.beginTransaction();
+        Session session=sessionFactory.getCurrentSession();
         Usr jo = session.find(Usr.class, user.uname);
         if (jo == null)
             return false;
@@ -189,6 +193,7 @@ public class RegHandler extends BaseHdr   {
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
         // session.beginTransaction();
+        Session session=sessionFactory.getCurrentSession();
         Usr jo = session.find(Usr.class, uname);
         if (jo == null)
             return false;

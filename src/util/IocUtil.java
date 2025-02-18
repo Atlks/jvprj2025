@@ -66,7 +66,7 @@ public class IocUtil {
         }
     }
 
-    private static void scanClasses(File dir, String basePath, List<Class<?>> classList) {
+    static void scanClasses(File dir, String basePath, List<Class<?>> classList) {
         File[] files = dir.listFiles();
         if (files == null) return;
 

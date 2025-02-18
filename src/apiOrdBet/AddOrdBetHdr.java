@@ -4,6 +4,9 @@ import apis.BaseHdr;
 import com.alibaba.fastjson2.JSON;
 import com.sun.net.httpserver.HttpExchange;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import util.HttpExchangeImp;
 import utilBiz.OrmUtilBiz;
 
@@ -21,7 +24,12 @@ import static util.util2026.*;
 /**
  * http://localhost:8889/AddOrdBetHdr?bettxt=龙湖和
  */
+@Component
 public class AddOrdBetHdr extends BaseHdr {
+
+    @Autowired
+    private SessionFactory sessionFactory;
+
     @Override
     public void handle2(HttpExchange exchange) throws Exception {
 
@@ -46,7 +54,7 @@ public class AddOrdBetHdr extends BaseHdr {
     }
 
     private void addOrdBet(OrdBet ord, String saveUrlOrdBet) throws SQLException {
-        Session session = OrmUtilBiz. openSession(saveUrlOrdBet);
+        Session session =sessionFactory.getCurrentSession();
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
         session.beginTransaction();
