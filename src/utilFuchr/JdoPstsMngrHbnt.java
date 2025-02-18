@@ -1,4 +1,4 @@
-package util;
+package utilFuchr;
 
 import javax.jdo.PersistenceManager;
 

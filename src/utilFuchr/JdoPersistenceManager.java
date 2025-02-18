@@ -1,4 +1,4 @@
-package util;
+package utilFuchr;
 
 import com.alibaba.fastjson2.JSON;
 import javax.jdo.*;

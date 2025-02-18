@@ -1,6 +1,5 @@
-package util;
+package utilFuchr;
 
-import apiUsr.RegHandler;
 import apiUsr.Usr;
 import com.alibaba.fastjson2.JSON;
 import java.io.File;

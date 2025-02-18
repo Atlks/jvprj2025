@@ -1,6 +1,6 @@
 package apiUsr;
 
-import util.ExceptionBase;
+import entityx.ExceptionBase;
 
 public class UnameOrPwdErrEx extends ExceptionBase {
     public UnameOrPwdErrEx(String s) {

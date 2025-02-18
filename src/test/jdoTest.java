@@ -4,8 +4,8 @@ import apiAcc.LogBls;
 import apiAcc.OrdChrg;
 import apiUsr.Usr;
 import apiWltYinli.LogBlsLogYLwlt;
-import util.JdoPstsMngrHbnt;
-import util.JdoPstsMngrIni;
+import utilFuchr.JdoPstsMngrHbnt;
+import utilFuchr.JdoPstsMngrIni;
 
 import javax.jdo.PersistenceManager;
 import java.util.ArrayList;

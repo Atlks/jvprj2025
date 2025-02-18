@@ -1,4 +1,4 @@
-package util;
+package entityx;
 
 public class Err {
     public String errmsg;

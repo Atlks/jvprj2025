@@ -1,19 +1,17 @@
-package test;
+package util;
 
 import apiUsr.RegHandler;
 import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 import javassist.*;
-import util.HttpExchangeImp;
+import test.MyClassLoader;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
 
-import static java.lang.reflect.AccessibleObject.setAccessible;
 import static util.ColorLogger.*;
-import static util.Util2025.encodeJson;
 
-public class LogJavassist {
+public class AopLogJavassist {
     public static void main(String[] args) throws Exception {
       //  System.out.println(RegHandler.class);
         Class<?> aClass = RegHandler.class;
@@ -58,7 +56,7 @@ public class LogJavassist {
         CtMethod[] ctMthdArr=   ctClass.getMethods();
         for(CtMethod ctMethod:ctMthdArr)
         {
-            // 过滤掉继承的obj方法，只处理当前类的方法
+            // ----------过滤掉继承的obj方法，只处理当前类的方法
             String methodName = ctMethod.getName();
             if( isObjectMethod(methodName))
                 continue;;
@@ -69,7 +67,7 @@ public class LogJavassist {
                 System.out.println("Skipping method: " + methodName);
                 continue;
             }
-            // 在方法前后插入日志
+            //------------- 在方法前后插入日志
 //            ctMethod.insertBefore("System.out.println(\"!fun " + methodName + "()\");");
 
             // 在方法前后插入日志，调用 encodeJson 方法
@@ -87,7 +85,7 @@ public class LogJavassist {
 
             ctMethod.insertBefore(logCode);
 
-
+            //------------- 在方法后插入日志
            // System.out.println(encodeJson(true));
             // 方法返回值序列化日志
             String mth_end="✅"+methodName;
@@ -99,7 +97,7 @@ public class LogJavassist {
 
 
             ctMethod.insertAfter(returnSerializationCode, true);  // `true` 让 `$_` 代表返回值
-//            ctMethod.insertAfter("System.out.println(\"!!endfunx " + methodName + "()\");");
+
             // ctMethod.   setAccessible(true);
 
 

@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import static util.AOPASM.modifyClass;
+import static utilDep.AOPASM.modifyClass;
 
 // 自定义类加载器
 public class CustomClassLoader extends ClassLoader {

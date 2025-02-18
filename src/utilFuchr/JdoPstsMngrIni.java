@@ -1,12 +1,70 @@
-package util;
+package utilFuchr;
 
 import javax.jdo.*;
 import javax.jdo.datastore.JDOConnection;
 import javax.jdo.datastore.Sequence;
 import javax.jdo.listener.InstanceLifecycleListener;
+
+import java.io.File;
 import java.util.*;
 
-public abstract class PersistenceManagerBase  implements PersistenceManager {
+import static util.Util2025.*;
+import static util.UtilEncode.encodeFilename;
+import static util.dbutil.*;
+import static util.util2026.getField2025;
+import static util.util2026.throwEx;
+
+public class JdoPstsMngrIni implements PersistenceManager {
+    public String saveDir;
+
+    public JdoPstsMngrIni(String saveDir0) {
+        mkdir2025(saveDir0);
+        saveDir=saveDir0;
+    }
+
+    public <T> T makePersistent(T obj) {
+        // PersistenceManager
+        String fname = (String) getField2025(obj, "id", "");
+        //todo need fname encode
+        fname = encodeFilename(fname) + ".ini";
+
+        String fnamePath = saveDir + "/" + fname;
+        System.out.println("fnamePath=" + fnamePath);
+        writeFile2501(fnamePath, encodeIni(obj));
+
+        return obj;
+    }
+
+    /**
+     * @param aClass
+     * @param id
+     * @param <T>
+     * @return
+     */
+    @Override
+    public <T> T getObjectById(Class<T> aClass, Object id) {
+        try {
+            mkdir2025(saveDir);
+            //encodeFilName todo
+            String fname = id + ".ini";
+            String fnamePath = saveDir + "/" + fname;
+            if (new File(fnamePath).exists()) {
+                String text = readTxtFrmFil(fnamePath);
+                System.out.println("getobjDoc().txt=" + text);
+                SortedMap<String, Object> mapFrmInicontext = toMapFrmInicontext(text);
+                return (T) toObj(mapFrmInicontext, aClass);
+            }
+
+            //   if(!new File(fnamePath).exists())
+            else
+                return (T) toObj(toMapFrmInicontext(""), aClass);
+
+        } catch (Exception e) {
+            throwEx(e);
+        }
+        return null;
+    }
+
     /**
      * @return
      */
@@ -14,15 +72,7 @@ public abstract class PersistenceManagerBase  implements PersistenceManager {
     public boolean isClosed() {
         return false;
     }
-    /**
-     * @param ts
-     * @param <T>
-     * @return
-     */
-    @Override
-    public <T> T[] makePersistentAll(T... ts) {
-        return null;
-    }
+
     /**
      *
      */
@@ -273,16 +323,6 @@ public abstract class PersistenceManagerBase  implements PersistenceManager {
         return null;
     }
 
-    /**
-     * @param aClass
-     * @param o
-     * @param <T>
-     * @return
-     */
-    @Override
-    public <T> T getObjectById(Class<T> aClass, Object o) {
-        return null;
-    }
 
     /**
      * @param o
@@ -359,6 +399,15 @@ public abstract class PersistenceManagerBase  implements PersistenceManager {
         return new Object[0];
     }
 
+    /**
+     * @param ts
+     * @param <T>
+     * @return
+     */
+    @Override
+    public <T> T[] makePersistentAll(T... ts) {
+        return null;
+    }
 
     /**
      * @param collection

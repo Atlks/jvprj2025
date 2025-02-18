@@ -6,13 +6,11 @@ import apiUsr.RegHandler
 import apis.BaseHdr
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
-import org.fusesource.jansi.AnsiConsole
 import org.noear.solon.Solon
 import org.noear.solon.core.AppContext
-import util.AOPASM
-//import util.AOPASM.customClassLoader
-import util.AOPASM.getObject
+//import utilDep.AOPASM.customClassLoader
 import util.HttpExchangeImp
+import utilDep.AOPASM
 import java.io.File
 fun main(){
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
