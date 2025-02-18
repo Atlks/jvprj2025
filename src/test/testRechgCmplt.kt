@@ -3,26 +3,26 @@ package test;
 
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
-import cfg.IocPicoCfg.iniIocContainr
-import apiAcc.AddOrdChargeHdr
+//import apiAcc.ReChargeComplete.invk
+import apiAcc.ReChargeComplete
 import apis.BaseHdr
-import com.sun.net.httpserver.HttpExchange
-import util.HttpExchangeImp
+import cfg.IocPicoCfg.iniIocContainr
 
 
 fun main(){
+    ReChargeComplete.ovrtTEst = true
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
     BaseHdr.iniCfgFrmCfgfile()
-    val he: HttpExchange =
-        HttpExchangeImp("http://localhost:8889/AddOrdChargeHdr?amt=888", "uname=007", "output2025.txt")
+//    val he: HttpExchange =
+//        HttpExchangeImp("http://localhost:8889/AddOrdChargeHdr?amt=ordChrg2025-02-18T21-14-59", "uname=0093", "output2025.txt")
     val container = iniIocContainr()
-    val component = container.getComponent(AddOrdChargeHdr::class.java)
-    var obj= component as AddOrdChargeHdr
+    val component = container.getComponent(ReChargeComplete::class.java)
+    var obj= component as ReChargeComplete
     //            setField(instance,"session",new SessionProvider().provide());
     //new SessionProvider().provide()
   //  dbutil.setField<Any>(obj, Session::class.java, container.getComponent(Session::class.java))
-
-    obj.handle(he);
+    obj.invk("updateOrdChgSetCmpltBiz","ordChrg2025-02-18T21-34-07")
+ //   obj.updateOrdChgSetCmpltBiz("ordChrg2025-02-18T21-34-07")
     println("------------resp out :\n"+readFile("output2025.txt"));
 }
 

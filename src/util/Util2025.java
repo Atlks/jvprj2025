@@ -97,7 +97,8 @@ public class Util2025 {
                     }else
                         list.add( obj1);
                 }
-                return JSON.toJSONString(list, JSONWriter.Feature.PrettyFormat);
+                //JSON.toJSONString(obj, JSONWriter.Feature.IgnoreErrorGetter);
+                return JSON.toJSONString(list, JSONWriter.Feature.PrettyFormat,JSONWriter.Feature.IgnoreErrorGetter);
             } else if (obj instanceof Collection<?>) {
                 List<Object> list = new ArrayList<>();
                 for (Object obj1 : (Collection<?>) obj) {

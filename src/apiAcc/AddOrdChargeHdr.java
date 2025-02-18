@@ -29,8 +29,8 @@ public class AddOrdChargeHdr extends BaseHdr {
 
     //    public AddOrdChargeHdr() {
 //    }
-    @Autowired
-    public SessionFactory sessionFactory;
+//    @Autowired
+//    public SessionFactory sessionFactory;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;

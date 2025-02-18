@@ -179,20 +179,7 @@ public abstract class BaseHdr implements HttpHandler {
 
     }
 
-    private Object getField(Object instance, String fieldName) {
 
-        if (instance == null || fieldName == null || fieldName.isEmpty()) {
-            throw new IllegalArgumentException("实例或字段名不能为空");
-        }
-        try {
-            Class<?> clazz = instance.getClass();
-            Field field = clazz.getField(fieldName);
-            field.setAccessible(true); // 允许访问私有字段
-            return field.get(instance);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException("获取字段失败: " + fieldName, e);
-        }
-    }
 
     private static void addInfo2ex(ExceptionBase ex) {
         if(ex.fun.equals(""))

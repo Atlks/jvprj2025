@@ -168,7 +168,8 @@ public class HbntUtil {
     }
 
     public static <T> T mergeByHbnt(T  t, Session session) {
-        System.out.println("\r\n▶\uFE0Ffun mergeByHbnt(t="+encodeJsonObj(t));
+        String mthClr=colorStr("mergeByHbnt",YELLOW_bright);
+        System.out.println("\r\n▶\uFE0Ffun "+mthClr+"(t="+encodeJsonObj(t));
         System.out.println("mergeByHbnt("+ t.getClass().getName());
         T rzt = session.merge(t);
         //   session.merge(objU);
@@ -178,7 +179,9 @@ public class HbntUtil {
     }
 
     public static  <T> T findByHbnt(Class<T> t, String id, Session session) {
-        System.out.println("\r\n▶\uFE0Ffun findByHbnt(class="+t+",id="+id);
+
+        String mthClr=colorStr("findByHbnt",YELLOW_bright);
+        System.out.println("\r\n▶\uFE0Ffun "+mthClr+"(class="+t+",id="+id);
       //  System.out.println("findByHbnt("+ t.getClass().getName()+",id="+id);
         T rzt = session.find(t, id);
         System.out.println("✅endfun findByHbnt.ret="+ encodeJson(rzt));

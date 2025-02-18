@@ -2,34 +2,42 @@ package apiAcc;
 
 import apiCms.CmsBiz;
 import apis.BaseHdr;
+import com.sun.net.httpserver.HttpExchange;
 import entityx.LogBls;
 import entityx.OrdChrg;
 import entityx.Usr;
-import com.sun.net.httpserver.HttpExchange;
+import javassist.CannotCompileException;
+import javassist.NotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
-import static java.time.LocalTime.now;
+import static apiCms.CmsBiz.toBigDcmTwoDot;
+import static apis.BaseHdr.iniCfgFrmCfgfile;
+import static util.AopLogJavassist.getAClassExted;
 import static util.ColorLogger.*;
 import static util.HbntUtil.*;
 import static util.ToXX.parseQueryParams;
 import static util.Util2025.encodeJson;
+import static util.dbutil.setField;
 import static util.util2026.*;
-import static apiCms.CmsBiz.toBigDcmTwoDot;
 
 /**  ivk by
- * http://localhost:8889/UpdtCompleteChargeHdr?id=ordchg2222
+ *  UpdtCompleteChargeHdr?id=ordchg2222
  */
-public class UpdtCompleteChargeHdr extends BaseHdr {
+public class ReChargeComplete extends AopBase  {
     public static String saveUrlLogBalance;
 
-    public UpdtCompleteChargeHdr(SessionFactory sessionFactory) {
+    public ReChargeComplete(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-        super.sessionFactory = sessionFactory;
+    //    super.sessionFactory = sessionFactory;
     }
 
     public static void main(String[] args) throws Exception {
@@ -39,11 +47,11 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         //  updateOrdChgSetCmplt("ordChrg2025-02-18T21-14-59");
     }
 
-    static boolean ovrtTEst = false;
 
-    private   void updateOrdChgSetCmpltBiz(String id) throws Exception {
 
-        org.hibernate.Session session = sessionFactory.getCurrentSession();
+    public   void updateOrdChgSetCmpltBiz(String id) throws Exception {
+
+        Session session = sessionFactory.getCurrentSession();
 
         //------------blk chge regch stat=ok
         //  om.jdbcurl=saveDirUsrs;
@@ -72,7 +80,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
 
         //----add blance n log  ..blk
         String uname = objChrg.uname;
-        updtBlsByAddChrg(objChrg, session);
+        updtBlsByAddChrg(objChrg);
         System.out.println("\n\r\n---------endblk  kmplt chrg");
 
 
@@ -88,17 +96,17 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
     }
 
 
-    public   void updtBlsByAddChrg(OrdChrg objChrg, Session session) throws Exception {
-        printLn("\n▶️fun updtBlsByAddChrg(", BLUE);
-        printLn("objChrg= " + encodeJson(objChrg), GREEN);
-        System.out.println(")");
+    public   void updtBlsByAddChrg(OrdChrg objChrg ) throws Exception {
+      //  printLn("\n▶️fun updtBlsByAddChrg(", BLUE);
+    //    printLn("objChrg= " + encodeJson(objChrg), GREEN);
+    //    System.out.println(")");
         //  printlnx();
         //   System.out.println("\r\n ▶fun updtBlsByAddChrg(objChrg= "+encodeJson(objChrg));
 
         String uname = objChrg.uname;
         BigDecimal amt = objChrg.getAmt();
 
-
+     Session session=sessionFactory.getCurrentSession();
         Usr objU = findByHbnt(Usr.class, uname, session);
         if (objU.id == null) {
             objU.id = uname;
@@ -124,31 +132,33 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         System.out.println(" add balanceLog ");
         persistByHbnt(logBalance, session);
 
-        System.out.println("✅endfun updtBlsByAddChrg()");
+      //  System.out.println("✅endfun updtBlsByAddChrg()");
     }
+
+
 
 
 //    private static void calcCms(String uname, BigDecimal amt) {
 //    }
 
-    @Override
-    public void handle2(HttpExchange exchange) throws Exception {
-
-
-        if (isNotLogined(exchange)) {
-            //need login
-            wrtResp(exchange, "needLogin");
-            return;
-        }
-
-        //blk login ed
-        String uname = getcookie("uname", exchange);
-        Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
-        updateOrdChgSetCmpltBiz(queryParams.get("id"));
-        wrtResp(exchange, "ok");
-
-
-    }
+//    @Override
+//    public void handle2(HttpExchange exchange) throws Exception {
+//
+//
+//        if (isNotLogined(exchange)) {
+//            //need login
+//            wrtResp(exchange, "needLogin");
+//            return;
+//        }
+//
+//        //blk login ed
+//        String uname = getcookie("uname", exchange);
+//        Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
+//        updateOrdChgSetCmpltBiz(queryParams.get("id"));
+//        wrtResp(exchange, "ok");
+//
+//
+//    }
 
 
 }
