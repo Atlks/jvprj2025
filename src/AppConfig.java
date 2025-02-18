@@ -1,9 +1,17 @@
+import apis.BaseHdr;
+import org.hibernate.SessionFactory;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.*;
 import org.springframework.instrument.classloading.LoadTimeWeaver;
 import org.springframework.instrument.classloading.SimpleLoadTimeWeaver;
 import org.springframework.scheduling.annotation.EnableAsync;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import static apis.BaseHdr.saveDirUsrs;
+import static util.HbntUtil.getSessionFactory;
 
 @EnableAsync  // 启用异步功能
 @Configuration
@@ -15,6 +23,15 @@ public class AppConfig {
     @Bean
     public LoadTimeWeaver loadTimeWeaver() {
         return new SimpleLoadTimeWeaver();
+    }
+
+    @Bean
+    public SessionFactory sessionFactory() throws SQLException {
+        List<Class> li = List.of();
+        BaseHdr.iniCfgFrmCfgfile();
+        SessionFactory sessionFactory = getSessionFactory(saveDirUsrs, li);
+
+        return sessionFactory;
     }
 
     @Bean

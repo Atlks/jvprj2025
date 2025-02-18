@@ -25,7 +25,8 @@ public class IocUtil {
 
 //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         // **使用 Provider，每次获取都是新的 `Session`**
-        container888.addAdapter(new SessionProvider());
+     //   container888.addAdapter(new SessionProvider());
+        container888.addAdapter(new SessionFactProvider());
         // 注册组件
      //   container888.addComponent(RegHandler.class);
     //    container888.addComponent(LoginHdr.class);

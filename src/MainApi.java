@@ -44,7 +44,8 @@ public class MainApi {
         server.createContext("/reg", container.getComponent(RegHandler.class));
         server.createContext("/login", container.getComponent(LoginHdr.class));
         server.createContext("/QueryUsr", new QueryUsrHdr());
-        server.createContext("/AddOrdBetHdr", new AddOrdBetHdr());
+        server.createContext("/AddOrdBetHdr",
+                container.getComponent(AddOrdBetHdr.class)  );
         server.createContext("/QryOrdBetHdr", new QryOrdBetHdr());
         server.createContext("/QryTeamHdr", new QryTeamHdr());
         server.createContext("/AddOrdChargeHdr",

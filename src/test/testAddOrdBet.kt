@@ -4,11 +4,13 @@ package test;
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
 import AppConfig
+import apiAcc.AddOrdChargeHdr
 import apiOrdBet.AddOrdBetHdr
 import apiUsr.RegHandler
 import apis.BaseHdr
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
+import org.hibernate.SessionFactory
 import org.noear.solon.Solon
 import org.noear.solon.core.AppContext
 import org.springframework.context.ApplicationContext
@@ -24,7 +26,11 @@ fun main() {
     BaseHdr.iniCfgFrmCfgfile()
     val he: HttpExchange =
         HttpExchangeImp("http://localhost:8889/reg?uname=007&pwd=ppp", "uname=008", "output2025.txt")
-   // val container = iniIocContainr()
+//    val container = iniIocContainr()
+//  //  println(    container.getComponent(SessionFactory::class.java))
+//    val component = container.getComponent(AddOrdBetHdr::class.java)
+//    var obj= component as AddOrdBetHdr
+//    obj.handle(he);
 
     val context: ApplicationContext = AnnotationConfigApplicationContext(AppConfig::class.java)
     val bean: AddOrdBetHdr = context.getBean<AddOrdBetHdr>(AddOrdBetHdr::class.java)

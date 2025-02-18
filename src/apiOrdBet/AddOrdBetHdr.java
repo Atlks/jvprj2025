@@ -27,8 +27,13 @@ import static util.util2026.*;
 @Component
 public class AddOrdBetHdr extends BaseHdr {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    public AddOrdBetHdr(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+        super.sessionFactory= sessionFactory;
+    }
+
+//    @Autowired
+//    private SessionFactory sessionFactory;
 
     @Override
     public void handle2(HttpExchange exchange) throws Exception {
@@ -80,7 +85,7 @@ public class AddOrdBetHdr extends BaseHdr {
 
         HttpExchangeImp he = new HttpExchangeImp("http://localhost:8889/QryLogCmsHdr?bettxt=龙湖和", "uname=009","output2025.txt");
 
-        new AddOrdBetHdr().handle2(he);
+     //   new AddOrdBetHdr().handle2(he);
     }
 
 }
