@@ -29,8 +29,12 @@ public class AddOrdChargeHdr extends BaseHdr {
 
     //    public AddOrdChargeHdr() {
 //    }
-//    @Autowired
-//    public SessionFactory sessionFactory;
+    @Autowired
+    public SessionFactory sessionFactory;
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     public AddOrdChargeHdr(SessionFactory sess) {
         this.sessionFactory = sess;
@@ -40,7 +44,7 @@ public class AddOrdChargeHdr extends BaseHdr {
     public void handle2(HttpExchange exchange) throws Exception {
 
 
-        System.out.println(sessionFactory);
+        System.out.println("handle2.sessfac="+sessionFactory);
         //blk login ed
         String uname = getcookie("uname", exchange);
         Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());

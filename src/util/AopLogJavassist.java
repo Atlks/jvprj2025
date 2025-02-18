@@ -44,15 +44,14 @@ public class AopLogJavassist {
     public static Class<?> getAClassExted(Class<?> aClass) throws NotFoundException, CannotCompileException, IOException {
         ClassPool pool = ClassPool.getDefault();
 
-        if (pool.find("apiUsr.RegHandler") == null) {
-            throw new RuntimeException("Class RegHandler not found in classpath.");
-        }
+//        if (pool.find("apiUsr.RegHandler") == null) {
+//            throw new RuntimeException("Class RegHandler not found in classpath.");
+//        }
 
 
         CtClass ctClass = pool.get(aClass.getName());
 
-        // 使用自定义类加载器加载字节码
-        MyClassLoader myClassLoader = new MyClassLoader();
+
         CtMethod[] ctMthdArr=   ctClass.getMethods();
         for(CtMethod ctMethod:ctMthdArr)
         {
@@ -77,7 +76,7 @@ public class AopLogJavassist {
                             "  String jsonArgs = util.Util2025.encodeJsonV2($args); " + // 调用封装的 encodeJson 方法
                             "  System.out.println(" +
                             "\""+
-                            "fun " + mth + "(), " +
+                            "funm " + mth + "(), " +
                             "args=" +
                             "\" " +
                             "+ util.ColorLogger.colorStr(jsonArgs,util.ColorLogger.GREEN));" +
@@ -107,7 +106,10 @@ public class AopLogJavassist {
         // 获取修改后的字节码
         byte[] bytecode = ctClass.toBytecode();
         // 手动释放 CtClass
-        ctClass.detach();
+      //  ctClass.detach();
+
+        // ---------使用自定义类加载器加载字节码
+           MyClassLoader myClassLoader = new MyClassLoader();
         Class<?> modifiedClass = myClassLoader.defineClassFromByteArray( aClass.getName(),bytecode);
         return modifiedClass;
     }
