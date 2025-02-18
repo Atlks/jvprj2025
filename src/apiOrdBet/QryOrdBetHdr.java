@@ -12,6 +12,7 @@ import java.util.Map;
 
 import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
 import static java.time.LocalTime.now;
+import static util.Pagging.getPageResultByHbntV2;
 import static util.ToXX.toObjFrmQrystr;
 import static util.Util2025.encodeJson;
 import static util.dbutil.*;
@@ -36,7 +37,8 @@ public class QryOrdBetHdr extends BaseHdr {
         System.out.println( encodeJson(sqlprmMap));
    //     System.out.println("spel="+convertSqlToSpEL(sql));
         Session session = OrmUtilBiz. openSession(saveUrlOrdChrg);
-        var list1 = getPageResult2025(sql, sqlprmMap, qryDto4page,session,OrdBet.class);
+        var list1 = getPageResultByHbntV2(sql, sqlprmMap, qryDto4page.page, qryDto4page.pagesize,session);
+        //,OrdBet.class
         wrtResp(exchange, encodeJson(list1));
 
     }

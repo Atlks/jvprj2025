@@ -8,7 +8,6 @@ import com.alibaba.fastjson2.JSONObject;
 import entityx.PageResult;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
-import utilBiz.OrmUtilBiz;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +27,6 @@ import java.util.stream.Stream;
 
 import static apiUsr.RegHandler.saveDirUsrs;
 import static com.alibaba.fastjson2.util.TypeUtils.toLong;
-import static util.ArrUtil.subList2025;
 import static util.ColorLogger.*;
 import static util.Fltr.fltr2501;
 import static util.StrUtil.getPwdFromJdbcurl;
@@ -723,6 +721,7 @@ public class dbutil {
         return lst;
     }
 
+    @Deprecated
     public static int getstartPosition(int pageNumber, int pageSize) {
 
         int startPosition = (pageNumber - 1) * pageSize; // 计算起始行
@@ -733,49 +732,22 @@ public class dbutil {
     public static PageResult<?> getPageResultByHbnt(String sql, Map<String, Object> sqlprmMap, int pageNumber, int pageSize, Session session) throws SQLException {
 
 
-        return  Pagging.getPageResultByHbnt(sql,sqlprmMap,pageNumber,pageSize,session);
+        return  Pagging.getPageResultByHbntV2(sql,sqlprmMap,pageNumber,pageSize,session);
      }
 
-    /**
-     * 错误的 COUNT(*) 查询 👉 COUNT(*) 语句不能直接嵌套在 FROM (...)，如果 sql 本身包含 ORDER BY，可能会报错。
-     *
-     * @param sql
-     * @param sqlprmMap
-     * @param list1
-     * @param pageSize
-     * @return
-     * @throws SQLException
-     */
+
     @Deprecated
     public static PageResult<SortedMap<String, Object>> getPageResultByCntsql(String sql, Map<String, Object> sqlprmMap, List list1, long pageSize) throws SQLException {
         return  Pagging.getPageResultByCntsql(sql,sqlprmMap,list1,pageSize,null);
     }
 
-    /**
-     * back pagging
-     *
-     * @param list1
-     * @param pageSize
-     * @param pageNumber
-     * @param <T>
-     * @return
-     */
-
     public static <T> PageResult<T> getPageResultBySblst(List<T> list1, int pageSize, int pageNumber) {
-        long totalRecords = list1.size();
-        long totalPages = (long) Math.ceil((double) totalRecords / pageSize);
-
-        List<T> listPageed = subList2025(list1, pageSize, pageNumber);
-        return new PageResult<>(listPageed, totalRecords, totalPages);
+           return getPageResultBySblst(list1, pageSize, pageNumber);
     }
 
 
     public static <T> PageResult<T> getPageResultBySublist(String sql, Map<String, Object> sqlprmMap, baseObj pageDto, Session session, Class class1) {
-        List<T> lst = nativeQueryGetResultList(sql, sqlprmMap, session, class1);
-        //    var list1 = getSortedMapsBypages( sql,pageSize, pageNumber);
-        // 1️⃣ 计算总记录数
-        var list1 = getPageResultBySblst(lst, pageDto.pagesize, pageDto.page);
-        return list1;
+        return getPageResultBySublist(sql,sqlprmMap,pageDto, session, class1);
     }
 
     public static List<SortedMap<String, Object>> getSortedMapsBypages(String sql, long pageSize, long pageNumber) throws Exception {

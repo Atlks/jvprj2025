@@ -4,14 +4,12 @@ import biz.baseObj;
 import entityx.PageResult;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
-import utilBiz.OrmUtilBiz;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
-import static apis.BaseHdr.saveDirUsrs;
 import static util.ArrUtil.subList2025;
 
 import static util.dbutil.nativeQueryGetResultList;
@@ -25,7 +23,7 @@ public class Pagging {
         return startPosition;
     }
 
-    public static PageResult<?> getPageResultByHbnt(String sql, Map<String, Object> sqlprmMap, int pageNumber, int pageSize, Session session) throws SQLException {
+    public static PageResult<?> getPageResultByHbntV2(String sql, Map<String, Object> sqlprmMap, int pageNumber, int pageSize, Session session) throws SQLException {
 
 
         NativeQuery nativeQuery = session.createNativeQuery(sql);
