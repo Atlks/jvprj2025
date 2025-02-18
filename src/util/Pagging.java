@@ -1,6 +1,6 @@
 package util;
 
-import biz.baseObj;
+import entityx.baseObj;
 import entityx.PageResult;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;

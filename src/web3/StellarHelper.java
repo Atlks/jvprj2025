@@ -1,4 +1,4 @@
-package biz;
+package web3;
 
 import java.net.http.*;
 import java.net.URI;

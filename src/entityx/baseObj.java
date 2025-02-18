@@ -1,4 +1,4 @@
-package biz;
+package entityx;
 
 public class baseObj {
 

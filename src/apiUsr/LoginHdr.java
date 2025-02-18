@@ -1,19 +1,12 @@
 package apiUsr;
 
 import apis.BaseHdr;
-import biz.existUserEx;
-import com.alibaba.fastjson2.JSONObject;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import utilBiz.OrmUtilBiz;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 
-import static apiUsr.RegHandler.saveDirUsrs;
-import static util.Util2025.encodeJson;
-import static util.dbutil.getObjDocdb;
 import static util.util2026.*;
 
 

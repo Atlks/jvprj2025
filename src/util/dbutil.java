@@ -1,7 +1,7 @@
 package util;
 
 import apiAcc.OrdChrg;
-import biz.baseObj;
+import entityx.baseObj;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
@@ -587,7 +587,7 @@ public class dbutil {
      * @param obj
      * @return
      */
-    static String encodeIni(Object obj) {
+    public static String encodeIni(Object obj) {
 
         if (obj instanceof Map) {
             return encodeIniMap((Map<String, Object>) obj);
@@ -765,7 +765,7 @@ public class dbutil {
      * @param <T>
      * @return
      */
-    static <T> T toObj(SortedMap<String, Object> sortedMap, Class<T> cls) throws Exception {
+    public static <T> T toObj(SortedMap<String, Object> sortedMap, Class<T> cls) throws Exception {
         // 将 Map 转换为 JSON 字符串，再反序列化为指定类型的对象
 //        String jsonString = JSON.toJSONString(obj);
 //        return JSON.parseObject(jsonString, cls);
@@ -1197,7 +1197,7 @@ public class dbutil {
 
     }
 
-    static SortedMap<String, Object> toMapFrmInicontext(String iniFileContent) {
+    public static SortedMap<String, Object> toMapFrmInicontext(String iniFileContent) {
         // 创建SortedMap来存储键值对
         SortedMap<String, Object> map = new TreeMap<>();
 
