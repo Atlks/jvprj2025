@@ -18,6 +18,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.sql.SQLException;
 
 import static apis.BaseHdr.iniCfgFrmCfgfile;
 //import static cfg.IocPicoCfg.iniIocContainr;
@@ -25,7 +26,7 @@ import static apis.BaseHdr.iniCfgFrmCfgfile;
 @SolonMain
 @ComponentScan("apiUsr")
 public class MainApi {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SQLException {
 
         //--------ini saveurlFrm Cfg
         //@NonNull

@@ -7,6 +7,8 @@ package test;
 import apiAcc.ReChargeComplete
 import apis.BaseHdr
 import cfg.IocPicoCfg.iniIocContainr
+import org.hibernate.Session
+import org.hibernate.SessionFactory
 
 
 fun main(){
@@ -16,6 +18,13 @@ fun main(){
 //    val he: HttpExchange =
 //        HttpExchangeImp("http://localhost:8889/AddOrdChargeHdr?amt=ordChrg2025-02-18T21-14-59", "uname=0093", "output2025.txt")
     val container = iniIocContainr()
+
+    val sessionFactory:SessionFactory = container.getComponent(SessionFactory::class.java)
+    println("sessionFactory="+sessionFactory)
+    val session: Session = sessionFactory.currentSession
+    session.beginTransaction()
+    println("session="+session)
+
     val component = container.getComponent(ReChargeComplete::class.java)
     var obj= component as ReChargeComplete
     //            setField(instance,"session",new SessionProvider().provide());
@@ -23,6 +32,8 @@ fun main(){
   //  dbutil.setField<Any>(obj, Session::class.java, container.getComponent(Session::class.java))
     obj.invk("updateOrdChgSetCmpltBiz","ordChrg2025-02-18T21-34-07")
  //   obj.updateOrdChgSetCmpltBiz("ordChrg2025-02-18T21-34-07")
+
+    session.getTransaction().commit();
     println("------------resp out :\n"+readFile("output2025.txt"));
 }
 

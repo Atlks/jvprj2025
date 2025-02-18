@@ -1,16 +1,20 @@
 package cfg;
 
 import apis.BaseHdr;
+import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 import util.SessionFactProvider;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import static apis.BaseHdr.saveDirUsrs;
+import static util.HbntUtil.getSessionFactory;
 import static util.util2026.scanClasses;
 
 //PicoContainer more easy thena guice lite,guice ,spring
@@ -18,15 +22,19 @@ public class IocPicoCfg {
     public static MutablePicoContainer container888 = new DefaultPicoContainer();
 
     @NotNull
-    public static MutablePicoContainer iniIocContainr() {
+    public static MutablePicoContainer iniIocContainr() throws SQLException {
         BaseHdr.iniCfgFrmCfgfile();
 
 //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         // **使用 Provider，每次获取都是新的 `Session`**
      //   container888.addAdapter(new SessionProvider());
-        container888.addAdapter(new SessionFactProvider());
+
+        List<Class> li = List.of();
+        BaseHdr.iniCfgFrmCfgfile();
+        SessionFactory sessionFactory = getSessionFactory(saveDirUsrs, li);
+       // container888.addAdapter(new SessionFactProvider());
         // 注册组件
-     //   container888.addComponent(RegHandler.class);
+        container888.addComponent(sessionFactory);
     //    container888.addComponent(LoginHdr.class);
         scanAllClass();
         return container888;

@@ -1,31 +1,17 @@
 package apiAcc;
 
 import apiCms.CmsBiz;
-import apis.BaseHdr;
-import com.sun.net.httpserver.HttpExchange;
 import entityx.LogBls;
 import entityx.OrdChrg;
 import entityx.Usr;
-import javassist.CannotCompileException;
-import javassist.NotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.util.Map;
 
 import static apiCms.CmsBiz.toBigDcmTwoDot;
 import static apis.BaseHdr.iniCfgFrmCfgfile;
-import static util.AopLogJavassist.getAClassExted;
-import static util.ColorLogger.*;
 import static util.HbntUtil.*;
-import static util.ToXX.parseQueryParams;
-import static util.Util2025.encodeJson;
 import static util.dbutil.setField;
 import static util.util2026.*;
 
@@ -56,11 +42,11 @@ public class ReChargeComplete extends AopBase  {
         //------------blk chge regch stat=ok
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
-        session.beginTransaction();
+     //   session.beginTransaction();
         OrdChrg objChrg = findByHbnt(OrdChrg.class, id, session);
 
 
-        System.out.println("\r\n----blk updt chg ord stat=ok");
+        System.out.println("\r\n----blk updt chg ord set stat=ok");
         //update chr ord stat
         //   OrdChrg objChrg = find(id, saveUrlOrdChrg, OrdChrg.class);
         String stat = (String) getField2025(objChrg, "stat", "");
@@ -80,7 +66,7 @@ public class ReChargeComplete extends AopBase  {
 
         //----add blance n log  ..blk
         String uname = objChrg.uname;
-        updtBlsByAddChrg(objChrg);
+        AddBlsAddChrg(objChrg);
         System.out.println("\n\r\n---------endblk  kmplt chrg");
 
 
@@ -91,12 +77,12 @@ public class ReChargeComplete extends AopBase  {
         //  calcCms4chrgU(u,amt);
         CmsBiz.calcCms4FrmOrdChrg(objChrg, session);
         // calcCms(uname,amt);
-        session.getTransaction().commit();
+      //  session.getTransaction().commit();
         System.out.println("\n\r\n---------endblk  calcCms4FrmOrdChrg");
     }
 
 
-    public   void updtBlsByAddChrg(OrdChrg objChrg ) throws Exception {
+    public   void AddBlsAddChrg(OrdChrg objChrg ) throws Exception {
       //  printLn("\n▶️fun updtBlsByAddChrg(", BLUE);
     //    printLn("objChrg= " + encodeJson(objChrg), GREEN);
     //    System.out.println(")");
@@ -106,7 +92,7 @@ public class ReChargeComplete extends AopBase  {
         String uname = objChrg.uname;
         BigDecimal amt = objChrg.getAmt();
 
-     Session session=sessionFactory.getCurrentSession();
+        Session session=sessionFactory.getCurrentSession();
         Usr objU = findByHbnt(Usr.class, uname, session);
         if (objU.id == null) {
             objU.id = uname;

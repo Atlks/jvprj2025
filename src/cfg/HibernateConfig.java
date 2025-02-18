@@ -29,14 +29,14 @@ import static util.HbntUtil.getSessionFactory;
 
 public class HibernateConfig {
 
-    @Bean
-    public SessionFactory sessionFactory() throws SQLException {
-        List<Class> li = List.of();
-        BaseHdr.iniCfgFrmCfgfile();
-        SessionFactory sessionFactory = getSessionFactory(saveDirUsrs, li);
-
-        return sessionFactory;
-    }
+//    @Bean
+//    public SessionFactory sessionFactory() throws SQLException {
+//        List<Class> li = List.of();
+//        BaseHdr.iniCfgFrmCfgfile();
+//        SessionFactory sessionFactory = getSessionFactory(saveDirUsrs, li);
+//
+//        return sessionFactory;
+//    }
 
 //    private Properties hibernateProperties() {
 //        Properties properties = new Properties();
