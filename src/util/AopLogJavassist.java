@@ -6,28 +6,24 @@ import com.sun.net.httpserver.HttpExchange;
 import javassist.*;
 import test.MyClassLoader;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static util.ColorLogger.*;
 
 public class AopLogJavassist {
     public static void main(String[] args) throws Exception {
-      //  System.out.println(RegHandler.class);
+        //  System.out.println(RegHandler.class);
         Class<?> aClass = RegHandler.class;
 
         Class<?> modifiedClass = getAClassExted(aClass);
-
-
-
 
 
         BaseHdr.iniCfgFrmCfgfile();
         //  StaticMethodAOP. enhanceClass(RegHandler::class.toString());
         HttpExchange he =
                 new HttpExchangeImp("http://localhost:8889/reg?uname=qq1&pwd=ppp", "uname=0091", "output2025.txt");
-
 
 
         Object instance = modifiedClass.getDeclaredConstructor().newInstance();
@@ -41,105 +37,140 @@ public class AopLogJavassist {
 
 
     }
-public  static  void printLn(String msg){
-    synchronized (lock) {
-        PrintWriter writer = new PrintWriter(System.out, true);  // 自动刷新
 
-        writer.println(msg);
-        System.out.flush();  // 刷新输出缓冲区
-        System.err.flush();  // 刷新输出缓冲区
+    public static void printLn(String msg) {
+        synchronized (lock) {
+            PrintWriter writer = new PrintWriter(System.out, true);  // 自动刷新
+
+            writer.println(msg);
+            System.out.flush();  // 刷新输出缓冲区
+            System.err.flush();  // 刷新输出缓冲区
+        }
     }
-}
-    public static Class<?> getAClassExted(Class<?> aClass) throws NotFoundException, CannotCompileException, IOException {
+
+    public static Class<?> getAClassExted(Class<?> aClass) throws NotFoundException, CannotCompileException, IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         synchronized (lock) {
 
 
-            printLn("getClassExtd(cls="+aClass);
+            printLn("getClassExtd(cls=" + aClass);
 
-        ClassPool pool = ClassPool.getDefault();
+            ClassPool pool = ClassPool.getDefault();
 
 //        if (pool.find("apiUsr.RegHandler") == null) {
 //            throw new RuntimeException("Class RegHandler not found in classpath.");
 //        }
 
 
-        CtClass ctClass = pool.get(aClass.getName());
+            CtClass ctClass = pool.get(aClass.getName());
 
 
-        CtMethod[] ctMthdArr=   ctClass.getMethods();
-        for(CtMethod ctMethod:ctMthdArr)
-        {
-            // ----------过滤掉继承的obj方法，只处理当前类的方法
-            String methodName = ctMethod.getName();
+            CtMethod[] ctMthdArr = ctClass.getMethods();
+            for (CtMethod ctMethod : ctMthdArr) {
+                // ----------过滤掉继承的obj方法，只处理当前类的方法
+                String methodName = ctMethod.getName();
 
-            if( isObjectMethod(methodName))
-                continue;;
+                if (isObjectMethod(methodName))
+                    continue;
+                ;
 
-            if( isObjectMethodEx(methodName))
-                continue;;
-            printLn("mth="+methodName);
-            // 过滤 abstract 和 native 方法
-            if ((ctMethod.getModifiers() & Modifier.ABSTRACT) != 0 ||
-                    (ctMethod.getModifiers() & Modifier.NATIVE) != 0) {
-              //  System.out.println("Skipping method: " + methodName);
-                continue;
-            }
-            //------------- 在方法前后插入日志
+                if (isObjectMethodEx(methodName))
+                    continue;
+                ;
+                printLn("mth=" + methodName);
+                // 过滤 abstract 和 native 方法
+                if ((ctMethod.getModifiers() & Modifier.ABSTRACT) != 0 ||
+                        (ctMethod.getModifiers() & Modifier.NATIVE) != 0) {
+                    //  System.out.println("Skipping method: " + methodName);
+                    continue;
+                }
+                //------------- 在方法前后插入日志
 //            ctMethod.insertBefore("System.out.println(\"!fun " + methodName + "()\");");
 
-            // 在方法前后插入日志，调用 encodeJson 方法
-            String mth="▶\uFE0F"+colorStr(methodName,YELLOW_bright);
-            String logCode =
-                    "{ " +
-                            "  String jsonArgs = util.Util2025.encodeJsonV2($args); " + // 调用封装的 encodeJson 方法
-                            "  System.out.println(" +
-                            "\""+
-                            "funm " + mth + "(), " +
-                            "args=" +
-                            "\" " +
-                            "+ util.ColorLogger.colorStr(jsonArgs,util.ColorLogger.GREEN));" +
-                            "}";
+                // 在方法前后插入日志，调用 encodeJson 方法
+                String mth = "▶\uFE0F" + colorStr(methodName, YELLOW_bright);
+                String logCode =
+                        "{ " +
+                                "  String jsonArgs = util.Util2025.encodeJsonV2($args); " + // 调用封装的 encodeJson 方法
+                                "  System.out.println(" +
+                                "\"" +
+                                "funm " + mth + "(), " +
+                                "args=" +
+                                "\" " +
+                                "+ util.ColorLogger.colorStr(jsonArgs,util.ColorLogger.GREEN));" +
+                                "}";
 
-            ctMethod.insertBefore(logCode);
+                ctMethod.insertBefore(logCode);
 
-            //------------- 在方法后插入日志
-           // System.out.println(encodeJson(true));
-            // 方法返回值序列化日志
-            String mth_end="✅"+methodName;
-            String returnSerializationCode =
-                    "{ " +
-                            "  String jsonRet = util.Util2025.encodeJson4dbgShowVal($_); " +  // 调用自定义方法
-                            "  System.out.println(\"endfunx " + mth_end + "(), return:\" + jsonRet);" +
-                            "}";
-
-
-            ctMethod.insertAfter(returnSerializationCode, true);  // `true` 让 `$_` 代表返回值
-
-            // ctMethod.   setAccessible(true);
+                //------------- 在方法后插入日志
+                // System.out.println(encodeJson(true));
+                // 方法返回值序列化日志
+                String mth_end = "✅" + methodName;
+                String returnSerializationCode =
+                        "{ " +
+                                "  String jsonRet = util.Util2025.encodeJson4dbgShowVal($_); " +  // 调用自定义方法
+                                "  System.out.println(\"endfunx " + mth_end + "(), return:\" + jsonRet);" +
+                                "}";
 
 
+                ctMethod.insertAfter(returnSerializationCode, true);  // `true` 让 `$_` 代表返回值
 
-        }
+                // ctMethod.   setAccessible(true);
 
-        // 获取修改后的字节码
-        byte[] bytecode = ctClass.toBytecode();
-        // 手动释放 CtClass
-      //  ctClass.detach();
 
-        // ---------使用自定义类加载器加载字节码
-           MyClassLoader myClassLoader = new MyClassLoader();
-        Class<?> modifiedClass = myClassLoader.defineClassFromByteArray( aClass.getName(),bytecode);
+            }
+           // ctClass.addInterface(pool.get("java.io.Serializable")); // 让它支持序列化            // 获取修改后的字节码
+            byte[] bytecode = ctClass.toBytecode();
+            // 手动释放 CtClass
+            //  ctClass.detach();
 
-//        if(aClass.getName().contains("ReChargeComplete"))
-//              System.exit(0);
-        return modifiedClass;
-           // System.out.println(message);
+            //     ---------使用自定义类加载器加载字节码
+            MyClassLoader myClassLoader = new MyClassLoader();
+            Class<?> modifiedClass = myClassLoader.defineClassFromByteArray(aClass.getName(), bytecode);
+            Object instance = modifiedClass.getConstructor().newInstance();
+
+
+            // 反序列化到当前 ClassLoader
+            ByteArrayInputStream bis = new ByteArrayInputStream(serialize(instance));
+            ObjectInputStream in = new ObjectInputStream(bis);
+            Object deserializedInstance = in.readObject();
+            Class<?> modifiedClass2 = deserializedInstance.getClass();
+            return modifiedClass2;
+
+
+//
+////        if(aClass.getName().contains("ReChargeComplete"))
+////              System.exit(0);
+//        return modifiedClass;
+            // System.out.println(message);
         }
     }
+
+    // **序列化对象**
+    private static byte[] serialize(Object obj) throws IOException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(bos);
+        out.writeObject(obj);
+        return bos.toByteArray();
+    }
+
+    // **反序列化对象**
+    private static Object deserialize(byte[] data, ClassLoader classLoader) throws IOException, ClassNotFoundException {
+        ByteArrayInputStream bis = new ByteArrayInputStream(data);
+        ObjectInputStream in = new ObjectInputStream(bis) {
+            @Override
+            protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
+                return Class.forName(desc.getName(), true, classLoader);
+            }
+        };
+        return in.readObject();
+    }
+
     public static final Object lock = new Object();
+
     private static boolean isObjectMethodEx(String name) {
         return name.equals("finalize") || name.equals("clone") || name.equals("setSessionFactory") ||
-                name.equals("main") || name.equals("notify") || name.equals("notifyAll") || name.equals("wait"); }
+                name.equals("main") || name.equals("notify") || name.equals("notifyAll") || name.equals("wait");
+    }
 
     // 过滤 Object 类的方法
     public static boolean isObjectMethod(String name) {

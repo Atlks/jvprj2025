@@ -146,6 +146,10 @@ public class IocSpringCfg {
                         continue;
                     if(clazz.getName().startsWith("test."))
                         continue;
+                    if(clazz.getName().startsWith("cfg."))
+                        continue;
+                    if(clazz.getName().startsWith("util"))
+                        continue;
                     Class<?> modifiedClass = getAClassExted(clazz);
                     context.register(modifiedClass);
 

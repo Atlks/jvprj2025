@@ -1,17 +1,22 @@
 package cfg;
 
+import apiAcc.WltService;
 import apis.BaseHdr;
 import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.function.Function;
 
 import static apis.BaseHdr.saveDirUsrs;
 import static util.AopLogJavassist.*;
+import static util.AopLogJavassist.printLn;
 import static util.HbntUtil.getSessionFactory;
 import static util.dbutil.setField;
 import static util.util2026.getField;
@@ -19,10 +24,10 @@ import static util.util2026.scanClasses;
 
 //PicoContainer more easy thena guice lite,guice ,spring
 public class IocAtiiocCfg {
-    public static Map<Class<?>,Object> AtIoc_context=new HashMap<>();
+    public static Map<String,Object> AtIoc_context=new HashMap<>();
 
     @NotNull
-    public static Map<Class<?>, ?> iniIocContainr4at() throws SQLException {
+    public static Map<String,Object> iniIocContainr4at() throws SQLException {
         BaseHdr.iniCfgFrmCfgfile();
 
 //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
@@ -32,12 +37,13 @@ public class IocAtiiocCfg {
         List<Class> li = List.of();
         BaseHdr.iniCfgFrmCfgfile();
         SessionFactory sessionFactory = getSessionFactory(saveDirUsrs, li);
+        AtIoc_context.put(SessionFactory.class.getName(),sessionFactory);
        // container888.addAdapter(new SessionFactProvider());
         // 注册组件
      //   PicoContainer888.addComponent(sessionFactory);
     //    container888.addComponent(LoginHdr.class);
-        scanAllClass();//  all add class  ...  mdfyed class btr
-      //  injectAll();
+        scanAllClassRgClz();//  all add class  ...  mdfyed class btr
+         injectAll();
         return AtIoc_context;
     }
 
@@ -120,7 +126,7 @@ public class IocAtiiocCfg {
     /**
      * 扫描classes路径所有class，加入到容器 MutablePicoContainer
      */
-    public static void scanAllClass() {
+    public static void scanAllClassRgClz() {
         try {
             // 获取 classes 目录
             String classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
@@ -144,14 +150,22 @@ public class IocAtiiocCfg {
                             continue;
                         if (clazz.getName().startsWith("test."))
                             continue;
+                        if (clazz.getName().startsWith("cfg."))
+                            continue;
+                        if (clazz.getName().startsWith("util"))
+                            continue;
                         if (clazz.getName().contains("ReChargeComplete"))
                              printLn("D1138");
                         System.out.flush();  // 刷新输出缓冲区
                         Class<?> modifiedClass = getAClassExted(clazz);
                         //   context.register(modifiedClass);
-                        AtIoc_context.put(modifiedClass, getInstsWzSessfac(modifiedClass));
+                        if( modifiedClass.getName().contains("ReChargeComplete"))
+                            System.out.println("d231");
+                        Object instsWzSessfac = getInstsWzSessfac(modifiedClass);
+                        AtIoc_context.put(modifiedClass.getName(), instsWzSessfac);
 
                         printLn("atIoc已注册: " + clazz.getName());
+                        printLn("conetxt size:"+AtIoc_context.size());
 
                     } catch (Exception e) {
                         printLn("atIoc注册失败: " + clazz.getName());
@@ -172,9 +186,94 @@ public class IocAtiiocCfg {
    Thread.sleep(i);
     }
 
+    private static void injectAll() {
+
+        AtIoc_context.forEach((key, ins) -> {
+            System.out.println("Key: " + key + ", Value: " + ins);
+            Class<?> clazz = ins.getClass();
+            if(clazz!=SessionFactory.class)
+            {
+                Field[] fields = clazz.getFields();
+
+                for (Field field : fields) {
+                    field.setAccessible(true); // 允许访问私有字段
+                    if(field.getType()== WltService.class)
+                        System.out.println("d951");
+                    System.out.println("trav prop="+field);
+                    try {
+                        if (field.get(ins) == null) { // 如果字段值为 null
+                            Object component = getBean2025(field.getType());
+                            if (component != null) {
+                                System.out.println("setprop as:"+component);
+                                field.set(ins, component);
+                                // setFld(ins, field, component);
+                            }
+                        }
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException("Failed to inject property: " + field.getName(), e);
+                    }
+                }
+            }
+
+
+        });
+
+
+//        Function<Class,Object> fun=new Function<Class, Object>() {
+//            @Override
+//            public Object apply(Class aClass) {
+//                Object ins=  PicoContainer888.getComponent(aClass);
+//                System.out.println(" ijt ins="+ins);
+//                traveProp(ins);
+//                Object ins2=  PicoContainer888.getComponent(aClass);
+//                return null;
+//            }
+//        };
+//        scanAllClass(fun);
+
+    }
+
+    private static void setFld(Object ins, Field field, Object component) throws NoSuchFieldException, IllegalAccessException {
+        Class TargetClass= ins.getClass();
+        VarHandle fieldHandle = MethodHandles.lookup()
+                .in(TargetClass)
+                .findVarHandle(TargetClass, field.getName(), field.getType());
+
+        fieldHandle.set(ins, component);
+    }
+
+    private static void traveProp(Object ins) {
+
+        if (ins == null) return;
+
+        Class<?> clazz = ins.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+
+        for (Field field : fields) {
+            field.setAccessible(true); // 允许访问私有字段
+            if(field.getType()== WltService.class)
+                System.out.println("d951");
+            System.out.println("trav prop="+field);
+            try {
+                if (field.get(ins) == null) { // 如果字段值为 null
+//                    Object component = PicoContainer888.getComponent(field.getType());
+//                    if (component != null) {
+//                        System.out.println("setprop as:"+component);
+//                        field.set(ins, component);
+//                    }
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException("Failed to inject property: " + field.getName(), e);
+            }
+        }
+    }
+
+    public static Object getBean2025(Class<?> clazz) {
+        return   AtIoc_context.get(clazz.getName()); // 获取时使用泛型返回指定类型
+    }
     // 使用泛型明确声明每个类和对应类型
     public static <T> T getComponent(Class<T> clazz) {
-        return (T) AtIoc_context.get(clazz); // 获取时使用泛型返回指定类型
+        return (T) AtIoc_context.get(clazz.getName()); // 获取时使用泛型返回指定类型
     }
     private static Object getInstsWzSessfac(Class<?> modifiedClass) throws  Exception {
 

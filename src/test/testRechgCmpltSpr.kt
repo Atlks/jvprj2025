@@ -18,7 +18,7 @@ fun main(){
 
     cfg.IocSpringCfg.iniIocContainr4spr()
 
-    IocSpringCfg.context.refresh()
+   // IocSpringCfg.context.refresh()
 
     val sessionFactory:SessionFactory = cfg.IocSpringCfg.context.getBean(SessionFactory::class.java)
     println("sessionFactory="+sessionFactory)

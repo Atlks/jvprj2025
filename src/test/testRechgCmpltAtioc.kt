@@ -6,9 +6,7 @@ package test;
 //import apiAcc.ReChargeComplete.invk
 import apiAcc.ReChargeComplete
 import apis.BaseHdr
-import cfg.IocAtiiocCfg.getComponent
-import cfg.IocAtiiocCfg.iniIocContainr4at
-import cfg.IocSpringCfg
+import cfg.IocAtiiocCfg.*
 import org.hibernate.Session
 import org.hibernate.SessionFactory
 
@@ -30,8 +28,11 @@ fun main(){
     println("session="+session)
 
 
-    var obj=getComponent(ReChargeComplete::class.java);
-    obj.updateOrdChgSetCmpltBiz("ordChrg2025-02-18T21-34-07")
+    var obj= getBean2025(ReChargeComplete::class.java);
+    var rc:ReChargeComplete=obj as ReChargeComplete;
+    rc.updateOrdChgSetCmpltBiz("ordChrg2025-02-18T21-34-07")
+  //  invokeMethod2025(obj,"updateOrdChgSetCmpltBiz","ordChrg2025-02-18T21-34-07")
+ //   obj.updateOrdChgSetCmpltBiz("ordChrg2025-02-18T21-34-07")
     //            setField(instance,"session",new SessionProvider().provide());
     //new SessionProvider().provide()
   //  dbutil.setField<Any>(obj, Session::class.java, container.getComponent(Session::class.java))

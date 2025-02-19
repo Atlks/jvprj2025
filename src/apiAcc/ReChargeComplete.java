@@ -26,6 +26,9 @@ import static util.util2026.*;
 public class ReChargeComplete extends AopBase  {
     public static String saveUrlLogBalance;
 
+    public ReChargeComplete() {
+    }
+
     @Autowired
     public ReChargeComplete(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -82,11 +85,11 @@ public class ReChargeComplete extends AopBase  {
         WltService1.AddBlsAddChrg(objChrg);
       //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
-
-        System.out.println("\n\r\n---------blk  calcCms4FrmOrdChrg");
+        System.out.println("\n\r\n===========calc cms计算佣金");
+      //  System.out.println("\n\r\n===========blk  calcCms4FrmOrdChrg");
         //--------------calc yonjin
 
-      //  System.out.println("\n\r\n---------calc cms计算佣金");
+
         Usr u = new Usr();
         // u.invtr=objU.get("invtr").toString();
         //  calcCms4chrgU(u,amt);

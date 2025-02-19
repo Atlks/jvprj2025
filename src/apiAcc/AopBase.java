@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -17,7 +18,9 @@ import static util.util2026.copyProps;
 import static util.util2026.getField;
 
 @Component
-public class AopBase {
+public class AopBase implements Serializable {
+    // 实现 Serializable 接口
+    private static final long serialVersionUID = 1L; // 推荐加 serialVersionUID
     public static boolean ovrtTEst = false;
     @Autowired
     @Inject
@@ -28,7 +31,7 @@ public class AopBase {
         this.sessionFactory = sessionFactory;
     }
 
-  // 反射调用方法
+    // 反射调用方法
 //    public   void invk( @NotNull String methodName, @NotNull Object... prm) throws Exception {
 //        Class<?> aClass =this.getClass();
 //        Class<?> modifiedClass = getAClassExted(aClass);
