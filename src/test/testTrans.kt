@@ -8,9 +8,8 @@ import apiAcc.ReChargeComplete
 import apiAcc.TransHdr
 import apis.BaseHdr
 import cfg.IocSpringCfg
-import cfg.IocSpringCfg.context
 import com.sun.net.httpserver.HttpExchange
-import util.AopLogJavassist
+import com.sun.net.httpserver.HttpHandler
 import util.HttpExchangeImp
 
 
@@ -30,7 +29,8 @@ fun main(){
     val he: HttpExchange =
         HttpExchangeImp("http://localhost:8889/TransHdr?changeAmount=8", "uname=007", "output2025.txt")
 
-    var obj=IocSpringCfg.context.getBean(TransHdr::class.java);
+    var obj=IocSpringCfg.context.getBean(TransHdr::class.java.name);
+    obj=obj as HttpHandler
     obj.handle(he)
 
     println("------------resp out :\n"+readFile("output2025.txt"));
