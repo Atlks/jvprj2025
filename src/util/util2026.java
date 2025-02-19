@@ -426,7 +426,7 @@ public class util2026 {
      *
      * @param <T>
      */
-    static <T> void copyProps(T source, T target) {
+    public static <T> void copyProps(T source, T target) {
 
         if (target == null || source == null) {
             throw new IllegalArgumentException("目标对象和源对象不能为空");

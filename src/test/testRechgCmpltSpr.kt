@@ -6,29 +6,29 @@ package test;
 //import apiAcc.ReChargeComplete.invk
 import apiAcc.ReChargeComplete
 import apis.BaseHdr
-import cfg.IocPicoCfg.iniIocContainr
+import cfg.IocSpringCfg
 import org.hibernate.Session
 import org.hibernate.SessionFactory
-import util.TransactMng.beginTransaction
 
 
 fun main(){
     ReChargeComplete.ovrtTEst = true
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
     BaseHdr.iniCfgFrmCfgfile()
-//    val he: HttpExchange =
-//        HttpExchangeImp("http://localhost:8889/AddOrdChargeHdr?amt=ordChrg2025-02-18T21-14-59", "uname=0093", "output2025.txt")
-    val container = iniIocContainr()
 
-    val sessionFactory:SessionFactory = container.getComponent(SessionFactory::class.java)
+    cfg.IocSpringCfg.iniIocContainr4spr()
+
+    IocSpringCfg.context.refresh()
+
+    val sessionFactory:SessionFactory = cfg.IocSpringCfg.context.getBean(SessionFactory::class.java)
     println("sessionFactory="+sessionFactory)
     val session: Session = sessionFactory.currentSession
     session.beginTransaction()
    // beginTransaction(session)
     println("session="+session)
 
-    val component = container.getComponent(ReChargeComplete::class.java)
-    var obj= component as ReChargeComplete
+
+    var obj=IocSpringCfg.context.getBean(ReChargeComplete::class.java);
     obj.updateOrdChgSetCmpltBiz("ordChrg2025-02-18T21-34-07")
     //            setField(instance,"session",new SessionProvider().provide());
     //new SessionProvider().provide()

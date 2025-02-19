@@ -7,6 +7,7 @@ import javassist.*;
 import test.MyClassLoader;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
 import static util.ColorLogger.*;
@@ -40,8 +41,21 @@ public class AopLogJavassist {
 
 
     }
+public  static  void printLn(String msg){
+    synchronized (lock) {
+        PrintWriter writer = new PrintWriter(System.out, true);  // 自动刷新
 
+        writer.println(msg);
+        System.out.flush();  // 刷新输出缓冲区
+        System.err.flush();  // 刷新输出缓冲区
+    }
+}
     public static Class<?> getAClassExted(Class<?> aClass) throws NotFoundException, CannotCompileException, IOException {
+        synchronized (lock) {
+
+
+            printLn("getClassExtd(cls="+aClass);
+
         ClassPool pool = ClassPool.getDefault();
 
 //        if (pool.find("apiUsr.RegHandler") == null) {
@@ -57,13 +71,17 @@ public class AopLogJavassist {
         {
             // ----------过滤掉继承的obj方法，只处理当前类的方法
             String methodName = ctMethod.getName();
+
             if( isObjectMethod(methodName))
                 continue;;
 
+            if( isObjectMethodEx(methodName))
+                continue;;
+            printLn("mth="+methodName);
             // 过滤 abstract 和 native 方法
             if ((ctMethod.getModifiers() & Modifier.ABSTRACT) != 0 ||
                     (ctMethod.getModifiers() & Modifier.NATIVE) != 0) {
-                System.out.println("Skipping method: " + methodName);
+              //  System.out.println("Skipping method: " + methodName);
                 continue;
             }
             //------------- 在方法前后插入日志
@@ -111,8 +129,17 @@ public class AopLogJavassist {
         // ---------使用自定义类加载器加载字节码
            MyClassLoader myClassLoader = new MyClassLoader();
         Class<?> modifiedClass = myClassLoader.defineClassFromByteArray( aClass.getName(),bytecode);
+
+//        if(aClass.getName().contains("ReChargeComplete"))
+//              System.exit(0);
         return modifiedClass;
+           // System.out.println(message);
+        }
     }
+    public static final Object lock = new Object();
+    private static boolean isObjectMethodEx(String name) {
+        return name.equals("finalize") || name.equals("clone") || name.equals("setSessionFactory") ||
+                name.equals("main") || name.equals("notify") || name.equals("notifyAll") || name.equals("wait"); }
 
     // 过滤 Object 类的方法
     public static boolean isObjectMethod(String name) {

@@ -6,15 +6,21 @@ import org.hibernate.Transaction;
 public class TransactMng {
 
 
-        private static final ThreadLocal<Transaction> transactionThreadLocal = new ThreadLocal<>();
+    public static final ThreadLocal<Transaction> transactionThreadLocal = new ThreadLocal<>();
 
 
         public static Transaction beginTransaction(Session session) {
+            boolean existingTransaction = session.getTransaction().isActive();
+            if(existingTransaction)
+                return session.getTransaction();
+
+            //
             Transaction transaction = transactionThreadLocal.get();
             if (transaction == null) {
                 transaction = session.beginTransaction();
                 transactionThreadLocal.set(transaction);
             }
+          //  boolean existingTransaction = session.getTransaction().isActive();
             return transaction;
         }
 
@@ -34,13 +40,13 @@ public class TransactMng {
             }
         }
 
-        public static void closeSession() {
-            Session session = sessionThreadLocal.get();
-            if (session != null) {
-                session.close();
-                sessionThreadLocal.remove();
-            }
-        }
+//        public static void closeSession() {
+//            Session session = sessionThreadLocal.get();
+//            if (session != null) {
+//                session.close();
+//                sessionThreadLocal.remove();
+//            }
+//        }
     }
 
-}
+

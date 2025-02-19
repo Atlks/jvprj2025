@@ -6,7 +6,10 @@ import entityx.OrdChrg;
 import entityx.Usr;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import java.math.BigDecimal;
 
 import static apiCms.CmsBiz.toBigDcmTwoDot;
@@ -19,9 +22,11 @@ import static util.util2026.*;
 /**  ivk by
  *  UpdtCompleteChargeHdr?id=ordchg2222
  */
+@Component
 public class ReChargeComplete extends AopBase  {
     public static String saveUrlLogBalance;
 
+    @Autowired
     public ReChargeComplete(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     //    super.sessionFactory = sessionFactory;
@@ -33,14 +38,20 @@ public class ReChargeComplete extends AopBase  {
         //       drvMap.put("com.mysql.cj.jdbc.Driver", "org.h2.Driver");
         //  updateOrdChgSetCmplt("ordChrg2025-02-18T21-14-59");
     }
-
-
+    @Autowired
+    @Inject
+    public WltService  WltService1;
+    @Autowired
+    public void setWltService1(WltService wltService1) {
+        WltService1 = wltService1;
+    }
 
     public   void updateOrdChgSetCmpltBiz(String id) throws Exception {
 
         Session session = sessionFactory.getCurrentSession();
         beginTransaction(session);
         //------------blk chge regch stat=ok
+        System.out.println("\r\n\n\n=============blk 设置订单状态=完成");
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
      //   session.beginTransaction();
@@ -62,17 +73,20 @@ public class ReChargeComplete extends AopBase  {
         if (stat.equals(""))
             objChrg.stat = "ok";
         mergeByHbnt(objChrg, session);
-        System.out.println("----endblk updt chg ord stat=ok");
+     //   System.out.println("----endblk updt chg ord stat=ok");
         //  session.merge(objChrg);
 
         //----add blance n log  ..blk
+        System.out.println("\r\n\n\n=============blk 主钱包加钱");
         String uname = objChrg.uname;
-        AddBlsAddChrg(objChrg);
-        System.out.println("\n\r\n---------endblk  kmplt chrg");
+        WltService1.AddBlsAddChrg(objChrg);
+      //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
 
         System.out.println("\n\r\n---------blk  calcCms4FrmOrdChrg");
         //--------------calc yonjin
+
+      //  System.out.println("\n\r\n---------calc cms计算佣金");
         Usr u = new Usr();
         // u.invtr=objU.get("invtr").toString();
         //  calcCms4chrgU(u,amt);
@@ -82,45 +96,6 @@ public class ReChargeComplete extends AopBase  {
         System.out.println("\n\r\n---------endblk  calcCms4FrmOrdChrg");
     }
 
-
-    public   void AddBlsAddChrg(OrdChrg objChrg ) throws Exception {
-      //  printLn("\n▶️fun updtBlsByAddChrg(", BLUE);
-    //    printLn("objChrg= " + encodeJson(objChrg), GREEN);
-    //    System.out.println(")");
-        //  printlnx();
-        //   System.out.println("\r\n ▶fun updtBlsByAddChrg(objChrg= "+encodeJson(objChrg));
-
-        String uname = objChrg.uname;
-        BigDecimal amt = objChrg.getAmt();
-
-        Session session=sessionFactory.getCurrentSession();
-        Usr objU = findByHbnt(Usr.class, uname, session);
-        if (objU.id == null) {
-            objU.id = uname;
-            objU.uname = uname;
-        }
-
-        BigDecimal nowAmt = getFieldAsBigDecimal(objU, "balance", 0);
-
-        BigDecimal newBls = nowAmt.add(amt);
-        objU.balance = toBigDcmTwoDot(newBls);
-        mergeByHbnt(objU, session);
-
-        //add balanceLog
-        LogBls logBalance = new LogBls();
-        logBalance.id = "LogBalance" + getFilenameFrmLocalTimeString();
-        logBalance.uname = uname;
-        logBalance.changeTime = System.currentTimeMillis();
-        logBalance.changeType = "充值";  //充值增加
-        logBalance.changeMode = "增加";
-        logBalance.changeAmount = amt;
-        logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
-        logBalance.newBalance = toBigDcmTwoDot(newBls);
-        System.out.println(" add balanceLog ");
-        persistByHbnt(logBalance, session);
-
-      //  System.out.println("✅endfun updtBlsByAddChrg()");
-    }
 
 
 
