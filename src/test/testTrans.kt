@@ -7,13 +7,11 @@ package test;
 import apiAcc.ReChargeComplete
 import apiAcc.TransHdr
 import apis.BaseHdr
-import cfg.IocPicoCfg.iniIocContainr
 import cfg.IocSpringCfg
+import cfg.IocSpringCfg.context
 import com.sun.net.httpserver.HttpExchange
-import org.hibernate.Session
-import org.hibernate.SessionFactory
+import util.AopLogJavassist
 import util.HttpExchangeImp
-import util.TransactMng.commitTransaction
 
 
 fun main(){
@@ -24,7 +22,10 @@ fun main(){
     cfg.IocSpringCfg.iniIocContainr4spr()
 
 
+    val modifiedClass = AopLogJavassist.getAClassExted(TransHdr::class.java)
 
+    //  context.register(modifiedClass);  jeig bhao,,beanname not classname
+    context.registerBean(modifiedClass.name, modifiedClass)
 
 
     val he: HttpExchange =

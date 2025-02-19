@@ -52,8 +52,8 @@ public class AopLogJavassist {
     public static Class<?> getAClassExted(Class<?> aClass) throws NotFoundException, CannotCompileException, IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         synchronized (lock) {
 
-
-            printLn("getClassExtd(cls=" + aClass);
+         //   Class.toString() 只是返回类的字符串表示，格式类似于：这个方法 不会触发类的静态初始化，因为它只是访问 Class 对象的元信息。
+            printLn("getClassExtd(cls=" + aClass.getName());
 
             ClassPool pool = ClassPool.getDefault();
 
@@ -78,7 +78,7 @@ public class AopLogJavassist {
                 if (isObjectMethodEx(methodName))
                     continue;
                 ;
-                printLn("ex mth=" + methodName);
+
 
                 // 过滤 abstract 和 native 方法
                 if ((ctMethod.getModifiers() & Modifier.ABSTRACT) != 0 ||
@@ -86,6 +86,8 @@ public class AopLogJavassist {
                     //  System.out.println("Skipping method: " + methodName);
                     continue;
                 }
+
+                printLn("ex mth=" + methodName);
                 //------------- 在方法前后插入日志
 //            ctMethod.insertBefore("System.out.println(\"!fun " + methodName + "()\");");
 
