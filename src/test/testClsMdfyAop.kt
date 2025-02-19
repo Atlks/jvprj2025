@@ -7,11 +7,16 @@ package test;
 import apiAcc.ReChargeComplete
 import apiAcc.TransHdr
 import apis.BaseHdr
+import cfg.AppConfig
 import cfg.IocSpringCfg
 import cfg.IocSpringCfg.context
+import com.mysql.cj.Session
 import com.sun.net.httpserver.HttpExchange
+import com.sun.net.httpserver.HttpHandler
+import org.hibernate.SessionFactory
 import util.AopLogJavassist
 import util.HttpExchangeImp
+import util.dbutil.setField
 
 
 fun main(){
@@ -19,18 +24,20 @@ fun main(){
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
     BaseHdr.iniCfgFrmCfgfile()
 
-    cfg.IocSpringCfg.iniIocContainr4spr()
 
 
-//
-    //  context.register(modifiedClass);  jeig bhao,,beanname not classname
-  //  context.registerBean(modifiedClass.name, modifiedClass)
 
+    val modifiedClass = AopLogJavassist.getAClassExted(TransHdr::class.java)
+
+  var obj=  modifiedClass.getConstructor().newInstance()
+    obj=obj as HttpHandler
+  //  obj.sessionFactory= AppConfig().sessionFactory()
+    setField(obj,SessionFactory::class.java, AppConfig().sessionFactory())
 
     val he: HttpExchange =
         HttpExchangeImp("http://localhost:8889/TransHdr?changeAmount=8", "uname=007", "output2025.txt")
 
-    var obj=IocSpringCfg.context.getBean(TransHdr::class.java);
+  //  var obj=IocSpringCfg.context.getBean(TransHdr::class.java);
     obj.handle(he)
 
     println("------------resp out :\n"+readFile("output2025.txt"));

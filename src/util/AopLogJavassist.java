@@ -49,8 +49,23 @@ public class AopLogJavassist {
         }
     }
 
+
+    /**
+     * 这个确定可以修改了class
+     * @param aClass
+     * @return
+     * @throws NotFoundException
+     * @throws CannotCompileException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     public static Class<?> getAClassExted(Class<?> aClass) throws NotFoundException, CannotCompileException, IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        synchronized (lock) {
+       // synchronized (lock)
+        {
 
          //   Class.toString() 只是返回类的字符串表示，格式类似于：这个方法 不会触发类的静态初始化，因为它只是访问 Class 对象的元信息。
             printLn("getClassExtd(cls=" + aClass.getName());
@@ -145,8 +160,10 @@ public class AopLogJavassist {
             //but here cls ldr also mycls ldr
             Class<?> modifiedClass = myClassLoader.defineClassFromByteArray(aClass.getName(), bytecode);
 
-            Class<?> modifiedClass2 = getAClassInCurClasLdr(modifiedClass);
-            return modifiedClass2;
+            //cfm mdfy class,,if now ret ,ivk by itfs,its ok..take effk
+
+          //  Class<?> modifiedClass2 = getAClassInCurClasLdr(modifiedClass);
+            return modifiedClass;
 
 
 //
@@ -205,11 +222,14 @@ public class AopLogJavassist {
     private static Class<?> getAClassInCurClasLdr(Class<?> modifiedClass) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException, ClassNotFoundException {
         Object instance = modifiedClass.getConstructor().newInstance();
         // 反序列化到当前 ClassLoader
-        ByteArrayInputStream bis = new ByteArrayInputStream(serialize(instance));
-        ObjectInputStream in = new ObjectInputStream(bis);
+        byte[] serializeData = serialize(instance);
 
-        //为什么这里报错了
-        Object deserializedInstance = in.readObject();
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        System.out.println(classLoader);
+
+
+        //为什么这里报错了  meiyh  srz id..
+        Object deserializedInstance =deserialize(serializeData,classLoader);
         Class<?> modifiedClass2 = deserializedInstance.getClass();
         return modifiedClass2;
     }

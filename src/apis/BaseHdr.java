@@ -38,7 +38,7 @@ import static util.dbutil.setField;
 import static util.util2026.*;
 
 @Component
-public abstract class BaseHdr implements HttpHandler  , Serializable {
+public abstract class BaseHdr implements HttpHandler, Serializable {
 
     // 实现 Serializable 接口
     public static final long serialVersionUID = 1L; // 推荐加
@@ -61,11 +61,11 @@ public abstract class BaseHdr implements HttpHandler  , Serializable {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         //wz qrystr
-      //  printlnx();
-       String mth= colorStr("handle",YELLOW_bright);
-        String prmurl= colorStr(String.valueOf(exchange.getRequestURI()),GREEN);
+        //  printlnx();
+        String mth = colorStr("handle", YELLOW_bright);
+        String prmurl = colorStr(String.valueOf(exchange.getRequestURI()), GREEN);
         curUrl.set(encodeJson(exchange.getRequestURI()));
-        System.out.println("▶\uFE0Ffun "+mth+"(url=" + prmurl);
+        System.out.println("▶\uFE0Ffun " + mth + "(url=" + prmurl);
         //   curUrlPrm.set(exchange.getrequ);
 
         ExceptionBase ex = new ExceptionBase("");
@@ -88,13 +88,11 @@ public abstract class BaseHdr implements HttpHandler  , Serializable {
                 }
             }
 
-          //  System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
-           handle2(exchange);
+            //  System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
+            handle2(exchange);
 
 
-
-
-      //      System.out.println("endfun handle2()");
+            //      System.out.println("endfun handle2()");
             System.out.println("✅endfun handle()");
 
         } catch (java.lang.reflect.InvocationTargetException e) {
@@ -103,7 +101,7 @@ public abstract class BaseHdr implements HttpHandler  , Serializable {
             Throwable cause = e.getCause();
 
             ex.errcode = cause.getClass().getName();
-            ex.errmsg=e.getCause().getMessage();
+            ex.errmsg = e.getCause().getMessage();
             String stackTraceAsString = getStackTraceAsString(e);
             ex.stackTrace = stackTraceAsString;
 
@@ -150,24 +148,21 @@ public abstract class BaseHdr implements HttpHandler  , Serializable {
             wrtRespErr(exchange, responseTxt);
 
 
-
-
             // throw new RuntimeException(e);
 
         }
         //end catch
 
         //not ex ,just all ok blk
-       //ex.fun  from stacktrace
+        //ex.fun  from stacktrace
 
     }
 
 
-
     private static void addInfo2ex(ExceptionBase ex) {
-        if(ex.fun.equals(""))
-            ex.fun=curFun4dbg.get();
-        if(ex.funPrm==null)
+        if (ex.fun.equals(""))
+            ex.fun = curFun4dbg.get();
+        if (ex.funPrm == null)
             ex.funPrm = currFunPrms4dbg.get();
         ex.url = curUrl.get();
         ex.urlprm = curUrlPrm.get();
@@ -206,7 +201,9 @@ public abstract class BaseHdr implements HttpHandler  , Serializable {
 
 
     }
+
     public static String saveDirUsrs = "";
+
     public static void iniCfgFrmCfgfile() {
 
         //test
