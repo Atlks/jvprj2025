@@ -191,8 +191,8 @@ public class HbntUtil {
 
 
     public static <T> T findByHbnt(Class<T> t, String id, LockModeType lockModeType, Session session) {
-
-        System.out.println("\r\n▶\uFE0Ffun findByHbnt(class="+t+",id="+id+",LockModeType="+lockModeType);
+        String mthClr=colorStr("findByHbnt",YELLOW_bright);
+        System.out.println("\r\n▶\uFE0Ffun "+mthClr+"(class="+t+",id="+id+",LockModeType="+lockModeType);
       //  System.out.println("findByHbnt("+ t+"。。。");
         T rzt = session.find(t, id,lockModeType);
         System.out.println("✅endfun findByHbnt.ret="+ encodeJson(rzt));

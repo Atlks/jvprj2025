@@ -24,12 +24,18 @@ public class TransactMng {
             return transaction;
         }
 
-        public static void commitTransaction() {
+        public static void commitTransaction(Session session) {
             Transaction transaction = transactionThreadLocal.get();
+
             if (transaction != null) {
                 transaction.commit();
                 transactionThreadLocal.remove();
             }
+
+
+            boolean existingTransaction = session.getTransaction().isActive();
+            if(existingTransaction)
+                transaction.commit();
         }
 
         public static void rollbackTransaction() {

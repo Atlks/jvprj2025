@@ -19,6 +19,7 @@ import java.util.function.Function;
 import static apis.BaseHdr.saveDirUsrs;
 import static org.picocontainer.Characteristics.CACHE;
 import static util.AopLogJavassist.getAClassExted;
+import static util.AopLogJavassist.printLn;
 import static util.HbntUtil.getSessionFactory;
 import static util.util2026.scanClasses;
 
@@ -159,14 +160,17 @@ public class IocSpringCfg {
                         continue;
                     if(clazz.getName().startsWith("util"))
                         continue;
+                    printLn("\n开始注册"+clazz.getName());
                     Class<?> modifiedClass = getAClassExted(clazz);
                    //  context.register(modifiedClass);  jeig bhao,,beanname not classname
                     context.registerBean( modifiedClass.getName(), modifiedClass);
                  //   context. registerBean(modifiedClass,modifiedClass.getName());
-                    System.out.println("spr已注册: " + clazz.getName());
+                    printLn("modifiedClass.getClassLoader="+modifiedClass.getClassLoader());
+                    printLn("spr已注册: " + clazz.getName());
+
                 } catch (Exception e) {
-                    System.err.println("spr注册失败: " + clazz.getName());
-                    System.err.println("spr注册失败msg: " + e.getMessage());
+                    printLn("spr注册失败: " + clazz.getName());
+                    printLn("spr注册失败msg: " + e.getMessage());
                   //  System.err.println("注册失败: " + clazz.getName());
                 }
             }

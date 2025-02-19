@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="spring-aop-6.2.3 (2)">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libjar/spring-aop-6.2.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libjar/spring-beans-6.2.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libjar/spring-context-6.2.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libjar/spring-core-6.2.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libjar/spring-expression-6.2.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libjar/sqlite-jdbc-3.43.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

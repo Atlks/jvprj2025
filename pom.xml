@@ -66,13 +66,15 @@
                 <artifactId>picocontainer</artifactId>
                 <version>2.15</version>
             </dependency>
+        <!--
 
-
-        <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm</artifactId>
-            <version>9.7</version>  <!-- 确保是 9.5 以上 -->
+             <dependency>
+                 <groupId>org.ow2.asm</groupId>
+                 <artifactId>asm</artifactId>
+                 <version>9.7</version>
         </dependency>
+         -->
+        <!-- 确保是 9.5 以上 -->
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-commons</artifactId>

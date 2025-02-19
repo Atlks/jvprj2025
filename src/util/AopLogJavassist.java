@@ -64,7 +64,8 @@ public class AopLogJavassist {
 
             CtClass ctClass = pool.get(aClass.getName());
 
-
+           if(aClass.getName().contains("TransHdr"))
+               System.out.println("D909");
             CtMethod[] ctMthdArr = ctClass.getMethods();
             for (CtMethod ctMethod : ctMthdArr) {
                 // ----------过滤掉继承的obj方法，只处理当前类的方法
@@ -77,7 +78,8 @@ public class AopLogJavassist {
                 if (isObjectMethodEx(methodName))
                     continue;
                 ;
-                printLn("mth=" + methodName);
+                printLn("ex mth=" + methodName);
+
                 // 过滤 abstract 和 native 方法
                 if ((ctMethod.getModifiers() & Modifier.ABSTRACT) != 0 ||
                         (ctMethod.getModifiers() & Modifier.NATIVE) != 0) {
@@ -119,30 +121,36 @@ public class AopLogJavassist {
 
 
             }
-           // ctClass.addInterface(pool.get("java.io.Serializable")); // 让它支持序列化            // 获取修改后的字节码
+
+            if(aClass.getName().contains("TransHdr"))
+                System.out.println("D909");
+
+
+            // 判断是否已经实现了 Serializable
+          //  srlzCtCls(ctClass, pool);
+
+            //  ctClass.addInterface(pool.get("java.io.Serializable")); // 让它支持序列化            // 获取修改后的字节码
             byte[] bytecode = ctClass.toBytecode();
             // 手动释放 CtClass
             //  ctClass.detach();
 
             //     ---------使用自定义类加载器加载字节码
-            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-             MyClassLoader myClassLoader = new MyClassLoader(classLoader);
-
-            Class<?> modifiedClass = myClassLoader.defineClassFromByteArrayToSysClsLdr(aClass.getName(), bytecode);
-
-            ClassLoader classLoader1 = modifiedClass.getClassLoader();
-         //mycls ldr
-            System.out.println(classLoader1);
+//            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+             MyClassLoader myClassLoader = new MyClassLoader();
+             //but here cls ldr also mycls ldr
+            Class<?> modifiedClass = myClassLoader.defineClassFromByteArray(aClass.getName(), bytecode);
+//
+//            ClassLoader classLoader1 = modifiedClass.getClassLoader();
+//         //mycls ldr
+//            System.out.println(classLoader1);//test.MyClassLoader@2bd7d4d1
 
 
 //            Class<?> modifiedClass = classLoader.defineClass(aClass.getName(), bytecode);
 
-            return    modifiedClass;
+           // return    modifiedClass;
 
-//            Class<?> modifiedClass2 = getAClassInCurClasLdr(modifiedClass);
-//
-//
-//            return modifiedClass2;
+            Class<?> modifiedClass2 = getAClassInCurClasLdr(modifiedClass);
+            return modifiedClass2;
 
 
 //
@@ -153,12 +161,47 @@ public class AopLogJavassist {
         }
     }
 
+    //  这里没有增加  声明 serialVersionUID
+    private static void srlzCtCls(CtClass ctClass, ClassPool pool) throws NotFoundException, CannotCompileException {
+        boolean isSerializable = false;
+        for (CtClass iface : ctClass.getInterfaces()) {
+            if (iface.getName().equals("java.io.Serializable")) {
+                isSerializable = true;
+                break;
+            }
+        }
+
+        // 如果未实现，则添加 Serializable 接口
+        if (!isSerializable) {
+          //  ctClass.addInterface(serializable);
+            ctClass.addInterface(pool.get("java.io.Serializable"));
+            System.out.println(ctClass.getName() + " 已添加 Serializable 接口");
+        } else {
+            System.out.println(ctClass.getName() + " 已经实现 Serializable，无需添加");
+        }
+
+
+        // **保持旧的 serialVersionUID**
+        long serialVersionUIDValue = 9164029442537620054L; // 这里使用旧的值
+        try {
+            CtField uidField = ctClass.getDeclaredField("serialVersionUID");
+            System.out.println("已有 serialVersionUID: " + uidField);
+        } catch (NotFoundException e) {
+            CtField serialVersionUID = new CtField(CtClass.longType, "serialVersionUID", ctClass);
+            serialVersionUID.setModifiers(Modifier.PRIVATE | Modifier.STATIC | Modifier.FINAL);
+            ctClass.addField(serialVersionUID, CtField.Initializer.constant(serialVersionUIDValue)); // 设定固定值
+            System.out.println(ctClass.getName() + " 已添加 serialVersionUID = " + serialVersionUIDValue);
+        }
+    }
+
     @NotNull
     private static Class<?> getAClassInCurClasLdr(Class<?> modifiedClass) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException, ClassNotFoundException {
         Object instance = modifiedClass.getConstructor().newInstance();
         // 反序列化到当前 ClassLoader
         ByteArrayInputStream bis = new ByteArrayInputStream(serialize(instance));
         ObjectInputStream in = new ObjectInputStream(bis);
+
+        //为什么这里报错了
         Object deserializedInstance = in.readObject();
         Class<?> modifiedClass2 = deserializedInstance.getClass();
         return modifiedClass2;
@@ -188,7 +231,7 @@ public class AopLogJavassist {
 
     private static boolean isObjectMethodEx(String name) {
         return name.equals("finalize") || name.equals("clone") || name.equals("setSessionFactory") ||
-                name.equals("main") || name.equals("notify") || name.equals("notifyAll") || name.equals("wait");
+                name.equals("main") || name.equals("handle") || name.equals("notifyAll") || name.equals("wait");
     }
 
     // 过滤 Object 类的方法

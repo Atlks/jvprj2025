@@ -19,6 +19,7 @@ import entityx.Err;
 import entityx.ExceptionBase;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -37,9 +38,10 @@ import static util.dbutil.setField;
 import static util.util2026.*;
 
 @Component
-public abstract class BaseHdr implements HttpHandler {
+public abstract class BaseHdr implements HttpHandler  , Serializable {
 
-
+    // 实现 Serializable 接口
+    public static final long serialVersionUID = 1L; // 推荐加
     @Autowired
     public SessionFactory sessionFactory;
 
@@ -85,31 +87,10 @@ public abstract class BaseHdr implements HttpHandler {
             }
 
           //  System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
-        //    handle2(exchange);
+           handle2(exchange);
 
-            //-------------------
-            Class<?> aClass =this.getClass();
-            Class<?> modifiedClass = getAClassExted(aClass);
-            Object instance ;
-            try{
-                instance= modifiedClass.getConstructor().newInstance();
-            } catch (NoSuchMethodException e) {
-               // 没有无参构造函数
-                Constructor<?> constructor = modifiedClass.getConstructor(SessionFactory.class); // 指定参数类型
-                  instance = constructor.newInstance( sessionFactory);
 
-                  //other dync fore
-            }
 
-//            setField(instance,"session",new SessionProvider().provide());
-            //new SessionProvider().provide()
-            setField(instance, SessionFactory.class, sessionFactory );
-            System.out.println("inst="+instance);
-            System.out.println("insts.sessFctry="+getField(instance,"sessionFactory"));
-            Method method = modifiedClass.getMethod("handle2", HttpExchange.class);
-            setField(instance, "sessionFactory", sessionFactory );
-
-            method.invoke(instance, exchange);
 
       //      System.out.println("endfun handle2()");
             System.out.println("✅endfun handle()");
