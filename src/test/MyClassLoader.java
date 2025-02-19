@@ -24,6 +24,7 @@ public class MyClassLoader extends ClassLoader {
         super(parent); // 继承当前 ClassLoader
     }
 
+
     public Class<?> defineClassFromByteArray(byte[] bytecode) {
         return defineClass(null, bytecode, 0, bytecode.length);
     }

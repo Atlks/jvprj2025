@@ -64,9 +64,9 @@ public class AopLogJavassist {
 
             CtClass ctClass = pool.get(aClass.getName());
 
-           if(aClass.getName().contains("TransHdr"))
-               System.out.println("D909");
-            CtMethod[] ctMthdArr = ctClass.getMethods();
+            if (aClass.getName().contains("TransHdr"))
+                System.out.println("D909");
+            CtMethod[] ctMthdArr = ctClass.getDeclaredMethods();
             for (CtMethod ctMethod : ctMthdArr) {
                 // ----------过滤掉继承的obj方法，只处理当前类的方法
                 String methodName = ctMethod.getName();
@@ -122,32 +122,26 @@ public class AopLogJavassist {
 
             }
 
-            if(aClass.getName().contains("TransHdr"))
+            if (aClass.getName().contains("TransHdr"))
                 System.out.println("D909");
 
 
             // 判断是否已经实现了 Serializable
-          //  srlzCtCls(ctClass, pool);
+            //  srlzCtCls(ctClass, pool);
 
-            //  ctClass.addInterface(pool.get("java.io.Serializable")); // 让它支持序列化            // 获取修改后的字节码
+            //  ctClass.addInterface(pool.get("java.io.Serializable"));
+
+
+            // =======================让它支持序列化            // 获取修改后的字节码
             byte[] bytecode = ctClass.toBytecode();
             // 手动释放 CtClass
-            //  ctClass.detach();
+               ctClass.detach();
 
             //     ---------使用自定义类加载器加载字节码
 //            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-             MyClassLoader myClassLoader = new MyClassLoader();
-             //but here cls ldr also mycls ldr
+            MyClassLoader myClassLoader = new MyClassLoader();
+            //but here cls ldr also mycls ldr
             Class<?> modifiedClass = myClassLoader.defineClassFromByteArray(aClass.getName(), bytecode);
-//
-//            ClassLoader classLoader1 = modifiedClass.getClassLoader();
-//         //mycls ldr
-//            System.out.println(classLoader1);//test.MyClassLoader@2bd7d4d1
-
-
-//            Class<?> modifiedClass = classLoader.defineClass(aClass.getName(), bytecode);
-
-           // return    modifiedClass;
 
             Class<?> modifiedClass2 = getAClassInCurClasLdr(modifiedClass);
             return modifiedClass2;
@@ -161,6 +155,17 @@ public class AopLogJavassist {
         }
     }
 
+
+//            ClassLoader classLoader1 = modifiedClass.getClassLoader();
+//         //mycls ldr
+//            System.out.println(classLoader1);//test.MyClassLoader@2bd7d4d1
+
+
+//            Class<?> modifiedClass = classLoader.defineClass(aClass.getName(), bytecode);
+
+    // return    modifiedClass;
+
+
     //  这里没有增加  声明 serialVersionUID
     private static void srlzCtCls(CtClass ctClass, ClassPool pool) throws NotFoundException, CannotCompileException {
         boolean isSerializable = false;
@@ -173,7 +178,7 @@ public class AopLogJavassist {
 
         // 如果未实现，则添加 Serializable 接口
         if (!isSerializable) {
-          //  ctClass.addInterface(serializable);
+            //  ctClass.addInterface(serializable);
             ctClass.addInterface(pool.get("java.io.Serializable"));
             System.out.println(ctClass.getName() + " 已添加 Serializable 接口");
         } else {

@@ -152,6 +152,7 @@ public class IocSpringCfg {
             // 注册到 PicoContainer
             for (Class<?> clazz : classList) {
                 try {
+                    //clazz.getName() 只是获取类的全限定名（package.ClassName），不会触发类的静态初始化 或 类加载。
                     if(clazz.getName().startsWith("entityx."))
                         continue;
                     if(clazz.getName().startsWith("test."))
