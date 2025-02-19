@@ -7,6 +7,7 @@ import entityx.TransDto;
 import entityx.Usr;
 import com.sun.net.httpserver.HttpExchange;
 import jakarta.persistence.LockModeType;
+import jakarta.transaction.Transactional;
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import utilBiz.OrmUtilBiz;
@@ -137,7 +138,7 @@ public class TransHdr extends BaseHdr {
 
     }
 
-
+    @Transactional
     @Override
     public void handle2(HttpExchange exchange) throws Exception {
 
