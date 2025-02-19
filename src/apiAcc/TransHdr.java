@@ -33,7 +33,8 @@ import static apiCms.CmsBiz.toBigDcmTwoDot;
  */
 //@Component
 public class TransHdr extends BaseHdr {
-
+    // 实现 Serializable 接口
+    public static final long serialVersionUID = 1L; // 推荐
     /**
      * 配合 SELECT ... FOR UPDATE 进行行级锁定：
      * 如果你的查询会影响后续的更新操作，并且不希望其他事务修改这些数据，你可以使用事务 + SELECT ... FOR UPDATE：

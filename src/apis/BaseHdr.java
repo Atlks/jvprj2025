@@ -45,6 +45,8 @@ public abstract class BaseHdr implements HttpHandler  , Serializable {
     @Autowired
     public SessionFactory sessionFactory;
 
+
+    @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
