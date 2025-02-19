@@ -4,6 +4,7 @@ import apiUsr.RegHandler;
 import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 import javassist.*;
+import org.jetbrains.annotations.NotNull;
 import test.MyClassLoader;
 
 import java.io.*;
@@ -124,17 +125,24 @@ public class AopLogJavassist {
             //  ctClass.detach();
 
             //     ---------使用自定义类加载器加载字节码
-            MyClassLoader myClassLoader = new MyClassLoader();
-            Class<?> modifiedClass = myClassLoader.defineClassFromByteArray(aClass.getName(), bytecode);
-            Object instance = modifiedClass.getConstructor().newInstance();
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+             MyClassLoader myClassLoader = new MyClassLoader(classLoader);
+
+            Class<?> modifiedClass = myClassLoader.defineClassFromByteArrayToSysClsLdr(aClass.getName(), bytecode);
+
+            ClassLoader classLoader1 = modifiedClass.getClassLoader();
+         //mycls ldr
+            System.out.println(classLoader1);
 
 
-            // 反序列化到当前 ClassLoader
-            ByteArrayInputStream bis = new ByteArrayInputStream(serialize(instance));
-            ObjectInputStream in = new ObjectInputStream(bis);
-            Object deserializedInstance = in.readObject();
-            Class<?> modifiedClass2 = deserializedInstance.getClass();
-            return modifiedClass2;
+//            Class<?> modifiedClass = classLoader.defineClass(aClass.getName(), bytecode);
+
+            return    modifiedClass;
+
+//            Class<?> modifiedClass2 = getAClassInCurClasLdr(modifiedClass);
+//
+//
+//            return modifiedClass2;
 
 
 //
@@ -143,6 +151,17 @@ public class AopLogJavassist {
 //        return modifiedClass;
             // System.out.println(message);
         }
+    }
+
+    @NotNull
+    private static Class<?> getAClassInCurClasLdr(Class<?> modifiedClass) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException, ClassNotFoundException {
+        Object instance = modifiedClass.getConstructor().newInstance();
+        // 反序列化到当前 ClassLoader
+        ByteArrayInputStream bis = new ByteArrayInputStream(serialize(instance));
+        ObjectInputStream in = new ObjectInputStream(bis);
+        Object deserializedInstance = in.readObject();
+        Class<?> modifiedClass2 = deserializedInstance.getClass();
+        return modifiedClass2;
     }
 
     // **序列化对象**

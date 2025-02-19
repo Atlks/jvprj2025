@@ -4,6 +4,7 @@ import entityx.LogBls;
 import entityx.OrdChrg;
 import entityx.Usr;
 import org.hibernate.Session;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
@@ -12,7 +13,7 @@ import static util.HbntUtil.*;
 import static util.TransactMng.beginTransaction;
 import static util.util2026.getFieldAsBigDecimal;
 import static util.util2026.getFilenameFrmLocalTimeString;
-
+@Component
 public class WltService  extends AopBase {
 
     public   void AddBlsAddChrg(OrdChrg objChrg ) throws Exception {

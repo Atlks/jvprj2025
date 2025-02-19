@@ -41,8 +41,17 @@ public class IocSpringCfg {
         // 注册组件
      //   PicoContainer888.addComponent(sessionFactory);
     //    container888.addComponent(LoginHdr.class);
+        context.scan("");
         scanAllClass();//  all add class  ...  mdfyed class btr
-      //  injectAll();
+
+      //  context.register(modifiedClass);
+      //  context.registerBean(modifiedClass, modifiedClass.getName());
+     //   context.refresh(); // 这一步必须有！
+
+        for (String beanName : context.getBeanDefinitionNames()) {
+            System.out.println("..已注册 Bean：" + beanName);
+        }
+        //  injectAll();
         return context;
     }
 
@@ -151,8 +160,9 @@ public class IocSpringCfg {
                     if(clazz.getName().startsWith("util"))
                         continue;
                     Class<?> modifiedClass = getAClassExted(clazz);
-                    context.register(modifiedClass);
-
+                   //  context.register(modifiedClass);  jeig bhao,,beanname not classname
+                    context.registerBean( modifiedClass.getName(), modifiedClass);
+                 //   context. registerBean(modifiedClass,modifiedClass.getName());
                     System.out.println("spr已注册: " + clazz.getName());
                 } catch (Exception e) {
                     System.err.println("spr注册失败: " + clazz.getName());

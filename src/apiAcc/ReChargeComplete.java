@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 
 import static apiCms.CmsBiz.toBigDcmTwoDot;
 import static apis.BaseHdr.iniCfgFrmCfgfile;
+import static util.ColorLogger.*;
 import static util.HbntUtil.*;
 import static util.TransactMng.beginTransaction;
 import static util.dbutil.setField;
@@ -42,7 +43,7 @@ public class ReChargeComplete extends AopBase  {
         //  updateOrdChgSetCmplt("ordChrg2025-02-18T21-14-59");
     }
     @Autowired
-    @Inject
+   // @Inject
     public WltService  WltService1;
     @Autowired
     public void setWltService1(WltService wltService1) {
@@ -54,14 +55,16 @@ public class ReChargeComplete extends AopBase  {
         Session session = sessionFactory.getCurrentSession();
         beginTransaction(session);
         //------------blk chge regch stat=ok
-        System.out.println("\r\n\n\n=============blk 设置订单状态=完成");
+
+        String mthBiz=colorStr("设置订单状态=完成",RED_bright);
+        System.out.println("\r\n\n\n=============⚡⚡bizfun  "+mthBiz);
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
      //   session.beginTransaction();
         OrdChrg objChrg = findByHbnt(OrdChrg.class, id, session);
 
 
-        System.out.println("\r\n----blk updt chg ord set stat=ok");
+       // System.out.println("\r\n----blk updt chg ord set stat=ok");
         //update chr ord stat
         //   OrdChrg objChrg = find(id, saveUrlOrdChrg, OrdChrg.class);
         String stat = (String) getField2025(objChrg, "stat", "");
@@ -80,12 +83,15 @@ public class ReChargeComplete extends AopBase  {
         //  session.merge(objChrg);
 
         //----add blance n log  ..blk
-        System.out.println("\r\n\n\n=============blk 主钱包加钱");
+        String mthBiz2=colorStr("主钱包加钱",RED_bright);
+        System.out.println("\r\n\n\n=============⚡⚡bizfun "+mthBiz2);
         String uname = objChrg.uname;
         WltService1.AddBlsAddChrg(objChrg);
       //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
-        System.out.println("\n\r\n===========calc cms计算佣金");
+
+        String mthBiz23=colorStr("calc cms计算佣金",RED_bright);
+        System.out.println("\n\r\n===========⚡⚡bizfun  "+mthBiz23);
       //  System.out.println("\n\r\n===========blk  calcCms4FrmOrdChrg");
         //--------------calc yonjin
 

@@ -14,6 +14,9 @@ public class ColorLogger {
     // ANSI 颜色代码
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";
+
+    //亮红色 用于bizfun
+    public static final String RED_bright = "\u001B[91m";
     public static final String GREEN = "\u001B[32m";
     public static final String YELLOW = "\u001B[33m";
     public static final String YELLOW_bright = "\u001B[93m";
