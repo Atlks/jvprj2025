@@ -1,12 +1,14 @@
 package exmp
 
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import entityx.CharBo
+import net.sourceforge.pinyin4j.PinyinHelper
 import util.Util2025.encodeJson
 import java.io.File
 
 fun main() {
-
+    getSmpName4boy()
 }
 
 /*
@@ -28,9 +30,13 @@ fun getSmpName4boy() {
 
     var notForNameCharsSet = toSetFrmFile(notforNameChsF);
 
-    var charBos = toBeanFrmFile<CharBo>("stkcnt.json")
-    for (offset in 1 until charBos.size) {
-        val curChar = charBos[offset]
+    var charBos:List<CharBo> = toBeansFrmFile<CharBo>("stkcnt.json")
+
+
+    for (offset in charBos.indices) {  // 遍历所有索引
+        val curChar: CharBo = charBos[offset]  // 使用索引访问
+       if(curChar.ch.equals("芳"))
+           println("dd")
         if(gilrNameCharsSet.contains(curChar.ch))
             curChar.isGilrOnlyNameCh=CharBo.enm_girlOnlyName
         if(notForNameCharsSet.contains(curChar.ch))
@@ -61,22 +67,37 @@ fun getPinyin(ch: String?): String? {
     }
 }
 
+
+var charBos:List<CharBo> = toBeansFrmFile<CharBo>("stkcnt.json")
+
 //reified 让你在泛型函数中能保留和使用类型信息，解决了普通泛型函数中类型擦除的问题。reified 让你在泛型函数中能保留和使用类型信息，解决了普通泛型函数中类型擦除的问题。
 //将文件读取转换位list，，文件是个json数组，里面每个jsonobject转化为class实体
-inline fun <reified T> toBeanFrmFile(f: String): List<T> {
+inline fun <reified T> toBeansFrmFile(f: String): List<T> {
 // 读取文件内容为字符串
     val jsonContent = File(f).readText()
 
     // 使用 Gson 来将 JSON 字符串转换为 List<T>
+    // 使用 TypeToken 来传递泛型类型信息
     val gson = Gson()
-    return gson.fromJson(jsonContent, Array<T>::class.java).toList()
+    val type = object : TypeToken<List<T>>() {}.type  // 获取正确的类型
+    return gson.fromJson(jsonContent, type)  // 使用 TypeToken 类型解析
 }
 
-//读取文件，转化为字符数组，然后填充为set
+//读取文件，将每个字符拆分，转化为字符数组，然后填充为set
 fun toSetFrmFile(fileName: String): Set<String> {
 // 读取文件内容并按行分割
+    // 读取文件内容并按行分割
     val lines = File(fileName).readLines()
 
-    // 使用 Set 来存储不重复的字符串（每行转化为字符串）
-    return lines.toSet()
+    // 使用 Set 来存储不重复的字符
+    val charSet = mutableSetOf<String>()
+
+    // 遍历每一行，将每行的字符拆分并添加到 Set 中
+    for (line in lines) {
+        for (ch in line) {
+            charSet.add(ch.toString())  // 将字符转换为字符串并加入 Set
+        }
+    }
+
+    return charSet
 }
