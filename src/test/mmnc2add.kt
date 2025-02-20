@@ -18,6 +18,7 @@ import org.bitcoinj.crypto.*
  * ffffff999999999s
  * 对应的addr sh  0x1704......c99e
  *
+ * //mmnc2add.kt  v250220
  *======== fun indx
  *
  * // 更根据128位的种子  16bytes 生成12个助记词
