@@ -96,6 +96,13 @@
             <version>5.0.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.bitcoinj</groupId>
+            <artifactId>bitcoinj-core</artifactId>
+            <version>0.15.10</version>
+        </dependency>
+
+
         <!--
 
              <dependency>
