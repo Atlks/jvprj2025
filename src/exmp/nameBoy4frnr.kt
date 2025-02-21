@@ -77,13 +77,20 @@ fun getSmpName4boy() {
        // val curChar: CharBo = charBos[offset]  // 使用索引访问
         if (curChar.ch.equals("芳"))
             println("dd")
-        //设置属性，只适合女孩的，不能使用在名字里面的字
-        if (gilrNameCharsSet.contains(curChar.ch))
-            curChar.isGilrOnlyNameCh = CharBo.enm_girlOnlyName
+
+
         if (notForNameCharsSet.contains(curChar.ch))
         {
             curChar.CanUseInName = false
             curChar.isGilrOnlyNameCh="不适合"
+        }else{
+            curChar.CanUseInName = true
+            //设置属性，只适合女孩的，不能使用在名字里面的字
+            if (gilrNameCharsSet.contains(curChar.ch))
+            {
+                curChar.isGilrOnlyNameCh = CharBo.enm_girlOnlyName
+            }else
+                curChar.isGilrOnlyNameCh=CharBo.enm_boyname
         }
 
 
