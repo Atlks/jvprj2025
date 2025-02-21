@@ -63,6 +63,24 @@ fun getSmplPY(): MutableList<String> {
 
 */
 fun getSmpName4boy() {
+    calcProp4cnchar()
+    var charBos: List<CharBo> = toBeansFrmFile<CharBo>("cnchs2500v2501.json")
+
+    //val liRzt = mutableListOf<CharBo>() // 正确初始化可变列表
+   //这里如何做fitler
+    // CharBo的属性  canUseInName=true  boynameCanUse=true
+    // isSmpPy=true stkcnt<10
+    val liRzt = charBos.filter {
+        it.canUseInName && it.boynameCanUse && it.isSmpPy && it.stkcnt < 10
+    }
+
+    for (curChar in charBos) {
+        print(curChar.ch)
+    }
+    writeFile2025(encodeJson(liRzt), "smpName4boyFltred.json")
+}
+
+private fun calcProp4cnchar() {
     val liRzt = mutableListOf<CharBo>() // 正确初始化可变列表
     var girlnameFile = "C:\\Users\\attil\\IdeaProjects\\jvprj2025\\res\\girlNameChar.md"
     var gilrNameCharsSet = toSetFrmFile(girlnameFile);
@@ -74,23 +92,27 @@ fun getSmpName4boy() {
 
     var liSmpPys = getSmplPY()
     for (curChar in charBos) {  // 遍历所有索引
-       // val curChar: CharBo = charBos[offset]  // 使用索引访问
+        // val curChar: CharBo = charBos[offset]  // 使用索引访问
         if (curChar.ch.equals("芳"))
             println("dd")
 
 
-        if (notForNameCharsSet.contains(curChar.ch))
-        {
-            curChar.CanUseInName = false
-            curChar.isGilrOnlyNameCh="不适合"
-        }else{
-            curChar.CanUseInName = true
+        if (notForNameCharsSet.contains(curChar.ch)) {
+            curChar.canUseInName = false
+            curChar.isGilrOnlyNameCh = "不适合"
+            curChar.boynameCanUse=false;
+        } else {
+            curChar.canUseInName = true
             //设置属性，只适合女孩的，不能使用在名字里面的字
-            if (gilrNameCharsSet.contains(curChar.ch))
-            {
+            if (gilrNameCharsSet.contains(curChar.ch)) {
                 curChar.isGilrOnlyNameCh = CharBo.enm_girlOnlyName
-            }else
-                curChar.isGilrOnlyNameCh=CharBo.enm_boyname
+                curChar.boynameCanUse=false;
+            } else
+            {
+                curChar.boynameCanUse=true;
+                curChar.isGilrOnlyNameCh = CharBo.enm_boyname
+            }
+
         }
 
 
@@ -98,14 +120,14 @@ fun getSmpName4boy() {
         curChar.pinyinWzTone = getPinyin(curChar.ch)
         curChar.pinyinNoTone = trimRight(getPinyin(curChar.ch), 1)
         if (liSmpPys.contains(curChar.pinyinNoTone))
-            curChar.isSmpPy=true;
-            //liRzt.add(curChar)
+            curChar.isSmpPy = true;
+        else
+            curChar.isSmpPy = false;
+        //liRzt.add(curChar)
     }
 
     // 写入 JSON 文件
     writeFile2025(encodeJson(charBos), "cnchs2500v2501.json")
-
-
 }
 
 //从右侧截取字符串,去除长度为len

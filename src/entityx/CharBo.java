@@ -8,6 +8,16 @@ public class CharBo {
     public String ch;  //字符
     @Nullable
     public String pinyinWzTone;
+    public boolean boynameCanUse=true;
+    public   boolean canUseInName;
+
+    public boolean isBoynameCanUse() {
+        return boynameCanUse;
+    }
+
+    public void setBoynameCanUse(boolean boynameCanUse) {
+        this.boynameCanUse = boynameCanUse;
+    }
 
     @NotNull
     public String getPinyinNoTone() {
