@@ -8,7 +8,7 @@ import util.Util2025.encodeJson
 import java.io.File
 
 //得到最好起名的汉字，笔画少，语音简单，含义好
-//大义力达易
+//大力易达义
 fun main() {
       getSmpName4boy()
     val liRzt = mutableListOf<CharBo>() // 正确初始化可变列表
