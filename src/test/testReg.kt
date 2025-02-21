@@ -25,9 +25,10 @@ fun main(){
         HttpExchangeImp("http://localhost:8889/reg?uname=0098&pwd=ppp", "", "output2025.txt")
     //uname=0093
   // val container = iniIocContainr()
-    var RegHandler1: HttpHandler= IocSpringCfg.context.getBean(RegHandler::class.java);
-
-    RegHandler1.handle(he);
+    val java = RegHandler::class.java.name
+    var RegHandler1= IocSpringCfg.context.getBean(java);
+var hdl=RegHandler1 as HttpHandler
+    hdl.handle(he);
     println("------------resp out :\n"+readFile("output2025.txt"));
 }
 fun main230(){
