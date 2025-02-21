@@ -268,8 +268,8 @@ public class IocAtiiocCfg {
         }
     }
 
-    public static Object getBean2025(Class<?> clazz) {
-        return   AtIoc_context.get(clazz.getName()); // 获取时使用泛型返回指定类型
+    public static <T> T getBean2025(Class<T> clazz) {
+        return (T) AtIoc_context.get(clazz.getName()); // 获取时使用泛型返回指定类型
     }
     // 使用泛型明确声明每个类和对应类型
     public static <T> T getComponent(Class<T> clazz) {

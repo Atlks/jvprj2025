@@ -6,7 +6,9 @@ package test;
 import cfg.IocPicoCfg.iniIocContainr
 import apiAcc.AddOrdChargeHdr
 import apis.BaseHdr
+import cfg.IocAtiiocCfg.getBean2025
 import com.sun.net.httpserver.HttpExchange
+import com.sun.net.httpserver.HttpHandler
 import util.HttpExchangeImp
 
 
@@ -15,14 +17,20 @@ fun main(){
     BaseHdr.iniCfgFrmCfgfile()
     val he: HttpExchange =
         HttpExchangeImp("http://localhost:8889/AddOrdChargeHdr?amt=888", "uname=007", "output2025.txt")
-    val container = iniIocContainr()
-    val component = container.getComponent(AddOrdChargeHdr::class.java)
-    var obj= component as AddOrdChargeHdr
+//    val container = iniIocContainr()
+//    val component = container.getComponent(AddOrdChargeHdr::class.java)
+//    var obj= component as AddOrdChargeHdr
     //            setField(instance,"session",new SessionProvider().provide());
     //new SessionProvider().provide()
   //  dbutil.setField<Any>(obj, Session::class.java, container.getComponent(Session::class.java))
 
-    obj.handle(he);
+ //   obj.handle(he);
+
+
+    cfg.IocSpringCfg.iniIocContainr4spr()
+    var hdl: HttpHandler = SprUtil.getBeanFrmSpr(AddOrdChargeHdr::class.java) as HttpHandler
+
+    hdl.handle(he);
     println("------------resp out :\n"+readFile("output2025.txt"));
 }
 

@@ -68,9 +68,9 @@ public class AddOrdChargeHdr extends BaseHdr {
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
+
         persistByHbnt(ord, session);
-        session.getTransaction().commit();
+
         //   }
         //    addObj(ord, saveUrlOrdChrg,OrdChrg.class);
     }
