@@ -8,8 +8,47 @@ import util.Util2025.encodeJson
 import java.io.File
 
 fun main() {
-    getSmpName4boy()
+      getSmpName4boy()
+    val liRzt = mutableListOf<CharBo>() // 正确初始化可变列表
+
+   // smpPySlkt(liRzt)
 }
+
+private fun smpPySlkt(liRzt: MutableList<CharBo>) {
+    var li = getSmplPY()
+    var charBos: List<CharBo> = toBeansFrmFile<CharBo>("stkcnt_namech.json")
+
+
+    for (ch in charBos) {  // 遍历所有索引
+        if (li.contains(ch.pinyinNoTone))
+            liRzt.add(ch)
+
+    }
+
+    writeFile2025(encodeJson(liRzt), "smpPyCns.json")
+}
+
+//得到简单的拼音  abt45个 音节
+fun getSmplPY(): MutableList<String> {
+
+    // 简单声母列表
+    val smplShenmu = "b m d n l g h z s w y ".toCharArray()
+    //简单韵母表
+    val smplYunmu = "a i o e u ".toCharArray()
+
+    val li = mutableListOf<String>() // 正确初始化可变列表
+
+    for (ch in smplShenmu) {
+        for (ym in smplYunmu) {
+            if (ch.toString().trim().isNotEmpty() && ym.toString().trim().isNotEmpty())
+                li.add(ch.toString() + ym.toString()) // 拼接声母和韵母
+        }
+    }
+
+    println(li.size) // 正确获取列表大小
+    return li;
+}
+
 
 /*
 得到简单的名字规范
@@ -24,33 +63,50 @@ fun main() {
 
 */
 fun getSmpName4boy() {
+    val liRzt = mutableListOf<CharBo>() // 正确初始化可变列表
     var girlnameFile = "C:\\Users\\attil\\IdeaProjects\\jvprj2025\\res\\girlNameChar.md"
     var gilrNameCharsSet = toSetFrmFile(girlnameFile);
     var notforNameChsF = "C:\\Users\\attil\\IdeaProjects\\jvprj2025\\res\\notForName.md"
 
     var notForNameCharsSet = toSetFrmFile(notforNameChsF);
 
-    var charBos:List<CharBo> = toBeansFrmFile<CharBo>("stkcnt.json")
+    var charBos: List<CharBo> = toBeansFrmFile<CharBo>("stkcnt.json")
+
+    var liSmpPys = getSmplPY()
+    for (curChar in charBos) {  // 遍历所有索引
+       // val curChar: CharBo = charBos[offset]  // 使用索引访问
+        if (curChar.ch.equals("芳"))
+            println("dd")
+        //设置属性，只适合女孩的，不能使用在名字里面的字
+        if (gilrNameCharsSet.contains(curChar.ch))
+            curChar.isGilrOnlyNameCh = CharBo.enm_girlOnlyName
+        if (notForNameCharsSet.contains(curChar.ch))
+        {
+            curChar.CanUseInName = false
+            curChar.isGilrOnlyNameCh="不适合"
+        }
 
 
-    for (offset in charBos.indices) {  // 遍历所有索引
-        val curChar: CharBo = charBos[offset]  // 使用索引访问
-       if(curChar.ch.equals("芳"))
-           println("dd")
-        if(gilrNameCharsSet.contains(curChar.ch))
-            curChar.isGilrOnlyNameCh=CharBo.enm_girlOnlyName
-        if(notForNameCharsSet.contains(curChar.ch))
-            curChar.CanUseInName=false
-
-        curChar.pinyin=getPinyin(curChar.ch)
-
+        curChar.pinyin = getPinyin(curChar.ch)
+        curChar.pinyinWzTone = getPinyin(curChar.ch)
+        curChar.pinyinNoTone = trimRight(getPinyin(curChar.ch), 1)
+        if (liSmpPys.contains(curChar.pinyinNoTone))
+            curChar.isSmpPy=true;
+            //liRzt.add(curChar)
     }
 
     // 写入 JSON 文件
-    writeFile2025(encodeJson(charBos), "stkcnt_namech.json")
+    writeFile2025(encodeJson(charBos), "cnchs2500v2501.json")
 
 
 }
+
+//从右侧截取字符串,去除长度为len
+fun trimRight(s: String?, len: Int): String {
+    if (s.isNullOrEmpty() || len >= s.length) return "" // 处理空值或去除长度大于等于字符串长度的情况
+    return s.substring(0, s.length - len) // 截取前 `s.length - len` 个字符
+}
+
 
 //获取拼音
 fun getPinyin(ch: String?): String? {
@@ -68,7 +124,7 @@ fun getPinyin(ch: String?): String? {
 }
 
 
-var charBos:List<CharBo> = toBeansFrmFile<CharBo>("stkcnt.json")
+var charBos: List<CharBo> = toBeansFrmFile<CharBo>("stkcnt.json")
 
 //reified 让你在泛型函数中能保留和使用类型信息，解决了普通泛型函数中类型擦除的问题。reified 让你在泛型函数中能保留和使用类型信息，解决了普通泛型函数中类型擦除的问题。
 //将文件读取转换位list，，文件是个json数组，里面每个jsonobject转化为class实体

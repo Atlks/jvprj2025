@@ -1,11 +1,46 @@
 package entityx;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 public class CharBo {
 
     public String ch;  //字符
+    @Nullable
+    public String pinyinWzTone;
+
+    @NotNull
+    public String getPinyinNoTone() {
+        return pinyinNoTone;
+    }
+
+    @Nullable
+    public String getPinyinWzTone() {
+        return pinyinWzTone;
+    }
+
+    public boolean isSmpPy() {
+        return isSmpPy;
+    }
+
+    public void setSmpPy(boolean smpPy) {
+        isSmpPy = smpPy;
+    }
+
+    @NotNull
+    public String pinyinNoTone;
+    public boolean isSmpPy=false;
 
     public String getCh() {
         return ch;
+    }
+
+    public void setPinyinWzTone(@Nullable String pinyinWzTone) {
+        this.pinyinWzTone = pinyinWzTone;
+    }
+
+    public void setPinyinNoTone(@NotNull String pinyinNoTone) {
+        this.pinyinNoTone = pinyinNoTone;
     }
 
     public int getStkcnt() {
