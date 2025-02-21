@@ -25,7 +25,7 @@ private fun smpPySlkt(liRzt: MutableList<CharBo>) {
 
     }
 
-    writeFile2025(encodeJson(liRzt), "smpPyCns.json")
+    _writeFile2025(encodeJson(liRzt), "smpPyCns.json")
 }
 
 //得到简单的拼音  abt45个 音节
@@ -77,7 +77,7 @@ fun getSmpName4boy() {
     for (curChar in liRzt) {
         print(curChar.ch)
     }
-    writeFile2025(encodeJson(liRzt), "smpName4boyFltred.json")
+    _writeFile2025(encodeJson(liRzt), "smpName4boyFltred.json")
 }
 
 private fun calcProp4cnchar() {
@@ -127,7 +127,7 @@ private fun calcProp4cnchar() {
     }
 
     // 写入 JSON 文件
-    writeFile2025(encodeJson(charBos), "cnchs2500v2501.json")
+    _writeFile2025(encodeJson(charBos), "cnchs2500v2501.json")
 }
 
 //从右侧截取字符串,去除长度为len

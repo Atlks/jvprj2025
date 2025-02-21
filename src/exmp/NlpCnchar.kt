@@ -1,27 +1,32 @@
+/**
+ * 计算汉字的复杂度
+ * 一种是按照像素点数，一种是按照笔画数计算
+ *
+ * 笔画数计算更具简单些。。字体使用黑体，粗细一致，方便程序计算笔画
+ *
+ * 传统汉字有很多竖弯钩算一笔，这个太复杂规则，直接程序计算横竖为俩笔，更具简单
+ */
+
 package exmp
 
 
-import javassist.util.proxy.FactoryHelper.writeFile
 import test.readFile
 import util.Util2025.encodeJson
 import java.awt.Font
-import java.awt.Graphics2D
 import java.awt.Shape
 import java.awt.font.GlyphVector
 import java.awt.geom.Path2D
-import java.awt.geom.PathIterator
 import java.awt.image.BufferedImage
-import java.io.File
 import kotlin.math.roundToInt
 
 fun main() {
     try {
 
-        calcFzadu("一")
+        _calculateComplexity("一")
 
-        calcFzadu("大")
+        _calculateComplexity("大")
         val character = "属"
-        calcFzadu(character)
+        _calculateComplexity(character)
 
         getBihua("一")
         getBihua("大")
@@ -34,16 +39,7 @@ fun main() {
     }
 }
 
-fun writeFile2025(encodeJson: String?, file: String) {
-    try {
-        if (encodeJson != null) {
-            File(file).writeText(encodeJson, Charsets.UTF_8)
-        }
-        println("File written successfully: $file")
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-}
+
 
 
 /**
@@ -52,7 +48,7 @@ fun writeFile2025(encodeJson: String?, file: String) {
  * 若大于此汉字的笔画数，则为复杂汉字，否则为简单汉字。
  * 中位数大约就是9.。。为了方便，10画以内的汉字位简单汉字
  */
-fun getStkCntMid( ): Int? {
+fun _getStkCntMid( ): Int? {
     val filePath = "C:\\Users\\attil\\IdeaProjects\\jvprj2025\\res\\2500cnChar.txt"
 
     // 读取文件内容
@@ -78,7 +74,7 @@ fun getStkCntMid( ): Int? {
    // val sortedList = strokeList.sortedBy { it["stkcnt"] ?: 0 }
 
     // 写入 JSON 文件
-    writeFile2025(encodeJson(sortedList), "stkcnt.json")
+    _writeFile2025(encodeJson(sortedList), "stkcnt.json")
 
     // 返回中位数笔画数
     // 获取中位数笔画数（防止索引越界）
@@ -130,7 +126,7 @@ fun getStrokeCountWin(ch: Char): Int {
 fun getBihua(char: String, divNum: Int=8): Int {
     println("char="+char)
   //  val fzd = calcFzadu(char)
-    val fzd = calcFzadu(char).toDouble() // 将 fzd 转为 Double 类型
+    val fzd = _calculateComplexity(char).toDouble() // 将 fzd 转为 Double 类型
     val value = (fzd / divNum).roundToInt()
 
     println("ret="+value)
@@ -140,7 +136,7 @@ fun getBihua(char: String, divNum: Int=8): Int {
 }
 
 //计算字形复杂度
-private fun calcFzadu(character: String):Int {
+private fun _calculateComplexity(character: String):Int {
     val font = Font("黑体", Font.PLAIN, 16) // 使用合适的字体和大小
 
     // 使用 BufferedImage 创建 Graphics2D 实例
@@ -151,20 +147,20 @@ private fun calcFzadu(character: String):Int {
     val glyphVector = font.createGlyphVector(graphics.fontRenderContext, character)
 
     // 计算复杂度
-    val complexity = calculateComplexity(glyphVector)
+    val complexity = _calculateComplexity(glyphVector)
     println("Character: $character Complexity: $complexity")
     return  complexity
 }
 
 // 计算字形复杂度：通过路径段数来估算
-fun calculateComplexity(glyphVector: GlyphVector): Int {
+fun _calculateComplexity(glyphVector: GlyphVector): Int {
     var complexity = 0
 
     for (i in 0 until glyphVector.numGlyphs) {
         val glyphOutline: Shape = glyphVector.getGlyphOutline(i) // 获取字形的轮廓
         if (glyphOutline is Path2D) {
             val path = glyphOutline as Path2D
-            complexity += getPathSegmentCount(path) // 计算路径段数
+            complexity += _getPathSegmentCount(path) // 计算路径段数
         }
     }
 
@@ -173,7 +169,7 @@ fun calculateComplexity(glyphVector: GlyphVector): Int {
 
 
 // 计算路径段数
-fun getPathSegmentCount(path: Path2D): Int {
+fun _getPathSegmentCount(path: Path2D): Int {
     var segmentCount = 0
     val iterator = path.getPathIterator(null) // 获取路径迭代器
 
