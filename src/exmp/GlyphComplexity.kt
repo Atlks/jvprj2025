@@ -18,8 +18,7 @@ fun main() {
     try {
 
         calcFzadu("一")
-        calcFzadu("二")
-        calcFzadu("三")
+
         calcFzadu("大")
         val character = "属"
         calcFzadu(character)
@@ -29,7 +28,7 @@ fun main() {
         getBihua("属")
         getBihua("数")
 
-        getStkCntMid()
+      //  getStkCntMid()
     } catch (e: Exception) {
         e.printStackTrace()
     }
@@ -142,7 +141,7 @@ fun getBihua(char: String, divNum: Int=8): Int {
 
 //计算字形复杂度
 private fun calcFzadu(character: String):Int {
-    val font = Font("宋体", Font.PLAIN, 72) // 使用合适的字体和大小
+    val font = Font("黑体", Font.PLAIN, 16) // 使用合适的字体和大小
 
     // 使用 BufferedImage 创建 Graphics2D 实例
     val image = BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB)
