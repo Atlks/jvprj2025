@@ -71,7 +71,7 @@ fun getSmpName4boy() {
     // CharBo的属性  canUseInName=true  boynameCanUse=true
     // isSmpPy=true stkcnt<10
     val liRzt = charBos.filter {
-        it.canUseInName && it.boynameCanUse && it.isSmpPy && it.stkcnt < 10
+        it.canUseInName && it.boynameCanUse && it.isSmpPy && it.stkcnt < 15
     }
 
     for (curChar in liRzt) {
