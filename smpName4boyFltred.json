@@ -1,5 +1,6 @@
 [
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"卜",
@@ -12,6 +13,7 @@
 		"stkcnt":2
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"乙",
@@ -24,6 +26,7 @@
 		"stkcnt":3
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"八",
@@ -36,6 +39,7 @@
 		"stkcnt":3
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"了",
@@ -48,6 +52,7 @@
 		"stkcnt":3
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"于",
@@ -60,6 +65,7 @@
 		"stkcnt":3
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"大",
@@ -72,6 +78,7 @@
 		"stkcnt":3
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"个",
@@ -84,6 +91,7 @@
 		"stkcnt":3
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"么",
@@ -96,6 +104,7 @@
 		"stkcnt":3
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"义",
@@ -108,6 +117,7 @@
 		"stkcnt":3
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"木",
@@ -120,6 +130,7 @@
 		"stkcnt":3
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"力",
@@ -132,6 +143,7 @@
 		"stkcnt":4
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"已",
@@ -144,6 +156,7 @@
 		"stkcnt":4
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"五",
@@ -156,6 +169,7 @@
 		"stkcnt":4
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"不",
@@ -168,6 +182,7 @@
 		"stkcnt":4
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"互",
@@ -180,6 +195,7 @@
 		"stkcnt":4
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"午",
@@ -192,6 +208,7 @@
 		"stkcnt":4
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"户",
@@ -204,6 +221,7 @@
 		"stkcnt":4
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"巴",
@@ -216,6 +234,7 @@
 		"stkcnt":4
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"予",
@@ -228,6 +247,7 @@
 		"stkcnt":4
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"末",
@@ -240,6 +260,7 @@
 		"stkcnt":4
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"业",
@@ -252,6 +273,7 @@
 		"stkcnt":4
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"禾",
@@ -264,6 +286,7 @@
 		"stkcnt":4
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"与",
@@ -276,6 +299,7 @@
 		"stkcnt":5
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"亿",
@@ -288,6 +312,7 @@
 		"stkcnt":5
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"无",
@@ -300,6 +325,7 @@
 		"stkcnt":5
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"历",
@@ -312,6 +338,7 @@
 		"stkcnt":5
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"比",
@@ -324,6 +351,7 @@
 		"stkcnt":5
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"瓦",
@@ -336,6 +364,7 @@
 		"stkcnt":5
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"勿",
@@ -348,6 +377,7 @@
 		"stkcnt":5
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"乌",
@@ -360,6 +390,7 @@
 		"stkcnt":5
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"以",
@@ -372,6 +403,7 @@
 		"stkcnt":5
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"古",
@@ -384,6 +416,7 @@
 		"stkcnt":5
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"厉",
@@ -396,6 +429,7 @@
 		"stkcnt":5
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"叶",
@@ -408,6 +442,7 @@
 		"stkcnt":5
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"四",
@@ -420,6 +455,7 @@
 		"stkcnt":5
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"立",
@@ -432,6 +468,7 @@
 		"stkcnt":5
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"亚",
@@ -444,6 +481,7 @@
 		"stkcnt":5
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"自",
@@ -456,6 +494,7 @@
 		"stkcnt":5
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"衣",
@@ -468,6 +507,7 @@
 		"stkcnt":5
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"忆",
@@ -480,6 +520,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"布",
@@ -492,6 +533,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"仪",
@@ -504,6 +546,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"仔",
@@ -516,6 +559,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"乐",
@@ -528,6 +572,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"礼",
@@ -540,6 +585,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"司",
@@ -552,6 +598,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"尼",
@@ -564,6 +611,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"丝",
@@ -576,6 +624,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"压",
@@ -588,6 +637,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"页",
@@ -600,6 +650,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"伍",
@@ -612,6 +663,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"合",
@@ -624,6 +676,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"亦",
@@ -636,6 +689,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"米",
@@ -648,6 +702,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"杜",
@@ -660,6 +715,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"步",
@@ -672,6 +728,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"私",
@@ -684,6 +741,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"伯",
@@ -696,6 +754,7 @@
 		"stkcnt":6
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"谷",
@@ -708,18 +767,7 @@
 		"stkcnt":6
 	},
 	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"扒",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"ba1",
-		"pinyinNoTone":"ba",
-		"pinyinWzTone":"ba1",
-		"smpPy":true,
-		"stkcnt":7
-	},
-	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"轧",
@@ -732,6 +780,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"务",
@@ -744,6 +793,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"必",
@@ -756,6 +806,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"议",
@@ -768,6 +819,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"寺",
@@ -780,6 +832,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"毕",
@@ -792,6 +845,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"屿",
@@ -804,6 +858,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"则",
@@ -816,6 +871,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"似",
@@ -828,18 +884,7 @@
 		"stkcnt":7
 	},
 	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"爷",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"ye2",
-		"pinyinNoTone":"ye",
-		"pinyinWzTone":"ye2",
-		"smpPy":true,
-		"stkcnt":7
-	},
-	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"各",
@@ -852,6 +897,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"色",
@@ -864,6 +910,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"宇",
@@ -876,6 +923,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"字",
@@ -888,6 +936,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"异",
@@ -900,6 +949,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"坝",
@@ -912,6 +962,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"芦",
@@ -924,6 +975,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"李",
@@ -936,18 +988,7 @@
 		"stkcnt":7
 	},
 	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"医",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"yi1",
-		"pinyinNoTone":"yi",
-		"pinyinWzTone":"yi1",
-		"smpPy":true,
-		"stkcnt":7
-	},
-	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"吴",
@@ -960,6 +1001,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"里",
@@ -972,6 +1014,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"利",
@@ -984,6 +1027,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"估",
@@ -996,6 +1040,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"何",
@@ -1008,6 +1053,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"余",
@@ -1020,66 +1066,7 @@
 		"stkcnt":7
 	},
 	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"肚",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"du4",
-		"pinyinNoTone":"du",
-		"pinyinWzTone":"du4",
-		"smpPy":true,
-		"stkcnt":7
-	},
-	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"亩",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"mu3",
-		"pinyinNoTone":"mu",
-		"pinyinWzTone":"mu3",
-		"smpPy":true,
-		"stkcnt":7
-	},
-	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"补",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"bu3",
-		"pinyinNoTone":"bu",
-		"pinyinWzTone":"bu3",
-		"smpPy":true,
-		"stkcnt":7
-	},
-	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"诉",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"su4",
-		"pinyinNoTone":"su",
-		"pinyinWzTone":"su4",
-		"smpPy":true,
-		"stkcnt":7
-	},
-	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"阻",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"zu3",
-		"pinyinNoTone":"zu",
-		"pinyinWzTone":"zu3",
-		"smpPy":true,
-		"stkcnt":7
-	},
-	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"固",
@@ -1092,6 +1079,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"牧",
@@ -1104,6 +1092,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"和",
@@ -1116,6 +1105,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"录",
@@ -1128,6 +1118,7 @@
 		"stkcnt":7
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"柏",
@@ -1140,18 +1131,7 @@
 		"stkcnt":7
 	},
 	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"母",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"mu3",
-		"pinyinNoTone":"mu",
-		"pinyinWzTone":"mu3",
-		"smpPy":true,
-		"stkcnt":8
-	},
-	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"达",
@@ -1164,18 +1144,7 @@
 		"stkcnt":8
 	},
 	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"杂",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"za2",
-		"pinyinNoTone":"za",
-		"pinyinWzTone":"za2",
-		"smpPy":true,
-		"stkcnt":8
-	},
-	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"闭",
@@ -1188,6 +1157,7 @@
 		"stkcnt":8
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"羽",
@@ -1200,6 +1170,7 @@
 		"stkcnt":8
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"护",
@@ -1212,30 +1183,7 @@
 		"stkcnt":8
 	},
 	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"把",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"ba3",
-		"pinyinNoTone":"ba",
-		"pinyinWzTone":"ba3",
-		"smpPy":true,
-		"stkcnt":8
-	},
-	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"芽",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"ya2",
-		"pinyinNoTone":"ya",
-		"pinyinWzTone":"ya2",
-		"smpPy":true,
-		"stkcnt":8
-	},
-	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"我",
@@ -1248,6 +1196,7 @@
 		"stkcnt":8
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"低",
@@ -1260,18 +1209,7 @@
 		"stkcnt":8
 	},
 	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"役",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"yi4",
-		"pinyinNoTone":"yi",
-		"pinyinWzTone":"yi4",
-		"smpPy":true,
-		"stkcnt":8
-	},
-	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"冶",
@@ -1284,6 +1222,7 @@
 		"stkcnt":8
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"弟",
@@ -1296,6 +1235,7 @@
 		"stkcnt":8
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"沃",
@@ -1308,42 +1248,7 @@
 		"stkcnt":8
 	},
 	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"纳",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"na4",
-		"pinyinNoTone":"na",
-		"pinyinWzTone":"na4",
-		"smpPy":true,
-		"stkcnt":8
-	},
-	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"抹",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"mo3",
-		"pinyinNoTone":"mo",
-		"pinyinWzTone":"mo3",
-		"smpPy":true,
-		"stkcnt":8
-	},
-	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"卧",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"wo4",
-		"pinyinNoTone":"wo",
-		"pinyinWzTone":"wo4",
-		"smpPy":true,
-		"stkcnt":8
-	},
-	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"易",
@@ -1356,6 +1261,7 @@
 		"stkcnt":8
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"物",
@@ -1368,6 +1274,7 @@
 		"stkcnt":8
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"的",
@@ -1380,6 +1287,7 @@
 		"stkcnt":8
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"彼",
@@ -1392,6 +1300,7 @@
 		"stkcnt":8
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"鱼",
@@ -1404,6 +1313,7 @@
 		"stkcnt":8
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"夜",
@@ -1416,6 +1326,7 @@
 		"stkcnt":8
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"底",
@@ -1428,6 +1339,7 @@
 		"stkcnt":8
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"育",
@@ -1440,18 +1352,7 @@
 		"stkcnt":8
 	},
 	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"泊",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"bo2",
-		"pinyinNoTone":"bo",
-		"pinyinWzTone":"bo2",
-		"smpPy":true,
-		"stkcnt":8
-	},
-	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"宜",
@@ -1464,6 +1365,7 @@
 		"stkcnt":8
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"组",
@@ -1476,6 +1378,7 @@
 		"stkcnt":8
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"故",
@@ -1488,78 +1391,7 @@
 		"stkcnt":8
 	},
 	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"哑",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"ya1",
-		"pinyinNoTone":"ya",
-		"pinyinWzTone":"ya1",
-		"smpPy":true,
-		"stkcnt":8
-	},
-	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"哈",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"ha1",
-		"pinyinNoTone":"ha",
-		"pinyinWzTone":"ha1",
-		"smpPy":true,
-		"stkcnt":8
-	},
-	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"疤",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"ba1",
-		"pinyinNoTone":"ba",
-		"pinyinWzTone":"ba1",
-		"smpPy":true,
-		"stkcnt":8
-	},
-	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"祖",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"zu3",
-		"pinyinNoTone":"zu",
-		"pinyinWzTone":"zu3",
-		"smpPy":true,
-		"stkcnt":8
-	},
-	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"敌",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"di2",
-		"pinyinNoTone":"di",
-		"pinyinWzTone":"di2",
-		"smpPy":true,
-		"stkcnt":8
-	},
-	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"租",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"zu1",
-		"pinyinNoTone":"zu",
-		"pinyinWzTone":"zu1",
-		"smpPy":true,
-		"stkcnt":8
-	},
-	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"地",
@@ -1572,6 +1404,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"苏",
@@ -1584,6 +1417,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"励",
@@ -1596,18 +1430,7 @@
 		"stkcnt":9
 	},
 	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"译",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"yi4",
-		"pinyinNoTone":"yi",
-		"pinyinWzTone":"yi4",
-		"smpPy":true,
-		"stkcnt":9
-	},
-	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"陆",
@@ -1620,6 +1443,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"驳",
@@ -1632,6 +1456,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"武",
@@ -1644,6 +1469,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"责",
@@ -1656,6 +1482,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"雨",
@@ -1668,6 +1495,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"码",
@@ -1680,6 +1508,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"例",
@@ -1692,18 +1521,7 @@
 		"stkcnt":9
 	},
 	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"爸",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"ba4",
-		"pinyinNoTone":"ba",
-		"pinyinWzTone":"ba4",
-		"smpPy":true,
-		"stkcnt":9
-	},
-	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"忽",
@@ -1716,18 +1534,7 @@
 		"stkcnt":9
 	},
 	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"饲",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"si4",
-		"pinyinNoTone":"si",
-		"pinyinWzTone":"si4",
-		"smpPy":true,
-		"stkcnt":9
-	},
-	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"沫",
@@ -1740,6 +1547,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"河",
@@ -1752,18 +1560,7 @@
 		"stkcnt":9
 	},
 	{
-		"boynameCanUse":true,
-		"canUseInName":true,
-		"ch":"怖",
-		"isGilrOnlyNameCh":"男孩可用",
-		"isSmpPy":true,
-		"pinyin":"bu4",
-		"pinyinNoTone":"bu",
-		"pinyinWzTone":"bu4",
-		"smpPy":true,
-		"stkcnt":9
-	},
-	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"隶",
@@ -1776,6 +1573,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"孤",
@@ -1788,6 +1586,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"革",
@@ -1800,6 +1599,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"胡",
@@ -1812,6 +1612,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"厘",
@@ -1824,6 +1625,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"俗",
@@ -1836,6 +1638,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"帝",
@@ -1848,6 +1651,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"误",
@@ -1860,6 +1664,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"屋",
@@ -1872,6 +1677,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"莫",
@@ -1884,6 +1690,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"格",
@@ -1896,6 +1703,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"核",
@@ -1908,6 +1716,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"哥",
@@ -1920,6 +1729,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"栗",
@@ -1932,6 +1742,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"罢",
@@ -1944,6 +1755,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"益",
@@ -1956,6 +1768,7 @@
 		"stkcnt":9
 	},
 	{
+		"CanUseInName":true,
 		"boynameCanUse":true,
 		"canUseInName":true,
 		"ch":"麻",

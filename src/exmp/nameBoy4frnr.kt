@@ -74,7 +74,7 @@ fun getSmpName4boy() {
         it.canUseInName && it.boynameCanUse && it.isSmpPy && it.stkcnt < 10
     }
 
-    for (curChar in charBos) {
+    for (curChar in liRzt) {
         print(curChar.ch)
     }
     writeFile2025(encodeJson(liRzt), "smpName4boyFltred.json")
