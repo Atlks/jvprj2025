@@ -20,12 +20,12 @@ fun main(){
 
    // IocSpringCfg.context.refresh()
 
-    val sessionFactory:SessionFactory = cfg.IocSpringCfg.context.getBean(SessionFactory::class.java)
-    println("sessionFactory="+sessionFactory)
-    val session: Session = sessionFactory.currentSession
-    session.beginTransaction()
-   // beginTransaction(session)
-    println("session="+session)
+//    val sessionFactory:SessionFactory = cfg.IocSpringCfg.context.getBean(SessionFactory::class.java)
+//    println("sessionFactory="+sessionFactory)
+//    val session: Session = sessionFactory.currentSession
+//    session.beginTransaction()
+//   // beginTransaction(session)
+//    println("session="+session)
 
 
     var obj=IocSpringCfg.context.getBean(ReChargeComplete::class.java);
@@ -36,7 +36,7 @@ fun main(){
   //  obj.invk("updateOrdChgSetCmpltBiz","ordChrg2025-02-18T21-34-07")
  //   obj.updateOrdChgSetCmpltBiz("ordChrg2025-02-18T21-34-07")
 
-    session.getTransaction().commit();
+  //  session.getTransaction().commit();
     println("------------resp out :\n"+readFile("output2025.txt"));
 }
 

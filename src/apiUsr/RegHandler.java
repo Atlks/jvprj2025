@@ -15,7 +15,7 @@ import static util.EncodeUtil.encodeMd5;
 
 import static util.dbutil.*;
 import static util.util2026.*;
-@Component  // 让 Spring 自动管理这个 Bean
+ @Component  // 让 Spring 自动管理这个 Bean
 
 //  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
 // 自定义的请求处理器
@@ -129,9 +129,9 @@ public class RegHandler extends BaseHdr   {
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
         Session session=sessionFactory.getCurrentSession();
-        session.beginTransaction();
+       // session.beginTransaction();
         session.persist(user);
-        session.getTransaction().commit();
+
         //finish tx
         //  addObj(user, saveDirUsrs, Usr.class);
 

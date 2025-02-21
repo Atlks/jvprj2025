@@ -42,7 +42,7 @@ public class IocSpringCfg {
         // 注册组件
      //   PicoContainer888.addComponent(sessionFactory);
     //    container888.addComponent(LoginHdr.class);
-        context.scan("");
+     //   context.scan("");
         scanAllClass();//  all add class  ...  mdfyed class btr
 
       //  context.register(modifiedClass);

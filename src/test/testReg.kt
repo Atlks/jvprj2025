@@ -3,18 +3,16 @@ package test;
 
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
-import cfg.AppConfig
-import cfg.IocPicoCfg.iniIocContainr
+
 import apiUsr.RegHandler
 import apis.BaseHdr
+import cfg.IocPicoCfg.iniIocContainr
+import cfg.IocSpringCfg
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.noear.solon.Solon
 import org.noear.solon.core.AppContext
-import org.springframework.context.ApplicationContext
-import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import util.HttpExchangeImp
-
 import utilDep.AOPASM
 import java.io.File
 
@@ -22,11 +20,13 @@ import java.io.File
 fun main(){
     //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
     BaseHdr.iniCfgFrmCfgfile()
+    cfg.IocSpringCfg.iniIocContainr4spr()
     val he: HttpExchange =
-        HttpExchangeImp("http://localhost:8889/reg?uname=007&pwd=ppp", "uname=0093", "output2025.txt")
-   val container = iniIocContainr()
-    val context: ApplicationContext = AnnotationConfigApplicationContext(AppConfig::class.java)
-    val RegHandler1: RegHandler = context.getBean<RegHandler>(RegHandler::class.java)
+        HttpExchangeImp("http://localhost:8889/reg?uname=0098&pwd=ppp", "", "output2025.txt")
+    //uname=0093
+  // val container = iniIocContainr()
+    var RegHandler1: HttpHandler= IocSpringCfg.context.getBean(RegHandler::class.java);
+
     RegHandler1.handle(he);
     println("------------resp out :\n"+readFile("output2025.txt"));
 }

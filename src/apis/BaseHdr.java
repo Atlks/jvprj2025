@@ -32,6 +32,7 @@ import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
 
 import static util.AopLogJavassist.getAClassExted;
 import static util.ColorLogger.*;
+import static util.TransactMng.commitTransaction;
 import static util.Util2025.encodeJson;
 
 import static util.dbutil.setField;
@@ -88,8 +89,13 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
                 }
             }
 
+            //-----------------stat trans action
             //  System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
+           Session session=sessionFactory.getCurrentSession();
+            session.beginTransaction();
             handle2(exchange);
+            commitTransaction(session);
+           // session.getTransaction().commit();
 
 
             //      System.out.println("endfun handle2()");
