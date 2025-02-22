@@ -28,7 +28,7 @@ public class UpdtPwdHdr extends BaseHdr {
         String oldpwd = getRequestParameter(exchange, "oldpwd");
         String new_pwd = getRequestParameter(exchange, "pwd");
         //JSONObject jo = getObjDocdb(uname,  saveDirUsrs);
-        org.hibernate.Session session =sessionFactory.getCurrentSession()
+        org.hibernate.Session session =sessionFactory.getCurrentSession();
 
         Usr u = findByHbnt(Usr.class, uname, LockModeType.PESSIMISTIC_WRITE, session);
 //        Usr objU =findByHbnt(Usr.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE,session);

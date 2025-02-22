@@ -1,5 +1,6 @@
 package apiAcc;
 
+import biz.BalanceNotEnghou;
 import entityx.LogBlsLogYLwlt;
 import apis.BaseHdr;
 import entityx.LogBls;
@@ -9,8 +10,6 @@ import com.sun.net.httpserver.HttpExchange;
 import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
 import org.hibernate.Session;
-import org.springframework.stereotype.Component;
-import utilBiz.OrmUtilBiz;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -24,7 +23,6 @@ import static util.ToXX.parseQueryParams;
 import static util.TransactMng.beginTransaction;
 import static util.TransactMng.commitTransaction;
 import static util.Util2025.encodeJson;
-import static util.Util2025.encodeJsonObj;
 import static util.util2026.*;
 import static apiCms.CmsBiz.toBigDcmTwoDot;
 

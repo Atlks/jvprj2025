@@ -1,4 +1,4 @@
-package apiUsr;
+package biz;
 
 import entityx.ExceptionBase;
 

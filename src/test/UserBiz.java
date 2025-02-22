@@ -1,6 +1,6 @@
 package test;
 
-import apiUsr.existUserEx;
+import biz.existUserEx;
 
 //import static apiUsr.RegHandler.reg;
 

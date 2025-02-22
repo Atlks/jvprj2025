@@ -3,6 +3,7 @@
 package apiUsr;
 
 import apis.BaseHdr;
+import biz.existUserEx;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.Usr;
 import org.hibernate.Session;
