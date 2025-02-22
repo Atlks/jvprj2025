@@ -123,7 +123,7 @@ public class Util2025 {
 
     }
 
-    private static Map<String, Object> toExchgDt(HttpExchange exchange) throws IOException {
+    public static Map<String, Object> toExchgDt(HttpExchange exchange) throws IOException {
         Map<String, Object> exchangeData = new HashMap<>();
 
         // 获取请求方法和 URI

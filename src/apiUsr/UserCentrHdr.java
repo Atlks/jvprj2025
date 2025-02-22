@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
-import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
+import static apiAcc.RechargeHdr.saveUrlOrdChrg;
 import static util.ToXX.parseQueryParams;
 import static util.Util2025.encodeJson;
 import static util.dbutil.*;

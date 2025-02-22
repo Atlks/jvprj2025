@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.HttpCookie;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -485,22 +486,28 @@ public class util2026 {
                 .walk(frames -> frames.skip(1).findFirst().get().getMethodName());
     }
     public static void wrtRespErr(HttpExchange exchange, String responseTxt) throws IOException {
+        System.out.println("wrtRespErr(resptxt="+responseTxt);
         exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=utf-8");
-        exchange.sendResponseHeaders(500, responseTxt.getBytes().length);
-        OutputStream os = exchange.getResponseBody();
+        byte[] responseBytes = responseTxt.getBytes(StandardCharsets.UTF_8);
+        int statusCode=500;
+        exchange.sendResponseHeaders(statusCode, responseBytes.length);
 
-        try{
-            os.write(responseTxt.getBytes());
-            os.close();
+        try (OutputStream os = exchange.getResponseBody()) { // try-with-resources
+            os.write(responseBytes);
         } catch (IOException e) {
-            System.out.println("warning::"+e.getMessage());
+            System.err.println("Error writing response: " + e.getMessage()); // Use System.err for errors
+            // 或者使用日志框架进行更详细的日志记录
         }
+
+
 
     }
 
 
 
     public static void wrtResp(HttpExchange exchange, String responseTxt) throws IOException {
+
+        System.out.println("wrtResp(resptxt="+responseTxt);
       if( responseTxt==null)
           responseTxt="";
         exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=utf-8");

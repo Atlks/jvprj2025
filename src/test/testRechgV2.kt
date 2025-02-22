@@ -5,24 +5,41 @@ package test;
 //import utilDep.AOPASM.customClassLoader
 import apiAcc.RechargeHdr
 import apis.BaseHdr
+import cfg.WebSvr
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import util.HttpExchangeImp
+import okhttp3.OkHttpClient
 
 
+import okhttp3.Request
 fun main(){
+
+
+    Thread {
+        Thread.sleep(7000) // 线程中延迟 3 秒
+       println("\n\n\n===================start req")
+        var rzt=  sendGetRequest("http://localhost:8889/rechargeHdr?amt=888", "uname=007");
+        println("responsetxt=$rzt")
+    }.start()
+  //  Thread.sleep(5000) // 让主线程保持运行，防止程序退出
+    WebSvr.start()
+
+
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
-    BaseHdr.iniCfgFrmCfgfile()
-    val he: HttpExchange =
-        HttpExchangeImp("http://localhost:8889/rechargeHdr?amt=888", "uname=007", "output2025.txt")
 
+}
 
+fun sendGetRequest(url: String,cookie_str:String):
 
-    cfg.IocSpringCfg.iniIocContainr4spr()
-    var hdl: HttpHandler = SprUtil.getBeanFrmSpr(RechargeHdr::class.java) as HttpHandler
+        String? {
+    println("get(url="+url)
+    val client = OkHttpClient()
+    val request = Request.Builder().url(url).build()
 
-    hdl.handle(he);
-    println("------------resp out :\n"+readFile("output2025.txt"));
+    client.newCall(request).execute().use { response ->
+        return if (response.isSuccessful) response.body?.string() else null
+    }
 }
 
 //    val container = iniIocContainr()

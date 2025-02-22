@@ -12,7 +12,6 @@ import static java.time.LocalTime.now;
 import entityx.OrdChrg;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static util.HbntUtil.persistByHbnt;
@@ -24,7 +23,7 @@ import static util.util2026.*;
  * http://localhost:8889/AddOrdChargeHdr?amt=888
  */
 @Component
-public class AddOrdChargeHdr extends BaseHdr {
+public class RechargeHdr extends BaseHdr {
     public static String saveUrlOrdChrg;
 
     //    public AddOrdChargeHdr() {
@@ -36,7 +35,7 @@ public class AddOrdChargeHdr extends BaseHdr {
         this.sessionFactory = sessionFactory;
     }
 
-    public AddOrdChargeHdr(SessionFactory sess) {
+    public RechargeHdr(SessionFactory sess) {
         this.sessionFactory = sess;
     }
 

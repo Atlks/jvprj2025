@@ -25,13 +25,14 @@ import java.net.URI;
 import java.util.Map;
 import java.util.Set;
 
-import static apiAcc.AddOrdChargeHdr.saveUrlOrdChrg;
+import static apiAcc.RechargeHdr.saveUrlOrdChrg;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 
 import static util.ColorLogger.*;
 import static util.TransactMng.commitTransaction;
 import static util.Util2025.encodeJson;
 
+import static util.Util2025.toExchgDt;
 import static util.dbutil.setField;
 import static util.util2026.*;
 
@@ -68,17 +69,17 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
 
         ExceptionBase ex = new ExceptionBase("");
         try {
-            setcookie("uname", "007", exchange);//for test
+         //   setcookie("uname", "007", exchange);//for test
 
             //---------blk chk auth
-            if (needLoginAuth(exchange.getRequestURI())) {
+           if (needLoginAuth(exchange.getRequestURI())) {
                 String uname = getcookie("uname", exchange);
                 //  uname="ttt";
                 if (uname.equals("")) {
                     //need login
                     NeedLoginEx e = new NeedLoginEx("需要登录");
                     e.fun = "QueryUsrHdr。" + getCurrentMethodName();
-                    e.funPrm = (exchange);
+                    e.funPrm = toExchgDt((HttpExchange) exchange);
 
                     throw e;
                     //  wrtResp(exchange, "needLogin");

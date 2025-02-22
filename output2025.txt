@@ -1,18 +1,1 @@
-{
-	"errcode":"biz.UnameOrPwdErrEx",
-	"errmsg":"用户名或密码错误",
-	"extraData":{
-		
-	},
-	"fun":"login",
-	"funPrm":{
-		"pwd":"ppp0",
-		"uname":"0098"
-	},
-	"localizedMessage":"用户名或密码错误",
-	"message":"用户名或密码错误",
-	"suppressed":[
-		
-	],
-	"url":"\"http://localhost:8889/login?uname=0098&pwd=ppp0\""
-}
+ok
