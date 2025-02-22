@@ -31,12 +31,14 @@ fun main() {
 
 }
 
-fun sendGetRequest(url: String, cookie_str: String):
+fun sendGetRequest(url: String, cookieStr: String):
 
         String? {
     println("get(url=" + url)
     val client = OkHttpClient()
-    val request = Request.Builder().url(url).build()
+    val request = Request.Builder().url(url)
+        .addHeader("Cookie", cookieStr)  // 添加 Cookie
+        . build()
 
     client.newCall(request).execute().use { response ->
         println("resp coce="+response.code)
