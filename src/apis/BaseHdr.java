@@ -78,7 +78,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
                 if (uname.equals("")) {
                     //need login
                     NeedLoginEx e = new NeedLoginEx("需要登录");
-                    e.fun = "QueryUsrHdr。" + getCurrentMethodName();
+                    e.fun = "BaseHdr." + getCurrentMethodName();
                     e.funPrm = toExchgDt((HttpExchange) exchange);
 
                     throw e;
@@ -108,10 +108,9 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
 
             ex.errcode = cause.getClass().getName();
             ex.errmsg = e.getCause().getMessage();
-            String stackTraceAsString = getStackTraceAsString(e);
-            ex.stackTrace = stackTraceAsString;
 
-            addInfo2ex(ex);
+
+            addInfo2ex(ex,e);
 
             String responseTxt = encodeJson(ex);
             System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
@@ -126,8 +125,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
                             + "\n end stacktrace......................"
             );
 
-            String stackTraceAsString = getStackTraceAsString(e);
-            ex.stackTrace = stackTraceAsString;
+
 
             //my throw ex.incld funprm
             if (e instanceof ExceptionBase) {
@@ -147,7 +145,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
 
             }
 
-            addInfo2ex(ex);
+            addInfo2ex(ex, e);
 
             String responseTxt = encodeJson(ex);
             System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
@@ -165,13 +163,15 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
     }
 
 
-    private static void addInfo2ex(ExceptionBase ex) {
+    private static void addInfo2ex(ExceptionBase ex, Throwable e) {
         if (ex.fun.equals(""))
             ex.fun = curFun4dbg.get();
         if (ex.funPrm == null)
             ex.funPrm = currFunPrms4dbg.get();
         ex.url = curUrl.get();
         ex.urlprm = curUrlPrm.get();
+        String stackTraceAsString = getStackTraceAsString(e);
+        ex.stackTraceStr = stackTraceAsString;
     }
 
     private static final Set<String> NO_AUTH_PATHS = Set.of("/reg", "/login");

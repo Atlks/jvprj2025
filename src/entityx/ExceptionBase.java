@@ -7,10 +7,44 @@ public class ExceptionBase extends  Exception {
 
     public String url;
     public String urlprm;
+    public String stackTraceStr;
+
+
 
     public ExceptionBase() {
 
 
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getUrlprm() {
+        return urlprm;
+    }
+
+    public String getStackTraceStr() {
+        return stackTraceStr;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+
+
+    public Object getInfo() {
+        return info;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    @Override
+    public Throwable getCause() {
+        return cause;
     }
 
     public String  timestamp;
