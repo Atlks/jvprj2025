@@ -89,6 +89,8 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
                 }
             }
 
+
+            //basehdr.kt
             //-----------------stat trans action
             //  System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
            Session session=sessionFactory.getCurrentSession();

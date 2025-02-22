@@ -59,9 +59,9 @@ public class AddOrdBetHdr extends BaseHdr {
         Session session =sessionFactory.getCurrentSession();
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
-        session.beginTransaction();
+
         session.persist(ord);
-        session.getTransaction().commit();
+
 
     }
 

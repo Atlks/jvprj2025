@@ -36,9 +36,9 @@ public class LoginHdr  extends BaseHdr {
         org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
-        session.beginTransaction();
+
         Usr u=  session.find(Usr.class,uname);
-        session.getTransaction().commit();
+
         if (u.pwd.equals(pwd))
             return true;
         Usr dto=new Usr();

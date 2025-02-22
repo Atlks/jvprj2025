@@ -48,7 +48,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         //------------blk chge regch stat=ok
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
-        session.beginTransaction();
+
         OrdChrg objChrg = findByHbnt(OrdChrg.class, id, session);
 
 
@@ -83,7 +83,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         //  calcCms4chrgU(u,amt);
         CmsBiz.calcCms4FrmOrdChrg(objChrg, session);
         // calcCms(uname,amt);
-        session.getTransaction().commit();
+
         System.out.println("\n\r\n---------endblk  calcCms4FrmOrdChrg");
     }
 

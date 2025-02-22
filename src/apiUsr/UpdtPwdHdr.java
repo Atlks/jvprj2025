@@ -28,8 +28,8 @@ public class UpdtPwdHdr extends BaseHdr {
         String oldpwd = getRequestParameter(exchange, "oldpwd");
         String new_pwd = getRequestParameter(exchange, "pwd");
         //JSONObject jo = getObjDocdb(uname,  saveDirUsrs);
-        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
-        session.beginTransaction();
+        org.hibernate.Session session =sessionFactory.getCurrentSession()
+
         Usr u = findByHbnt(Usr.class, uname, LockModeType.PESSIMISTIC_WRITE, session);
 //        Usr objU =findByHbnt(Usr.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE,session);
         if (u.pwd.equals(encodeMd5(oldpwd))) {
@@ -37,7 +37,7 @@ public class UpdtPwdHdr extends BaseHdr {
             u.pwd = encodeMd5(new_pwd);
             //   saveDir = saveDir;
             var rzt = mergeByHbnt(u, session);
-            session.getTransaction().commit();
+
             wrtResp(exchange, "ok");
         } else {
             wrtResp(exchange, "powNotMatch");
