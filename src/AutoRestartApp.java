@@ -50,7 +50,7 @@ public class AutoRestartApp {
 
 
     // 这里好像 -classpath参数没有收集到
-    public static void restartApplication() throws IOException {
+    public static void restartApplication() throws IOException, InterruptedException {
         System.out.println("正在重启应用...");
 
         // 获取 Java 运行时路径
@@ -58,11 +58,9 @@ public class AutoRestartApp {
         String filePathClassps = "C:\\doc_2024_md\\classpath.txt";
 
 
-
-
         // 获取当前 JVM 运行的参 数     // 这里好像 -classpath参数没有收集到
         List<String> inputArguments = ManagementFactory.getRuntimeMXBean().getInputArguments();
-         //判断如果String里面包含空格，那么list的元素使用双引号包起来
+        //判断如果String里面包含空格，那么list的元素使用双引号包起来
         // 创建一个新的列表来存储处理后的参数
         List<String> processedArgs = new ArrayList<>();
 
@@ -77,24 +75,32 @@ public class AutoRestartApp {
 
         // 拼接成一个完整的命令行参数字符串
         String vmArgs = String.join(" ", processedArgs);
-      //  String vmArgs = String.join(" ", processedArgs);
-        System.out.println("vmargs======\n"+vmArgs);
+        //  String vmArgs = String.join(" ", processedArgs);
+        System.out.println("vmargs======\n" + vmArgs);
         // 获取主类（entry point）
         String mainClass = ManagementFactory.getRuntimeMXBean().getSystemProperties().get("sun.java.command");
-        var classpathPrm=getClasspath(filePathClassps);
+        var classpathPrm = getClasspath(filePathClassps);
 
-      //  classpathPrm="xxx.jar";
-    //    classpathPrm="\""+classpathPrm+"\"";
-        System.out.println("重启命令：" + javaBin + " " + vmArgs + " " + "-classpath "+classpathPrm+" "+ mainClass);
-
+        //  classpathPrm="xxx.jar";
+        //    classpathPrm="\""+classpathPrm+"\"";
+        System.out.println("重启命令：" + javaBin + " " + vmArgs + " " + "-classpath " + classpathPrm + " " + mainClass);
 
 
         // 创建新进程，重新运行当前程序
         ProcessBuilder builder = new ProcessBuilder(javaBin, vmArgs, "-classpath", classpathPrm, mainClass);
-        builder.start();
+       var process= builder.start();
+        int exitCode = process.waitFor();
+        System.out.println("新进程退出代码: " + exitCode);
 
-        System.exit(0); // 退出当前进程
+//      //  int exitCode = process.waitFor();"新进程退出代码: " +
+                System.exit(0); // 退出当前进程
+
+
+        // 创建新进程，重新运行当前程序
+
+
     }
+
 
     private static String getClasspath(String filePath) throws IOException {
         // 读取文件内容
@@ -103,10 +109,10 @@ public class AutoRestartApp {
         // 查找以 -classpath 开头的行
         for (String line : lines) {
             if (line.startsWith("-classpath")) {
-               // return line;
-                        String classpath = line.substring("-classpath".length()).trim();
-return  classpath;
-              //  System.out.println("Classpath: " + classpath);
+                // return line;
+                String classpath = line.substring("-classpath".length()).trim();
+                return classpath;
+                //  System.out.println("Classpath: " + classpath);
             }
         }
 
