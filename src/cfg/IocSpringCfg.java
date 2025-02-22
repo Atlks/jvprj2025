@@ -35,20 +35,19 @@ public class IocSpringCfg {
         // **使用 Provider，每次获取都是新的 `Session`**
      //   container888.addAdapter(new SessionProvider());
 
-        List<Class> li = List.of();
-        BaseHdr.iniCfgFrmCfgfile();
-        SessionFactory sessionFactory = getSessionFactory(saveDirUsrs, li);
-       // container888.addAdapter(new SessionFactProvider());
-        // 注册组件
-     //   PicoContainer888.addComponent(sessionFactory);
-    //    container888.addComponent(LoginHdr.class);
-     //   context.scan("");
+      //  List<Class> li = List.of();
+
+    //    SessionFactory sessionFactory = getSessionFactory(saveDirUsrs, li);
+
+      //   context.scan("");
         scanAllClass();//  all add class  ...  mdfyed class btr
 
       //  context.register(modifiedClass);
       //  context.registerBean(modifiedClass, modifiedClass.getName());
      //   context.refresh(); // 这一步必须有！
 
+
+        //chkek reg bean ..must use beanmae to reg ,not bean.class,,bcz maybe reg custome class aop mdfyed...
         for (String beanName : context.getBeanDefinitionNames()) {
             System.out.println("..已注册 Bean：" + beanName);
         }
