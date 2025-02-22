@@ -154,12 +154,21 @@ public class IocSpringCfg {
                     //clazz.getName() 只是获取类的全限定名（package.ClassName），不会触发类的静态初始化 或 类加载。
                     if(clazz.getName().startsWith("entityx."))
                         continue;
-                    if(clazz.getName().startsWith("test."))
+                    if(clazz.getName().startsWith("test"))
                         continue;
                     if(clazz.getName().startsWith("cfg."))
                         continue;
                     if(clazz.getName().startsWith("util"))
                         continue;
+                    if(clazz.getName().startsWith("exmp."))
+                        continue;
+                    if(clazz.getName().startsWith("org."))
+                        continue;
+                    if(clazz.getName().startsWith("com."))
+                        continue;
+                    if(clazz.getName().startsWith("web3."))
+                        continue;
+
                     printLn("\n开始注册"+clazz.getName());
                     Class<?> modifiedClass = getAClassExted(clazz);
                    //  context.register(modifiedClass);  jeig bhao,,beanname not classname

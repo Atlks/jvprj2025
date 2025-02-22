@@ -33,7 +33,7 @@ public class WebSvr {
         int port = 8889;
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
-        MutablePicoContainer container = IocPicoCfg.iniIocContainr();
+    //    MutablePicoContainer container = IocPicoCfg.iniIocContainr();
 
         cfg.IocSpringCfg.iniIocContainr4spr();
 //             AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);

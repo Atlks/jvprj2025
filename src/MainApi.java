@@ -26,9 +26,10 @@ import static util.SprUtil.getBeanFrmSpr;
 @SolonMain
 @ComponentScan("apiUsr")
 public class MainApi {
-    public static void main(String[] args) throws IOException, SQLException {
+    public static void main(String[] args) throws Exception {
 
         start();
+        AutoRestartApp.main(null);
     }
 
     public static void openMap4test() {
