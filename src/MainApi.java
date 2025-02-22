@@ -21,6 +21,7 @@ import java.net.InetSocketAddress;
 import java.sql.SQLException;
 
 import static apis.BaseHdr.iniCfgFrmCfgfile;
+import static util.SprUtil.getBeanFrmSpr;
 //import static cfg.IocPicoCfg.iniIocContainr;
 
 @SolonMain
@@ -38,16 +39,18 @@ public class MainApi {
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
         MutablePicoContainer container = IocPicoCfg.iniIocContainr();
-             AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+
+        cfg.IocSpringCfg.iniIocContainr4spr();
+//             AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         // 定义一个上下文，绑定到 "/api/hello" 路径
         server.createContext("/hello", new HelloHandler());
 
-
-        server.createContext("/reg", container.getComponent(RegHandler.class));
-        server.createContext("/login", container.getComponent(LoginHdr.class));
-        server.createContext("/QueryUsr", context.getBean(QueryUsrHdr.class) );
+// container.getComponent(RegHandler.class)
+        server.createContext("/reg",getBeanFrmSpr(RegHandler.class));
+        server.createContext("/login", getBeanFrmSpr(LoginHdr.class));
+        server.createContext("/QueryUsr",getBeanFrmSpr(QueryUsrHdr.class) );
         server.createContext("/AddOrdBetHdr",
-                container.getComponent(AddOrdBetHdr.class));
+                getBeanFrmSpr(AddOrdBetHdr.class));
         server.createContext("/QryOrdBetHdr", new QryOrdBetHdr());
         server.createContext("/QryTeamHdr", new QryTeamHdr());
 
@@ -56,7 +59,7 @@ public class MainApi {
 //        AddOrdBetHdr bean = context.getBean(AddOrdBetHdr.class);
 
         server.createContext("/AddOrdChargeHdr",
-                container.getComponent(AddOrdChargeHdr.class)
+                getBeanFrmSpr(AddOrdChargeHdr.class)
         );
         server.createContext("/QueryOrdChrgHdr", new QueryOrdChrgHdr());
         server.createContext("/UserCentrHdr", new UserCentrHdr());
