@@ -5,6 +5,7 @@ package apiUsr;
 import biz.BaseHdr;
 import biz.existUserEx;
 import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
 import entityx.Usr;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,7 +21,7 @@ import static util.util2026.*;
 
 //  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
 // 自定义的请求处理器
-public class RegHandler extends BaseHdr   {
+public class RegHandler extends BaseHdr  implements HttpHandler {
 
   //  @Inject // 可选，PicoContainer 其实不依赖 @Inject，但能增加可读性
     public RegHandler(SessionFactory sessionFactory1){

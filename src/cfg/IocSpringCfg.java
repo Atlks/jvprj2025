@@ -1,9 +1,13 @@
 package cfg;
 
+import apiAcc.RechargeHdr;
 import biz.BaseHdr;
+import com.sun.net.httpserver.HttpHandler;
+import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import util.JdkDynamicProxy;
 
 import java.io.File;
 import java.sql.SQLException;
@@ -14,6 +18,7 @@ import java.util.function.Function;
 import static java.time.LocalTime.now;
 import static util.AopLogJavassist.getAClassExted;
 import static util.AopLogJavassist.printLn;
+import static util.dbutil.setField;
 import static util.util2026.scanClasses;
 
 //PicoContainer more easy thena guice lite,guice ,spring
@@ -156,11 +161,27 @@ public class IocSpringCfg {
 
 
                     printLn("\n开始注册"+clazz.getName());
-                    Class<?> modifiedClass = getAClassExted(clazz);
-                   //  context.register(modifiedClass);  jeig bhao,,beanname not classname
-                    context.registerBean( modifiedClass.getName(), modifiedClass);
+
+                    //-----------------jvvst mode new class
+//                    Class<?> modifiedClass = getAClassExted(clazz);
+//                   //  context.register(modifiedClass);  jeig bhao,,beanname not classname
+//                    context.registerBean( modifiedClass.getName(), modifiedClass);
+
+
+//-----------jdk dync pro xy
+                    Object obj1 = clazz.getConstructor().newInstance();
+                    setField(obj1,SessionFactory.class,new AppConfig().sessionFactory());
+                            //new RechargeHdr(); // 目标对象
+                    Object proxyObj =  JdkDynamicProxy.createProxy(obj1); // 创建代理
+                    context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
+                //    context.registerSingleton( clazz.getName(), proxy);
+
+
+
+
+
                  //   context. registerBean(modifiedClass,modifiedClass.getName());
-                    printLn("modifiedClass.getClassLoader="+modifiedClass.getClassLoader());
+                 //   printLn("modifiedClass.getClassLoader="+modifiedClass.getClassLoader());
                     printLn("spr已注册: " + clazz.getName());
 
                 } catch (Exception e) {

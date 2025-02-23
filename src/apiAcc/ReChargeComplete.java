@@ -104,8 +104,13 @@ public class ReChargeComplete extends AopBase {
         System.out.println("\n\r\n---------endblk  calcCms4FrmOrdChrg");
     }
 
+    /**
+     *
+     */
+    @Override
+    public void doAction2() {
 
-
+    }
 
 
 //    private static void calcCms(String uname, BigDecimal amt) {

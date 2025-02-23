@@ -9,6 +9,7 @@ import java.util.Map;
 
 import static java.time.LocalTime.now;
 
+import com.sun.net.httpserver.HttpHandler;
 import entityx.OrdChrg;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,7 +24,7 @@ import static util.util2026.*;
  * http://localhost:8889/AddOrdChargeHdr?amt=888
  */
 @Component
-public class RechargeHdr extends BaseHdr {
+public class RechargeHdr extends BaseHdr implements HttpHandler {
     public static String saveUrlOrdChrg;
 
     //    public AddOrdChargeHdr() {
@@ -37,6 +38,9 @@ public class RechargeHdr extends BaseHdr {
 
     public RechargeHdr(SessionFactory sess) {
         this.sessionFactory = sess;
+    }
+
+    public RechargeHdr() {
     }
 
     @Override

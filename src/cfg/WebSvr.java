@@ -10,7 +10,9 @@ import apiUsr.QueryUsrHdr;
 import apiUsr.RegHandler;
 import apiUsr.UserCentrHdr;
 import biz.HelloHandler;
+import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import util.JdkDynamicProxy;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -56,19 +58,21 @@ public class WebSvr {
 
 // container.getComponent(RegHandler.class)
         server.createContext("/reg",getBeanFrmSpr(RegHandler.class));
-        server.createContext("/login", getBeanFrmSpr(LoginHdr.class));
-        server.createContext("/QueryUsr",getBeanFrmSpr(QueryUsrHdr.class) );
-        server.createContext("/AddOrdBetHdr",
-                getBeanFrmSpr(AddOrdBetHdr.class));
+//        server.createContext("/login", getBeanFrmSpr(LoginHdr.class));
+//        server.createContext("/QueryUsr",getBeanFrmSpr(QueryUsrHdr.class) );
+//        server.createContext("/AddOrdBetHdr",
+//                getBeanFrmSpr(AddOrdBetHdr.class));
         server.createContext("/QryOrdBetHdr", new QryOrdBetHdr());
         server.createContext("/QryTeamHdr", new QryTeamHdr());
 
 
 //        AddOrdBetHdr bean = context.getBean(AddOrdBetHdr.class);
 
-        server.createContext("/rechargeHdr",
-                getBeanFrmSpr(RechargeHdr.class)
-        );
+
+        server.createContext("/rechargeHdr",  getBeanFrmSpr(RechargeHdr.class) );
+//        server.createContext("/rechargeHdr",
+//                getBeanFrmSpr(RechargeHdr.class)
+//        );
         server.createContext("/QueryOrdChrgHdr", new QueryOrdChrgHdr());
         server.createContext("/UserCentrHdr", new UserCentrHdr());
     }
