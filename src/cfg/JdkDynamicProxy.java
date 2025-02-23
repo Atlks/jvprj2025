@@ -1,4 +1,4 @@
-package util;
+package cfg;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -16,7 +16,7 @@ public class JdkDynamicProxy implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         System.out.println("日志记录: 调用方法 " + method.getName());
         Object result = method.invoke(target, args); // 调用目标方法
-        System.out.println("方法调用完成");
+        System.out.println("方法调用完成" + method.getName());
         return result;
     }
 
