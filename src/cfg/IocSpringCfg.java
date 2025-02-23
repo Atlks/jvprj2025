@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import static java.time.LocalTime.now;
 import static util.AopLogJavassist.getAClassExted;
 import static util.AopLogJavassist.printLn;
 import static util.util2026.scanClasses;
@@ -127,6 +128,7 @@ public class IocSpringCfg {
      * 扫描classes路径所有class，加入到容器 MutablePicoContainer
      */
     public static void scanAllClass() {
+        System.out.println( "scannAllcls at "+now());
         try {
             // 获取 classes 目录
             String classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
