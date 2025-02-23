@@ -1,0 +1,9 @@
+
+
+C:\Users\attil\2025-02-23_04-09-33.aac
+
+ffmpeg -i "C:\Users\attil\2025-02-23_04-09-33.aac" -y -ss 1200ms -t 700ms -acodec copy enen.aac
+
+
+ffmpeg -i "C:\Users\attil\2025-02-23_04-09-33.aac" -y -ss 1500ms -t 800ms -acodec copy enen.aac
+ffmpeg -i C:\cfg\video_2025-02-23_04-09-33.mp4 -vn -acodec copy 2025-02-23_04-09-33.aac
