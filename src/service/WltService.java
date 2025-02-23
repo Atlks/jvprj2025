@@ -58,4 +58,11 @@ public class WltService  extends AopBase {
     }
 
 
+    /**
+     *
+     */
+    @Override
+    public void doAction2() {
+
+    }
 }

@@ -34,6 +34,15 @@ import static util.Util2025.toExchgDt;
 import static util.dbutil.setField;
 import static util.util2026.*;
 
+/**
+ *
+ * 但如果你的需求是 基于抽象基类 来做 AOP，这种方式已经足够好用。
+ * 模板方法模式（Template Method Pattern） 的思路。
+ *aop
+ * 日志（打印执行信息）
+ * 权限校验（检查用户身份）
+ * 异常处理（捕获异常并记录）
+ */
 @Component
 public abstract class BaseHdr implements HttpHandler, Serializable {
 
