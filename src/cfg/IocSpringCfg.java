@@ -1,26 +1,18 @@
 package cfg;
 
-import apiAcc.WltService;
-import apis.BaseHdr;
-import org.hibernate.SessionFactory;
+import biz.BaseHdr;
 import org.jetbrains.annotations.NotNull;
-import org.picocontainer.DefaultPicoContainer;
-import org.picocontainer.MutablePicoContainer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-import static apis.BaseHdr.saveDirUsrs;
-import static org.picocontainer.Characteristics.CACHE;
 import static util.AopLogJavassist.getAClassExted;
 import static util.AopLogJavassist.printLn;
-import static util.HbntUtil.getSessionFactory;
 import static util.util2026.scanClasses;
 
 //PicoContainer more easy thena guice lite,guice ,spring
@@ -151,23 +143,15 @@ public class IocSpringCfg {
             // 注册到 PicoContainer
             for (Class<?> clazz : classList) {
                 try {
+                    //只针对api 和biz的开放注册修改class注入aop
                     //clazz.getName() 只是获取类的全限定名（package.ClassName），不会触发类的静态初始化 或 类加载。
-                    if(clazz.getName().startsWith("entityx."))
+
+                    if(!clazz.getName().startsWith("api") && !clazz.getName().startsWith("service"))
+                    {
+                        System.out.println("contine clz="+clazz.getName());
                         continue;
-                    if(clazz.getName().startsWith("test"))
-                        continue;
-                    if(clazz.getName().startsWith("cfg."))
-                        continue;
-                    if(clazz.getName().startsWith("util"))
-                        continue;
-                    if(clazz.getName().startsWith("exmp."))
-                        continue;
-                    if(clazz.getName().startsWith("org."))
-                        continue;
-                    if(clazz.getName().startsWith("com."))
-                        continue;
-                    if(clazz.getName().startsWith("web3."))
-                        continue;
+                    }
+
 
                     printLn("\n开始注册"+clazz.getName());
                     Class<?> modifiedClass = getAClassExted(clazz);

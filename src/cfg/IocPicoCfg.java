@@ -1,7 +1,7 @@
 package cfg;
 
-import apiAcc.WltService;
-import apis.BaseHdr;
+import service.WltService;
+import biz.BaseHdr;
 import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.picocontainer.DefaultPicoContainer;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-import static apis.BaseHdr.saveDirUsrs;
+import static biz.BaseHdr.saveDirUsrs;
 import static org.picocontainer.Characteristics.CACHE;
 import static util.AopLogJavassist.getAClassExted;
 import static util.HbntUtil.getSessionFactory;

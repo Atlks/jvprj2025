@@ -1,6 +1,6 @@
 package apiOrdBet;
 
-import apis.BaseHdr;
+import biz.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.OrdBet;
 import org.hibernate.Session;

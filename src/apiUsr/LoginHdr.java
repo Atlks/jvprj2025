@@ -1,11 +1,10 @@
 package apiUsr;
 
-import apis.BaseHdr;
+import biz.BaseHdr;
 import biz.UnameOrPwdErrEx;
 import biz.existUserEx;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.Usr;
-import utilBiz.OrmUtilBiz;
 
 import java.sql.SQLException;
 

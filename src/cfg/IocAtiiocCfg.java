@@ -1,7 +1,7 @@
 package cfg;
 
-import apiAcc.WltService;
-import apis.BaseHdr;
+import service.WltService;
+import biz.BaseHdr;
 import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.function.Function;
 
-import static apis.BaseHdr.saveDirUsrs;
+import static biz.BaseHdr.saveDirUsrs;
 import static util.AopLogJavassist.*;
 import static util.AopLogJavassist.printLn;
 import static util.HbntUtil.getSessionFactory;

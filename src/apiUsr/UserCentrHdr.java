@@ -1,6 +1,6 @@
 package apiUsr;
 
-import apis.BaseHdr;
+import biz.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.Usr;
 import org.hibernate.Session;

@@ -6,11 +6,8 @@ package test;
 //import apiAcc.ReChargeComplete.invk
 import apiAcc.ReChargeComplete
 import apiAcc.TransHdr
-import apis.BaseHdr
+import biz.BaseHdr
 import cfg.AppConfig
-import cfg.IocSpringCfg
-import cfg.IocSpringCfg.context
-import com.mysql.cj.Session
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.hibernate.SessionFactory

@@ -5,7 +5,7 @@ package test;
 //import utilDep.AOPASM.customClassLoader
 import cfg.AppConfig
 import apiUsr.QueryUsrHdr
-import apis.BaseHdr
+import biz.BaseHdr
 import cfg.IocPicoCfg
 import com.sun.net.httpserver.HttpExchange
 import org.springframework.context.ApplicationContext

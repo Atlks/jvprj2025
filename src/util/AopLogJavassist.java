@@ -1,7 +1,7 @@
 package util;
 
 import apiUsr.RegHandler;
-import apis.BaseHdr;
+import biz.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 import javassist.*;
 import org.jetbrains.annotations.NotNull;
@@ -258,7 +258,7 @@ public class AopLogJavassist {
 
     private static boolean isObjectMethodEx(String name) {
         return name.equals("finalize") || name.equals("clone") || name.equals("setSessionFactory") ||
-                name.equals("main") || name.equals("handle") || name.equals("notifyAll") || name.equals("wait");
+                name.equals("main") || name.equals("handle") || name.equals("handle2") || name.equals("wait");
     }
 
     // 过滤 Object 类的方法

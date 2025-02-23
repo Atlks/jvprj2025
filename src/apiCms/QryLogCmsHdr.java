@@ -1,6 +1,6 @@
 package apiCms;
 
-import apis.BaseHdr;
+import biz.BaseHdr;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.LogCms;
@@ -22,7 +22,7 @@ import static util.ToXX.toObjFrmMap;
 import static util.Util2025.encodeJson;
 import static util.dbutil.*;
 import static util.util2026.*;
-import static apiCms.CmsBiz.saveUrlLogCms;
+import static service.CmsBiz.saveUrlLogCms;
 
 /**
  * app use ,so must hav uname

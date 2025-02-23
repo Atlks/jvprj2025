@@ -1,6 +1,6 @@
 package apiAcc;
 
-import apis.BaseHdr;
+import biz.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.math.BigDecimal;

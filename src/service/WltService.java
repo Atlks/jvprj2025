@@ -1,5 +1,6 @@
-package apiAcc;
+package service;
 
+import biz.AopBase;
 import entityx.LogBls;
 import entityx.OrdChrg;
 import entityx.Usr;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-import static apiCms.CmsBiz.toBigDcmTwoDot;
+import static service.CmsBiz.toBigDcmTwoDot;
 import static util.HbntUtil.*;
 import static util.TransactMng.beginTransaction;
 import static util.util2026.getFieldAsBigDecimal;

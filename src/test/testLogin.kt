@@ -5,17 +5,11 @@ package test;
 //import utilDep.AOPASM.customClassLoader
 
 import apiUsr.LoginHdr
-import apiUsr.RegHandler
-import apis.BaseHdr
-import cfg.IocPicoCfg.iniIocContainr
+import biz.BaseHdr
 import cfg.IocSpringCfg
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
-import org.noear.solon.Solon
-import org.noear.solon.core.AppContext
 import util.HttpExchangeImp
-import utilDep.AOPASM
-import java.io.File
 
 
 fun main(){

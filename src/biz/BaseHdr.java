@@ -1,11 +1,9 @@
-package apis;
+package biz;
 
 import apiAcc.UpdtCompleteChargeHdr;
 import apiOrdBet.QryOrdBetHdr;
 import apiUsr.*;
 import apiWltYinli.WithdrawHdr;
-import biz.BaseBiz;
-import biz.NeedLoginEx;
 import com.alibaba.fastjson2.JSON;
 import org.hibernate.Session;
 
@@ -15,7 +13,7 @@ import org.springframework.stereotype.Component;
 import test.UserBiz;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import apiCms.CmsBiz;
+import service.CmsBiz;
 import entityx.Err;
 import entityx.ExceptionBase;
 
@@ -244,7 +242,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
 
         // 获取类加载器 /C:/Users/attil/IdeaProjects/jvprj2025/out/production/jvprj2025/
         String rootPath = UserBiz.class.getClassLoader().getResource("").getPath();
-        Map cfg = parse_ini_fileNosec(rootPath + "../../../cfg/dbcfg.ini");
+        Map cfg = parse_ini_fileNosec(rootPath + "cfg/dbcfg.ini");
         RegHandler.saveDirUsrs = (String) cfg.get("saveDirUsrs");
         // saveDirAcc= (String) cfg.get("saveDirAcc");
         //   savedirOrd= (String) cfg.get("savedirOrd");

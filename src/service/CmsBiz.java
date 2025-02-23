@@ -1,4 +1,4 @@
-package apiCms;
+package service;
 
 import entityx.OrdChrg;
 import entityx.LogCms;
@@ -11,7 +11,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 
-import static apis.BaseHdr.iniCfgFrmCfgfile;
+import static biz.BaseHdr.iniCfgFrmCfgfile;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 import static util.HbntUtil.mergeByHbnt;
 import static util.HbntUtil.persistByHbnt;

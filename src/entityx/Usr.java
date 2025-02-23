@@ -10,7 +10,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
 import java.math.BigDecimal;
 
-import static apiCms.CmsBiz.toBigDcmTwoDot;
+import static service.CmsBiz.toBigDcmTwoDot;
 
 // C:\Users\attil\.m2\repository\javax\jdo\jdo-api\3.2.1\jdo-api-3.2.1.jar
 @Entity

@@ -5,10 +5,8 @@ package test;
 //import utilDep.AOPASM.customClassLoader
 //import apiAcc.ReChargeComplete.invk
 import apiAcc.ReChargeComplete
-import apis.BaseHdr
+import biz.BaseHdr
 import cfg.IocSpringCfg
-import org.hibernate.Session
-import org.hibernate.SessionFactory
 
 
 fun main(){

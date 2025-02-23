@@ -1,7 +1,7 @@
 package apiAcc;
 
-import apiCms.CmsBiz;
-import apis.BaseHdr;
+import service.CmsBiz;
+import biz.BaseHdr;
 import entityx.LogBls;
 import entityx.OrdChrg;
 import entityx.Usr;
@@ -19,7 +19,7 @@ import static util.HbntUtil.*;
 import static util.ToXX.parseQueryParams;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
-import static apiCms.CmsBiz.toBigDcmTwoDot;
+import static service.CmsBiz.toBigDcmTwoDot;
 
 /**  ivk by
  * http://localhost:8889/UpdtCompleteChargeHdr?id=ordchg2222

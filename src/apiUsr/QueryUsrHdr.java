@@ -1,11 +1,10 @@
 package apiUsr;
 
-import apis.BaseHdr;
+import biz.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import utilBiz.OrmUtilBiz;
 //import org.apache.lucene.index.DirectoryReader;
 //import org.apache.lucene.index.Term;
 //import org.apache.lucene.search.*;
@@ -15,7 +14,6 @@ import utilBiz.OrmUtilBiz;
 import java.util.*;
 
 
-import static apiUsr.RegHandler.saveDirUsrs;
 import static util.ToXX.parseQueryParams;
 import static util.Util2025.encodeJson;
 

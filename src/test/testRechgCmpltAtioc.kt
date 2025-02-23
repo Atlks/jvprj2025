@@ -5,7 +5,7 @@ package test;
 //import utilDep.AOPASM.customClassLoader
 //import apiAcc.ReChargeComplete.invk
 import apiAcc.ReChargeComplete
-import apis.BaseHdr
+import biz.BaseHdr
 import cfg.IocAtiiocCfg.*
 import org.hibernate.Session
 import org.hibernate.SessionFactory

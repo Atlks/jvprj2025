@@ -2,7 +2,7 @@
 
 package apiUsr;
 
-import apis.BaseHdr;
+import biz.BaseHdr;
 import biz.existUserEx;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.Usr;

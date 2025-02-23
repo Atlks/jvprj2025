@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static apiAcc.RechargeHdr.saveUrlOrdChrg;
-import static apis.BaseHdr.iniCfgFrmCfgfile;
+import static biz.BaseHdr.iniCfgFrmCfgfile;
 import static util.Qry.convertSqlToSpEL;
 import static util.Util2025.encodeJson;
 import static util.Util2025.encodeJsonObj;

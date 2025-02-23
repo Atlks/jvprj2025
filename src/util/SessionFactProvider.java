@@ -1,13 +1,13 @@
 package util;
 
-import apis.BaseHdr;
+import biz.BaseHdr;
 import org.hibernate.SessionFactory;
 import org.picocontainer.injectors.ProviderAdapter;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import static apis.BaseHdr.saveDirUsrs;
+import static biz.BaseHdr.saveDirUsrs;
 import static util.HbntUtil.getSessionFactory;
 
 public class SessionFactProvider extends ProviderAdapter {

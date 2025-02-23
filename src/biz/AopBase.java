@@ -1,21 +1,13 @@
-package apiAcc;
+package biz;
 
-import com.sun.net.httpserver.HttpExchange;
 import org.hibernate.SessionFactory;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.util.Arrays;
 
-import static util.AopLogJavassist.getAClassExted;
 import static util.dbutil.setField;
-import static util.util2026.copyProps;
-import static util.util2026.getField;
 
 @Component
 public class AopBase implements Serializable {

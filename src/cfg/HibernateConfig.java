@@ -1,17 +1,9 @@
 package cfg;
 
-import apis.BaseHdr;
-import org.hibernate.SessionFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 //import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
-import java.sql.SQLException;
-import java.util.List;
-
-import static apis.BaseHdr.saveDirUsrs;
-import static util.HbntUtil.getSessionFactory;
 
 /**
  * JDK 20：Spring 6.x 也支持 JDK 20，因为 Spring 6 是为 JDK 17+ 版本设计的，

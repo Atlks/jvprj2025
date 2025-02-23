@@ -8,7 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.math.BigDecimal;
 
-import static apiCms.CmsBiz.toBigDcmTwoDot;
+import static service.CmsBiz.toBigDcmTwoDot;
 @Entity
 @DynamicUpdate  // 仅更新被修改的字段
 @DynamicInsert //如果还希望 INSERT 时也只插入非 null 的字段，可以搭配

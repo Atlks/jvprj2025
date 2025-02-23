@@ -1,19 +1,18 @@
 package apiAcc;
 
-import apiCms.CmsBiz;
-import entityx.LogBls;
+import service.CmsBiz;
+import biz.AopBase;
 import entityx.OrdChrg;
 import entityx.Usr;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import service.WltService;
 
-import javax.inject.Inject;
 import java.math.BigDecimal;
 
-import static apiCms.CmsBiz.toBigDcmTwoDot;
-import static apis.BaseHdr.iniCfgFrmCfgfile;
+import static biz.BaseHdr.iniCfgFrmCfgfile;
 import static util.ColorLogger.*;
 import static util.HbntUtil.*;
 import static util.TransactMng.beginTransaction;
@@ -24,7 +23,7 @@ import static util.util2026.*;
  *  UpdtCompleteChargeHdr?id=ordchg2222
  */
 @Component
-public class ReChargeComplete extends AopBase  {
+public class ReChargeComplete extends AopBase {
     public static String saveUrlLogBalance;
 
     public ReChargeComplete() {
@@ -44,7 +43,7 @@ public class ReChargeComplete extends AopBase  {
     }
     @Autowired
    // @Inject
-    public WltService  WltService1;
+    public WltService WltService1;
     @Autowired
     public void setWltService1(WltService wltService1) {
         WltService1 = wltService1;

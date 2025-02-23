@@ -1,10 +1,9 @@
 package apiUsr;
 
-import apis.BaseHdr;
+import biz.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.Usr;
 import jakarta.persistence.LockModeType;
-import utilBiz.OrmUtilBiz;
 
 
 import static util.EncodeUtil.encodeMd5;

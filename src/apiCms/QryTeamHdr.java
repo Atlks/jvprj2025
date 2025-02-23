@@ -1,13 +1,12 @@
 package apiCms;
 
-import apis.BaseHdr;
+import biz.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import static apiUsr.RegHandler.saveDirUsrs;
 import static util.ToXX.parseQueryParams;
 import static util.Util2025.encodeJson;
 import static util.dbutil.*;
