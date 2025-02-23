@@ -10,6 +10,9 @@ import com.sun.net.httpserver.HttpExchange;
 import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import service.Iservice;
+import service.Trans2YLwltService;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -65,8 +68,7 @@ public class TransHdr extends BaseHdr {
         Session session = sessionFactory.getCurrentSession();
 
 
-        //todo start tx
-        beginTransaction(session);
+
 
         // 获取对象并加悲观锁
 //        User user = session.find(User.class, 1, LockModeType.PESSIMISTIC_WRITE);
@@ -136,6 +138,8 @@ public class TransHdr extends BaseHdr {
 
     }
 
+    @Autowired
+    Trans2YLwltService Trans2YLwltService1;
     @Transactional
     @Override
     public void handle2(HttpExchange exchange) throws Exception {
@@ -148,10 +152,12 @@ public class TransHdr extends BaseHdr {
         lgblsDto.changeAmount = new BigDecimal(queryParams.get("changeAmount"));
         lgblsDto.uname = uname;
         Session session=sessionFactory.getCurrentSession();
-        beginTransaction(session);
+
         transToYinliWlt(lgblsDto);
 
-        commitTransaction(session);
+        Iservice is=Trans2YLwltService1;
+        is.handle(lgblsDto);
+
      //   session.getTransaction().commit();
         wrtResp(exchange, "ok");
 

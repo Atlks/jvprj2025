@@ -91,7 +91,13 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
             //  System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
            Session session=sessionFactory.getCurrentSession();
             session.beginTransaction();
+
+              mth = colorStr("handle2", YELLOW_bright);
+              prmurl = colorStr(encodeJson(toExchgDt(exchange)) , GREEN);
+            System.out.println("▶\uFE0Ffun " + mth + "(exchange=" + prmurl);
+
             handle2(exchange);
+            System.out.println("✅endfun handle2()");
             commitTransaction(session);
            // session.getTransaction().commit();
 
