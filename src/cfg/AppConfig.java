@@ -30,8 +30,8 @@ public class AppConfig {
     public LoadTimeWeaver loadTimeWeaver() {
         return new SimpleLoadTimeWeaver();
     }
-
-    @Bean
+    public static   SessionFactory sessionFactory;
+   // @Bean
     public SessionFactory sessionFactory() throws SQLException {
         List<Class> li = List.of();
         BaseHdr.iniCfgFrmCfgfile();

@@ -1,18 +1,22 @@
 package apiAcc;
 
 import biz.BaseHdr;
+import biz.HttpHandlerX;
 import com.sun.net.httpserver.HttpExchange;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import static biz.BaseHdr.iniCfgFrmCfgfile;
 import static java.time.LocalTime.now;
 
 import com.sun.net.httpserver.HttpHandler;
 import entityx.OrdChrg;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static util.HbntUtil.persistByHbnt;
@@ -24,13 +28,13 @@ import static util.util2026.*;
  * http://localhost:8889/AddOrdChargeHdr?amt=888
  */
 @Component
-public class RechargeHdr extends BaseHdr implements HttpHandler {
+public class RechargeHdr implements HttpHandlerX {
     public static String saveUrlOrdChrg;
 
     //    public AddOrdChargeHdr() {
 //    }
-//    @Autowired
-//    public SessionFactory sessionFactory;
+    @Autowired
+    public SessionFactory sessionFactory;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -43,26 +47,7 @@ public class RechargeHdr extends BaseHdr implements HttpHandler {
     public RechargeHdr() {
     }
 
-    @Override
-    public void handle2(HttpExchange exchange) throws Exception {
 
-
-        System.out.println("handle2.sessfac="+sessionFactory);
-        //blk login ed
-        String uname = getcookie("uname", exchange);
-        Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
-
-
-        OrdChrg ord = new OrdChrg();
-        ord.uname = uname;
-        ord.amt = new BigDecimal(queryParams.get("amt"));
-        ord.timestamp = System.currentTimeMillis();
-        ord.id = "ordChrg" + getFilenameFrmLocalTimeString();
-        addOrdChg(ord);
-        wrtResp(exchange, "ok");
-
-
-    }
 
     private void addOrdChg(OrdChrg ord) throws Exception {
         String now = String.valueOf(now());
@@ -78,21 +63,51 @@ public class RechargeHdr extends BaseHdr implements HttpHandler {
         //    addObj(ord, saveUrlOrdChrg,OrdChrg.class);
     }
 
-    public static void main(String[] args) throws Exception {
-        iniCfgFrmCfgfile();
-        // drvMap.put("com.mysql.cj.jdbc.Driver", "org.h2.Driver");
-        Map<String, Object> queryParams = new HashMap<>();
-        queryParams.put("amt", new BigDecimal("888"));
+//    public static void main(String[] args) throws Exception {
+//        iniCfgFrmCfgfile();
+//        // drvMap.put("com.mysql.cj.jdbc.Driver", "org.h2.Driver");
+//        Map<String, Object> queryParams = new HashMap<>();
+//        queryParams.put("amt", new BigDecimal("888"));
+//
+//        OrdChrg ord = new OrdChrg();
+//        ord.uname = "009";
+//        ord.amt = new BigDecimal("888");
+//        ord.timestamp = System.currentTimeMillis();
+//        ord.id = "ordChrg" + getFilenameFrmLocalTimeString();
+//        System.out.println("ordid=" + ord.id
+//        );
+//        //   addOrdChg(ord);
+//    }
+
+
+    /**
+     * @param exchange
+     * @throws Exception
+     */
+    @Override
+    public void handlex(HttpExchange exchange) throws Exception {
+        System.out.println("handle2.sessfac=" + sessionFactory);
+        //blk login ed
+        String uname = getcookie("uname", exchange);
+        Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
+
 
         OrdChrg ord = new OrdChrg();
-        ord.uname = "009";
-        ord.amt = new BigDecimal("888");
+        ord.uname = uname;
+        ord.amt = new BigDecimal(queryParams.get("amt"));
         ord.timestamp = System.currentTimeMillis();
         ord.id = "ordChrg" + getFilenameFrmLocalTimeString();
-        System.out.println("ordid=" + ord.id
-        );
-        //   addOrdChg(ord);
+
+
+            addOrdChg(ord);
+            wrtResp(exchange, "ok");
+
+
     }
 
 
+    @Override
+    public void handle(HttpExchange exchange) throws IOException {
+
+    }
 }

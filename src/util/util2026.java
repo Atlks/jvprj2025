@@ -485,6 +485,14 @@ public class util2026 {
         return StackWalker.getInstance()
                 .walk(frames -> frames.skip(1).findFirst().get().getMethodName());
     }
+    public static void wrtRespErrNoex(HttpExchange exchange, String responseTxt){
+        try {
+            wrtRespErr(exchange,responseTxt);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+    }
     public static void wrtRespErr(HttpExchange exchange, String responseTxt) throws IOException {
         System.out.println("wrtRespErr(resptxt="+responseTxt);
         exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=utf-8");

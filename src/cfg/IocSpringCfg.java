@@ -31,7 +31,7 @@ public class IocSpringCfg {
 
       //  List<Class> li = List.of();
 
-    //    SessionFactory sessionFactory = getSessionFactory(saveDirUsrs, li);
+     AppConfig. sessionFactory =new AppConfig().sessionFactory() ;
 
       //   context.scan("");
         scanAllClass();//  all add class  ...  mdfyed class btr
@@ -166,7 +166,7 @@ public class IocSpringCfg {
 
 //-----------jdk dync pro xy
                     Object obj1 = clazz.getConstructor().newInstance();
-                    setField(obj1,SessionFactory.class,new AppConfig().sessionFactory());
+                    setField(obj1,SessionFactory.class,  AppConfig. sessionFactory);
                             //new RechargeHdr(); // 目标对象
                     Object proxyObj =  JdkDynamicProxy.createProxy(obj1); // 创建代理
                     context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);

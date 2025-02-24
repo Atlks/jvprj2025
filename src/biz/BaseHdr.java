@@ -28,9 +28,8 @@ import static apiAcc.RechargeHdr.saveUrlOrdChrg;
 
 import static util.ColorLogger.*;
 import static util.TransactMng.commitTransaction;
-import static util.Util2025.encodeJson;
 
-import static util.Util2025.toExchgDt;
+import static util.Util2025.*;
 import static util.dbutil.setField;
 import static util.util2026.*;
 
@@ -176,7 +175,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
     }
 
 
-    private static void addInfo2ex(ExceptionBase ex, Throwable e) {
+    public static void addInfo2ex(ExceptionBase ex, Throwable e) {
         if (ex.fun.equals(""))
             ex.fun = curFun4dbg.get();
         if (ex.funPrm == null)
@@ -187,7 +186,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
         ex.stackTraceStr = stackTraceAsString;
     }
 
-    private static final Set<String> NO_AUTH_PATHS = Set.of("/reg", "/login");
+    public static final Set<String> NO_AUTH_PATHS = Set.of("/reg", "/login");
 
     /**
      * 判断是否需要登录的url    。。格式为  /reg
@@ -195,9 +194,12 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
      * @param requestURI
      * @return * @return `true` 需要登录，`false` 不需要登录
      */
-    private boolean needLoginAuth(URI requestURI) {
-        String path = requestURI.getPath(); // 只取路径部分，不包括查询参数
-        return !NO_AUTH_PATHS.contains(path);
+    public static boolean needLoginAuth(URI requestURI) {
+        System.out.println("fun nededLogAuth(uri="+requestURI.getPath());
+       String path = requestURI.getPath(); // 只取路径部分，不包括查询参数
+        boolean b = !NO_AUTH_PATHS.contains(path);
+        System.out.println("endfun needLoginAuth().ret="+b);
+        return b;
     }
 
     /**
@@ -206,7 +208,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
      * @param jsonStr
      * @return
      */
-    private Err toERR(String jsonStr) {
+    public static Err toERR(String jsonStr) {
 
         try {
             if (jsonStr == null || jsonStr.isEmpty()) {
@@ -274,14 +276,21 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
 
     protected abstract void handle2(HttpExchange exchange) throws Throwable;
 
-    public boolean isLogined(HttpExchange exchange) {
+    public  static boolean isLogined(HttpExchange exchange) throws IOException {
+        System.out.println("fun isLogined(httpExch="+encodeJsonObj(toExchgDt(exchange)));
         String uname = getcookie("uname", exchange);
-        return !uname.equals("");
+        boolean b = !uname.equals("");
+        System.out.println("endfun isLogined().ret="+b);
+        return b;
         //   return  true;
     }
 
-    public boolean isNotLogined(HttpExchange exchange) {
+    public static  boolean isNotLogined(HttpExchange exchange) throws IOException {
+        System.out.println("fun isNotLogined(httpExch="+encodeJsonObj(toExchgDt(exchange)));
         String uname = getcookie("uname", exchange);
+
+        boolean b = uname.equals("");
+        System.out.println("endfun isLogined().ret="+b);
         return uname.equals("");
         //   return  true;
     }
