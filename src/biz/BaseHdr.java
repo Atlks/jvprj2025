@@ -81,8 +81,6 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
 
             //---------blk chk auth
             urlAuthChk(exchange);
-
-
             AopNlog(exchange);
 
 
