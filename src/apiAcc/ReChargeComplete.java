@@ -2,7 +2,7 @@ package apiAcc;
 
 import service.CmsBiz;
 import biz.AopBase;
-import entityx.OrdChrg;
+import entityx.ChgOrd;
 import entityx.Usr;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -60,7 +60,7 @@ public class ReChargeComplete extends AopBase {
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
      //   session.beginTransaction();
-        OrdChrg objChrg = findByHbnt(OrdChrg.class, id, session);
+        ChgOrd objChrg = findByHbnt(ChgOrd.class, id, session);
 
 
        // System.out.println("\r\n----blk updt chg ord set stat=ok");

@@ -3,7 +3,7 @@ package apiAcc;
 import biz.BaseHdr;
 import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
-import entityx.OrdChrg;
+import entityx.ChgOrd;
 import org.hibernate.Session;
 import entityx.PageResult;
 import utilBiz.OrmUtilBiz;
@@ -72,7 +72,7 @@ public class QueryOrdChrgHdr extends BaseHdr {
 
 
         Session session = OrmUtilBiz. openSession(saveUrlOrdChrg);
-        List<OrdChrg> lst = (List<OrdChrg>) nativeQueryGetResultList( sql, sqlprmMap, (int) pageNumber,pageSize, session );
+        List<ChgOrd> lst = (List<ChgOrd>) nativeQueryGetResultList( sql, sqlprmMap, (int) pageNumber,pageSize, session );
         //    var list1 = getSortedMapsBypages( sql,pageSize, pageNumber);
         // 1️⃣ 计算总记录数
         return getPageResultByCntsql( sqlNoOrd,sqlprmMap,lst,pageSize);

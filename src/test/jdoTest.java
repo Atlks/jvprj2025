@@ -1,7 +1,7 @@
 package test;
 
 import entityx.LogBls;
-import entityx.OrdChrg;
+import entityx.ChgOrd;
 import entityx.Usr;
 import entityx.LogBlsLogYLwlt;
 import utilFuchr.JdoPstsMngrHbnt;
@@ -23,7 +23,7 @@ public class jdoTest {
         li.add(Usr.class);
         li.add(LogBls.class);
         li.add(LogBlsLogYLwlt.class);
-        li.add(OrdChrg.class);
+        li.add(ChgOrd.class);
         li.add(Usr.class);
      //   PersistenceManager pm=newPersistenceManager("/0db");
         iniCfgFrmCfgfile();

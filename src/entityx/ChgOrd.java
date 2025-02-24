@@ -13,7 +13,7 @@ import static service.CmsBiz.toBigDcmTwoDot;
 @DynamicUpdate  // 仅更新被修改的字段
 @DynamicInsert //如果还希望 INSERT 时也只插入非 null 的字段，可以搭配
 @Table
-public class OrdChrg {
+public class ChgOrd {
     public String uname;
 
     public BigDecimal getAmt() {

@@ -10,9 +10,22 @@ info:
   contact:
     name: 开发者支持
     email: support@example.com
+tags:
+  - name: user
+    description:
+
+  - name: wlt api
+    description: 钱包api
+  - name: ylwlt
+    description: 盈利钱包api
+
+  - name: bet api
+    description: 投注api
 paths:
   /login:
     get:
+      tags:
+        - user
       summary: "登录用户的方法"
       description: " "
 
@@ -53,6 +66,8 @@ paths:
                     example: "错误用户名"
   /reg:
     get:
+      tags:
+        - user
       summary: "注册用户的方法reg"
       description: "注册用户的方法dscrp。。。。"
       operationId: "registerUser"
@@ -107,7 +122,10 @@ paths:
                     type: string
                     example: "注册成功"
   /users:
+
     get:
+      tags:
+        - user
       summary: 获取所有用户
       responses:
         '200':
@@ -123,3 +141,46 @@ paths:
                       type: integer
                     name:
                       type: string
+  /RechargeHdr:
+    get:
+      tags:
+        - wlt
+      summary:   recharge
+      description: This endpoint retrieves recharge header information based on the provided amount and username.
+      parameters:
+        - in: query
+          name: amt
+          required: true
+          schema:
+            type: integer
+            example: 888
+          description: The amount to be recharged.
+        - in: cookie
+          name: uname
+          required: true
+          schema:
+            type: string
+          description: The username for the request.
+      responses:
+        '200':
+          description: Successful response with recharge details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      rechargeId:
+                        type: integer
+                        example: 12345
+                      amount:
+                        type: integer
+                        example: 888
+
+        '500':
+          description: Internal server error.

@@ -5,7 +5,7 @@ import service.AuthService;
 import service.CmsBiz;
 import biz.BaseHdr;
 import entityx.LogBls;
-import entityx.OrdChrg;
+import entityx.ChgOrd;
 import entityx.Usr;
 import com.sun.net.httpserver.HttpExchange;
 import org.hibernate.Session;
@@ -51,7 +51,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
 
-        OrdChrg objChrg = findByHbnt(OrdChrg.class, id, session);
+        ChgOrd objChrg = findByHbnt(ChgOrd.class, id, session);
 
 
         System.out.println("\r\n----blk updt chg ord stat=ok");
@@ -90,7 +90,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
     }
 
 
-    public   void updtBlsByAddChrg(OrdChrg objChrg, Session session) throws Exception {
+    public   void updtBlsByAddChrg(ChgOrd objChrg, Session session) throws Exception {
         printLn("\n▶️fun updtBlsByAddChrg(", BLUE);
         printLn("objChrg= " + encodeJson(objChrg), GREEN);
         System.out.println(")");

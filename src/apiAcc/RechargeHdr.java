@@ -9,7 +9,11 @@ import java.util.Map;
 
 import static java.time.LocalTime.now;
 
-import entityx.OrdChrg;
+import entityx.ChgOrd;
+import jakarta.ws.rs.CookieParam;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.QueryParam;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +49,7 @@ public class RechargeHdr extends BaseHdr implements HttpHandlerX {
 
 
 
-    private void addOrdChg(OrdChrg ord) throws Exception {
+    private void addChgOrd(ChgOrd ord) throws Exception {
         String now = String.valueOf(now());
         // 使用 try-with-resources 自动关闭
         //try(  Session session = OrmUtilBiz. openSession(saveUrlOrdChrg)) {
@@ -76,12 +80,15 @@ public class RechargeHdr extends BaseHdr implements HttpHandlerX {
 //    }
 
 
-    /**
+    /** http://localhost:8889/RechargeHdr?amt=888
      * @param exchange
      * @throws Exception
      */
     @Override
-    //@GET
+     @GET
+    @Path("/RechargeHdr")
+    @QueryParam("amt")
+    @CookieParam("uname")
     public void handle2(HttpExchange exchange) throws Exception {
         System.out.println("handle2.sessfac=" + sessionFactory);
         //blk login ed
@@ -89,14 +96,14 @@ public class RechargeHdr extends BaseHdr implements HttpHandlerX {
         Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
 
 
-        OrdChrg ord = new OrdChrg();
+        ChgOrd ord = new ChgOrd();
         ord.uname = uname;
         ord.amt = new BigDecimal(queryParams.get("amt"));
         ord.timestamp = System.currentTimeMillis();
         ord.id = "ordChrg" + getFilenameFrmLocalTimeString();
 
 
-            addOrdChg(ord);
+            addChgOrd(ord);
             wrtResp(exchange, "ok");
 
 

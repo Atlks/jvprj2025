@@ -2,7 +2,7 @@ package service;
 
 import biz.AopBase;
 import entityx.LogBls;
-import entityx.OrdChrg;
+import entityx.ChgOrd;
 import entityx.Usr;
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ import static util.util2026.getFilenameFrmLocalTimeString;
 @Component
 public class WltService  extends AopBase {
 
-    public   void AddBlsAddChrg(OrdChrg objChrg ) throws Exception {
+    public   void AddBlsAddChrg(ChgOrd objChrg ) throws Exception {
         //  printLn("\n▶️fun updtBlsByAddChrg(", BLUE);
         //    printLn("objChrg= " + encodeJson(objChrg), GREEN);
         //    System.out.println(")");
