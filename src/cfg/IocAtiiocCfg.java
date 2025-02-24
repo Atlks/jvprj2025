@@ -1,7 +1,6 @@
 package cfg;
 
 import service.WltService;
-import biz.BaseHdr;
 import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,14 +27,14 @@ public class IocAtiiocCfg {
 
     @NotNull
     public static Map<String,Object> iniIocContainr4at() throws SQLException {
-        BaseHdr.iniCfgFrmCfgfile();
+        MyCfg.iniCfgFrmCfgfile();
 
 //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         // **使用 Provider，每次获取都是新的 `Session`**
      //   container888.addAdapter(new SessionProvider());
 
         List<Class> li = List.of();
-        BaseHdr.iniCfgFrmCfgfile();
+        MyCfg.iniCfgFrmCfgfile();
         SessionFactory sessionFactory = getSessionFactory(saveDirUsrs, li);
         AtIoc_context.put(SessionFactory.class.getName(),sessionFactory);
        // container888.addAdapter(new SessionFactProvider());

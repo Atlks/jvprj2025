@@ -1,7 +1,9 @@
 package apiAcc;
 
 import biz.BaseHdr;
+import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
+import service.AuthService;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -23,7 +25,7 @@ public class UpdtBlsHdr extends BaseHdr {
 
 
     public static void main(String[] args) throws Exception {
-      iniCfgFrmCfgfile();
+      MyCfg.iniCfgFrmCfgfile();
         Map<String, String> queryParams=new HashMap<>();
         queryParams.put("adjst","add");  //sub
         queryParams.put("amt","9");  //sub
@@ -66,7 +68,7 @@ public class UpdtBlsHdr extends BaseHdr {
     public void handle2(HttpExchange exchange) throws Exception {
 
 
-        if (isNotLogined(exchange)) {
+        if (AuthService.isNotLogined(exchange)) {
             //need login
             wrtResp(exchange, "needLogin");
             return;

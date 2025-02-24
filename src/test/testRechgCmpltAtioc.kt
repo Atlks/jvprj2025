@@ -5,8 +5,8 @@ package test;
 //import utilDep.AOPASM.customClassLoader
 //import apiAcc.ReChargeComplete.invk
 import apiAcc.ReChargeComplete
-import biz.BaseHdr
 import cfg.IocAtiiocCfg.*
+import cfg.MyCfg
 import org.hibernate.Session
 import org.hibernate.SessionFactory
 
@@ -14,7 +14,7 @@ import org.hibernate.SessionFactory
 fun main(){
     ReChargeComplete.ovrtTEst = true
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
-    BaseHdr.iniCfgFrmCfgfile()
+    MyCfg.iniCfgFrmCfgfile()
 
     iniIocContainr4at()
 

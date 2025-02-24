@@ -1,8 +1,8 @@
 package cfg;
 
 import apiUsr.QueryUsrHdr;
-import biz.BaseHdr;
 import org.hibernate.SessionFactory;
+import org.springdoc.core.properties.SpringDocConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
@@ -36,7 +36,7 @@ public class AppConfig {
         if(sessionFactory==null)
         {
             List<Class> li = List.of();
-            BaseHdr.iniCfgFrmCfgfile();
+            MyCfg.iniCfgFrmCfgfile();
             SessionFactory sessionFactory2 = getSessionFactory(saveDirUsrs, li);
             sessionFactory=sessionFactory2;
             return sessionFactory;
@@ -45,6 +45,13 @@ public class AppConfig {
 
     }
 
+    @Bean
+    public SpringDocConfigProperties springDocConfigProperties() {
+        SpringDocConfigProperties config = new SpringDocConfigProperties();
+        config.setApiDocsPath("/v3/api-docs");
+        config.setSwaggerUiPath("/swagger-ui.html");
+        return config;
+    }
 
     //手动注入class
     @Bean

@@ -4,20 +4,15 @@ import apiAcc.RechargeHdr;
 import biz.HttpHandlerX;
 import biz.NeedLoginEx;
 import com.sun.net.httpserver.HttpExchange;
-import entityx.ExceptionBase;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import service.AuthService;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-import static biz.BaseHdr.*;
-import static cfg.AppConfig.sessionFactory;
 import static util.ColorLogger.*;
-import static util.TransactMng.commitTransaction;
 import static util.Util2025.*;
 import static util.dbutil.setField;
 import static util.util2026.*;
@@ -76,7 +71,7 @@ public class JdkDynamicProxy implements InvocationHandler {
 
     //----------aop auth
     private void urlAuthChk(HttpExchange exchange) throws IOException, NeedLoginEx {
-        if (needLoginAuth(exchange.getRequestURI())) {
+        if (AuthService.needLoginAuth(exchange.getRequestURI())) {
             String uname = getcookie("uname", exchange);
             //  uname="ttt";
             if (uname.equals("")) {

@@ -4,12 +4,17 @@ package apiUsr;
 
 import biz.BaseHdr;
 import biz.existUserEx;
+import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import entityx.Usr;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 import static util.EncodeUtil.encodeMd5;
@@ -20,7 +25,9 @@ import static util.util2026.*;
  @Component  // 让 Spring 自动管理这个 Bean
 
 //  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
-// 自定义的请求处理器
+ @RestController
+ @RequestMapping("/reg")
+ @Tag(name = "用户管理", description = "用户相关操作")
 public class RegHandler extends BaseHdr  implements HttpHandler {
 
   //  @Inject // 可选，PicoContainer 其实不依赖 @Inject，但能增加可读性
@@ -37,6 +44,10 @@ public class RegHandler extends BaseHdr  implements HttpHandler {
      * @param exchange
      * @throws Exception
      */
+
+    //如何标识swagger文档。。
+    //我的访问url类似  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
+    @Operation(summary = "注册用户的方法reg", description = "注册用户的方法dscrp。。。。")
     @Override
     public void handle2(HttpExchange exchange) throws Exception, existUserEx {
         // 检查请求方法
@@ -81,7 +92,7 @@ public class RegHandler extends BaseHdr  implements HttpHandler {
 //    }
 
     public static void main(String[] args) throws Exception, existUserEx {
-        iniCfgFrmCfgfile();
+        MyCfg.iniCfgFrmCfgfile();
         ovrwtest = true;
         //    drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
 //        Usr u=new Usr();

@@ -1,6 +1,7 @@
 package apiCms;
 
 import biz.BaseHdr;
+import cfg.MyCfg;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.LogCms;
@@ -50,7 +51,7 @@ public class QryLogCmsHdr extends BaseHdr {
 
     public static void main(String[] args) throws Exception {
 
-        iniCfgFrmCfgfile();
+        MyCfg.iniCfgFrmCfgfile();
         HttpExchangeImp he = new HttpExchangeImp();
         // he.setAttribute();
         he.setRequestURI("http://localhost:8889/QryLogCmsHdr");

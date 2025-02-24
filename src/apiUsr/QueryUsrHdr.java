@@ -1,6 +1,7 @@
 package apiUsr;
 
 import biz.BaseHdr;
+import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class QueryUsrHdr extends BaseHdr {
         super.sessionFactory=sessionFactory1;
     }
     public static void main(String[] args) throws Exception {
-        iniCfgFrmCfgfile();
+        MyCfg.iniCfgFrmCfgfile();
         Map<String, String> queryParams = Map.of(
                 "uname", "007",
                 "key2", "value2"

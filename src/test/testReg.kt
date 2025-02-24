@@ -5,9 +5,9 @@ package test;
 //import utilDep.AOPASM.customClassLoader
 
 import apiUsr.RegHandler
-import biz.BaseHdr
 import cfg.IocPicoCfg.iniIocContainr
 import cfg.IocSpringCfg
+import cfg.MyCfg
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.noear.solon.Solon
@@ -19,7 +19,7 @@ import java.io.File
 
 fun main(){
     //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
-    BaseHdr.iniCfgFrmCfgfile()
+    MyCfg.iniCfgFrmCfgfile()
     cfg.IocSpringCfg.iniIocContainr4spr()
     val he: HttpExchange =
         HttpExchangeImp("http://localhost:8889/reg?uname=0098&pwd=ppp", "", "output2025.txt")
@@ -33,7 +33,7 @@ var hdl=RegHandler1 as HttpHandler
 }
 fun main230(){
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
-    BaseHdr.iniCfgFrmCfgfile()
+    MyCfg.iniCfgFrmCfgfile()
     val he: HttpExchange =
         HttpExchangeImp("http://localhost:8889/reg?uname=007&pwd=ppp", "uname=0093", "output2025.txt")
     val container = iniIocContainr()
@@ -47,7 +47,7 @@ fun main4asm() {
     println(33)
     //C:\Users\attil\IdeaProjects\jvprj2025\target\classes\apiUsr\RegHandler.class
     // println(RegHandler::class)
-    BaseHdr.iniCfgFrmCfgfile()
+    MyCfg.iniCfgFrmCfgfile()
     //  StaticMethodAOP. enhanceClass(RegHandler::class.toString());
     val he: HttpExchange =
         HttpExchangeImp("http://localhost:8889/reg?uname=qq1&pwd=ppp", "uname=0091", "output2025.txt")
@@ -130,7 +130,7 @@ fun main22() {
     println("After wrap proxy:  " + proxy.javaClass.name)  // 输出代理类名
 
 
-    BaseHdr.iniCfgFrmCfgfile()
+    MyCfg.iniCfgFrmCfgfile()
 
     val he = HttpExchangeImp("http://localhost:8889/reg?uname=qq&pwd=ppp", "uname=0091", "output2025.txt")
     // bean1 = AppContext1.getBean(RegHandler::class.java)

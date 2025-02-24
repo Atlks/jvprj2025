@@ -5,14 +5,14 @@ package test;
 //import utilDep.AOPASM.customClassLoader
 //import apiAcc.ReChargeComplete.invk
 import apiAcc.ReChargeComplete
-import biz.BaseHdr
 import cfg.IocSpringCfg
+import cfg.MyCfg
 
 
 fun main(){
     ReChargeComplete.ovrtTEst = true
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
-    BaseHdr.iniCfgFrmCfgfile()
+    MyCfg.iniCfgFrmCfgfile()
 
     cfg.IocSpringCfg.iniIocContainr4spr()
 

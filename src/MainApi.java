@@ -1,7 +1,7 @@
 import org.noear.solon.annotation.SolonMain;
 import org.springframework.context.annotation.ComponentScan;
 
-import static biz.BaseHdr.iniCfgFrmCfgfile;
+import static cfg.MyCfg.iniCfgFrmCfgfile;
 import static cfg.WebSvr.start;
 //import static cfg.IocPicoCfg.iniIocContainr;
 

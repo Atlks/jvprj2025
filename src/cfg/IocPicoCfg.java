@@ -1,7 +1,6 @@
 package cfg;
 
 import service.WltService;
-import biz.BaseHdr;
 import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.picocontainer.DefaultPicoContainer;
@@ -26,14 +25,14 @@ public class IocPicoCfg {
 
     @NotNull
     public static MutablePicoContainer iniIocContainr() throws SQLException {
-        BaseHdr.iniCfgFrmCfgfile();
+        MyCfg.iniCfgFrmCfgfile();
 
 //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         // **使用 Provider，每次获取都是新的 `Session`**
      //   container888.addAdapter(new SessionProvider());
 
         List<Class> li = List.of();
-        BaseHdr.iniCfgFrmCfgfile();
+        MyCfg.iniCfgFrmCfgfile();
         SessionFactory sessionFactory = getSessionFactory(saveDirUsrs, li);
        // container888.addAdapter(new SessionFactProvider());
         // 注册组件

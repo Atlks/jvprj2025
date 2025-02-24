@@ -5,8 +5,8 @@ package test;
 //import utilDep.AOPASM.customClassLoader
 //import apiAcc.ReChargeComplete.invk
 import apiAcc.ReChargeComplete
-import biz.BaseHdr
 import cfg.IocPicoCfg.iniIocContainr
+import cfg.MyCfg
 import org.hibernate.Session
 import org.hibernate.SessionFactory
 
@@ -14,7 +14,7 @@ import org.hibernate.SessionFactory
 fun main(){
     ReChargeComplete.ovrtTEst = true
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
-    BaseHdr.iniCfgFrmCfgfile()
+    MyCfg.iniCfgFrmCfgfile()
 //    val he: HttpExchange =
 //        HttpExchangeImp("http://localhost:8889/AddOrdChargeHdr?amt=ordChrg2025-02-18T21-14-59", "uname=0093", "output2025.txt")
     val container = iniIocContainr()

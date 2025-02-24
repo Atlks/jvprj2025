@@ -1,6 +1,6 @@
 package util;
 
-import biz.BaseHdr;
+import cfg.MyCfg;
 import org.hibernate.SessionFactory;
 import org.picocontainer.injectors.ProviderAdapter;
 
@@ -13,7 +13,7 @@ import static util.HbntUtil.getSessionFactory;
 public class SessionFactProvider extends ProviderAdapter {
     public SessionFactory provide() throws SQLException {
         List<Class> li = List.of();
-        BaseHdr.iniCfgFrmCfgfile();
+        MyCfg.iniCfgFrmCfgfile();
         SessionFactory sessionFactory = getSessionFactory(saveDirUsrs, li);
 
         return sessionFactory;

@@ -1,6 +1,7 @@
 package apiOrdBet;
 
 import biz.BaseHdr;
+import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.OrdBet;
 import org.hibernate.Session;
@@ -68,7 +69,7 @@ public class AddOrdBetHdr extends BaseHdr {
 
     public static void main(String[] args) throws Exception {
 
-        iniCfgFrmCfgfile();;
+        MyCfg.iniCfgFrmCfgfile();;
         OrdBet ord=new OrdBet();
 //        String now = String.valueOf(now());
 //        queryParams.put("datetime_utc", now);

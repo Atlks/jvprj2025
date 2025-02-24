@@ -1,6 +1,5 @@
 package cfg;
 
-import biz.BaseHdr;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -23,7 +22,7 @@ public class IocSpringCfg {
 
     @NotNull
     public static ApplicationContext iniIocContainr4spr() throws SQLException {
-        BaseHdr.iniCfgFrmCfgfile();
+        MyCfg.iniCfgFrmCfgfile();
 
 //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         // **使用 Provider，每次获取都是新的 `Session`**

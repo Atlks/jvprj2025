@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static apiUsr.RegHandler.saveDirUsrs;
-import static biz.BaseHdr.iniCfgFrmCfgfile;
+import static cfg.MyCfg.iniCfgFrmCfgfile;
 
 public class jdoTest {
 

@@ -1,8 +1,6 @@
 package cfg;
 
 import apiUsr.RegHandler;
-import biz.BaseHdr;
-import biz.NeedLoginEx;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.ExceptionBase;
 import javassist.*;
@@ -15,14 +13,13 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import static biz.BaseHdr.*;
 import static cfg.AppConfig.sessionFactory;
 import static util.ColorLogger.*;
+import static util.ExptUtil.addInfo2ex;
+import static util.ExptUtil.curUrl;
 import static util.TransactMng.commitTransaction;
 import static util.Util2025.encodeJson;
-import static util.Util2025.toExchgDt;
 import static util.util2026.*;
-import static util.util2026.getCurrentMethodName;
 
 public class AopLogJavassist {
     public static void main(String[] args) throws Exception {
@@ -32,7 +29,7 @@ public class AopLogJavassist {
         Class<?> modifiedClass = getAClassAoped(aClass);
 
 
-        iniCfgFrmCfgfile();
+        MyCfg.iniCfgFrmCfgfile();
         //  StaticMethodAOP. enhanceClass(RegHandler::class.toString());
         HttpExchange he =
                 new HttpExchangeImp("http://localhost:8889/reg?uname=qq1&pwd=ppp", "uname=0091", "output2025.txt");

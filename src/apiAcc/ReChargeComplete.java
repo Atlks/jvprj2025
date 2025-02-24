@@ -12,7 +12,7 @@ import service.WltService;
 
 import java.math.BigDecimal;
 
-import static biz.BaseHdr.iniCfgFrmCfgfile;
+import static cfg.MyCfg.iniCfgFrmCfgfile;
 import static util.ColorLogger.*;
 import static util.HbntUtil.*;
 import static util.TransactMng.beginTransaction;

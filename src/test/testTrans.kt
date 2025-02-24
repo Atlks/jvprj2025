@@ -6,8 +6,8 @@ package test;
 //import apiAcc.ReChargeComplete.invk
 import apiAcc.ReChargeComplete
 import apiAcc.TransHdr
-import biz.BaseHdr
 import cfg.IocSpringCfg
+import cfg.MyCfg
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import util.HttpExchangeImp
@@ -16,7 +16,7 @@ import util.HttpExchangeImp
 fun main(){
     ReChargeComplete.ovrtTEst = true
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
-    BaseHdr.iniCfgFrmCfgfile()
+    MyCfg.iniCfgFrmCfgfile()
 
     cfg.IocSpringCfg.iniIocContainr4spr()
 

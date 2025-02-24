@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.sql.SQLException;
 
-import static biz.BaseHdr.iniCfgFrmCfgfile;
+import static cfg.MyCfg.iniCfgFrmCfgfile;
 import static util.SprUtil.getBeanFrmSpr;
 
 public class WebSvr {

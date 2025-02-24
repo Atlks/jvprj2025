@@ -1,5 +1,7 @@
 package apiAcc;
 
+import cfg.MyCfg;
+import service.AuthService;
 import service.CmsBiz;
 import biz.BaseHdr;
 import entityx.LogBls;
@@ -33,7 +35,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
     }
 
     public static void main(String[] args) throws Exception {
-        iniCfgFrmCfgfile();
+        MyCfg.iniCfgFrmCfgfile();
         ovrtTEst = true;
         //       drvMap.put("com.mysql.cj.jdbc.Driver", "org.h2.Driver");
         //  updateOrdChgSetCmplt("ordChrg2025-02-18T21-14-59");
@@ -135,7 +137,7 @@ public class UpdtCompleteChargeHdr extends BaseHdr {
     public void handle2(HttpExchange exchange) throws Exception {
 
 
-        if (isNotLogined(exchange)) {
+        if (AuthService.isNotLogined(exchange)) {
             //need login
             wrtResp(exchange, "needLogin");
             return;

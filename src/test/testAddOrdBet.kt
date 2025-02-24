@@ -5,7 +5,7 @@ package test;
 //import utilDep.AOPASM.customClassLoader
 import cfg.AppConfig
 import apiOrdBet.AddOrdBetHdr
-import biz.BaseHdr
+import cfg.MyCfg
 import com.sun.net.httpserver.HttpExchange
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
@@ -14,7 +14,7 @@ import util.HttpExchangeImp
 
 fun main() {
     //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
-    BaseHdr.iniCfgFrmCfgfile()
+    MyCfg.iniCfgFrmCfgfile()
     val he: HttpExchange =
         HttpExchangeImp("http://localhost:8889/AddOrdBetHdr?bettxt=龙湖和", "uname=008", "output2025.txt")
 //    val container = iniIocContainr()

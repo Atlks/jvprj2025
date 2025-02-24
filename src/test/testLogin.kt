@@ -5,8 +5,8 @@ package test;
 //import utilDep.AOPASM.customClassLoader
 
 import apiUsr.LoginHdr
-import biz.BaseHdr
 import cfg.IocSpringCfg
+import cfg.MyCfg
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import util.HttpExchangeImp
@@ -14,7 +14,7 @@ import util.HttpExchangeImp
 
 fun main(){
     //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
-    BaseHdr.iniCfgFrmCfgfile()
+    MyCfg.iniCfgFrmCfgfile()
     cfg.IocSpringCfg.iniIocContainr4spr()
     val he: HttpExchange =
         HttpExchangeImp("http://localhost:8889/login?uname=0098&pwd=ppp0", "", "output2025.txt")

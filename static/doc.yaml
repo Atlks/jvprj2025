@@ -1,0 +1,24 @@
+
+
+openapi: 3.0.0
+info:
+  title: 用户 API
+  version: 1.0.0
+paths:
+  /users:
+    get:
+      summary: 获取所有用户
+      responses:
+        '200':
+          description: 用户列表
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string

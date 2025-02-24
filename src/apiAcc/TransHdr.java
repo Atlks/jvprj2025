@@ -1,6 +1,7 @@
 package apiAcc;
 
 import biz.BalanceNotEnghou;
+import cfg.MyCfg;
 import entityx.LogBlsLogYLwlt;
 import biz.BaseHdr;
 import entityx.LogBls;
@@ -23,8 +24,6 @@ import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 
 import static util.HbntUtil.*;
 import static util.ToXX.parseQueryParams;
-import static util.TransactMng.beginTransaction;
-import static util.TransactMng.commitTransaction;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
 import static service.CmsBiz.toBigDcmTwoDot;
@@ -55,7 +54,7 @@ public class TransHdr extends BaseHdr {
      */
     public static void main(String[] args) throws Exception {
         //  System.out.println(com.mysql.cj.jdbc.Driver);
-        iniCfgFrmCfgfile();
+        MyCfg.iniCfgFrmCfgfile();
         LogBls lgbls = new LogBls();
         lgbls.changeAmount = BigDecimal.valueOf(100.5);
         lgbls.uname = "009";

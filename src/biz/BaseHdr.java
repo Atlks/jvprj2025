@@ -1,32 +1,24 @@
 package biz;
 
-import apiAcc.UpdtCompleteChargeHdr;
-import apiOrdBet.QryOrdBetHdr;
-import apiUsr.*;
-import apiWltYinli.WithdrawHdr;
-import com.alibaba.fastjson2.JSON;
 import org.hibernate.Session;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import test.UserBiz;
+import service.AuthService;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import service.CmsBiz;
-import entityx.Err;
 import entityx.ExceptionBase;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.URI;
-import java.util.Map;
-import java.util.Set;
+import java.lang.reflect.InvocationTargetException;
 
-import static apiAcc.RechargeHdr.saveUrlOrdChrg;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 
 import static util.ColorLogger.*;
+import static util.ExptUtil.addInfo2ex;
+import static util.ExptUtil.curUrl;
 import static util.TransactMng.commitTransaction;
 
 import static util.Util2025.*;
@@ -34,10 +26,10 @@ import static util.dbutil.setField;
 import static util.util2026.*;
 
 /**
- *aop  some log....aop auth ,,aop ex
+ * aop  some log....aop auth ,,aop ex
  * 但如果你的需求是 基于抽象基类 来做 AOP，这种方式已经足够好用。
  * 模板方法模式（Template Method Pattern） 的思路。
- *aop
+ * aop
  * 日志（打印执行信息）
  * 权限校验（检查用户身份）
  * 异常处理（捕获异常并记录）
@@ -57,12 +49,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
         this.sessionFactory = sessionFactory;
     }
 
-    //wz qrystr
-    public static ThreadLocal<String> curUrl = new ThreadLocal<>();
-    public static ThreadLocal<String> curUrlPrm = new ThreadLocal<>();
-    public static ThreadLocal<String> curFun4dbg = new ThreadLocal<>();
-
-    public static ThreadLocal<Object> currFunPrms4dbg = new ThreadLocal<>();
+    ;
 
     //----------aop ex  and some log part
     //事务管理  全局异常
@@ -75,85 +62,28 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
         curUrl.set(encodeJson(exchange.getRequestURI()));
         System.out.println("▶\uFE0Ffun " + mth + "(url=" + prmurl);
         //   curUrlPrm.set(exchange.getrequ);
-
+        var responseTxt="";
         ExceptionBase ex = new ExceptionBase("");
         try {
-         //   setcookie("uname", "007", exchange);//for test
+            //   setcookie("uname", "007", exchange);//for test
 
             //---------blk chk auth
             urlAuthChk(exchange);
 
 
-            //basehdr.kt
-            //-----------------stat trans action
-            //  System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
-           Session session=sessionFactory.getCurrentSession();
-            session.beginTransaction();
-
-              mth = colorStr("handle2", YELLOW_bright);
-              prmurl = colorStr(encodeJson(toExchgDt(exchange)) , GREEN);
-            System.out.println("▶\uFE0Ffun " + mth + "(exchange=" + prmurl);
-
-            handle2(exchange);
-            System.out.println("✅endfun handle2()");
-            commitTransaction(session);
-           // session.getTransaction().commit();
+            AopTtransActNlog(exchange);
 
 
             //      System.out.println("endfun handle2()");
             System.out.println("✅endfun handle()");
+            return;
 
         } catch (java.lang.reflect.InvocationTargetException e) {
-            ex = new ExceptionBase(e.getMessage());
-            ex.cause = e;
-            Throwable cause = e.getCause();
-
-            ex.errcode = cause.getClass().getName();
-            ex.errmsg = e.getCause().getMessage();
-
-
-            addInfo2ex(ex,e);
-
-            String responseTxt = encodeJson(ex);
-            System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
-            wrtRespErr(exchange, responseTxt);
+              responseTxt = processInvkExpt(exchange, e);
 
         } catch (Throwable e) {
 
-            System.out.println(
-                    "⚠\uFE0F e="
-                            + e.getMessage() + "\nStackTrace="
-                            + getStackTraceAsString(e)
-                            + "\n end stacktrace......................"
-            );
-
-
-
-            //my throw ex.incld funprm
-            if (e instanceof ExceptionBase) {
-                ex = (ExceptionBase) e;
-                ex.errcode = e.getClass().getName();
-
-
-            } else {
-                //nml err
-                ex = new ExceptionBase(e.getMessage());
-
-                //cvt to cstm ex
-                String message = e.getMessage();
-                ex = new ExceptionBase(message);
-                ex.cause = e;
-                ex.errcode = e.getClass().getName();
-
-            }
-
-            addInfo2ex(ex, e);
-
-            String responseTxt = encodeJson(ex);
-            System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
-            wrtRespErr(exchange, responseTxt);
-
-
+              responseTxt =   processNmlExptn(exchange, e);
             // throw new RuntimeException(e);
 
         }
@@ -161,11 +91,86 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
 
         //not ex ,just all ok blk
         //ex.fun  from stacktrace
-
+        System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
     }
+
+    private static String processNmlExptn(HttpExchange exchange, Throwable e)   {
+        ExceptionBase ex;
+//        System.out.println(
+//                "⚠\uFE0F e="
+//                        + e.getMessage() + "\nStackTrace="
+//                        + getStackTraceAsString(e)
+//                        + "\n end stacktrace......................"
+//        );
+
+
+        //my throw ex.incld funprm
+        if (e instanceof ExceptionBase) {
+            ex = (ExceptionBase) e;
+            ex.errcode = e.getClass().getName();
+
+
+        } else {
+            //nml err
+            ex = new ExceptionBase(e.getMessage());
+
+            //cvt to cstm ex
+            String message = e.getMessage();
+            ex = new ExceptionBase(message);
+            ex.cause = e;
+            ex.errcode = e.getClass().getName();
+
+        }
+
+        addInfo2ex(ex, e);
+
+        String responseTxt = encodeJson(ex);
+
+        wrtRespErrNoex(exchange, responseTxt);
+        return responseTxt;
+    }
+
+    private static String processInvkExpt(HttpExchange exchange, InvocationTargetException e) throws IOException {
+        ExceptionBase ex;
+        ex = new ExceptionBase(e.getMessage());
+        ex.cause = e;
+        Throwable cause = e.getCause();
+
+        ex.errcode = cause.getClass().getName();
+        ex.errmsg = e.getCause().getMessage();
+
+
+        addInfo2ex(ex, e);
+
+        String responseTxt = encodeJson(ex);
+
+        wrtRespErr(exchange, responseTxt);
+
+        return responseTxt;
+    }
+
+    private void AopTtransActNlog(HttpExchange exchange) throws Throwable {
+        String prmurl;
+        String mth;
+        //basehdr.kt
+        //-----------------stat trans action
+        //  System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+
+        mth = colorStr("handle2", YELLOW_bright);
+        prmurl = colorStr(encodeJson(toExchgDt(exchange)), GREEN);
+        System.out.println("▶\uFE0Ffun " + mth + "(exchange=" + prmurl);
+
+        handle2(exchange);
+        System.out.println("✅endfun handle2()");
+        commitTransaction(session);
+        // session.getTransaction().commit();
+    }
+
     //----------aop auth
     private void urlAuthChk(HttpExchange exchange) throws IOException, NeedLoginEx {
-        if (needLoginAuth(exchange.getRequestURI())) {
+        if (AuthService.needLoginAuth(exchange.getRequestURI())) {
             String uname = getcookie("uname", exchange);
             //  uname="ttt";
             if (uname.equals("")) {
@@ -177,7 +182,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
 
                 //   addInfo2ex(e, null);
 
-                throw  e;
+                throw e;
             }
 
             //basehdr.kt
@@ -190,125 +195,10 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
     }
 
 
-    public static void addInfo2ex(ExceptionBase ex, Throwable e) {
-        if (ex.fun.equals(""))
-            ex.fun = curFun4dbg.get();
-        if (ex.funPrm == null)
-            ex.funPrm = currFunPrms4dbg.get();
-        ex.url = curUrl.get();
-        ex.urlprm = curUrlPrm.get();
-        String stackTraceAsString = getStackTraceAsString(e);
-        ex.stackTraceStr = stackTraceAsString;
-    }
-
-    public static final Set<String> NO_AUTH_PATHS = Set.of("/reg", "/login");
-
-    /**
-     * 判断是否需要登录的url    。。格式为  /reg
-     *
-     * @param requestURI
-     * @return * @return `true` 需要登录，`false` 不需要登录
-     */
-    public static boolean needLoginAuth(URI requestURI) {
-        System.out.println("fun nededLogAuth(uri="+requestURI.getPath());
-       String path = requestURI.getPath(); // 只取路径部分，不包括查询参数
-        boolean b = !NO_AUTH_PATHS.contains(path);
-        System.out.println("endfun needLoginAuth().ret="+b);
-        return b;
-    }
-
-    /**
-     * 使用fastjson2，，将jsonstr转换为err对象
-     *
-     * @param jsonStr
-     * @return
-     */
-    public static Err toERR(String jsonStr) {
-
-        try {
-            if (jsonStr == null || jsonStr.isEmpty()) {
-                return new Err("", "", "", null);
-            }
-            return JSON.parseObject(jsonStr, Err.class);
-        } catch (Exception e) {
-            //not errmsg,just str msg ,or another type
-            return new Err(jsonStr, "", "", null);
-        }
-
-
-    }
-
     public static String saveDirUsrs = "";
 
-    public static void iniCfgFrmCfgfile() {
-
-        //test
-        //   openMap4test();
-        //    dbutil.  drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
-
-
-        // 获取类加载器 /C:/Users/attil/IdeaProjects/jvprj2025/out/production/jvprj2025/
-        String rootPath = UserBiz.class.getClassLoader().getResource("").getPath();
-        Map cfg = parse_ini_fileNosec(rootPath + "../../cfg/dbcfg.ini");
-        saveDirUsrs = (String) cfg.get("saveDirUsrs");
-        // saveDirAcc= (String) cfg.get("saveDirAcc");
-        //   savedirOrd= (String) cfg.get("savedirOrd");
-        //QryOrdBetHdr.saveUrlOrdBet
-        QryOrdBetHdr.saveUrlOrdBet = RegHandler.saveDirUsrs;
-        saveUrlOrdChrg = RegHandler.saveDirUsrs;
-        //(String) cfg.get("saveUrlOrdChrg");
-        UpdtCompleteChargeHdr.saveUrlLogBalance = RegHandler.saveDirUsrs;
-        BaseBiz.saveUrlLogBalanceYinliWlt = RegHandler.saveDirUsrs;
-        WithdrawHdr.saveUrlOrdWthdr = RegHandler.saveDirUsrs;
-        CmsBiz.saveUrlLogCms = RegHandler.saveDirUsrs;
-        System.out.println("ini cfg finish..");
-    }
-
-
-    public static void iniCfgFrmCfgfileMltDb() {
-
-        //test
-        //   openMap4test();
-        //    dbutil.  drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
-
-
-        // 获取类加载器 /C:/Users/attil/IdeaProjects/jvprj2025/out/production/jvprj2025/
-        String rootPath = UserBiz.class.getClassLoader().getResource("").getPath();
-        Map cfg = parse_ini_fileNosec(rootPath + "cfg/dbcfg.ini");
-        RegHandler.saveDirUsrs = (String) cfg.get("saveDirUsrs");
-        // saveDirAcc= (String) cfg.get("saveDirAcc");
-        //   savedirOrd= (String) cfg.get("savedirOrd");
-        //QryOrdBetHdr.saveUrlOrdBet
-        QryOrdBetHdr.saveUrlOrdBet = (String) cfg.get("saveUrlOrdBet");
-        saveUrlOrdChrg = RegHandler.saveDirUsrs;
-        //(String) cfg.get("saveUrlOrdChrg");
-        UpdtCompleteChargeHdr.saveUrlLogBalance = (String) cfg.get("saveUrlLogBalance");
-        BaseBiz.saveUrlLogBalanceYinliWlt = (String) cfg.get("saveUrlLogBalanceYinliWlt");
-        WithdrawHdr.saveUrlOrdWthdr = (String) cfg.get("saveUrlOrdWthdr");
-        CmsBiz.saveUrlLogCms = (String) cfg.get("saveUrlLogCms");
-        System.out.println("ini cfg finish..");
-    }
 
     protected abstract void handle2(HttpExchange exchange) throws Throwable;
-
-    public  static boolean isLogined(HttpExchange exchange) throws IOException {
-        System.out.println("fun isLogined(httpExch="+encodeJsonObj(toExchgDt(exchange)));
-        String uname = getcookie("uname", exchange);
-        boolean b = !uname.equals("");
-        System.out.println("endfun isLogined().ret="+b);
-        return b;
-        //   return  true;
-    }
-
-    public static  boolean isNotLogined(HttpExchange exchange) throws IOException {
-        System.out.println("fun isNotLogined(httpExch="+encodeJsonObj(toExchgDt(exchange)));
-        String uname = getcookie("uname", exchange);
-
-        boolean b = uname.equals("");
-        System.out.println("endfun isLogined().ret="+b);
-        return uname.equals("");
-        //   return  true;
-    }
 
 
 }

@@ -1,9 +1,11 @@
 package apiWltYinli;
 
 import biz.BaseHdr;
+import cfg.MyCfg;
 import entityx.OrdWthdr;
 import entityx.Usr;
 import com.sun.net.httpserver.HttpExchange;
+import service.AuthService;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -23,7 +25,7 @@ public class WithdrawHdr extends BaseHdr {
     public static String saveUrlOrdWthdr;
 
     public static void main(String[] args) throws Exception {
-      iniCfgFrmCfgfile();
+      MyCfg.iniCfgFrmCfgfile();
 
         OrdWthdr ord=new OrdWthdr();
         // ord.put("datetime_utc", now);
@@ -74,7 +76,7 @@ public class WithdrawHdr extends BaseHdr {
     public void handle2(HttpExchange exchange) throws Exception {
 
 
-        if (isNotLogined(exchange)) {
+        if (AuthService.isNotLogined(exchange)) {
             //need login
             wrtResp(exchange, "needLogin");
             return;

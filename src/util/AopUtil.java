@@ -2,8 +2,9 @@ package util;
 
 import java.lang.reflect.Method;
 
-import static biz.BaseHdr.curFun4dbg;
-import static biz.BaseHdr.currFunPrms4dbg;
+
+import static util.ExptUtil.curFun4dbg;
+import static util.ExptUtil.currFunPrms4dbg;
 import static util.Util2025.encodeJson;
 //cglib outtime,asm too lowlev ,bytebuddy cant log 3lev
 //only jvvst is ok..

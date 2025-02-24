@@ -1,6 +1,7 @@
 package apiUsr;
 
 import biz.BaseHdr;
+import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.Usr;
 import org.hibernate.Session;
@@ -12,6 +13,7 @@ import java.util.Map;
 import java.util.SortedMap;
 
 import static apiAcc.RechargeHdr.saveUrlOrdChrg;
+import static util.ExptUtil.currFunPrms4dbg;
 import static util.ToXX.parseQueryParams;
 import static util.Util2025.encodeJson;
 import static util.dbutil.*;
@@ -20,7 +22,7 @@ import static util.util2026.*;
 public class UserCentrHdr extends BaseHdr {
 
     public static void main(String[] args) throws Exception {
-        iniCfgFrmCfgfile();
+        MyCfg.iniCfgFrmCfgfile();
         Map<String, String> queryParams = Map.of(
                 "uname", "007",
                 "key2", "value2"

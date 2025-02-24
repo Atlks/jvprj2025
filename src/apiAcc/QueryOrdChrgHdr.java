@@ -1,6 +1,7 @@
 package apiAcc;
 
 import biz.BaseHdr;
+import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.OrdChrg;
 import org.hibernate.Session;
@@ -18,7 +19,7 @@ import static util.util2026.*;
 public class QueryOrdChrgHdr extends BaseHdr {
 
     public static void main(String[] args) throws Exception {
-        iniCfgFrmCfgfile();
+        MyCfg.iniCfgFrmCfgfile();
         Map<String, String> queryParams = Map.of(
                 "uname", "007",
                 "key2", "value2"
