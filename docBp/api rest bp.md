@@ -1,5 +1,6 @@
 
 
+==JAX-RS
 （3）创建 REST API
 Quarkus 使用 JAX-RS（Jakarta RESTful Web Services） 处理 HTTP 请求，示例：
 
@@ -17,3 +18,14 @@ public class GreetingResource {
     public String hello() {
         return "Hello, Quarkus!";
     }
+
+
+
+
+=just use sdk web api is ok smp
+
+=spribt too truouble
+in my jdk 21 ,,alway bug...gv up
+
+
+

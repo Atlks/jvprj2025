@@ -41,6 +41,7 @@ import static util.util2026.*;
  * 日志（打印执行信息）
  * 权限校验（检查用户身份）
  * 异常处理（捕获异常并记录）
+ * 事务
  */
 @Component
 public abstract class BaseHdr implements HttpHandler, Serializable {
@@ -64,6 +65,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
     public static ThreadLocal<Object> currFunPrms4dbg = new ThreadLocal<>();
 
     //----------aop ex  and some log part
+    //事务管理  全局异常
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         //wz qrystr

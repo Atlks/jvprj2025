@@ -85,6 +85,7 @@ public class RechargeHdr extends BaseHdr implements HttpHandlerX {
      * @throws Exception
      */
     @Override
+    //@GET
     public void handle2(HttpExchange exchange) throws Exception {
         System.out.println("handle2.sessfac=" + sessionFactory);
         //blk login ed
