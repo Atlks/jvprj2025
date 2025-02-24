@@ -10,6 +10,7 @@ import java.util.Map;
 import static java.time.LocalTime.now;
 
 import entityx.ChgOrd;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.CookieParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -49,7 +50,7 @@ public class RechargeHdr extends BaseHdr implements HttpHandlerX {
 
 
 
-    private void addChgOrd(ChgOrd ord) throws Exception {
+    private void addChgOrd(@NotNull(message = "ordDto is required")  ChgOrd ord) throws Exception {
         String now = String.valueOf(now());
         // 使用 try-with-resources 自动关闭
         //try(  Session session = OrmUtilBiz. openSession(saveUrlOrdChrg)) {
