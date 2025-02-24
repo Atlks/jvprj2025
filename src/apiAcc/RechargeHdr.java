@@ -85,7 +85,7 @@ public class RechargeHdr extends BaseHdr implements HttpHandlerX {
      * @throws Exception
      */
     @Override
-    public void handlex(HttpExchange exchange) throws Exception {
+    public void handle2(HttpExchange exchange) throws Exception {
         System.out.println("handle2.sessfac=" + sessionFactory);
         //blk login ed
         String uname = getcookie("uname", exchange);
@@ -105,24 +105,33 @@ public class RechargeHdr extends BaseHdr implements HttpHandlerX {
 
     }
 
-
-    @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        try {
-            handlex(exchange);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     /**
      * @param exchange
-     * @throws Throwable
+     * @throws Exception
      */
     @Override
-    protected void handle2(HttpExchange exchange) throws Throwable {
+    public void handlex(HttpExchange exchange) throws Exception {
 
     }
+
+
+//    @Override
+//    public void handle(HttpExchange exchange) throws IOException {
+//        try {
+//            handlex(exchange);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
+//    /**
+//     * @param exchange
+//     * @throws Throwable
+//     */
+//    @Override
+//    protected void handle2(HttpExchange exchange) throws Throwable {
+//
+//    }
 
     /**
      * handle() 直接调用 handlex()，没有经过代理。
