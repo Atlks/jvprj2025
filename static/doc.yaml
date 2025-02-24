@@ -3,7 +3,13 @@
 openapi: 3.0.0
 info:
   title: 用户 API
-  version: 1.0.0
+  version: 0.0.7
+  description: |
+    这是一个用于用户管理的 API。通过该 API，您可以注册、更新、删除用户，并查询用户信息。
+    该文档提供了所有可用接口的详细说明。
+  contact:
+    name: 开发者支持
+    email: support@example.com
 paths:
 
   /reg:
