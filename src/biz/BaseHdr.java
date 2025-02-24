@@ -20,7 +20,6 @@ import java.lang.reflect.InvocationTargetException;
 import static util.ColorLogger.*;
 import static util.ExptUtil.addInfo2ex;
 import static util.ExptUtil.curUrl;
-import static util.TransactMng.commitTransactIfActv;
 import static util.TransactMng.commitTransaction;
 
 import static util.Util2025.*;
@@ -69,11 +68,25 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
         try {
             //   setcookie("uname", "007", exchange);//for test
 
+            //============aop trans begn
+            //这里需要新开session。。因为可能复用同一个http线程
+            Session session = sessionFactory.openSession();
+            // 2. 手动将 Session 绑定到当前线程
+            ThreadLocalSessionContext.bind(session);
+            System.out.println("thrdid="+Thread.currentThread());
+            System.out.println("openSession="+session);
+            System.out.println("getCurrentSession="+sessionFactory.getCurrentSession());
+            // commitTransactIfActv(session);
+            session.beginTransaction();
+
             //---------blk chk auth
             urlAuthChk(exchange);
 
 
-            AopTtransActNlog(exchange);
+            AopNlog(exchange);
+
+
+
 
 
             //      System.out.println("endfun handle2()");
@@ -88,6 +101,10 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
               responseTxt =   processNmlExptn(exchange, e);
             // throw new RuntimeException(e);
 
+        }finally {
+            commitTransaction(sessionFactory.getCurrentSession());
+            sessionFactory.getCurrentSession().close();
+            ThreadLocalSessionContext.unbind(sessionFactory);
         }
         //end catch
 
@@ -151,22 +168,14 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
         return responseTxt;
     }
 
-    private void AopTtransActNlog(HttpExchange exchange) throws Throwable {
+    private void AopNlog(HttpExchange exchange) throws Throwable {
         String prmurl;
         String mth;
         //basehdr.kt
         //-----------------stat trans action
         //  System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
-        //这里需要新开session。。因为可能复用同一个http线程
-        Session session = sessionFactory.openSession();
-        // 2. 手动将 Session 绑定到当前线程
-        ThreadLocalSessionContext.bind(session);
-        System.out.println("thrdid="+Thread.currentThread());
-        System.out.println("openSession="+session);
-        System.out.println("getCurrentSession="+sessionFactory.getCurrentSession());
-       // commitTransactIfActv(session);
-        session.beginTransaction();
-        ThreadLocalSessionContext.unbind(sessionFactory);
+
+
 
         //---------log
         mth = colorStr("handle2", YELLOW_bright);
@@ -177,9 +186,8 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
         System.out.println("✅endfun handle2()");
 
         /// ----------log
-        commitTransaction(session);
-        session.close();
-        // session.getTransaction().commit();
+
+
     }
 
     //----------aop auth
