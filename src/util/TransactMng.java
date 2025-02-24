@@ -43,7 +43,17 @@ public class TransactMng {
 
         }
 
-        public static void rollbackTransaction() {
+    public static void commitTransactIfActv(Session session){
+        Transaction transaction1 = session.getTransaction();
+        if(transaction1!=null)
+        {
+            boolean existingTransaction = transaction1.isActive();
+            if(existingTransaction)
+                transaction1.commit();
+        }
+    }
+
+    public static void rollbackTransaction() {
             Transaction transaction = transactionThreadLocal.get();
             if (transaction != null) {
                 transaction.rollback();

@@ -48,8 +48,8 @@ public class AppConfig {
     @Bean
     public SpringDocConfigProperties springDocConfigProperties() {
         SpringDocConfigProperties config = new SpringDocConfigProperties();
-        config.setApiDocsPath("/v3/api-docs");
-        config.setSwaggerUiPath("/swagger-ui.html");
+      //  config.setApiDocsPath("/v3/api-docs");
+     //   config.setSwaggerUiPath("/swagger-ui.html");
 
 
         return config;

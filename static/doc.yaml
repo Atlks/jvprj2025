@@ -5,6 +5,62 @@ info:
   title: 用户 API
   version: 1.0.0
 paths:
+
+  /reg:
+    get:
+      summary: "注册用户的方法reg"
+      description: "注册用户的方法dscrp。。。。"
+      operationId: "registerUser"
+      parameters:
+        - name: uname
+          in: query
+          description: "用户名"
+          required: true
+          schema:
+            type: string
+        - name: pwd
+          in: query
+          description: "密码"
+          required: true
+          schema:
+            type: string
+        - name: invtr
+          in: query
+          description: "邀请人"
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "注册成功"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "ok"
+        "500":
+          description: "注册失败"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errcode:
+                    type: string
+                    example: "user exist"
+                  errmsg:
+                    type: string
+                    example: "重复用户名"
+        "201":
+          description: "注册成功"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "注册成功"
   /users:
     get:
       summary: 获取所有用户

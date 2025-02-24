@@ -9,6 +9,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import entityx.Usr;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -47,9 +48,16 @@ public class RegHandler extends BaseHdr  implements HttpHandler {
 
     //如何标识swagger文档。。
     //我的访问url类似  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
-    @Operation(summary = "注册用户的方法reg", description = "注册用户的方法dscrp。。。。")
+
     @Override
-    public void handle2(HttpExchange exchange) throws Exception, existUserEx {
+    @Operation(summary = "注册用户的方法reg", description = "注册用户的方法dscrp。。。。")
+    @RequestMapping("/reg")
+    @Parameter(name="uname",description = "用户名", required = true)
+    @Parameter(name="pwd",description = "密码", required = true)
+    @Parameter(name="uname",description = "邀请人", required = false)
+
+    public void handle2(
+            HttpExchange exchange) throws Exception, existUserEx {
         // 检查请求方法
         //   if ("GET".equals(exchange.getRequestMethod())) {
 

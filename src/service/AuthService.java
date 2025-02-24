@@ -23,7 +23,7 @@ public class AuthService {
     public static boolean needLoginAuth(URI requestURI) {
         System.out.println("fun nededLogAuth(uri="+requestURI.getPath());
        String path = requestURI.getPath(); // 只取路径部分，不包括查询参数
-        boolean b = !BaseHdr.NO_AUTH_PATHS.contains(path);
+        boolean b = !NO_AUTH_PATHS.contains(path);
         System.out.println("endfun needLoginAuth().ret="+b);
         return b;
     }

@@ -3,6 +3,7 @@ package biz;
 import org.hibernate.Session;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.context.internal.ThreadLocalSessionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import service.AuthService;
@@ -19,6 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 import static util.ColorLogger.*;
 import static util.ExptUtil.addInfo2ex;
 import static util.ExptUtil.curUrl;
+import static util.TransactMng.commitTransactIfActv;
 import static util.TransactMng.commitTransaction;
 
 import static util.Util2025.*;
@@ -155,9 +157,16 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
         //basehdr.kt
         //-----------------stat trans action
         //  System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
-        Session session = sessionFactory.getCurrentSession();
+        //这里需要新开session。。因为可能复用同一个http线程
+        Session session = sessionFactory.openSession();
+        // 2. 手动将 Session 绑定到当前线程
+        ThreadLocalSessionContext.bind(session);
+        System.out.println("thrdid="+Thread.currentThread());
+        System.out.println("openSession="+session);
+        System.out.println("getCurrentSession="+sessionFactory.getCurrentSession());
+       // commitTransactIfActv(session);
         session.beginTransaction();
-
+        ThreadLocalSessionContext.unbind(sessionFactory);
         mth = colorStr("handle2", YELLOW_bright);
         prmurl = colorStr(encodeJson(toExchgDt(exchange)), GREEN);
         System.out.println("▶\uFE0Ffun " + mth + "(exchange=" + prmurl);
@@ -165,6 +174,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
         handle2(exchange);
         System.out.println("✅endfun handle2()");
         commitTransaction(session);
+        session.close();
         // session.getTransaction().commit();
     }
 
