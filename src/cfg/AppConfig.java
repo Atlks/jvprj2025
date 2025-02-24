@@ -31,13 +31,18 @@ public class AppConfig {
         return new SimpleLoadTimeWeaver();
     }
     public static   SessionFactory sessionFactory;
-   // @Bean
+    @Bean
     public SessionFactory sessionFactory() throws SQLException {
-        List<Class> li = List.of();
-        BaseHdr.iniCfgFrmCfgfile();
-        SessionFactory sessionFactory = getSessionFactory(saveDirUsrs, li);
+        if(sessionFactory==null)
+        {
+            List<Class> li = List.of();
+            BaseHdr.iniCfgFrmCfgfile();
+            SessionFactory sessionFactory2 = getSessionFactory(saveDirUsrs, li);
+            sessionFactory=sessionFactory2;
+            return sessionFactory;
+        }else
+            return  sessionFactory;
 
-        return sessionFactory;
     }
 
 

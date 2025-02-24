@@ -108,6 +108,28 @@ public class RechargeHdr implements HttpHandlerX {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-
+        try {
+            handlex(exchange);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
+
+    /**
+     * handle() 直接调用 handlex()，没有经过代理。
+     * 解决办法
+     *
+     * 在 handle() 方法中，通过 this 转换成接口再调用 handlex()，确保它走代理：
+     *
+     * @Override
+     * public void handle(HttpExchange exchange) throws IOException {
+     *     try {
+     *         ((HttpHandlerX) Proxy.newProxyInstance(
+     *             this.getClass().getClassLoader(),
+     *             this.getClass().getInterfaces(),
+     *             new JdkDynamicProxySmpl(this)
+     *         )).handlex(exchange);
+     *     } catch (Exception e) {
+     *         throw new RuntimeException(e);
+     */
 }

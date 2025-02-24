@@ -15,8 +15,8 @@ import java.util.*;
 import java.util.function.Function;
 
 import static biz.BaseHdr.saveDirUsrs;
-import static util.AopLogJavassist.*;
-import static util.AopLogJavassist.printLn;
+import static cfg.AopLogJavassist.*;
+import static cfg.AopLogJavassist.printLn;
 import static util.HbntUtil.getSessionFactory;
 import static util.dbutil.setField;
 import static util.util2026.getField;

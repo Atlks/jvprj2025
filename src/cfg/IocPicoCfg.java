@@ -16,7 +16,7 @@ import java.util.function.Function;
 
 import static biz.BaseHdr.saveDirUsrs;
 import static org.picocontainer.Characteristics.CACHE;
-import static util.AopLogJavassist.getAClassExted;
+import static cfg.AopLogJavassist.getAClassExted;
 import static util.HbntUtil.getSessionFactory;
 import static util.util2026.scanClasses;
 

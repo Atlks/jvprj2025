@@ -1,9 +1,12 @@
 package cfg;
 
+import apiAcc.RechargeHdr;
+import biz.HttpHandlerX;
 import biz.NeedLoginEx;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.ExceptionBase;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
@@ -16,6 +19,7 @@ import static cfg.AppConfig.sessionFactory;
 import static util.ColorLogger.*;
 import static util.TransactMng.commitTransaction;
 import static util.Util2025.*;
+import static util.dbutil.setField;
 import static util.util2026.*;
 
 
@@ -25,6 +29,15 @@ public class JdkDynamicProxy implements InvocationHandler {
 
     public JdkDynamicProxy(Object target) {
         this.target = target;
+    }
+
+    public static void main(String[] args) throws Exception {
+        Object obj1 = RechargeHdr.class.getConstructor().newInstance();
+        setField(obj1, SessionFactory.class,  AppConfig. sessionFactory);
+        //new RechargeHdr(); // 目标对象
+        Object proxyObj =  JdkDynamicProxy.createProxy(obj1); // 创建
+        HttpHandlerX hx= (HttpHandlerX) proxyObj;
+        hx.handle(null);
     }
 
     private void aopEXhandler(HttpExchange exchange, Method method, Object[] args)   {
@@ -159,9 +172,12 @@ public class JdkDynamicProxy implements InvocationHandler {
 
     // 生成代理对象
     public static Object createProxy(Object target) {
+        Class<?>[] interfaces = target.getClass().getInterfaces();
+        System.out.println("crtProxy().itfss="+encodeJsonObj(interfaces));
         return Proxy.newProxyInstance(
                 target.getClass().getClassLoader(),  // 类加载器
-                target.getClass().getInterfaces(),  // 代理需要实现的接口
+
+                interfaces,  // 代理需要实现的接口
                 new JdkDynamicProxy(target)         // 代理逻辑
         );
     }

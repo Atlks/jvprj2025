@@ -1,7 +1,6 @@
 package cfg;
 
 import biz.BaseHdr;
-import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -13,7 +12,8 @@ import java.util.List;
 import java.util.function.Function;
 
 import static java.time.LocalTime.now;
-import static util.AopLogJavassist.printLn;
+import static cfg.AopLogJavassist.getAClassExted;
+import static cfg.AopLogJavassist.printLn;
 import static util.dbutil.setField;
 import static util.util2026.scanClasses;
 
@@ -159,17 +159,19 @@ public class IocSpringCfg {
                     printLn("\n开始注册"+clazz.getName());
 
                     //-----------------jvvst mode new class
-//                    Class<?> modifiedClass = getAClassExted(clazz);
-//                   //  context.register(modifiedClass);  jeig bhao,,beanname not classname
-//                    context.registerBean( modifiedClass.getName(), modifiedClass);
+                    Class<?> modifiedClass = getAClassExted(clazz);
 
+                    context.registerBean( modifiedClass.getName(), modifiedClass);
+//                   //  context.register(modifiedClass);  jeig bhao,,beanname not classname
 
 //-----------jdk dync pro xy
-                    Object obj1 = clazz.getConstructor().newInstance();
-                    setField(obj1,SessionFactory.class,  AppConfig. sessionFactory);
-                            //new RechargeHdr(); // 目标对象
-                    Object proxyObj =  JdkDynamicProxy.createProxy(obj1); // 创建代理
-                    context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
+//                    if(clazz.getName().contains("RechargeHdr"))
+//                        System.out.println("d306");
+//                    Object obj1 = clazz.getConstructor().newInstance();
+//                    setField(obj1,SessionFactory.class,  AppConfig. sessionFactory);
+//                            //new RechargeHdr(); // 目标对象
+//                    Object proxyObj =  JdkDynamicProxy.createProxy(obj1); // 创建代理
+//                    context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
                 //    context.registerSingleton( clazz.getName(), proxy);
 
 
