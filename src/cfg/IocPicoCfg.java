@@ -16,7 +16,7 @@ import java.util.function.Function;
 
 import static biz.BaseHdr.saveDirUsrs;
 import static org.picocontainer.Characteristics.CACHE;
-import static cfg.AopLogJavassist.getAClassExted;
+import static cfg.AopLogJavassist.getAClassAoped;
 import static util.HbntUtil.getSessionFactory;
 import static util.util2026.scanClasses;
 
@@ -144,7 +144,7 @@ public class IocPicoCfg {
                         continue;
                     if(clazz.getName().startsWith("test."))
                         continue;
-                    Class<?> modifiedClass = getAClassExted(clazz);
+                    Class<?> modifiedClass = getAClassAoped(clazz);
                     PicoContainer888.as(CACHE).addComponent(modifiedClass);
                     System.out.println("pico已注册: " + clazz.getName());
                 } catch (Exception e) {

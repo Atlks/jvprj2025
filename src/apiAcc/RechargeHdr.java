@@ -28,7 +28,7 @@ import static util.util2026.*;
  * http://localhost:8889/AddOrdChargeHdr?amt=888
  */
 @Component
-public class RechargeHdr implements HttpHandlerX {
+public class RechargeHdr extends BaseHdr implements HttpHandlerX {
     public static String saveUrlOrdChrg;
 
     //    public AddOrdChargeHdr() {
@@ -113,6 +113,15 @@ public class RechargeHdr implements HttpHandlerX {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * @param exchange
+     * @throws Throwable
+     */
+    @Override
+    protected void handle2(HttpExchange exchange) throws Throwable {
+
     }
 
     /**

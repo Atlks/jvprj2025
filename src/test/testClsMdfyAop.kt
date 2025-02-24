@@ -24,7 +24,7 @@ fun main(){
 
 
 
-    val modifiedClass = AopLogJavassist.getAClassExted(TransHdr::class.java)
+    val modifiedClass = AopLogJavassist.getAClassAoped(TransHdr::class.java)
 
   var obj=  modifiedClass.getConstructor().newInstance()
     obj=obj as HttpHandler

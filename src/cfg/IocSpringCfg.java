@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import static java.time.LocalTime.now;
-import static cfg.AopLogJavassist.getAClassExted;
+import static cfg.AopLogJavassist.getAClassAoped;
 import static cfg.AopLogJavassist.printLn;
 import static util.dbutil.setField;
 import static util.util2026.scanClasses;
@@ -159,7 +159,7 @@ public class IocSpringCfg {
                     printLn("\n开始注册"+clazz.getName());
 
                     //-----------------jvvst mode new class
-                    Class<?> modifiedClass = getAClassExted(clazz);
+                    Class<?> modifiedClass = getAClassAoped(clazz);
 
                     context.registerBean( modifiedClass.getName(), modifiedClass);
 //                   //  context.register(modifiedClass);  jeig bhao,,beanname not classname

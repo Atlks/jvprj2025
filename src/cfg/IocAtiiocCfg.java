@@ -157,7 +157,7 @@ public class IocAtiiocCfg {
                         if (clazz.getName().contains("ReChargeComplete"))
                              printLn("D1138");
                         System.out.flush();  // 刷新输出缓冲区
-                        Class<?> modifiedClass = getAClassExted(clazz);
+                        Class<?> modifiedClass = getAClassAoped(clazz);
                         //   context.register(modifiedClass);
                         if( modifiedClass.getName().contains("ReChargeComplete"))
                             System.out.println("d231");

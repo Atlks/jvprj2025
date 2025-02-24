@@ -40,76 +40,6 @@ public class JdkDynamicProxy implements InvocationHandler {
         hx.handle(null);
     }
 
-    private void aopEXhandler(HttpExchange exchange, Method method, Object[] args)   {
-        ExceptionBase ex = new ExceptionBase("");
-        try {
-            curUrl.set(String.valueOf((exchange.getRequestURI())));
-            //===================log chk
-            urlAuthChk(exchange);
-
-            //=========auth chk pass
-            Session session = sessionFactory.getCurrentSession();
-            session.beginTransaction();
-
-            method.invoke(target, args); // 调用目标方法
-
-            commitTransaction(session);
-        } catch (InvocationTargetException e) {
-
-            ex = new ExceptionBase(e.getMessage());
-            ex.cause = e;
-            Throwable cause = e.getCause();
-
-            ex.errcode = cause.getClass().getName();
-            ex.errmsg = e.getCause().getMessage();
-
-
-            addInfo2ex(ex, e);
-
-            String responseTxt = encodeJson(ex);
-            System.out.println("\uD83D\uDED1 endfun handlex().ret=" + responseTxt);
-            wrtRespErrNoex(exchange, responseTxt);
-
-
-        } catch (Throwable e) {
-
-
-                System.out.println(
-                        "⚠\uFE0F e="
-                                + e.getMessage() + "\nStackTrace="
-                                + getStackTraceAsString(e)
-                                + "\n end stacktrace......................"
-                );
-
-
-                //my throw ex.incld funprm
-                if (e instanceof ExceptionBase) {
-                    ex = (ExceptionBase) e;
-                    ex.errcode = e.getClass().getName();
-
-
-                } else {
-                    //nml err
-                    ex = new ExceptionBase(e.getMessage());
-
-                    //cvt to cstm ex
-                    String message = e.getMessage();
-                    ex = new ExceptionBase(message);
-                    ex.cause = e;
-                    ex.errcode = e.getClass().getName();
-
-                }
-
-                addInfo2ex(ex, e);
-
-                String responseTxt = encodeJson(ex);
-                System.out.println("\uD83D\uDED1 endfun handlex().ret=" + responseTxt);
-            wrtRespErrNoex(exchange, responseTxt);
-
-
-        }
-
-    }
 
     // 代理逻辑：拦截方法调用   aop log
     @Override
@@ -129,7 +59,7 @@ public class JdkDynamicProxy implements InvocationHandler {
         //---------blk chk auth
         if (method.getName().equals("handlerx")) {
             exchange = (HttpExchange) args[0];
-            aopEXhandler(exchange, method, args);
+         //   aopEXhandler(exchange, method, args);
         } else {
             result = method.invoke(target, args); // 调用目标方法
         }

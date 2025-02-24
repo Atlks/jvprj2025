@@ -34,7 +34,7 @@ import static util.dbutil.setField;
 import static util.util2026.*;
 
 /**
- *
+ *aop  some log....aop auth ,,aop ex
  * 但如果你的需求是 基于抽象基类 来做 AOP，这种方式已经足够好用。
  * 模板方法模式（Template Method Pattern） 的思路。
  *aop
@@ -63,6 +63,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
 
     public static ThreadLocal<Object> currFunPrms4dbg = new ThreadLocal<>();
 
+    //----------aop ex  and some log part
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         //wz qrystr
@@ -78,20 +79,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
          //   setcookie("uname", "007", exchange);//for test
 
             //---------blk chk auth
-           if (needLoginAuth(exchange.getRequestURI())) {
-                String uname = getcookie("uname", exchange);
-                //  uname="ttt";
-                if (uname.equals("")) {
-                    //need login
-                    NeedLoginEx e = new NeedLoginEx("需要登录");
-                    e.fun = "BaseHdr." + getCurrentMethodName();
-                    e.funPrm = toExchgDt((HttpExchange) exchange);
-
-                    throw e;
-                    //  wrtResp(exchange, "needLogin");
-                    //  return;
-                }
-            }
+            urlAuthChk(exchange);
 
 
             //basehdr.kt
@@ -171,6 +159,31 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
 
         //not ex ,just all ok blk
         //ex.fun  from stacktrace
+
+    }
+    //----------aop auth
+    private void urlAuthChk(HttpExchange exchange) throws IOException, NeedLoginEx {
+        if (needLoginAuth(exchange.getRequestURI())) {
+            String uname = getcookie("uname", exchange);
+            //  uname="ttt";
+            if (uname.equals("")) {
+                //need login
+                NeedLoginEx e = new NeedLoginEx("需要登录");
+
+                e.fun = "BaseHdr." + getCurrentMethodName();
+                e.funPrm = toExchgDt((HttpExchange) exchange);
+
+                //   addInfo2ex(e, null);
+
+                throw  e;
+            }
+
+            //basehdr.kt
+            //-----------------stat trans action
+            //  System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
+
+        }
+
 
     }
 

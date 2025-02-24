@@ -2,8 +2,11 @@ package cfg;
 
 import apiUsr.RegHandler;
 import biz.BaseHdr;
+import biz.NeedLoginEx;
 import com.sun.net.httpserver.HttpExchange;
+import entityx.ExceptionBase;
 import javassist.*;
+import org.hibernate.Session;
 import org.jetbrains.annotations.NotNull;
 import test.MyClassLoader;
 import util.HttpExchangeImp;
@@ -12,17 +15,24 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import static biz.BaseHdr.*;
+import static cfg.AppConfig.sessionFactory;
 import static util.ColorLogger.*;
+import static util.TransactMng.commitTransaction;
+import static util.Util2025.encodeJson;
+import static util.Util2025.toExchgDt;
+import static util.util2026.*;
+import static util.util2026.getCurrentMethodName;
 
 public class AopLogJavassist {
     public static void main(String[] args) throws Exception {
         //  System.out.println(RegHandler.class);
         Class<?> aClass = RegHandler.class;
 
-        Class<?> modifiedClass = getAClassExted(aClass);
+        Class<?> modifiedClass = getAClassAoped(aClass);
 
 
-        BaseHdr.iniCfgFrmCfgfile();
+        iniCfgFrmCfgfile();
         //  StaticMethodAOP. enhanceClass(RegHandler::class.toString());
         HttpExchange he =
                 new HttpExchangeImp("http://localhost:8889/reg?uname=qq1&pwd=ppp", "uname=0091", "output2025.txt");
@@ -51,8 +61,83 @@ public class AopLogJavassist {
     }
 
 
-    /**
+    //----aop ex
+    private void aopEXhandler(HttpExchange exchange, Method method, Object[] args)   {
+        ExceptionBase ex = new ExceptionBase("");
+        try {
+            curUrl.set(String.valueOf((exchange.getRequestURI())));
+            //===================log chk
+       //     urlAuthChk(exchange);
+
+            //=========auth chk pass
+            Session session = sessionFactory.getCurrentSession();
+            session.beginTransaction();
+
+            Object target = null;
+            method.invoke(target, args); // 调用目标方法
+
+            commitTransaction(session);
+        } catch (InvocationTargetException e) {
+
+            ex = new ExceptionBase(e.getMessage());
+            ex.cause = e;
+            Throwable cause = e.getCause();
+
+            ex.errcode = cause.getClass().getName();
+            ex.errmsg = e.getCause().getMessage();
+
+
+            addInfo2ex(ex, e);
+
+            String responseTxt = encodeJson(ex);
+            System.out.println("\uD83D\uDED1 endfun handlex().ret=" + responseTxt);
+            wrtRespErrNoex(exchange, responseTxt);
+
+
+        } catch (Throwable e) {
+
+
+            System.out.println(
+                    "⚠\uFE0F e="
+                            + e.getMessage() + "\nStackTrace="
+                            + getStackTraceAsString(e)
+                            + "\n end stacktrace......................"
+            );
+
+
+            //my throw ex.incld funprm
+            if (e instanceof ExceptionBase) {
+                ex = (ExceptionBase) e;
+                ex.errcode = e.getClass().getName();
+
+
+            } else {
+                //nml err
+                ex = new ExceptionBase(e.getMessage());
+
+                //cvt to cstm ex
+                String message = e.getMessage();
+                ex = new ExceptionBase(message);
+                ex.cause = e;
+                ex.errcode = e.getClass().getName();
+
+            }
+
+            addInfo2ex(ex, e);
+
+            String responseTxt = encodeJson(ex);
+            System.out.println("\uD83D\uDED1 endfun handlex().ret=" + responseTxt);
+            wrtRespErrNoex(exchange, responseTxt);
+
+
+        }
+
+    }
+
+
+    /**  aop  log
      * 这个确定可以修改了class
+     *
      * @param aClass
      * @return
      * @throws NotFoundException
@@ -64,11 +149,11 @@ public class AopLogJavassist {
      * @throws InstantiationException
      * @throws IllegalAccessException
      */
-    public static Class<?> getAClassExted(Class<?> aClass) throws NotFoundException, CannotCompileException, IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-       // synchronized (lock)
+    public static Class<?> getAClassAoped(Class<?> aClass) throws NotFoundException, CannotCompileException, IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        // synchronized (lock)
         {
 
-         //   Class.toString() 只是返回类的字符串表示，格式类似于：这个方法 不会触发类的静态初始化，因为它只是访问 Class 对象的元信息。
+            //   Class.toString() 只是返回类的字符串表示，格式类似于：这个方法 不会触发类的静态初始化，因为它只是访问 Class 对象的元信息。
             printLn("getClassExtd(cls=" + aClass.getName());
 
             ClassPool pool = ClassPool.getDefault();
@@ -153,7 +238,7 @@ public class AopLogJavassist {
             // =======================让它支持序列化            // 获取修改后的字节码
             byte[] bytecode = ctClass.toBytecode();
             // 手动释放 CtClass
-               ctClass.detach();
+            ctClass.detach();
 
             //     ---------使用自定义类加载器加载字节码
 //            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -163,7 +248,7 @@ public class AopLogJavassist {
 
             //cfm mdfy class,,if now ret ,ivk by itfs,its ok..take effk
 
-          //  Class<?> modifiedClass2 = getAClassInCurClasLdr(modifiedClass);
+            //  Class<?> modifiedClass2 = getAClassInCurClasLdr(modifiedClass);
             return modifiedClass;
 
 
@@ -230,7 +315,7 @@ public class AopLogJavassist {
 
 
         //为什么这里报错了  meiyh  srz id..
-        Object deserializedInstance =deserialize(serializeData,classLoader);
+        Object deserializedInstance = deserialize(serializeData, classLoader);
         Class<?> modifiedClass2 = deserializedInstance.getClass();
         return modifiedClass2;
     }
