@@ -11,7 +11,46 @@ info:
     name: 开发者支持
     email: support@example.com
 paths:
+  /login:
+    get:
+      summary: "登录用户的方法"
+      description: " "
 
+      parameters:
+        - name: uname
+          in: query
+          description: "用户名"
+          required: true
+          schema:
+            type: string
+        - name: pwd
+          in: query
+          description: "密码"
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: "登录成功"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "ok"
+        "500":
+          description: 登录失败"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errcode:
+                    type: string
+                    example: "user pwd err"
+                  errmsg:
+                    type: string
+                    example: "错误用户名"
   /reg:
     get:
       summary: "注册用户的方法reg"
