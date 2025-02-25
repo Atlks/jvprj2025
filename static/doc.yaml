@@ -141,6 +141,9 @@ paths:
                       type: integer
                     name:
                       type: string
+
+
+
   /RechargeHdr:
     get:
       tags:
@@ -184,3 +187,29 @@ paths:
 
         '500':
           description: Internal server error.
+  /BetHdr:
+    get:
+      tags:
+        - bet
+      summary: 投注
+      description: ""
+      operationId: getBet
+      parameters:
+        - name: bettxt
+          in: query
+          required: true
+          description: ""
+          schema:
+            type: string
+            example: "123"
+        - name: uname
+          in: cookie
+          required: true
+          description: 用户名（从 Cookie 获取）
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 成功响应
+        '400':
+          description: 错误请求

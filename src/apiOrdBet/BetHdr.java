@@ -22,6 +22,7 @@ import java.util.Map;
 
 
 import static java.time.LocalTime.now;
+import static util.HbntUtil.persistByHbnt;
 import static util.ToXX.parseQueryParams;
 import static util.ToXX.toObjFrmMap;
 import static util.dbutil.addObj;
@@ -44,13 +45,13 @@ public class BetHdr extends BaseHdr {
 
 //    @Autowired
 //    private SessionFactory sessionFactory;
-@Path("/BetHdr")
+//@Path("/BetHdr")
 @QueryParam("bettxt")
 @CookieParam("uname")
 
 @Tag(name = "bet")
-//@Path("/BetHdr")
-@Operation(method = "get", summary = "获取订单详情", description = "")
+@Path("/BetHdr")
+@Operation(method = "get", summary = "投注", description = "")
 @Parameter(name ="bettxt" , description = "", required = true, example = "123",in=ParameterIn.QUERY)
 @Parameter(name="uname",description = "用户名（从 Cookie 获取）",required = true ,in = ParameterIn.COOKIE)
 
@@ -84,7 +85,7 @@ public class BetHdr extends BaseHdr {
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
 
-        session.persist(ord);
+        persistByHbnt(ord,session);
 
 
     }

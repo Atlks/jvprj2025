@@ -155,6 +155,7 @@ public class HbntUtil {
 
     }
 
+   // @log
     public static void persistByHbnt(Object var1, Session session) {
 
         String mth= colorStr("persistByHbnt",YELLOW_bright);

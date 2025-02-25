@@ -3,6 +3,7 @@ package cfg;
 import apiAcc.QueryOrdChrgHdr;
 import apiAcc.RechargeHdr;
 import apiCms.QryTeamHdr;
+import apiOrdBet.BetHdr;
 import apiOrdBet.QryOrdBetHdr;
 import apiUsr.RegHandler;
 import apiUsr.UserCentrHdr;
@@ -65,8 +66,8 @@ public class WebSvr {
         server.createContext("/reg",getBeanFrmSpr(RegHandler.class));
 //        server.createContext("/login", getBeanFrmSpr(LoginHdr.class));
 //        server.createContext("/QueryUsr",getBeanFrmSpr(QueryUsrHdr.class) );
-//        server.createContext("/AddOrdBetHdr",
-//                getBeanFrmSpr(AddOrdBetHdr.class));
+        server.createContext("/BetHdr",
+                getBeanFrmSpr(BetHdr.class));
         server.createContext("/QryOrdBetHdr", new QryOrdBetHdr());
         server.createContext("/QryTeamHdr", new QryTeamHdr());
 
