@@ -198,7 +198,7 @@ paths:
         - name: bettxt
           in: query
           required: true
-          description: ""
+          description: "投注内容"
           schema:
             type: string
             example: "123"

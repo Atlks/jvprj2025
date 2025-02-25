@@ -18,8 +18,7 @@ import static util.ColorLogger.*;
 //import static cfg.IocPicoCfg.scanClasses;
 import static util.StrUtil.getPwdFromJdbcurl;
 import static util.StrUtil.getUnameFromJdbcurl;
-import static util.Util2025.encodeJson;
-import static util.Util2025.encodeJsonObj;
+import static util.Util2025.*;
 import static util.dbutil.*;
 import static util.util2026.scanClasses;
 
@@ -156,7 +155,7 @@ public class HbntUtil {
     }
 
    // @log
-    public static void persistByHbnt(Object var1, Session session) {
+    public static Object persistByHbnt(Object var1, Session session) {
 
         String mth= colorStr("persistByHbnt",YELLOW_bright);
         String prmurl= colorStr(encodeJsonObj(var1),GREEN);
@@ -165,7 +164,9 @@ public class HbntUtil {
         System.out.println("persistByHbnt("+ var1.getClass().getName());
         session.persist(var1);
         session.flush();
+
         System.out.println("✅endfun persistByHbnt()");
+        return var1;
     }
 
     public static <T> T mergeByHbnt(T  t, Session session) {

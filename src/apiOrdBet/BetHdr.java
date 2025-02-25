@@ -25,6 +25,7 @@ import static java.time.LocalTime.now;
 import static util.HbntUtil.persistByHbnt;
 import static util.ToXX.parseQueryParams;
 import static util.ToXX.toObjFrmMap;
+import static util.Util2025.encodeJson;
 import static util.dbutil.addObj;
 import static util.util2026.*;
 
@@ -74,18 +75,18 @@ public class BetHdr extends BaseHdr {
         ord.timestamp=System.currentTimeMillis();
         ord.uname=uname;
         ord.id="ordBet"+getFilenameFrmLocalTimeString();
-        addOrdBet(ord);
-        wrtResp(exchange, "ok");
+
+        wrtResp(exchange, encodeJson( addOrdBet(ord)));
 
 
     }
 
-    public void addOrdBet(OrdBet ord) throws SQLException {
+    public Object addOrdBet(OrdBet ord) throws SQLException {
         Session session =sessionFactory.getCurrentSession();
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
 
-        persistByHbnt(ord,session);
+         return persistByHbnt(ord,session);
 
 
     }
