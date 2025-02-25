@@ -10,11 +10,15 @@ import java.util.Map;
 import static java.time.LocalTime.now;
 
 import entityx.ChgOrd;
+import jakarta.annotation.security.DeclareRoles;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.CookieParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +28,12 @@ import static util.HbntUtil.persistByHbnt;
 import static util.ToXX.parseQueryParams;
 import static util.dbutil.addObj;
 import static util.util2026.*;
-
+@Slf4j
 /**
  * http://localhost:8889/AddOrdChargeHdr?amt=888
  */
+@DeclareRoles({"ADMIN", "USER"})
+@RolesAllowed({"", "USER"})
 @Component
 public class RechargeHdr extends BaseHdr implements HttpHandlerX {
     public static String saveUrlOrdChrg;
@@ -49,8 +55,9 @@ public class RechargeHdr extends BaseHdr implements HttpHandlerX {
     }
 
 
-
+    @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
     private void addChgOrd(@NotNull(message = "ordDto is required")  ChgOrd ord) throws Exception {
+        log.info("Processing addChgOrd...");
         String now = String.valueOf(now());
         // 使用 try-with-resources 自动关闭
         //try(  Session session = OrmUtilBiz. openSession(saveUrlOrdChrg)) {
@@ -90,6 +97,7 @@ public class RechargeHdr extends BaseHdr implements HttpHandlerX {
     @Path("/RechargeHdr")
     @QueryParam("amt")
     @CookieParam("uname")
+    @Transactional
     public void handle2(HttpExchange exchange) throws Exception {
         System.out.println("handle2.sessfac=" + sessionFactory);
         //blk login ed

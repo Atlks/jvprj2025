@@ -1,5 +1,8 @@
 package entityx;
 
+import lombok.Data;
+
+@Data
 public class baseObj {
 
     public  int pagesize=10;

@@ -11,6 +11,7 @@ import entityx.Usr;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.security.PermitAll;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
@@ -55,7 +56,7 @@ public class RegHandler extends BaseHdr  implements HttpHandler {
     @Parameter(name="uname",description = "用户名", required = true)
     @Parameter(name="pwd",description = "密码", required = true)
     @Parameter(name="uname",description = "邀请人", required = false)
-
+    @PermitAll
     public void handle2(
             HttpExchange exchange) throws Exception, existUserEx {
         // 检查请求方法

@@ -4,9 +4,17 @@ import biz.BaseHdr;
 import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.OrdBet;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.ws.rs.CookieParam;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.QueryParam;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CookieValue;
 import util.HttpExchangeImp;
 
 import java.sql.SQLException;
@@ -19,22 +27,37 @@ import static util.ToXX.toObjFrmMap;
 import static util.dbutil.addObj;
 import static util.util2026.*;
 
+
 /**
- * http://localhost:8889/AddOrdBetHdr?bettxt=龙湖和
+ * http://localhost:8889/BetHdr?bettxt=龙湖和
  */
 @Component
-public class AddOrdBetHdr extends BaseHdr {
 
-    public AddOrdBetHdr(SessionFactory sessionFactory) {
+public class BetHdr extends BaseHdr {
+
+    public BetHdr(SessionFactory sessionFactory) {
+
+
         this.sessionFactory = sessionFactory;
         super.sessionFactory= sessionFactory;
     }
 
 //    @Autowired
 //    private SessionFactory sessionFactory;
+@Path("/BetHdr")
+@QueryParam("bettxt")
+@CookieParam("uname")
+
+@Tag(name = "bet")
+//@Path("/BetHdr")
+@Operation(method = "get", summary = "获取订单详情", description = "")
+@Parameter(name ="bettxt" , description = "", required = true, example = "123",in=ParameterIn.QUERY)
+@Parameter(name="uname",description = "用户名（从 Cookie 获取）",required = true ,in = ParameterIn.COOKIE)
+
+
 
     @Override
-    public void handle2(HttpExchange exchange) throws Exception {
+    public void handle2(@CookieValue(name="uname") HttpExchange exchange) throws Exception {
 
 
 

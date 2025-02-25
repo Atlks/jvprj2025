@@ -6,12 +6,13 @@
 =store  jpa  jdo
 
 
-AOP
+=AOP  auth log ex transact
 
 
-、依赖注入  @inject
+=ioc 依赖注入  @inject
 
-、测试 
+=test 测试 
+ 
 
 =doc  @Documented
 

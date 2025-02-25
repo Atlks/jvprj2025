@@ -4,7 +4,7 @@ package test;
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
 import cfg.AppConfig
-import apiOrdBet.AddOrdBetHdr
+import apiOrdBet.BetHdr
 import cfg.MyCfg
 import com.sun.net.httpserver.HttpExchange
 import org.springframework.context.ApplicationContext
@@ -24,7 +24,8 @@ fun main() {
 //    obj.handle(he);
 
     val context: ApplicationContext = AnnotationConfigApplicationContext(AppConfig::class.java)
-    val bean: AddOrdBetHdr = context.getBean<AddOrdBetHdr>(AddOrdBetHdr::class.java)
+    val bean: BetHdr = context.getBean<BetHdr>(
+        BetHdr::class.java)
     bean.handle(he);
 
 }
