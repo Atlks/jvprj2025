@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 
 import static util.HbntUtil.persistByHbnt;
 import static util.ToXX.parseQueryParams;
+import static util.Util2025.encodeJson;
 import static util.dbutil.addObj;
 import static util.util2026.*;
 @Slf4j
@@ -56,7 +57,7 @@ public class RechargeHdr extends BaseHdr implements HttpHandlerX {
 
 
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
-    private void addChgOrd(@NotNull(message = "ordDto is required")  ChgOrd ord) throws Exception {
+    public Object addChgOrd(@NotNull(message = "ordDto is required")  ChgOrd ord) throws Exception {
         log.info("Processing addChgOrd...");
         String now = String.valueOf(now());
         // 使用 try-with-resources 自动关闭
@@ -65,7 +66,7 @@ public class RechargeHdr extends BaseHdr implements HttpHandlerX {
         //todo start tx
         Session session = sessionFactory.getCurrentSession();
 
-        persistByHbnt(ord, session);
+      return  persistByHbnt(ord, session);
 
         //   }
         //    addObj(ord, saveUrlOrdChrg,OrdChrg.class);
@@ -112,8 +113,8 @@ public class RechargeHdr extends BaseHdr implements HttpHandlerX {
         ord.id = "ordChrg" + getFilenameFrmLocalTimeString();
 
 
-            addChgOrd(ord);
-            wrtResp(exchange, "ok");
+         Object r=   addChgOrd(ord);
+            wrtResp(exchange, encodeJson(r));
 
 
     }
