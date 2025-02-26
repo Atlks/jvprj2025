@@ -9,6 +9,7 @@ import apiUsr.LoginHdr;
 import apiUsr.RegHandler;
 import apiUsr.UserCentrHdr;
 import biz.HelloHandler;
+import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -62,7 +63,7 @@ public class WebSvr {
 
     public static void cfgPath(HttpServer server) {
 
-
+        server.createContext("/users/get", exchange -> handleGetUser(exchange));
 // container.getComponent(RegHandler.class)
         server.createContext("/reg",getBeanFrmSpr(RegHandler.class));
        server.createContext("/login", getBeanFrmSpr(LoginHdr.class));
@@ -82,6 +83,9 @@ public class WebSvr {
 //        );
         server.createContext("/QueryOrdChrgHdr", new QueryOrdChrgHdr());
         server.createContext("/UserCentrHdr", new UserCentrHdr());
+    }
+
+    private static void handleGetUser(HttpExchange exchange) {
     }
 
 }

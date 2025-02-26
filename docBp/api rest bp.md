@@ -1,5 +1,11 @@
 
 
+=一个url对应class  vs 对应fun 
+
+对应class可能更好，简单直接，方便检索文件模式，，，每个act就是一个class，不杂乱
+
+fun的化，查找对应的文件》方法就要时间，然后里面可能方法众多，杂乱。。
+
 ==JAX-RS
 （3）创建 REST API
 Quarkus 使用 JAX-RS（Jakarta RESTful Web Services） 处理 HTTP 请求，示例：
