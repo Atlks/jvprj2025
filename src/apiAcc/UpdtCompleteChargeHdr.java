@@ -26,7 +26,7 @@ import static service.CmsBiz.toBigDcmTwoDot;
 /**  ivk by
  * http://localhost:8889/UpdtCompleteChargeHdr?id=ordchg2222
  */
-public class UpdtCompleteChargeHdr extends BaseHdr {
+public class UpdtCompleteChargeHdr extends BaseHdr<Usr, Usr> {
     public static String saveUrlLogBalance;
 
     public UpdtCompleteChargeHdr(SessionFactory sessionFactory) {

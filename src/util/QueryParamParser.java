@@ -1,0 +1,83 @@
+package util;
+
+import com.sun.net.httpserver.HttpExchange;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
+
+public class QueryParamParser {
+    public static <T> T toDto(HttpExchange exchange) {
+    //  Class<U> cls = null;
+        // Using reflection to get the class type (example, you might need a context to do this properly)
+        Type type = ((ParameterizedType) QueryParamParser.class.getGenericSuperclass()).getActualTypeArguments()[0];
+        Class<T> cls = (Class<T>) type; // You would need to handle Type properly here
+
+        Object o=toDto(exchange,cls);
+        return (T) o;
+    }
+    public static <T> T toDto(HttpExchange exchange, Class<T> usrClass) {
+        // 获取查询参数 ?name=John&age=30
+        String query = exchange.getRequestURI().getQuery();
+        if (query == null || query.isEmpty()) {
+            return null;
+        }
+
+        // 解析查询参数到 Map
+        Map<String, String> paramMap = parseQueryParams(query);
+
+        try {
+            // 反射创建 DTO 实例
+            T dto = usrClass.getDeclaredConstructor().newInstance();
+
+            // 通过 JavaBean 反射机制设置属性值
+            for (PropertyDescriptor pd : Introspector.getBeanInfo(usrClass).getPropertyDescriptors()) {
+                String fieldName = pd.getName();
+                if (paramMap.containsKey(fieldName)) {
+                    String value = paramMap.get(fieldName);
+                    Object convertedValue = convertType(value, pd.getPropertyType());  // 类型转换
+                    pd.getWriteMethod().invoke(dto, convertedValue); // 反射调用 Setter
+                }
+            }
+            return dto;
+
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException | IntrospectionException e) {
+            throw new RuntimeException("解析查询参数失败: " + e.getMessage(), e);
+        }
+    }
+
+    // 解析查询字符串为 Map
+    private static Map<String, String> parseQueryParams(String query) {
+        Map<String, String> paramMap = new HashMap<>();
+        try {
+            for (String param : query.split("&")) {
+                String[] pair = param.split("=", 2);
+                if (pair.length == 2) {
+                    String key = URLDecoder.decode(pair[0], "UTF-8");
+                    String value = URLDecoder.decode(pair[1], "UTF-8");
+                    paramMap.put(key, value);
+                }
+            }
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("URL 解码失败", e);
+        }
+        return paramMap;
+    }
+
+    // 类型转换 (支持 int, long, double, boolean, String)
+    private static Object convertType(String value, Class<?> targetType) {
+        if (targetType == String.class) return value;
+        if (targetType == int.class || targetType == Integer.class) return Integer.parseInt(value);
+        if (targetType == long.class || targetType == Long.class) return Long.parseLong(value);
+        if (targetType == double.class || targetType == Double.class) return Double.parseDouble(value);
+        if (targetType == boolean.class || targetType == Boolean.class) return Boolean.parseBoolean(value);
+        return null;
+    }
+}

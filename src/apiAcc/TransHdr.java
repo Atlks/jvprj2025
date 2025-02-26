@@ -33,7 +33,7 @@ import static service.CmsBiz.toBigDcmTwoDot;
  * http://localhost:8889/AddOrdBetHdr?changeAmount=8
  */
 //@Component
-public class TransHdr extends BaseHdr {
+public class TransHdr extends BaseHdr<Usr, Usr> {
     // 实现 Serializable 接口
     public static final long serialVersionUID = 1L; // 推荐
     /**

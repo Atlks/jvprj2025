@@ -14,7 +14,7 @@ import static util.util2026.*;
 
 @PermitAll
 //   http://localhost:8889/login?uname=008&pwd=000
-public class LoginHdr extends BaseHdr {
+public class LoginHdr extends BaseHdr<Usr, Usr> {
 
 
     /**

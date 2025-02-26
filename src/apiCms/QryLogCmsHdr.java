@@ -5,6 +5,7 @@ import cfg.MyCfg;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.LogCms;
+import entityx.Usr;
 import org.hibernate.Session;
 import util.HttpExchangeImp;
 import entityx.PageResult;
@@ -29,7 +30,7 @@ import static service.CmsBiz.saveUrlLogCms;
  * app use ,so must hav uname
  * http://localhost:8889/QryLogCmsHdr
  */
-public class QryLogCmsHdr extends BaseHdr {
+public class QryLogCmsHdr extends BaseHdr<Usr, Usr> {
 
     //saveUrlLogCms
 

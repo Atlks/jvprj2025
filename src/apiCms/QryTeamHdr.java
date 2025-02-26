@@ -2,6 +2,7 @@ package apiCms;
 
 import biz.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
+import entityx.Usr;
 import service.AuthService;
 
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import static util.dbutil.*;
 import static util.util2026.*;
 import static util.util2026.wrtResp;
 //http://localhost:8889/QryTeamHdr
-public class QryTeamHdr  extends BaseHdr {
+public class QryTeamHdr  extends BaseHdr<Usr, Usr> {
     @Override
     public void handle2(HttpExchange exchange) throws Exception {
         if (AuthService.isNotLogined(exchange)) {

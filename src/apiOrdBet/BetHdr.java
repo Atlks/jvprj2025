@@ -4,6 +4,7 @@ import biz.BaseHdr;
 import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.OrdBet;
+import entityx.Usr;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -35,7 +36,7 @@ import static util.util2026.*;
  */
 @Component
 
-public class BetHdr extends BaseHdr {
+public class BetHdr extends BaseHdr<Usr, Usr> {
 
     public BetHdr(SessionFactory sessionFactory) {
 

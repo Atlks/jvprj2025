@@ -10,6 +10,7 @@ import java.util.Map;
 import static java.time.LocalTime.now;
 
 import entityx.ChgOrd;
+import entityx.Usr;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
@@ -36,7 +37,7 @@ import static util.util2026.*;
 @DeclareRoles({"ADMIN", "USER"})
 @RolesAllowed({"", "USER"})
 @Component
-public class RechargeHdr extends BaseHdr implements HttpHandlerX {
+public class RechargeHdr extends BaseHdr<Usr, Usr> implements HttpHandlerX {
     public static String saveUrlOrdChrg;
 
     //    public AddOrdChargeHdr() {

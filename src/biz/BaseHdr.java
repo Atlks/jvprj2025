@@ -1,6 +1,5 @@
 package biz;
 
-import apiUsr.RegHandler;
 import jakarta.annotation.security.PermitAll;
 import org.hibernate.Session;
 
@@ -8,7 +7,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.context.internal.ThreadLocalSessionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import service.AuthService;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import entityx.ExceptionBase;
@@ -22,6 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 import static util.ColorLogger.*;
 import static util.ExptUtil.addInfo2ex;
 import static util.ExptUtil.curUrl;
+import static util.QueryParamParser.toDto;
 import static util.TransactMng.commitTransaction;
 
 import static util.Util2025.*;
@@ -39,7 +38,7 @@ import static util.util2026.*;
  * 事务
  */
 @Component
-public abstract class BaseHdr implements HttpHandler, Serializable {
+public abstract class BaseHdr<T, U> implements HttpHandler, Serializable {
 
     // 实现 Serializable 接口
     public static final long serialVersionUID = 1L; // 推荐加
@@ -71,15 +70,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
             //   setcookie("uname", "007", exchange);//for test
 
             //============aop trans begn
-            //这里需要新开session。。因为可能复用同一个http线程
-            Session session = sessionFactory.openSession();
-            // 2. 手动将 Session 绑定到当前线程
-            ThreadLocalSessionContext.bind(session);
-            System.out.println("thrdid=" + Thread.currentThread());
-            System.out.println("openSession=" + session);
-            System.out.println("getCurrentSession=" + sessionFactory.getCurrentSession());
-            // commitTransactIfActv(session);
-            session.beginTransaction();
+            openSessionBgnTransact();
 
             //---------blk chk auth
             urlAuthChk(exchange);
@@ -99,15 +90,31 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
             // throw new RuntimeException(e);
 
         } finally {
-            commitTransaction(sessionFactory.getCurrentSession());
-            sessionFactory.getCurrentSession().close();
-            ThreadLocalSessionContext.unbind(sessionFactory);
+            commitTsact();
         }
         //end catch
 
         //not ex ,just all ok blk
         //ex.fun  from stacktrace
         System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
+    }
+
+    private void commitTsact() {
+        commitTransaction(sessionFactory.getCurrentSession());
+        sessionFactory.getCurrentSession().close();
+        ThreadLocalSessionContext.unbind(sessionFactory);
+    }
+
+    private void openSessionBgnTransact() {
+        //这里需要新开session。。因为可能复用同一个http线程
+        Session session = sessionFactory.openSession();
+        // 2. 手动将 Session 绑定到当前线程
+        ThreadLocalSessionContext.bind(session);
+        System.out.println("thrdid=" + Thread.currentThread());
+        System.out.println("openSession=" + session);
+        System.out.println("getCurrentSession=" + sessionFactory.getCurrentSession());
+        // commitTransactIfActv(session);
+        session.beginTransaction();
     }
 
     private static String processNmlExptn(HttpExchange exchange, Throwable e) {
@@ -174,16 +181,22 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
 
 
         //---------log
-        mth = colorStr("handle2", YELLOW_bright);
-        prmurl = colorStr(encodeJson(toExchgDt(exchange)), GREEN);
-        System.out.println("▶\uFE0Ffun " + mth + "(exchange=" + prmurl);
+//        String handle2 = "handleMYY";
+//        mth = colorStr(handle2, YELLOW_bright);
+//        prmurl = colorStr(encodeJson(toExchgDt(exchange)), GREEN);
+//        System.out.println("▶\uFE0Ffun " + mth + "(exchange=" + prmurl);
 
-        handle2(exchange);
-        System.out.println("✅endfun handle2()");
+      //  handle2(exchange);
+        handle3(toDto(exchange));
+    //    System.out.println("✅endfun "+handle2+"()");
 
         /// ----------log
 
 
+    }
+
+    public void handle3(T dto) {
+        System.out.println("baseCls.hd3("+encodeJson(dto));
     }
 
     //----------aop auth
@@ -191,7 +204,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
 
 
 //        if (AuthService.needLoginAuth(exchange.getRequestURI()))
-        if (needLoginUserAuth(this.getClass())) {
+        if (needLoginUserAuth((Class<? extends BaseHdr<T, U>>) this.getClass())) {
                String uname = getcookie("uname", exchange);
               if(uname.equals("")){
                   NeedLoginEx e = new NeedLoginEx("需要登录");
@@ -211,7 +224,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
 
     }
 
-    private boolean needLoginUserAuth(Class<? extends BaseHdr> aClass) {
+    private boolean needLoginUserAuth(Class<? extends BaseHdr<T, U>> aClass) {
         boolean annotationPresent = aClass.isAnnotationPresent(PermitAll.class);
 
         //if has anno ,not need login
@@ -223,6 +236,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
 
 
     protected abstract void handle2(HttpExchange exchange) throws Throwable;
+
 
 
 }

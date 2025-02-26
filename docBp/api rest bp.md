@@ -47,5 +47,9 @@ public class GreetingResource {
 =spribt too truouble
 in my jdk 21 ,,alway bug...gv up
 
+=url参数绑定dto
 
+
+DTO 处理 URL 查询参数
+📌 方式 1：Spring Boot 自动绑定
 

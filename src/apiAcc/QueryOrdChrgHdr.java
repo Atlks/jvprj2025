@@ -4,6 +4,7 @@ import biz.BaseHdr;
 import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.ChgOrd;
+import entityx.Usr;
 import org.hibernate.Session;
 import entityx.PageResult;
 import utilBiz.OrmUtilBiz;
@@ -16,7 +17,7 @@ import static util.Util2025.encodeJson;
 import static util.dbutil.*;
 import static util.util2026.*;
 //   http://localhost:8889/QueryOrdChrgHdr
-public class QueryOrdChrgHdr extends BaseHdr {
+public class QueryOrdChrgHdr extends BaseHdr<Usr, Usr> {
 
     public static void main(String[] args) throws Exception {
         MyCfg.iniCfgFrmCfgfile();

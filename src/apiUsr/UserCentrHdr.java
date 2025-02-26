@@ -19,7 +19,7 @@ import static util.Util2025.encodeJson;
 import static util.dbutil.*;
 import static util.util2026.*;
 
-public class UserCentrHdr extends BaseHdr {
+public class UserCentrHdr extends BaseHdr<Usr, Usr> {
 
     public static void main(String[] args) throws Exception {
         MyCfg.iniCfgFrmCfgfile();

@@ -3,6 +3,7 @@ package apiAcc;
 import biz.BaseHdr;
 import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
+import entityx.Usr;
 import service.AuthService;
 
 import java.math.BigDecimal;
@@ -21,7 +22,7 @@ import static util.util2026.*;
 /**
  * http://localhost:8889/AddOrdBetHdr?bettxt=龙湖和
  */
-public class UpdtBlsHdr extends BaseHdr {
+public class UpdtBlsHdr extends BaseHdr<Usr, Usr> {
 
 
     public static void main(String[] args) throws Exception {

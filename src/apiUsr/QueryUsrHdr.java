@@ -3,6 +3,7 @@ package apiUsr;
 import biz.BaseHdr;
 import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
+import entityx.Usr;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ import static util.dbutil.*;
 import static util.util2026.*;
 
 @Component
-public class QueryUsrHdr extends BaseHdr {
+public class QueryUsrHdr extends BaseHdr<Usr, Usr> {
 
     @Autowired
     public QueryUsrHdr(SessionFactory sessionFactory1){

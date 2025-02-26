@@ -3,6 +3,7 @@ package apiOrdBet;
 import biz.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.OrdBet;
+import entityx.Usr;
 import org.hibernate.Session;
 import utilBiz.OrmUtilBiz;
 
@@ -21,7 +22,7 @@ import static util.util2026.*;
 /**   查询规则，参数使用类型化，不要新定义dto，直接使用实体代替
  * http://localhost:8889/QryOrdBetHdr
  */
-public class QryOrdBetHdr extends BaseHdr {
+public class QryOrdBetHdr extends BaseHdr<Usr, Usr> {
 
     public static String saveUrlOrdBet = "";
 

@@ -12,7 +12,7 @@ import static util.HbntUtil.mergeByHbnt;
 import static util.dbutil.addObj;
 import static util.util2026.*;
 
-public class UpdtPwdHdr extends BaseHdr {
+public class UpdtPwdHdr extends BaseHdr<Usr, Usr> {
     @Override
     public void handle2(HttpExchange exchange) throws Exception {
 

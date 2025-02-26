@@ -4,7 +4,6 @@ package apiUsr;
 
 import biz.BaseHdr;
 import biz.existUserEx;
-import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import entityx.Usr;
@@ -15,14 +14,13 @@ import jakarta.annotation.security.PermitAll;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import static util.EncodeUtil.encodeMd5;
-
-
-import static util.dbutil.*;
+import static util.QueryParamParser.toDto;
+import static util.Util2025.encodeJson;
 import static util.util2026.*;
  @Component  // 让 Spring 自动管理这个 Bean
 
@@ -31,7 +29,7 @@ import static util.util2026.*;
  @RequestMapping("/reg")
  @Tag(name = "用户管理", description = "用户相关操作")
  @PermitAll
-public class RegHandler extends BaseHdr  implements HttpHandler {
+public class RegHandler extends BaseHdr<Usr,Usr>  implements HttpHandler {
 
   //  @Inject // 可选，PicoContainer 其实不依赖 @Inject，但能增加可读性
     public RegHandler(SessionFactory sessionFactory1){
@@ -58,46 +56,32 @@ public class RegHandler extends BaseHdr  implements HttpHandler {
     @Parameter(name="pwd",description = "密码", required = true)
     @Parameter(name="uname",description = "邀请人", required = false)
     @PermitAll
-
+    // 会自动把 ?name=John&age=30 转换成 UserQueryDTO 对象！
     public void handle2(
-
+            @ModelAttribute
             HttpExchange exchange) throws Exception, existUserEx {
-        // 检查请求方法
-        //   if ("GET".equals(exchange.getRequestMethod())) {
 
-        String uname = getRequestParameter(exchange, "uname");
-        String pwd = getRequestParameter(exchange, "pwd");
-        String invtr = getRequestParameter(exchange, "invtr");
-        System.out.println(uname);
-        Usr u = new Usr();
-        u.uname = uname;
-        u.pwd = pwd;
-        u.invtr = invtr;
-        u.id = uname;
+        //u dto
+        Usr u = toDto(exchange,Usr.class);
+        u.id = u.uname;
         String reg4bzRzt = "";
 
 
-       // reg4bzRzt=  reg4bz(u);   // 自动获取方法名
 
-        // 自定义异常处理的函数接口
-//        Function<Usr, String> methodRef = user -> {
-//            try {
-//                // 创建实例
-//                RegHandler handler = new RegHandler();
-//                return handler.reg4bz(user);  // 调用 reg4bz 方法并处理异常
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return null; // 或者返回默认值
-//            }
-//        };
-      //   Function<Usr, String> methodRef = handler::reg4bz;
-     //   String methodName = nameofSingleParam(methodRef);
-      //  reg4bzRzt= (String) invokeMethod2025(this, "reg4bz",u);
         reg4bzRzt=reg4bz(u);
         System.out.println("reg4bzRzt="+reg4bzRzt);
         wrtResp(exchange, reg4bzRzt);
 
     }
+
+     @Override
+     public void handle3(@ModelAttribute Usr dto) {
+         System.out.println("reghdl.hd3("+encodeJson(dto));
+     }
+
+//    //将url查询参数转化为对应类的属性
+//     private <T> T toDto(HttpExchange exchange, Class<T> usrClass) {
+//     }
 
 //    public void setSession(Session session) {
 //        this.session = session;

@@ -19,7 +19,7 @@ import static util.util2026.*;
 /**提现，会导致有效金额变化，冻结金额也变化  ，总金额变化 ，
  * http://localhost:8889/AddOrdBetHdr?bettxt=龙湖和
  */
-public class WithdrawHdr extends BaseHdr {
+public class WithdrawHdr extends BaseHdr<Usr, Usr> {
 
 
     public static String saveUrlOrdWthdr;

@@ -167,7 +167,7 @@ public class AopLogJavassist {
             CtMethod[] ctMthdArr = ctClass.getDeclaredMethods();
             for (CtMethod ctMethod : ctMthdArr) {
                 // ----------过滤掉继承的obj方法，只处理当前类的方法
-                String methodName = ctMethod.getName();
+                String methodName =aClass.getName()+"."+ ctMethod.getName();
 
                 if (isObjectMethod(methodName))
                     continue;
@@ -341,7 +341,7 @@ public class AopLogJavassist {
 
     private static boolean isObjectMethodEx(String name) {
         return name.equals("finalize") || name.equals("clone") || name.equals("setSessionFactory") ||
-                name.equals("main") || name.equals("handle") || name.equals("handle2") || name.equals("wait");
+                name.equals("main") || name.equals("handle") || name.equals("handle2") || name.equals("");
     }
 
     // 过滤 Object 类的方法
