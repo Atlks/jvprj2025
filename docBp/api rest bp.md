@@ -53,3 +53,16 @@ in my jdk 21 ,,alway bug...gv up
 DTO 处理 URL 查询参数
 📌 方式 1：Spring Boot 自动绑定
 
+
+开发web应用，url参数绑定是什么技术
+ChatGPT said:
+
+在 Web 应用开发中，URL 参数绑定的技术主要依赖于 请求解析 和 对象映射。不同的 Web 框架和编程语言有不同的实现方式，常见的技术包括：
+1. Servlet (Java EE / Spring)
+
+技术点：@RequestParam / @PathVariable / @ModelAttribute
+
+    @RequestParam：绑定查询参数（?key=value）
+    @PathVariable：绑定路径参数（/users/{id}）
+    @ModelAttribute：自动将表单数据或查询参数映射到对象
+
