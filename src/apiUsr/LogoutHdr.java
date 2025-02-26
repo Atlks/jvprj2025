@@ -1,17 +1,20 @@
 package apiUsr;
 
-import com.sun.net.httpserver.HttpExchange;
+import biz.BaseHdr;
 import com.sun.net.httpserver.HttpHandler;
-
-import java.io.IOException;
+import entityx.Usr;
+import jakarta.ws.rs.Path;
 
 import static util.util2026.setcookie;
 import static util.util2026.wrtResp;
 
-public class LogoutHdr  implements HttpHandler {
+@jakarta.annotation.security.RolesAllowed("user")
+@Path("/logout")
+public class LogoutHdr extends BaseHdr<Usr, Usr> implements HttpHandler {
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        setcookie("uname","",exchange);
-        wrtResp(exchange, "ok");
+    public Object handle3() throws Exception {
+        setcookie("uname","",this.httpExchange);
+
+        return "";
     }
 }

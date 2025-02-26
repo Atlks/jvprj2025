@@ -183,23 +183,29 @@ public abstract class BaseHdr<T, U> implements HttpHandler, Serializable {
         //basehdr.kt
         //-----------------stat trans action
         //  System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
-
-
+        String handlex = "handle3";
+        mth = colorStr(handlex, YELLOW_bright);
+        Object rzt;
         //---------log
-        Class cls=   getPrmClass(this,"handle3");
-        T dto = (T) toDto(exchange, cls);
-        String handle2 = "handle3";
-        mth = colorStr(handle2, YELLOW_bright);
-        prmurl = colorStr(encodeJson((dto)), GREEN);
-        System.out.println("▶\uFE0Ffun " + mth + "(dto=" + prmurl);
+        Class cls=   getPrmClass(this,handlex);
+        if(cls==null)
+        {
+            System.out.println("▶\uFE0Ffun " + mth + "(）");
+              rzt=  handle3();
+        }else{
+            T dto = (T) toDto(exchange, cls);
+            prmurl = colorStr(encodeJson((dto)), GREEN);
+            System.out.println("▶\uFE0Ffun " + mth + "(dto=" + prmurl);
+              rzt=  handle3(dto);
+        }
 
       //  handle2(exchange);
         //会使用反射机制去查找控制器方法中的参数类型
 
 
-      var rzt=  handle3(dto);
+
         wrtResp(exchange, encodeJsonObj(rzt) );
-       System.out.println("✅endfun "+handle2+"()");
+       System.out.println("✅endfun "+handlex+"()");
 
         /// ----------log
 
@@ -249,7 +255,9 @@ public abstract class BaseHdr<T, U> implements HttpHandler, Serializable {
         System.out.println("baseCls.hd3("+encodeJson(dto));
         return null;
     }
-
+    public Object handle3() throws Exception{
+        return null;
+    }
     //----------aop auth
    // @ControllerAdvice
     private void urlAuthChk(HttpExchange exchange) throws IOException, NeedLoginEx {
