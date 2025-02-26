@@ -5,6 +5,7 @@ import biz.PwdErrEx;
 import biz.existUserEx;
 import entityx.Usr;
 import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,7 @@ import static util.util2026.*;
 
 //组合了 @Controller 和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
 @PermitAll
+@Path("/login")
 //   http://localhost:8889/login?uname=008&pwd=000
 public class LoginHdr extends BaseHdr<Usr, Usr> {
 

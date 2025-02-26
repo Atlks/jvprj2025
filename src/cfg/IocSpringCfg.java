@@ -91,7 +91,7 @@ public class IocSpringCfg {
 //    }
 
     /**
-     * 扫描classes路径所有class，加入到容器 MutablePicoContainer
+     * 扫描classes路径所有class，
      */
     public static void scanAllClass(Function f) {
         try {

@@ -10,13 +10,20 @@ import apiUsr.RegHandler;
 import apiUsr.UserCentrHdr;
 import biz.HelloHandler;
 import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import jakarta.ws.rs.Path;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.net.InetSocketAddress;
 import java.sql.SQLException;
 import java.util.concurrent.Executors;
+import java.util.function.Function;
 
+import static cfg.IocSpringCfg.scanAllClass;
 import static cfg.MyCfg.iniCfgFrmCfgfile;
 import static util.SprUtil.getBeanFrmSpr;
 
@@ -65,8 +72,8 @@ public class WebSvr {
 
         server.createContext("/users/get", exchange -> handleGetUser(exchange));
 // container.getComponent(RegHandler.class)
-        server.createContext("/reg",getBeanFrmSpr(RegHandler.class));
-       server.createContext("/login", getBeanFrmSpr(LoginHdr.class));
+   //     server.createContext("/reg",getBeanFrmSpr(RegHandler.class));
+  //     server.createContext("/login", getBeanFrmSpr(LoginHdr.class));
 //        server.createContext("/QueryUsr",getBeanFrmSpr(QueryUsrHdr.class) );
         server.createContext("/BetHdr",
                 getBeanFrmSpr(BetHdr.class));
@@ -83,7 +90,60 @@ public class WebSvr {
 //        );
         server.createContext("/QueryOrdChrgHdr", new QueryOrdChrgHdr());
         server.createContext("/UserCentrHdr", new UserCentrHdr());
+
+        Function<Class,Object> fun=new Function<Class, Object>() {
+            @Override
+            public Object apply(Class aClass) {
+                if(aClass.getName().startsWith("api"))
+                {
+                    var bean=getBeanFrmSpr(aClass);
+                    var path=getPathFromBean(aClass);
+                    server.createContext(path, (HttpHandler) bean);
+                    return null;
+                }
+                return null;
+            }
+        };
+        scanAllClass(fun);
     }
+    // 读取类的path注解
+    // 读取类的路径注解
+    public static String getPathFromBean(Class<?> aClass) {
+
+
+        if (aClass.isAnnotationPresent(Path.class)) {
+            Path mapping = aClass.getAnnotation( Path.class);
+            return  mapping.value();  // 可能有多个路径
+        }
+
+        // 查找 @RequestMapping（类级别）
+        if (aClass.isAnnotationPresent(RequestMapping.class)) {
+            RequestMapping mapping = aClass.getAnnotation(RequestMapping.class);
+            return String.join(", ", mapping.value());  // 可能有多个路径
+        }
+        // 兼容 @GetMapping、@PostMapping 等（可选）
+        return getPathFromAnnotations(aClass);
+    }
+
+    // 处理其他 Spring Mapping 注解
+    private static String getPathFromAnnotations(AnnotatedElement element) {
+        for (Annotation annotation : element.getAnnotations()) {
+            if (annotation instanceof GetMapping) {
+                return String.join(", ", ((GetMapping) annotation).value());
+            }
+            if (annotation instanceof PostMapping) {
+                return String.join(", ", ((PostMapping) annotation).value());
+            }
+            if (annotation instanceof PutMapping) {
+                return String.join(", ", ((PutMapping) annotation).value());
+            }
+            if (annotation instanceof DeleteMapping) {
+                return String.join(", ", ((DeleteMapping) annotation).value());
+            }
+        }
+        return null;
+    }
+
 
     private static void handleGetUser(HttpExchange exchange) {
     }
