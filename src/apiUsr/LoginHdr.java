@@ -3,9 +3,9 @@ package apiUsr;
 import biz.BaseHdr;
 import biz.PwdErrEx;
 import biz.existUserEx;
-import com.sun.net.httpserver.HttpExchange;
 import entityx.Usr;
 import jakarta.annotation.security.PermitAll;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.sql.SQLException;
 
@@ -18,30 +18,29 @@ public class LoginHdr extends BaseHdr<Usr, Usr> {
 
 
     /**
-     * @param exchange
+     * @return
      * @throws Exception
      * @throws existUserEx
      */
     @Override
-    protected void handle2(HttpExchange exchange) throws Exception, PwdErrEx {
-        String uname = getRequestParameter(exchange, "uname");
-        String pwd = getRequestParameter(exchange, "pwd");
-        login(uname, pwd);
+    public Object handle3(@ModelAttribute Usr Udto) throws Exception, PwdErrEx {
 
-        setcookie("uname", uname, exchange);
-        wrtResp(exchange, "ok");
+        login(Udto);
+
+        setcookie("uname", Udto.uname, this.httpExchange);
+        return Udto;
 
     }
 
 
-    public boolean login(String uname, String pwd) throws SQLException, PwdErrEx, UserNotExistEx {
+    public boolean login(Usr Udto) throws SQLException, PwdErrEx, UserNotExistEx {
         org.hibernate.Session session = sessionFactory.getCurrentSession();
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
-
+        var pwd = Udto.pwd;
+        String uname = Udto.uname;
         Usr u = session.find(Usr.class, uname);
-        if(u==null)
-        {  //u not exist
+        if (u == null) {  //u not exist
             UserNotExistEx e = new UserNotExistEx("用户名错误");
             e.fun = getCurrentMethodName();
             e.funPrm = new Usr(uname, pwd);
@@ -49,7 +48,7 @@ public class LoginHdr extends BaseHdr<Usr, Usr> {
         }
         if (u.pwd.equals(pwd))
             return true;
-        else{
+        else {
             //pwd not eq
             Usr dto = new Usr();
             dto.uname = uname;

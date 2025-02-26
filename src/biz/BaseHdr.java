@@ -55,13 +55,14 @@ public abstract class BaseHdr<T, U> implements HttpHandler, Serializable {
     }
 
     ;
-
+    public  HttpExchange httpExchange;
     //----------aop ex  and some log part
     //事务管理  全局异常
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         //wz qrystr
         //  printlnx();
+        httpExchange=exchange;
         String mth = colorStr("handle", YELLOW_bright);
         String prmurl = colorStr(String.valueOf(exchange.getRequestURI()), GREEN);
         curUrl.set(encodeJson(exchange.getRequestURI()));
@@ -284,7 +285,7 @@ public abstract class BaseHdr<T, U> implements HttpHandler, Serializable {
     public static String saveDirUsrs = "";
 
 
-    protected abstract void handle2(HttpExchange exchange) throws Throwable;
+    protected   void handle2(HttpExchange exchange) throws Throwable{};
 
 
 
