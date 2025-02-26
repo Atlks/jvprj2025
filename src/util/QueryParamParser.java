@@ -1,6 +1,9 @@
 package util;
 
 import com.sun.net.httpserver.HttpExchange;
+import entityx.Usr;
+import org.jetbrains.annotations.NotNull;
+
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -12,16 +15,19 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
-public class QueryParamParser {
-    public static <T> T toDto(HttpExchange exchange) {
-    //  Class<U> cls = null;
-        // Using reflection to get the class type (example, you might need a context to do this properly)
-        Type type = ((ParameterizedType) QueryParamParser.class.getGenericSuperclass()).getActualTypeArguments()[0];
-        Class<T> cls = (Class<T>) type; // You would need to handle Type properly here
+import static util.Util2025.encodeJson;
+import static util.Util2025.encodeJsonObj;
 
-        Object o=toDto(exchange,cls);
-        return (T) o;
-    }
+public class QueryParamParser {
+//    public static <T> T toDto(HttpExchange exchange) {
+//    //  Class<U> cls = null;
+//        // Using reflection to get the class type (example, you might need a context to do this properly)
+//        Type type = ((ParameterizedType) QueryParamParser.class.getGenericSuperclass()).getActualTypeArguments()[0];
+//        Class<T> cls = (Class<T>) type; // You would need to handle Type properly here
+//
+//        Object o=toDto(exchange,cls);
+//        return (T) o;
+//    }
     public static <T> T toDto(HttpExchange exchange, Class<T> usrClass) {
         // 获取查询参数 ?name=John&age=30
         String query = exchange.getRequestURI().getQuery();
@@ -31,7 +37,17 @@ public class QueryParamParser {
 
         // 解析查询参数到 Map
         Map<String, String> paramMap = parseQueryParams(query);
+        System.out.println("parmmap="+encodeJson(paramMap));
 
+        return toDto( paramMap,usrClass);
+    }
+
+    public static void main(String[] args) {
+        Map<String, String> paramMap=new HashMap<>();
+        paramMap.put("uname","33");
+        System.out.println(encodeJsonObj(toDto(paramMap, Usr.class)));
+    }
+    private static <T> @NotNull T toDto( Map<String, String> paramMap ,Class<T> usrClass){
         try {
             // 反射创建 DTO 实例
             T dto = usrClass.getDeclaredConstructor().newInstance();
@@ -39,6 +55,7 @@ public class QueryParamParser {
             // 通过 JavaBean 反射机制设置属性值
             for (PropertyDescriptor pd : Introspector.getBeanInfo(usrClass).getPropertyDescriptors()) {
                 String fieldName = pd.getName();
+               // System.out.println("fld="+fieldName);
                 if (paramMap.containsKey(fieldName)) {
                     String value = paramMap.get(fieldName);
                     Object convertedValue = convertType(value, pd.getPropertyType());  // 类型转换

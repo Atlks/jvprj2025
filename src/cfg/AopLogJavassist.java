@@ -167,8 +167,8 @@ public class AopLogJavassist {
             CtMethod[] ctMthdArr = ctClass.getDeclaredMethods();
             for (CtMethod ctMethod : ctMthdArr) {
                 // ----------过滤掉继承的obj方法，只处理当前类的方法
-                String methodName =aClass.getName()+"."+ ctMethod.getName();
-
+                String methodNameFullname =aClass.getName()+"."+ ctMethod.getName();
+                String methodName=ctMethod.getName();
                 if (isObjectMethod(methodName))
                     continue;
                 ;
@@ -190,7 +190,7 @@ public class AopLogJavassist {
 //            ctMethod.insertBefore("System.out.println(\"!fun " + methodName + "()\");");
 
                 // 在方法前后插入日志，调用 encodeJson 方法
-                String mth = "▶\uFE0F" + colorStr(methodName, YELLOW_bright);
+                String mth = "▶\uFE0F" + colorStr(methodNameFullname, YELLOW_bright);
                 String logCode =
                         "{ " +
                                 "  String jsonArgs = util.Util2025.encodeJsonV2($args); " + // 调用封装的 encodeJson 方法
@@ -207,7 +207,7 @@ public class AopLogJavassist {
                 //------------- 在方法后插入日志
                 // System.out.println(encodeJson(true));
                 // 方法返回值序列化日志
-                String mth_end = "✅" + methodName;
+                String mth_end = "✅" + methodNameFullname;
                 String returnSerializationCode =
                         "{ " +
                                 "  String jsonRet = util.Util2025.encodeJson4dbgShowVal($_); " +  // 调用自定义方法
@@ -341,7 +341,7 @@ public class AopLogJavassist {
 
     private static boolean isObjectMethodEx(String name) {
         return name.equals("finalize") || name.equals("clone") || name.equals("setSessionFactory") ||
-                name.equals("main") || name.equals("handle") || name.equals("handle2") || name.equals("");
+                name.equals("main") || name.equals("handle") || name.equals("handle2") || name.equals("handle3");
     }
 
     // 过滤 Object 类的方法

@@ -10,10 +10,13 @@ import org.springframework.stereotype.Component;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import entityx.ExceptionBase;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 
@@ -181,22 +184,68 @@ public abstract class BaseHdr<T, U> implements HttpHandler, Serializable {
 
 
         //---------log
-//        String handle2 = "handleMYY";
-//        mth = colorStr(handle2, YELLOW_bright);
-//        prmurl = colorStr(encodeJson(toExchgDt(exchange)), GREEN);
-//        System.out.println("▶\uFE0Ffun " + mth + "(exchange=" + prmurl);
+        Class cls=   getPrmClass(this,"handle3");
+        T dto = (T) toDto(exchange, cls);
+        String handle2 = "handle3";
+        mth = colorStr(handle2, YELLOW_bright);
+        prmurl = colorStr(encodeJson((dto)), GREEN);
+        System.out.println("▶\uFE0Ffun " + mth + "(dto=" + prmurl);
 
       //  handle2(exchange);
-        handle3(toDto(exchange));
-    //    System.out.println("✅endfun "+handle2+"()");
+        //会使用反射机制去查找控制器方法中的参数类型
+
+
+      var rzt=  handle3(dto);
+        wrtResp(exchange, encodeJsonObj(rzt) );
+       System.out.println("✅endfun "+handle2+"()");
 
         /// ----------log
 
 
     }
 
-    public void handle3(T dto) {
+    //查找对象的的handle3方法，获得参数（带有 ModelAttribute 标记 ） 类型，
+    //子类方法是public void handle3(@ModelAttribute Usr dto)
+    public static Class getPrmClass(Object obj, String methodName) {
+        if (obj == null || methodName == null) {
+            return null;
+        }
+
+        // 获取 obj 的所有方法
+        Method[] methods = obj.getClass().getDeclaredMethods();
+
+        for (Method method : methods) {
+            // 确保方法名称匹配
+            if (!method.getName().equals(methodName)) {
+                continue;
+            }
+
+            // 遍历方法的所有参数
+            for (Parameter parameter : method.getParameters()) {
+                // 检查参数是否标记了 @ModelAttribute
+                if (parameter.isAnnotationPresent(ModelAttribute.class)) {
+                    Class<?> type = parameter.getType();
+                    if(type==Object.class)
+                        continue;
+                    return type; // 返回参数的 Class 类型
+                }
+            }
+        }
+
+        return null; // 未找到匹配的方法或参数
+    }
+
+    /**
+     * Spring MVC 的 @ModelAttribute 注解机制：
+     * <p>
+     * Spring MVC 会使用反射机制去查找控制器方法中的参数类型（例如 Usr）并将查询参数的值绑定到该类型的对象上。Spring 不需要在运行时获取泛型信息，而是通过反射将查询参数直接映射到类的字段或 getter/setter 方法。
+     *
+     * @param dto
+     * @return
+     */
+    public Object handle3(T dto) throws Exception {
         System.out.println("baseCls.hd3("+encodeJson(dto));
+        return null;
     }
 
     //----------aop auth

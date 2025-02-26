@@ -49,13 +49,7 @@ public class RegHandler extends BaseHdr<Usr,Usr>  implements HttpHandler {
     //如何标识swagger文档。。
     //我的访问url类似  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
 
-    @Override
-    @Operation(summary = "注册用户的方法reg", description = "注册用户的方法dscrp。。。。")
-    @RequestMapping("/reg")
-    @Parameter(name="uname",description = "用户名", required = true)
-    @Parameter(name="pwd",description = "密码", required = true)
-    @Parameter(name="uname",description = "邀请人", required = false)
-    @PermitAll
+
     // 会自动把 ?name=John&age=30 转换成 UserQueryDTO 对象！
     public void handle2(
             @ModelAttribute
@@ -63,20 +57,26 @@ public class RegHandler extends BaseHdr<Usr,Usr>  implements HttpHandler {
 
         //u dto
         Usr u = toDto(exchange,Usr.class);
-        u.id = u.uname;
-        String reg4bzRzt = "";
 
-
-
-        reg4bzRzt=reg4bz(u);
-        System.out.println("reg4bzRzt="+reg4bzRzt);
-        wrtResp(exchange, reg4bzRzt);
 
     }
 
+     @Operation(summary = "注册用户的方法reg", description = "注册用户的方法dscrp。。。。")
+     @RequestMapping("/reg")
+     @Parameter(name="uname",description = "用户名", required = true)
+     @Parameter(name="pwd",description = "密码", required = true)
+     @Parameter(name="uname",description = "邀请人", required = false)
+     @PermitAll
      @Override
-     public void handle3(@ModelAttribute Usr dto) {
-         System.out.println("reghdl.hd3("+encodeJson(dto));
+     public Object handle3(@ModelAttribute Usr Udto) throws Exception {
+         System.out.println("reghdl.hd3("+encodeJson(Udto));
+         Udto.id = Udto.uname;
+
+
+       var  reg4bzRzt=reg4bz(Udto);
+         System.out.println("reg4bzRzt="+reg4bzRzt);
+         return reg4bzRzt;
+         // wrtResp(exchange, reg4bzRzt);
      }
 
 //    //将url查询参数转化为对应类的属性
@@ -117,7 +117,7 @@ public class RegHandler extends BaseHdr<Usr,Usr>  implements HttpHandler {
 
     public static boolean ovrwtest = false;
 
-    public   String reg4bz(Usr user) throws Exception, existUserEx {
+    public   Object reg4bz(Usr user) throws Exception, existUserEx {
        // System.out.println("fun reg4bz");
       //  System.out.println("▶\uFE0Ffun "+getCurrentMethodName()+"(u="+encodeJsonObj(user));
         if (existUser(user)) {
@@ -135,8 +135,7 @@ public class RegHandler extends BaseHdr<Usr,Usr>  implements HttpHandler {
 
         //    OrmMysql om=new OrmMysql() ;
 //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
-        //  om.jdbcurl=saveDirUsrs;
-        //todo start tx
+
         Session session=sessionFactory.getCurrentSession();
        // session.beginTransaction();
         session.persist(user);
@@ -144,7 +143,7 @@ public class RegHandler extends BaseHdr<Usr,Usr>  implements HttpHandler {
         //finish tx
         //  addObj(user, saveDirUsrs, Usr.class);
 
-        return "ok";
+        return  (user);
 
 
     }

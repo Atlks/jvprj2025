@@ -3,6 +3,7 @@ package entityx;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -18,6 +19,7 @@ import static service.CmsBiz.toBigDcmTwoDot;
 @DynamicUpdate  // 仅更新被修改的字段
 @DynamicInsert //如果还希望 INSERT 时也只插入非 null 的字段，可以搭配
 @PersistenceCapable
+@Data
 public class Usr {
     public String uname="";
     public String invtr;
