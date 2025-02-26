@@ -103,28 +103,28 @@ public class RegHandler extends BaseHdr  implements HttpHandler {
 //        this.session = session;
 //    }
 
-    public static void main(String[] args) throws Exception, existUserEx {
-        MyCfg.iniCfgFrmCfgfile();
-        ovrwtest = true;
-        //    drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
-//        Usr u=new Usr();
-//        u.uname="009";
-//        u.pwd="pp";
-//        u.invtr="007";
+//    public static void main(String[] args) throws Exception, existUserEx {
+//        MyCfg.iniCfgFrmCfgfile();
+//        ovrwtest = true;
+//        //    drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
+////        Usr u=new Usr();
+////        u.uname="009";
+////        u.pwd="pp";
+////        u.invtr="007";
+////
+////        u.id=u.uname;
+//        System.out.println(drvMap);
 //
-//        u.id=u.uname;
-        System.out.println(drvMap);
-
-        Usr u = new Usr();
-        u.uname = "007";
-        u.pwd = encodeMd5("pp");
-        u.invtr = "";
-
-
-        u.id = u.uname;
-     //   reg(u);
-       new RegHandler(). testAop(88888);
-    }
+//        Usr u = new Usr();
+//        u.uname = "007";
+//        u.pwd = encodeMd5("pp");
+//        u.invtr = "";
+//
+//
+//        u.id = u.uname;
+//     //   reg(u);
+//       new RegHandler(). testAop(88888);
+//    }
 
     public   void testAop(int i) {
         System.out.println(i);
@@ -188,8 +188,7 @@ public class RegHandler extends BaseHdr  implements HttpHandler {
     public   boolean existUser(Usr user) throws Exception {
 //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         //  om.jdbcurl=saveDirUsrs;
-        //todo start tx
-        // session.beginTransaction();
+
         Session session=sessionFactory.getCurrentSession();
         Usr jo = session.find(Usr.class, user.uname);
         if (jo == null)

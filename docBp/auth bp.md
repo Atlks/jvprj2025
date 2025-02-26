@@ -6,6 +6,8 @@ spec
 =javax anno secury
 import jakarta.annotation.security.PermitAll;
 
+chk url is not good hah ...chk anno more modrn
+
 =dft need login
 
 

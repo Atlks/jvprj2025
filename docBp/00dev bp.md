@@ -1,4 +1,13 @@
 
+=prgrm lan
+static stroreType  nullsafe(no null)
+Kotlin ,dart  
+ts java c#
+从软件质量和安全性的角度来看，编程语言没有 null 可能更好
+
+=web frmwk
+jv sdk also ok
+
 
 4. API 设计
 
