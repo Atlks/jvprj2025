@@ -114,7 +114,7 @@ public class TransHdr extends BaseHdr<Usr, Usr> {
         logBalance.changeMode = "减去";
         System.out.println(" add balanceLog ");
         //  addObj(logBalance,saveUrlLogBalance);
-        persistByHbnt(logBalance, session);
+        persistByHibernate(logBalance, session);
 
 
         System.out.println("\n\n\n===========增加盈利钱包余额");
@@ -127,7 +127,7 @@ public class TransHdr extends BaseHdr<Usr, Usr> {
         logBlsYinliWlt.amtBefore = nowAmt2;
         logBlsYinliWlt.newBalance = newBls2;
         // addObj(logBlsYinliWlt,saveUrlLogBalanceYinliWlt);
-        persistByHbnt(logBlsYinliWlt, session);
+        persistByHibernate(logBlsYinliWlt, session);
 
 
         //adjst yinliwlt balnce

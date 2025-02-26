@@ -14,7 +14,7 @@ import java.util.TreeMap;
 import static cfg.MyCfg.iniCfgFrmCfgfile;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 import static util.HbntUtil.mergeByHbnt;
-import static util.HbntUtil.persistByHbnt;
+import static util.HbntUtil.persistByHibernate;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
 
@@ -125,7 +125,7 @@ public class CmsBiz {
         logBalanceYlWlt.changeAmount=toBigDcmTwoDot(amt);
         logBalanceYlWlt.amtBefore=toBigDcmTwoDot(nowAmt);
         logBalanceYlWlt.newBalance=toBigDcmTwoDot(newBls);
-        persistByHbnt(logBalanceYlWlt,session);
+        persistByHibernate(logBalanceYlWlt,session);
 
 
         System.out.println("endfun "+methodname+"()");
@@ -172,7 +172,7 @@ public class CmsBiz {
 //        log.commssionAmt=toBigDcmTwoDot(amtCmsMny);
         //  log.put("amtBefore",nowAmt);
         //  log.put("amtAfter",newBls);
-        persistByHbnt(log,session);
+        persistByHibernate(log,session);
         System.out.println("\uD83D\uDED1endfun addLogCms");
 
     }

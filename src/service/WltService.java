@@ -52,7 +52,7 @@ public class WltService  extends AopBase {
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
         logBalance.newBalance = toBigDcmTwoDot(newBls);
         System.out.println(" add balanceLog ");
-        persistByHbnt(logBalance, session);
+        persistByHibernate(logBalance, session);
 
         //  System.out.println("✅endfun updtBlsByAddChrg()");
     }

@@ -23,7 +23,7 @@ import java.util.Map;
 
 
 import static java.time.LocalTime.now;
-import static util.HbntUtil.persistByHbnt;
+import static util.HbntUtil.persistByHibernate;
 import static util.ToXX.parseQueryParams;
 import static util.ToXX.toObjFrmMap;
 import static util.Util2025.encodeJson;
@@ -87,7 +87,7 @@ public class BetHdr extends BaseHdr<Usr, Usr> {
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
 
-         return persistByHbnt(ord,session);
+         return persistByHibernate(ord,session);
 
 
     }

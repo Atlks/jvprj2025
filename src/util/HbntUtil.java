@@ -155,7 +155,7 @@ public class HbntUtil {
     }
 
    // @log
-    public static Object persistByHbnt(Object var1, Session session) {
+    public static Object persistByHibernate(Object var1, Session session) {
 
         String mth= colorStr("persistByHbnt",YELLOW_bright);
         String prmurl= colorStr(encodeJsonObj(var1),GREEN);

@@ -25,7 +25,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static util.HbntUtil.persistByHbnt;
+import static util.HbntUtil.persistByHibernate;
 import static util.ToXX.parseQueryParams;
 import static util.Util2025.encodeJson;
 import static util.dbutil.addObj;
@@ -67,7 +67,7 @@ public class RechargeHdr extends BaseHdr<Usr, Usr> implements HttpHandlerX {
         //todo start tx
         Session session = sessionFactory.getCurrentSession();
 
-      return  persistByHbnt(ord, session);
+      return  persistByHibernate(ord, session);
 
         //   }
         //    addObj(ord, saveUrlOrdChrg,OrdChrg.class);

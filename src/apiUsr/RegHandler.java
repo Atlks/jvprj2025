@@ -4,23 +4,23 @@ package apiUsr;
 
 import biz.BaseHdr;
 import biz.existUserEx;
-import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import entityx.Usr;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.Path;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import static util.HbntUtil.persistByHbnt;
-import static util.QueryParamParser.toDto;
+import static util.HbntUtil.persistByHibernate;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
 
@@ -45,7 +45,7 @@ public class RegHandler extends BaseHdr<Usr, Usr> implements HttpHandler {
     }
 
     /**
-     * @param exchange
+     *
      * @throws Exception
      */
 
@@ -63,12 +63,15 @@ public class RegHandler extends BaseHdr<Usr, Usr> implements HttpHandler {
 //
 //
 //    }
+    @Path("/reg")
+    @Tag(name = "usr")
     @Operation(summary = "注册用户的方法reg", description = "注册用户的方法dscrp。。。。")
     @RequestMapping("/reg")
     @Parameter(name = "uname", description = "用户名", required = true)
     @Parameter(name = "pwd", description = "密码", required = true)
     @Parameter(name = "uname", description = "邀请人", required = false)
     @PermitAll
+    @Validated
     @Override
     public Object handle3(@ModelAttribute Usr Udto) throws Exception {
         System.out.println("reghdl.hd3(" + encodeJson(Udto));
@@ -78,7 +81,7 @@ public class RegHandler extends BaseHdr<Usr, Usr> implements HttpHandler {
             throw e;
         }
         Session session = sessionFactory.getCurrentSession();
-        persistByHbnt(Udto, session);
+        persistByHibernate(Udto, session);
         return Udto;
     }
 
