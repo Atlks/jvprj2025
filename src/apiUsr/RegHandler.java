@@ -19,28 +19,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import static util.HbntUtil.persistByHbnt;
 import static util.QueryParamParser.toDto;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
- @Component  // 让 Spring 自动管理这个 Bean
+
+@Component  // 让 Spring 自动管理这个 Bean
 
 //  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
- @RestController
- @RequestMapping("/reg")
- @Tag(name = "用户管理", description = "用户相关操作")
- @PermitAll
-public class RegHandler extends BaseHdr<Usr,Usr>  implements HttpHandler {
+@RestController
+@RequestMapping("/reg")
+@Tag(name = "用户管理", description = "用户相关操作")
+@PermitAll
+public class RegHandler extends BaseHdr<Usr, Usr> implements HttpHandler {
 
-  //  @Inject // 可选，PicoContainer 其实不依赖 @Inject，但能增加可读性
-    public RegHandler(SessionFactory sessionFactory1){
+    //  @Inject // 可选，PicoContainer 其实不依赖 @Inject，但能增加可读性
+    public RegHandler(SessionFactory sessionFactory1) {
         this.sessionFactory = sessionFactory1;
-        super.sessionFactory=sessionFactory1;
+        super.sessionFactory = sessionFactory1;
     }
 
-  //  @Bean
+    //  @Bean
     public RegHandler() { // 确保它是 Solon 代理的 Bean
         System.out.println("RegHandler 已创建");
     }
+
     /**
      * @param exchange
      * @throws Exception
@@ -51,128 +54,45 @@ public class RegHandler extends BaseHdr<Usr,Usr>  implements HttpHandler {
 
 
     // 会自动把 ?name=John&age=30 转换成 UserQueryDTO 对象！
-    public void handle2(
-            @ModelAttribute
-            HttpExchange exchange) throws Exception, existUserEx {
-
-        //u dto
-        Usr u = toDto(exchange,Usr.class);
-
-
-    }
-
-     @Operation(summary = "注册用户的方法reg", description = "注册用户的方法dscrp。。。。")
-     @RequestMapping("/reg")
-     @Parameter(name="uname",description = "用户名", required = true)
-     @Parameter(name="pwd",description = "密码", required = true)
-     @Parameter(name="uname",description = "邀请人", required = false)
-     @PermitAll
-     @Override
-     public Object handle3(@ModelAttribute Usr Udto) throws Exception {
-         System.out.println("reghdl.hd3("+encodeJson(Udto));
-         Udto.id = Udto.uname;
-
-
-       var  reg4bzRzt=reg4bz(Udto);
-         System.out.println("reg4bzRzt="+reg4bzRzt);
-         return reg4bzRzt;
-         // wrtResp(exchange, reg4bzRzt);
-     }
-
-//    //将url查询参数转化为对应类的属性
-//     private <T> T toDto(HttpExchange exchange, Class<T> usrClass) {
-//     }
-
-//    public void setSession(Session session) {
-//        this.session = session;
+//    public void handle2(
+//            @ModelAttribute
+//            HttpExchange exchange) throws Exception, existUserEx {
+//
+//        //u dto
+//        Usr u = toDto(exchange,Usr.class);
+//
+//
 //    }
-
-//    public static void main(String[] args) throws Exception, existUserEx {
-//        MyCfg.iniCfgFrmCfgfile();
-//        ovrwtest = true;
-//        //    drvMap.put("com.mysql.cj.jdbc.Driver","org.h2.Driver");
-////        Usr u=new Usr();
-////        u.uname="009";
-////        u.pwd="pp";
-////        u.invtr="007";
-////
-////        u.id=u.uname;
-//        System.out.println(drvMap);
-//
-//        Usr u = new Usr();
-//        u.uname = "007";
-//        u.pwd = encodeMd5("pp");
-//        u.invtr = "";
-//
-//
-//        u.id = u.uname;
-//     //   reg(u);
-//       new RegHandler(). testAop(88888);
-//    }
-
-    public   void testAop(int i) {
-        System.out.println(i);
+    @Operation(summary = "注册用户的方法reg", description = "注册用户的方法dscrp。。。。")
+    @RequestMapping("/reg")
+    @Parameter(name = "uname", description = "用户名", required = true)
+    @Parameter(name = "pwd", description = "密码", required = true)
+    @Parameter(name = "uname", description = "邀请人", required = false)
+    @PermitAll
+    @Override
+    public Object handle3(@ModelAttribute Usr Udto) throws Exception {
+        System.out.println("reghdl.hd3(" + encodeJson(Udto));
+        Udto.id = Udto.uname;
+        if (existUser(Udto) && (!ovrwtest)) {
+            var e = new existUserEx("存在用户",getCurrentMethodName(),Udto);
+            throw e;
+        }
+        Session session = sessionFactory.getCurrentSession();
+        persistByHbnt(Udto, session);
+        return Udto;
     }
 
 
     public static boolean ovrwtest = false;
 
-    public   Object reg4bz(Usr user) throws Exception, existUserEx {
-       // System.out.println("fun reg4bz");
-      //  System.out.println("▶\uFE0Ffun "+getCurrentMethodName()+"(u="+encodeJsonObj(user));
-        if (existUser(user)) {
-            if (ovrwtest) {
-            } else {
 
-                existUserEx e = new existUserEx("存在用户");
-                e.fun = getCurrentMethodName();
-                e.funPrm = user;
-                throw e;
-            }
-
-        }
-        //  if(!existUser(uname))
-
-        //    OrmMysql om=new OrmMysql() ;
-//        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
-
-        Session session=sessionFactory.getCurrentSession();
-       // session.beginTransaction();
-        session.persist(user);
-
-        //finish tx
-        //  addObj(user, saveDirUsrs, Usr.class);
-
-        return  (user);
-
-
-    }
-
-
-//    public static String reg(String uname, String pwd,String invtr) throws Exception {
-//
-//
-//        if (existUser(uname)) {
-//            return "existUser";
-//        }
-//        //  if(!existUser(uname))
-//
-//        // 创建 User 对象
-//        User user = new User(uname, uname, pwd,1, invtr);
-//        //   saveDir = saveDir;
-//        addObj(user, saveDirUsrs );
-//        //  addObj(user, "u","jdbc:sqlite:/db2026/usrs.db");
-//        return "ok";
-//
-//
-//    }
-//@Autowired
+    //@Autowired
 //    org.hibernate.Session session;
-    public   boolean existUser(Usr user) throws Exception {
+    public boolean existUser(Usr user) throws Exception {
 //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         //  om.jdbcurl=saveDirUsrs;
 
-        Session session=sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         Usr jo = session.find(Usr.class, user.uname);
         if (jo == null)
             return false;
@@ -184,15 +104,12 @@ public class RegHandler extends BaseHdr<Usr,Usr>  implements HttpHandler {
     }
 
 
-
-
-
 //    public record User(String id, String uname, String pwd, int age, String invtr) {
 //
 //        // record 自动生成构造函数、getters、equals、hashCode 和 toString 方法
 //    }
 
-    public   boolean existUser(String uname) throws Exception {
+    public boolean existUser(String uname) throws Exception {
 
         //    Usr jo = getObjById(uname, saveDirUsrs, Usr.class);
 
@@ -200,7 +117,7 @@ public class RegHandler extends BaseHdr<Usr,Usr>  implements HttpHandler {
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
         // session.beginTransaction();
-        Session session=sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         Usr jo = session.find(Usr.class, uname);
         if (jo == null)
             return false;
