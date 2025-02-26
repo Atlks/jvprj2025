@@ -11,6 +11,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import entityx.ExceptionBase;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.io.IOException;
@@ -59,6 +60,7 @@ public abstract class BaseHdr<T, U> implements HttpHandler, Serializable {
     public  HttpExchange httpExchange;
     //----------aop ex  and some log part
     //事务管理  全局异常
+    @ExceptionHandler
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         //wz qrystr

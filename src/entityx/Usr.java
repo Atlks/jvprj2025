@@ -3,9 +3,13 @@ package entityx;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
@@ -21,12 +25,15 @@ import static service.CmsBiz.toBigDcmTwoDot;
 @PersistenceCapable
 @Data
 public class Usr {
-    public String uname="";
+
+    @NotNull
+    @Valid
+    public String uname = "";
     public String invtr;
     public String pwd;
 
     @PrimaryKey
-@Id
+    @Id
     public String id;
     public BigDecimal balance;// avdBls
     public BigDecimal balanceFreez;// avdBls
@@ -34,23 +41,29 @@ public class Usr {
     public BigDecimal balanceYinliwltFreez;
 
     public Usr(String uname) {
-  this.uname=uname;
+        this.uname = uname;
     }
 
     public BigDecimal getTotalCommssionAmt() {
-         if(totalCommssionAmt==null )
-                  return BigDecimal.valueOf(0);
-        return toBigDcmTwoDot(totalCommssionAmt) ;
+        if (totalCommssionAmt == null)
+            return BigDecimal.valueOf(0);
+        return toBigDcmTwoDot(totalCommssionAmt);
     }
 
     public BigDecimal totalCommssionAmt;
 
     public Usr(String uname, String pwd) {
-   this.uname=uname;
-   this.pwd=pwd;
+        this.uname = uname;
+        this.pwd = pwd;
     }
 
     public Usr() {
 
     }
+
+    @CreationTimestamp
+    public long crtTimeStmp;
+
+    @UpdateTimestamp
+    public long updtTmstmp;
 }
