@@ -1,5 +1,7 @@
 package biz;
 
+import apiUsr.RegHandler;
+import jakarta.annotation.security.PermitAll;
 import org.hibernate.Session;
 
 import org.hibernate.SessionFactory;
@@ -63,7 +65,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
         curUrl.set(encodeJson(exchange.getRequestURI()));
         System.out.println("▶\uFE0Ffun " + mth + "(url=" + prmurl);
         //   curUrlPrm.set(exchange.getrequ);
-        var responseTxt="";
+        var responseTxt = "";
         ExceptionBase ex = new ExceptionBase("");
         try {
             //   setcookie("uname", "007", exchange);//for test
@@ -73,9 +75,9 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
             Session session = sessionFactory.openSession();
             // 2. 手动将 Session 绑定到当前线程
             ThreadLocalSessionContext.bind(session);
-            System.out.println("thrdid="+Thread.currentThread());
-            System.out.println("openSession="+session);
-            System.out.println("getCurrentSession="+sessionFactory.getCurrentSession());
+            System.out.println("thrdid=" + Thread.currentThread());
+            System.out.println("openSession=" + session);
+            System.out.println("getCurrentSession=" + sessionFactory.getCurrentSession());
             // commitTransactIfActv(session);
             session.beginTransaction();
 
@@ -84,22 +86,19 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
             AopNlog(exchange);
 
 
-
-
-
             //      System.out.println("endfun handle2()");
             System.out.println("✅endfun handle()");
             return;
 
         } catch (java.lang.reflect.InvocationTargetException e) {
-              responseTxt = processInvkExpt(exchange, e);
+            responseTxt = processInvkExpt(exchange, e);
 
         } catch (Throwable e) {
 
-              responseTxt =   processNmlExptn(exchange, e);
+            responseTxt = processNmlExptn(exchange, e);
             // throw new RuntimeException(e);
 
-        }finally {
+        } finally {
             commitTransaction(sessionFactory.getCurrentSession());
             sessionFactory.getCurrentSession().close();
             ThreadLocalSessionContext.unbind(sessionFactory);
@@ -111,7 +110,7 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
         System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
     }
 
-    private static String processNmlExptn(HttpExchange exchange, Throwable e)   {
+    private static String processNmlExptn(HttpExchange exchange, Throwable e) {
         ExceptionBase ex;
 //        System.out.println(
 //                "⚠\uFE0F e="
@@ -174,7 +173,6 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
         //  System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
 
 
-
         //---------log
         mth = colorStr("handle2", YELLOW_bright);
         prmurl = colorStr(encodeJson(toExchgDt(exchange)), GREEN);
@@ -190,28 +188,34 @@ public abstract class BaseHdr implements HttpHandler, Serializable {
 
     //----------aop auth
     private void urlAuthChk(HttpExchange exchange) throws IOException, NeedLoginEx {
-        if (AuthService.needLoginAuth(exchange.getRequestURI())) {
-            String uname = getcookie("uname", exchange);
-            //  uname="ttt";
-            if (uname.equals("")) {
-                //need login
-                NeedLoginEx e = new NeedLoginEx("需要登录");
 
-                e.fun = "BaseHdr." + getCurrentMethodName();
-                e.funPrm = toExchgDt((HttpExchange) exchange);
 
-                //   addInfo2ex(e, null);
+//        if (AuthService.needLoginAuth(exchange.getRequestURI()))
+        if (needLoginUserAuth(this.getClass())) {
+               String uname = getcookie("uname", exchange);
+              if(uname.equals("")){
+                  NeedLoginEx e = new NeedLoginEx("需要登录");
 
-                throw e;
-            }
+                  e.fun = "BaseHdr." + getCurrentMethodName();
+                  e.funPrm = toExchgDt((HttpExchange) exchange);
 
-            //basehdr.kt
-            //-----------------stat trans action
-            //  System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
+                  //   addInfo2ex(e, null);
+
+                  throw e;
+              }
+
+
 
         }
 
 
+    }
+
+    private boolean needLoginUserAuth(Class<? extends BaseHdr> aClass) {
+        boolean annotationPresent = aClass.isAnnotationPresent(PermitAll.class);
+
+        //if has anno ,not need login
+        return !annotationPresent;
     }
 
 

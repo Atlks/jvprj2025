@@ -5,6 +5,7 @@ import apiAcc.RechargeHdr;
 import apiCms.QryTeamHdr;
 import apiOrdBet.BetHdr;
 import apiOrdBet.QryOrdBetHdr;
+import apiUsr.LoginHdr;
 import apiUsr.RegHandler;
 import apiUsr.UserCentrHdr;
 import biz.HelloHandler;
@@ -64,7 +65,7 @@ public class WebSvr {
 
 // container.getComponent(RegHandler.class)
         server.createContext("/reg",getBeanFrmSpr(RegHandler.class));
-//        server.createContext("/login", getBeanFrmSpr(LoginHdr.class));
+       server.createContext("/login", getBeanFrmSpr(LoginHdr.class));
 //        server.createContext("/QueryUsr",getBeanFrmSpr(QueryUsrHdr.class) );
         server.createContext("/BetHdr",
                 getBeanFrmSpr(BetHdr.class));

@@ -30,6 +30,7 @@ import static util.util2026.*;
  @RestController
  @RequestMapping("/reg")
  @Tag(name = "用户管理", description = "用户相关操作")
+ @PermitAll
 public class RegHandler extends BaseHdr  implements HttpHandler {
 
   //  @Inject // 可选，PicoContainer 其实不依赖 @Inject，但能增加可读性
@@ -57,7 +58,9 @@ public class RegHandler extends BaseHdr  implements HttpHandler {
     @Parameter(name="pwd",description = "密码", required = true)
     @Parameter(name="uname",description = "邀请人", required = false)
     @PermitAll
+
     public void handle2(
+
             HttpExchange exchange) throws Exception, existUserEx {
         // 检查请求方法
         //   if ("GET".equals(exchange.getRequestMethod())) {

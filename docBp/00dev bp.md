@@ -65,3 +65,5 @@ orm
    ELK（Elasticsearch + Logstash + Kibana）
    Prometheus + Grafana
    Sentry（错误监控）
+
+✅ 文档管理：API 文档（Swagger）、架构文档（Confluence）
