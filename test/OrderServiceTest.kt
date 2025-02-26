@@ -1,26 +1,21 @@
 import apiAcc.RechargeHdr
-import entityx.ChgOrd
+import entityx.ReChgOrd
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.Assertions.*
 
-import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.*
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
-import jakarta.validation.Validation
-import jakarta.validation.Validator
-import jakarta.validation.ValidatorFactory
 
 class OrderServiceTest {
     @InjectMocks
     private lateinit var RechargeHdr1: RechargeHdr
 
     @Mock
-    private lateinit var mockOrder: ChgOrd  // Mock ChgOrd 对象
+    private lateinit var mockOrder: ReChgOrd  // Mock ChgOrd 对象
 
     @BeforeEach
     fun setUp() {

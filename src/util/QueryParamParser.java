@@ -1,6 +1,7 @@
 package util;
 
 import com.sun.net.httpserver.HttpExchange;
+import entityx.ReChgOrd;
 import entityx.Usr;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,8 +46,10 @@ public class QueryParamParser {
 
     public static void main(String[] args) {
         Map<String, String> paramMap=new HashMap<>();
-        paramMap.put("uname","33");
-        System.out.println(encodeJsonObj(toDto(paramMap, Usr.class)));
+       // paramMap.put("uname","33");
+        paramMap.put("amt","33.23");
+        System.out.println(encodeJsonObj(toDto(paramMap, ReChgOrd.class)));
+      //  System.out.println(encodeJsonObj(toDto(paramMap, Usr.class)));
     }
     private static <T> @NotNull T toDto( Map<String, String> paramMap ,Class<T> usrClass){
         try {
@@ -58,7 +62,8 @@ public class QueryParamParser {
                // System.out.println("fld="+fieldName);
                 if (paramMap.containsKey(fieldName)) {
                     String value = paramMap.get(fieldName);
-                    Object convertedValue = convertType(value, pd.getPropertyType());  // 类型转换
+                    Class<?> propertyType = pd.getPropertyType();
+                    Object convertedValue = convertType(value, propertyType);  // 类型转换
                     pd.getWriteMethod().invoke(dto, convertedValue); // 反射调用 Setter
                 }
             }
@@ -93,6 +98,7 @@ public class QueryParamParser {
         if (targetType == String.class) return value;
         if (targetType == int.class || targetType == Integer.class) return Integer.parseInt(value);
         if (targetType == long.class || targetType == Long.class) return Long.parseLong(value);
+        if (targetType == BigDecimal.class) return new BigDecimal(value);
         if (targetType == double.class || targetType == Double.class) return Double.parseDouble(value);
         if (targetType == boolean.class || targetType == Boolean.class) return Boolean.parseBoolean(value);
         return null;

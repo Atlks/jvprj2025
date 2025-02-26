@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import entityx.ExceptionBase;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -19,9 +18,11 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.List;
 
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 
+import static util.AnnotationUtils.getCookieParams;
 import static util.ColorLogger.*;
 import static util.ExptUtil.addInfo2ex;
 import static util.ExptUtil.curUrl;
@@ -105,6 +106,8 @@ public abstract class BaseHdr<T, U> implements HttpHandler, Serializable {
         //ex.fun  from stacktrace
         System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
     }
+
+
 
     private void commitTsact() {
         commitTransaction(sessionFactory.getCurrentSession());
@@ -196,6 +199,7 @@ public abstract class BaseHdr<T, U> implements HttpHandler, Serializable {
               rzt=  handle3();
         }else{
             T dto = (T) toDto(exchange, cls);
+            copyCookieToDto(getCookieParams(this.getClass(), handlex),dto);
             prmurl = colorStr(encodeJson((dto)), GREEN);
             System.out.println("▶\uFE0Ffun " + mth + "(dto=" + prmurl);
               rzt=  handle3(dto);
@@ -210,6 +214,16 @@ public abstract class BaseHdr<T, U> implements HttpHandler, Serializable {
        System.out.println("✅endfun "+handlex+"()");
 
         /// ----------log
+
+
+    }
+
+    public   void copyCookieToDto(List<String> cookieParams, T dto) {
+        for(String cknm:cookieParams)
+        {
+            String v = getcookie(cknm, httpExchange);
+           setField(dto,cknm,v);
+        }
 
 
     }

@@ -1,6 +1,6 @@
 package service;
 
-import entityx.ChgOrd;
+import entityx.ReChgOrd;
 import entityx.LogCms;
 import entityx.Usr;
 import entityx.LogBlsLogYLwlt;
@@ -29,7 +29,7 @@ public class CmsBiz {
         u.uname="008";
         u.invtr="007";
 
-        ChgOrd ord=new ChgOrd();
+        ReChgOrd ord=new ReChgOrd();
         ord.uname="008";
        ord.amt=new BigDecimal(100);
      //   calcCms4FrmOrdChrg(ord);
@@ -49,7 +49,7 @@ public class CmsBiz {
      * @param objChrg
      * @param session
      */
-    public static void calcCms4FrmOrdChrg(ChgOrd objChrg, Session session) throws Exception {
+    public static void calcCms4FrmOrdChrg(ReChgOrd objChrg, Session session) throws Exception {
         System.out.println( "fun calcCms4FrmOrdChrg（");
         System.out.println(encodeJson(objChrg));
         System.out.println(")");

@@ -1,6 +1,6 @@
 package util;
 
-import entityx.ChgOrd;
+import entityx.ReChgOrd;
 import entityx.baseObj;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
@@ -709,7 +709,7 @@ public class dbutil {
 
     public static List<?> nativeQueryGetResultList(String sql, Map<String, Object> sqlprmMap, int pageNumber, int pageSize, Session session) {
         // 防止 SQL 注入  // 安全参数绑定
-        NativeQuery<?> nativeQuery = session.createNativeQuery(sql, ChgOrd.class);
+        NativeQuery<?> nativeQuery = session.createNativeQuery(sql, ReChgOrd.class);
         setPrmts4sql(sqlprmMap, nativeQuery);
 
         //    nativeQuery.getResultCount();

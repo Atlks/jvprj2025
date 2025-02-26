@@ -21,6 +21,20 @@ tags:
 
   - name: bet api
     description: 投注api
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: uname
+parameters:
+  - in: cookie
+    name: uname
+    required: true
+    schema:
+      type: string
+      default: "007"
 paths:
   /login:
     get:
@@ -146,6 +160,8 @@ paths:
 
   /RechargeHdr:
     get:
+      security:
+        - cookieAuth: [ ]
       tags:
         - wlt
       summary:   recharge
@@ -163,6 +179,7 @@ paths:
           required: true
           schema:
             type: string
+            default: "007"
           description: The username for the request.
       responses:
         '200':

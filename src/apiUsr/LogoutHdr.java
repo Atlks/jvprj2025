@@ -4,6 +4,7 @@ import biz.BaseHdr;
 import com.sun.net.httpserver.HttpHandler;
 import entityx.Usr;
 import jakarta.ws.rs.Path;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import static util.util2026.setcookie;
 import static util.util2026.wrtResp;

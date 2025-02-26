@@ -154,6 +154,10 @@ public class HbntUtil {
 
     }
 
+    public static Object persistByHibernate(Object udto, SessionFactory sessionFactory) {
+        Session session = sessionFactory.getCurrentSession();
+     return   persistByHibernate(udto, session);
+    }
    // @log
     public static Object persistByHibernate(Object var1, Session session) {
 

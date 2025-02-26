@@ -18,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import util.HbntUtil;
 
 
 import static util.HbntUtil.persistByHibernate;
@@ -73,17 +74,18 @@ public class RegHandler extends BaseHdr<Usr, Usr> implements HttpHandler {
     @PermitAll
     @Validated
     @Override
-    public Object handle3(@ModelAttribute Usr Udto) throws Exception {
-        System.out.println("reghdl.hd3(" + encodeJson(Udto));
-        Udto.id = Udto.uname;
-        if (existUser(Udto) && (!ovrwtest)) {
-            var e = new existUserEx("存在用户",getCurrentMethodName(),Udto);
+    public Object handle3(  @ModelAttribute Usr dtoU) throws Exception {
+        System.out.println("reghdl.hd3(" + encodeJson(dtoU));
+        dtoU.id = dtoU.uname;
+        if (existUser(dtoU) && (!ovrwtest)) {
+            var e = new existUserEx("存在用户",getCurrentMethodName(),dtoU);
             throw e;
         }
-        Session session = sessionFactory.getCurrentSession();
-        persistByHibernate(Udto, session);
-        return Udto;
+        persistByHibernate(  dtoU, sessionFactory);
+        return dtoU;
     }
+
+
 
 
     public static boolean ovrwtest = false;
