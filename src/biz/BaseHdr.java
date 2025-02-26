@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import entityx.ExceptionBase;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.io.IOException;
@@ -250,6 +251,7 @@ public abstract class BaseHdr<T, U> implements HttpHandler, Serializable {
     }
 
     //----------aop auth
+   // @ControllerAdvice
     private void urlAuthChk(HttpExchange exchange) throws IOException, NeedLoginEx {
 
 

@@ -518,6 +518,9 @@ public class util2026 {
         System.out.println("wrtResp(resptxt="+responseTxt);
       if( responseTxt==null)
           responseTxt="";
+
+        // 设置跨域响应头
+        exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*"); // 允许所有来源
         exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=utf-8");
         exchange.sendResponseHeaders(200, responseTxt.getBytes().length);
         OutputStream os = exchange.getResponseBody();
