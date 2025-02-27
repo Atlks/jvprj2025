@@ -1,5 +1,7 @@
 package service;
 
+import util.Iservice;
+
 public class Trans2YLwltService extends  BaseService implements Iservice {
 
 

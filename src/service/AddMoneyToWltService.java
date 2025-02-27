@@ -1,6 +1,6 @@
 package service;
 import static cfg.AppConfig.sessionFactory;
-import biz.AopBase;
+
 import entityx.LogBls;
 import entityx.ReChgOrd;
 import entityx.Usr;
@@ -8,18 +8,18 @@ import lombok.Data;
 import org.hibernate.Session;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import util.Iservice;
 
 import java.math.BigDecimal;
 
 import static service.CmsBiz.toBigDcmTwoDot;
 import static util.HbntUtil.*;
-import static util.TransactMng.beginTransaction;
 import static util.util2026.getFieldAsBigDecimal;
 import static util.util2026.getFilenameFrmLocalTimeString;
 @Data
 @Component
 @Lazy
-public class AddMoneyToWltService   implements  Iservice<ReChgOrd> {
+public class AddMoneyToWltService   implements Iservice<ReChgOrd> {
 
     public   void doAct(ReChgOrd objChrg ) throws Exception {
         //  printLn("\n▶️fun updtBlsByAddChrg(", BLUE);
@@ -57,10 +57,16 @@ public class AddMoneyToWltService   implements  Iservice<ReChgOrd> {
         logBalance.newBalance = toBigDcmTwoDot(newBls);
         System.out.println(" add balanceLog ");
         persistByHibernate(logBalance, session);
+        
+        
+        mm2();
+        System.out.println("1217");
 
         //  System.out.println("✅endfun updtBlsByAddChrg()");
     }
 
+    public void mm2() {
+    }
 
 
 }

@@ -12,7 +12,7 @@ import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import service.Iservice;
+import util.Iservice;
 import service.Trans2YLwltService;
 
 import java.math.BigDecimal;

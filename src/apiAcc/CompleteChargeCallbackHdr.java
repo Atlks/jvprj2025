@@ -1,6 +1,5 @@
 package apiAcc;
 
-import biz.Injkt;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
@@ -15,16 +14,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import service.AddMoneyToWltService;
 import service.CmsBiz;
 import biz.BaseHdr;
 import entityx.ReChgOrd;
 import entityx.Usr;
 import org.hibernate.Session;
-import service.Iservice;
+import util.Iservice;
 
-import javax.inject.Inject;
-import java.beans.Transient;
 import java.math.BigDecimal;
 
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
@@ -58,10 +54,10 @@ public class CompleteChargeCallbackHdr extends BaseHdr<ReChgOrd, Usr> {
  @Qualifier("addMoneyToWltService")  // 使用类名自动转换
  public Iservice addMoneyToWltService1;   //=new AddMoneyToWltService();
 
-    @Lazy
-   // @Autowired()
-    @Qualifier("addMoneyToYLWltService")
-    public Iservice addMoneyToYLWltService1;
+//    @Lazy
+//   // @Autowired()
+//    @Qualifier("addMoneyToYLWltService")
+//    public Iservice addMoneyToYLWltService1;
 
     @Override
     @Tag(name = "wlt")

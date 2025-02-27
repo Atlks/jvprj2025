@@ -31,7 +31,7 @@ public class MainApi {
 //
 //        Object bean = getBeanFrmSpr(CompleteChargeCallbackHdr.class);
 //        setField(bean,"addMoneyToYLWltService1", getBeanFrmSpr(AddMoneyToYLWltService.class));
-//     //   bean.addMoneyToWltService1= (service.Iservice) AddMoneyToWltService1;
+//     //   bean.addMoneyToWltService1= (util.Iservice) AddMoneyToWltService1;
 //      //  injectAll4spr(bean);
 //        System.out.println("HttpHandler is:"+ bean);
         AutoRestartApp.main(null);

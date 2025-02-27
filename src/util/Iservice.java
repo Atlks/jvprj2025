@@ -1,4 +1,4 @@
-package service;
+package util;
 
 public interface  Iservice<T> {
 
