@@ -23,14 +23,14 @@ import static util.util2026.*;
  *  UpdtCompleteChargeHdr?id=ordchg2222
  */
 @Component
-public class ReChargeComplete extends AopBase {
+public class DepReChargeComplete extends AopBase {
     public static String saveUrlLogBalance;
 
-    public ReChargeComplete() {
+    public DepReChargeComplete() {
     }
 
     @Autowired
-    public ReChargeComplete(SessionFactory sessionFactory) {
+    public DepReChargeComplete(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     //    super.sessionFactory = sessionFactory;
     }

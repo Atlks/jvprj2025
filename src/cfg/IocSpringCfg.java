@@ -112,7 +112,7 @@ public class IocSpringCfg {
                 try {
                     f.apply(clazz);
                  //   container888.addComponent(clazz);
-                    System.out.println("f.aply: " + clazz.getName());
+                 //   System.out.println("f.aply: " + clazz.getName());
                 } catch (Exception e) {
                     System.err.println("apply失败: " + clazz.getName());
                     System.err.println("apply失败msg: " + e.getMessage());
@@ -159,8 +159,8 @@ public class IocSpringCfg {
 
                     //-----------------jvvst mode new class
                     Class<?> modifiedClass = getAClassAoped(clazz);
-
-                    context.registerBean( modifiedClass.getName(), modifiedClass);
+                    context.registerBean(modifiedClass);
+                   context.registerBean( modifiedClass.getName(), modifiedClass);
 //                   //  context.register(modifiedClass);  jeig bhao,,beanname not classname
 
 //-----------jdk dync pro xy

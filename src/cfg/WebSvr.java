@@ -76,7 +76,7 @@ public class WebSvr {
   //     server.createContext("/login", getBeanFrmSpr(LoginHdr.class));
 //        server.createContext("/QueryUsr",getBeanFrmSpr(QueryUsrHdr.class) );
         server.createContext("/BetHdr",
-                getBeanFrmSpr(BetHdr.class));
+             IocSpringCfg.   context. getBean(BetHdr.class));
         server.createContext("/QryOrdBetHdr", new QryOrdBetHdr());
         server.createContext("/QryTeamHdr", new QryTeamHdr());
 
@@ -98,6 +98,7 @@ public class WebSvr {
                 {
                     var bean=getBeanFrmSpr(aClass);
                     var path=getPathFromBean(aClass);
+                    System.out.println("cftCtx(path="+path+",bean="+bean.toString());
                     server.createContext(path, (HttpHandler) bean);
                     return null;
                 }

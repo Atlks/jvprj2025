@@ -4,13 +4,13 @@ package test;
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
 //import apiAcc.ReChargeComplete.invk
-import apiAcc.ReChargeComplete
+import apiAcc.DepReChargeComplete
 import cfg.IocSpringCfg
 import cfg.MyCfg
 
 
 fun main(){
-    ReChargeComplete.ovrtTEst = true
+    DepReChargeComplete.ovrtTEst = true
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
     MyCfg.iniCfgFrmCfgfile()
 
@@ -26,7 +26,7 @@ fun main(){
 //    println("session="+session)
 
 
-    var obj=IocSpringCfg.context.getBean(ReChargeComplete::class.java);
+    var obj=IocSpringCfg.context.getBean(DepReChargeComplete::class.java);
     obj.updateOrdChgSetCmpltBiz("ordChrg2025-02-18T21-34-07")
     //            setField(instance,"session",new SessionProvider().provide());
     //new SessionProvider().provide()

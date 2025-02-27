@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import static apiAcc.UpdtCompleteChargeHdr.saveUrlLogBalance;
+import static apiAcc.CompleteChargeCallbackHdr.saveUrlLogBalance;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static util.ToXX.parseQueryParams;
 import static util.dbutil.addObj;

@@ -4,7 +4,7 @@ package test;
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
 //import apiAcc.ReChargeComplete.invk
-import apiAcc.ReChargeComplete
+import apiAcc.DepReChargeComplete
 import cfg.IocAtiiocCfg.*
 import cfg.MyCfg
 import org.hibernate.Session
@@ -12,7 +12,7 @@ import org.hibernate.SessionFactory
 
 
 fun main(){
-    ReChargeComplete.ovrtTEst = true
+    DepReChargeComplete.ovrtTEst = true
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
     MyCfg.iniCfgFrmCfgfile()
 
@@ -28,8 +28,8 @@ fun main(){
     println("session="+session)
 
 
-    var obj= getBean2025(ReChargeComplete::class.java);
-    var rc:ReChargeComplete=obj as ReChargeComplete;
+    var obj= getBean2025(DepReChargeComplete::class.java);
+    var rc: DepReChargeComplete =obj as DepReChargeComplete;
     rc.updateOrdChgSetCmpltBiz("ordChrg2025-02-18T21-34-07")
   //  invokeMethod2025(obj,"updateOrdChgSetCmpltBiz","ordChrg2025-02-18T21-34-07")
  //   obj.updateOrdChgSetCmpltBiz("ordChrg2025-02-18T21-34-07")

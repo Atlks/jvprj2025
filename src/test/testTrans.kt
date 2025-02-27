@@ -4,7 +4,7 @@ package test;
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
 //import apiAcc.ReChargeComplete.invk
-import apiAcc.ReChargeComplete
+import apiAcc.DepReChargeComplete
 import apiAcc.TransHdr
 import cfg.IocSpringCfg
 import cfg.MyCfg
@@ -14,7 +14,7 @@ import util.HttpExchangeImp
 
 
 fun main(){
-    ReChargeComplete.ovrtTEst = true
+    DepReChargeComplete.ovrtTEst = true
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
     MyCfg.iniCfgFrmCfgfile()
 

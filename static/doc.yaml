@@ -14,13 +14,7 @@ tags:
   - name: user
     description:
 
-  - name: wlt api
-    description: 钱包api
-  - name: ylwlt
-    description: 盈利钱包api
 
-  - name: bet api
-    description: 投注api
 
 components:
   securitySchemes:
@@ -156,14 +150,47 @@ paths:
                     name:
                       type: string
 
-
+  /CompleteChargeHdr:
+    get:
+      tags:
+        - "wlt"
+      summary: "完成充值订单"
+      description: "根据订单 ID 完成充值操作"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+            example: "ORD123456"
+          description: "订单 ID (ordid)"
+      responses:
+        "200":
+          description: "充值订单完成"
+          content:
+            application/json:
+              schema:
+                type: "object"
+        "400":
+          description: "请求参数错误"
+        "404":
+          description: "订单未找到"
+        "500":
+          description: "服务器内部错误"
 
   /RechargeHdr:
     get:
+      components:
+        securitySchemes:
+          cookieAuth:
+            type: apiKey
+            in: cookie
+            name: uname
+
       security:
         - cookieAuth: [ ]
       tags:
-        - wlt
+        - wlt 钱包方面api
       summary:   recharge
       description: This endpoint retrieves recharge header information based on the provided amount and username.
       parameters:

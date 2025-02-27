@@ -4,7 +4,7 @@ package test;
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
 //import apiAcc.ReChargeComplete.invk
-import apiAcc.ReChargeComplete
+import apiAcc.DepReChargeComplete
 import apiAcc.TransHdr
 import cfg.AppConfig
 import com.sun.net.httpserver.HttpExchange
@@ -17,7 +17,7 @@ import util.dbutil.setField
 
 
 fun main(){
-    ReChargeComplete.ovrtTEst = true
+    DepReChargeComplete.ovrtTEst = true
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
     MyCfg.iniCfgFrmCfgfile()
 

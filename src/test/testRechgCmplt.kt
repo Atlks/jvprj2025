@@ -4,7 +4,7 @@ package test;
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
 //import apiAcc.ReChargeComplete.invk
-import apiAcc.ReChargeComplete
+import apiAcc.DepReChargeComplete
 import cfg.IocPicoCfg.iniIocContainr
 import cfg.MyCfg
 import org.hibernate.Session
@@ -12,7 +12,7 @@ import org.hibernate.SessionFactory
 
 
 fun main(){
-    ReChargeComplete.ovrtTEst = true
+    DepReChargeComplete.ovrtTEst = true
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
     MyCfg.iniCfgFrmCfgfile()
 //    val he: HttpExchange =
@@ -26,8 +26,8 @@ fun main(){
    // beginTransaction(session)
     println("session="+session)
 
-    val component = container.getComponent(ReChargeComplete::class.java)
-    var obj= component as ReChargeComplete
+    val component = container.getComponent(DepReChargeComplete::class.java)
+    var obj= component as DepReChargeComplete
     obj.updateOrdChgSetCmpltBiz("ordChrg2025-02-18T21-34-07")
     //            setField(instance,"session",new SessionProvider().provide());
     //new SessionProvider().provide()

@@ -4,6 +4,7 @@ import biz.AopBase;
 import entityx.LogBls;
 import entityx.ReChgOrd;
 import entityx.Usr;
+import lombok.Data;
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import static util.HbntUtil.*;
 import static util.TransactMng.beginTransaction;
 import static util.util2026.getFieldAsBigDecimal;
 import static util.util2026.getFilenameFrmLocalTimeString;
+@Data
 @Component
 public class WltService  extends AopBase {
 
