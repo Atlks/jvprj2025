@@ -21,9 +21,16 @@ import static util.util2026.getFilenameFrmLocalTimeString;
 @Data
 @Component
 @Lazy
-public class AddMoneyToYLWltService   implements Iservice<ReChgOrd> {
+public class AddMoney2YLWltService implements Iservice<ReChgOrd,Object> {
 
-    public   void doAct(ReChgOrd objChrg ) throws Exception {
+    public Object call(ReChgOrd objChrg ) throws Exception {
+      //  Callable
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
         //  printLn("\n▶️fun updtBlsByAddChrg(", BLUE);
         //    printLn("objChrg= " + encodeJson(objChrg), GREEN);
         //    System.out.println(")");
@@ -61,6 +68,7 @@ public class AddMoneyToYLWltService   implements Iservice<ReChgOrd> {
         persistByHibernate(logBalance, session);
 
         //  System.out.println("✅endfun updtBlsByAddChrg()");
+        return null;
     }
 
 

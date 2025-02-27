@@ -19,9 +19,9 @@ import static util.util2026.getFilenameFrmLocalTimeString;
 @Data
 @Component
 @Lazy
-public class AddMoneyToWltService   implements Iservice<ReChgOrd> {
+public class AddMoneyToWltService   implements Iservice<ReChgOrd, Object> {
 
-    public   void doAct(ReChgOrd objChrg ) throws Exception {
+    public Object call(ReChgOrd objChrg ) throws Exception {
         //  printLn("\n▶️fun updtBlsByAddChrg(", BLUE);
         //    printLn("objChrg= " + encodeJson(objChrg), GREEN);
         //    System.out.println(")");
@@ -63,6 +63,7 @@ public class AddMoneyToWltService   implements Iservice<ReChgOrd> {
         System.out.println("1217");
 
         //  System.out.println("✅endfun updtBlsByAddChrg()");
+        return null;
     }
 
     public void mm2() {

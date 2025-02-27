@@ -96,7 +96,7 @@ public class CompleteChargeCallbackHdr extends BaseHdr<ReChgOrd, Usr> {
         String mthBiz2=colorStr("主钱包加钱",RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun "+mthBiz2);
         String uname = objChrg.uname;
-        addMoneyToWltService1.doAct(objChrg);
+        addMoneyToWltService1.call(objChrg);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
 

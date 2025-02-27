@@ -16,7 +16,7 @@ public class Trans2YLwltService extends  BaseService implements Iservice {
      * @throws Exception
      */
     @Override
-    public void doAct(Object bo) throws Exception {
+    public void call(Object bo) throws Exception {
 
     }
 }
