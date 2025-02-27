@@ -83,7 +83,7 @@ public class AopLogJavassist {
 
             CtClass ctClass = pool.get(aClass.getName());
 
-            if (aClass.getName().contains("TransHdr"))
+            if (aClass.getName().contains("AddMoneyToWltService"))
                 System.out.println("D909");
             CtMethod[] ctMthdArr = ctClass.getDeclaredMethods();
             for (CtMethod ctMethod : ctMthdArr) {
