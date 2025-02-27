@@ -12,8 +12,9 @@ import java.util.function.Function;
 
 import static java.time.LocalTime.now;
 import static cfg.AopLogJavassist.getAClassAoped;
-import static cfg.AopLogJavassist.printLn;
+//import static cfg.AopLogJavassist.printLn;
 import static util.dbutil.setField;
+import static util.util2026.printLn;
 import static util.util2026.scanClasses;
 
 //PicoContainer more easy thena guice lite,guice ,spring

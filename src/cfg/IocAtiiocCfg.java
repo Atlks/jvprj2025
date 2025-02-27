@@ -15,11 +15,10 @@ import java.util.function.Function;
 
 import static biz.BaseHdr.saveDirUsrs;
 import static cfg.AopLogJavassist.*;
-import static cfg.AopLogJavassist.printLn;
+//import static cfg.AopLogJavassist.printLn;
 import static util.HbntUtil.getSessionFactory;
 import static util.dbutil.setField;
-import static util.util2026.getField;
-import static util.util2026.scanClasses;
+import static util.util2026.*;
 
 //PicoContainer more easy thena guice lite,guice ,spring
 public class IocAtiiocCfg {

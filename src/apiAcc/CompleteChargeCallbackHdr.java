@@ -53,12 +53,15 @@ public class CompleteChargeCallbackHdr extends BaseHdr<ReChgOrd, Usr> {
 
     //注解告诉 JSON 序列化库跳过该字段。
   @Lazy
-// @Autowired()
+  @Autowired()
  // @Inject("addMoneyToWltService")
  @Qualifier("addMoneyToWltService")  // 使用类名自动转换
  public Iservice addMoneyToWltService1;   //=new AddMoneyToWltService();
 
-
+    @Lazy
+   // @Autowired()
+    @Qualifier("addMoneyToYLWltService")
+    public Iservice addMoneyToYLWltService1;
 
     @Override
     @Tag(name = "wlt")

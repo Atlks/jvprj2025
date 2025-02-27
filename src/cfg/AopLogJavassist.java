@@ -47,89 +47,10 @@ public class AopLogJavassist {
 
     }
 
-    public static void printLn(String msg) {
-        synchronized (lock) {
-            PrintWriter writer = new PrintWriter(System.out, true);  // 自动刷新
 
-            writer.println(msg);
-            System.out.flush();  // 刷新输出缓冲区
-            System.err.flush();  // 刷新输出缓冲区
-        }
-    }
 
 
     //----aop ex
-    private void aopEXhandler(HttpExchange exchange, Method method, Object[] args)   {
-        ExceptionBase ex = new ExceptionBase("");
-        try {
-            curUrl.set(String.valueOf((exchange.getRequestURI())));
-            //===================log chk
-       //     urlAuthChk(exchange);
-
-            //=========auth chk pass
-            Session session = sessionFactory.getCurrentSession();
-            session.beginTransaction();
-
-            Object target = null;
-            method.invoke(target, args); // 调用目标方法
-
-            commitTransaction(session);
-        } catch (InvocationTargetException e) {
-
-            ex = new ExceptionBase(e.getMessage());
-            ex.cause = e;
-            Throwable cause = e.getCause();
-
-            ex.errcode = cause.getClass().getName();
-            ex.errmsg = e.getCause().getMessage();
-
-
-            addInfo2ex(ex, e);
-
-            String responseTxt = encodeJson(ex);
-            System.out.println("\uD83D\uDED1 endfun handlex().ret=" + responseTxt);
-            wrtRespErrNoex(exchange, responseTxt);
-
-
-        } catch (Throwable e) {
-
-
-            System.out.println(
-                    "⚠\uFE0F e="
-                            + e.getMessage() + "\nStackTrace="
-                            + getStackTraceAsString(e)
-                            + "\n end stacktrace......................"
-            );
-
-
-            //my throw ex.incld funprm
-            if (e instanceof ExceptionBase) {
-                ex = (ExceptionBase) e;
-                ex.errcode = e.getClass().getName();
-
-
-            } else {
-                //nml err
-                ex = new ExceptionBase(e.getMessage());
-
-                //cvt to cstm ex
-                String message = e.getMessage();
-                ex = new ExceptionBase(message);
-                ex.cause = e;
-                ex.errcode = e.getClass().getName();
-
-            }
-
-            addInfo2ex(ex, e);
-
-            String responseTxt = encodeJson(ex);
-            System.out.println("\uD83D\uDED1 endfun handlex().ret=" + responseTxt);
-            wrtRespErrNoex(exchange, responseTxt);
-
-
-        }
-
-    }
 
 
     /**  aop  log
@@ -268,74 +189,24 @@ public class AopLogJavassist {
     // return    modifiedClass;
 
 
-    //  这里没有增加  声明 serialVersionUID
-    private static void srlzCtCls(CtClass ctClass, ClassPool pool) throws NotFoundException, CannotCompileException {
-        boolean isSerializable = false;
-        for (CtClass iface : ctClass.getInterfaces()) {
-            if (iface.getName().equals("java.io.Serializable")) {
-                isSerializable = true;
-                break;
-            }
-        }
 
-        // 如果未实现，则添加 Serializable 接口
-        if (!isSerializable) {
-            //  ctClass.addInterface(serializable);
-            ctClass.addInterface(pool.get("java.io.Serializable"));
-            System.out.println(ctClass.getName() + " 已添加 Serializable 接口");
-        } else {
-            System.out.println(ctClass.getName() + " 已经实现 Serializable，无需添加");
-        }
+//    @NotNull
+//    private static Class<?> getAClassInCurClasLdr(Class<?> modifiedClass) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException, ClassNotFoundException {
+//        Object instance = modifiedClass.getConstructor().newInstance();
+//        // 反序列化到当前 ClassLoader
+//        byte[] serializeData = serialize(instance);
+//
+//        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+//        System.out.println(classLoader);
+//
+//
+//        //为什么这里报错了  meiyh  srz id..
+//        Object deserializedInstance = deserialize(serializeData, classLoader);
+//        Class<?> modifiedClass2 = deserializedInstance.getClass();
+//        return modifiedClass2;
+//    }
 
 
-        // **保持旧的 serialVersionUID**
-        long serialVersionUIDValue = 9164029442537620054L; // 这里使用旧的值
-        try {
-            CtField uidField = ctClass.getDeclaredField("serialVersionUID");
-            System.out.println("已有 serialVersionUID: " + uidField);
-        } catch (NotFoundException e) {
-            CtField serialVersionUID = new CtField(CtClass.longType, "serialVersionUID", ctClass);
-            serialVersionUID.setModifiers(Modifier.PRIVATE | Modifier.STATIC | Modifier.FINAL);
-            ctClass.addField(serialVersionUID, CtField.Initializer.constant(serialVersionUIDValue)); // 设定固定值
-            System.out.println(ctClass.getName() + " 已添加 serialVersionUID = " + serialVersionUIDValue);
-        }
-    }
-
-    @NotNull
-    private static Class<?> getAClassInCurClasLdr(Class<?> modifiedClass) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException, ClassNotFoundException {
-        Object instance = modifiedClass.getConstructor().newInstance();
-        // 反序列化到当前 ClassLoader
-        byte[] serializeData = serialize(instance);
-
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        System.out.println(classLoader);
-
-
-        //为什么这里报错了  meiyh  srz id..
-        Object deserializedInstance = deserialize(serializeData, classLoader);
-        Class<?> modifiedClass2 = deserializedInstance.getClass();
-        return modifiedClass2;
-    }
-
-    // **序列化对象**
-    private static byte[] serialize(Object obj) throws IOException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream out = new ObjectOutputStream(bos);
-        out.writeObject(obj);
-        return bos.toByteArray();
-    }
-
-    // **反序列化对象**
-    private static Object deserialize(byte[] data, ClassLoader classLoader) throws IOException, ClassNotFoundException {
-        ByteArrayInputStream bis = new ByteArrayInputStream(data);
-        ObjectInputStream in = new ObjectInputStream(bis) {
-            @Override
-            protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
-                return Class.forName(desc.getName(), true, classLoader);
-            }
-        };
-        return in.readObject();
-    }
 
     public static final Object lock = new Object();
 
@@ -351,8 +222,81 @@ public class AopLogJavassist {
     }
 }
 
-class MyService {
-    public void doSomething(String message) {
-        System.out.println("Doing: " + message);
-    }
-}
+//class MyService {
+//    public void doSomething(String message) {
+//        System.out.println("Doing: " + message);
+//    }
+//}
+
+
+//    private void aopEXhandler(HttpExchange exchange, Method method, Object[] args)   {
+//        ExceptionBase ex = new ExceptionBase("");
+//        try {
+//            curUrl.set(String.valueOf((exchange.getRequestURI())));
+//            //===================log chk
+//       //     urlAuthChk(exchange);
+//
+//            //=========auth chk pass
+//            Session session = sessionFactory.getCurrentSession();
+//            session.beginTransaction();
+//
+//            Object target = null;
+//            method.invoke(target, args); // 调用目标方法
+//
+//            commitTransaction(session);
+//        } catch (InvocationTargetException e) {
+//
+//            ex = new ExceptionBase(e.getMessage());
+//            ex.cause = e;
+//            Throwable cause = e.getCause();
+//
+//            ex.errcode = cause.getClass().getName();
+//            ex.errmsg = e.getCause().getMessage();
+//
+//
+//            addInfo2ex(ex, e);
+//
+//            String responseTxt = encodeJson(ex);
+//            System.out.println("\uD83D\uDED1 endfun handlex().ret=" + responseTxt);
+//            wrtRespErrNoex(exchange, responseTxt);
+//
+//
+//        } catch (Throwable e) {
+//
+//
+//            System.out.println(
+//                    "⚠\uFE0F e="
+//                            + e.getMessage() + "\nStackTrace="
+//                            + getStackTraceAsString(e)
+//                            + "\n end stacktrace......................"
+//            );
+//
+//
+//            //my throw ex.incld funprm
+//            if (e instanceof ExceptionBase) {
+//                ex = (ExceptionBase) e;
+//                ex.errcode = e.getClass().getName();
+//
+//
+//            } else {
+//                //nml err
+//                ex = new ExceptionBase(e.getMessage());
+//
+//                //cvt to cstm ex
+//                String message = e.getMessage();
+//                ex = new ExceptionBase(message);
+//                ex.cause = e;
+//                ex.errcode = e.getClass().getName();
+//
+//            }
+//
+//            addInfo2ex(ex, e);
+//
+//            String responseTxt = encodeJson(ex);
+//            System.out.println("\uD83D\uDED1 endfun handlex().ret=" + responseTxt);
+//            wrtRespErrNoex(exchange, responseTxt);
+//
+//
+//        }
+//
+//    }
