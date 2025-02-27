@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.context.internal.ThreadLocalSessionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -27,8 +28,8 @@ import static util.ColorLogger.*;
 import static util.ExptUtil.addInfo2ex;
 import static util.ExptUtil.curUrl;
 import static util.QueryParamParser.toDto;
-import static util.TransactMng.commitTransaction;
 
+import static util.TransactMng.*;
 import static util.Util2025.*;
 import static util.dbutil.setField;
 import static util.util2026.*;
@@ -44,14 +45,15 @@ import static util.util2026.*;
  * 事务
  */
 @Component
-public abstract class BaseHdr<T, U> implements HttpHandler, Serializable {
+public abstract class BaseHdr<T, U> implements HttpHandler {
 
     // 实现 Serializable 接口
     public static final long serialVersionUID = 1L; // 推荐加
     @Autowired
+    @Lazy
     public SessionFactory sessionFactory;
 
-
+    @Lazy
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -109,23 +111,7 @@ public abstract class BaseHdr<T, U> implements HttpHandler, Serializable {
 
 
 
-    private void commitTsact() {
-        commitTransaction(sessionFactory.getCurrentSession());
-        sessionFactory.getCurrentSession().close();
-        ThreadLocalSessionContext.unbind(sessionFactory);
-    }
 
-    private void openSessionBgnTransact() {
-        //这里需要新开session。。因为可能复用同一个http线程
-        Session session = sessionFactory.openSession();
-        // 2. 手动将 Session 绑定到当前线程
-        ThreadLocalSessionContext.bind(session);
-        System.out.println("thrdid=" + Thread.currentThread());
-        System.out.println("openSession=" + session);
-        System.out.println("getCurrentSession=" + sessionFactory.getCurrentSession());
-        // commitTransactIfActv(session);
-        session.beginTransaction();
-    }
 
     private static String processNmlExptn(HttpExchange exchange, Throwable e) {
         ExceptionBase ex;

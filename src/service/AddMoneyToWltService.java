@@ -6,6 +6,7 @@ import entityx.ReChgOrd;
 import entityx.Usr;
 import lombok.Data;
 import org.hibernate.Session;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -17,9 +18,10 @@ import static util.util2026.getFieldAsBigDecimal;
 import static util.util2026.getFilenameFrmLocalTimeString;
 @Data
 @Component
-public class WltService  extends AopBase {
+@Lazy
+public class AddMoneyToWltService extends AopBase implements  Iservice<ReChgOrd> {
 
-    public   void AddBlsAddChrg(ReChgOrd objChrg ) throws Exception {
+    public   void doAct(ReChgOrd objChrg ) throws Exception {
         //  printLn("\n▶️fun updtBlsByAddChrg(", BLUE);
         //    printLn("objChrg= " + encodeJson(objChrg), GREEN);
         //    System.out.println(")");
@@ -30,7 +32,7 @@ public class WltService  extends AopBase {
         BigDecimal amt = objChrg.getAmt();
 
         Session session=sessionFactory.getCurrentSession();
-        beginTransaction(session);
+
         Usr objU = findByHbnt(Usr.class, uname, session);
         if (objU.id == null) {
             objU.id = uname;

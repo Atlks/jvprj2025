@@ -1,5 +1,6 @@
 package apiAcc;
 
+import service.AddMoneyToWltService;
 import service.CmsBiz;
 import biz.AopBase;
 import entityx.ReChgOrd;
@@ -8,7 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import service.WltService;
+//import service.AddRchgOrdToWltService;
 
 import java.math.BigDecimal;
 
@@ -43,9 +44,9 @@ public class DepReChargeComplete extends AopBase {
     }
     @Autowired
    // @Inject
-    public WltService WltService1;
+    public AddMoneyToWltService WltService1;
     @Autowired
-    public void setWltService1(WltService wltService1) {
+    public void setWltService1(AddMoneyToWltService wltService1) {
         WltService1 = wltService1;
     }
 
@@ -85,7 +86,7 @@ public class DepReChargeComplete extends AopBase {
         String mthBiz2=colorStr("主钱包加钱",RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun "+mthBiz2);
         String uname = objChrg.uname;
-        WltService1.AddBlsAddChrg(objChrg);
+        WltService1.doAct(objChrg);
       //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
 

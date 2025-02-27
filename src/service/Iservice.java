@@ -1,6 +1,6 @@
 package service;
 
-public interface Iservice {
+public interface  Iservice<T> {
 
-    public void handle(Object dtoServicePrm) throws Exception;
+    public void doAct(T bo) throws Exception;
 }

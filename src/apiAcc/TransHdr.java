@@ -155,7 +155,7 @@ public class TransHdr extends BaseHdr<Usr, Usr> {
         transToYinliWlt(lgblsDto);
 
         Iservice is=Trans2YLwltService1;
-        is.handle(lgblsDto);
+        ((Trans2YLwltService) is).handle(lgblsDto);
 
      //   session.getTransaction().commit();
         wrtResp(exchange, "ok");

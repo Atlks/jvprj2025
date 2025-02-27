@@ -1,6 +1,6 @@
 package cfg;
 
-import service.WltService;
+
 import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 
@@ -196,8 +196,8 @@ public class IocAtiiocCfg {
 
                 for (Field field : fields) {
                     field.setAccessible(true); // 允许访问私有字段
-                    if(field.getType()== WltService.class)
-                        System.out.println("d951");
+//                    if(field.getType()== AddRchgOrdToWltService.class)
+//                        System.out.println("d951");
                     System.out.println("trav prop="+field);
                     try {
                         if (field.get(ins) == null) { // 如果字段值为 null
@@ -250,7 +250,7 @@ public class IocAtiiocCfg {
 
         for (Field field : fields) {
             field.setAccessible(true); // 允许访问私有字段
-            if(field.getType()== WltService.class)
+          //  if(field.getType()== AddRchgOrdToWltService.class)
                 System.out.println("d951");
             System.out.println("trav prop="+field);
             try {
