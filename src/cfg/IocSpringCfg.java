@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 
 import static java.time.LocalTime.now;
 //import static cfg.AopLogJavassist.printLn;
+import static util.IocUtil.registerBean2map;
 import static util.dbutil.setField;
 import static util.util2026.*;
 
@@ -56,9 +57,9 @@ public class IocSpringCfg {
             if(clazz.getName().startsWith("service.") )
             {
                 proxyObj  = AtProxy4Svs.createProxy4log(obj1); // 创建代理
-                context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
-                String beanName = StrUtil.lowerFirstChar(clazz.getSimpleName());
-                context.registerBean(beanName, (Class) Icall.class, () -> (Icall)proxyObj);
+//                context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
+//                String beanName = StrUtil.lowerFirstChar(clazz.getSimpleName());
+//                context.registerBean(beanName, (Class) Icall.class, () -> (Icall)proxyObj);
             } else if(clazz.getName().startsWith("api")) {
                 proxyObj = new AtProxy4webapi(obj1);
             } else {
@@ -68,6 +69,7 @@ public class IocSpringCfg {
             context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
             String beanName = StrUtil.lowerFirstChar(clazz.getSimpleName());
             context.registerBean(beanName, (Class)proxyObj.getClass(), () -> (Icall)proxyObj);
+            registerBean2map(clazz.getSimpleName(),proxyObj);
 
             //context.registerBean( clazz.getName(), proxy);
             printLn("spr已注册: " + beanName);
@@ -82,6 +84,8 @@ public class IocSpringCfg {
 
         return context;
     }
+
+
 
 
     //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);

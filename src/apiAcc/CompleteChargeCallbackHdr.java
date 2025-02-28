@@ -30,6 +30,7 @@ import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static java.time.LocalTime.now;
 import static util.ColorLogger.*;
 import static util.HbntUtil.*;
+import static util.IocUtil.getBeanFrmBeanmap;
 import static util.SprUtil.getBeanFrmSpr;
 import static util.util2026.*;
 
@@ -99,7 +100,7 @@ public class CompleteChargeCallbackHdr  implements  Icall<ReChgOrd,Object> {
         System.out.println("\r\n\n\n=============⚡⚡bizfun "+mthBiz2);
         String uname = objChrg.uname;
 
-        Icall c=getBeanFrmSpr("addMoneyToWltService");
+        Icall c=   getBeanFrmBeanmap("AddMoneyToWltService");
         c.call(objChrg);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
