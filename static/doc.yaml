@@ -12,7 +12,11 @@ info:
     email: support@example.com
 tags:
   - name: user
-    description:
+    description: 用户方面接口
+  - name: wlt
+    description: 钱包方面接口
+  - name: YLwlt
+    description: 盈利钱包方面接口
 
 
 
@@ -149,11 +153,61 @@ paths:
                       type: integer
                     name:
                       type: string
-
+  /Trans:
+    get:
+      summary: 转账操作
+      description: 进行转账操作
+      tags:
+        - wlt 钱包方面接口
+      parameters:
+        - name: uname
+          in: cookie
+          required: true
+          description: 用户名（存储于 Cookie 中）
+          schema:
+            type: string
+        - name: changeAmount
+          in: query
+          required: true
+          description: 转账金额
+          schema:
+            type: number
+      responses:
+        "200":
+          description: 转账成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: 转账成功
+        "400":
+          description: 参数错误
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: 无效的转账金额
+      examples:
+        example-1:
+          summary: 示例调用
+          description: 以 `changeAmount=8` 进行调用
+          value: "/Trans?changeAmount=8"
   /CompleteChargeHdr:
     get:
       tags:
-        - "wlt"
+        - "wlt 钱包方面接口"
       summary: "完成充值订单"
       description: "根据订单 ID 完成充值操作"
       parameters:
@@ -190,7 +244,7 @@ paths:
       security:
         - cookieAuth: [ ]
       tags:
-        - wlt 钱包方面api
+        - wlt 钱包方面接口
       summary:   recharge
       description: This endpoint retrieves recharge header information based on the provided amount and username.
       parameters:

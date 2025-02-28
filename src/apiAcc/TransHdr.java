@@ -1,12 +1,18 @@
 package apiAcc;
 
+import annos.Parameter;
+import biz.Operation;
 import entityx.TransDto;
 import entityx.Usr;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.Path;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import service.YLwltSvs.AddMoney2YLWltService;
 import service.wlt.RdsFromWltService;
 import util.Icall;
@@ -19,9 +25,15 @@ import static util.SprUtil.injectAll4spr;
 
 /**
  * 从本机钱包转账到盈利钱包
- * http://localhost:8889/AddOrdBetHdr?changeAmount=8
+ * http://localhost:8889/Trans?changeAmount=8
  */
-//@Component
+@Tag(name = "wlt 钱包")
+@Path("/Trans")
+@Operation(summary = "转账操作", example="/Trans?changeAmount=8")
+@Parameter(name = "uname", description = "用户名（in cookie）", required = true)
+@Parameter(name = "changeAmount", description = "转账金额", required = true)
+
+@Component
 public class TransHdr implements Icall<TransDto, String> {
     // 实现 Serializable 接口
     public static final long serialVersionUID = 1L; // 推荐
