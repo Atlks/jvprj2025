@@ -1,18 +1,12 @@
-package cfg;
+package util;
 
-import apiAcc.RechargeHdr;
-import biz.BaseHdr;
-import biz.HttpHandlerX;
 import biz.NeedLoginEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import entityx.ExceptionBase;
 import jakarta.annotation.security.PermitAll;
-import org.hibernate.SessionFactory;
-import util.Icall;
 
 import java.io.IOException;
-import java.util.List;
 
 import static biz.BaseHdr.*;
 import static util.AnnotationUtils.getCookieParams;
@@ -28,21 +22,21 @@ import static util.util2026.*;
 
 
 //aop shuld log auth ,ex catch,,,pfm
-public class AtProxy4webapi implements Icall,HttpHandler{
+public abstract class AtProxy4webapi implements Icall,HttpHandler{
     private Icall target; // 目标对象
 
     public AtProxy4webapi(Object target) {
         this.target = (Icall) target;
     }
 
-    public static void main(String[] args) throws Exception {
-        Object obj1 = RechargeHdr.class.getConstructor().newInstance();
-        setField(obj1, SessionFactory.class,  AppConfig. sessionFactory);
-        //new RechargeHdr(); // 目标对象
-        Object proxyObj = new AtProxy4webapi(obj1); // 创建
-        HttpHandler hx= (HttpHandler) proxyObj;
-        hx.handle(null);
-    }
+//    public static void main(String[] args) throws Exception {
+//        Object obj1 = RechargeHdr.class.getConstructor().newInstance();
+//        setField(obj1, SessionFactory.class,  AppConfig. sessionFactory);
+//        //new RechargeHdr(); // 目标对象
+//        Object proxyObj = new AtProxy4webapi(obj1); // 创建
+//        HttpHandler hx= (HttpHandler) proxyObj;
+//        hx.handle(null);
+//    }
 
 
 
@@ -65,12 +59,12 @@ public class AtProxy4webapi implements Icall,HttpHandler{
         return result;
     }
 
-    // 生成代理对象
-    public static Object createProxy4webapi(Object target) {
-       // Class<?>[] interfaces = target.getClass().getInterfaces();
-     //   System.out.println("crtProxy().itfss="+encodeJsonObj(interfaces));
-        return new AtProxy4webapi(target);
-    }
+//    // 生成代理对象
+//    public static Object createProxy4webapi(Object target) {
+//       // Class<?>[] interfaces = target.getClass().getInterfaces();
+//     //   System.out.println("crtProxy().itfss="+encodeJsonObj(interfaces));
+//        return new AtProxy4webapi(target);
+//    }
     public  ThreadLocal<HttpExchange> httpExchangeCurThrd=new ThreadLocal<>();
 
     /**
@@ -161,38 +155,8 @@ public class AtProxy4webapi implements Icall,HttpHandler{
 
     }
 
+      protected abstract void urlAuthChk(HttpExchange exchange) throws IOException, NeedLoginEx;
 
-
-    private void urlAuthChk(HttpExchange exchange) throws IOException, NeedLoginEx {
-
-
-//        if (AuthService.needLoginAuth(exchange.getRequestURI()))
-        if (needLoginUserAuth((Class<? >) this.getClass())) {
-            String uname = getcookie("uname", exchange);
-            if(uname.equals("")){
-                NeedLoginEx e = new NeedLoginEx("需要登录");
-
-                e.fun = "BaseHdr." + getCurrentMethodName();
-                e.funPrm = toExchgDt((HttpExchange) exchange);
-
-                //   addInfo2ex(e, null);
-
-                throw e;
-            }
-
-
-
-        }
-
-
-    }
-
-    private boolean needLoginUserAuth(Class<? > aClass) {
-        boolean annotationPresent = aClass.isAnnotationPresent(PermitAll.class);
-
-        //if has anno ,not need login
-        return !annotationPresent;
-    }
 
     //----------aop auth
 //    private void urlAuthChk(HttpExchange exchange) throws IOException, NeedLoginEx {

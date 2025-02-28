@@ -1,15 +1,6 @@
-package cfg;
-
-import apiAcc.RechargeHdr;
-import biz.HttpHandlerX;
-import com.sun.net.httpserver.HttpExchange;
-import org.hibernate.SessionFactory;
-import util.Icall;
+package util;
 
 import static util.AopUtil.ivk4log;
-import static util.ColorLogger.*;
-import static util.Util2025.encodeJsonObj;
-import static util.Util2025.encodeJsonV2;
 import static util.dbutil.setField;
 
 
@@ -21,14 +12,14 @@ public class AtProxy4Svs implements Icall {
         this.target = (Icall) target;
     }
 
-    public static void main(String[] args) throws Exception {
-        Object obj1 = RechargeHdr.class.getConstructor().newInstance();
-        setField(obj1, SessionFactory.class,  AppConfig. sessionFactory);
-        //new RechargeHdr(); // 目标对象
-        Object proxyObj =  createProxy4log(obj1); // 创建
-        HttpHandlerX hx= (HttpHandlerX) proxyObj;
-     //   hx.handle(null);
-    }
+//    public static void main(String[] args) throws Exception {
+//        Object obj1 = RechargeHdr.class.getConstructor().newInstance();
+//        setField(obj1, SessionFactory.class,  AppConfig. sessionFactory);
+//        //new RechargeHdr(); // 目标对象
+//        Object proxyObj =  createProxy4log(obj1); // 创建
+//        HttpHandlerX hx= (HttpHandlerX) proxyObj;
+//     //   hx.handle(null);
+//    }
 
 
 

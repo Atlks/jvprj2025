@@ -4,6 +4,8 @@ import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import util.AtProxy4Svs;
+import util.AtProxy4webapi;
 import util.Icall;
 import util.StrUtil;
 
@@ -61,7 +63,7 @@ public class IocSpringCfg {
 //                String beanName = StrUtil.lowerFirstChar(clazz.getSimpleName());
 //                context.registerBean(beanName, (Class) Icall.class, () -> (Icall)proxyObj);
             } else if(clazz.getName().startsWith("api")) {
-                proxyObj = new AtProxy4webapi(obj1);
+                proxyObj = new AtProxy4webapiCfg(obj1);
             } else {
                 proxyObj = obj1;
             }
