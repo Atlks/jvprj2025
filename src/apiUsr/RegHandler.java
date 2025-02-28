@@ -96,9 +96,8 @@ public class RegHandler   implements Icall<Usr,Object> {
         if (jo == null)
             return false;
         // 空安全处理，直接操作结果
-        if (jo.uname.equals("")) {
-            return false;
-        } else
+
+         else
             return true;
     }
 

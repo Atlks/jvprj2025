@@ -65,7 +65,7 @@ public abstract class AtProxy4webapi implements Icall,HttpHandler{
 //     //   System.out.println("crtProxy().itfss="+encodeJsonObj(interfaces));
 //        return new AtProxy4webapi(target);
 //    }
-    public  ThreadLocal<HttpExchange> httpExchangeCurThrd=new ThreadLocal<>();
+    public static ThreadLocal<HttpExchange> httpExchangeCurThrd=new ThreadLocal<>();
 
     /**
      * Handle the given request and generate an appropriate response.

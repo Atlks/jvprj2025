@@ -3,15 +3,24 @@ package apiUsr;
 import biz.BaseHdr;
 import biz.PwdErrEx;
 import biz.existUserEx;
+import com.sun.net.httpserver.HttpExchange;
+import entityx.Passport;
 import entityx.Usr;
+import entityx.Visa;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
+import service.VisaService;
+import util.Icall;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
+import static cfg.AppConfig.sessionFactory;
+import static util.AtProxy4webapi.httpExchangeCurThrd;
+import static util.Util2025.encodeJson;
 import static util.util2026.*;
 @RestController
 
@@ -19,7 +28,7 @@ import static util.util2026.*;
 @PermitAll
 @Path("/login")
 //   http://localhost:8889/login?uname=008&pwd=000
-public class LoginHdr extends BaseHdr<Usr, Usr> {
+public class LoginHdr implements Icall<Usr,Object> {
 
 
     /**
@@ -28,17 +37,9 @@ public class LoginHdr extends BaseHdr<Usr, Usr> {
      * @throws existUserEx
      */
     @Override
-    public Object handle3(@ModelAttribute Usr Udto) throws Exception, PwdErrEx {
+    public Object call(@ModelAttribute Usr Udto) throws Exception, PwdErrEx {
 
-        login(Udto);
-
-        setcookie("uname", Udto.uname, this.httpExchange);
-        return Udto;
-
-    }
-
-
-    public boolean login(Usr Udto) throws SQLException, PwdErrEx, UserNotExistEx {
+       // login(Udto);
         org.hibernate.Session session = sessionFactory.getCurrentSession();
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
@@ -52,7 +53,20 @@ public class LoginHdr extends BaseHdr<Usr, Usr> {
             throw e;
         }
         if (u.pwd.equals(pwd))
+        {
+
+            Passport passport = new Passport();
+
+            passport.setHolderName(uname);
+
+
+
+            VisaService visaService = new VisaService();
+            Visa visa = visaService.applyForVisa(passport, "Thailand", "Tourist");
+            setcookie("visa", encodeJson(visa), httpExchangeCurThrd.get());
             return true;
+        }
+
         else {
             //pwd not eq
             Usr dto = new Usr();
@@ -66,7 +80,13 @@ public class LoginHdr extends BaseHdr<Usr, Usr> {
             throw e;
         }
 
+
+     //   setcookie("uname", Udto.uname, httpExchangeCurThrd.get());
+     //   return Udto;
+
     }
+
+
 
 
 }

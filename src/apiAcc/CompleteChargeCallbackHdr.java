@@ -32,6 +32,7 @@ import static util.ColorLogger.*;
 import static util.HbntUtil.*;
 import static util.IocUtil.getBeanFrmBeanmap;
 import static util.SprUtil.getBeanFrmSpr;
+import static util.SprUtil.injectAll4spr;
 import static util.util2026.*;
 
 /**  ivk by
@@ -54,9 +55,9 @@ public class CompleteChargeCallbackHdr  implements  Icall<ReChgOrd,Object> {
   @Lazy
   @Autowired()
  // @Inject("addMoneyToWltService")
- @Qualifier("addMoneyToWltService")  // 使用类名自动转换
+ @Qualifier("AddMoneyToWltService")  // 使用类名自动转换
  public Icall addMoneyToWltService1;   //=new AddMoneyToWltService();
-
+    public   String addMoneyToWltService = "AddMoneyToWltService";
 //    @Lazy
 //   // @Autowired()
 //    @Qualifier("addMoneyToYLWltService")
@@ -72,6 +73,8 @@ public class CompleteChargeCallbackHdr  implements  Icall<ReChgOrd,Object> {
     @Transactional
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
     public Object call(@ModelAttribute ReChgOrd ordDto) throws Exception {
+     //  iniAllField();
+        injectAll4spr(this);
         ovrtTEst=true;//todo cancel if test ok
         Session session = sessionFactory.getCurrentSession();
 
@@ -100,8 +103,9 @@ public class CompleteChargeCallbackHdr  implements  Icall<ReChgOrd,Object> {
         System.out.println("\r\n\n\n=============⚡⚡bizfun "+mthBiz2);
         String uname = objChrg.uname;
 
-        Icall c=   getBeanFrmBeanmap("AddMoneyToWltService");
-        c.call(objChrg);
+
+      // Icall c=   getBeanFrmBeanmap(addMoneyToWltService);
+        addMoneyToWltService1.call(objChrg);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
 
@@ -119,6 +123,11 @@ public class CompleteChargeCallbackHdr  implements  Icall<ReChgOrd,Object> {
         System.out.println("\n\r\n---------endblk  calcCms4FrmOrdChrg");
 
         return null;
+    }
+
+    private void iniAllField() {
+
+
     }
 
 
