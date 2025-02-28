@@ -58,7 +58,7 @@ public class AtProxy4webapi implements Icall,HttpHandler{
 
         String mth = colorStr(mthFullname, YELLOW_bright);
         String prmurl = colorStr(encodeJsonV2(args), GREEN);
-        System.out.println("▶\uFE0Ffun " + mth + "(url=" + prmurl);
+        System.out.println("▶\uFE0Ffun " + mth + "(arg=" + prmurl);
         //   curUrlPrm.set(exchange.getrequ);
 
         HttpExchange exchange = null;
