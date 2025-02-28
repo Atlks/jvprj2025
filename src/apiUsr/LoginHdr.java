@@ -1,9 +1,7 @@
 package apiUsr;
 
-import biz.BaseHdr;
 import biz.PwdErrEx;
 import biz.existUserEx;
-import com.sun.net.httpserver.HttpExchange;
 import entityx.Passport;
 import entityx.Usr;
 import entityx.Visa;
@@ -14,11 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
 import util.Icall;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 
 import static cfg.AppConfig.sessionFactory;
+import static service.VisaService.Key_a1235678;
+import static service.VisaService.encryptDESToStr;
 import static util.AtProxy4webapi.httpExchangeCurThrd;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
@@ -65,6 +62,7 @@ public class LoginHdr implements Icall<Usr,Object> {
             Visa visa = visaService.applyForVisa(passport, "Thailand", "Tourist");
             String val = encodeJson(visa);
             setcookie("visa", val, httpExchangeCurThrd.get());
+            setcookie("uname", encryptDESToStr(uname, Key_a1235678), httpExchangeCurThrd.get());
             return true;
         }
 

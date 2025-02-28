@@ -80,11 +80,13 @@ public class VisaService {
        // passport.getVisas().add(visa);
         return visa;
     }
+    public static String Key_a1235678 = "a1235678";
 
     //使用des加密 ，密钥为a1235678
     private String encryVisaMrz(MRZ mrz1) throws Exception {
         String mrzData = serializeToJson(mrz1);// 获取 MRZ 码
-        byte[] encryptedBytes = encryptDES(mrzData, "a1235678");
+
+        byte[] encryptedBytes = encryptDES(mrzData, Key_a1235678);
         return Base64.getEncoder().encodeToString(encryptedBytes);
     }
 
@@ -98,6 +100,11 @@ public class VisaService {
         Cipher cipher = Cipher.getInstance(DES_ALGORITHM);
         cipher.init(Cipher.ENCRYPT_MODE, generateDESKey(key));
         return cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public static String encryptDESToStr(String data, String key) throws Exception {
+        byte[] encryptedBytes = encryptDES(data, key);
+        return Base64.getEncoder().encodeToString(encryptedBytes);
     }
 
     // DES 解密
