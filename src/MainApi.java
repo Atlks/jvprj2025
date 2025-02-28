@@ -1,10 +1,15 @@
+import apiAcc.CompleteChargeCallbackHdr;
 import org.noear.solon.annotation.SolonMain;
 import org.springframework.context.annotation.ComponentScan;
+import service.AddMoneyToWltService;
+import util.Iservice;
 //import service.AddRchgOrdToWltService;
 
 import static cfg.MyCfg.iniCfgFrmCfgfile;
 import static cfg.WebSvr.start;
+import static util.SprUtil.getBeanFrmSpr;
 import static util.dbutil.setField;
+import static util.util2026.getField;
 //import static cfg.IocPicoCfg.iniIocContainr;
 
 @SolonMain
@@ -15,16 +20,14 @@ public class MainApi {
         start();
 
 //        sleep(3000);
-//        System.out.println("--------------------\n\n main()");
-//        Object AddMoneyToWltService1 = getBeanFrmSpr(AddMoneyToWltService.class);
-//        System.out.println("AddMoneyToWltService is :"+ AddMoneyToWltService1.getClass());
+        System.out.println("--------------------\n\n main()");
+        Object AddMoneyToWltService1 = getBeanFrmSpr(AddMoneyToWltService.class);
+        System.out.println("AddMoneyToWltService is :"+ AddMoneyToWltService1.getClass());
+
 //
-//       // CompleteChargeCallbackHdr bean = IocSpringCfg.context.getBean(CompleteChargeCallbackHdr.class);
-//        //NoSuchBeanDefinitionException: No qualifying bean of type 'apiAcc.CompleteChargeCallbackHdr
-//
-//
-//        Object bean = getBeanFrmSpr(CompleteChargeCallbackHdr.class);
-//        setField(bean,"addMoneyToYLWltService1", getBeanFrmSpr(AddMoneyToYLWltService.class));
+        Object bean = getBeanFrmSpr(CompleteChargeCallbackHdr.class);
+        System.out.println("bean.addMoneyToWltService1::"+getField(bean,"addMoneyToWltService1") );
+//       setField(bean,"addMoneyToYLWltService1", getBeanFrmSpr(AddMoneyToYLWltService.class));
 //     //   bean.addMoneyToWltService1= (util.Iservice) AddMoneyToWltService1;
 //      //  injectAll4spr(bean);
 //        System.out.println("HttpHandler is:"+ bean);

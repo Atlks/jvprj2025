@@ -5,8 +5,6 @@ import apiAcc.RechargeHdr;
 import apiCms.QryTeamHdr;
 import apiOrdBet.BetHdr;
 import apiOrdBet.QryOrdBetHdr;
-import apiUsr.LoginHdr;
-import apiUsr.RegHandler;
 import apiUsr.UserCentrHdr;
 import biz.HelloHandler;
 import com.sun.net.httpserver.HttpExchange;
@@ -15,22 +13,21 @@ import com.sun.net.httpserver.HttpServer;
 import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.net.InetSocketAddress;
-import java.sql.SQLException;
 import java.util.concurrent.Executors;
-import java.util.function.Function;
+import java.util.function.Consumer;
 
-import static cfg.IocSpringCfg.scanAllClass;
+
 import static cfg.MyCfg.iniCfgFrmCfgfile;
 import static util.SprUtil.getBeanFrmSpr;
+import static util.util2026.scanAllClass;
 
 public class WebSvr {
 
 
-    public static void start() throws IOException, SQLException {
+    public static void start() throws Exception {
         //--------ini saveurlFrm Cfg
         //@NonNull
         iniCfgFrmCfgfile();
@@ -91,19 +88,15 @@ public class WebSvr {
         server.createContext("/QueryOrdChrgHdr", new QueryOrdChrgHdr());
         server.createContext("/UserCentrHdr", new UserCentrHdr());
 
-        Function<Class,Object> fun=new Function<Class, Object>() {
-            @Override
-            public Object apply(Class aClass) {
+        Consumer<Class> fun=aClass-> {
                 if(aClass.getName().startsWith("api"))
                 {
                     var bean=getBeanFrmSpr(aClass);
                     var path=getPathFromBean(aClass);
                     System.out.println("cftCtx(path="+path+",bean="+bean.toString());
                     server.createContext(path, (HttpHandler) bean);
-                    return null;
+
                 }
-                return null;
-            }
         };
         System.out.println("====start createContext");
         scanAllClass(fun);

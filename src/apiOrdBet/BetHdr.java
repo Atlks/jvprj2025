@@ -3,6 +3,7 @@ package apiOrdBet;
 import biz.BaseHdr;
 import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
 import entityx.OrdBet;
 import entityx.Usr;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ws.rs.CookieParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
+import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
@@ -35,8 +37,8 @@ import static util.util2026.*;
  * http://localhost:8889/BetHdr?bettxt=龙湖和
  */
 @Component
-
-public class BetHdr extends BaseHdr<Usr, Usr> {
+@NoArgsConstructor
+public class BetHdr extends BaseHdr<Usr, Usr> implements HttpHandler {
 
     public BetHdr(SessionFactory sessionFactory) {
 

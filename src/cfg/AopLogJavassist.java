@@ -210,7 +210,7 @@ public class AopLogJavassist {
 
     public static final Object lock = new Object();
 
-    private static boolean isObjectMethodEx(String name) {
+    static boolean isObjectMethodEx(String name) {
         return name.equals("finalize") || name.equals("clone") || name.equals("setSessionFactory") ||
                 name.equals("main") || name.equals("handle") || name.equals("handle2") || name.equals("handle3");
     }

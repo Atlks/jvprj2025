@@ -1,53 +1,102 @@
 package cfg;
 
+import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import util.Iservice;
+import util.StrUtil;
 
 import java.io.File;
-import java.sql.SQLException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.Consumer;
 
+import static biz.BizUtil.createProxy4log;
 import static java.time.LocalTime.now;
-import static cfg.AopLogJavassist.getAClassAoped;
 //import static cfg.AopLogJavassist.printLn;
 import static util.dbutil.setField;
-import static util.util2026.printLn;
-import static util.util2026.scanClasses;
+import static util.util2026.*;
 
 //PicoContainer more easy thena guice lite,guice ,spring
 public class IocSpringCfg {
     public static AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
     @NotNull
-    public static ApplicationContext iniIocContainr4spr() throws SQLException {
+    public static ApplicationContext iniIocContainr4spr() throws Exception {
         MyCfg.iniCfgFrmCfgfile();
+        AppConfig.sessionFactory = new AppConfig().sessionFactory();
+        //   context.scan("");
 
-//        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
-        // **使用 Provider，每次获取都是新的 `Session`**
-     //   container888.addAdapter(new SessionProvider());
+        Consumer<Class> csmr4log = clazz -> {
+            //只针对api 和biz的开放注册修改class注入aop
+            //clazz.getName() 只是获取类的全限定名（package.ClassName），不会触发类的静态初始化 或 类加载。
 
-      //  List<Class> li = List.of();
+            if (!clazz.getName().startsWith("api") && !clazz.getName().startsWith("service")) {
+                System.out.println("contine clz=" + clazz.getName());
+                return;
+            }
+            printLn("\n开始注册" + clazz.getName());
+            //-----------jdk dync pro xy
+//                    if(clazz.getName().contains("RechargeHdr"))
+//                        System.out.println("d306");
+            Object obj1 = null;
+            try {
+                obj1 = clazz.getConstructor().newInstance();
+            } catch (InstantiationException e) {
+                throw new RuntimeException(e);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(e);
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
+            setField(obj1, SessionFactory.class, AppConfig.sessionFactory);
+            // 目标对象
+            Object proxyObj;  //def no prxy ,,
+            //only prxy service obj
+            if(clazz.getName().startsWith("service."))
+            {
+                proxyObj  = AtProxy4log.createProxy4log(obj1); // 创建代理
+            } else {
+                proxyObj = obj1;
+            }
 
-     AppConfig. sessionFactory =new AppConfig().sessionFactory() ;
-
-      //   context.scan("");
-        scanAllClass();//  all add class  ...  mdfyed class btr
-
-      //  context.register(modifiedClass);
-      //  context.registerBean(modifiedClass, modifiedClass.getName());
-     //   context.refresh(); // 这一步必须有！
+            context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
+            String beanName = StrUtil.lowerFirstChar(clazz.getSimpleName());
+            context.registerBean(beanName, (Class)Iservice.class, () -> (Iservice)proxyObj);
 
 
+            //context.registerBean( clazz.getName(), proxy);
+            printLn("spr已注册: " + beanName);
+            printLn("spr已注册: " + clazz.getName());
+
+        };
+        scanAllClass(csmr4log);//  all add class  ...  mdfyed class btr
         //chkek reg bean ..must use beanmae to reg ,not bean.class,,bcz maybe reg custome class aop mdfyed...
         for (String beanName : context.getBeanDefinitionNames()) {
             System.out.println("..已注册 Bean：" + beanName);
         }
-        //  injectAll();
+
         return context;
     }
+
+
+    //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
+    // **使用 Provider，每次获取都是新的 `Session`**
+    //   container888.addAdapter(new SessionProvider());
+
+    //  List<Class> li = List.of();
+
+
+
+
+    //  context.register(modifiedClass);
+    //  context.registerBean(modifiedClass, modifiedClass.getName());
+    //   context.refresh(); // 这一步必须有！
+
 
 //    private static void injectAll() {
 //        Function<Class,Object> fun=new Function<Class, Object>() {
@@ -90,108 +139,6 @@ public class IocSpringCfg {
 //            }
 //        }
 //    }
-
-    /**
-     * 扫描classes路径所有class，
-     */
-    public static void scanAllClass(Function f) {
-        try {
-            // 获取 classes 目录
-            String classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-            File classDir = new File(classpath);
-            if (!classDir.exists() || !classDir.isDirectory()) {
-                System.err.println("classes 目录不存在！");
-                return;
-            }
-
-            // 递归扫描 .class 文件
-            List<Class<?>> classList = new ArrayList<>();
-            scanClasses(classDir, classDir.getAbsolutePath(), classList);
-
-            // 注册到 PicoContainer
-            for (Class<?> clazz : classList) {
-                try {
-                    f.apply(clazz);
-                 //   container888.addComponent(clazz);
-                 //   System.out.println("f.aply: " + clazz.getName());
-                } catch (Exception e) {
-                    System.err.println("apply失败: " + clazz.getName());
-                    System.err.println("apply失败msg: " + e.getMessage());
-                    //  System.err.println("注册失败: " + clazz.getName());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 扫描classes路径所有class，加入到容器 MutablePicoContainer
-     */
-    public static void scanAllClass() {
-        System.out.println( "scannAllcls at "+now());
-        try {
-            // 获取 classes 目录
-            String classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-            File classDir = new File(classpath);
-            if (!classDir.exists() || !classDir.isDirectory()) {
-                System.err.println("classes 目录不存在！");
-                return;
-            }
-
-            // 递归扫描 .class 文件
-            List<Class<?>> classList = new ArrayList<>();
-            scanClasses(classDir, classDir.getAbsolutePath(), classList);
-
-            // 注册到 PicoContainer
-            for (Class<?> clazz : classList) {
-                try {
-                    //只针对api 和biz的开放注册修改class注入aop
-                    //clazz.getName() 只是获取类的全限定名（package.ClassName），不会触发类的静态初始化 或 类加载。
-
-                    if(!clazz.getName().startsWith("api") && !clazz.getName().startsWith("service"))
-                    {
-                        System.out.println("contine clz="+clazz.getName());
-                        continue;
-                    }
-
-
-                    printLn("\n开始注册"+clazz.getName());
-
-                    //-----------------jvvst mode new class
-                    Class<?> modifiedClass = getAClassAoped(clazz);
-                    context.registerBean(modifiedClass);
-                   context.registerBean( modifiedClass.getName(), modifiedClass);
-//                   //  context.register(modifiedClass);  jeig bhao,,beanname not classname
-
-//-----------jdk dync pro xy
-//                    if(clazz.getName().contains("RechargeHdr"))
-//                        System.out.println("d306");
-//                    Object obj1 = clazz.getConstructor().newInstance();
-//                    setField(obj1,SessionFactory.class,  AppConfig. sessionFactory);
-//                            //new RechargeHdr(); // 目标对象
-//                    Object proxyObj =  JdkDynamicProxy.createProxy(obj1); // 创建代理
-//                    context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
-                //    context.registerSingleton( clazz.getName(), proxy);
-
-
-
-
-
-                 //   context. registerBean(modifiedClass,modifiedClass.getName());
-                 //   printLn("modifiedClass.getClassLoader="+modifiedClass.getClassLoader());
-                    printLn("spr已注册: " + clazz.getName());
-
-                } catch (Exception e) {
-                    printLn("spr注册失败: " + clazz.getName());
-                    printLn("spr注册失败msg: " + e.getMessage());
-                  //  System.err.println("注册失败: " + clazz.getName());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 
 }

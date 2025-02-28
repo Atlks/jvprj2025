@@ -27,13 +27,13 @@ public class SprUtil {
     }
 
 
-    public static String getInjktName(Field field) {
-
-          //  Field field = clazz.getDeclaredField(fieldName);
-        Injkt qualifier = field.getAnnotation(Injkt.class);
-            return (qualifier != null) ? qualifier.value() : "";
-
-    }
+//    public static String getInjktName(Field field) {
+//
+//          //  Field field = clazz.getDeclaredField(fieldName);
+//        Injkt qualifier = field.getAnnotation(Injkt.class);
+//            return (qualifier != null) ? qualifier.value() : "";
+//
+//    }
 
     public static void injectAll4spr(Object ins) {
         Consumer<Field> csmr = field -> {

@@ -13,10 +13,12 @@ public class Trans2YLwltService extends  BaseService implements Iservice {
 
     /**
      * @param bo
+     * @return
      * @throws Exception
      */
     @Override
-    public void call(Object bo) throws Exception {
+    public Object call(Object bo) throws Exception {
 
+        return bo;
     }
 }

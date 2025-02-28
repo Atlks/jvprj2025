@@ -1,5 +1,6 @@
 package apiAcc;
 
+import com.sun.net.httpserver.HttpHandler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
@@ -38,14 +39,12 @@ import static util.util2026.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class CompleteChargeCallbackHdr extends BaseHdr<ReChgOrd, Usr> {
+public class CompleteChargeCallbackHdr extends BaseHdr<ReChgOrd, Usr>  implements HttpHandler {
     public static String saveUrlLogBalance;
 
     static boolean ovrtTEst = false;
 
 //required=false
-
-
 
     //注解告诉 JSON 序列化库跳过该字段。
   @Lazy

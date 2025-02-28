@@ -4,7 +4,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StrUtil {
-
+    public static String lowerFirstChar(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
+        char firstChar = str.charAt(0);
+        if (Character.isUpperCase(firstChar)) {
+            return Character.toLowerCase(firstChar) + str.substring(1);
+        }
+        return str;
+    }
     public static String toStr(Object invtr) {
         if(invtr==null)
             return  "";

@@ -22,7 +22,7 @@ import static util.Util2025.*;
 import static util.dbutil.setField;
 import static util.util2026.*;
 
-
+//for test
 //aop shuld log auth ,ex catch,,,pfm
 public class JdkDynamicProxySmpl implements InvocationHandler {
     private final Object target; // 目标对象

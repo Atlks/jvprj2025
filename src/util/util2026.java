@@ -20,6 +20,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import static cfg.AopLogJavassist.lock;
+import static java.time.LocalTime.now;
 import static util.ToXX.parseQueryParams;
 import static util.Util2025.encodeJson;
 
@@ -280,6 +281,83 @@ public class util2026 {
         // 如果没有找到匹配的 Cookie
         return "";
 
+    }
+
+    /**
+     * 扫描classes路径所有class，加入到容器 MutablePicoContainer
+     */
+    public static <T> void scanAllClass(Consumer<T> csmr) {
+        System.out.println("scannAllcls at " + now());
+        try {
+            // 获取 classes 目录
+            String classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+            File classDir = new File(classpath);
+            if (!classDir.exists() || !classDir.isDirectory()) {
+                System.err.println("classes 目录不存在！");
+                return;
+            }
+
+            // 递归扫描 .class 文件
+            List<Class<?>> classList = new ArrayList<>();
+            scanClasses(classDir, classDir.getAbsolutePath(), classList);
+
+            // 注册到 PicoContainer
+            for (Class<?> clazz : classList) {
+                try {
+
+                    csmr.accept((T) clazz);
+
+
+                    //-----------------jvvst mode new class
+//                    Class<?> modifiedClass = getAClassAoped(clazz);
+//                    context.registerBean(modifiedClass);
+//                    context.registerBean(modifiedClass.getName(), modifiedClass);
+////                   //  context.register(modifiedClass);  jeig bhao,,beanname not classname
+
+
+                } catch (Exception e) {
+                    printLn("spr注册失败: " + clazz.getName());
+                    printLn("spr注册失败msg: " + e.getMessage());
+                    //  System.err.println("注册失败: " + clazz.getName());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 扫描classes路径所有class，
+     */
+    public static void scanAllClass(Function f) {
+        try {
+            // 获取 classes 目录
+            String classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+            File classDir = new File(classpath);
+            if (!classDir.exists() || !classDir.isDirectory()) {
+                System.err.println("classes 目录不存在！");
+                return;
+            }
+
+            // 递归扫描 .class 文件
+            List<Class<?>> classList = new ArrayList<>();
+            scanClasses(classDir, classDir.getAbsolutePath(), classList);
+
+            // 注册到 PicoContainer
+            for (Class<?> clazz : classList) {
+                try {
+                    f.apply(clazz);
+                    //   container888.addComponent(clazz);
+                    //   System.out.println("f.aply: " + clazz.getName());
+                } catch (Exception e) {
+                    System.err.println("apply失败: " + clazz.getName());
+                    System.err.println("apply失败msg: " + e.getMessage());
+                    //  System.err.println("注册失败: " + clazz.getName());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     //  这里没有增加  声明 serialVersionUID
     private static void srlzCtCls(CtClass ctClass, ClassPool pool) throws NotFoundException, CannotCompileException {
