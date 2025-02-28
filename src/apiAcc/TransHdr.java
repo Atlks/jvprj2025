@@ -12,7 +12,7 @@ import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import util.Iservice;
+import util.Icall;
 import service.Trans2YLwltService;
 
 import java.math.BigDecimal;
@@ -154,7 +154,7 @@ public class TransHdr extends BaseHdr<Usr, Usr> {
 
         transToYinliWlt(lgblsDto);
 
-        Iservice is=Trans2YLwltService1;
+        Icall is=Trans2YLwltService1;
         ((Trans2YLwltService) is).handle(lgblsDto);
 
      //   session.getTransaction().commit();

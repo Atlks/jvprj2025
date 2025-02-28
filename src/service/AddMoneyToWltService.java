@@ -8,7 +8,7 @@ import lombok.Data;
 import org.hibernate.Session;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import util.Iservice;
+import util.Icall;
 
 import java.math.BigDecimal;
 
@@ -19,7 +19,7 @@ import static util.util2026.getFilenameFrmLocalTimeString;
 @Data
 @Component
 @Lazy
-public class AddMoneyToWltService   implements Iservice<ReChgOrd, Object> {
+public class AddMoneyToWltService   implements Icall<ReChgOrd, Object> {
 
     public Object call(ReChgOrd objChrg ) throws Exception {
         //  printLn("\n▶️fun updtBlsByAddChrg(", BLUE);

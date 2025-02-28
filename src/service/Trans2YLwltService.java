@@ -1,8 +1,8 @@
 package service;
 
-import util.Iservice;
+import util.Icall;
 
-public class Trans2YLwltService extends  BaseService implements Iservice {
+public class Trans2YLwltService extends  BaseService implements Icall {
 
 
     public void handle(Object dtoServicePrm) throws Exception {

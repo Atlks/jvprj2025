@@ -2,9 +2,7 @@
 
 package apiUsr;
 
-import biz.BaseHdr;
 import biz.existUserEx;
-import com.sun.net.httpserver.HttpHandler;
 import entityx.Usr;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,15 +10,18 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import util.HbntUtil;
+import util.Icall;
 
 
+import java.util.function.Supplier;
+
+import static cfg.AppConfig.sessionFactory;
+import static util.AopUtil.ivk4log;
 import static util.HbntUtil.persistByHibernate;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
@@ -29,22 +30,13 @@ import static util.util2026.*;
 
 //  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
 @RestController
+@Path("/reg")
 @RequestMapping("/reg")
 @Tag(name = "用户管理", description = "用户相关操作")
 @PermitAll
-public class RegHandler extends BaseHdr<Usr, Usr> implements HttpHandler {
+public class RegHandler   implements Icall<Usr,Object> {
 
-    //  @Inject // 可选，PicoContainer 其实不依赖 @Inject，但能增加可读性
-    public RegHandler(SessionFactory sessionFactory1) {
-        this.sessionFactory = sessionFactory1;
-        super.sessionFactory = sessionFactory1;
-    }
-
-    //  @Bean
-    public RegHandler() { // 确保它是 Solon 代理的 Bean
-        System.out.println("RegHandler 已创建");
-    }
-
+    public static  String  saveDirUsrs;
     /**
      *
      * @throws Exception
@@ -73,18 +65,20 @@ public class RegHandler extends BaseHdr<Usr, Usr> implements HttpHandler {
     @Parameter(name = "uname", description = "邀请人", required = false)
     @PermitAll
     @Validated
-    @Override
-    public Object handle3(  @ModelAttribute Usr dtoU) throws Exception {
+
+    public Object call(  @ModelAttribute Usr dtoU) throws Exception {
         System.out.println("reghdl.hd3(" + encodeJson(dtoU));
         dtoU.id = dtoU.uname;
-        if (existUser(dtoU) && (!ovrwtest)) {
+        boolean rzt=ivk4log("existUser",()->{
+                return  existUser(dtoU);
+        });
+        if (rzt && (!ovrwtest)) {
             var e = new existUserEx("存在用户",getCurrentMethodName(),dtoU);
             throw e;
         }
         persistByHibernate(  dtoU, sessionFactory);
         return dtoU;
     }
-
 
 
 
@@ -132,4 +126,6 @@ public class RegHandler extends BaseHdr<Usr, Usr> implements HttpHandler {
         } else
             return true;
     }
+
+
 }

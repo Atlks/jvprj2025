@@ -26,7 +26,7 @@ fun main() {
     val context: ApplicationContext = AnnotationConfigApplicationContext(AppConfig::class.java)
     val bean: BetHdr = context.getBean<BetHdr>(
         BetHdr::class.java)
-    bean.handle(he);
+    //bean.handle(he);
 
 }
 

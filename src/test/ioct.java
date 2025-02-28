@@ -26,7 +26,7 @@ public class ioct
 
         // 获取 Client 实例
         RegHandler client = container.getComponent(RegHandler.class);
-        client.handle(he);
+      //  client.handle(he);
         // 手动注入 Service
        // client.setService(container.getComponent(Service.class));
 

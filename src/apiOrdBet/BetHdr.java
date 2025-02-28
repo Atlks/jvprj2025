@@ -1,6 +1,7 @@
 package apiOrdBet;
 
 import biz.BaseHdr;
+import biz.HttpHandlerX;
 import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -19,11 +20,13 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CookieValue;
 import util.HttpExchangeImp;
+import util.Icall;
 
 import java.sql.SQLException;
 import java.util.Map;
 
 
+import static cfg.AppConfig.sessionFactory;
 import static java.time.LocalTime.now;
 import static util.HbntUtil.persistByHibernate;
 import static util.ToXX.parseQueryParams;
@@ -38,14 +41,9 @@ import static util.util2026.*;
  */
 @Component
 @NoArgsConstructor
-public class BetHdr extends BaseHdr<Usr, Usr> implements HttpHandler {
-
-    public BetHdr(SessionFactory sessionFactory) {
+public class BetHdr   implements Icall<HttpExchange,Object> {
 
 
-        this.sessionFactory = sessionFactory;
-        super.sessionFactory= sessionFactory;
-    }
 
 //    @Autowired
 //    private SessionFactory sessionFactory;
@@ -62,7 +60,7 @@ public class BetHdr extends BaseHdr<Usr, Usr> implements HttpHandler {
 
 
     @Override
-    public void handle2(@CookieValue(name="uname") HttpExchange exchange) throws Exception {
+    public Object call(@CookieValue(name="uname") HttpExchange exchange) throws Exception {
 
 
 
@@ -82,7 +80,8 @@ public class BetHdr extends BaseHdr<Usr, Usr> implements HttpHandler {
         wrtResp(exchange, encodeJson( addOrdBet(ord)));
 
 
-    }
+    return null;
+}
 
     public Object addOrdBet(OrdBet ord) throws SQLException {
         Session session =sessionFactory.getCurrentSession();
@@ -113,5 +112,16 @@ public class BetHdr extends BaseHdr<Usr, Usr> implements HttpHandler {
 
      //   new AddOrdBetHdr().handle2(he);
     }
+
+    /**
+     * @param dto
+     * @return
+     * @throws Exception
+     */
+
+    public Object handlex(Object dto) throws Exception {
+        return null;
+    }
+
 
 }

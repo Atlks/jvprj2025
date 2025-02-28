@@ -23,9 +23,18 @@ import static cfg.AopLogJavassist.lock;
 import static java.time.LocalTime.now;
 import static util.ToXX.parseQueryParams;
 import static util.Util2025.encodeJson;
+import static util.dbutil.setField;
 
 public class util2026 {
+    public  static void copyCookieToDto(HttpExchange HttpExchange1,List<String> cookieParams, Object dto) {
+        for(String cknm:cookieParams)
+        {
+            String v = getcookie(cknm, HttpExchange1);
+            setField(dto,cknm,v);
+        }
 
+
+    }
     public static void main(String[] args) {
         System.out.println(encodeJson(11));
     }

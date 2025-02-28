@@ -2,7 +2,6 @@ import apiAcc.CompleteChargeCallbackHdr;
 import org.noear.solon.annotation.SolonMain;
 import org.springframework.context.annotation.ComponentScan;
 import service.AddMoneyToWltService;
-import util.Iservice;
 //import service.AddRchgOrdToWltService;
 
 import static cfg.MyCfg.iniCfgFrmCfgfile;
@@ -26,8 +25,10 @@ public class MainApi {
 
 //
         Object bean = getBeanFrmSpr(CompleteChargeCallbackHdr.class);
-        System.out.println("bean.addMoneyToWltService1::"+getField(bean,"addMoneyToWltService1") );
-//       setField(bean,"addMoneyToYLWltService1", getBeanFrmSpr(AddMoneyToYLWltService.class));
+//        setField(bean,"addMoneyToWltService1", AddMoneyToWltService1);
+//
+//        System.out.println("bean.addMoneyToWltService1::"+getField(bean,"addMoneyToWltService1") );
+
 //     //   bean.addMoneyToWltService1= (util.Iservice) AddMoneyToWltService1;
 //      //  injectAll4spr(bean);
 //        System.out.println("HttpHandler is:"+ bean);

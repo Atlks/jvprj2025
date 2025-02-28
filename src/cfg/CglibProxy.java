@@ -41,6 +41,6 @@ public class CglibProxy implements MethodInterceptor {
 
     public static void main(String[] args) throws IOException {
         HttpHandlerX proxy = (HttpHandlerX) CglibProxy.createProxy(new RechargeHdr());
-        proxy.handle(null);
+   //     proxy.handle(null);
     }
 }

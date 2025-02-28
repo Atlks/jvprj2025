@@ -113,7 +113,7 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
 
 
 
-    private static String processNmlExptn(HttpExchange exchange, Throwable e) {
+    public static String processNmlExptn(HttpExchange exchange, Throwable e) {
         ExceptionBase ex;
 //        System.out.println(
 //                "⚠\uFE0F e="
@@ -149,7 +149,7 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
         return responseTxt;
     }
 
-    private static String processInvkExpt(HttpExchange exchange, InvocationTargetException e) throws IOException {
+    public static String processInvkExpt(HttpExchange exchange, InvocationTargetException e) throws IOException {
         ExceptionBase ex;
         ex = new ExceptionBase(e.getMessage());
         ex.cause = e;

@@ -4,15 +4,8 @@ import apiAcc.RechargeHdr;
 import biz.HttpHandlerX;
 import com.sun.net.httpserver.HttpExchange;
 import org.hibernate.SessionFactory;
-import util.Iservice;
+import util.Icall;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-
-import static biz.BizUtil.createProxy4log;
-import static cfg.AopLogJavassist.isObjectMethod;
-import static cfg.AopLogJavassist.isObjectMethodEx;
 import static util.ColorLogger.*;
 import static util.Util2025.encodeJsonObj;
 import static util.Util2025.encodeJsonV2;
@@ -20,11 +13,11 @@ import static util.dbutil.setField;
 
 
 //aop shuld log auth ,ex catch,,,pfm
-public class AtProxy4log implements Iservice {
-    private   Iservice target; // 目标对象
+public class AtProxy4Svs implements Icall {
+    private Icall target; // 目标对象
 
-    public AtProxy4log(Object target) {
-        this.target = (Iservice) target;
+    public AtProxy4Svs(Object target) {
+        this.target = (Icall) target;
     }
 
     public static void main(String[] args) throws Exception {
@@ -33,7 +26,7 @@ public class AtProxy4log implements Iservice {
         //new RechargeHdr(); // 目标对象
         Object proxyObj =  createProxy4log(obj1); // 创建
         HttpHandlerX hx= (HttpHandlerX) proxyObj;
-        hx.handle(null);
+     //   hx.handle(null);
     }
 
 
@@ -76,7 +69,7 @@ public class AtProxy4log implements Iservice {
     public static Object createProxy4log(Object target) {
        // Class<?>[] interfaces = target.getClass().getInterfaces();
      //   System.out.println("crtProxy().itfss="+encodeJsonObj(interfaces));
-        return new AtProxy4log(target);
+        return new AtProxy4Svs(target);
     }
 
     //----------aop auth

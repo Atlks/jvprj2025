@@ -1,5 +1,6 @@
 package apiAcc;
 
+import biz.HttpHandlerX;
 import com.sun.net.httpserver.HttpHandler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.RolesAllowed;
@@ -20,14 +21,16 @@ import biz.BaseHdr;
 import entityx.ReChgOrd;
 import entityx.Usr;
 import org.hibernate.Session;
-import util.Iservice;
+import util.Icall;
 
 import java.math.BigDecimal;
 
+import static cfg.AppConfig.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static java.time.LocalTime.now;
 import static util.ColorLogger.*;
 import static util.HbntUtil.*;
+import static util.SprUtil.getBeanFrmSpr;
 import static util.util2026.*;
 
 /**  ivk by
@@ -39,7 +42,7 @@ import static util.util2026.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class CompleteChargeCallbackHdr extends BaseHdr<ReChgOrd, Usr>  implements HttpHandler {
+public class CompleteChargeCallbackHdr  implements  Icall<ReChgOrd,Object> {
     public static String saveUrlLogBalance;
 
     static boolean ovrtTEst = false;
@@ -51,7 +54,7 @@ public class CompleteChargeCallbackHdr extends BaseHdr<ReChgOrd, Usr>  implement
   @Autowired()
  // @Inject("addMoneyToWltService")
  @Qualifier("addMoneyToWltService")  // 使用类名自动转换
- public Iservice addMoneyToWltService1;   //=new AddMoneyToWltService();
+ public Icall addMoneyToWltService1;   //=new AddMoneyToWltService();
 
 //    @Lazy
 //   // @Autowired()
@@ -67,7 +70,7 @@ public class CompleteChargeCallbackHdr extends BaseHdr<ReChgOrd, Usr>  implement
     //@CookieValue
     @Transactional
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
-    public Object handle3(@ModelAttribute ReChgOrd ordDto) throws Exception {
+    public Object call(@ModelAttribute ReChgOrd ordDto) throws Exception {
         ovrtTEst=true;//todo cancel if test ok
         Session session = sessionFactory.getCurrentSession();
 
@@ -95,7 +98,9 @@ public class CompleteChargeCallbackHdr extends BaseHdr<ReChgOrd, Usr>  implement
         String mthBiz2=colorStr("主钱包加钱",RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun "+mthBiz2);
         String uname = objChrg.uname;
-        addMoneyToWltService1.call(objChrg);
+
+        Icall c=getBeanFrmSpr("addMoneyToWltService");
+        c.call(objChrg);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
 
@@ -114,6 +119,8 @@ public class CompleteChargeCallbackHdr extends BaseHdr<ReChgOrd, Usr>  implement
 
         return null;
     }
+
+
 //    public static void main(String[] args) throws Exception {
 //        MyCfg.iniCfgFrmCfgfile();
 //        ovrtTEst = true;

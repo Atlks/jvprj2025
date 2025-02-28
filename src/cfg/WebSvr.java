@@ -72,21 +72,21 @@ public class WebSvr {
    //     server.createContext("/reg",getBeanFrmSpr(RegHandler.class));
   //     server.createContext("/login", getBeanFrmSpr(LoginHdr.class));
 //        server.createContext("/QueryUsr",getBeanFrmSpr(QueryUsrHdr.class) );
-        server.createContext("/BetHdr",getBeanFrmSpr(BetHdr.class));
-                //IocSpringCfg.   context. getBean(BetHdr.class));
-        server.createContext("/QryOrdBetHdr", new QryOrdBetHdr());
-        server.createContext("/QryTeamHdr", new QryTeamHdr());
+//        server.createContext("/BetHdr",getBeanFrmSpr(BetHdr.class));
+//                //IocSpringCfg.   context. getBean(BetHdr.class));
+//        server.createContext("/QryOrdBetHdr", new QryOrdBetHdr());
+//        server.createContext("/QryTeamHdr", new QryTeamHdr());
 
 
 //        AddOrdBetHdr bean = context.getBean(AddOrdBetHdr.class);
 
 
-        server.createContext("/rechargeHdr",  getBeanFrmSpr(RechargeHdr.class) );
+    //    server.createContext("/rechargeHdr",  getBeanFrmSpr(RechargeHdr.class) );
 //        server.createContext("/rechargeHdr",
 //                getBeanFrmSpr(RechargeHdr.class)
 //        );
-        server.createContext("/QueryOrdChrgHdr", new QueryOrdChrgHdr());
-        server.createContext("/UserCentrHdr", new UserCentrHdr());
+//        server.createContext("/QueryOrdChrgHdr", new QueryOrdChrgHdr());
+//        server.createContext("/UserCentrHdr", new UserCentrHdr());
 
         Consumer<Class> fun=aClass-> {
                 if(aClass.getName().startsWith("api"))

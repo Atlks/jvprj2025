@@ -11,7 +11,12 @@ import java.util.function.Consumer;
 
 
 public class SprUtil {
+    public static <T> T getBeanFrmSpr(String beanRegname) {
+        return  (T)IocSpringCfg.context.getBean(beanRegname);
 
+        //  injectAll4spr(ins);
+      //  return ins;
+    }
     public static <T> T getBeanFrmSpr(Class<T> clazz) {
         T ins = (T) IocSpringCfg.context.getBean(clazz.getName());
 

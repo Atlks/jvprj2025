@@ -37,7 +37,7 @@ public class JdkDynamicProxySmpl implements InvocationHandler {
         //new RechargeHdr(); // 目标对象
         Object proxyObj =  JdkDynamicProxySmpl.createProxy(obj1); // 创建
         HttpHandlerX hx= (HttpHandlerX) proxyObj;
-        hx.handle(null);
+      //  hx.handle(null);
     }
 
 

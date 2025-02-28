@@ -129,13 +129,16 @@ public class RechargeHdr extends BaseHdr<ReChgOrd, Usr> implements HttpHandlerX 
 
     public RechargeHdr() {
     }
+
+
     /**
-     * @param exchange
+     * @param dto
+     * @return
      * @throws Exception
      */
     @Override
-    public void handlex(HttpExchange exchange) throws Exception {
-
+    public Object handlex(Object dto) throws Exception {
+        return null;
     }
 
 //    @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问

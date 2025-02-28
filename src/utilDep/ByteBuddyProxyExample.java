@@ -110,7 +110,7 @@ public class ByteBuddyProxyExample {
         RegHandler proxy = createProxy(RegHandler.class);
 
         // 调用代理方法
-        proxy.handle(null);  // 示例方法调用
+    //    proxy.handle(null);  // 示例方法调用
     }
 }
 

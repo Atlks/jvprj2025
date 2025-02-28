@@ -1,16 +1,31 @@
 package util;
 
 import java.lang.reflect.Method;
+import java.util.function.Supplier;
 
 
+import static util.ColorLogger.*;
 import static util.ExptUtil.curFun4dbg;
 import static util.ExptUtil.currFunPrms4dbg;
-import static util.Util2025.encodeJson;
+import static util.Util2025.*;
+
 //cglib outtime,asm too lowlev ,bytebuddy cant log 3lev
 //only jvvst is ok..
 public class AopUtil {
 
+    public static <T> T ivk4log(String funName, SupplierX<T> spl) throws Exception {
+        // 在调用 Lambda 表达式之前或之后，你可以添加日志记录或其他操作
+     //   System.out.println("开始执行 blk..."+funName);
+        String mthClred = colorStr(funName, YELLOW_bright);
+       // String prmurl = colorStr(encodeJsonV2(args), GREEN);
+        System.out.println("▶\uFE0Ffun " + mthClred + "(args=" + "");
+        T result = spl.get();
 
+    //    System.out.println("endblk $funName 执行完毕，结果为: " + result);
+        System.out.println("✅endfun " + funName + "().ret=" + encodeJsonObj(result));
+        // 返回 Lambda 表达式的结果
+        return result;
+    }
     /**
      * Invoke a method on an object dynamically
      *

@@ -31,7 +31,7 @@ public class JdkDynamicProxy4log implements InvocationHandler {
         //new RechargeHdr(); // 目标对象
         Object proxyObj =  createProxy4log(obj1); // 创建
         HttpHandlerX hx= (HttpHandlerX) proxyObj;
-        hx.handle(null);
+       // hx.handle(null);
     }
 
     // 代理逻辑：拦截方法调用   aop log

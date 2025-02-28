@@ -39,7 +39,7 @@ fun main230(){
     val container = iniIocContainr()
     val component = container.getComponent(RegHandler::class.java)
     var RegHandler1:RegHandler= component as RegHandler
-    RegHandler1.handle(he);
+   // RegHandler1.handle(he);
     println("------------resp out :\n"+readFile("output2025.txt"));
 }
 

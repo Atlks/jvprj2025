@@ -4,16 +4,12 @@ import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import util.Iservice;
+import util.Icall;
 import util.StrUtil;
 
-import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
 
-import static biz.BizUtil.createProxy4log;
 import static java.time.LocalTime.now;
 //import static cfg.AopLogJavassist.printLn;
 import static util.dbutil.setField;
@@ -57,17 +53,21 @@ public class IocSpringCfg {
             // 目标对象
             Object proxyObj;  //def no prxy ,,
             //only prxy service obj
-            if(clazz.getName().startsWith("service."))
+            if(clazz.getName().startsWith("service.") )
             {
-                proxyObj  = AtProxy4log.createProxy4log(obj1); // 创建代理
+                proxyObj  = AtProxy4Svs.createProxy4log(obj1); // 创建代理
+                context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
+                String beanName = StrUtil.lowerFirstChar(clazz.getSimpleName());
+                context.registerBean(beanName, (Class) Icall.class, () -> (Icall)proxyObj);
+            } else if(clazz.getName().startsWith("api")) {
+                proxyObj = new AtProxy4webapi(obj1);
             } else {
                 proxyObj = obj1;
             }
 
             context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
             String beanName = StrUtil.lowerFirstChar(clazz.getSimpleName());
-            context.registerBean(beanName, (Class)Iservice.class, () -> (Iservice)proxyObj);
-
+            context.registerBean(beanName, (Class)proxyObj.getClass(), () -> (Icall)proxyObj);
 
             //context.registerBean( clazz.getName(), proxy);
             printLn("spr已注册: " + beanName);
