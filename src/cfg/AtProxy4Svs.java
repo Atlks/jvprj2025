@@ -6,6 +6,7 @@ import com.sun.net.httpserver.HttpExchange;
 import org.hibernate.SessionFactory;
 import util.Icall;
 
+import static util.AopUtil.ivk4log;
 import static util.ColorLogger.*;
 import static util.Util2025.encodeJsonObj;
 import static util.Util2025.encodeJsonV2;
@@ -31,7 +32,7 @@ public class AtProxy4Svs implements Icall {
 
 
 
-    /**
+    /**svs proxy
      * @param args
      * @return
      * @throws Exception
@@ -39,29 +40,10 @@ public class AtProxy4Svs implements Icall {
     @Override
     public Object call(Object args) throws Exception {
         String mthFullname = target.getClass().getName() + ".call";
-        System.out.println("日志记录: 调用方法 "+ mthFullname);
-        //    Object result = method.invoke(target, args); // 调用目标方法
 
-        String mth = colorStr(mthFullname, YELLOW_bright);
-        String prmurl = colorStr(encodeJsonV2(args), GREEN);
-        System.out.println("▶\uFE0Ffun " + mth + "(arg=" + prmurl);
-        //   curUrlPrm.set(exchange.getrequ);
-
-        HttpExchange exchange = null;
-
-
-        //   setcookie("uname", "007", exchange);//for test
-
-        //---------blk chk auth
-
-        Object result = target.call(args);
-
-        // session.getTransaction().commit();
-
-        System.out.println("✅endfun " + mthFullname + "().ret=" + encodeJsonObj(result));
-
-
-        System.out.println("方法调用完成" + mthFullname);
+        Object result=ivk4log(mthFullname,args,()->{
+            return  target.call(args);
+        });
         return result;
     }
 

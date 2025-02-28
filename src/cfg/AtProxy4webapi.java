@@ -16,6 +16,7 @@ import java.util.List;
 
 import static biz.BaseHdr.*;
 import static util.AnnotationUtils.getCookieParams;
+import static util.AopUtil.ivk4log;
 import static util.ColorLogger.*;
 import static util.ExptUtil.curUrl;
 import static util.QueryParamParser.toDto;
@@ -53,26 +54,13 @@ public class AtProxy4webapi implements Icall,HttpHandler{
     @Override
     public Object call(Object args) throws Exception {
         String mthFullname = target.getClass().getName() + ".call";
-        System.out.println("日志记录: 调用方法 "+ mthFullname);
-        //    Object result = method.invoke(target, args); // 调用目标方法
 
-        String mth = colorStr(mthFullname, YELLOW_bright);
-        String prmurl = colorStr(encodeJsonV2(args), GREEN);
-        System.out.println("▶\uFE0Ffun " + mth + "(arg=" + prmurl);
-        //   curUrlPrm.set(exchange.getrequ);
-
-        HttpExchange exchange = null;
 
         //---------blk chk auth
+        Object result=ivk4log(mthFullname,args,()->{
+            return  target.call(args);
+        });
 
-        Object result =  target.call(args);
-
-        // session.getTransaction().commit();
-
-        System.out.println("✅endfun " + mthFullname + "()") ;
-
-
-        System.out.println("方法调用完成" + mthFullname);
 
         return result;
     }
