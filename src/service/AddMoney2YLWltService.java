@@ -9,6 +9,7 @@ import lombok.Data;
 import org.hibernate.Session;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import util.Icall;
 
 import java.math.BigDecimal;
@@ -19,7 +20,7 @@ import static util.HbntUtil.*;
 import static util.util2026.getFieldAsBigDecimal;
 import static util.util2026.getFilenameFrmLocalTimeString;
 @Data
-@Component
+@Service
 @Lazy
 public class AddMoney2YLWltService implements Icall<ReChgOrd,Object> {
 

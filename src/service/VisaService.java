@@ -77,7 +77,7 @@ public class VisaService {
         MRZ MRZ1 = new MRZ("uke", visa.getVisaNumber(), "", passport.getHolderName(), passport.getPassportNumber(), LocalDate.now(), localDateExp);
         visa.MRZ1 = encryVisaMrz(MRZ1);
         // 关联签证到护照
-        passport.getVisas().add(visa);
+       // passport.getVisas().add(visa);
         return visa;
     }
 

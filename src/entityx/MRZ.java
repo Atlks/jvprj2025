@@ -22,7 +22,9 @@ public class MRZ {
         this.holderSurname = holderSurname;
         this.holderGivenName = holderGivenName;
         this.passportNumber = passportNumber;
+      //  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         this.issueDate = issueDate;
+     //   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         this.expiryDate = expiryDate;
     }
 

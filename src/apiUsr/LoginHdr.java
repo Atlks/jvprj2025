@@ -63,7 +63,8 @@ public class LoginHdr implements Icall<Usr,Object> {
 
             VisaService visaService = new VisaService();
             Visa visa = visaService.applyForVisa(passport, "Thailand", "Tourist");
-            setcookie("visa", encodeJson(visa), httpExchangeCurThrd.get());
+            String val = encodeJson(visa);
+            setcookie("visa", val, httpExchangeCurThrd.get());
             return true;
         }
 

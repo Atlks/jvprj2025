@@ -1,6 +1,8 @@
 package cfg;
 
 import apiUsr.QueryUsrHdr;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.hibernate.SessionFactory;
 import org.springdoc.core.properties.SpringDocConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,5 +67,12 @@ public class AppConfig {
     @Bean
     public CacheManager cacheManager() {
         return new ConcurrentMapCacheManager("defaultCache");
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule()); // 让 Jackson 支持 LocalDate
+        return mapper;
     }
 }

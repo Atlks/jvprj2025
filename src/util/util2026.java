@@ -12,6 +12,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.HttpCookie;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,6 +22,7 @@ import java.util.function.Function;
 
 import static cfg.AopLogJavassist.lock;
 import static java.time.LocalTime.now;
+import static org.apache.commons.codec.net.URLCodec.encodeUrl;
 import static util.ToXX.parseQueryParams;
 import static util.Util2025.encodeJson;
 import static util.dbutil.setField;
@@ -509,12 +511,23 @@ public class util2026 {
 
         // 创建 Set-Cookie 头部内容
         //String cookie1 = "uname=" + uname + "; Path=/; HttpOnly;
-        String cookie1 = name + "=" + val + "; Path=/;  Max-Age=" + halfYearInSeconds + ";";
+        String cookie1 = name + "=" + encodeUrl2(val) + "; Path=/;  Max-Age=" + halfYearInSeconds + ";";
         //    " Expires=" + expiresDate;
         // 设置响应头中的 Set-Cookie
         exchange.getResponseHeaders().add("Set-Cookie", cookie1);
         //   exchange.getResponseHeaders().add("Set-Cookie", cookie2);
 
+    }
+
+    private static String encodeUrl2(String val) {
+        if (val == null || val.isEmpty()) {
+            return "";
+        }
+        try {
+            return URLEncoder.encode(val, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("UTF-8 encoding not supported", e);
+        }
     }
 
     public static void throwEx(Exception e) {
