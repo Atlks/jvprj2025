@@ -36,10 +36,10 @@ public class Usr {
     @PrimaryKey
     @Id
     public String id;
-    public BigDecimal balance;// avdBls
-    public BigDecimal balanceFreez;// avdBls
-    public BigDecimal balanceYinliwlt;
-    public BigDecimal balanceYinliwltFreez;
+    public BigDecimal balance=new BigDecimal(0);// avdBls
+    public BigDecimal balanceFreez=new BigDecimal(0);;// avdBls
+    public BigDecimal balanceYinliwlt=new BigDecimal(0);;
+    public BigDecimal balanceYinliwltFreez=new BigDecimal(0);;
 
     public Usr(String uname) {
         this.uname = uname;

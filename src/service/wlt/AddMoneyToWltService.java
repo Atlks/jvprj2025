@@ -1,6 +1,5 @@
-//package apiWltYinli;
-
-package service;
+package service.wlt;
+import static cfg.AppConfig.sessionFactory;
 
 import entityx.LogBls;
 import entityx.ReChgOrd;
@@ -9,29 +8,20 @@ import lombok.Data;
 import org.hibernate.Session;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import util.Icall;
 
 import java.math.BigDecimal;
 
-import static cfg.AppConfig.sessionFactory;
 import static service.CmsBiz.toBigDcmTwoDot;
 import static util.HbntUtil.*;
 import static util.util2026.getFieldAsBigDecimal;
 import static util.util2026.getFilenameFrmLocalTimeString;
 @Data
-@Service
+@Component
 @Lazy
-public class AddMoney2YLWltService implements Icall<ReChgOrd,Object> {
+public class AddMoneyToWltService   implements Icall<ReChgOrd, Object> {
 
     public Object call(ReChgOrd objChrg ) throws Exception {
-      //  Callable
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });
         //  printLn("\n▶️fun updtBlsByAddChrg(", BLUE);
         //    printLn("objChrg= " + encodeJson(objChrg), GREEN);
         //    System.out.println(")");
@@ -67,11 +57,17 @@ public class AddMoney2YLWltService implements Icall<ReChgOrd,Object> {
         logBalance.newBalance = toBigDcmTwoDot(newBls);
         System.out.println(" add balanceLog ");
         persistByHibernate(logBalance, session);
+        
+        
+        mm2();
+        System.out.println("1217");
 
         //  System.out.println("✅endfun updtBlsByAddChrg()");
         return null;
     }
 
+    public void mm2() {
+    }
 
 
 }

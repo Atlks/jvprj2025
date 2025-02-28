@@ -1,6 +1,6 @@
 package apiAcc;
 
-import service.AddMoneyToWltService;
+import service.wlt.AddMoneyToWltService;
 import service.CmsBiz;
 import biz.AopBase;
 import entityx.ReChgOrd;

@@ -1,9 +1,8 @@
 package util;
 
-import biz.Injkt;
 import cfg.IocSpringCfg;
 import org.springframework.beans.factory.annotation.Qualifier;
-import service.AddMoneyToWltService;
+import service.wlt.AddMoneyToWltService;
 
 
 import java.lang.reflect.Field;
