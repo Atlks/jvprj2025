@@ -63,6 +63,7 @@ public class AtProxy4api implements Icall, HttpHandler {
 
         //---------blk chk auth
         Object result = ivk4log(mthFullname, args, () -> {
+            injectAll4spr(target);
             return target.call(args);
         });
 
@@ -192,10 +193,6 @@ public class AtProxy4api implements Icall, HttpHandler {
 
             rzt = call(dto);
         }
-
-        //  handle2(exchange);
-        //会使用反射机制去查找控制器方法中的参数类型
-
 
         //  默认返回 JSON，不需要额外加 @ResponseBody
         //  默认会将 String 直接作为 text/plain 处理：

@@ -14,6 +14,8 @@ import java.math.BigDecimal;
 import java.net.HttpCookie;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -30,17 +32,17 @@ import static util.Util2025.encodeJson;
 import static util.dbutil.setField;
 
 public class util2026 {
-    public static String slt4pwd="slt2025";
+    public static String slt4pwd = "slt2025";
 
-    public  static void copyCookieToDto(HttpExchange HttpExchange1, List<String> cookieParams, Object dto) {
-        for(String cknm:cookieParams)
-        {
+    public static void copyCookieToDto(HttpExchange HttpExchange1, List<String> cookieParams, Object dto) {
+        for (String cknm : cookieParams) {
             String v = getcookie(cknm, HttpExchange1);
-            setField(dto,cknm,v);
+            setField(dto, cknm, v);
         }
 
 
     }
+
     public static void main(String[] args) {
         System.out.println(encodeJson(11));
     }
@@ -59,6 +61,7 @@ public class util2026 {
             throw new RuntimeException("获取字段失败: " + fieldName, e);
         }
     }
+
     public static void scanClasses(File dir, String basePath, List<Class<?>> classList) {
         File[] files = dir.listFiles();
         if (files == null) return;
@@ -99,6 +102,7 @@ public class util2026 {
             System.err.println("文件不存在: " + fnamePath);
         }
     }
+
     /**
      * 解析 INI 配置文件
      *
@@ -190,10 +194,10 @@ public class util2026 {
      */
     /**
      * 获取方法名称，兼容实例方法
-
-     * @return
+     *
      * @param <T>
      * @param <R>
+     * @return
      */
     public static <T, R> String nameofSingleParam(Function<T, R> function) {
         try {
@@ -212,7 +216,7 @@ public class util2026 {
         }
     }
 
-//    public static <T, R> String nameofSnglPrm(Function<T, R> methodRef) {
+    //    public static <T, R> String nameofSnglPrm(Function<T, R> methodRef) {
 //        try {
 //            Method method = methodRef.getClass().getDeclaredMethod("writeReplace");
 //            method.setAccessible(true);
@@ -232,6 +236,7 @@ public class util2026 {
             throw new RuntimeException("无法获取方法名称", e);
         }
     }
+
     public static String nameof(Function<?, ?> methodRef) {
         try {
             Method method = methodRef.getClass().getDeclaredMethods()[0];
@@ -240,6 +245,7 @@ public class util2026 {
             throw new RuntimeException("无法获取方法名称", e);
         }
     }
+
     /**
      * 将异常的堆栈跟踪转换为字符串
      *
@@ -272,6 +278,7 @@ public class util2026 {
             return true;
         return false;
     }
+
     public static String getcookieDecry(String cookieName, HttpExchange exchange) throws Exception {
         // 获取请求头中的 Cookie
         List<String> cookieHeaders = exchange.getRequestHeaders().get("Cookie");
@@ -398,6 +405,7 @@ public class util2026 {
             e.printStackTrace();
         }
     }
+
     //  这里没有增加  声明 serialVersionUID
     private static void srlzCtCls(CtClass ctClass, ClassPool pool) throws NotFoundException, CannotCompileException {
         boolean isSerializable = false;
@@ -440,6 +448,7 @@ public class util2026 {
             System.err.flush();  // 刷新输出缓冲区
         }
     }
+
     // **序列化对象**
     private static byte[] serialize(Object obj) throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -459,6 +468,7 @@ public class util2026 {
         };
         return in.readObject();
     }
+
     public static List<HttpCookie> HttpCookie_parse(String cookieHeader) {
         List<HttpCookie> list = new ArrayList<>();
         // 分割每个 Cookie 头中的多个 Cookie
@@ -469,7 +479,7 @@ public class util2026 {
             if (cookieParts.length == 2) {
                 String name = cookieParts[0];
                 String value = cookieParts[1];
-                value=decodeUrl(value);
+                value = decodeUrl(value);
                 HttpCookie ck = new HttpCookie(name, value);
                 list.add(ck);
             }
@@ -549,7 +559,6 @@ public class util2026 {
     }
 
 
-
     public static void throwEx(Exception e) {
         if (e instanceof RuntimeException)
             throw (RuntimeException) e;
@@ -622,9 +631,15 @@ public class util2026 {
             for (Field field : fields) {
                 field.setAccessible(true);
                 try {
+                    if(field.getName().contains("timestamp"))
+                        System.out.println("D1241");
                     Object value = field.get(source);
-                    if(value!=null)
-                    field.set(target, value);
+                    if (value != null)
+                    {
+                        if(isObjHasField(target,field.getName()))
+                        field.set(target, toFldType(value,field.getType()) );
+                    }
+
                 } catch (IllegalAccessException e) {
                     throw new RuntimeException("无法访问字段: " + field.getName(), e);
                 }
@@ -632,10 +647,66 @@ public class util2026 {
             clazz = clazz.getSuperclass(); // 继续处理父类字段
         }
     }
-//    publicpublic static String getFieldAsStrFrmMap(Map<String, String> queryParams, String uname) {
+    //判断对象是不是有field属性
+    private static <T> boolean isObjHasField(T target, String name) {
+
+        // 获取目标对象的类
+        Class<?> clazz = target.getClass();
+
+        // 遍历类的所有字段
+        try {
+            // 尝试获取指定名称的字段
+            Field field = clazz.getDeclaredField(name);
+            return field != null;
+        } catch (NoSuchFieldException e) {
+            // 如果找不到该字段，则抛出异常，返回false
+            return false;
+        }
+    }
+
+
+
+
+    //将值转换为相关的类型
+    private static Object toFldType(Object value, Class<?> type) {
+        if (value == null) {
+            return null;  // 如果值为空，返回null
+        }
+
+        if (type.isAssignableFrom(value.getClass())) {
+            return value;  // 如果值的类型已经与目标类型兼容，直接返回
+        }
+
+        if (type == Integer.class || type == int.class) {
+            return Integer.parseInt(value.toString());
+        } else if (type == Long.class || type == long.class) {
+            return Long.parseLong(value.toString());
+        } else if (type == Double.class || type == double.class) {
+            return Double.parseDouble(value.toString());
+        } else if (type == Float.class || type == float.class) {
+            return Float.parseFloat(value.toString());
+        } else if (type == Boolean.class || type == boolean.class) {
+            return Boolean.parseBoolean(value.toString());
+        } else if (type == String.class) {
+            return value.toString();
+        } else if (type == Date.class) {
+            // 如果是日期类型，可以使用SimpleDateFormat进行转换
+            try {
+                return new SimpleDateFormat("yyyy-MM-dd").parse(value.toString());
+            } catch (ParseException e) {
+                throw new IllegalArgumentException("Invalid date format");
+            }
+        }else
+            return value;
+
+        // 如果无法识别的类型，抛出异常
+//        throw new IllegalArgumentException("Unsupported target type: " + type.getName());
+    }
+
+    //    publicpublic static String getFieldAsStrFrmMap(Map<String, String> queryParams, String uname) {
 //        return  queryParams.getOrDefault(uname,"");
 //    }
-    public static Object getField2025(Object obj, String fieldName) throws NoSuchFieldException,Exception {
+    public static Object getField2025(Object obj, String fieldName) throws NoSuchFieldException, Exception {
         if (obj == null || fieldName == null || fieldName.isEmpty()) {
             // 防御性编程，处理无效参数
             throw new RuntimeException("some prm is null or empty");
@@ -664,23 +735,26 @@ public class util2026 {
 
         return value;
     }
+
     public static String getCurrentMethodName() {
         return StackWalker.getInstance()
                 .walk(frames -> frames.skip(1).findFirst().get().getMethodName());
     }
-    public static void wrtRespErrNoex(HttpExchange exchange, String responseTxt){
+
+    public static void wrtRespErrNoex(HttpExchange exchange, String responseTxt) {
         try {
-            wrtRespErr(exchange,responseTxt);
+            wrtRespErr(exchange, responseTxt);
         } catch (IOException e) {
             e.printStackTrace();
 
         }
     }
+
     public static void wrtRespErr(HttpExchange exchange, String responseTxt) throws IOException {
-        System.out.println("wrtRespErr(resptxt="+responseTxt);
+        System.out.println("wrtRespErr(resptxt=" + responseTxt);
         exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=utf-8");
         byte[] responseBytes = responseTxt.getBytes(StandardCharsets.UTF_8);
-        int statusCode=500;
+        int statusCode = 500;
         exchange.sendResponseHeaders(statusCode, responseBytes.length);
 
         try (OutputStream os = exchange.getResponseBody()) { // try-with-resources
@@ -691,16 +765,14 @@ public class util2026 {
         }
 
 
-
     }
-
 
 
     public static void wrtResp(HttpExchange exchange, String responseTxt) throws IOException {
 
-        System.out.println("wrtResp(resptxt="+responseTxt);
-      if( responseTxt==null)
-          responseTxt="";
+        System.out.println("wrtResp(resptxt=" + responseTxt);
+        if (responseTxt == null)
+            responseTxt = "";
 
         // 设置跨域响应头
         exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*"); // 允许所有来源
@@ -712,11 +784,10 @@ public class util2026 {
     }
 
 
-
     public static String getSqlPrmVal(Object o) {
-        if(o.getClass()==String.class)
-            return  "'"+o.toString()+"'";
-        return  o.toString();
+        if (o.getClass() == String.class)
+            return "'" + o.toString() + "'";
+        return o.toString();
     }
 
     public static void iniHttpExchg(HttpExchangeImp he, Map<String, String> reqhdr, String ResponseBodyoutputStreamF) throws FileNotFoundException {
@@ -725,9 +796,11 @@ public class util2026 {
         OutputStream outputStream = new FileOutputStream(ResponseBodyoutputStreamF); // 创建一个输出流
         he.setResponseBody(outputStream);
     }
+
     public static String getFieldAsStrFrmMap(Map<String, String> queryParams, String uname) {
-        return  queryParams.getOrDefault(uname,"");
+        return queryParams.getOrDefault(uname, "");
     }
+
     public static String getRequestParameter(HttpExchange exchange, String name) {
         Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
         String id = queryParams.get(name); // 获取 id 参数
@@ -735,10 +808,9 @@ public class util2026 {
     }
 
     public static Map<String, String> getRequestParameters(HttpExchange exchange) {
-       return  parseQueryParams(exchange.getRequestURI());
-               //getRequestParameters(exchange.getRequestURI());
+        return parseQueryParams(exchange.getRequestURI());
+        //getRequestParameters(exchange.getRequestURI());
     }
-
 
 
 }

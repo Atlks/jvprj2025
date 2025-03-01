@@ -61,7 +61,8 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
     }
 
     ;
-    public  HttpExchange httpExchange;
+    public HttpExchange httpExchange;
+
     //----------aop ex  and some log part
     //事务管理  全局异常
     @ExceptionHandler
@@ -69,7 +70,7 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         //wz qrystr
         //  printlnx();
-        httpExchange=exchange;
+        httpExchange = exchange;
         String mth = colorStr("handle", YELLOW_bright);
         String prmurl = colorStr(String.valueOf(exchange.getRequestURI()), GREEN);
         curUrl.set(encodeJson(exchange.getRequestURI()));
@@ -109,9 +110,6 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
         //ex.fun  from stacktrace
         System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
     }
-
-
-
 
 
     public static String processNmlExptn(HttpExchange exchange, Throwable e) {
@@ -179,37 +177,31 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
         mth = colorStr(handlex, YELLOW_bright);
         Object rzt;
         //---------log
-        Class cls=   getPrmClass(this,handlex);
-        if(cls==null)
-        {
+        Class cls = getPrmClass(this, handlex);
+        if (cls == null) {
             System.out.println("▶\uFE0Ffun " + mth + "(）");
-              rzt=  handle3();
-        }else{
+            rzt = handle3();
+        } else {
             T dto = (T) toDto(exchange, cls);
-            copyCookieToDto(getCookieParams(this.getClass(), handlex),dto);
+            copyCookieToDto(getCookieParams(this.getClass(), handlex), dto);
             prmurl = colorStr(encodeJson((dto)), GREEN);
             System.out.println("▶\uFE0Ffun " + mth + "(dto=" + prmurl);
-              rzt=  handle3(dto);
+            rzt = handle3(dto);
         }
 
-      //  handle2(exchange);
-        //会使用反射机制去查找控制器方法中的参数类型
 
-
-
-        wrtResp(exchange, encodeJsonObj(rzt) );
-       System.out.println("✅endfun "+handlex+"()");
+        wrtResp(exchange, encodeJsonObj(rzt));
+        System.out.println("✅endfun " + handlex + "()");
 
         /// ----------log
 
 
     }
 
-    public   void copyCookieToDto(List<String> cookieParams, T dto) {
-        for(String cknm:cookieParams)
-        {
+    public void copyCookieToDto(List<String> cookieParams, T dto) {
+        for (String cknm : cookieParams) {
             String v = getcookie(cknm, httpExchange);
-           setField(dto,cknm,v);
+            setField(dto, cknm, v);
         }
 
 
@@ -235,14 +227,14 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
             for (Parameter parameter : method.getParameters()) {
                 if (parameter.isAnnotationPresent(BeanParam.class)) {
                     Class<?> type = parameter.getType();
-                    if(type==Object.class)
+                    if (type == Object.class)
                         continue;
                     return type; // 返回参数的 Class 类型
                 }
                 // 检查参数是否标记了 @ModelAttribute
                 if (parameter.isAnnotationPresent(ModelAttribute.class)) {
                     Class<?> type = parameter.getType();
-                    if(type==Object.class)
+                    if (type == Object.class)
                         continue;
                     return type; // 返回参数的 Class 类型
                 }
@@ -261,31 +253,32 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
      * @return
      */
     public Object handle3(T dto) throws Exception {
-        System.out.println("baseCls.hd3("+encodeJson(dto));
+        System.out.println("baseCls.hd3(" + encodeJson(dto));
         return null;
     }
-    public Object handle3() throws Exception{
+
+    public Object handle3() throws Exception {
         return null;
     }
+
     //----------aop auth
-   // @ControllerAdvice
+    // @ControllerAdvice
     private void urlAuthChk(HttpExchange exchange) throws IOException, NeedLoginEx {
 
 
 //        if (AuthService.needLoginAuth(exchange.getRequestURI()))
         if (needLoginUserAuth((Class<? extends BaseHdr<T, U>>) this.getClass())) {
-               String uname = getcookie("uname", exchange);
-              if(uname.equals("")){
-                  NeedLoginEx e = new NeedLoginEx("需要登录");
+            String uname = getcookie("uname", exchange);
+            if (uname.equals("")) {
+                NeedLoginEx e = new NeedLoginEx("需要登录");
 
-                  e.fun = "BaseHdr." + getCurrentMethodName();
-                  e.funPrm = toExchgDt((HttpExchange) exchange);
+                e.fun = "BaseHdr." + getCurrentMethodName();
+                e.funPrm = toExchgDt((HttpExchange) exchange);
 
-                  //   addInfo2ex(e, null);
+                //   addInfo2ex(e, null);
 
-                  throw e;
-              }
-
+                throw e;
+            }
 
 
         }
@@ -304,8 +297,10 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
     public static String saveDirUsrs = "";
 
 
-    protected   void handle2(HttpExchange exchange) throws Throwable{};
+    protected void handle2(HttpExchange exchange) throws Throwable {
+    }
 
+    ;
 
 
 }
