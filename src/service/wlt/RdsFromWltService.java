@@ -35,6 +35,9 @@ public class RdsFromWltService  implements Icall<TransDto, Object> {
 
         //  放在一起一快存储，解决了十五问题事务。。。
         Usr objU=  curLockAcc.get();
+        if(objU==null)
+            objU=lgblsDto.lockAccObj;
+
         BigDecimal nowAmt =objU.balance;
         if (lgblsDto.getChangeAmount().compareTo(nowAmt) > 0) {
             BalanceNotEnghou ex = new BalanceNotEnghou("余额不足");

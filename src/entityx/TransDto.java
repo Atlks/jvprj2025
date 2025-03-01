@@ -56,8 +56,9 @@ public class TransDto {
         public String changeType;
         public String changeMode;
         public BigDecimal amtBefore;
+    public Usr lockAccObj;
 
-        public BigDecimal getChangeAmount() {
+    public BigDecimal getChangeAmount() {
             return  toBigDecimal(changeAmount);
         }
 

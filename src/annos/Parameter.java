@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
 @Repeatable(Parameters.class)
 @Inherited
 public @interface Parameter {
-    String name() default "";
+
 
     ParameterIn in() default ParameterIn.DEFAULT;
 
@@ -60,6 +60,7 @@ public @interface Parameter {
 
     Extension[] extensions() default {};
 
-    String ref() default "";
+
+    String name() default "";
 }
 

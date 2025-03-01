@@ -1,6 +1,7 @@
 package biz;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.BeanParam;
 import org.hibernate.Session;
 
 import org.hibernate.SessionFactory;
@@ -232,6 +233,12 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
 
             // 遍历方法的所有参数
             for (Parameter parameter : method.getParameters()) {
+                if (parameter.isAnnotationPresent(BeanParam.class)) {
+                    Class<?> type = parameter.getType();
+                    if(type==Object.class)
+                        continue;
+                    return type; // 返回参数的 Class 类型
+                }
                 // 检查参数是否标记了 @ModelAttribute
                 if (parameter.isAnnotationPresent(ModelAttribute.class)) {
                     Class<?> type = parameter.getType();

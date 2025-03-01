@@ -146,7 +146,7 @@ public class LoginHdr implements Icall<Usr,Object>, HttpAuthenticationMechanism,
             System.out.println("认证成功，用户：" + rst.getCallerPrincipal().getName());
 
             //=========save coookie
-            securityContext=new SecurityContextImp(dto.uname) ;
+          //  securityContext=new SecurityContextImp(dto.uname) ;
             Passport passport = new Passport();
             String uname=dto.uname;
             passport.setHolderName(uname);
