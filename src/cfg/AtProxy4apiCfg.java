@@ -5,6 +5,7 @@ import biz.ParseEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import jakarta.annotation.security.PermitAll;
+import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
 import org.aspectj.lang.annotation.Before;
 import util.AtProxy4api;
 import util.Icall;
@@ -22,7 +23,8 @@ public class AtProxy4apiCfg extends AtProxy4api implements Icall, HttpHandler {
     public AtProxy4apiCfg(Object target) {
         super(target);
     }
-
+    HttpAuthenticationMechanism HttpAuthenticationMechanism1;
+   // public  static
 @Inject
 @Before("")
     public void urlAuthChk(HttpExchange exchange) throws Exception {
@@ -63,11 +65,6 @@ public class AtProxy4apiCfg extends AtProxy4api implements Icall, HttpHandler {
 
     }
 
-    private boolean needLoginUserAuth(Class<? > aClass) {
-        boolean annotationPresent = aClass.isAnnotationPresent(PermitAll.class);
 
-        //if has anno ,not need login
-        return !annotationPresent;
-    }
 
 }

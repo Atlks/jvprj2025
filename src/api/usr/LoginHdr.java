@@ -6,6 +6,16 @@ import entityx.Passport;
 import entityx.Usr;
 import entityx.Visa;
 import jakarta.annotation.security.PermitAll;
+import jakarta.security.enterprise.AuthenticationException;
+import jakarta.security.enterprise.AuthenticationStatus;
+import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
+import jakarta.security.enterprise.authentication.mechanism.http.HttpMessageContext;
+import jakarta.security.enterprise.credential.Credential;
+import jakarta.security.enterprise.credential.UsernamePasswordCredential;
+import jakarta.security.enterprise.identitystore.CredentialValidationResult;
+import jakarta.security.enterprise.identitystore.IdentityStore;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,8 +36,11 @@ import static util.util2026.*;
 @PermitAll
 @Path("/login")
 //   http://localhost:8889/login?uname=008&pwd=000
-public class LoginHdr implements Icall<Usr,Object> {
+public class LoginHdr implements Icall<Usr,Object>, HttpAuthenticationMechanism, IdentityStore {
 
+
+    public  static  ThreadLocal<Usr> usrdto=new ThreadLocal<>();
+    public static String Key4pwd="pwdkey2025";
 
     /**
      * @return
@@ -37,7 +50,30 @@ public class LoginHdr implements Icall<Usr,Object> {
     @Override
     public Object call(@ModelAttribute Usr Udto) throws Exception, PwdErrEx {
 
-       // login(Udto);
+        usrdto.set(Udto);
+
+        AuthenticationStatus autuStt=validateRequest(nul,null,null);
+        if(autuStt==AuthenticationStatus.SEND_FAILURE)
+        {
+            LoginEx e = new LoginEx("登录错误 用户名或密码错");
+            e.fun = getCurrentMethodName();
+            e.funPrm = Udto;
+            throw e;
+        }
+        if(autuStt==AuthenticationStatus.SUCCESS)
+        {
+            return  "ok";
+        }
+        return  "ok";
+
+    }
+
+
+
+    public Object calllori(@ModelAttribute Usr Udto) throws Exception, PwdErrEx {
+
+        usrdto.set(Udto);
+        // login(Udto);
         org.hibernate.Session session = sessionFactory.getCurrentSession();
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
@@ -81,12 +117,81 @@ public class LoginHdr implements Icall<Usr,Object> {
         }
 
 
-     //   setcookie("uname", Udto.uname, httpExchangeCurThrd.get());
-     //   return Udto;
+        //   setcookie("uname", Udto.uname, httpExchangeCurThrd.get());
+        //   return Udto;
 
     }
 
 
+//    private String encryMd5(String s, String salt) {
+//    }
 
 
+    @Override
+    public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext httpMessageContext) throws AuthenticationException {
+
+        Usr dto=usrdto.get();
+
+        UsernamePasswordCredential crdt = new UsernamePasswordCredential(dto.uname, dto.pwd);
+        CredentialValidationResult rst = validate(crdt);
+        if (rst.getStatus() == CredentialValidationResult.Status.VALID) {
+            System.out.println("认证成功，用户：" + rst.getCallerPrincipal().getName());
+
+            //=========save coookie
+
+            Passport passport = new Passport();
+            String uname=dto.uname;
+            passport.setHolderName(uname);
+            VisaService visaService = new VisaService();
+            Visa visa = null;
+            try {
+                visa = visaService.applyForVisa(passport, "Thailand", "Tourist");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            String val = encodeJson(visa);
+            setcookie("visa", val, httpExchangeCurThrd.get());
+            try {
+                setcookie("uname", encryptDESToStrBase64(uname, Key_a1235678), httpExchangeCurThrd.get());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            return AuthenticationStatus.SUCCESS;
+        } else {
+            // 未登录或认证失败
+            System.out.println("认证失败");
+
+            return AuthenticationStatus.SEND_FAILURE;
+        }
+
+    }
+
+
+    @Override
+    public CredentialValidationResult validate(Credential credential) {
+
+        org.hibernate.Session session = sessionFactory.getCurrentSession();
+        //  om.jdbcurl=saveDirUsrs;
+        //todo start tx
+       // var pwd = Udto.pwd;
+        UsernamePasswordCredential crdt= (UsernamePasswordCredential) credential;
+        String uname = crdt.getCaller();
+        Usr u = session.find(Usr.class, uname);
+        if (u == null) {  //u not exist
+            return CredentialValidationResult.INVALID_RESULT;
+//            UserNotExistEx e = new UserNotExistEx("用户名错误");
+//            e.fun = getCurrentMethodName();
+//            e.funPrm = new Usr(uname, pwd);
+//            throw e;
+        }
+        try {
+            if( ! u.pwd.equals( encryptDESToStrBase64( crdt.getPasswordAsString(),Key4pwd))){
+                return CredentialValidationResult.INVALID_RESULT;
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

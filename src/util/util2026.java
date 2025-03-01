@@ -31,7 +31,9 @@ import static util.Util2025.encodeJson;
 import static util.dbutil.setField;
 
 public class util2026 {
-    public  static void copyCookieToDto(HttpExchange HttpExchange1,List<String> cookieParams, Object dto) {
+    public static String slt4pwd="slt2025";
+
+    public  static void copyCookieToDto(HttpExchange HttpExchange1, List<String> cookieParams, Object dto) {
         for(String cknm:cookieParams)
         {
             String v = getcookie(cknm, HttpExchange1);

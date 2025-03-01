@@ -4,6 +4,11 @@ import biz.NeedLoginEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import entityx.ExceptionBase;
+import jakarta.annotation.security.PermitAll;
+import jakarta.inject.Inject;
+import jakarta.security.enterprise.AuthenticationException;
+import jakarta.security.enterprise.AuthenticationStatus;
+import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
 
 import java.io.IOException;
 import java.util.List;
@@ -95,7 +100,7 @@ public abstract class AtProxy4api implements Icall, HttpHandler {
             openSessionBgnTransact();
 
             //---------blk chk auth
-            urlAuthChk(exchange);
+            urlAuthChkV2(exchange);
             handlexProcess(exchange);
 
 
@@ -121,6 +126,31 @@ public abstract class AtProxy4api implements Icall, HttpHandler {
         System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
     }
 
+    @Inject
+
+    HttpAuthenticationMechanism HttpAuthenticationMechanism1;
+
+    //public  static
+    private void urlAuthChkV2(HttpExchange exchange) throws AuthenticationException, NeedLoginEx {
+        if (needLoginUserAuth((Class<?>) this.getClass())) {
+            AuthenticationStatus autoStt = HttpAuthenticationMechanism1.validateRequest(null, null, null);
+
+            if (autoStt == AuthenticationStatus.SUCCESS) {
+                //next prcs
+            }else
+                throw  new NeedLoginEx("需要登录");
+        }
+
+    }
+
+
+    protected boolean needLoginUserAuth(Class<?> aClass) {
+        boolean annotationPresent = aClass.isAnnotationPresent(PermitAll.class);
+
+        //if has anno ,not need login
+        return !annotationPresent;
+    }
+
     private void handlexProcess(HttpExchange exchange) throws Throwable {
         String prmurl;
         String mth;
@@ -138,15 +168,14 @@ public abstract class AtProxy4api implements Icall, HttpHandler {
             var dto = toDto(exchange, cls);
             //--------set cook to dto
             List<String> cookieParams = getCookieParams(target.getClass(), "call");
-            for(String cknm:cookieParams)
-            {
+            for (String cknm : cookieParams) {
                 String v = getcookie(cknm, httpExchangeCurThrd.get());
-                if(cknm=="uname")
-                    v=decryptDES( v,Key_a1235678);
-                setField(dto,cknm,v);
+                if (cknm == "uname")
+                    v = decryptDES(v, Key_a1235678);
+                setField(dto, cknm, v);
             }
-           // copyCookieToDto(httpExchangeCurThrd.get(), ckprms, dto);
-         //   prmurl = colorStr(encodeJson((dto)), GREEN);
+            // copyCookieToDto(httpExchangeCurThrd.get(), ckprms, dto);
+            //   prmurl = colorStr(encodeJson((dto)), GREEN);
 
             rzt = call(dto);
         }
