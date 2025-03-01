@@ -3,6 +3,7 @@ package api.wlt;
 import biz.BaseHdr;
 import biz.HttpHandlerX;
 
+import static cfg.AppConfig.sessionFactory;
 import static java.time.LocalTime.now;
 
 import entityx.ReChgOrd;
@@ -20,19 +21,20 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import util.Icall;
 
 import static util.HbntUtil.persistByHibernate;
 import static util.dbutil.addObj;
 import static util.util2026.*;
 @Slf4j
 /**
- * http://localhost:8889/AddOrdChargeHdr?amt=888
+ * http://localhost:8889/RechargeHdr?amt=888
  */
 @Path("/RechargeHdr")
 @DeclareRoles({"ADMIN", "USER"})
 @RolesAllowed({"", "USER"})
 @Component
-public class RechargeHdr extends BaseHdr<ReChgOrd, Usr> implements HttpHandlerX {
+public class RechargeHdr implements Icall<ReChgOrd,Object> {
 
 
     /**
@@ -51,7 +53,7 @@ public class RechargeHdr extends BaseHdr<ReChgOrd, Usr> implements HttpHandlerX 
     //@CookieValue
     @Transactional
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
-    public Object handle3(@ModelAttribute ReChgOrd ord) throws Exception {
+    public Object call(@ModelAttribute ReChgOrd ord) throws Exception {
         System.out.println("handle2.sessfac=" + sessionFactory);
         System.out.println("regchg hrl.hadler3()");
         //blk login ed
@@ -115,30 +117,9 @@ public class RechargeHdr extends BaseHdr<ReChgOrd, Usr> implements HttpHandlerX 
 
     //    public AddOrdChargeHdr() {
 //    }
-    @Autowired
-    public SessionFactory sessionFactory;
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
-    public RechargeHdr(SessionFactory sess) {
-        this.sessionFactory = sess;
-    }
-
-    public RechargeHdr() {
-    }
 
 
-    /**
-     * @param dto
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public Object handlex(Object dto) throws Exception {
-        return null;
-    }
+
 
 //    @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
 //    public Object addChgOrd(@NotNull(message = "ordDto is required")  ChgOrd ord) throws Exception {
