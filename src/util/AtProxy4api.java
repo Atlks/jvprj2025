@@ -8,17 +8,19 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.AuthenticationStatus;
+import jakarta.security.enterprise.SecurityContext;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
 
 import java.io.IOException;
 import java.util.List;
 
+import static api.usr.LoginHdr.Key4pwd4aeskey;
 import static biz.BaseHdr.*;
 import static util.AnnotationUtils.getCookieParams;
 import static util.AopUtil.ivk4log;
 import static util.ColorLogger.*;
-import static util.EncryUtil.Key_a1235678;
-import static util.EncryUtil.decryptDES;
+
+import static util.EncryUtil.decryptAesFromStrBase64;
 import static util.ExptUtil.curUrl;
 import static util.QueryParamParser.toDto;
 import static util.TransactMng.commitTsact;
@@ -150,7 +152,7 @@ public abstract class AtProxy4api implements Icall, HttpHandler {
         //if has anno ,not need login
         return !annotationPresent;
     }
-
+    SecurityContext SecurityContext1;
     private void handlexProcess(HttpExchange exchange) throws Throwable {
         String prmurl;
         String mth;
@@ -171,7 +173,7 @@ public abstract class AtProxy4api implements Icall, HttpHandler {
             for (String cknm : cookieParams) {
                 String v = getcookie(cknm, httpExchangeCurThrd.get());
                 if (cknm == "uname")
-                    v = decryptDES(v, Key_a1235678);
+                    v = decryptAesFromStrBase64(v, Key4pwd4aeskey);
                 setField(dto, cknm, v);
             }
             // copyCookieToDto(httpExchangeCurThrd.get(), ckprms, dto);
@@ -197,7 +199,7 @@ public abstract class AtProxy4api implements Icall, HttpHandler {
 
     }
 
-    protected abstract void urlAuthChk(HttpExchange exchange) throws Exception;
+    //protected abstract void urlAuthChk(HttpExchange exchange) throws Exception;
 
 
     //----------aop auth

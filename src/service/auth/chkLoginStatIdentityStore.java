@@ -10,8 +10,9 @@ import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import java.util.HashSet;
 import java.util.Set;
 
-import static util.EncryUtil.Key_a1235678;
-import static util.EncryUtil.decryptDES;
+import static api.usr.LoginHdr.Key4pwd4aeskey;
+import static util.EncryUtil.decryptAesFromStrBase64;
+
 
 //@ApplicationScoped
 public class chkLoginStatIdentityStore implements IdentityStore {
@@ -21,7 +22,7 @@ public class chkLoginStatIdentityStore implements IdentityStore {
         // 示例身份验证逻辑
         String caller = credential.getCaller();
         try {
-            caller = decryptDES(caller, Key_a1235678);
+            caller = decryptAesFromStrBase64(caller, Key4pwd4aeskey);
             if (caller == null) {  // 这里增加 `null` 检查
                 return CredentialValidationResult.INVALID_RESULT;
             }

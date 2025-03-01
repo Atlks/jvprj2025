@@ -13,6 +13,7 @@ import java.util.Base64;
 import java.time.LocalDate;
 import java.util.List;
 
+import static api.usr.LoginHdr.Key4pwd4aeskey;
 import static util.EncryUtil.*;
 import static util.JsonUtil.deserializeFromJson;
 import static util.JsonUtil.serializeToJson;
@@ -85,12 +86,12 @@ public class VisaService {
     private String encryVisaMrz(MRZ mrz1) throws Exception {
         String mrzData = serializeToJson(mrz1);// 获取 MRZ 码
 
-        byte[] encryptedBytes = encryptDES(mrzData, Key_a1235678);
-        return Base64.getEncoder().encodeToString(encryptedBytes);
+
+        return encryptAesToStrBase64(mrzData, Key4pwd4aeskey);
     }
 
     private MRZ decryVisaMrz(String encryptedData) throws Exception {
-        var jsonstr = decryptDES(encryptedData, "a1235678");
+        var jsonstr = decryptAesFromStrBase64(encryptedData,  Key4pwd4aeskey);
         return deserializeFromJson(jsonstr, MRZ.class);
     }
 

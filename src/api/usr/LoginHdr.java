@@ -8,6 +8,7 @@ import entityx.Visa;
 import jakarta.annotation.security.PermitAll;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.AuthenticationStatus;
+import jakarta.security.enterprise.SecurityContext;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpMessageContext;
 import jakarta.security.enterprise.credential.Credential;
@@ -17,9 +18,11 @@ import jakarta.security.enterprise.identitystore.IdentityStore;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.Context;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
+import service.auth.SecurityContextImp;
 import util.Icall;
 
 
@@ -28,8 +31,7 @@ import java.util.HashSet;
 import static cfg.AppConfig.sessionFactory;
 
 import static util.AtProxy4api.httpExchangeCurThrd;
-import static util.EncryUtil.Key_a1235678;
-import static util.EncryUtil.encryptDESToStrBase64;
+import static util.EncryUtil.*;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
 @RestController
@@ -42,8 +44,9 @@ public class LoginHdr implements Icall<Usr,Object>, HttpAuthenticationMechanism,
 
 
     public  static  ThreadLocal<Usr> usrdto=new ThreadLocal<>();
-    public static String Key4pwd="pwdkey2025";
-
+    public static String Key4pwd4aeskey ="a123456789qwerty";//aes key 16byte
+    @Context
+    public static SecurityContext securityContext;
     /**
      * @return
      * @throws Exception
@@ -64,6 +67,9 @@ public class LoginHdr implements Icall<Usr,Object>, HttpAuthenticationMechanism,
         }
         if(autuStt==AuthenticationStatus.SUCCESS)
         {
+
+
+            System.out.println();
             return  "ok";
         }
         return  "ok";
@@ -101,7 +107,7 @@ public class LoginHdr implements Icall<Usr,Object>, HttpAuthenticationMechanism,
             Visa visa = visaService.applyForVisa(passport, "Thailand", "Tourist");
             String val = encodeJson(visa);
             setcookie("visa", val, httpExchangeCurThrd.get());
-            setcookie("uname", encryptDESToStrBase64(uname, Key_a1235678), httpExchangeCurThrd.get());
+          //  setcookie("uname", encryptDESToStrBase64(uname, Key_a1235678), httpExchangeCurThrd.get());
             return true;
         }
 
@@ -140,7 +146,7 @@ public class LoginHdr implements Icall<Usr,Object>, HttpAuthenticationMechanism,
             System.out.println("认证成功，用户：" + rst.getCallerPrincipal().getName());
 
             //=========save coookie
-
+            securityContext=new SecurityContextImp(dto.uname) ;
             Passport passport = new Passport();
             String uname=dto.uname;
             passport.setHolderName(uname);
@@ -154,7 +160,7 @@ public class LoginHdr implements Icall<Usr,Object>, HttpAuthenticationMechanism,
             String val = encodeJson(visa);
             setcookie("visa", val, httpExchangeCurThrd.get());
             try {
-                setcookie("uname", encryptDESToStrBase64(uname, Key_a1235678), httpExchangeCurThrd.get());
+                setcookie("uname", encryptAesToStrBase64(uname, Key4pwd4aeskey), httpExchangeCurThrd.get());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -188,7 +194,7 @@ public class LoginHdr implements Icall<Usr,Object>, HttpAuthenticationMechanism,
 //            throw e;
         }
         try {
-            if( ! u.pwd.equals( encryptDESToStrBase64( crdt.getPasswordAsString(),Key4pwd))){
+            if( ! u.pwd.equals( encryptAesToStrBase64( crdt.getPasswordAsString(), Key4pwd4aeskey))){
                 return CredentialValidationResult.INVALID_RESULT;
             }
 
