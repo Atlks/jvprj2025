@@ -11,6 +11,7 @@ import jakarta.security.enterprise.identitystore.CredentialValidationResult;
 import jakarta.security.enterprise.identitystore.IdentityStore;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import static util.AtProxy4api.httpExchangeCurThrd;
 import static util.util2026.getcookie;
@@ -24,9 +25,11 @@ import static util.util2026.getcookie;
 @ApplicationScoped
 public class ChkLgnStatAuthenticationMechanism implements HttpAuthenticationMechanism {
 
-    @Inject
+    //@Inject
     private AuthenticationService authenticationService;
     @Inject
+
+    @Qualifier("chkLoginStatIdentityStore")
     public IdentityStore IdentityStore1;
 
 

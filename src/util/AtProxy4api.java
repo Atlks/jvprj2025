@@ -10,6 +10,8 @@ import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.AuthenticationStatus;
 import jakarta.security.enterprise.SecurityContext;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,6 +25,7 @@ import static util.ColorLogger.*;
 import static util.EncryUtil.decryptAesFromStrBase64;
 import static util.ExptUtil.curUrl;
 import static util.QueryParamParser.toDto;
+import static util.SprUtil.injectAll4spr;
 import static util.TransactMng.commitTsact;
 import static util.TransactMng.openSessionBgnTransact;
 import static util.Util2025.*;
@@ -129,12 +132,20 @@ public class AtProxy4api implements Icall, HttpHandler {
     }
 
     @Inject
-
-    HttpAuthenticationMechanism HttpAuthenticationMechanism1;
+@Autowired
+    @Qualifier("ChkLgnStatAuthenticationMechanism")
+  public   HttpAuthenticationMechanism HttpAuthenticationMechanism1;
 
     //public  static
     private void urlAuthChkV2(HttpExchange exchange) throws AuthenticationException, NeedLoginEx {
-        if (needLoginUserAuth((Class<?>) this.getClass())) {
+
+        injectAll4spr(this);
+        Class<?> aClass = this.getClass();
+        if(aClass== AtProxy4api.class)
+        {
+            aClass= this.target.getClass();
+        }
+        if (needLoginUserAuth(aClass)) {
             AuthenticationStatus autoStt = HttpAuthenticationMechanism1.validateRequest(null, null, null);
 
             if (autoStt == AuthenticationStatus.SUCCESS) {

@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import util.Icall;
 
 
+import static api.usr.LoginHdr.Key4pwd4aeskey;
 import static cfg.AppConfig.sessionFactory;
 import static util.AopUtil.ivk4log;
+import static util.EncryUtil.encryptAesToStrBase64;
 import static util.HbntUtil.persistByHibernate;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
@@ -74,6 +76,7 @@ public class RegHandler   implements Icall<Usr,Object> {
             var e = new existUserEx("存在用户",getCurrentMethodName(),dtoU);
             throw e;
         }
+        dtoU.pwd=encryptAesToStrBase64(dtoU.pwd,Key4pwd4aeskey);
         persistByHibernate(  dtoU, sessionFactory.getCurrentSession());
         return dtoU;
     }

@@ -108,8 +108,7 @@ public class SecurityContextImp implements SecurityContext {
      *
      * @param resource the name of the web resource to test access for. This is a {@code URLPatternSpec} that identifies
      *                 the application specific web resources to which the permission pertains. For a full specification of this pattern
-     *                 see {@link jakarta.security.jacc.WebResourcePermission#WebResourcePermission(String, String)}.
-     * @param methods  HTTP methods to check for whether the caller has access to the web resource using one of those
+     @param methods  HTTP methods to check for whether the caller has access to the web resource using one of those
      *                 methods. If no methods are provided, this method will return {@code true} only if the caller can access the resource using all HTTP methods
      * @return {@code true} if the caller has access to the web resource using one of the given methods, or using all
      * supported HTTP methods, if no method is provided. Otherwise returns {@code false}.
@@ -124,15 +123,10 @@ public class SecurityContextImp implements SecurityContext {
      * the caller.
      *
      * <p>
-     * Programmatically triggering means that the container responds as if the caller had attempted to access a constrained resource
-     * and acts by invoking a configured authentication mechanism (such as the {@link HttpAuthenticationMechanism}).
-     *
-     * <p>
+     * Programmatically triggering means that the container responds as if the   <p>
      * Whether the authentication dialog is to be started or continued depends on the (logical) state of the authentication dialog. If
      * such dialog is currently in progress, a call to this method will continue it. If such dialog is not in progress a new one will be
-     * started. A new dialog can be forced to be started regardless of one being in progress or not by providing a value of
-     * {@code true} for the {@link AuthenticationParameters#newAuthentication} parameter with this call.
-     *
+     * started. A new dialog can be forced to be started regardless of one being
      * <p>
      * This method requires an {@link HttpServletRequest} and {@link HttpServletResponse} argument to be passed in, and
      * can therefore only be used in a valid Servlet context.

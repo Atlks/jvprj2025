@@ -56,7 +56,7 @@ public class IocSpringCfg {
             // 目标对象
             Object proxyObj;  //def no prxy ,,
             //only prxy service obj
-            if(clazz.getName().startsWith("service.") )
+            if(clazz.getName().startsWith("service.") && isImpltInterface(clazz,Icall.class) )
             {
                 proxyObj  = AtProxy4Svs.createProxy4log(obj1); // 创建代理
 //                context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
@@ -70,7 +70,9 @@ public class IocSpringCfg {
 
             context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
             String beanName = StrUtil.lowerFirstChar(clazz.getSimpleName());
-            context.registerBean(beanName, (Class)proxyObj.getClass(), () -> (Icall)proxyObj);
+            context.registerBean(beanName, (Class)proxyObj.getClass(), () -> proxyObj);
+            context.registerBean(clazz.getSimpleName(), (Class)proxyObj.getClass(), () ->proxyObj);
+
             registerBean2map(clazz.getSimpleName(),proxyObj);
 
             //context.registerBean( clazz.getName(), proxy);
@@ -87,7 +89,21 @@ public class IocSpringCfg {
         return context;
     }
 
+    //判断此类是否实现了icall接口
+    private static boolean isImpltInterface(Class clazz, Class<Icall> icallClass) {
+        // 获取类实现的所有接口
+        Class<?>[] interfaces = clazz.getInterfaces();
 
+        // 遍历接口数组，检查是否有与 icallClass 匹配的接口
+        for (Class<?> iface : interfaces) {
+            if (iface==(icallClass)) {
+                return true;  // 类实现了 icall 接口
+            }
+        }
+
+        return false;  // 类没有实现 icall 接口
+
+    }
 
 
     //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
