@@ -5,9 +5,12 @@ import biz.ParseEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import jakarta.annotation.security.PermitAll;
+import org.aspectj.lang.annotation.Before;
 import util.AtProxy4api;
 import util.Icall;
 
+
+import javax.inject.Inject;
 
 import static util.EncryUtil.Key_a1235678;
 import static util.EncryUtil.decryptDES;
@@ -20,8 +23,8 @@ public class AtProxy4apiCfg extends AtProxy4api implements Icall, HttpHandler {
         super(target);
     }
 
-
-
+@Inject
+@Before("")
     public void urlAuthChk(HttpExchange exchange) throws Exception {
 
 
