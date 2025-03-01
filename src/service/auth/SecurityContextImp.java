@@ -12,13 +12,16 @@ import jakarta.validation.constraints.NotNull;
 import java.security.Principal;
 import java.util.Set;
 
-public class SecurityContextImp implements SecurityContext {
-    private final @NotBlank
-    @NotNull
-    @Valid String u;
+import static api.usr.LoginHdr.Key4pwd4aeskey;
+import static util.AtProxy4api.httpExchangeCurThrd;
+import static util.EncryUtil.decryptAesFromStrBase64;
+import static util.util2026.getcookie;
 
-    public SecurityContextImp(@NotBlank @NotNull @Valid String uname) {
-        this.u=uname;
+public class SecurityContextImp implements SecurityContext {
+
+
+    public SecurityContextImp() {
+
 
     }
 
@@ -30,7 +33,17 @@ public class SecurityContextImp implements SecurityContext {
      */
     @Override
     public Principal getCallerPrincipal() {
-        return () -> this.u; // 用户名
+        return () ->{
+            String v = getcookie("uname", httpExchangeCurThrd.get());
+
+            try {
+                v = decryptAesFromStrBase64(v, Key4pwd4aeskey);
+                return  v;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        };
+        //this.u; // 用户名
     }
 
     /**

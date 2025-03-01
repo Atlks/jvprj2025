@@ -1,11 +1,13 @@
 package cfg;
 
+import biz.Containr;
 import biz.HelloHandler;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.*;
+import service.auth.SecurityContextImp;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
@@ -26,22 +28,20 @@ public class WebSvr {
         //@NonNull
         iniCfgFrmCfgfile();
 
-
-        // 创建 HTTP 服务器，监听端口8080
-        int port = 8889;
-        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-
         cfg.IocSpringCfg.iniIocContainr4spr();
 
+        Containr.SecurityContext1=new SecurityContextImp();
+
+
+        //================== 创建 HTTP 服务器，监听端口8080
+        int port = 8889;
+        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         // 定义一个上下文，绑定到 "/api/hello" 路径
         server.createContext("/hello", new HelloHandler());
         // 设置静态资源目录 (例如: D:/myweb/static)
         String staticDir = "C:\\Users\\attil\\IdeaProjects\\jvprj2025\\static";
         server.createContext("/static", new StaticFileHandler(staticDir));
     //    http://localhost:8889/static/doc.htm
-
-
-
         cfgPath(server);
         //  http://localhost:8889/
         // 启动服务器
@@ -62,25 +62,7 @@ public class WebSvr {
     public static void cfgPath(HttpServer server) {
 
         server.createContext("/users/get", exchange -> handleGetUser(exchange));
-// container.getComponent(RegHandler.class)
-   //     server.createContext("/reg",getBeanFrmSpr(RegHandler.class));
-  //     server.createContext("/login", getBeanFrmSpr(LoginHdr.class));
-//        server.createContext("/QueryUsr",getBeanFrmSpr(QueryUsrHdr.class) );
-//        server.createContext("/BetHdr",getBeanFrmSpr(BetHdr.class));
-//                //IocSpringCfg.   context. getBean(BetHdr.class));
-//        server.createContext("/QryOrdBetHdr", new QryOrdBetHdr());
-//        server.createContext("/QryTeamHdr", new QryTeamHdr());
 
-
-//        AddOrdBetHdr bean = context.getBean(AddOrdBetHdr.class);
-
-
-    //    server.createContext("/rechargeHdr",  getBeanFrmSpr(RechargeHdr.class) );
-//        server.createContext("/rechargeHdr",
-//                getBeanFrmSpr(RechargeHdr.class)
-//        );
-//        server.createContext("/QueryOrdChrgHdr", new QueryOrdChrgHdr());
-//        server.createContext("/UserCentrHdr", new UserCentrHdr());
 
         Consumer<Class> fun=aClass-> {
                 if(aClass.getName().startsWith("api"))
@@ -96,6 +78,27 @@ public class WebSvr {
         scanAllClass(fun);
         System.out.println("====end createContext");
     }
+
+//    server.createContext("/UserCentrHdr", new UserCentrHdr());
+    // container.getComponent(RegHandler.class)
+    //     server.createContext("/reg",getBeanFrmSpr(RegHandler.class));
+    //     server.createContext("/login", getBeanFrmSpr(LoginHdr.class));
+//        server.createContext("/QueryUsr",getBeanFrmSpr(QueryUsrHdr.class) );
+//        server.createContext("/BetHdr",getBeanFrmSpr(BetHdr.class));
+//                //IocSpringCfg.   context. getBean(BetHdr.class));
+//        server.createContext("/QryOrdBetHdr", new QryOrdBetHdr());
+//        server.createContext("/QryTeamHdr", new QryTeamHdr());
+
+
+//        AddOrdBetHdr bean = context.getBean(AddOrdBetHdr.class);
+
+
+    //    server.createContext("/rechargeHdr",  getBeanFrmSpr(RechargeHdr.class) );
+//        server.createContext("/rechargeHdr",
+//                getBeanFrmSpr(RechargeHdr.class)
+//        );
+//        server.createContext("/QueryOrdChrgHdr", new QueryOrdChrgHdr());
+//
     // 读取类的path注解
     // 读取类的路径注解
     public static String getPathFromBean(Class<?> aClass) {

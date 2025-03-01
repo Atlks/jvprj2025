@@ -67,3 +67,7 @@ public class RegHandler
 @PermitAll
 //   http://localhost:8889/login?uname=008&pwd=000
 public class LoginHdr extends BaseHdr {
+
+=funs
+getcur usr
+SecurityContext1.getCallerPrincipal().getName()

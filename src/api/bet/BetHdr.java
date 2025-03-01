@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 
+import static biz.Containr.SecurityContext1;
 import static cfg.AppConfig.sessionFactory;
 import static java.time.LocalTime.now;
 import static util.HbntUtil.persistByHibernate;
@@ -57,7 +58,7 @@ public class BetHdr   implements Icall<HttpExchange,Object> {
     @Override
     public Object call(@CookieValue(name="uname") HttpExchange exchange) throws Exception {
 
-
+var curUname=SecurityContext1.getCallerPrincipal().getName();
 
 
         //blk login ed

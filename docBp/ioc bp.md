@@ -10,8 +10,7 @@ just auto inject cant use ...bcs all proxy obj ,no that prop..if getbean,,that c
 
 so just classA  invk svsB  ,just as svsLoctn
 
-    Icall c=getBeanFrmSpr("addMoneyToWltService");
-        c.call(objChrg);
+ 
 
 spring can only regbean ,,not ini prop is ok...
 
@@ -20,4 +19,8 @@ spring can only regbean ,,not ini prop is ok...
 
 spr is ok...
 poci alsk ok
+
+= use di VS static Containr...
+
+if common use ,,sessionfactory,,,   securyContext ...use containr is also ok...
 
