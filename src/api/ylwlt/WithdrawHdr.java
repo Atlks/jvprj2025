@@ -104,7 +104,8 @@ public class WithdrawHdr  implements Icall<WithdrawDto, Object> {
 
        return mergeByHbnt(objU, session);
 
-
+      //取款体现后  日志的变化  冻结金额 ，有效金额变化。。。
+        //todo 写日志流水
 
     }
 
