@@ -1,5 +1,6 @@
 package util;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.LockModeType;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -141,8 +142,13 @@ public class HbntUtil {
             try {
                 if(clazz.getName().startsWith("entityx"))
                 {
-                    metadataSources.addAnnotatedClasses(clazz);
-                    System.out.println("hbnt已注册hbnt: " + clazz.getName());
+
+                    if(clazz.isAnnotationPresent(Entity.class))
+                    {
+                        metadataSources.addAnnotatedClasses(clazz);
+                        System.out.println("hbnt已注册hbnt: " + clazz.getName());
+                    }
+
                 }
 
             } catch (Exception e) {
@@ -155,7 +161,12 @@ public class HbntUtil {
     }
 
 
-   // @log
+    //clazz是否包含某个注解AnnoClass
+//    private static boolean isHavAnno(Class<?> clazz, Class<?> AnnoClass) {
+//    }
+
+
+    // @log
     public static Object persistByHibernate(Object var1, Session session) {
 
         String mth= colorStr("persistByHbnt",YELLOW_bright);

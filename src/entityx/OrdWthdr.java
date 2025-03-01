@@ -1,5 +1,6 @@
 package entityx;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
@@ -7,6 +8,7 @@ import static service.CmsBiz.toBigDcmTwoDot;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 
 @Entity
+@Data
 @Table(name = "OrdWthdr")
 public class OrdWthdr {
     public long timestamp;
