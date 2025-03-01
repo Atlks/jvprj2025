@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import util.AtProxy4Svs;
+import util.AtProxy4api;
 import util.Icall;
 import util.StrUtil;
 
@@ -62,7 +63,7 @@ public class IocSpringCfg {
 //                String beanName = StrUtil.lowerFirstChar(clazz.getSimpleName());
 //                context.registerBean(beanName, (Class) Icall.class, () -> (Icall)proxyObj);
             } else if(clazz.getName().startsWith("api")) {
-                proxyObj = new AtProxy4apiCfg(obj1);
+                proxyObj = new AtProxy4api(obj1);
             } else {
                 proxyObj = obj1;
             }

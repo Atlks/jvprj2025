@@ -31,7 +31,7 @@ import static util.util2026.*;
 
 
 //aop shuld log auth ,ex catch,,,pfm
-public abstract class AtProxy4api implements Icall, HttpHandler {
+public class AtProxy4api implements Icall, HttpHandler {
     private Icall target; // 目标对象
 
     public AtProxy4api(Object target) {
