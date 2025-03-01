@@ -1,5 +1,7 @@
 package api.wlt;
 
+
+import annos.CookieParam;
 import biz.BaseHdr;
 import biz.HttpHandlerX;
 
@@ -12,7 +14,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.CookieParam;
+
+
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
@@ -33,6 +36,7 @@ import static util.util2026.*;
 @Path("/RechargeHdr")
 @DeclareRoles({"ADMIN", "USER"})
 @RolesAllowed({"", "USER"})
+@CookieParam(name = "uname")
 @Component
 public class RechargeHdr implements Icall<ReChgOrd,Object> {
 
@@ -49,7 +53,7 @@ public class RechargeHdr implements Icall<ReChgOrd,Object> {
     @GET
     @Path("/RechargeHdr")
     @QueryParam("amt")
-    @CookieParam("uname")
+    @CookieParam(name = "uname")
     //@CookieValue
     @Transactional
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问

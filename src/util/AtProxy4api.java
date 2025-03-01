@@ -183,7 +183,7 @@ public class AtProxy4api implements Icall, HttpHandler {
             List<String> cookieParams = getCookieParams(target.getClass(), "call");
             for (String cknm : cookieParams) {
                 String v = getcookie(cknm, httpExchangeCurThrd.get());
-                if (cknm == "uname")
+                if (cknm .equals("uname") )
                     v = decryptAesFromStrBase64(v, Key4pwd4aeskey);
                 setField(dto, cknm, v);
             }
