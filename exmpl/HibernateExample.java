@@ -13,7 +13,7 @@ public class HibernateExample {
         // 创建 SessionFactory
         // C:\Users\attil\IdeaProjects\jvprj2025\cfg\ordbet.hibernate.cfg.xml
         SessionFactory factory = new Configuration()
-                .configure("yonjin/ordbet.hibernate.cfg.xml")
+                .configure("exmpl/yonjin/ordbet.hibernate.cfg.xml")
                 .addAnnotatedClass(OrdBet.class)
                 .buildSessionFactory();
 
