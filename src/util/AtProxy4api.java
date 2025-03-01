@@ -6,11 +6,14 @@ import com.sun.net.httpserver.HttpHandler;
 import entityx.ExceptionBase;
 
 import java.io.IOException;
+import java.util.List;
 
 import static biz.BaseHdr.*;
 import static util.AnnotationUtils.getCookieParams;
 import static util.AopUtil.ivk4log;
 import static util.ColorLogger.*;
+import static util.EncryUtil.Key_a1235678;
+import static util.EncryUtil.decryptDES;
 import static util.ExptUtil.curUrl;
 import static util.QueryParamParser.toDto;
 import static util.TransactMng.commitTsact;
@@ -133,8 +136,17 @@ public abstract class AtProxy4api implements Icall, HttpHandler {
             rzt = call(null);
         } else {
             var dto = toDto(exchange, cls);
-            copyCookieToDto(httpExchangeCurThrd.get(), getCookieParams(target.getClass(), "call"), dto);
-            prmurl = colorStr(encodeJson((dto)), GREEN);
+            //--------set cook to dto
+            List<String> cookieParams = getCookieParams(target.getClass(), "call");
+            for(String cknm:cookieParams)
+            {
+                String v = getcookie(cknm, httpExchangeCurThrd.get());
+                if(cknm=="uname")
+                    v=decryptDES( v,Key_a1235678);
+                setField(dto,cknm,v);
+            }
+           // copyCookieToDto(httpExchangeCurThrd.get(), ckprms, dto);
+         //   prmurl = colorStr(encodeJson((dto)), GREEN);
 
             rzt = call(dto);
         }

@@ -40,7 +40,7 @@ import static util.SprUtil.injectAll4spr;
 @Operation(summary = "转账操作", example = "/Trans?changeAmount=8")
 @Parameter(name = "uname", description = "用户名（in cookie）", required = true)
 @Parameter(name = "changeAmount", description = "转账金额", required = true)
-@CookieParam(name = "uname",description = "用户名")
+@CookieParam(name = "uname",description = "用户名",decryKey="a1235678")
 @Component
 public class TransHdr implements Icall<TransDto, String> {
     // 实现 Serializable 接口
@@ -96,7 +96,7 @@ public class TransHdr implements Icall<TransDto, String> {
         // 获取对象并加悲观锁
 
         //add blance   bcs uname frm cookie
-        lgblsDto.uname=decryptDES( lgblsDto.uname,Key_a1235678);
+      //  lgblsDto.uname=decryptDES( lgblsDto.uname,Key_a1235678);
 
         String uname = lgblsDto.uname;
         Usr objU = findByHbnt(Usr.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
