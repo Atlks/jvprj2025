@@ -23,6 +23,8 @@ import service.VisaService;
 import util.Icall;
 
 
+import java.util.HashSet;
+
 import static cfg.AppConfig.sessionFactory;
 
 import static util.AtProxy4api.httpExchangeCurThrd;
@@ -52,7 +54,7 @@ public class LoginHdr implements Icall<Usr,Object>, HttpAuthenticationMechanism,
 
         usrdto.set(Udto);
 
-        AuthenticationStatus autuStt=validateRequest(nul,null,null);
+        AuthenticationStatus autuStt=validateRequest(null,null,null);
         if(autuStt==AuthenticationStatus.SEND_FAILURE)
         {
             LoginEx e = new LoginEx("登录错误 用户名或密码错");
@@ -193,5 +195,10 @@ public class LoginHdr implements Icall<Usr,Object>, HttpAuthenticationMechanism,
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        HashSet  roles = new HashSet<>();
+        roles.add("USER");
+        return new CredentialValidationResult(uname, roles);
+
     }
 }
