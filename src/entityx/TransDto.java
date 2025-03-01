@@ -63,6 +63,7 @@ public class TransDto {
         }
 
         public BigDecimal changeAmount;
+    public BigDecimal amt;
         public BigDecimal newBalance;
         // 备注信息
         private String remark;

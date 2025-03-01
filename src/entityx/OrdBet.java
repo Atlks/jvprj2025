@@ -7,10 +7,12 @@ package entityx;
 //import javax.persistence.Table;
 
 import jakarta.persistence.*;
+import lombok.Data;
 //  must jakarta not javax
 
 @Entity
 @Table(name = "OrdBet")
+@Data
 public class OrdBet extends baseObj {
 
 

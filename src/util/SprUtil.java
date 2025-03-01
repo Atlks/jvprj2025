@@ -14,6 +14,15 @@ import static util.IocUtil.getBeanFrmBeanmap;
 
 
 public class SprUtil {
+
+//    public static <T> T getBeanFrmSpr(Class<T> clazz) {
+//        return (T) IocSpringCfg.context.getBean(clazz.getName());
+//    }
+
+    public static Object getBeanFrmSprAsObj(Class<?> clazz) {
+        return IocSpringCfg. context.getBean(clazz.getName());
+    }
+
     public static <T> T getBeanFrmSpr(String beanRegname) {
         return  (T)IocSpringCfg.context.getBean(beanRegname);
 

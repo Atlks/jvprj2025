@@ -3,6 +3,7 @@ import static cfg.AppConfig.sessionFactory;
 
 import entityx.LogBls;
 import entityx.ReChgOrd;
+import entityx.TransDto;
 import entityx.Usr;
 import lombok.Data;
 import org.hibernate.Session;
@@ -19,25 +20,22 @@ import static util.util2026.getFilenameFrmLocalTimeString;
 @Data
 @Component
 @Lazy
-public class AddMoneyToWltService   implements Icall<ReChgOrd, Object> {
+public class AddMoneyToWltService   implements Icall<TransDto, Object> {
 
-    public Object call(ReChgOrd objChrg ) throws Exception {
+    public Object call(TransDto TransDto88 ) throws Exception {
         //  printLn("\n▶️fun updtBlsByAddChrg(", BLUE);
         //    printLn("objChrg= " + encodeJson(objChrg), GREEN);
         //    System.out.println(")");
         //  printlnx();
         //   System.out.println("\r\n ▶fun updtBlsByAddChrg(objChrg= "+encodeJson(objChrg));
 
-        String uname = objChrg.uname;
-        BigDecimal amt = objChrg.getAmt();
+        String uname = TransDto88.uname;
+        BigDecimal amt = TransDto88.getAmt();
 
         Session session=sessionFactory.getCurrentSession();
 
-        Usr objU = findByHbnt(Usr.class, uname, session);
-        if (objU.id == null) {
-            objU.id = uname;
-            objU.uname = uname;
-        }
+
+        Usr    objU=TransDto88.lockAccObj;
 
         BigDecimal nowAmt = getFieldAsBigDecimal(objU, "balance", 0);
 

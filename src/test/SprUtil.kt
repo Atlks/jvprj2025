@@ -9,6 +9,10 @@ class SprUtil {
         fun <T>  getBeanFrmSpr(clazz: Class<T>): T {
             return IocSpringCfg.context.getBean(clazz.getName()) as T
         }
+
+//        fun    getBeanFrmSprAsObj(clazz: Class<Any>): Any {
+//            return IocSpringCfg.context.getBean(clazz.getName())
+//        }
     }
 
 }

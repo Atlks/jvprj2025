@@ -25,7 +25,7 @@ public class RdsFromWltService  implements Icall<TransDto, Object> {
      * @throws Exception
      */
     @Override
-    public Object call(TransDto lgblsDto) throws Exception {
+    public Object call(TransDto TransDto88) throws Exception {
 
 
 
@@ -36,18 +36,18 @@ public class RdsFromWltService  implements Icall<TransDto, Object> {
         //  放在一起一快存储，解决了十五问题事务。。。
         Usr objU=  curLockAcc.get();
         if(objU==null)
-            objU=lgblsDto.lockAccObj;
+            objU=TransDto88.lockAccObj;
 
         BigDecimal nowAmt =objU.balance;
-        if (lgblsDto.getChangeAmount().compareTo(nowAmt) > 0) {
+        if (TransDto88.getChangeAmount().compareTo(nowAmt) > 0) {
             BalanceNotEnghou ex = new BalanceNotEnghou("余额不足");
             ex.fun =this.getClass().getName()+"." + getCurrentMethodName();
-            ex.funPrm =  lgblsDto;
+            ex.funPrm =  TransDto88;
             ex.info="nowAmtBls="+nowAmt;
             throw  ex;
         }
 
-        BigDecimal amt = lgblsDto.getChangeAmount();
+        BigDecimal amt = TransDto88.getChangeAmount();
         BigDecimal newBls = nowAmt.subtract(toBigDecimal(amt));
         objU.balance = newBls;
 
@@ -58,7 +58,7 @@ public class RdsFromWltService  implements Icall<TransDto, Object> {
         logBalance.id = "LogBalance" + getFilenameFrmLocalTimeString();
         logBalance.uname = objU.uname;
 
-        logBalance.changeAmount = lgblsDto.getChangeAmount();
+        logBalance.changeAmount = TransDto88.getChangeAmount();
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
         logBalance.newBalance = toBigDcmTwoDot(newBls);
 

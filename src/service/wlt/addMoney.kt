@@ -1,0 +1,67 @@
+package service.wlt
+
+import biz.Containr
+import cfg.AppConfig
+import cfg.IocSpringCfg
+import cfg.MyCfg
+import entityx.TransDto
+import entityx.Usr
+import jakarta.persistence.LockModeType
+import service.auth.SecurityContextImp
+import test.SprUtil
+import util.HbntUtil
+import util.Icall
+import util.SprUtil.getBeanFrmSprAsObj
+import util.TransactMng
+import java.math.BigDecimal
+
+fun main() {
+
+
+    //--------ini saveurlFrm Cfg
+    //@NonNull
+    MyCfg.iniCfgFrmCfgfile()
+
+    IocSpringCfg.iniIocContainr4spr()
+    Containr.SecurityContext1 = SecurityContextImp()
+
+    @Suppress("UNCHECKED_CAST")
+   // val bean:Icall<TransDto, Any> = SprUtil.getBeanFrmSpr(AddMoneyToWltService::class.java) as Icall<TransDto, Any>
+
+    val instance = getBeanFrmSprAsObj(AddMoneyToWltService::class.java)
+
+    val bean: Icall<TransDto, Any>? = if (instance is Icall<*, *>) {
+        @Suppress("UNCHECKED_CAST")
+        instance as Icall<TransDto, Any>
+    } else {
+        null
+    }
+
+    //===========rds money frm acc
+
+
+
+    //============aop trans begn
+    TransactMng.openSessionBgnTransact()
+
+
+    val uname="9999"
+    val objU = HbntUtil.findByHbnt<Usr>(
+        Usr::class.java,
+        uname,
+        LockModeType.PESSIMISTIC_WRITE,
+        AppConfig.sessionFactory.currentSession
+    )
+   // TransHdr.curLockAcc.set(objU)
+    val dto = TransDto()
+    dto.uname = uname
+    dto.changeAmount = BigDecimal("8888")
+    dto.amt=dto.changeAmount;
+    dto.lockAccObj = objU
+    bean?.call(dto);
+
+
+    TransactMng.commitTsact()
+
+
+}
