@@ -31,14 +31,15 @@ import static util.ToXX.parseQueryParams;
 import static util.dbutil.*;
 import static util.util2026.*;
 
-/**提现，会导致有效金额变化，冻结金额也变化  ，总金额变化 ，
+/**
+ * 提现，会导致有效金额变化，冻结金额也变化  ，总金额变化 ，
  * http://localhost:8889/Withdraw?amount=7
  */
 @Tag(name = "Ylwlt")
 @Path("/Withdraw")
-@Parameter(name = "amount",description = "金额")
+@Parameter(name = "amount", description = "金额")
 @CookieParam(name = "uname")
-public class WithdrawHdr  implements Icall<WithdrawDto, Object> {
+public class WithdrawHdr implements Icall<WithdrawDto, Object> {
 
 
     public static String saveUrlOrdWthdr;
@@ -58,7 +59,6 @@ public class WithdrawHdr  implements Icall<WithdrawDto, Object> {
 //    }
 
 
-
     private static Object addBlsFrz4yinliWlt(double amt) {
         return null;
     }
@@ -69,46 +69,45 @@ public class WithdrawHdr  implements Icall<WithdrawDto, Object> {
         dto.setUserId(getCurrentUser());
 
 
-     //
-      //======================add wth log
-        OrdWthdr wdthRec=new OrdWthdr();
-        copyProps(dto,wdthRec);
-        wdthRec.timestamp=(System.currentTimeMillis());
-        wdthRec.uname= getCurrentUser();
-        wdthRec.id="ordWthdr"+getFilenameFrmLocalTimeString();
+        //
+        //======================add wth log
+        OrdWthdr wdthRec = new OrdWthdr();
+        copyProps(dto, wdthRec);
+        wdthRec.timestamp = (System.currentTimeMillis());
+        wdthRec.uname = getCurrentUser();
+        wdthRec.id = "ordWthdr" + getFilenameFrmLocalTimeString();
         Session session = sessionFactory.getCurrentSession();
-        Object obj = persistByHibernate(wdthRec,  sessionFactory.getCurrentSession());
+        Object obj = persistByHibernate(wdthRec, sessionFactory.getCurrentSession());
 
 
         //   //adjst yinliwlt balnce
         //----------------------sub blsAvld   blsFreez++
-        String mthBiz=colorStr("减少盈利钱包的有效余额,增加冻结金额",RED_bright);
-        System.out.println("\r\n\n\n=============⚡⚡bizfun  "+mthBiz);
-        String uname=getCurrentUser();
+        String mthBiz = colorStr("减少盈利钱包的有效余额,增加冻结金额", RED_bright);
+        System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
+        String uname = getCurrentUser();
         Usr objU = findByHbnt(Usr.class, uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
-        BigDecimal nowAmt2= objU.balanceYinliwlt ;
+        BigDecimal nowAmt2 = objU.balanceYinliwlt;
 
         if (dto.getAmount().compareTo(nowAmt2) > 0) {
             BalanceNotEnghou ex = new BalanceNotEnghou("余额不足");
-            ex.fun =this.getClass().getName()+"." + getCurrentMethodName();
-            ex.funPrm =  dto;
-            ex.info="nowAmtBls="+nowAmt2;
-            throw  ex;
+            ex.fun = this.getClass().getName() + "." + getCurrentMethodName();
+            ex.funPrm = dto;
+            ex.info = "nowAmtBls=" + nowAmt2;
+            throw ex;
         }
-        BigDecimal newBls2=nowAmt2.subtract(dto.getAmount());
-        objU.balanceYinliwlt=toBigDcmTwoDot(newBls2);
+        BigDecimal newBls2 = nowAmt2.subtract(dto.getAmount());
+        objU.balanceYinliwlt = toBigDcmTwoDot(newBls2);
 
-        BigDecimal nowAmtFreez=toBigDcmTwoDot(  objU.getBalanceYinliwltFreez() );
-        objU.balanceYinliwltFreez=toBigDcmTwoDot(nowAmtFreez.add(dto.getAmount())) ;
+        BigDecimal nowAmtFreez = toBigDcmTwoDot(objU.getBalanceYinliwltFreez());
+        objU.balanceYinliwltFreez = toBigDcmTwoDot(nowAmtFreez.add(dto.getAmount()));
 
-       return mergeByHbnt(objU, session);
+        return mergeByHbnt(objU, session);
 
-      //取款体现后  日志的变化  冻结金额 ，有效金额变化。。。
+        //取款体现后  日志的变化  冻结金额 ，有效金额变化。。。
         //todo 写日志流水
 
     }
-
 
 
 }
