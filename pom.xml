@@ -60,7 +60,39 @@
             <url>https://raw.github.com/opencv/opencv/master</url>
         </repository>
     </repositories>
-    <dependencies>
+
+<dependencies>
+
+    <!-- https://mvnrepository.com/artifact/jakarta.inject/jakarta.inject-api -->
+    <dependency>
+        <groupId>jakarta.inject</groupId>
+        <artifactId>jakarta.inject-api</artifactId>
+        <version>2.0.1</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/jakarta.enterprise/jakarta.enterprise.cdi-api -->
+    <dependency>
+        <groupId>jakarta.enterprise</groupId>
+        <artifactId>jakarta.enterprise.cdi-api</artifactId>
+        <version>4.1.0</version>
+    </dependency>
+
+
+    <!-- https://mvnrepository.com/artifact/jakarta.security.enterprise/jakarta.security.enterprise-api -->
+    <dependency>
+        <groupId>jakarta.security.enterprise</groupId>
+        <artifactId>jakarta.security.enterprise-api</artifactId>
+        <version>4.0.0</version>
+    </dependency>
+
+
+    <!-- https://mvnrepository.com/artifact/jakarta.security.jacc/jakarta.security.jacc-api -->
+    <dependency>
+        <groupId>jakarta.security.jacc</groupId>
+        <artifactId>jakarta.security.jacc-api</artifactId>
+        <version>1.6.1</version>
+    </dependency>
+
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>

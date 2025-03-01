@@ -17,6 +17,8 @@ SecurityContext 用于检查用户权限，可用于 REST API。
 
 @PermitAll 属于 JACC（JSR 115）和 Jakarta Security（JSR 375）规范，
 
+Jakarta Security (JSR 375) 是 Jakarta EE 8 引入的一项安全性规范，提供了一种标准化的身份验证和授权机制。它简化了基于角色的访问控制（RBAC），并提供了用于身份验证、角色管理和安全上下文的 API。与旧的 Java EE 安全 API 相比，Jakarta Security 提供了更现代、灵活的方式来处理应用程序的安全性。
+
 
 5. JACC 和 Jakarta Security（JSR 375）的区别
    特性	JSR 115 (JACC)	JSR 375 (Jakarta Security)
@@ -24,6 +26,14 @@ SecurityContext 用于检查用户权限，可用于 REST API。
    适用范围	Java EE 服务器容器	任何 Jakarta EE 应用
    使用方式	需要扩展 Policy 和 PolicyConfigurationFactory	提供 IdentityStore 和 HttpAuthenticationMechanism
    典型用例	需要细粒度权限控制的企业应用	需要简化安全配置的现代 Web 应用
+
+
+Jakarta Security (JSR 375) 核心组件
+IdentityStore：用于验证用户身份和角色。
+AuthenticationMechanism：用于处理身份验证机制（如 BASIC、FORM、JWT）。
+SecurityContext：用于检查当前用户的身份和角色。
+@PermitAll 和 @RolesAllowed：用于控制访问权限。
+@DeclareRoles：声明应用程序角色。
 
 =javax anno secury
 import jakarta.annotation.security.PermitAll;
