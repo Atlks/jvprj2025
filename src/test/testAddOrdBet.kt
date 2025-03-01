@@ -4,7 +4,7 @@ package test;
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
 import cfg.AppConfig
-import apiOrdBet.BetHdr
+import api.bet.BetHdr
 import cfg.MyCfg
 import com.sun.net.httpserver.HttpExchange
 import org.springframework.context.ApplicationContext

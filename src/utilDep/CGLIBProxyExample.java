@@ -1,6 +1,6 @@
 package utilDep;
 
-import apiUsr.RegHandler;
+import api.usr.RegHandler;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;

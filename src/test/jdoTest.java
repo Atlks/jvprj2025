@@ -11,7 +11,7 @@ import javax.jdo.PersistenceManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import static apiUsr.RegHandler.saveDirUsrs;
+import static api.usr.RegHandler.saveDirUsrs;
 import static cfg.MyCfg.iniCfgFrmCfgfile;
 
 public class jdoTest {

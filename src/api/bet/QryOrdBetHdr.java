@@ -1,4 +1,4 @@
-package apiOrdBet;
+package api.bet;
 
 import biz.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
@@ -9,10 +9,10 @@ import utilBiz.OrmUtilBiz;
 
 import java.util.Map;
 
-//import static apiUsr.QueryUsrHdr.qryuserLucene;
+//import static api.usr.QueryUsrHdr.qryuserLucene;
 
 
-import static apiAcc.RechargeHdr.saveUrlOrdChrg;
+import static api.wlt.RechargeHdr.saveUrlOrdChrg;
 import static java.time.LocalTime.now;
 import static util.Pagging.getPageResultByHbntV2;
 import static util.ToXX.toObjFrmQrystr;

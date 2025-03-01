@@ -15,7 +15,7 @@ public class StaticMethodAOP {
         //C:\Users\attil\IdeaProjects\jvprj2025\target\classes\apiUsr\RegHandler.class
         // 如果是 Maven 项目
         pool.insertClassPath("bin");  // 如果是普通 Java 项目
-     //   CtClass ctClass = pool.get("apiUsr.RegHandler");
+     //   CtClass ctClass = pool.get("api.usr.RegHandler");
 
         CtClass ctClass = pool.get(className);
 

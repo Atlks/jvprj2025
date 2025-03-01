@@ -1,4 +1,4 @@
-import apiAcc.CompleteChargeCallbackHdr;
+import api.wlt.CompleteChargeCallbackHdr;
 import org.noear.solon.annotation.SolonMain;
 import org.springframework.context.annotation.ComponentScan;
 import service.wlt.AddMoneyToWltService;

@@ -1,9 +1,9 @@
 package cfg;
 
-import apiAcc.CompleteChargeCallbackHdr;
-import apiOrdBet.QryOrdBetHdr;
-import apiUsr.RegHandler;
-import apiWltYinli.WithdrawHdr;
+import api.wlt.CompleteChargeCallbackHdr;
+import api.bet.QryOrdBetHdr;
+import api.usr.RegHandler;
+import api.ylwlt.WithdrawHdr;
 import biz.BaseBiz;
 import biz.BaseHdr;
 import service.CmsBiz;
@@ -11,7 +11,7 @@ import test.UserBiz;
 
 import java.util.Map;
 
-import static apiAcc.RechargeHdr.saveUrlOrdChrg;
+import static api.wlt.RechargeHdr.saveUrlOrdChrg;
 import static util.util2026.parse_ini_fileNosec;
 
 public class MyCfg {

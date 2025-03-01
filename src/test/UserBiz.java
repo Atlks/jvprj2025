@@ -2,7 +2,7 @@ package test;
 
 import biz.existUserEx;
 
-//import static apiUsr.RegHandler.reg;
+//import static api.usr.RegHandler.reg;
 
 //import static util.ArrUtil.sortWithSpEL;
 import static util.Util2025.encodeJson;

@@ -4,7 +4,7 @@ package test;
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
 import cfg.AppConfig
-import apiUsr.QueryUsrHdr
+import api.usr.QueryUsrHdr
 import cfg.IocPicoCfg
 import cfg.MyCfg
 import com.sun.net.httpserver.HttpExchange
@@ -25,7 +25,8 @@ fun main() {
 //    obj.handle(he);
 
     val context: ApplicationContext = AnnotationConfigApplicationContext(AppConfig::class.java)
-    val bean: QueryUsrHdr = context.getBean<QueryUsrHdr>(QueryUsrHdr::class.java)
+    val bean: QueryUsrHdr = context.getBean<QueryUsrHdr>(
+        QueryUsrHdr::class.java)
     bean.handle(he);
 
 }

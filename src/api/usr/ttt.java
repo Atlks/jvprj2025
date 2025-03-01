@@ -1,4 +1,4 @@
-package apiUsr;
+package api.usr;
 
 import static biz.BaseHdr.getPrmClass;
 

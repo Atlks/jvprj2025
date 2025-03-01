@@ -1,25 +1,23 @@
-package apiUsr;
+package api.wlt;
 
 import biz.BaseHdr;
 import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
+import entityx.ReChgOrd;
 import entityx.Usr;
 import org.hibernate.Session;
-import org.hibernate.query.NativeQuery;
+import entityx.PageResult;
 import utilBiz.OrmUtilBiz;
 
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
+import java.util.*;
 
-import static apiAcc.RechargeHdr.saveUrlOrdChrg;
-import static util.ExptUtil.currFunPrms4dbg;
+import static api.wlt.RechargeHdr.saveUrlOrdChrg;
 import static util.ToXX.parseQueryParams;
 import static util.Util2025.encodeJson;
 import static util.dbutil.*;
 import static util.util2026.*;
-
-public class UserCentrHdr extends BaseHdr<Usr, Usr> {
+//   http://localhost:8889/QueryOrdChrgHdr
+public class QueryOrdChrgHdr extends BaseHdr<Usr, Usr> {
 
     public static void main(String[] args) throws Exception {
         MyCfg.iniCfgFrmCfgfile();
@@ -27,31 +25,29 @@ public class UserCentrHdr extends BaseHdr<Usr, Usr> {
                 "uname", "007",
                 "key2", "value2"
         );
-        String uname = "";
-        var list1 = findUser(uname, queryParams);
-        System.out.println(encodeJson(list1));
+//        var list1 = qryuser(queryParams);
+//        System.out.println(encodeJson(list1));
     }
 
     @Override
     public void handle2(HttpExchange exchange) throws Exception {
 
 
-        String uname = getcookie("uname", exchange);
-
-
         //blk login ed
         // qryuser(exchange);
         Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
-        var list1 = findUser(uname, queryParams);
+        long pagesize= Long.parseLong(queryParams.getOrDefault("pagesize","10"));
+        long page=Long.parseLong(queryParams.getOrDefault("page","1"));
+        String uname = getcookie("uname", exchange);
+        var list1 = qryOrdChrg(uname, queryParams,10,1);
         wrtResp(exchange, encodeJson(list1));
     }
 
-    private static Object findUser(String uname, Map<String, String> queryParams) throws Exception {
+    private static Object qryOrdChrg(String uname, Map<String, String> queryParams,long pagesize,long page) throws Exception {
         var expression = "";
-        // String uname =getFieldAsStrFrmMap( queryParams,"uname");
 
         if (isSqldb(saveDirUsrs)) {
-            return qryuserSql(uname, queryParams);
+            return qryOrdChrgSql(uname, queryParams, (int) pagesize,page);
         } else if (saveDirUsrs.startsWith("lucene:")) {
             return null;
             //   return qryuserLucene(queryParams);
@@ -67,32 +63,24 @@ public class UserCentrHdr extends BaseHdr<Usr, Usr> {
 //        session.getTransaction().commit();
     }
 
-   ;
-    static Object qryuserSql(String uname, Map<String, String> queryParams) throws Exception {
-        Map<String, Object> prmMap = Map.of(
-                "fun", getCurrentMethodName(), "uname", uname,
-                "queryParams", queryParams
-        );
-        System.out.println(encodeJson(prmMap));
-        currFunPrms4dbg.set(prmMap);
+
+    static PageResult<SortedMap<String, Object>> qryOrdChrgSql(String uname, Map<String, String> queryParams, int pageSize, long pageNumber) throws Exception {
+
+        var sqlNoOrd = "select * from OrdChrg where  uname =:uname ";//for count
+        var sql=sqlNoOrd+" order by timestamp desc ";
+        Map<String, Object> sqlprmMap= Map.of( "sql",sql,   "uname",uname);
+        System.out.println( encodeJson(sqlprmMap));
 
 
-        var sql = "select * from usr where uname=:uname   ";
-        Map<String, Object> sqlprmMap = Map.of("sql", sql, "uname", uname);
-        System.out.println(encodeJson(sqlprmMap));
-
-
-        Session session = OrmUtilBiz.openSession(saveUrlOrdChrg);
-        NativeQuery<Usr> nativeQuery = session.createNativeQuery(sql, Usr.class);
-        setPrmts4sql(sqlprmMap, nativeQuery);
-        Usr u = nativeQuery.getSingleResult();
-
-
-        //       .setParameter("age", 18);
-
-
-        return u;
+        Session session = OrmUtilBiz. openSession(saveUrlOrdChrg);
+        List<ReChgOrd> lst = (List<ReChgOrd>) nativeQueryGetResultList( sql, sqlprmMap, (int) pageNumber,pageSize, session );
+        //    var list1 = getSortedMapsBypages( sql,pageSize, pageNumber);
+        // 1️⃣ 计算总记录数
+        return getPageResultByCntsql( sqlNoOrd,sqlprmMap,lst,pageSize);
     }
+
+
+
 
     private static List<SortedMap<String, Object>> qryuserIni(Map<String, String> queryParams) {
         String uname = (String) getField2025(queryParams, "uname", "");

@@ -44,7 +44,7 @@ public class AopLogJavassist {
     public static Class<?> getAClassExted(Class<?> aClass) throws NotFoundException, CannotCompileException, IOException {
         ClassPool pool = ClassPool.getDefault();
 
-        if (pool.find("apiUsr.RegHandler") == null) {
+        if (pool.find("api.usr.RegHandler") == null) {
             throw new RuntimeException("Class RegHandler not found in classpath.");
         }
 

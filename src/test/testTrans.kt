@@ -4,8 +4,8 @@ package test;
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
 //import apiAcc.ReChargeComplete.invk
-import apiAcc.DepReChargeComplete
-import apiAcc.TransHdr
+import api.wlt.DepReChargeComplete
+import api.wlt.TransHdr
 import cfg.IocSpringCfg
 import cfg.MyCfg
 import com.sun.net.httpserver.HttpExchange

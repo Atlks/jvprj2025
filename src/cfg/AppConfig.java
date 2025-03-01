@@ -1,6 +1,6 @@
 package cfg;
 
-import apiUsr.QueryUsrHdr;
+import api.usr.QueryUsrHdr;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.hibernate.SessionFactory;

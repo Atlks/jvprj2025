@@ -1,6 +1,6 @@
 package test;
 
-import apiUsr.RegHandler;
+import api.usr.RegHandler;
 import cfg.IocPicoCfg;
 import com.sun.net.httpserver.HttpExchange;
 import org.picocontainer.MutablePicoContainer;

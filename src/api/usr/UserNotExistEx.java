@@ -1,4 +1,4 @@
-package apiUsr;
+package api.usr;
 
 import entityx.ExceptionBase;
 

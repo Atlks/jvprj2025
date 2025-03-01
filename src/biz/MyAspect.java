@@ -47,7 +47,7 @@
 //
 //
 //    //  @Before("execution(* *.*(..))")
-//    //   @Around("execution(* apiUsr.RegHandler.handle(..))") // 只拦截 RegHandler.handle()
+//    //   @Around("execution(* api.usr.RegHandler.handle(..))") // 只拦截 RegHandler.handle()
 //
 ////    @Before("execution(public static * com.example.MyClass.myStaticMethod(..))")
 ////    public void beforeStaticMethod(JoinPoint joinPoint) {

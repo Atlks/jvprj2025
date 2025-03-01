@@ -11,11 +11,10 @@ import util.Icall;
 
 import java.math.BigDecimal;
 
-import static apiAcc.TransHdr.curLockAcc;
+import static api.wlt.TransHdr.curLockAcc;
 import static cfg.AppConfig.sessionFactory;
 import static service.CmsBiz.toBigDcmTwoDot;
 import static util.HbntUtil.*;
-import static util.util2026.getFieldAsBigDecimal;
 import static util.util2026.getFilenameFrmLocalTimeString;
 @Data
 @Service

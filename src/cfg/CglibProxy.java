@@ -1,6 +1,6 @@
 package cfg;
 
-import apiAcc.RechargeHdr;
+import api.wlt.RechargeHdr;
 import biz.HttpHandlerX;
 import net.sf.cglib.proxy.*;
 

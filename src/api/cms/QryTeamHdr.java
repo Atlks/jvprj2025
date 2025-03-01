@@ -1,4 +1,4 @@
-package apiCms;
+package api.cms;
 
 import biz.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;

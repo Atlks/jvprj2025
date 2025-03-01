@@ -1,4 +1,4 @@
-package apiUsr;
+package api.usr;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -1,6 +1,6 @@
 //RegHandler.java
 
-package apiUsr;
+package api.usr;
 
 import biz.existUserEx;
 import entityx.Usr;
@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import util.Icall;
 
-
-import java.util.function.Supplier;
 
 import static cfg.AppConfig.sessionFactory;
 import static util.AopUtil.ivk4log;

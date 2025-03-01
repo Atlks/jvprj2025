@@ -1,4 +1,4 @@
-package apiUsr;
+package api.usr;
 
 import biz.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;

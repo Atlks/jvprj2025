@@ -1,11 +1,8 @@
 package cfg;
 
-import apiUsr.RegHandler;
+import api.usr.RegHandler;
 import com.sun.net.httpserver.HttpExchange;
-import entityx.ExceptionBase;
 import javassist.*;
-import org.hibernate.Session;
-import org.jetbrains.annotations.NotNull;
 import test.MyClassLoader;
 import util.HttpExchangeImp;
 
@@ -13,12 +10,7 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import static cfg.AppConfig.sessionFactory;
 import static util.ColorLogger.*;
-import static util.ExptUtil.addInfo2ex;
-import static util.ExptUtil.curUrl;
-import static util.TransactMng.commitTransaction;
-import static util.Util2025.encodeJson;
 import static util.util2026.*;
 
 public class AopLogJavassist {
@@ -76,7 +68,7 @@ public class AopLogJavassist {
 
             ClassPool pool = ClassPool.getDefault();
 
-//        if (pool.find("apiUsr.RegHandler") == null) {
+//        if (pool.find("api.usr.RegHandler") == null) {
 //            throw new RuntimeException("Class RegHandler not found in classpath.");
 //        }
 

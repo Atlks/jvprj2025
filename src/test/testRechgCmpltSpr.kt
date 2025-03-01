@@ -4,7 +4,7 @@ package test;
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
 //import apiAcc.ReChargeComplete.invk
-import apiAcc.DepReChargeComplete
+import api.wlt.DepReChargeComplete
 import cfg.IocSpringCfg
 import cfg.MyCfg
 

@@ -4,7 +4,7 @@ package test;
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
 
-import apiUsr.LoginHdr
+import api.usr.LoginHdr
 import cfg.IocSpringCfg
 import cfg.MyCfg
 import com.sun.net.httpserver.HttpExchange

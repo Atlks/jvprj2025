@@ -4,7 +4,7 @@ package test;
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
 
-import apiUsr.RegHandler
+import api.usr.RegHandler
 import cfg.IocPicoCfg.iniIocContainr
 import cfg.IocSpringCfg
 import cfg.MyCfg
@@ -38,7 +38,7 @@ fun main230(){
         HttpExchangeImp("http://localhost:8889/reg?uname=007&pwd=ppp", "uname=0093", "output2025.txt")
     val container = iniIocContainr()
     val component = container.getComponent(RegHandler::class.java)
-    var RegHandler1:RegHandler= component as RegHandler
+    var RegHandler1: RegHandler = component as RegHandler
    // RegHandler1.handle(he);
     println("------------resp out :\n"+readFile("output2025.txt"));
 }
@@ -85,7 +85,7 @@ fun main4asm() {
 //        customClassLoader = CustomClassLoader(parentClassLoader)
 //    }
 
-//    val proxy = customClassLoader.loadClassx("apiUsr.RegHandler").getDeclaredConstructor().newInstance() as HttpHandler
+//    val proxy = customClassLoader.loadClassx("api.usr.RegHandler").getDeclaredConstructor().newInstance() as HttpHandler
 
     var proxyClassObjIns = AOPASM.createProxy(RegHandler::class.java)
 
@@ -140,7 +140,7 @@ fun main22() {
     println("aopClass=" + bean1.javaClass.name)
 
     // 如果输出类似 RegHandler$$EnhancerBySpring，说明 AOP 代理生效。
-    //  如果输出 apiUsr.RegHandler，说明 它没有被代理，AOP 不能拦截它。
+    //  如果输出 api.usr.RegHandler，说明 它没有被代理，AOP 不能拦截它。
 
 }
 
