@@ -2,6 +2,7 @@ package api.ylwlt;
 
 import annos.CookieParam;
 import annos.Parameter;
+import biz.BalanceNotEnghou;
 import biz.BaseHdr;
 import cfg.MyCfg;
 import entityx.OrdWthdr;
@@ -87,6 +88,14 @@ public class WithdrawHdr  implements Icall<WithdrawDto, Object> {
         Usr objU = findByHbnt(Usr.class, uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
         BigDecimal nowAmt2= objU.balanceYinliwlt ;
+
+        if (dto.getAmount().compareTo(nowAmt2) > 0) {
+            BalanceNotEnghou ex = new BalanceNotEnghou("余额不足");
+            ex.fun =this.getClass().getName()+"." + getCurrentMethodName();
+            ex.funPrm =  dto;
+            ex.info="nowAmtBls="+nowAmt2;
+            throw  ex;
+        }
         BigDecimal newBls2=nowAmt2.subtract(dto.getAmount());
         objU.balanceYinliwlt=toBigDcmTwoDot(newBls2);
 
