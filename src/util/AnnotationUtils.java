@@ -1,6 +1,8 @@
 package util;
 
-import jakarta.ws.rs.CookieParam;
+
+import annos.CookieParam;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -13,25 +15,27 @@ public class AnnotationUtils {
         try {
             List<String> params = new ArrayList<>();
             // 获取类中所有方法
-            for (Method method : clazz.getDeclaredMethods()) {
-                if (method.getName().equals(methodName)) {
-
-
-                    // 遍历方法anno
-
-                    for (Annotation annotation : method.getAnnotations()) {
-                            if (annotation instanceof CookieParam) {
-                                String paramName = ((CookieParam) annotation).value();
-                                params.add(paramName);
-                            }
-                        }
-
-
-
-                    // 拼接为 " " 分隔的字符串
-                  //  return String.join(" ", params);
+          //  clazz.getAnnotations()
+            for (Annotation annotation : clazz.getAnnotations()) {
+                if (annotation instanceof CookieParam) {
+                    String paramName = ((CookieParam) annotation).name();
+                    params.add(paramName);
                 }
             }
+//            for (Method method : clazz.getDeclaredMethods()) {
+//                if (method.getName().equals(methodName)) {
+//
+//                 //   System.out.println(CookieParam);
+//                    // 遍历方法anno
+//
+//
+//
+//
+//
+//                    // 拼接为 " " 分隔的字符串
+//                  //  return String.join(" ", params);
+//                }
+//            }
             return  params;
         } catch (Exception e) {
             e.printStackTrace();

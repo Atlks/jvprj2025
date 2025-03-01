@@ -1,6 +1,8 @@
 package biz;
 
-public class BalanceNotEnghou extends Exception {
+import entityx.ExceptionBase;
+
+public class BalanceNotEnghou extends ExceptionBase {
     public BalanceNotEnghou(String s) {
    super(s);
     }

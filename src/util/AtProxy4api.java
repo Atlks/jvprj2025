@@ -4,7 +4,6 @@ import biz.NeedLoginEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import entityx.ExceptionBase;
-import jakarta.annotation.security.PermitAll;
 
 import java.io.IOException;
 
@@ -22,10 +21,10 @@ import static util.util2026.*;
 
 
 //aop shuld log auth ,ex catch,,,pfm
-public abstract class AtProxy4webapi implements Icall,HttpHandler{
+public abstract class AtProxy4api implements Icall, HttpHandler {
     private Icall target; // 目标对象
 
-    public AtProxy4webapi(Object target) {
+    public AtProxy4api(Object target) {
         this.target = (Icall) target;
     }
 
@@ -39,7 +38,6 @@ public abstract class AtProxy4webapi implements Icall,HttpHandler{
 //    }
 
 
-
     /**
      * @param args
      * @return
@@ -51,21 +49,21 @@ public abstract class AtProxy4webapi implements Icall,HttpHandler{
 
 
         //---------blk chk auth
-        Object result=ivk4log(mthFullname,args,()->{
-            return  target.call(args);
+        Object result = ivk4log(mthFullname, args, () -> {
+            return target.call(args);
         });
 
 
         return result;
     }
 
-//    // 生成代理对象
+    //    // 生成代理对象
 //    public static Object createProxy4webapi(Object target) {
 //       // Class<?>[] interfaces = target.getClass().getInterfaces();
 //     //   System.out.println("crtProxy().itfss="+encodeJsonObj(interfaces));
 //        return new AtProxy4webapi(target);
 //    }
-    public static ThreadLocal<HttpExchange> httpExchangeCurThrd=new ThreadLocal<>();
+    public static ThreadLocal<HttpExchange> httpExchangeCurThrd = new ThreadLocal<>();
 
     /**
      * Handle the given request and generate an appropriate response.
@@ -79,7 +77,7 @@ public abstract class AtProxy4webapi implements Icall,HttpHandler{
      */
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        httpExchangeCurThrd.set(exchange) ;
+        httpExchangeCurThrd.set(exchange);
         String mth = colorStr("handle", YELLOW_bright);
         String prmurl = colorStr(String.valueOf(exchange.getRequestURI()), GREEN);
         curUrl.set(encodeJson(exchange.getRequestURI()));
@@ -129,25 +127,28 @@ public abstract class AtProxy4webapi implements Icall,HttpHandler{
 
         Object rzt;
         //---------log
-        Class cls=   getPrmClass(this.target,"call");
-        if(cls==null)
-        {
+        Class cls = getPrmClass(this.target, "call");
+        if (cls == null) {
 
-            rzt= call(null);
-        }else{
+            rzt = call(null);
+        } else {
             var dto = toDto(exchange, cls);
-            copyCookieToDto(httpExchangeCurThrd.get(), getCookieParams(target.getClass(), "handlex"),dto);
+            copyCookieToDto(httpExchangeCurThrd.get(), getCookieParams(target.getClass(), "call"), dto);
             prmurl = colorStr(encodeJson((dto)), GREEN);
 
-            rzt=  call(dto);
+            rzt = call(dto);
         }
 
         //  handle2(exchange);
         //会使用反射机制去查找控制器方法中的参数类型
 
 
-
-        wrtResp(exchange, encodeJsonObj(rzt) );
+        //  默认返回 JSON，不需要额外加 @ResponseBody
+        //  默认会将 String 直接作为 text/plain 处理：
+        if (rzt.getClass() == String.class)
+            wrtResp(exchange, (rzt.toString()));
+        else
+            wrtResp(exchange, encodeJsonObj(rzt));
 
 
         /// ----------log
@@ -155,7 +156,7 @@ public abstract class AtProxy4webapi implements Icall,HttpHandler{
 
     }
 
-      protected abstract void urlAuthChk(HttpExchange exchange) throws IOException, NeedLoginEx;
+    protected abstract void urlAuthChk(HttpExchange exchange) throws Exception;
 
 
     //----------aop auth

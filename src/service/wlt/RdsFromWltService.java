@@ -1,6 +1,8 @@
 package service.wlt;
 
 import biz.BalanceNotEnghou;
+import biz.ParseEx;
+import com.sun.net.httpserver.HttpExchange;
 import entityx.LogBls;
 import entityx.ReChgOrd;
 import entityx.TransDto;
@@ -19,8 +21,8 @@ import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static service.CmsBiz.toBigDcmTwoDot;
 import static util.HbntUtil.*;
 import static util.Util2025.encodeJson;
-import static util.util2026.getFieldAsBigDecimal;
-import static util.util2026.getFilenameFrmLocalTimeString;
+import static util.Util2025.toExchgDt;
+import static util.util2026.*;
 
 /**
  * 减去钱包余额服务
@@ -44,21 +46,17 @@ public class RdsFromWltService  implements Icall<TransDto, Object> {
         Usr objU=  curLockAcc.get();
         BigDecimal nowAmt =objU.balance;
         if (lgblsDto.getChangeAmount().compareTo(nowAmt) > 0) {
-            SortedMap<String, Object> m = new TreeMap<>();
-            m.put("method", "transToYinliWlt()");
-            m.put("prm", "amt=" + lgblsDto.getChangeAmount() + ",uname=" + objU.uname);
-            m.put("nowAmtBls", nowAmt);
-            throw new BalanceNotEnghou(encodeJson(m));
+            BalanceNotEnghou ex = new BalanceNotEnghou("余额不足");
+            ex.fun =this.getClass().getName()+"." + getCurrentMethodName();
+            ex.funPrm =  lgblsDto;
+            ex.info="nowAmtBls="+nowAmt;
+            throw  ex;
         }
 
         BigDecimal amt = lgblsDto.getChangeAmount();
         BigDecimal newBls = nowAmt.subtract(toBigDecimal(amt));
         objU.balance = newBls;
 
-        BigDecimal nowAmt2 = getFieldAsBigDecimal(objU, "balanceYinliwlt", 0);
-        BigDecimal newBls2 = nowAmt2.add(toBigDecimal(amt));
-        objU.balanceYinliwlt = newBls2;
-        //  updtObj(objU,saveDirUsrs);
         mergeByHbnt(objU, sessionFactory.getCurrentSession());
 
         //------------add balanceLog

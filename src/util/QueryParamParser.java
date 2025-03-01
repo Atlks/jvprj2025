@@ -64,6 +64,7 @@ public class QueryParamParser {
                     String value = paramMap.get(fieldName);
                     Class<?> propertyType = pd.getPropertyType();
                     Object convertedValue = convertType(value, propertyType);  // 类型转换
+                    //prop must has set mth,,beir err  ,get wrtmthd is null
                     pd.getWriteMethod().invoke(dto, convertedValue); // 反射调用 Setter
                 }
             }

@@ -22,7 +22,10 @@ import java.util.function.Function;
 
 import static cfg.AopLogJavassist.lock;
 import static java.time.LocalTime.now;
-import static org.apache.commons.codec.net.URLCodec.encodeUrl;
+import static util.EncodeUtil.decodeUrl;
+import static util.EncodeUtil.encodeUrl;
+import static util.EncryUtil.Key_a1235678;
+import static util.EncryUtil.decryptDES;
 import static util.ToXX.parseQueryParams;
 import static util.Util2025.encodeJson;
 import static util.dbutil.setField;
@@ -268,7 +271,31 @@ public class util2026 {
             return true;
         return false;
     }
+    public static String getcookieDecry(String cookieName, HttpExchange exchange) throws Exception {
+        // 获取请求头中的 Cookie
+        List<String> cookieHeaders = exchange.getRequestHeaders().get("Cookie");
+        if (cookieHeaders == null || cookieHeaders.isEmpty()) {
+            return ""; // 没有 Cookie
+        }
 
+        // 遍历 Cookie 头，查找指定名称的 Cookie
+        //cookhe ==>  Phpstorm-5391d420=e327af09-5544-404b-9cfc-5fe811cc8b38; Idea-c6a5dffd=3faa2c4e-16f5-4b3e-83f3-41d9866af1e1; uname=ttt
+        for (String cookieHeader : cookieHeaders) {
+
+            List<HttpCookie> cookies = HttpCookie_parse(cookieHeader);
+            for (HttpCookie cookie : cookies) {
+                if (cookie.getName().equals(cookieName)) {
+                    String value = cookie.getValue();
+
+                    return value; // 找到指定名称的 Cookie，返回值
+                }
+            }
+        }
+
+        // 如果没有找到匹配的 Cookie
+        return "";
+
+    }
 
     public static String getcookie(String cookieName, HttpExchange exchange) {
         // 获取请求头中的 Cookie
@@ -441,6 +468,7 @@ public class util2026 {
             if (cookieParts.length == 2) {
                 String name = cookieParts[0];
                 String value = cookieParts[1];
+                value=decodeUrl(value);
                 HttpCookie ck = new HttpCookie(name, value);
                 list.add(ck);
             }
@@ -511,7 +539,7 @@ public class util2026 {
 
         // 创建 Set-Cookie 头部内容
         //String cookie1 = "uname=" + uname + "; Path=/; HttpOnly;
-        String cookie1 = name + "=" + encodeUrl2(val) + "; Path=/;  Max-Age=" + halfYearInSeconds + ";";
+        String cookie1 = name + "=" + encodeUrl(val) + "; Path=/;  Max-Age=" + halfYearInSeconds + ";";
         //    " Expires=" + expiresDate;
         // 设置响应头中的 Set-Cookie
         exchange.getResponseHeaders().add("Set-Cookie", cookie1);
@@ -519,16 +547,7 @@ public class util2026 {
 
     }
 
-    private static String encodeUrl2(String val) {
-        if (val == null || val.isEmpty()) {
-            return "";
-        }
-        try {
-            return URLEncoder.encode(val, StandardCharsets.UTF_8.toString());
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("UTF-8 encoding not supported", e);
-        }
-    }
+
 
     public static void throwEx(Exception e) {
         if (e instanceof RuntimeException)

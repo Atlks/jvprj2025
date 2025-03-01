@@ -1,12 +1,16 @@
 package util;
 
 import cfg.IocSpringCfg;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import service.wlt.AddMoneyToWltService;
 
 
+import javax.inject.Inject;
 import java.lang.reflect.Field;
 import java.util.function.Consumer;
+
+import static util.IocUtil.getBeanFrmBeanmap;
 
 
 public class SprUtil {
@@ -42,6 +46,10 @@ public class SprUtil {
     public static void injectAll4spr(Object ins) {
         Consumer<Field> csmr = field -> {
             try {
+                var inject = field.getAnnotation(Inject.class);
+                var Autowired1 = field.getAnnotation(Autowired.class);
+                if( inject==null && Autowired1==null)
+                    return;
                 var qlfNm= getQualifierName(field);
 
                 if(field.getType()==String.class)
@@ -59,7 +67,8 @@ public class SprUtil {
 
                             field.set(ins, component);
                     }else {
-                        Object insFldObj = IocSpringCfg.context.getBean( qlfNm);
+                        System.out.println("stat injkt,qlfNm="+qlfNm);
+                        Object insFldObj = getBeanFrmBeanmap( qlfNm);
 
                         field.set(ins, insFldObj);
                         System.out.println("fld set (ins,fldObj) qlf="+qlfNm);

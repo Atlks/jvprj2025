@@ -14,9 +14,10 @@ import util.Icall;
 
 
 import static cfg.AppConfig.sessionFactory;
-import static service.VisaService.Key_a1235678;
-import static service.VisaService.encryptDESToStr;
-import static util.AtProxy4webapi.httpExchangeCurThrd;
+
+import static util.AtProxy4api.httpExchangeCurThrd;
+import static util.EncryUtil.Key_a1235678;
+import static util.EncryUtil.encryptDESToStrBase64;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
 @RestController
@@ -62,7 +63,7 @@ public class LoginHdr implements Icall<Usr,Object> {
             Visa visa = visaService.applyForVisa(passport, "Thailand", "Tourist");
             String val = encodeJson(visa);
             setcookie("visa", val, httpExchangeCurThrd.get());
-            setcookie("uname", encryptDESToStr(uname, Key_a1235678), httpExchangeCurThrd.get());
+            setcookie("uname", encryptDESToStrBase64(uname, Key_a1235678), httpExchangeCurThrd.get());
             return true;
         }
 

@@ -1,11 +1,37 @@
 package util;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class EncodeUtil {
 
+
+    public static String decodeUrl(String val) {
+        if (val == null || val.isEmpty()) {
+            return "";
+        }
+        try {
+            return URLDecoder.decode(val, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("UTF-8 encoding not supported", e);
+        }
+    }
+
+    public static String encodeUrl(String val) {
+        if (val == null || val.isEmpty()) {
+            return "";
+        }
+        try {
+            return URLEncoder.encode(val, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("UTF-8 encoding not supported", e);
+        }
+    }
     public static byte[] encodeMd5AsByteArr(String s) {
 
         try {

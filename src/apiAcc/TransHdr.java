@@ -1,6 +1,8 @@
 package apiAcc;
 
+import annos.CookieParam;
 import annos.Parameter;
+import annos.注入;
 import biz.Operation;
 import entityx.TransDto;
 import entityx.Usr;
@@ -8,11 +10,14 @@ import entityx.Usr;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
+
 import jakarta.ws.rs.Path;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RestController;
 import service.YLwltSvs.AddMoney2YLWltService;
 import service.wlt.RdsFromWltService;
 import util.Icall;
@@ -20,6 +25,8 @@ import service.Trans2YLwltService;
 
 import static cfg.AppConfig.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
+import static util.EncryUtil.Key_a1235678;
+import static util.EncryUtil.decryptDES;
 import static util.HbntUtil.findByHbnt;
 import static util.SprUtil.injectAll4spr;
 
@@ -27,12 +34,13 @@ import static util.SprUtil.injectAll4spr;
  * 从本机钱包转账到盈利钱包
  * http://localhost:8889/Trans?changeAmount=8
  */
+@RestController   // 默认返回 JSON，不需要额外加 @ResponseBody。
 @Tag(name = "wlt 钱包")
 @Path("/Trans")
-@Operation(summary = "转账操作", example="/Trans?changeAmount=8")
+@Operation(summary = "转账操作", example = "/Trans?changeAmount=8")
 @Parameter(name = "uname", description = "用户名（in cookie）", required = true)
 @Parameter(name = "changeAmount", description = "转账金额", required = true)
-
+@CookieParam(name = "uname",description = "用户名")
 @Component
 public class TransHdr implements Icall<TransDto, String> {
     // 实现 Serializable 接口
@@ -50,7 +58,6 @@ public class TransHdr implements Icall<TransDto, String> {
      * COMMIT;
      * 这种方式 常用于 银行转账、库存扣减 等需要保证数据一致性的操作。
      *
-
      * @throws Exception
      */
 //    public static void main(String[] args) throws Exception {
@@ -63,33 +70,34 @@ public class TransHdr implements Icall<TransDto, String> {
 //    }
 
 
-
-    @Autowired
+    //@Autowired
     Trans2YLwltService Trans2YLwltService1;
 
-
+    @注入
     @Autowired
-            @Qualifier("RdsFromWltService")
-    RdsFromWltService RdsFromWltService1;
+    @Qualifier("RdsFromWltService")
+    public Icall RdsFromWltService1;
 
-
+    @注入
     @Autowired
     @Qualifier("AddMoney2YLWltService")
-    AddMoney2YLWltService AddMoney2YLWltService1;
+    public Icall AddMoney2YLWltService1;
 
-    public static ThreadLocal<Usr> curLockAcc=new ThreadLocal<>();
+    public static ThreadLocal<Usr> curLockAcc = new ThreadLocal<>();
+
     @Transactional
     @Override
-    public String call(TransDto lgblsDto) throws Exception {
+    public String call(@ModelAttribute  TransDto lgblsDto) throws Exception {
 
         injectAll4spr(this);
         //blk login ed
 
 
-
         // 获取对象并加悲观锁
 
-        //add blance
+        //add blance   bcs uname frm cookie
+        lgblsDto.uname=decryptDES( lgblsDto.uname,Key_a1235678);
+
         String uname = lgblsDto.uname;
         Usr objU = findByHbnt(Usr.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
@@ -102,10 +110,10 @@ public class TransHdr implements Icall<TransDto, String> {
         RdsFromWltService1.call(lgblsDto);
         AddMoney2YLWltService1.call(lgblsDto);
 
-        Icall is=Trans2YLwltService1;
-        ((Trans2YLwltService) is).handle(lgblsDto);
+//        Icall is = Trans2YLwltService1;
+//        ((Trans2YLwltService) is).handle(lgblsDto);
 
-       return "ok";
+        return "ok";
     }
 
 

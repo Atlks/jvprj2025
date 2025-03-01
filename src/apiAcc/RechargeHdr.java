@@ -67,7 +67,7 @@ public class RechargeHdr extends BaseHdr<ReChgOrd, Usr> implements HttpHandlerX 
         ord.id = "ordChrg" + getFilenameFrmLocalTimeString();
 
 
-       return persistByHibernate(ord, sessionFactory);
+       return persistByHibernate(ord, sessionFactory.getCurrentSession());
          //   wrtResp(exchange, encodeJson(r));
 
 

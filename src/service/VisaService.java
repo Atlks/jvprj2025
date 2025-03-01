@@ -13,6 +13,7 @@ import java.util.Base64;
 import java.time.LocalDate;
 import java.util.List;
 
+import static util.EncryUtil.*;
 import static util.JsonUtil.deserializeFromJson;
 import static util.JsonUtil.serializeToJson;
 
@@ -80,8 +81,6 @@ public class VisaService {
        // passport.getVisas().add(visa);
         return visa;
     }
-    public static String Key_a1235678 = "a1235678";
-
     //使用des加密 ，密钥为a1235678
     private String encryVisaMrz(MRZ mrz1) throws Exception {
         String mrzData = serializeToJson(mrz1);// 获取 MRZ 码
@@ -95,36 +94,7 @@ public class VisaService {
         return deserializeFromJson(jsonstr, MRZ.class);
     }
 
-    // DES 加密函数
-    private static byte[] encryptDES(String data, String key) throws Exception {
-        Cipher cipher = Cipher.getInstance(DES_ALGORITHM);
-        cipher.init(Cipher.ENCRYPT_MODE, generateDESKey(key));
-        return cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
-    }
 
-    public static String encryptDESToStr(String data, String key) throws Exception {
-        byte[] encryptedBytes = encryptDES(data, key);
-        return Base64.getEncoder().encodeToString(encryptedBytes);
-    }
-
-    // DES 解密
-    public static String decryptDES(String encryptedData, String key) throws Exception {
-        Cipher cipher = Cipher.getInstance(DES_ALGORITHM);
-        cipher.init(Cipher.DECRYPT_MODE, generateDESKey(key));
-        byte[] decryptedData = cipher.doFinal(Base64.getDecoder().decode(encryptedData));
-        return new String(decryptedData, StandardCharsets.UTF_8);
-    }
-
-    private static final String DES_ALGORITHM = "DES";
-
-    // 生成 DES 密钥
-    private static SecretKey generateDESKey(String key) throws Exception {
-        byte[] keyBytes = key.getBytes(StandardCharsets.UTF_8);
-        SecureRandom secureRandom = new SecureRandom(keyBytes);
-        KeyGenerator keyGenerator = KeyGenerator.getInstance(DES_ALGORITHM);
-        keyGenerator.init(56, secureRandom); // DES 使用 56-bit 密钥
-        return keyGenerator.generateKey();
-    }
 
 }
 

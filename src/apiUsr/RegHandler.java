@@ -76,7 +76,7 @@ public class RegHandler   implements Icall<Usr,Object> {
             var e = new existUserEx("存在用户",getCurrentMethodName(),dtoU);
             throw e;
         }
-        persistByHibernate(  dtoU, sessionFactory);
+        persistByHibernate(  dtoU, sessionFactory.getCurrentSession());
         return dtoU;
     }
 
