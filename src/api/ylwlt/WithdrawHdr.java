@@ -12,6 +12,7 @@ import com.sun.net.httpserver.HttpExchange;
 import entityx.WithdrawDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.LockModeType;
+import jakarta.security.enterprise.SecurityContext;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
 import org.hibernate.Session;
@@ -34,8 +35,11 @@ import static util.dbutil.*;
 import static util.util2026.*;
 
 /**
+ * here api service is same
  * 提现，会导致有效金额变化，冻结金额也变化  ，总金额变化 ，
  * http://localhost:8889/Withdraw?amount=7
+ *
+ * UPDATE accounts SET balance = balance - ? WHERE id = ? AND balance >= ?
  */
 @Tag(name = "Ylwlt")
 @Path("/Withdraw")
@@ -46,48 +50,16 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
 
     public static String saveUrlOrdWthdr;
 
-//    public static void main(String[] args) throws Exception {
-//      MyCfg.iniCfgFrmCfgfile();
-//
-//        OrdWthdr ord=new OrdWthdr();
-//        // ord.put("datetime_utc", now);
-//        // ord.put("datetime_local", getLocalTimeString());
-//        //  ord.put("timezone", now);
-//     //   ord.timestamp=(System.currentTimeMillis());
-//        ord.uname="009";
-//        ord.amt=new BigDecimal(77);
-//      //  ord.id="ordWthdr"+getFilenameFrmLocalTimeString();
-//        Withdraw(ord);
-//    }
 
 
-    private static Object addBlsFrz4yinliWlt(double amt) {
-        return null;
-    }
+    SecurityContext SecurityContext1;
 
     @Override
     public Object call(@BeanParam  WithdrawDto dtoWithdrawDto) throws Exception {
 
+
+        System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("检测余额", RED_bright));
         dtoWithdrawDto.setUserId(getCurrentUser());
-
-
-        //
-        //======================add wth log
-
-        System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("增加提现申请单", RED_bright));
-        OrdWthdr wdthRec = new OrdWthdr();
-        copyProps(dtoWithdrawDto, wdthRec);
-        wdthRec.timestamp = (System.currentTimeMillis());
-        wdthRec.uname = getCurrentUser();
-        wdthRec.id = "ordWthdr" + getFilenameFrmLocalTimeString();
-        Session session = sessionFactory.getCurrentSession();
-        Object obj = persistByHibernate(wdthRec, sessionFactory.getCurrentSession());
-
-
-        //   //adjst yinliwlt balnce
-        //----------------------sub blsAvld   blsFreez++
-        String mthBiz = colorStr("减少盈利钱包的有效余额,增加冻结金额", RED_bright);
-        System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         String uname = getCurrentUser();
         Usr objU = findByHbnt(Usr.class, uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
@@ -101,23 +73,42 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
             throw ex;
         }
 
+        //
+
+
+        //======================add wth log
+        System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("增加提现申请单", RED_bright));
+        OrdWthdr wdthRec = new OrdWthdr();
+        copyProps(dtoWithdrawDto, wdthRec);
+        wdthRec.timestamp = (System.currentTimeMillis());
+        wdthRec.uname = getCurrentUser();
+        wdthRec.id = "ordWthdr" + getFilenameFrmLocalTimeString();
+        Session session = sessionFactory.getCurrentSession();
+        Object obj = persistByHibernate(wdthRec, sessionFactory.getCurrentSession());
+
+
+
+
 
         //=======================减少盈利钱包的有效余额,增加冻结金额
+        //   //adjst yinliwlt balnce
+        //----------------------sub blsAvld   blsFreez++
+        String mthBiz = colorStr("减少盈利钱包的有效余额,增加冻结金额", RED_bright);
+        System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         BigDecimal newBls2 = nowAmt2.subtract(dtoWithdrawDto.getAmount());
         objU.balanceYinliwlt = toBigDcmTwoDot(newBls2);
 
         BigDecimal nowAmtFreez = toBigDcmTwoDot(objU.getBalanceYinliwltFreez());
         objU.balanceYinliwltFreez = toBigDcmTwoDot(nowAmtFreez.add(dtoWithdrawDto.getAmount()));
-
         Usr usr = mergeByHbnt(objU, session);
 
 
 
         //取款体现后  日志的变化  冻结金额 ，有效金额变化。。。
+        System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("增加余额变化了流水", RED_bright));
         //------------add balanceLog
         LogBlsLogYLwlt logBlsYinliWlt = new LogBlsLogYLwlt(dtoWithdrawDto,nowAmt2, newBls2,"减去");
         addBlsLog4ylwlt(logBlsYinliWlt, session);
-
         return usr;
 
 
@@ -127,3 +118,16 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
 
 
 }
+//    public static void main(String[] args) throws Exception {
+//      MyCfg.iniCfgFrmCfgfile();
+//
+//        OrdWthdr ord=new OrdWthdr();
+//        // ord.put("datetime_utc", now);
+//        // ord.put("datetime_local", getLocalTimeString());
+//        //  ord.put("timezone", now);
+//     //   ord.timestamp=(System.currentTimeMillis());
+//        ord.uname="009";
+//        ord.amt=new BigDecimal(77);
+//      //  ord.id="ordWthdr"+getFilenameFrmLocalTimeString();
+//        Withdraw(ord);
+//    }
