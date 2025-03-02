@@ -1,5 +1,6 @@
 package util;
 
+import annos.CookieParam;
 import biz.MinValidator;
 import biz.NeedLoginEx;
 import com.sun.net.httpserver.HttpExchange;
@@ -13,6 +14,7 @@ import jakarta.security.enterprise.SecurityContext;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.internal.constraintvalidators.bv.NotBlankValidator;
 import org.hibernate.validator.internal.constraintvalidators.bv.NotNullValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,7 @@ import java.util.Map;
 import static api.usr.LoginHdr.Key4pwd4aeskey;
 import static biz.BaseHdr.*;
 import static util.AnnotationUtils.getCookieParams;
+import static util.AnnotationUtils.getCookieParamsV2;
 import static util.AopUtil.ivk4log;
 import static util.AuthUtil.getCurrentUser;
 import static util.ColorLogger.*;
@@ -193,12 +196,12 @@ public class AtProxy4api implements Icall, HttpHandler {
         } else {
             var dto = toDto(exchange, cls);
             //--------set cook to dto
-            List<String> cookieParams = getCookieParams(target.getClass(), "call");
-            for (String cknm : cookieParams) {
-                String v = getcookie(cknm, httpExchangeCurThrd.get());
-                 if(v.equals("$curuser"))
+            List<CookieParam> cookieParams = getCookieParamsV2(target.getClass(), "call");
+            for (CookieParam cknm : cookieParams) {
+                String v = getcookie(cknm.name(), httpExchangeCurThrd.get());
+                if(cknm.value().equals("$curuser"))
                     v =   getCurrentUser();
-                setField(dto, cknm, v);
+                setField(dto, cknm.name(), v);
             }
             // copyCookieToDto(httpExchangeCurThrd.get(), ckprms, dto);
             //   prmurl = colorStr(encodeJson((dto)), GREEN);
@@ -249,7 +252,10 @@ public class AtProxy4api implements Icall, HttpHandler {
                     NotBlankValidator vldr = new NotBlankValidator();
                     NotBlank annotation1 = (NotBlank) annotation;
 
-                    if (!vldr.isValid((String)getField(dto, field.getName()), null)) {
+                    String field1 = (String) getField(dto, field.getName());
+                    if (!vldr.isValid(
+                            field1, null
+                    )) {
                         Map<String, Object> m = new HashMap<>();
                         m.put("dto", dto);
                         m.put("fld", field.getName());
@@ -260,9 +266,9 @@ public class AtProxy4api implements Icall, HttpHandler {
                     ;
                 }
 
-                if (annotation.annotationType() == NotNullValidator.class) {
+                if (annotation.annotationType() == NotNull.class) {
                     NotNullValidator vldr = new NotNullValidator();
-                    NotBlank annotation1 = (NotBlank) annotation;
+                    NotNull annotation1 = (NotNull) annotation;
 
                     if (!vldr.isValid( getField(dto, field.getName()), null)) {
                         Map<String, Object> m = new HashMap<>();

@@ -53,11 +53,11 @@ public class util2026 {
         }
         try {
             Class<?> clazz = instance.getClass();
-            Field field = clazz.getField(fieldName);
+            Field field = clazz.getField(fieldName);//only pub fld
             field.setAccessible(true); // 允许访问私有字段
             return field.get(instance);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException("获取字段失败: " + fieldName, e);
+            throw new RuntimeException("获取字段失败,must pub fld: " + fieldName, e);
         }
     }
 

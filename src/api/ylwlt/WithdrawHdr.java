@@ -40,7 +40,7 @@ import static util.util2026.*;
 @Tag(name = "Ylwlt")
 @Path("/Withdraw")
 @Parameter(name = "amount", description = "金额")
-@CookieParam(name = "uname")
+@CookieParam(name = "uname",value = "$curuser")
 public class WithdrawHdr implements Icall<WithdrawDto, Object> {
 
 
@@ -66,7 +66,7 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
     }
 
     @Override
-    public Object call(@BeanParam WithdrawDto dtoWithdrawDto) throws Exception {
+    public Object call(  WithdrawDto dtoWithdrawDto) throws Exception {
 
         dtoWithdrawDto.setUserId(getCurrentUser());
 
