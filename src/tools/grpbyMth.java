@@ -13,7 +13,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static util.Util2025.encodeJson;
-import static util.Util2025.encodeJsonObj;
 
 class RecordDayly {
     public String date;
@@ -44,9 +43,21 @@ class CategorySummary {
 public class grpbyMth {
 
     public static void main(String[] args) throws IOException {
-        List<RecordDaylyx> records = new ArrayList<>();
-        String filePath = "C:\\Users\\attil\\IdeaProjects\\jvprj2025\\src\\tools\\2502mnyLg.md";
 
+        gene2501();
+    }
+
+    private static void gene2501() throws IOException {
+        String filePath = "C:\\Users\\attil\\IdeaProjects\\jvprj2025\\src\\tools\\2502mnyLg.md";
+        filePath="C:\\Users\\attil\\IdeaProjects\\jvprj2025\\src\\tools\\2501mnylg.md";
+
+        String jsonF = "2501mnylg.json";
+        getClrjsonData(filePath, jsonF);
+        grpbyx(jsonF, "2501mnylg_grpby.json");
+    }
+
+    private static void getClrjsonData(String filePath , String jsonF) throws IOException {
+        List<RecordDaylyx> records = new ArrayList<>();
         // Read file line by line
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -73,14 +84,13 @@ public class grpbyMth {
 
         // Serialize to JSON and write to file
         String json = new ObjectMapper().writeValueAsString(records);
-        writeToFile(json, "2502mnyLg.json");
 
-        // Group by category and summarize
-        grpbyx("2502mnyLg.json");
+        writeToFile(json, jsonF);
     }
 
+    //// Group by category and summarize
     // Group by category and calculate total amount
-    public static void grpbyx(String filePath) throws IOException {
+    public static void grpbyx(String filePath, String fileName) throws IOException {
         String jsonText = new String(Files.readAllBytes(Paths.get(filePath)));
         ObjectMapper objectMapper = new ObjectMapper();
         List<RecordDayly> records = objectMapper.readValue(jsonText, new TypeReference<List<RecordDayly>>() {});
@@ -98,7 +108,8 @@ public class grpbyMth {
       //  String summaryJson = objectMapper.writeValueAsString(summary);
         String jsons = encodeJson(summary);
         System.out.println(jsons);
-        writeToFile(jsons,"2502mnyLgGrpby.json");
+
+        writeToFile(jsons, fileName);
     }
 
     // Write content to a file

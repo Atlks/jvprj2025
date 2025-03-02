@@ -1,0 +1,18 @@
+[
+	{
+		"category":"cc",
+		"totalAmount":18000.0
+	},
+	{
+		"category":"msg",
+		"totalAmount":14848.0
+	},
+	{
+		"category":"htl",
+		"totalAmount":4500.0
+	},
+	{
+		"category":"med",
+		"totalAmount":675.0
+	}
+]
