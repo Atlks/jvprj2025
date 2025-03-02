@@ -66,7 +66,7 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
     }
 
     @Override
-    public Object call(  WithdrawDto dtoWithdrawDto) throws Exception {
+    public Object call(@BeanParam  WithdrawDto dtoWithdrawDto) throws Exception {
 
         dtoWithdrawDto.setUserId(getCurrentUser());
 
