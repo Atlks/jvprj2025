@@ -14,6 +14,7 @@ import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticat
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.internal.constraintvalidators.bv.NotBlankValidator;
+import org.hibernate.validator.internal.constraintvalidators.bv.NotNullValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -248,6 +249,21 @@ public class AtProxy4api implements Icall, HttpHandler {
                     NotBlank annotation1 = (NotBlank) annotation;
 
                     if (!vldr.isValid((String)getField(dto, field.getName()), null)) {
+                        Map<String, Object> m = new HashMap<>();
+                        m.put("dto", dto);
+                        m.put("fld", field.getName());
+                        m.put("msg", "vldfail");
+                        m.put("msgAnno",annotation1.message());
+                        throw new RuntimeException(encodeJsonObj(m));
+                    }
+                    ;
+                }
+
+                if (annotation.annotationType() == NotNullValidator.class) {
+                    NotNullValidator vldr = new NotNullValidator();
+                    NotBlank annotation1 = (NotBlank) annotation;
+
+                    if (!vldr.isValid( getField(dto, field.getName()), null)) {
                         Map<String, Object> m = new HashMap<>();
                         m.put("dto", dto);
                         m.put("fld", field.getName());
