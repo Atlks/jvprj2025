@@ -73,6 +73,8 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
 
         //
         //======================add wth log
+
+        System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("增加提现申请单", RED_bright));
         OrdWthdr wdthRec = new OrdWthdr();
         copyProps(dtoWithdrawDto, wdthRec);
         wdthRec.timestamp = (System.currentTimeMillis());

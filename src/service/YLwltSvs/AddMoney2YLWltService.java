@@ -36,6 +36,8 @@ public class AddMoney2YLWltService implements Icall<TransDto,Object> {
         Session session=sessionFactory.getCurrentSession();
 
        Usr objU=  curLockAcc.get();
+       if(objU==null)
+           objU=TransDto1.lockAccObj;
 
         BigDecimal nowAmt =objU.getBalanceYinliwlt();
               //  getFieldAsBigDecimal(objU, "balance", 0);

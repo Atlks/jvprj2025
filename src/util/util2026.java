@@ -12,7 +12,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.HttpCookie;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -625,28 +624,32 @@ public class util2026 {
             throw new IllegalArgumentException("目标对象和源对象不能为空");
         }
 
-        Class<?> clazz = source.getClass();
+        Class<?> clazz = target.getClass();
         while (clazz != null) { // 处理继承层级
             Field[] fields = clazz.getDeclaredFields();
             for (Field field : fields) {
                 field.setAccessible(true);
                 try {
-                    if(field.getName().contains("timestamp"))
+                    if (field.getName().contains("uname"))
                         System.out.println("D1241");
-                    Object value = field.get(source);
-                    if (value != null)
-                    {
-                        if(isObjHasField(target,field.getName()))
-                        field.set(target, toFldType(value,field.getType()) );
-                    }
+                    if (!isObjHasField(source, field.getName()))
+                        continue;
+                    Object valueFrmSourceObj = getField2025(source, field.getName());
+                    if (valueFrmSourceObj == null)
+                        continue;
 
-                } catch (IllegalAccessException e) {
+                    Object fldTypeObj = toFldType(valueFrmSourceObj, field.getType());
+                    field.set(target, fldTypeObj);
+
+
+                } catch (Exception e) {
                     throw new RuntimeException("无法访问字段: " + field.getName(), e);
                 }
             }
             clazz = clazz.getSuperclass(); // 继续处理父类字段
         }
     }
+
     //判断对象是不是有field属性
     private static <T> boolean isObjHasField(T target, String name) {
 
@@ -665,17 +668,15 @@ public class util2026 {
     }
 
 
-
-
     //将值转换为相关的类型
     private static Object toFldType(Object value, Class<?> type) {
         if (value == null) {
             return null;  // 如果值为空，返回null
         }
 
-        if (type.isAssignableFrom(value.getClass())) {
-            return value;  // 如果值的类型已经与目标类型兼容，直接返回
-        }
+//        if (type.isAssignableFrom(value.getClass())) {
+//            return value;  // 如果值的类型已经与目标类型兼容，直接返回
+//        }
 
         if (type == Integer.class || type == int.class) {
             return Integer.parseInt(value.toString());
@@ -696,7 +697,7 @@ public class util2026 {
             } catch (ParseException e) {
                 throw new IllegalArgumentException("Invalid date format");
             }
-        }else
+        } else
             return value;
 
         // 如果无法识别的类型，抛出异常

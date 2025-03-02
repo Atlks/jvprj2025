@@ -8,7 +8,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 @Data
 public class WithdrawDto {
-
+    public String uname;
     public Long timestamp;
 
     @NotBlank(message = "用户ID不能为空")
@@ -16,7 +16,7 @@ public class WithdrawDto {
 
     @NotNull(message = "提现金额不能为空")
     @Min(value = 1, message = "提现金额必须大于0")
-    private BigDecimal amount;
+    public BigDecimal amount;
 
     @NotBlank(message = "币种不能为空")
     private String currency; // 例如 "USD", "CNY", "THB"
@@ -41,6 +41,7 @@ public class WithdrawDto {
         this.bankCode = bankCode;
         this.status = status;
         this.remark = remark;
+        this.uname=userId;
     }
 
     // Getter 和 Setter

@@ -1,5 +1,6 @@
 package util;
 
+import biz.MinValidator;
 import biz.NeedLoginEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -10,11 +11,17 @@ import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.AuthenticationStatus;
 import jakarta.security.enterprise.SecurityContext;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.lang.reflect.Field;
+import java.lang.annotation.Annotation;
+import java.util.Map;
 
 import static api.usr.LoginHdr.Key4pwd4aeskey;
 import static biz.BaseHdr.*;
@@ -118,7 +125,7 @@ public class AtProxy4api implements Icall, HttpHandler {
             responseTxt = processInvkExpt(exchange, e);
 
         } catch (Throwable e) {
-
+           e.printStackTrace();
             responseTxt = processNmlExptn(exchange, e);
             // throw new RuntimeException(e);
 
@@ -133,26 +140,25 @@ public class AtProxy4api implements Icall, HttpHandler {
     }
 
     @Inject
-@Autowired
+    @Autowired
     @Qualifier("ChkLgnStatAuthenticationMechanism")
-  public   HttpAuthenticationMechanism HttpAuthenticationMechanism1;
+    public HttpAuthenticationMechanism HttpAuthenticationMechanism1;
 
     //public  static
     private void urlAuthChkV2(HttpExchange exchange) throws AuthenticationException, NeedLoginEx {
 
         injectAll4spr(this);
         Class<?> aClass = this.getClass();
-        if(aClass== AtProxy4api.class)
-        {
-            aClass= this.target.getClass();
+        if (aClass == AtProxy4api.class) {
+            aClass = this.target.getClass();
         }
         if (needLoginUserAuth(aClass)) {
             AuthenticationStatus autoStt = HttpAuthenticationMechanism1.validateRequest(null, null, null);
 
             if (autoStt == AuthenticationStatus.SUCCESS) {
                 //next prcs
-            }else
-                throw  new NeedLoginEx("需要登录");
+            } else
+                throw new NeedLoginEx("需要登录");
         }
 
     }
@@ -164,7 +170,9 @@ public class AtProxy4api implements Icall, HttpHandler {
         //if has anno ,not need login
         return !annotationPresent;
     }
+
     SecurityContext SecurityContext1;
+
     private void handlexProcess(HttpExchange exchange) throws Throwable {
         String prmurl;
         String mth;
@@ -184,13 +192,14 @@ public class AtProxy4api implements Icall, HttpHandler {
             List<String> cookieParams = getCookieParams(target.getClass(), "call");
             for (String cknm : cookieParams) {
                 String v = getcookie(cknm, httpExchangeCurThrd.get());
-                if (cknm .equals("uname") )
+                if (cknm.equals("uname"))
                     v = decryptAesFromStrBase64(v, Key4pwd4aeskey);
                 setField(dto, cknm, v);
             }
             // copyCookieToDto(httpExchangeCurThrd.get(), ckprms, dto);
             //   prmurl = colorStr(encodeJson((dto)), GREEN);
-
+           validDto(dto);
+        //    OOValidator.validate(dto);
             rzt = call(dto);
         }
 
@@ -204,6 +213,35 @@ public class AtProxy4api implements Icall, HttpHandler {
 
         /// ----------log
 
+
+    }
+
+    private void validDto(Object dto) {
+
+        var clazz = dto.getClass();
+        // 遍历类的所有字段
+        for (Field field : clazz.getDeclaredFields()) {
+            System.out.println("字段: " + field.getName());
+
+            // 遍历该字段上的所有注解
+            for (Annotation annotation : field.getDeclaredAnnotations()) {
+                System.out.println("  注解: " + annotation.annotationType().getSimpleName());
+                if (annotation.annotationType() == Min.class) {
+                    MinValidator vldr = new MinValidator();
+                    Min annotation1 = (Min) annotation;
+                    vldr.initialize(annotation1);
+                    if (!vldr.isValid((BigDecimal) getField(dto, field.getName()), null)) {
+                        Map<String, Object> m = new HashMap<>();
+                        m.put("dto", dto);
+                        m.put("fld", field.getName());
+                        m.put("msg", "vldfail");
+                        m.put("msgAnno",annotation1.message());
+                        throw new RuntimeException(encodeJsonObj(m));
+                    }
+                    ;
+                }
+            }
+        }
 
     }
 
