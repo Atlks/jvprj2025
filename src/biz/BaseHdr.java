@@ -224,21 +224,30 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
             }
 
             // 遍历方法的所有参数
-            for (Parameter parameter : method.getParameters()) {
-                if (parameter.isAnnotationPresent(BeanParam.class)) {
-                    Class<?> type = parameter.getType();
-                    if (type == Object.class)
-                        continue;
-                    return type; // 返回参数的 Class 类型
-                }
-                // 检查参数是否标记了 @ModelAttribute
-                if (parameter.isAnnotationPresent(ModelAttribute.class)) {
-                    Class<?> type = parameter.getType();
-                    if (type == Object.class)
-                        continue;
-                    return type; // 返回参数的 Class 类型
-                }
-            }
+            Parameter[] parameters = method.getParameters();
+            if(parameters.length==0)
+                return  null;
+            Parameter parameter=parameters[0];
+            Class<?> type = parameter.getType();
+            if (type == Object.class)
+                continue;
+            return type; // 返回参数的 Class 类型
+
+//            for (Parameter parameter : parameters) {
+//                if (parameter.isAnnotationPresent(BeanParam.class)) {
+//                    Class<?> type = parameter.getType();
+//                    if (type == Object.class)
+//                        continue;
+//                    return type; // 返回参数的 Class 类型
+//                }
+//                // 检查参数是否标记了 @ModelAttribute
+//                if (parameter.isAnnotationPresent(ModelAttribute.class)) {
+//                    Class<?> type = parameter.getType();
+//                    if (type == Object.class)
+//                        continue;
+//                    return type; // 返回参数的 Class 类型
+//                }
+//            }
         }
 
         return null; // 未找到匹配的方法或参数

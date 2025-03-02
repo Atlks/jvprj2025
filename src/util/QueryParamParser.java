@@ -31,6 +31,9 @@ public class QueryParamParser {
 //        return (T) o;
 //    }
     public static <T> T toDto(HttpExchange exchange, Class<T> usrClass) {
+
+        if(exchange.getClass()==usrClass)
+            return (T) exchange;
         // 获取查询参数 ?name=John&age=30
         String query = exchange.getRequestURI().getQuery();
         if (query == null || query.isEmpty()) {

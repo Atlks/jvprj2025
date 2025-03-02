@@ -52,7 +52,7 @@ import static util.util2026.*;
 @Tag(name = "bet")
 @Path("/BetHdr")
 @annos.Parameter(name = "bettxt")
-@annos.CookieParam(name = "uname")
+@annos.CookieParam(name = "uname",value="$curuser")
 @Component
 @NoArgsConstructor
 public class BetHdr implements Icall<OrdBet, Object> {

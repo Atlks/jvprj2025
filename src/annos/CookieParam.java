@@ -17,4 +17,6 @@ public @interface CookieParam {
     String name();
 
     String decryKey() default "";
+
+    String value();
 }

@@ -30,6 +30,7 @@ import static api.usr.LoginHdr.Key4pwd4aeskey;
 import static biz.BaseHdr.*;
 import static util.AnnotationUtils.getCookieParams;
 import static util.AopUtil.ivk4log;
+import static util.AuthUtil.getCurrentUser;
 import static util.ColorLogger.*;
 
 import static util.EncryUtil.decryptAesFromStrBase64;
@@ -195,8 +196,8 @@ public class AtProxy4api implements Icall, HttpHandler {
             List<String> cookieParams = getCookieParams(target.getClass(), "call");
             for (String cknm : cookieParams) {
                 String v = getcookie(cknm, httpExchangeCurThrd.get());
-                if (cknm.equals("uname"))
-                    v = decryptAesFromStrBase64(v, Key4pwd4aeskey);
+                 if(v.equals("$curuser"))
+                    v =   getCurrentUser();
                 setField(dto, cknm, v);
             }
             // copyCookieToDto(httpExchangeCurThrd.get(), ckprms, dto);
