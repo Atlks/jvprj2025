@@ -1,0 +1,34 @@
+[
+	{
+		"category":"isho",
+		"totalAmount":100.0
+	},
+	{
+		"category":"cc",
+		"totalAmount":13600.0
+	},
+	{
+		"category":"msg",
+		"totalAmount":11048.0
+	},
+	{
+		"category":"htl",
+		"totalAmount":1500.0
+	},
+	{
+		"category":"dps",
+		"totalAmount":300.0
+	},
+	{
+		"category":"id",
+		"totalAmount":280.0
+	},
+	{
+		"category":"it",
+		"totalAmount":240.0
+	},
+	{
+		"category":"med",
+		"totalAmount":500.0
+	}
+]

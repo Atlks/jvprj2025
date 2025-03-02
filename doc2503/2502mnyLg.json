@@ -1,0 +1,230 @@
+[
+  {
+    "date": "21",
+    "amount": 200.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "22",
+    "amount": 400.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "22",
+    "amount": 70.0,
+    "category": "it",
+    "description": "sim"
+  },
+  {
+    "date": "23",
+    "amount": 300.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "24",
+    "amount": 500.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "23",
+    "amount": 1500.0,
+    "category": "cc",
+    "description": ""
+  },
+  {
+    "date": "27",
+    "amount": 999.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "29",
+    "amount": 170.0,
+    "category": "it",
+    "description": "cpshell"
+  },
+  {
+    "date": "29",
+    "amount": 500.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "0211",
+    "amount": 3000.0,
+    "category": "cc",
+    "description": "38cc pimpim"
+  },
+  {
+    "date": "0211",
+    "amount": 200.0,
+    "category": "msg",
+    "description": "cc 20rm mls"
+  },
+  {
+    "date": "0210",
+    "amount": 1500.0,
+    "category": "cc",
+    "description": "40cc"
+  },
+  {
+    "date": "m2",
+    "amount": 100.0,
+    "category": "id",
+    "description": "doc"
+  },
+  {
+    "date": "0210",
+    "amount": 300.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "0212",
+    "amount": 300.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "0212",
+    "amount": 180.0,
+    "category": "id",
+    "description": "foto n copy"
+  },
+  {
+    "date": "0215",
+    "amount": 1000.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "0214",
+    "amount": 300.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "0213",
+    "amount": 300.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "0216",
+    "amount": 300.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "0217",
+    "amount": 2000.0,
+    "category": "cc",
+    "description": ""
+  },
+  {
+    "date": "0219",
+    "amount": 1300.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "223",
+    "amount": 300.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "222",
+    "amount": 1600.0,
+    "category": "cc",
+    "description": ""
+  },
+  {
+    "date": "221",
+    "amount": 350.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "220",
+    "amount": 300.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "222",
+    "amount": 100.0,
+    "category": "isho",
+    "description": "vax"
+  },
+  {
+    "date": "224",
+    "amount": 1000.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "225",
+    "amount": 300.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "224",
+    "amount": 300.0,
+    "category": "dps",
+    "description": "key"
+  },
+  {
+    "date": "0218",
+    "amount": 300.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "27",
+    "amount": 999.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "26",
+    "amount": 1500.0,
+    "category": "cc",
+    "description": ""
+  },
+  {
+    "date": "25",
+    "amount": 1500.0,
+    "category": "htl",
+    "description": ""
+  },
+  {
+    "date": "225",
+    "amount": 500.0,
+    "category": "med",
+    "description": "keya"
+  },
+  {
+    "date": "226",
+    "amount": 300.0,
+    "category": "msg",
+    "description": ""
+  },
+  {
+    "date": "227",
+    "amount": 2500.0,
+    "category": "cc",
+    "description": "oldMiniCC"
+  },
+  {
+    "date": "228",
+    "amount": 300.0,
+    "category": "msg",
+    "description": ""
+  }
+]
