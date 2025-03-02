@@ -13,10 +13,10 @@ public interface Icall<P, R> {
 
     public R call(P arg) throws Exception;
 
-    default R call2(P arg) {
+    default R call2(P arg) throws Exception  {
        throw   new RuntimeException("not eimplt");
     }
-    default R call3(P arg) {
+    default R call3(P arg) throws Exception  {
         throw   new RuntimeException("not eimplt");
     }
 }

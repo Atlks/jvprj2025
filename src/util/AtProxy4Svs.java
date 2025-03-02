@@ -38,6 +38,27 @@ public class AtProxy4Svs implements Icall {
         return result;
     }
 
+    @Override
+    public Object call2(Object args) throws Exception {
+        String mthFullname = target.getClass().getName() + ".call2";
+
+        Object result=ivk4log(mthFullname,args,()->{
+            return  target.call2(args);
+        });
+        return result;
+    }
+
+
+    @Override
+    public Object call3(Object args) throws Exception {
+        String mthFullname = target.getClass().getName() + ".call3";
+
+        Object result=ivk4log(mthFullname,args,()->{
+            return  target.call3(args);
+        });
+        return result;
+    }
+
     // 生成代理对象
     public static Object createProxy4log(Object target) {
        // Class<?>[] interfaces = target.getClass().getInterfaces();

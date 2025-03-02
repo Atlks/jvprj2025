@@ -5,6 +5,7 @@ import entityx.LogBls;
 import entityx.ReChgOrd;
 import entityx.TransDto;
 import entityx.Usr;
+import jdk.jfr.Name;
 import lombok.Data;
 import org.hibernate.Session;
 import org.springframework.context.annotation.Lazy;
@@ -22,6 +23,11 @@ import static util.util2026.getFilenameFrmLocalTimeString;
 @Lazy
 public class AddMoneyToWltService   implements Icall<TransDto, Object> {
 
+    @Name("add")
+    public Object call2(TransDto args) throws Exception{
+
+        return null;
+    }
     public Object call(TransDto TransDto88 ) throws Exception {
         //  printLn("\n▶️fun updtBlsByAddChrg(", BLUE);
         //    printLn("objChrg= " + encodeJson(objChrg), GREEN);
