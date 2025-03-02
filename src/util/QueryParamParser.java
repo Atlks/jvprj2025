@@ -2,7 +2,6 @@ package util;
 
 import com.sun.net.httpserver.HttpExchange;
 import entityx.ReChgOrd;
-import entityx.Usr;
 import org.jetbrains.annotations.NotNull;
 
 import java.beans.IntrospectionException;
@@ -10,8 +9,6 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.util.HashMap;
@@ -30,7 +27,7 @@ public class QueryParamParser {
 //        Object o=toDto(exchange,cls);
 //        return (T) o;
 //    }
-    public static <T> T toDto(HttpExchange exchange, Class<T> usrClass) {
+    public static <T> T toDtoFrmQrystr(HttpExchange exchange, Class<T> usrClass) {
 
         if(exchange.getClass()==usrClass)
             return (T) exchange;

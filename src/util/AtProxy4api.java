@@ -17,6 +17,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.internal.constraintvalidators.bv.NotBlankValidator;
 import org.hibernate.validator.internal.constraintvalidators.bv.NotNullValidator;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -28,17 +29,14 @@ import java.lang.reflect.Field;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
-import static api.usr.LoginHdr.Key4pwd4aeskey;
 import static biz.BaseHdr.*;
-import static util.AnnotationUtils.getCookieParams;
 import static util.AnnotationUtils.getCookieParamsV2;
 import static util.AopUtil.ivk4log;
 import static util.AuthUtil.getCurrentUser;
 import static util.ColorLogger.*;
 
-import static util.EncryUtil.decryptAesFromStrBase64;
 import static util.ExptUtil.curUrl;
-import static util.QueryParamParser.toDto;
+import static util.QueryParamParser.toDtoFrmQrystr;
 import static util.SprUtil.injectAll4spr;
 import static util.TransactMng.commitTsact;
 import static util.TransactMng.openSessionBgnTransact;
@@ -48,7 +46,7 @@ import static util.util2026.*;
 
 
 //aop shuld log auth ,ex catch,,,pfm
-public class AtProxy4api implements Icall, HttpHandler {
+public class AtProxy4api implements  HttpHandler {
     private Icall target; // 目标对象
 
     public AtProxy4api(Object target) {
@@ -70,8 +68,8 @@ public class AtProxy4api implements Icall, HttpHandler {
      * @return
      * @throws Exception
      */
-    @Override
-    public Object call(Object args) throws Exception {
+
+    public Object invoke_call(Object args) throws Exception {
         String mthFullname = target.getClass().getName() + ".call";
 
 
@@ -191,23 +189,11 @@ public class AtProxy4api implements Icall, HttpHandler {
         //---------log
         Class cls = getPrmClass(this.target, "call");
         if (cls == null) {
-
-            rzt = call(null);
+            rzt = invoke_call(null);
         } else {
             var dto = toDto(exchange, cls);
-            //--------set cook to dto
-            List<CookieParam> cookieParams = getCookieParamsV2(target.getClass(), "call");
-            for (CookieParam cknm : cookieParams) {
-                String v = getcookie(cknm.name(), httpExchangeCurThrd.get());
-                if(cknm.value().equals("$curuser"))
-                    v =   getCurrentUser();
-                setField(dto, cknm.name(), v);
-            }
-            // copyCookieToDto(httpExchangeCurThrd.get(), ckprms, dto);
-            //   prmurl = colorStr(encodeJson((dto)), GREEN);
-           validDto(dto);
-        //    OOValidator.validate(dto);
-            rzt = call(dto);
+            validDto(dto);
+            rzt = invoke_call(dto);
         }
 
         //  默认返回 JSON，不需要额外加 @ResponseBody
@@ -221,6 +207,20 @@ public class AtProxy4api implements Icall, HttpHandler {
         /// ----------log
 
 
+    }
+
+    @Nullable
+    private Object toDto(HttpExchange exchange, Class cls) {
+        var dto = toDtoFrmQrystr(exchange, cls);
+        //--------set cook to dto
+        List<CookieParam> cookieParams = getCookieParamsV2(target.getClass(), "call");
+        for (CookieParam cknm : cookieParams) {
+            String v = getcookie(cknm.name(), httpExchangeCurThrd.get());
+            if(cknm.value().equals("$curuser"))
+                v =   getCurrentUser();
+            setField(dto, cknm.name(), v);
+        }
+        return dto;
     }
 
     private void validDto(Object dto) {

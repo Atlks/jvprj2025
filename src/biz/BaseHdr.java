@@ -1,11 +1,8 @@
 package biz;
 
 import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.BeanParam;
-import org.hibernate.Session;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.context.internal.ThreadLocalSessionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -13,10 +10,8 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import entityx.ExceptionBase;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -28,7 +23,7 @@ import static util.AnnotationUtils.getCookieParams;
 import static util.ColorLogger.*;
 import static util.ExptUtil.addInfo2ex;
 import static util.ExptUtil.curUrl;
-import static util.QueryParamParser.toDto;
+import static util.QueryParamParser.toDtoFrmQrystr;
 
 import static util.TransactMng.*;
 import static util.Util2025.*;
@@ -182,7 +177,7 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
             System.out.println("▶\uFE0Ffun " + mth + "(）");
             rzt = handle3();
         } else {
-            T dto = (T) toDto(exchange, cls);
+            T dto = (T) toDtoFrmQrystr(exchange, cls);
             copyCookieToDto(getCookieParams(this.getClass(), handlex), dto);
             prmurl = colorStr(encodeJson((dto)), GREEN);
             System.out.println("▶\uFE0Ffun " + mth + "(dto=" + prmurl);
