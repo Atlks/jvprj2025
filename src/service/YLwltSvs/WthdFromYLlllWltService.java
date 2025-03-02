@@ -1,0 +1,67 @@
+package service.YLwltSvs;
+
+import biz.BalanceNotEnghou;
+import entityx.LogBls;
+import entityx.LogBlsLogYLwlt;
+import entityx.TransDto;
+import entityx.Usr;
+import org.hibernate.Session;
+import util.Icall;
+
+import java.math.BigDecimal;
+
+import static api.wlt.TransHdr.curLockAcc;
+import static cfg.AppConfig.sessionFactory;
+import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
+import static service.CmsBiz.toBigDcmTwoDot;
+import static service.YLwltSvs.AddMoney2YLWltService.addBlsLog4ylwlt;
+import static util.HbntUtil.mergeByHbnt;
+import static util.HbntUtil.persistByHibernate;
+import static util.util2026.getCurrentMethodName;
+import static util.util2026.getFilenameFrmLocalTimeString;
+
+/**
+ * 减去钱包余额服务
+ */
+public class WthdFromYLlllWltService implements Icall<TransDto, Object> {
+    /**
+     * @param TransDto88
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Object call(TransDto TransDto88) throws Exception {
+
+
+
+
+
+        System.out.println("\n\n\n===========减去盈利钱包余额");
+
+        //  放在一起一快存储，解决了十五问题事务。。。
+        Usr objU=  curLockAcc.get();
+        if(objU==null)
+            objU=TransDto88.lockAccObj;
+
+        BigDecimal nowAmt =objU.balance;
+        if (TransDto88.getChangeAmount().compareTo(nowAmt) > 0) {
+            BalanceNotEnghou ex = new BalanceNotEnghou("余额不足");
+            ex.fun =this.getClass().getName()+"." + getCurrentMethodName();
+            ex.funPrm =  TransDto88;
+            ex.info="nowAmtBls="+nowAmt;
+            throw  ex;
+        }
+
+        BigDecimal amt = TransDto88.getChangeAmount();
+        BigDecimal newBls = nowAmt.subtract(toBigDecimal(amt));
+        objU.balance = newBls;
+
+        Session currentSession = sessionFactory.getCurrentSession();
+        mergeByHbnt(objU, currentSession);
+
+        //------------add balanceLog
+        LogBlsLogYLwlt logBlsYinliWlt = new LogBlsLogYLwlt(TransDto88,nowAmt, newBls,"增加");
+        addBlsLog4ylwlt(logBlsYinliWlt, currentSession);
+        return null;
+    }
+}

@@ -21,7 +21,7 @@ import static util.util2026.getFilenameFrmLocalTimeString;
 @Lazy
 public class AddMoney2YLWltService implements Icall<TransDto,Object> {
 
-    public Object call(TransDto lgblsDto ) throws Exception {
+    public Object call(TransDto TransDto1 ) throws Exception {
 
 
 
@@ -30,8 +30,8 @@ public class AddMoney2YLWltService implements Icall<TransDto,Object> {
 
 
 
-        String uname = lgblsDto.uname;
-        BigDecimal amt = lgblsDto.changeAmount;
+        String uname = TransDto1.uname;
+        BigDecimal amt = TransDto1.changeAmount;
 
         Session session=sessionFactory.getCurrentSession();
 
@@ -44,21 +44,23 @@ public class AddMoney2YLWltService implements Icall<TransDto,Object> {
         objU.balanceYinliwlt = toBigDcmTwoDot(newBls);
         mergeByHbnt(objU, session);
 
-
-        //--------------add logBlsYinliWlt
-        LogBlsLogYLwlt logBlsYinliWlt = new LogBlsLogYLwlt();
-        logBlsYinliWlt.id = "LogBalanceYinliWlt" + getFilenameFrmLocalTimeString();
-        logBlsYinliWlt.uname = uname;
-        logBlsYinliWlt.changeMode = "增加";
-        logBlsYinliWlt.changeAmount = lgblsDto.getChangeAmount();
-        logBlsYinliWlt.amtBefore = nowAmt;
-        logBlsYinliWlt.newBalance = newBls;
-        // addObj(logBlsYinliWlt,saveUrlLogBalanceYinliWlt);
-        persistByHibernate(logBlsYinliWlt, session);
+        LogBlsLogYLwlt logBlsYinliWlt = new LogBlsLogYLwlt(TransDto1,nowAmt, newBls,"增加");
+        addBlsLog4ylwlt(logBlsYinliWlt, session);
         //  System.out.println("✅endfun updtBlsByAddChrg()");
         return null;
     }
 
+    public static void addBlsLog4ylwlt(LogBlsLogYLwlt logBlsYinliWlt, Session session) {
+        //--------------add logBlsYinliWlt
+
+        logBlsYinliWlt.id = "LogBalanceYinliWlt" + getFilenameFrmLocalTimeString();
+     //   logBlsYinliWlt.uname = lgblsDto.uname;
+     //   logBlsYinliWlt.changeMode = "增加";
+    //    logBlsYinliWlt.changeAmount = lgblsDto.getChangeAmount();
+
+        // addObj(logBlsYinliWlt,saveUrlLogBalanceYinliWlt);
+        persistByHibernate(logBlsYinliWlt, session);
+    }
 
 
 }

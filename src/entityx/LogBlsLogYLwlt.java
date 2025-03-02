@@ -52,4 +52,18 @@ public class LogBlsLogYLwlt {
     private String remark;
 
 
+    public LogBlsLogYLwlt(TransDto lgblsDto, BigDecimal nowAmt, BigDecimal newBls, String changeMode) {
+this.uname=lgblsDto.uname;
+        this.amtBefore = nowAmt;
+        this.newBalance = newBls;
+        this.changeMode=changeMode;
+    }
+
+
+    public LogBlsLogYLwlt(WithdrawDto lgblsDto, BigDecimal nowAmt, BigDecimal newBls, String changeMode) {
+        this.uname=lgblsDto.getUserId();
+        this.amtBefore = nowAmt;
+        this.newBalance = newBls;
+        this.changeMode=changeMode;
+    }
 }

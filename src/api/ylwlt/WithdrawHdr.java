@@ -5,6 +5,7 @@ import annos.Parameter;
 import biz.BalanceNotEnghou;
 import biz.BaseHdr;
 import cfg.MyCfg;
+import entityx.LogBlsLogYLwlt;
 import entityx.OrdWthdr;
 import entityx.Usr;
 import com.sun.net.httpserver.HttpExchange;
@@ -23,6 +24,7 @@ import java.util.Map;
 import static cfg.AppConfig.sessionFactory;
 import static service.CmsBiz.toBigDcmTwoDot;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
+import static service.YLwltSvs.AddMoney2YLWltService.addBlsLog4ylwlt;
 import static util.AuthUtil.getCurrentUser;
 import static util.ColorLogger.RED_bright;
 import static util.ColorLogger.colorStr;
@@ -64,15 +66,15 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
     }
 
     @Override
-    public Object call(@BeanParam WithdrawDto dto) throws Exception {
+    public Object call(@BeanParam WithdrawDto dtoWithdrawDto) throws Exception {
 
-        dto.setUserId(getCurrentUser());
+        dtoWithdrawDto.setUserId(getCurrentUser());
 
 
         //
         //======================add wth log
         OrdWthdr wdthRec = new OrdWthdr();
-        copyProps(dto, wdthRec);
+        copyProps(dtoWithdrawDto, wdthRec);
         wdthRec.timestamp = (System.currentTimeMillis());
         wdthRec.uname = getCurrentUser();
         wdthRec.id = "ordWthdr" + getFilenameFrmLocalTimeString();
@@ -89,23 +91,35 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
 
         BigDecimal nowAmt2 = objU.balanceYinliwlt;
 
-        if (dto.getAmount().compareTo(nowAmt2) > 0) {
+        if (dtoWithdrawDto.getAmount().compareTo(nowAmt2) > 0) {
             BalanceNotEnghou ex = new BalanceNotEnghou("余额不足");
             ex.fun = this.getClass().getName() + "." + getCurrentMethodName();
-            ex.funPrm = dto;
+            ex.funPrm = dtoWithdrawDto;
             ex.info = "nowAmtBls=" + nowAmt2;
             throw ex;
         }
-        BigDecimal newBls2 = nowAmt2.subtract(dto.getAmount());
+
+
+        //=======================减少盈利钱包的有效余额,增加冻结金额
+        BigDecimal newBls2 = nowAmt2.subtract(dtoWithdrawDto.getAmount());
         objU.balanceYinliwlt = toBigDcmTwoDot(newBls2);
 
         BigDecimal nowAmtFreez = toBigDcmTwoDot(objU.getBalanceYinliwltFreez());
-        objU.balanceYinliwltFreez = toBigDcmTwoDot(nowAmtFreez.add(dto.getAmount()));
+        objU.balanceYinliwltFreez = toBigDcmTwoDot(nowAmtFreez.add(dtoWithdrawDto.getAmount()));
 
-        return mergeByHbnt(objU, session);
+        Usr usr = mergeByHbnt(objU, session);
+
+
 
         //取款体现后  日志的变化  冻结金额 ，有效金额变化。。。
-        //todo 写日志流水
+        //------------add balanceLog
+        LogBlsLogYLwlt logBlsYinliWlt = new LogBlsLogYLwlt(dtoWithdrawDto,nowAmt2, newBls2,"减去");
+        addBlsLog4ylwlt(logBlsYinliWlt, session);
+
+        return usr;
+
+
+
 
     }
 
