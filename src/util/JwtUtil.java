@@ -1,13 +1,18 @@
 package util;
 
+import com.sun.net.httpserver.HttpExchange;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Claims;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Date;
+
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.trim;
 
 /**
  * 一个完整的 JWT 可能长这样：
@@ -73,8 +78,39 @@ public class JwtUtil {
                 .build();
         return jwtParser.parseClaimsJws(token).getBody();
     }
+    //  从http请求头部提取    AuthChkMode  标头
+    public static  String getAuthChkMode(HttpExchange he){
+// 从请求头中获取 "AuthChkMode" 标头
+        String authChkMode = he.getRequestHeaders().getFirst("AuthChkMode");
+        return  trim(authChkMode) ;
+
+    }
+    public static  String getTokenMust(HttpExchange he){
+// 从请求头中获取 Authorization 字段
+        String authHeader = he.getRequestHeaders().getFirst("Authorization");
+        String substring = authHeader.substring(7);
+        if(isBlank(substring))
+            throw new RuntimeException("Authorization token cant get");
+        return substring; // 去掉 "Bearer " 前缀
 
 
+    }
+
+ //   @Deprecated
+    //  //    Authorization 头部中提取出 JWT Token
+//    public static  String getToken(HttpExchange he){
+//// 从请求头中获取 Authorization 字段
+//        String authHeader = he.getRequestHeaders().getFirst("Authorization");
+//
+//        // 检查 Authorization 字段是否为空，并且它是否以 "Bearer " 开头
+//        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+//            // 截取 "Bearer " 后的部分，即 JWT Token
+//            return authHeader.substring(7); // 去掉 "Bearer " 前缀
+//        }
+//
+//        // 如果没有 Authorization 头或者格式不正确，返回 null 或者你可以抛出异常
+//        return "";
+//    }
 
 
     // 获取 JWT 中的用户信息
@@ -88,7 +124,29 @@ public class JwtUtil {
     }
 
     // 验证 JWT 是否有效
-    public static boolean validateToken(String token, String username) {
-        return (username.equals(getUsername(token)) && !isTokenExpired(token));
+    public static boolean validateToken(String token) {
+        if( !isValidStr(token))
+            return  false;
+        // 1. 从 JWT 中提取用户名
+        String username = getUsername(token);
+
+        // 2. 验证 token 是否过期以及用户名是否有效
+        if (username == null|| username.equals("") || isTokenExpired(token)) {
+            return false;  // 无效的用户名或令牌过期
+        }
+
+        // 3. 通过数据库验证用户是否有效
+//        if (!isUserValid(username)) {
+//            return false;  // 用户无效
+//        }
+
+        // 4. 所有验证通过，返回 true
+        return true;
+    }
+
+    //是否有效字符串 ，不能为全部空白， 不能为null
+    private static boolean isValidStr(String token) {
+        // 检查字符串是否为 null 或者只包含空白字符
+        return StringUtils.isNotBlank(token);
     }
 }

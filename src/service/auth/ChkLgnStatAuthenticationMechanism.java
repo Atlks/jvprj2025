@@ -1,5 +1,6 @@
 package service.auth;
 
+import com.sun.net.httpserver.HttpExchange;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.AuthenticationException;
@@ -11,9 +12,13 @@ import jakarta.security.enterprise.identitystore.CredentialValidationResult;
 import jakarta.security.enterprise.identitystore.IdentityStore;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Qualifier;
+import util.JwtUtil;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static util.AtProxy4api.httpExchangeCurThrd;
+import static util.JwtUtil.*;
 import static util.util2026.getcookie;
 
 //这里实际是存储 读取cookie的地方
@@ -44,21 +49,37 @@ public class ChkLgnStatAuthenticationMechanism implements HttpAuthenticationMech
      */
     @Override
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext httpMessageContext) throws AuthenticationException {
+        String uname = "";
 
-        String uname = getcookie("uname", httpExchangeCurThrd.get());
+        HttpExchange httpExchange = httpExchangeCurThrd.get();
+        String mode = getAuthChkMode(httpExchange);
+        if (mode.equals("cookie")) {
+            uname = getcookie("uname", httpExchange);
+
+        }
+        if (isBlank(mode) || mode.equals("jwt")) {
+           // @NotBlank
+            var token = getTokenMust(httpExchange);
+            if (!JwtUtil.validateToken(token)) {
+                return AuthenticationStatus.SEND_FAILURE;
+            }
+            uname = JwtUtil.getUsername(token);
+        }
+        if (isBlank(uname)) {
+            return AuthenticationStatus.SEND_FAILURE;
+        }
+
+        //    Authorization 头部中提取出 JWT Token
         UsernamePasswordCredential crdt = new UsernamePasswordCredential(uname, "");
         CredentialValidationResult rst = IdentityStore1.validate(crdt);
         if (rst.getStatus() == CredentialValidationResult.Status.VALID) {
             System.out.println("认证成功，用户：" + rst.getCallerPrincipal().getName());
-
-
             System.out.println("用户角色：" + rst.getCallerGroups());
 
             return AuthenticationStatus.SUCCESS;
         } else {
             // 未登录或认证失败
             System.out.println("认证失败");
-
             return AuthenticationStatus.SEND_FAILURE;
         }
 
