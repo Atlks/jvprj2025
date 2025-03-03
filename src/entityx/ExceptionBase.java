@@ -1,8 +1,10 @@
 package entityx;
 
+import lombok.Data;
+
 import java.util.HashMap;
 import java.util.Map;
-
+@Data
 public class ExceptionBase extends  Exception {
 
     public String url;
@@ -54,7 +56,8 @@ public class ExceptionBase extends  Exception {
     public  String fun="";
     public  Object funPrm;
     public Object info;
-    public String stackTrace;
+    public  Object lastExsList;
+
     public String   requestId;
     public  Throwable cause;
     public Map<String, Object> extraData=new HashMap<>();

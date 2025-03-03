@@ -64,22 +64,22 @@ public class ChkLgnStatAuthenticationMechanism implements HttpAuthenticationMech
             try {
                 token = getTokenMust(httpExchange);
                 if (!JwtUtil.validateToken(token)) {
-                    return AuthenticationStatus.SEND_FAILURE;
+                     throw new   AuthenticationException("JwtUtil.validateToken false");
                 }
             } catch (CantGetTokenJwtEx e) {
                 e.printStackTrace();
                 appendEx2lastExs(e);
-                return AuthenticationStatus.SEND_FAILURE;
+                throw new   AuthenticationException("SEND_FAILURE "+e.getMessage(),e);
             } catch (Exception e) {
                 e.printStackTrace();
                 appendEx2lastExs(e);
-                return AuthenticationStatus.SEND_FAILURE;
+                  throw new   AuthenticationException("SEND_FAILURE"+e.getMessage(),e);
             }
 
             uname = JwtUtil.getUsername(token);
         }
         if (isBlank(uname)) {
-            return AuthenticationStatus.SEND_FAILURE;
+            throw new   AuthenticationException("SEND_FAILURE uname blank");
         }
 
         //    Authorization 头部中提取出 JWT Token

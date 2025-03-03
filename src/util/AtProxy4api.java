@@ -3,6 +3,7 @@ package util;
 import annos.CookieParam;
 import biz.MinValidator;
 import biz.NeedLoginEx;
+import biz.ValideTokenFailEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import entityx.ExceptionBase;
@@ -160,7 +161,7 @@ public class AtProxy4api implements  HttpHandler {
     public HttpAuthenticationMechanism HttpAuthenticationMechanism1;
 
     //public  static
-    private void urlAuthChkV2(HttpExchange exchange) throws AuthenticationException, NeedLoginEx {
+    private void urlAuthChkV2(HttpExchange exchange) throws AuthenticationException, ValideTokenFailEx {
 
         injectAll4spr(this);
         Class<?> aClass = this.getClass();
@@ -173,9 +174,9 @@ public class AtProxy4api implements  HttpHandler {
             if (autoStt == AuthenticationStatus.SUCCESS) {
                 //next prcs
             } else {
-                NeedLoginEx 需要登录 = new NeedLoginEx("需要登录");
-                需要登录.info=ExptUtil.lastExsList.get();
-                throw (NeedLoginEx)需要登录;
+                ValideTokenFailEx 需要登录 = new ValideTokenFailEx("登录标识校验失败");
+                需要登录.lastExsList=ExptUtil.lastExsList.get();
+                throw  需要登录;
             }
         }
 
