@@ -20,12 +20,26 @@ import static service.CmsBiz.toBigDcmTwoDot;
 import static util.HbntUtil.*;
 import static util.util2026.getFieldAsBigDecimal;
 import static util.util2026.getFilenameFrmLocalTimeString;
+
+
+/**
+ *  增加钱包余额服务
+ *   AddMoneyToWltService
+ *  @author at
+ *   @param amt
+ *   @param uname
+ *    @param lockAccObj
+ *   @return 计算结果
+ *   @throws Exception
+ *  @code
+ */
 @Data
 @Component
 @Lazy
 @Parameter(name = "amt", description = "金额")
 @Parameter(name = "uname",value = "$curuser")
 @Parameter(name = "lockAccObj")
+
 public class AddMoneyToWltService   implements Icall<TransDto, Object> {
 
     @Name("add")
