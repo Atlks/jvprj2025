@@ -129,6 +129,10 @@ public class JwtUtil {
     public static boolean validateToken(String token) {
         if( !isValidStr(token))
             return  false;
+
+        if (token == null || token.isEmpty()) {
+            throw new InvalidTokenException("Token is invalid");
+        }
         // 1. 从 JWT 中提取用户名
         String username = getUsername(token);
 
