@@ -44,7 +44,14 @@ import static util.Util2025.*;
 import static util.dbutil.setField;
 import static util.util2026.*;
 
-
+/**
+ * todo
+ * 多个拦截器（责任链模式）
+ * 如果需要多个拦截器，可以链式包装： 增强复用性
+ *
+ * server.createContext("/test",
+ *     new AuthInterceptor(new LoggingInterceptor(new MyHandler())));
+ */
 //aop shuld log auth ,ex catch,,,pfm
 public class AtProxy4api implements  HttpHandler {
     private Icall target; // 目标对象

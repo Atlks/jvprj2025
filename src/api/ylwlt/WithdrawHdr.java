@@ -41,6 +41,7 @@ import static util.util2026.*;
  *
  * UPDATE accounts SET balance = balance - ? WHERE id = ? AND balance >= ?
  */
+@ApiFun
 @Tag(name = "Ylwlt")
 @Path("/Withdraw")
 @Parameter(name = "amount", description = "金额")
