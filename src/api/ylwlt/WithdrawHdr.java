@@ -15,7 +15,10 @@ import jakarta.persistence.LockModeType;
 import jakarta.security.enterprise.SecurityContext;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RestController;
 import service.AuthService;
 import util.Icall;
 
@@ -46,6 +49,9 @@ import static util.util2026.*;
 @Path("/Withdraw")
 @Parameter(name = "amount", description = "金额")
 @CookieParam(name = "uname",value = "$curuser")
+@RestController
+@PreAuthorize("user")
+@Slf4j
 public class WithdrawHdr implements Icall<WithdrawDto, Object> {
 
 

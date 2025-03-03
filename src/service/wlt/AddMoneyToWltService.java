@@ -1,6 +1,8 @@
 package service.wlt;
 import static cfg.AppConfig.sessionFactory;
 
+import annos.CookieParam;
+import annos.Parameter;
 import entityx.LogBls;
 import entityx.ReChgOrd;
 import entityx.TransDto;
@@ -21,6 +23,9 @@ import static util.util2026.getFilenameFrmLocalTimeString;
 @Data
 @Component
 @Lazy
+@Parameter(name = "amt", description = "金额")
+@Parameter(name = "uname",value = "$curuser")
+@Parameter(name = "lockAccObj")
 public class AddMoneyToWltService   implements Icall<TransDto, Object> {
 
     @Name("add")

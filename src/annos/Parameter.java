@@ -62,5 +62,7 @@ public @interface Parameter {
 
 
     String name() default "";
+
+    String value() default "";
 }
 
