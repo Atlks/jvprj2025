@@ -89,8 +89,9 @@ public class JwtUtil {
 //    }
 
     public static Claims getClaims(String token) {
+        byte[]  keys= get64Bytes512bitKey(SECRET_KEY);
         JwtParser jwtParser = Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(keys)
                 .build();
         return jwtParser.parseClaimsJws(token).getBody();
     }

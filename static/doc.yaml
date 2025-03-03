@@ -304,11 +304,13 @@ paths:
 
       security:
         - cookieAuth: [ ]
+        - BearerAuth88: [ ]  # 指定此接口支持 JWT 认证
       tags:
         - wlt
       summary:   充值
       description: This endpoint retrieves recharge header information based on the provided amount and username.
       parameters:
+        - $ref: "#/components/parameters/ClientIdHeader"
         - in: query
           name: amt
           required: true
