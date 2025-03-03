@@ -5,10 +5,15 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.security.Keys;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -47,8 +52,9 @@ public class JwtUtil {
      * @param username
      * @return
      */
-    // 生成 JWT
+    // 生成 JWT   512bit 64byte
     public static String generateToken(String username) {
+        SecretKey key = Keys.hmacShaKeyFor(get64Bytes512bitKey(SECRET_KEY)); // 生成符合 HS512 规范的密钥
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
@@ -56,8 +62,18 @@ public class JwtUtil {
 
                 .setAudience("nmlUser")  //Audience，受众，表示这个 JWT 是为谁生成的。
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                .signWith(SignatureAlgorithm.HS512, key)
                 .compact();
+    }
+
+    //生成512位  64字节的密钥，，根据字符串做散列运算得到 64字节的hash值
+    private static byte[] get64Bytes512bitKey(String secretKey) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-512"); // 使用 SHA-512 进行哈希
+            return digest.digest(secretKey.getBytes(StandardCharsets.UTF_8)); // 生成 64 字节密钥
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("SHA-512 algorithm not available", e);
+        }
     }
 
 //jwt 0.11.5 is ok

@@ -1,0 +1,7 @@
+
+{
+  "reqUrl": "/login?uname=9999&pwd=9999",
+  "ret": {
+    "tokenJwt": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5OTk5IiwiaWF0IjoxNzQxMDEwMjc2LCJpc3MiOiJhdGkiLCJhdWQiOiJubWxVc2VyIiwiZXhwIjoxNzQxODc0Mjc2fQ.Om7-AA2wbkJ603AxedBoG996kvFXOXKMFZpqJVQ26HezwP0NzxltwxvT4UL5xjV0D_6etPWziFVvOhIEe313JQ"
+  }
+}

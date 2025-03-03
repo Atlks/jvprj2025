@@ -24,16 +24,17 @@ tags:
 
 
 
-parameters:
-  name: uname
-  in: cookie
-  required: true
-  schema:
-    type: string
-    default: "007"
+
 
 components:
   parameters:
+    unamexx:
+      name: uname
+      in: cookie
+      required: true
+      schema:
+        type: string
+        default: "007"
     ClientIdHeader:
       name:  AuthChkMode
       in: header
@@ -49,7 +50,8 @@ components:
       scheme: bearer
       bearerFormat: JWT  # 说明使用 JWT 作为 token 格式
     cookieAuth:
-      type: apiKey
+      type: http
+      scheme: cookie
       in: cookie
       name: uname
 

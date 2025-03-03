@@ -224,9 +224,14 @@ public class AtProxy4api implements  HttpHandler {
     }
 
     @Nullable
-    private Object toDto(HttpExchange exchange, Class cls) {
-        var dto = toDtoFrmQrystr(exchange, cls);
+    private Object toDto(HttpExchange exchange, Class cls) throws Exception {
+
+        // 反射创建 DTO 实例
+        Object dto = cls.getDeclaredConstructor().newInstance();
         addDeftParam(dto);
+        var dtoQrystr = toDtoFrmQrystr(exchange, cls);
+        copyProps(dtoQrystr,dto);
+
         //--------set cook to dto
         List<CookieParam> cookieParams = getCookieParamsV2(target.getClass(), "call");
         for (CookieParam cknm : cookieParams) {
