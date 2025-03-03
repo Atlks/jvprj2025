@@ -17,6 +17,7 @@ import jakarta.security.enterprise.identitystore.CredentialValidationResult;
 import jakarta.security.enterprise.identitystore.IdentityStore;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,8 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
 import service.auth.SecurityContextImp;
 import util.Icall;
+import util.JwtUtil;
 
 
+import java.util.Collections;
 import java.util.HashSet;
 
 import static cfg.AppConfig.sessionFactory;
@@ -53,7 +56,7 @@ public class LoginHdr implements Icall<Usr,Object>, HttpAuthenticationMechanism,
      * @throws existUserEx
      */
     @Override
-    public Object call(@ModelAttribute Usr Udto) throws Exception, PwdErrEx {
+    public Object call(@BeanParam Usr Udto) throws Exception, PwdErrEx {
 
         usrdto.set(Udto);
 
@@ -67,12 +70,13 @@ public class LoginHdr implements Icall<Usr,Object>, HttpAuthenticationMechanism,
         }
         if(autuStt==AuthenticationStatus.SUCCESS)
         {
-
-
-            System.out.println();
-            return  "ok";
+            //also set cookie todo
+            ResponsRet rt=new ResponsRet();
+            rt.reqUrl= String.valueOf(httpExchangeCurThrd.get().getRequestURI());
+            rt.ret= Collections.singletonMap("token", JwtUtil.generateToken(Udto.uname));
+            return  rt;
         }
-        return  "ok";
+        return  "";
 
     }
 
