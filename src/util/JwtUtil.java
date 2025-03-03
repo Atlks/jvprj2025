@@ -82,6 +82,8 @@ public class JwtUtil {
     public static  String getAuthChkMode(HttpExchange he){
 // 从请求头中获取 "AuthChkMode" 标头
         String authChkMode = he.getRequestHeaders().getFirst("AuthChkMode");
+        if(authChkMode==null)
+            return  "";
         return  trim(authChkMode) ;
 
     }
