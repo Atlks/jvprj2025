@@ -74,7 +74,7 @@ public class chkLgnStatAuthMchsmJwtMod implements HttpAuthenticationMechanism, I
     }
 
     /**
-     * @param credential
+
      * @return
      */
     @Override
