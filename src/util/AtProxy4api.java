@@ -111,7 +111,7 @@ public class AtProxy4api implements  HttpHandler {
      */
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        ExptUtil.nowExList.set(new ArrayList<>());
+        ExptUtil.lastExsList.set(new ArrayList<>());
         httpExchangeCurThrd.set(exchange);
         String mth = colorStr("handle", YELLOW_bright);
         String prmurl = colorStr(String.valueOf(exchange.getRequestURI()), GREEN);
@@ -174,7 +174,7 @@ public class AtProxy4api implements  HttpHandler {
                 //next prcs
             } else {
                 NeedLoginEx 需要登录 = new NeedLoginEx("需要登录");
-                需要登录.info=ExptUtil.nowExList.get();
+                需要登录.info=ExptUtil.lastExsList.get();
                 throw (NeedLoginEx)需要登录;
             }
         }
