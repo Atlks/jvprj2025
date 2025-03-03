@@ -169,9 +169,9 @@ public class AtProxy4api implements  HttpHandler {
             aClass = this.target.getClass();
         }
         if (needLoginUserAuth(aClass)) {
-            AuthenticationStatus autoStt = HttpAuthenticationMechanism1.validateRequest(null, null, null);
+            AuthenticationStatus authStt = HttpAuthenticationMechanism1.validateRequest(null, null, null);
 
-            if (autoStt == AuthenticationStatus.SUCCESS) {
+            if (authStt == AuthenticationStatus.SUCCESS) {
                 //next prcs
             } else {
                 ValideTokenFailEx 需要登录 = new ValideTokenFailEx("登录标识校验失败");

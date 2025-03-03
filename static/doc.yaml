@@ -23,19 +23,39 @@ tags:
 
 
 
+
+parameters:
+  name: uname
+  in: cookie
+  required: true
+  schema:
+    type: string
+    default: "007"
+
 components:
+  parameters:
+    ClientIdHeader:
+      name:  AuthChkMode
+      in: header
+      required: false
+      schema:
+        type: string
+        default: "jwt"
+      description:  cookie or jwt
+
   securitySchemes:
+    BearerAuth88:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  # 说明使用 JWT 作为 token 格式
     cookieAuth:
       type: apiKey
       in: cookie
       name: uname
-parameters:
-  - in: cookie
-    name: uname
-    required: true
-    schema:
-      type: string
-      default: "007"
+
+security:
+  - BearerAuth88: []  # 全局应用 JWT 认证
+
 paths:
   /login:
     get:
