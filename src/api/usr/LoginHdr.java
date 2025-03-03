@@ -166,7 +166,7 @@ public class LoginHdr implements Icall<Usr,Object>, HttpAuthenticationMechanism,
             }
             String val = encodeJson(visa);
             setcookie("visa", val, httpExchangeCurThrd.get());
-            setcookie("unameRRZ", dto.uname, httpExchangeCurThrd.get());
+            setcookie("unameHRZ", dto.uname, httpExchangeCurThrd.get());
             try {
                 setcookie("uname", encryptAesToStrBase64(uname, Key4pwd4aeskey), httpExchangeCurThrd.get());
             } catch (Exception e) {
