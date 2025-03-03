@@ -212,6 +212,7 @@ public class AtProxy4api implements  HttpHandler {
     @Nullable
     private Object toDto(HttpExchange exchange, Class cls) {
         var dto = toDtoFrmQrystr(exchange, cls);
+        addDeftParam(dto);
         //--------set cook to dto
         List<CookieParam> cookieParams = getCookieParamsV2(target.getClass(), "call");
         for (CookieParam cknm : cookieParams) {
@@ -221,6 +222,12 @@ public class AtProxy4api implements  HttpHandler {
             setField(dto, cknm.name(), v);
         }
         return dto;
+    }
+
+    //uname cookie
+    private void addDeftParam(Object dto) {
+
+               setField(dto, "uname", getCurrentUser());
     }
 
     private void validDto(Object dto) {
