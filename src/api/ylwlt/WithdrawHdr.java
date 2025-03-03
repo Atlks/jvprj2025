@@ -3,12 +3,9 @@ package api.ylwlt;
 import annos.CookieParam;
 import annos.Parameter;
 import biz.BalanceNotEnghou;
-import biz.BaseHdr;
-import cfg.MyCfg;
 import entityx.LogBlsLogYLwlt;
 import entityx.OrdWthdr;
 import entityx.Usr;
-import com.sun.net.httpserver.HttpExchange;
 import entityx.WithdrawDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.LockModeType;
@@ -19,11 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
-import service.AuthService;
 import util.Icall;
 
 import java.math.BigDecimal;
-import java.util.Map;
 
 import static cfg.AppConfig.sessionFactory;
 import static service.CmsBiz.toBigDcmTwoDot;
@@ -33,8 +28,6 @@ import static util.AuthUtil.getCurrentUser;
 import static util.ColorLogger.RED_bright;
 import static util.ColorLogger.colorStr;
 import static util.HbntUtil.*;
-import static util.ToXX.parseQueryParams;
-import static util.dbutil.*;
 import static util.util2026.*;
 
 /**
@@ -68,7 +61,7 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("检测余额", RED_bright));
         dtoWithdrawDto.setUserId(getCurrentUser());
         String uname = getCurrentUser();
-        Usr objU = findByHbnt(Usr.class, uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+        Usr objU = findByHbntDep(Usr.class, uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
         BigDecimal nowAmt2 = objU.balanceYinliwlt;
 

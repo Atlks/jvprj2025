@@ -22,7 +22,7 @@ import service.Trans2YLwltService;
 
 import static cfg.AppConfig.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
-import static util.HbntUtil.findByHbnt;
+import static util.HbntUtil.findByHbntDep;
 import static util.SprUtil.injectAll4spr;
 
 /**
@@ -94,7 +94,7 @@ public class TransHdr implements Icall<TransDto, String> {
       //  lgblsDto.uname=decryptDES( lgblsDto.uname,Key_a1235678);
 
         String uname = lgblsDto.uname;
-        Usr objU = findByHbnt(Usr.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+        Usr objU = findByHbntDep(Usr.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
         if (objU.id == null) {
             objU.id = uname;

@@ -20,12 +20,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
-import service.auth.SecurityContextImp;
+import util.HbntUtil;
 import util.Icall;
 import util.JwtUtil;
+import util.NotExistRow;
 
 
 import java.util.Collections;
@@ -35,6 +35,7 @@ import static cfg.AppConfig.sessionFactory;
 
 import static util.AtProxy4api.httpExchangeCurThrd;
 import static util.EncryUtil.*;
+import static util.ExptUtil.currFunPrms4dbg;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
 
@@ -62,25 +63,19 @@ public class LoginHdr implements Icall<Usr, Object>, HttpAuthenticationMechanism
 
         usrdto.set(Udto);
 
-        AuthenticationStatus autuStt = validateRequest(null, null, null);
-        if (autuStt == AuthenticationStatus.SEND_FAILURE) {
-            LoginEx e = new LoginEx("登录错误 用户名或密码错");
-            e.fun = getCurrentMethodName();
-            e.funPrm = Udto;
-            throw e;
-        }
-        if (autuStt == AuthenticationStatus.SUCCESS) {
-            //also set cookie todo
-            ResponsRet rt = new ResponsRet();
-            rt.reqUrl = String.valueOf(httpExchangeCurThrd.get().getRequestURI());
-            String tokenJwt = JwtUtil.generateToken(Udto.uname);
-            rt.ret = Collections.singletonMap("tokenJwt", tokenJwt);
-            //  setcookie("tokenJwt", tokenJwt, httpExchangeCurThrd.get());
+        validateRequest(null, null, null);
 
-            return rt;
 
-        }
-        return "";
+        //======ret token jwt
+        //also set cookie todo
+        ResponsRet rt = new ResponsRet();
+        rt.reqUrl = String.valueOf(httpExchangeCurThrd.get().getRequestURI());
+        String tokenJwt = JwtUtil.generateToken(Udto.uname);
+        rt.ret = Collections.singletonMap("tokenJwt", tokenJwt);
+        //  setcookie("tokenJwt", tokenJwt, httpExchangeCurThrd.get());
+
+        return rt;
+
 
     }
 
@@ -146,30 +141,52 @@ public class LoginHdr implements Icall<Usr, Object>, HttpAuthenticationMechanism
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext httpMessageContext) throws AuthenticationException {
 
         Usr dto = usrdto.get();
-
         UsernamePasswordCredential crdt = new UsernamePasswordCredential(dto.uname, dto.pwd);
         CredentialValidationResult rst = validate(crdt);
-        if (rst.getStatus() == CredentialValidationResult.Status.VALID) {
-            System.out.println("认证成功，用户：" + rst.getCallerPrincipal().getName());
+        //    if (rst.getStatus() == CredentialValidationResult.Status.VALID) {
+        System.out.println("认证成功，用户：" + rst.getCallerPrincipal().getName());
 
-            //=========save coookie
-            //  securityContext=new SecurityContextImp(dto.uname) ;
-            setVisa(dto);
-            setcookie("unameHRZ", dto.uname, httpExchangeCurThrd.get());
-            try {
-                setcookie("uname", encryptAesToStrBase64(dto.uname, Key4pwd4aeskey), httpExchangeCurThrd.get());
-            } catch (Exception e) {
-                throw new AuthenticationException("" + e.getMessage(), e);
-            }
+        //=========save coookie
+        //  securityContext=new SecurityContextImp(dto.uname) ;
+        setVisa(dto);
+        setcookie("unameHRZ", dto.uname, httpExchangeCurThrd.get());
+        setcookie("uname", encryptAesToStrBase64(dto.uname, Key4pwd4aeskey), httpExchangeCurThrd.get());
+        return AuthenticationStatus.SUCCESS;
 
-            return AuthenticationStatus.SUCCESS;
-        } else {
-            // 未登录或认证失败
-            System.out.println("认证失败");
-            return AuthenticationStatus.SEND_FAILURE;
-        }
 
     }
+
+
+    //        } else {
+//            // 未登录或认证失败
+//            System.out.println("认证失败");
+//            return AuthenticationStatus.SEND_FAILURE;
+//        }
+
+
+    @Override
+    public CredentialValidationResult validate(Credential credential) {
+
+        currFunPrms4dbg.set(credential);
+        UsernamePasswordCredential crdt = (UsernamePasswordCredential) credential;
+        String uname = crdt.getCaller();
+
+        try {
+            var u = HbntUtil.findByHerbinate(Usr.class, uname, sessionFactory.getCurrentSession());
+            String encryPwdInCrdt = encryptAesToStrBase64(crdt.getPasswordAsString(), Key4pwd4aeskey);
+            hopePwdEq(u.pwd, encryPwdInCrdt);
+            HashSet roles = new HashSet<>();
+            roles.add("USER");
+            return new CredentialValidationResult(uname, roles);
+        } catch (NotExistRow e) {
+            throw new UserNotExistRuntimeExcept("用户不存在", e);
+        } catch (PwdNotEqExceptn e) {
+            throw new PwdErrRuntimeExcept("PwdErrEx", e);
+        }
+
+
+    }
+
 
     private static String setVisa(Usr dto) throws AuthenticationException {
         Passport passport = new Passport();
@@ -187,43 +204,13 @@ public class LoginHdr implements Icall<Usr, Object>, HttpAuthenticationMechanism
         return uname;
     }
 
-
-    @Override
-    public CredentialValidationResult validate(Credential credential) {
-
-        org.hibernate.Session session = sessionFactory.getCurrentSession();
-        //  om.jdbcurl=saveDirUsrs;
-        //todo start tx
-        // var pwd = Udto.pwd;
-        UsernamePasswordCredential crdt = (UsernamePasswordCredential) credential;
-        String uname = crdt.getCaller();
-        Usr u = session.find(Usr.class, uname);
-        if (u == null) {  //u not exist
-            UserNotExistEx e = new UserNotExistEx("用户名错误");
-            e.fun = getCurrentMethodName();
-            //     e.funPrm = new Usr(uname, pwd);
-            e.funPrm = credential;
-            throw new RuntimeExceptionUserNotExistEx("UserNotExistEx", e);
-        }
-
-        String encryPwdInCrdt = null;
-        try {
-            encryPwdInCrdt = encryptAesToStrBase64(crdt.getPasswordAsString(), Key4pwd4aeskey);
-        } catch (Exception e) {
-            throw new encryptAesEx("" + e.getMessage(), e);
-        }
-        if (!u.pwd.equals(encryPwdInCrdt)) {
-            PwdErrEx e = new PwdErrEx("密码错误");
-            e.fun = getCurrentMethodName();
-            //     e.funPrm = new Usr(uname, pwd);
-            e.funPrm = credential;
-            throw new RuntimeExceptionPwdErrEx("PwdErrEx", e);
-        }
+// if (!u.pwd.equals(encryPwdInCrdt)) {
+//        PwdErrEx e = new PwdErrEx("密码错误");
+//        e.fun = getCurrentMethodName();
+//        //     e.funPrm = new Usr(uname, pwd);
+//        e.funPrm = credential;
+//        throw new PwdErrRuntimeExcept("PwdErrEx", e);
+//    }
 
 
-        HashSet roles = new HashSet<>();
-        roles.add("USER");
-        return new CredentialValidationResult(uname, roles);
-
-    }
 }

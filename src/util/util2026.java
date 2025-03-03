@@ -1,5 +1,6 @@
 package util;
 
+import api.usr.PwdNotEqExceptn;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import javassist.*;
@@ -741,7 +742,10 @@ public class util2026 {
         return StackWalker.getInstance()
                 .walk(frames -> frames.skip(1).findFirst().get().getMethodName());
     }
-
+    public static void hopePwdEq(String pwd, String encryPwdInCrdt) throws PwdNotEqExceptn {
+        if(!pwd.equals(encryPwdInCrdt))
+            throw  new PwdNotEqExceptn("");
+    }
     public static void wrtRespErrNoex(HttpExchange exchange, String responseTxt) {
         try {
             wrtRespErr(exchange, responseTxt);

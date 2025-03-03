@@ -192,7 +192,7 @@ public class HbntUtil {
         return rzt;
     }
 
-    public static  <T> T findByHbnt(Class<T> t, String id, Session session) {
+    public static  <T> T findByHbntDep(Class<T> t, String id, Session session) {
 
         String mthClr=colorStr("findByHbnt",YELLOW_bright);
         System.out.println("\r\n▶\uFE0Ffun "+mthClr+"(class="+t+",id="+id);
@@ -204,7 +204,7 @@ public class HbntUtil {
     }
 
 
-    public static <T> T findByHbnt(Class<T> t, String id, LockModeType lockModeType, Session session) {
+    public static <T> T findByHbntDep(Class<T> t, String id, LockModeType lockModeType, Session session) {
         String mthClr=colorStr("findByHbnt",YELLOW_bright);
         System.out.println("\r\n▶\uFE0Ffun "+mthClr+"(class="+t+",id="+id+",LockModeType="+lockModeType);
       //  System.out.println("findByHbnt("+ t+"。。。");
@@ -213,4 +213,16 @@ public class HbntUtil {
         return rzt;
     }
 
+    //good bp  throw ex,,,more lubst
+    public static <T> T findByHerbinate(Class<T> t, String id, Session session) throws NotExistRow {
+
+        String mthClr=colorStr("findByHbnt",YELLOW_bright);
+        System.out.println("\r\n▶\uFE0Ffun "+mthClr+"(class="+t+",id="+id);
+        //  System.out.println("findByHbnt("+ t.getClass().getName()+",id="+id);
+        T rzt = session.find(t, id);
+        if(rzt==null)
+            throw new NotExistRow("cls="+t+",id="+id);
+        System.out.println("✅endfun findByHbnt.ret="+ encodeJson(rzt));
+        return rzt;
+    }
 }

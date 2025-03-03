@@ -1,5 +1,7 @@
 package util;
 
+import api.usr.encryptAesEx;
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -27,7 +29,7 @@ public class EncryUtil {
 //    }
 
     //使用aes加密，加密后使用base64编码输出
-    public static String encryptAesToStrBase64(String data, String key) throws Exception {
+    public static String encryptAesToStrBase64(String data, String key) {
         // 确保密钥的长度是 16 字节
         if (key.length() != 16) {
             throw new IllegalArgumentException("AES 密钥必须是 16 字节长");
@@ -36,15 +38,21 @@ public class EncryUtil {
         // 创建密钥
         SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(), "AES");
 
-        // 创建 Cipher 实例并初始化
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+        try{
+            // 创建 Cipher 实例并初始化
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 
-        // 执行加密操作
-        byte[] encryptedData = cipher.doFinal(data.getBytes());
+            // 执行加密操作
+            byte[] encryptedData = cipher.doFinal(data.getBytes());
 
-        // 返回 Base64 编码的加密结果
-        return Base64.getEncoder().encodeToString(encryptedData);    }
+            // 返回 Base64 编码的加密结果
+            return Base64.getEncoder().encodeToString(encryptedData);
+        } catch (Exception e) {
+            throw new encryptAesEx("" + e.getMessage(), e);
+        }
+
+    }
 
     //使用aes解密密，
     public static String decryptAesFromStrBase64(String s, String key) throws Exception {
@@ -71,15 +79,14 @@ public class EncryUtil {
     }
 
 
-
-   // public static String Key_a1235678 = "a1235678";
+    // public static String Key_a1235678 = "a1235678";
 
     public static void main(String[] args) throws Exception {
         String x = encryptAesToStrBase64("007", Key4pwd4aeskey);
         System.out.println(x);
-      //  System.out.println("ecurl="+encodeUrl(x));
-     //   System.out.println( "deurl="+(EncodeUtil.decodeUrl(encodeUrl(x))));
-        System.out.println(decryptAesFromStrBase64(x,Key4pwd4aeskey));
+        //  System.out.println("ecurl="+encodeUrl(x));
+        //   System.out.println( "deurl="+(EncodeUtil.decodeUrl(encodeUrl(x))));
+        System.out.println(decryptAesFromStrBase64(x, Key4pwd4aeskey));
 
     }
 

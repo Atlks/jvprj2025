@@ -1,8 +1,6 @@
 package api.bet;
 
 import annos.注入;
-import cfg.MyCfg;
-import com.sun.net.httpserver.HttpExchange;
 import entityx.OrdBet;
 import entityx.TransDto;
 import entityx.Usr;
@@ -20,28 +18,20 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import util.HttpExchangeImp;
 import util.Icall;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
-import java.util.Map;
 
 
 import static api.wlt.TransHdr.curLockAcc;
 import static biz.Containr.SecurityContext1;
 import static cfg.AppConfig.sessionFactory;
 import static java.time.LocalTime.now;
-import static util.AtProxy4api.httpExchangeCurThrd;
 import static util.AuthUtil.getCurrentUser;
-import static util.HbntUtil.findByHbnt;
+import static util.HbntUtil.findByHbntDep;
 import static util.HbntUtil.persistByHibernate;
 import static util.SprUtil.injectAll4spr;
-import static util.ToXX.parseQueryParams;
-import static util.ToXX.toObjFrmMap;
-import static util.Util2025.encodeJson;
 import static util.dbutil.addObj;
 import static util.util2026.*;
 
@@ -87,7 +77,7 @@ public class BetHdr implements Icall<OrdBet, Object> {
 
 
         //===========rds money frm acc
-        Usr objU = findByHbnt(Usr.class, uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+        Usr objU = findByHbntDep(Usr.class, uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
         curLockAcc.set(objU);
         TransDto dto = new TransDto();
         dto.uname = uname;

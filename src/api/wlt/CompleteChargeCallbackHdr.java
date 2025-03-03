@@ -77,7 +77,7 @@ public class CompleteChargeCallbackHdr  implements  Icall<ReChgOrd,Object> {
         //------------blk chge regch stat=ok
         String mthBiz=colorStr("设置订单状态=完成",RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  "+mthBiz);
-        ReChgOrd objChrg = findByHbnt(ReChgOrd.class, ordDto.id, session);
+        ReChgOrd objChrg = findByHbntDep(ReChgOrd.class, ordDto.id, session);
         // System.out.println("\r\n----blk updt chg ord set stat=ok");
         String stat = (String) getField2025(objChrg, "stat", "");
         BigDecimal amt = objChrg.amt;

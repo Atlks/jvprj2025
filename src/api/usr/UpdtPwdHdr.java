@@ -7,7 +7,7 @@ import jakarta.persistence.LockModeType;
 
 
 import static util.EncodeUtil.encodeMd5;
-import static util.HbntUtil.findByHbnt;
+import static util.HbntUtil.findByHbntDep;
 import static util.HbntUtil.mergeByHbnt;
 import static util.dbutil.addObj;
 import static util.util2026.*;
@@ -29,7 +29,7 @@ public class UpdtPwdHdr extends BaseHdr<Usr, Usr> {
         //JSONObject jo = getObjDocdb(uname,  saveDirUsrs);
         org.hibernate.Session session = sessionFactory.getCurrentSession();
 
-        Usr u = findByHbnt(Usr.class, uname, LockModeType.PESSIMISTIC_WRITE, session);
+        Usr u = findByHbntDep(Usr.class, uname, LockModeType.PESSIMISTIC_WRITE, session);
 //        Usr objU =findByHbnt(Usr.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE,session);
         if (u.pwd.equals(encodeMd5(oldpwd))) {
             // 创建 User 对象

@@ -61,7 +61,7 @@ public class DepReChargeComplete extends AopBase {
         //  om.jdbcurl=saveDirUsrs;
         //todo start tx
      //   session.beginTransaction();
-        ReChgOrd objChrg = findByHbnt(ReChgOrd.class, id, session);
+        ReChgOrd objChrg = findByHbntDep(ReChgOrd.class, id, session);
 
 
        // System.out.println("\r\n----blk updt chg ord set stat=ok");

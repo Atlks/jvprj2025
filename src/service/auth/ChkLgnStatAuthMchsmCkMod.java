@@ -1,6 +1,5 @@
 package service.auth;
 
-import api.usr.RuntimeExceptionUserNotExistEx;
 import api.usr.encryptAesEx;
 import biz.NeedLoginEx;
 import com.sun.net.httpserver.HttpExchange;
@@ -22,7 +21,6 @@ import static api.usr.LoginHdr.Key4pwd4aeskey;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static util.AtProxy4api.httpExchangeCurThrd;
 import static util.EncryUtil.decryptAesFromStrBase64;
-import static util.Util2025.toExchgDt;
 import static util.util2026.getCurrentMethodName;
 import static util.util2026.getcookie;
 

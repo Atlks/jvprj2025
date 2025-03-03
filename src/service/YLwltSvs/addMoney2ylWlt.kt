@@ -8,7 +8,6 @@ import entityx.TransDto
 import entityx.Usr
 import jakarta.persistence.LockModeType
 import service.auth.SecurityContextImp
-import test.SprUtil
 import util.HbntUtil
 import util.Icall
 import util.SprUtil.getBeanFrmSprAsObj
@@ -46,7 +45,7 @@ fun main() {
 
 
     val uname="9999"
-    val objU = HbntUtil.findByHbnt<Usr>(
+    val objU = HbntUtil.findByHbntDep<Usr>(
         Usr::class.java,
         uname,
         LockModeType.PESSIMISTIC_WRITE,
