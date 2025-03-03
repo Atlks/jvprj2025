@@ -9,6 +9,7 @@ import entityx.TransDto;
 import entityx.Usr;
 import jdk.jfr.Name;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -39,8 +40,10 @@ import static util.util2026.getFilenameFrmLocalTimeString;
 @Parameter(name = "amt", description = "金额")
 @Parameter(name = "uname",value = "$curuser")
 @Parameter(name = "lockAccObj")
-
+@NoArgsConstructor
 public class AddMoneyToWltService   implements Icall<TransDto, Object> {
+    public AddMoneyToWltService(BigDecimal amt,String uname,Usr lockAccObj) {
+    }
 
     @Name("add")
     public Object call2(TransDto args) throws Exception{

@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
+import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
@@ -26,6 +27,12 @@ import static util.HbntUtil.persistByHibernate;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
 
+
+/**
+ * 注册 用户
+ *  // @param uname
+ * // @param pwd
+ */
 @Component  // 让 Spring 自动管理这个 Bean
 
 //  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
@@ -33,8 +40,13 @@ import static util.util2026.*;
 @Path("/reg")
 @RequestMapping("/reg")
 @Tag(name = "用户管理", description = "用户相关操作")
+@annos.Parameter(name="uname")
+@annos.Parameter(name="pwd")
 @PermitAll
+@NoArgsConstructor
 public class RegHandler   implements Icall<Usr,Object> {
+    public RegHandler(String uname,String pwd) {
+    }
 
     public static  String  saveDirUsrs;
     /**
