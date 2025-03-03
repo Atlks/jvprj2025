@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Qualifier;
+import util.CantGetTokenJwtEx;
 import util.JwtUtil;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -59,10 +60,18 @@ public class ChkLgnStatAuthenticationMechanism implements HttpAuthenticationMech
         }
         if (isBlank(mode) || mode.equals("jwt")) {
            // @NotBlank
-            var token = getTokenMust(httpExchange);
-            if (!JwtUtil.validateToken(token)) {
+            String token = "";
+            try {
+                token = getTokenMust(httpExchange);
+                if (!JwtUtil.validateToken(token)) {
+                    return AuthenticationStatus.SEND_FAILURE;
+                }
+            } catch (CantGetTokenJwtEx e) {
+                return AuthenticationStatus.SEND_FAILURE;
+            } catch (Exception e) {
                 return AuthenticationStatus.SEND_FAILURE;
             }
+
             uname = JwtUtil.getUsername(token);
         }
         if (isBlank(uname)) {

@@ -85,12 +85,12 @@ public class JwtUtil {
         return  trim(authChkMode) ;
 
     }
-    public static  String getTokenMust(HttpExchange he){
+    public static  String getTokenMust(HttpExchange he) throws CantGetTokenJwtEx {
 // 从请求头中获取 Authorization 字段
         String authHeader = he.getRequestHeaders().getFirst("Authorization");
         String substring = authHeader.substring(7);
         if(isBlank(substring))
-            throw new RuntimeException("Authorization token cant get");
+            throw new CantGetTokenJwtEx("Authorization token cant get");
         return substring; // 去掉 "Bearer " 前缀
 
 
