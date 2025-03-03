@@ -4,6 +4,8 @@ import com.alibaba.fastjson2.JSON;
 import entityx.Err;
 import entityx.ExceptionBase;
 
+import java.util.List;
+
 import static biz.BaseHdr.*;
 import static util.util2026.getStackTraceAsString;
 
@@ -15,7 +17,10 @@ public class ExptUtil {
     public static ThreadLocal<String> curFun4dbg = new ThreadLocal<>();
 
     public static ThreadLocal<Object> currFunPrms4dbg = new ThreadLocal<>();
-
+    public static ThreadLocal<List<Exception>> nowExList=new ThreadLocal<>();
+    public static void appendEx2cause(Exception e) {
+        ExptUtil.nowExList.get().add(e);
+    }
     /**
      * 使用fastjson2，，将jsonstr转换为err对象
      *

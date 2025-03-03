@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.lang.reflect.Field;
@@ -110,6 +111,7 @@ public class AtProxy4api implements  HttpHandler {
      */
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        ExptUtil.nowExList.set(new ArrayList<>());
         httpExchangeCurThrd.set(exchange);
         String mth = colorStr("handle", YELLOW_bright);
         String prmurl = colorStr(String.valueOf(exchange.getRequestURI()), GREEN);
@@ -170,8 +172,11 @@ public class AtProxy4api implements  HttpHandler {
 
             if (autoStt == AuthenticationStatus.SUCCESS) {
                 //next prcs
-            } else
-                throw new NeedLoginEx("需要登录");
+            } else {
+                NeedLoginEx 需要登录 = new NeedLoginEx("需要登录");
+                需要登录.info=ExptUtil.nowExList.get();
+                throw (NeedLoginEx)需要登录;
+            }
         }
 
     }
