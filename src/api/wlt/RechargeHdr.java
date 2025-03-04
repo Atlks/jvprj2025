@@ -36,7 +36,7 @@ import static util.util2026.*;
 @Path("/RechargeHdr")
 @DeclareRoles({"ADMIN", "USER"})
 @RolesAllowed({"", "USER"})
-@CookieParam(name = "uname")
+@CookieParam(name = "uname",value = "$curuser")
 @Component
 public class RechargeHdr implements Icall<ReChgOrd,Object> {
 
