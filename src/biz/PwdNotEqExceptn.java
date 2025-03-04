@@ -1,4 +1,4 @@
-package api.usr;
+package biz;
 
 public class PwdNotEqExceptn extends Throwable {
     public PwdNotEqExceptn(String s) {

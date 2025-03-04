@@ -1,7 +1,6 @@
 package api.usr;
 
-import biz.PwdErrEx;
-import biz.existUserEx;
+import biz.*;
 import entityx.Passport;
 import entityx.Usr;
 import entityx.Visa;
@@ -17,7 +16,6 @@ import jakarta.security.enterprise.identitystore.CredentialValidationResult;
 import jakarta.security.enterprise.identitystore.IdentityStore;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
@@ -25,14 +23,12 @@ import jakarta.ws.rs.core.Context;
 
 import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
-import util.HbntUtil;
 import util.Icall;
 import util.JwtUtil;
 import util.NotExistRow;
 
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
 
 import static cfg.AppConfig.sessionFactory;
@@ -43,13 +39,19 @@ import static util.ExptUtil.currFunPrms4dbg;
 import static util.HbntUtil.findByHerbinate;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
-
+/**
+ * login
+ * @param uname
+ * @param pwd
+ */
 @RestController
+
 
 //组合了 @Controller 和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
 @PermitAll
 @Path("/login")
 //   http://localhost:8889/login?uname=008&pwd=000
+
 public class LoginHdr implements Icall<Usr, Object>, HttpAuthenticationMechanism, IdentityStore {
 
 

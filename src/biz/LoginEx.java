@@ -1,6 +1,5 @@
-package api.usr;
+package biz;
 
-import biz.PwdErrEx;
 import entityx.ExceptionBase;
 
 public class LoginEx extends ExceptionBase {

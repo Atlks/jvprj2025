@@ -1,4 +1,4 @@
-package api.usr;
+package biz;
 
 public class UserNotExistRuntimeExcept extends RuntimeException {
     public UserNotExistRuntimeExcept(String userNotExistEx, Throwable eInfo) {

@@ -1,6 +1,6 @@
 package util;
 
-import api.usr.encryptAesEx;
+import biz.encryptAesEx;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.Base64;
 
 import static api.usr.LoginHdr.Key4pwd4aeskey;
-import static util.EncodeUtil.encodeUrl;
 
 
 public class EncryUtil {

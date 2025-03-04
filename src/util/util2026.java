@@ -1,6 +1,6 @@
 package util;
 
-import api.usr.PwdNotEqExceptn;
+import biz.PwdNotEqExceptn;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import jakarta.validation.constraints.NotNull;

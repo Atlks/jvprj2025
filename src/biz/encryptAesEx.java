@@ -1,4 +1,4 @@
-package api.usr;
+package biz;
 
 public class encryptAesEx extends RuntimeException {
     public encryptAesEx(String s, Exception e) {
