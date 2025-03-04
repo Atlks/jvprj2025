@@ -214,7 +214,7 @@ public class util2026 {
             return implMethodName;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return "";
         }
     }
 
