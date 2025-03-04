@@ -73,7 +73,7 @@ public class ChkLgnStatAuthenticationMechanism implements HttpAuthenticationMech
             // 示例身份验证逻辑
             @NotNull
             String caller = credential.getCaller();
-            chkCantBeEmpty(caller);
+            chkCantBeEmpty("VarName.uname",caller);
             return new CredentialValidationResult(caller, java.util.Set.of("USER"));
         } catch (IsEmptyEx e) {
             throw new AuthenticationExceptionRuntimeException(e);

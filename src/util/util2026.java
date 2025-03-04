@@ -307,8 +307,8 @@ public class util2026 {
 
     }
     public static String getcookie(String cookieName, HttpExchange exchange) throws IsEmptyEx {
-        String cookie=  getcookie(cookieName,exchange);
-        chkCantBeEmpty(cookie);
+        String cookie=  getcookieDp(cookieName,exchange);
+        chkCantBeEmpty(cookieName,cookie);
         return  cookie;
     }
 
@@ -715,11 +715,11 @@ public class util2026 {
     }
 
 
-    public static void chkCantBeEmpty(    @NotNull String caller) throws IsEmptyEx {
+    public static void chkCantBeEmpty(@NotNull String caller, @NotNull String v) throws IsEmptyEx {
         if (caller.equals("")) {
             //  NeedLoginEx e = new NeedLoginEx("","BaseHdr." + getCurrentMethodName(),credential2);
 
-            throw new IsEmptyEx("");
+            throw new IsEmptyEx("var("+caller+") is blank");
         }
     }
 
