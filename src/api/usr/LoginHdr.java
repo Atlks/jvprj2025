@@ -17,9 +17,12 @@ import jakarta.security.enterprise.identitystore.CredentialValidationResult;
 import jakarta.security.enterprise.identitystore.IdentityStore;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
+
 import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
 import util.HbntUtil;
@@ -30,6 +33,7 @@ import util.NotExistRow;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 
 import static cfg.AppConfig.sessionFactory;
 
@@ -69,15 +73,18 @@ public class LoginHdr implements Icall<Usr, Object>, HttpAuthenticationMechanism
 
         //======ret token jwt
         //also set cookie todo
-        ResponsRet rt = new ResponsRet();
-        rt.reqUrl = String.valueOf(httpExchangeCurThrd.get().getRequestURI());
-        String tokenJwt = JwtUtil.generateToken(Udto.uname);
-        rt.ret = Collections.singletonMap("tokenJwt", tokenJwt);
+        ResponsRet rt = new ResponsRet(getTokenJwt(Udto));
+
         //  setcookie("tokenJwt", tokenJwt, httpExchangeCurThrd.get());
 
         return rt;
 
 
+    }
+
+    @NotNull
+    private static @NotNull Map<String, String> getTokenJwt(@NotNull Usr Udto) {
+        return Collections.singletonMap("tokenJwt", JwtUtil.generateToken(Udto.uname));
     }
 
 

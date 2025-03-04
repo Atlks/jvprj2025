@@ -3,6 +3,7 @@ package util;
 import api.usr.PwdNotEqExceptn;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
+import jakarta.validation.constraints.NotNull;
 import javassist.*;
 import service.auth.IsEmptyEx;
 
@@ -707,7 +708,7 @@ public class util2026 {
     }
 
 
-    public static void chkCantBeEmpty(String caller) throws IsEmptyEx {
+    public static void chkCantBeEmpty(    @NotNull String caller) throws IsEmptyEx {
         if (caller.equals("")) {
             //  NeedLoginEx e = new NeedLoginEx("","BaseHdr." + getCurrentMethodName(),credential2);
 

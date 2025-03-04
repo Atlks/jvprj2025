@@ -7,6 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.security.Keys;
 import jakarta.security.enterprise.AuthenticationException;
+import jakarta.validation.constraints.NotBlank;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,7 +56,7 @@ public class JwtUtil {
      * @return
      */
     // 生成 JWT   512bit 64byte
-    public static String generateToken(String username) {
+    public static @NotBlank String generateToken(@NotBlank String username) {
         SecretKey key = Keys.hmacShaKeyFor(get64Bytes512bitKey(SECRET_KEY)); // 生成符合 HS512 规范的密钥
         return Jwts.builder()
                 .setSubject(username)
@@ -69,7 +70,7 @@ public class JwtUtil {
     }
 
     //生成512位  64字节的密钥，，根据字符串做散列运算得到 64字节的hash值
-    private static byte[] get64Bytes512bitKey(String secretKey) {
+    private static byte[] get64Bytes512bitKey(@NotBlank String secretKey) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-512"); // 使用 SHA-512 进行哈希
             return digest.digest(secretKey.getBytes(StandardCharsets.UTF_8)); // 生成 64 字节密钥
@@ -90,7 +91,7 @@ public class JwtUtil {
 //                .getBody();
 //    }
 
-    public static Claims getClaims(String token) {
+    public static Claims getClaims(@NotBlank String token) {
         byte[] keys = get64Bytes512bitKey(SECRET_KEY);
         JwtParser jwtParser = Jwts.parserBuilder()
                 .setSigningKey(keys)
@@ -99,7 +100,7 @@ public class JwtUtil {
     }
 
     //  从http请求头部提取    AuthChkMode  标头  dft jwt
-    public static String getAuthChkMode(HttpExchange he) {
+    public static @NotBlank String getAuthChkMode(HttpExchange he) {
 // 从请求头中获取 "AuthChkMode" 标头
         String authChkMode = he.getRequestHeaders().getFirst("AuthChkMode");
         if (authChkMode == null)
@@ -108,7 +109,7 @@ public class JwtUtil {
 
     }
 
-    public static String getTokenMust(HttpExchange he) throws CantGetTokenJwtEx, validateTokenExcptn {
+    public static  @jakarta.validation.constraints.NotBlank String getTokenMust(HttpExchange he) throws CantGetTokenJwtEx, validateTokenExcptn {
 // 从请求头中获取 Authorization 字段
         String authHeader = he.getRequestHeaders().getFirst("Authorization");
         String token = authHeader.substring(7);
@@ -138,11 +139,11 @@ public class JwtUtil {
 
 
     // 获取 JWT 中的用户信息
-    public static String getUsername(String token) {
+    public static @NotBlank String getUsername(@NotBlank String token) {
         return getClaims(token).getSubject();
     }
 
-    public static String getUsernameFrmJwtToken(HttpExchange httpExchange) throws CantGetTokenJwtEx, unameIsEmptyExcptn, validateTokenExcptn {
+    public static  @NotNull String getUsernameFrmJwtToken( @NotNull HttpExchange httpExchange) throws CantGetTokenJwtEx, unameIsEmptyExcptn, validateTokenExcptn {
         var token = getTokenMust(httpExchange);
         var uname = getUsername(token);
         if (isBlank(uname)) {
@@ -152,12 +153,12 @@ public class JwtUtil {
     }
 
     // 验证 JWT 是否有效
-    public static boolean isTokenExpired(String token) {
+    public static boolean isTokenExpired(@NotBlank String token) {
         return getClaims(token).getExpiration().before(new Date());
     }
 
     // 验证 JWT 是否有效
-    public static boolean validateToken(String token) throws validateTokenExcptn {
+    public static boolean validateToken(@NotBlank String token) throws validateTokenExcptn {
         if (!isValidStr(token))
             throw new validateTokenExcptn("");
 
@@ -182,7 +183,7 @@ public class JwtUtil {
     }
 
     //是否有效字符串 ，不能为全部空白， 不能为null
-    private static boolean isValidStr(String token) {
+    private static boolean isValidStr(@NotBlank String token) {
         // 检查字符串是否为 null 或者只包含空白字符
         return StringUtils.isNotBlank(token);
     }

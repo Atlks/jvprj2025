@@ -12,6 +12,7 @@ import jakarta.security.enterprise.identitystore.CredentialValidationResult;
 import jakarta.security.enterprise.identitystore.IdentityStore;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -35,7 +36,8 @@ public class chkLgnStatAuthMchsmJwtMod implements HttpAuthenticationMechanism, I
 
 
         try {
-            var  uname = getUsernameFrmJwtToken(httpExchangeCurThrd.get());
+            @NotNull
+            String uname = getUsernameFrmJwtToken(httpExchangeCurThrd.get());
             validate( new UsernamePasswordCredential(uname, "noNeed"));
             return AuthenticationStatus.SUCCESS;
         }catch (Throwable e) {
@@ -70,12 +72,13 @@ public class chkLgnStatAuthMchsmJwtMod implements HttpAuthenticationMechanism, I
      * @return
      */
     @Override
-    public CredentialValidationResult validate(Credential credential2) {
+    public CredentialValidationResult validate(    @NotNull Credential credential2) {
 
 
         try {
             UsernamePasswordCredential credential = (UsernamePasswordCredential) credential2;
             // 示例身份验证逻辑
+            @NotNull
             String caller = credential.getCaller();
             chkCantBeEmpty(caller);
             return new CredentialValidationResult(caller, java.util.Set.of("USER"));
