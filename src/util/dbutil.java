@@ -116,7 +116,7 @@ public class dbutil {
         return null;
     }
 
-    static <T> List<T> findObjsAllIni(String saveDir, Class<T> class1) throws Exception {
+    public static <T> List<T> findObjsAllIni(String saveDir, Class<T> class1) throws Exception {
         System.out.println(" fun findObjsAllIni(savedir=" + saveDir);
         //nullchk
         if (saveDir == null || saveDir.equals(""))

@@ -1,10 +1,12 @@
 package cfg;
 
 import api.usr.RegHandler;
+
 import com.sun.net.httpserver.HttpExchange;
 import javassist.*;
-import test.MyClassLoader;
+
 import util.HttpExchangeImp;
+import util.proxy.MyClassLoader;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -154,7 +156,8 @@ public class AopLogJavassist {
 //            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
             MyClassLoader myClassLoader = new MyClassLoader();
             //but here cls ldr also mycls ldr
-            Class<?> modifiedClass = myClassLoader.defineClassFromByteArray(aClass.getName(), bytecode);
+            Class<?> modifiedClass = null;
+            //= myClassLoader.defineClassFromByteArray(aClass.getName(), bytecode);
 
             //cfm mdfy class,,if now ret ,ivk by itfs,its ok..take effk
 

@@ -16,10 +16,11 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Stream;
 
-import static test.QryLstByHbntTest.getOrderbyFromSql;
+
 import static util.ArrUtil.getEndidx;
 import static util.OrdUtil.delOrderby;
 import static util.OrdUtil.orderBySqlOrderMode;
+import static util.QryLstByHbntTest.getOrderbyFromSql;
 import static util.tx.Qry.*;
 import static util.dbutil.*;
 import static util.util2026.getSqlPrmVal;

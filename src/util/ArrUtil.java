@@ -32,7 +32,7 @@ public class ArrUtil {
         return listPageed;
     }
 
-    static int getEndidx(int pageSize, int fromIndex, int sizeList) {
+    public static int getEndidx(int pageSize, int fromIndex, int sizeList) {
         int endidx = fromIndex + pageSize;
         if (endidx > (sizeList - 1)) {
             endidx = sizeList;

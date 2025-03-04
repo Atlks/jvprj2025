@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import static utilDep.AOPASM.modifyClass;
+ 
 
 // 自定义类加载器
 public class CustomClassLoader extends ClassLoader {
@@ -122,6 +122,10 @@ public class CustomClassLoader extends ClassLoader {
 
         Class<?> modifiedClass = customClassLoader.defineClass(className, modifiedClassBytes);
         return modifiedClass;
+    }
+
+    private static byte[] modifyClass(String className) {
+        return new byte[0];
     }
 
 
