@@ -7,7 +7,8 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.*;
-import service.auth.SecurityContextImp;
+import service.auth.SecurityContextImp4ck;
+import service.auth.SecurityContextImp4jwt;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
@@ -20,9 +21,19 @@ import static cfg.MyCfg.iniCfgFrmCfgfile;
 import static util.SprUtil.getBeanFrmSpr;
 import static util.util2026.scanAllClass;
 
+
+/**
+ * ini web   \n
+ * ini url-->bean.handler()  \n
+ * ini containr
+ */
 public class WebSvr {
 
 
+    /**
+     *
+     * @throws Exception
+     */
     public static void start() throws Exception {
         //--------ini saveurlFrm Cfg
         //@NonNull
@@ -30,7 +41,7 @@ public class WebSvr {
 
         cfg.IocSpringCfg.iniIocContainr4spr();
 
-        Containr.SecurityContext1=new SecurityContextImp();
+        Containr.SecurityContext1=new SecurityContextImp4jwt();
 
 
         //================== 创建 HTTP 服务器，监听端口8080
@@ -59,6 +70,11 @@ public class WebSvr {
     //    MutablePicoContainer container = IocPicoCfg.iniIocContainr();
 //             AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
+
+    /**
+     * ini rest url wz bean
+     * @param server
+     */
     public static void cfgPath(HttpServer server) {
 
         server.createContext("/users/get", exchange -> handleGetUser(exchange));

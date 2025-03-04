@@ -5,9 +5,8 @@ import jakarta.security.enterprise.SecurityContext;
 import jakarta.security.enterprise.authentication.mechanism.http.AuthenticationParameters;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import util.unameIsEmptyExcptn;
+import util.validateTokenExcptn;
 
 import java.security.Principal;
 import java.util.Set;
@@ -15,12 +14,13 @@ import java.util.Set;
 import static api.usr.LoginHdr.Key4pwd4aeskey;
 import static util.AtProxy4api.httpExchangeCurThrd;
 import static util.EncryUtil.decryptAesFromStrBase64;
+import static util.JwtUtil.getUsernameFrmJwtToken;
 import static util.util2026.getcookie;
 
-public class SecurityContextImp implements SecurityContext {
+public class SecurityContextImp4jwt implements SecurityContext {
 
 
-    public SecurityContextImp() {
+    public SecurityContextImp4jwt() {
 
 
     }
@@ -34,12 +34,9 @@ public class SecurityContextImp implements SecurityContext {
     @Override
     public Principal getCallerPrincipal() {
         return () ->{
-            String v = getcookie("uname", httpExchangeCurThrd.get());
-
             try {
-                v = decryptAesFromStrBase64(v, Key4pwd4aeskey);
-                return  v;
-            } catch (Exception e) {
+                return getUsernameFrmJwtToken(httpExchangeCurThrd.get());
+            } catch (Throwable  e) {
                 throw new RuntimeException(e);
             }
         };

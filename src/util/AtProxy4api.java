@@ -207,6 +207,7 @@ public class AtProxy4api implements  HttpHandler {
             rzt = invoke_call(null);
         } else {
             var dto = toDto(exchange, cls);
+            assert dto != null;
             validDto(dto);
             rzt = invoke_call(dto);
         }

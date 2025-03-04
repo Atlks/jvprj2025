@@ -7,7 +7,7 @@ import cfg.MyCfg
 import entityx.TransDto
 import entityx.Usr
 import jakarta.persistence.LockModeType
-import service.auth.SecurityContextImp
+import service.auth.SecurityContextImp4ck
 import util.HbntUtil
 import util.Icall
 import util.SprUtil.getBeanFrmSprAsObj
@@ -22,7 +22,7 @@ fun main() {
     MyCfg.iniCfgFrmCfgfile()
 
     IocSpringCfg.iniIocContainr4spr()
-    Containr.SecurityContext1 = SecurityContextImp()
+    Containr.SecurityContext1 = SecurityContextImp4ck()
 
     @Suppress("UNCHECKED_CAST")
    // val bean:Icall<TransDto, Any> = SprUtil.getBeanFrmSpr(AddMoneyToWltService::class.java) as Icall<TransDto, Any>
