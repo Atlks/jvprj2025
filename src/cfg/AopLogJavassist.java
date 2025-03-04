@@ -10,7 +10,7 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import static util.ColorLogger.*;
+import static util.log.ColorLogger.*;
 import static util.util2026.*;
 
 public class AopLogJavassist {
@@ -112,7 +112,7 @@ public class AopLogJavassist {
                                 "funm " + mth + "(), " +
                                 "args=" +
                                 "\" " +
-                                "+ util.ColorLogger.colorStr(jsonArgs,util.ColorLogger.GREEN));" +
+                                "+ util.log.ColorLogger.colorStr(jsonArgs,util.log.ColorLogger.GREEN));" +
                                 "}";
 
                 ctMethod.insertBefore(logCode);

@@ -4,8 +4,8 @@ import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import util.AtProxy4Svs;
-import util.AtProxy4api;
+import util.proxy.AtProxy4Svs;
+import util.proxy.AtProxy4api;
 import util.Icall;
 import util.StrUtil;
 
@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 
 import static java.time.LocalTime.now;
 //import static cfg.AopLogJavassist.printLn;
-import static util.IocUtil.registerBean2map;
+import static util.proxy.IocUtil.registerBean2map;
 import static util.dbutil.setField;
 import static util.util2026.*;
 

@@ -9,7 +9,7 @@ import entityx.Usr;
 import org.hibernate.Session;
 import util.HttpExchangeImp;
 import entityx.PageResult;
-import utilBiz.OrmUtilBiz;
+import util.excptn.OrmUtilBiz;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;

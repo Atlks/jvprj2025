@@ -7,8 +7,8 @@ import jakarta.persistence.LockModeType;
 
 
 import static util.EncodeUtil.encodeMd5;
-import static util.HbntUtil.findByHbntDep;
-import static util.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.findByHbntDep;
+import static util.tx.HbntUtil.mergeByHbnt;
 import static util.dbutil.addObj;
 import static util.util2026.*;
 

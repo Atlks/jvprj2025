@@ -10,7 +10,7 @@ import java.security.Principal;
 import java.util.Set;
 
 import static api.usr.LoginHdr.Key4pwd4aeskey;
-import static util.AtProxy4api.httpExchangeCurThrd;
+import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 import static util.EncryUtil.decryptAesFromStrBase64;
 import static util.util2026.getcookie;
 

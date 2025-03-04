@@ -14,8 +14,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 
-import static util.AtProxy4api.httpExchangeCurThrd;
-import static util.JwtUtil.*;
+import static util.proxy.AtProxy4api.httpExchangeCurThrd;
+import static util.auth.JwtUtil.*;
 import static util.util2026.chkCantBeEmpty;
 
 //这里实际是存储 读取cookie的地方

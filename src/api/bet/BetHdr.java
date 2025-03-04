@@ -28,10 +28,10 @@ import static api.wlt.TransHdr.curLockAcc;
 import static biz.Containr.SecurityContext1;
 import static cfg.AppConfig.sessionFactory;
 import static java.time.LocalTime.now;
-import static util.AuthUtil.getCurrentUser;
-import static util.HbntUtil.findByHbntDep;
-import static util.HbntUtil.persistByHibernate;
-import static util.SprUtil.injectAll4spr;
+import static util.auth.AuthUtil.getCurrentUser;
+import static util.tx.HbntUtil.findByHbntDep;
+import static util.tx.HbntUtil.persistByHibernate;
+import static util.proxy.SprUtil.injectAll4spr;
 import static util.dbutil.addObj;
 import static util.util2026.*;
 

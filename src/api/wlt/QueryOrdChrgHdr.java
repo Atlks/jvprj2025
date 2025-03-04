@@ -7,7 +7,7 @@ import entityx.ReChgOrd;
 import entityx.Usr;
 import org.hibernate.Session;
 import entityx.PageResult;
-import utilBiz.OrmUtilBiz;
+import util.excptn.OrmUtilBiz;
 
 import java.util.*;
 

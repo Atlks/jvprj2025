@@ -22,8 +22,8 @@ import service.Trans2YLwltService;
 
 import static cfg.AppConfig.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
-import static util.HbntUtil.findByHbntDep;
-import static util.SprUtil.injectAll4spr;
+import static util.tx.HbntUtil.findByHbntDep;
+import static util.proxy.SprUtil.injectAll4spr;
 
 /**
  * 从本机钱包转账到盈利钱包

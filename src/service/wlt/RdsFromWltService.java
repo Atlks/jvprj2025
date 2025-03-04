@@ -1,6 +1,6 @@
 package service.wlt;
 
-import biz.BalanceNotEnghou;
+import util.ex.BalanceNotEnghou;
 import entityx.LogBls;
 import entityx.TransDto;
 import entityx.Usr;
@@ -12,7 +12,7 @@ import static api.wlt.TransHdr.curLockAcc;
 import static cfg.AppConfig.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static service.CmsBiz.toBigDcmTwoDot;
-import static util.HbntUtil.*;
+import static util.tx.HbntUtil.*;
 import static util.util2026.*;
 
 /**
