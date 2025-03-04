@@ -53,7 +53,7 @@ import static util.util2026.*;
 @Path("/login")
 //   http://localhost:8889/login?uname=008&pwd=000
 @NoArgsConstructor
-public class LoginHdr implements Icall<Usr, Object>, HttpAuthenticationMechanism, IdentityStore {
+public class LoginHdr implements Icall<Usr, Object> , IdentityStore {
 
     public LoginHdr(String uname,String pwd) {
     }
@@ -69,16 +69,25 @@ public class LoginHdr implements Icall<Usr, Object>, HttpAuthenticationMechanism
      * @throws existUserEx
      */
     @Override
-    public Object call(@BeanParam Usr Udto) throws Exception, PwdErrEx {
+    public Object call(@BeanParam Usr usr_dto) throws Exception, PwdErrEx {
 
-        usrdto.set(Udto);
+        usrdto.set(usr_dto);
 
-        validateRequest(null, null, null);
+
+        validate(new UsernamePasswordCredential(usr_dto.uname, usr_dto.pwd));
+
+        //============set cok
+        //=========save coookie
+        //  securityContext=new SecurityContextImp(dto.uname) ;
+        setVisa(usr_dto);
+        setcookie("unameHRZ", usr_dto.uname, httpExchangeCurThrd.get());
+        setcookie("uname", encryptAesToStrBase64(usr_dto.uname, Key4pwd4aeskey), httpExchangeCurThrd.get());
+
 
 
         //======ret token jwt
         //also set cookie todo
-        ResponsRet rt = new ResponsRet(getTokenJwt(Udto));
+        ResponsRet rt = new ResponsRet(getTokenJwt(usr_dto));
 
         //  setcookie("tokenJwt", tokenJwt, httpExchangeCurThrd.get());
 
@@ -86,6 +95,9 @@ public class LoginHdr implements Icall<Usr, Object>, HttpAuthenticationMechanism
 
 
     }
+
+
+
 
     @NotNull
     private static @NotNull Map<String, String> getTokenJwt(@NotNull Usr Udto) {
@@ -150,29 +162,6 @@ public class LoginHdr implements Icall<Usr, Object>, HttpAuthenticationMechanism
 //    }
 
 
-    /**
-     * 登录验证   登录验证HttpAuthenticationMechanism 接口
-     步骤，拿到用户名密码frm http or dto，检测validate
-     * @return
-     * @throws AuthenticationException
-     */
-    @Override
-    public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext httpMessageContext) throws AuthenticationException {
-
-        Usr dto = usrdto.get();
-        validate(new UsernamePasswordCredential(dto.uname, dto.pwd));
-
-        System.out.println("认证成功，用户：" + dto.uname);
-
-        //=========save coookie
-        //  securityContext=new SecurityContextImp(dto.uname) ;
-        setVisa(dto);
-        setcookie("unameHRZ", dto.uname, httpExchangeCurThrd.get());
-        setcookie("uname", encryptAesToStrBase64(dto.uname, Key4pwd4aeskey), httpExchangeCurThrd.get());
-        return AuthenticationStatus.SUCCESS;
-
-
-    }
 
 
     //        } else {

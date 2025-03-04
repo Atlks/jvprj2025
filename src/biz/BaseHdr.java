@@ -10,6 +10,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import entityx.ExceptionBase;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import util.auth.IsEmptyEx;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -193,7 +194,7 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
 
     }
 
-    public void copyCookieToDto(List<String> cookieParams, T dto) {
+    public void copyCookieToDto(List<String> cookieParams, T dto) throws IsEmptyEx {
         for (String cknm : cookieParams) {
             String v = getcookie(cknm, httpExchange);
             setField(dto, cknm, v);
@@ -267,7 +268,7 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
 
     //----------aop auth
     // @ControllerAdvice
-    private void urlAuthChk(HttpExchange exchange) throws IOException, NeedLoginEx {
+    private void urlAuthChk(HttpExchange exchange) throws IOException, NeedLoginEx, IsEmptyEx {
 
 
 //        if (AuthService.needLoginAuth(exchange.getRequestURI()))

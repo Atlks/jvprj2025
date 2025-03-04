@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpExchange;
 import entityx.OrdBet;
 import entityx.Usr;
 import org.hibernate.Session;
+import util.auth.IsEmptyEx;
 import utilBiz.OrmUtilBiz;
 
 import java.util.Map;
@@ -27,7 +28,7 @@ public class QryOrdBetHdr extends BaseHdr<Usr, Usr> {
     public static String saveUrlOrdBet = "";
 
     @Override
-    public void handle2( HttpExchange exchange) throws Exception {
+    public void handle2( HttpExchange exchange) throws Exception, IsEmptyEx {
 
         //blk login ed
         String uname = getcookie("uname", exchange);

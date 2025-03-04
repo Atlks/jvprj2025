@@ -3,7 +3,8 @@ package api.cms;
 import biz.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.Usr;
-import service.AuthService;
+import util.auth.AuthService;
+import util.auth.IsEmptyEx;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +18,7 @@ import static util.util2026.wrtResp;
 //http://localhost:8889/QryTeamHdr
 public class QryTeamHdr  extends BaseHdr<Usr, Usr> {
     @Override
-    public void handle2(HttpExchange exchange) throws Exception {
+    public void handle2(HttpExchange exchange) throws Exception, IsEmptyEx {
         if (AuthService.isNotLogined(exchange)) {
             //need login
             wrtResp(exchange, "needLogin需要登录");

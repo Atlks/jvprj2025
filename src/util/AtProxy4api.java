@@ -21,6 +21,8 @@ import org.hibernate.validator.internal.constraintvalidators.bv.NotNullValidator
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import util.auth.ChkLgnStatAuthenticationMechanism;
+import util.auth.IsEmptyEx;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -155,10 +157,10 @@ public class AtProxy4api implements  HttpHandler {
         System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
     }
 
-    @Inject
-    @Autowired
-    @Qualifier("ChkLgnStatAuthenticationMechanism")
-    public HttpAuthenticationMechanism HttpAuthenticationMechanism1;
+//    @Inject
+//    @Autowired
+//    @Qualifier("ChkLgnStatAuthenticationMechanism")
+//    public HttpAuthenticationMechanism HttpAuthenticationMechanism1;
 
     //public  static
     private void urlAuthChkV2(HttpExchange exchange) throws ValideTokenFailEx, AuthenticationException {
@@ -170,7 +172,7 @@ public class AtProxy4api implements  HttpHandler {
         }
         if (needLoginUserAuth(aClass)) {
 
-             HttpAuthenticationMechanism1.validateRequest(null, null, null);
+             new ChkLgnStatAuthenticationMechanism().validateRequest(null, null, null);
 
 //            if (authStt == AuthenticationStatus.SUCCESS) {
 //                //next prcs
@@ -226,7 +228,7 @@ public class AtProxy4api implements  HttpHandler {
     }
 
     @Nullable
-    private Object toDto(HttpExchange exchange, Class cls) throws Exception {
+    private Object toDto(HttpExchange exchange, Class cls) throws Exception, IsEmptyEx {
 
         // 反射创建 DTO 实例
         Object dto = cls.getDeclaredConstructor().newInstance();

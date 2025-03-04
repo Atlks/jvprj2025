@@ -5,7 +5,7 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import jakarta.validation.constraints.NotNull;
 import javassist.*;
-import service.auth.IsEmptyEx;
+import util.auth.IsEmptyEx;
 
 import java.io.*;
 import java.lang.invoke.MethodHandle;
@@ -36,7 +36,7 @@ import static util.dbutil.setField;
 public class util2026 {
     public static String slt4pwd = "slt2025";
 
-    public static void copyCookieToDto(HttpExchange HttpExchange1, List<String> cookieParams, Object dto) {
+    public static void copyCookieToDto(HttpExchange HttpExchange1, List<String> cookieParams, Object dto) throws IsEmptyEx {
         for (String cknm : cookieParams) {
             String v = getcookie(cknm, HttpExchange1);
             setField(dto, cknm, v);
@@ -306,8 +306,15 @@ public class util2026 {
         return "";
 
     }
+    public static String getcookie(String cookieName, HttpExchange exchange) throws IsEmptyEx {
+        String cookie=  getcookie(cookieName,exchange);
+        chkCantBeEmpty(cookie);
+        return  cookie;
+    }
 
-    public static String getcookie(String cookieName, HttpExchange exchange) {
+
+
+    public static String getcookieDp(String cookieName, HttpExchange exchange) {
         // 获取请求头中的 Cookie
         List<String> cookieHeaders = exchange.getRequestHeaders().get("Cookie");
         if (cookieHeaders == null || cookieHeaders.isEmpty()) {

@@ -2,6 +2,7 @@ package biz;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import util.auth.IsEmptyEx;
 
 import java.io.IOException;
 
@@ -13,8 +14,13 @@ public class HelloHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
 
 
-    String uname=    getcookie("uname",exchange);
-    if(uname.equals(""))
+        String uname= null;
+        try {
+            uname = getcookie("uname",exchange);
+        } catch (IsEmptyEx e) {
+            throw new RuntimeException(e);
+        }
+        if(uname.equals(""))
     {
         //need login
         wrtResp(exchange, "needLogin");

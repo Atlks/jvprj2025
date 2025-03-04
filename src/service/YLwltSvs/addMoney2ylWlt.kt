@@ -7,7 +7,7 @@ import cfg.MyCfg
 import entityx.TransDto
 import entityx.Usr
 import jakarta.persistence.LockModeType
-import service.auth.SecurityContextImp4ck
+import util.auth.SecurityContextImp4ck
 import util.HbntUtil
 import util.Icall
 import util.SprUtil.getBeanFrmSprAsObj

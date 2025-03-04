@@ -7,8 +7,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.*;
-import service.auth.SecurityContextImp4ck;
-import service.auth.SecurityContextImp4jwt;
+import util.auth.SecurityContextImp4jwt;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;

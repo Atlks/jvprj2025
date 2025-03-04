@@ -4,7 +4,8 @@ import biz.BaseHdr;
 import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.Usr;
-import service.AuthService;
+import util.auth.AuthService;
+import util.auth.IsEmptyEx;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -66,7 +67,7 @@ public class UpdtBlsHdr extends BaseHdr<Usr, Usr> {
     }
 
     @Override
-    public void handle2(HttpExchange exchange) throws Exception {
+    public void handle2(HttpExchange exchange) throws Exception, IsEmptyEx {
 
 
         if (AuthService.isNotLogined(exchange)) {
