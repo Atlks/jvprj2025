@@ -1,6 +1,6 @@
 package util;
 
-import biz.encryptAesEx;
+import util.ex.encryptAesEx;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;

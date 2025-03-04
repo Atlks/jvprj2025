@@ -77,11 +77,11 @@ fun main() {
 package apiUsr;
 
 import apis.BaseHdr;
-import biz.existUserEx;
+import util.ex.existUserEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.noear.solon.annotation.Component;
-import utilBiz.OrmUtilBiz;
+import util.excptn.OrmUtilBiz;
 
 import java.io.IOException;
 
@@ -90,7 +90,7 @@ import static apis.BaseHdr.iniCfgFrmCfgfile;
 import static util.EncodeUtil.encodeMd5;
 
 
-import static util.HbntUtil.openSession;
+import static util.tx.HbntUtil.openSession;
 import static util.Util2025.encodeJson;
 import static util.Util2025.encodeJsonObj;
 import static util.dbutil.*;

@@ -6,7 +6,7 @@ import com.sun.net.httpserver.HttpExchange;
 import entityx.Usr;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
-import utilBiz.OrmUtilBiz;
+import util.excptn.OrmUtilBiz;
 
 import java.util.List;
 import java.util.Map;

@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static biz.BaseHdr.saveDirUsrs;
-import static util.HbntUtil.getSessionFactory;
+import static util.tx.HbntUtil.getSessionFactory;
 
 @EnableAsync  // 启用异步功能
 @Configuration

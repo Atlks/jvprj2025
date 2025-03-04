@@ -1,8 +1,7 @@
 package util;
 
 import com.alibaba.fastjson2.JSON;
-import entityx.Err;
-import entityx.ExceptionBase;
+import util.excptn.ExceptionBase;
 
 import java.util.List;
 

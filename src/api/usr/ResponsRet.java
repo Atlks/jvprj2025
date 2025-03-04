@@ -1,11 +1,6 @@
 package api.usr;
 
-import util.JwtUtil;
-
-import java.util.Collections;
-import java.util.Map;
-
-import static util.AtProxy4api.httpExchangeCurThrd;
+import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 
 public class ResponsRet
 {

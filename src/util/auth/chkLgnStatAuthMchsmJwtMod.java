@@ -10,9 +10,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 
-import static util.AtProxy4api.httpExchangeCurThrd;
+import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 import static util.ExptUtil.appendEx2lastExs;
-import static util.JwtUtil.*;
+import static util.auth.JwtUtil.*;
 
 public class chkLgnStatAuthMchsmJwtMod implements HttpAuthenticationMechanism, IdentityStore {
     /**

@@ -80,7 +80,7 @@ public class AopLogJavassist {
                             "fun " + mth + "(), " +
                             "args=" +
                             "\" " +
-                            "+ util.ColorLogger.colorStr(jsonArgs,util.ColorLogger.GREEN));" +
+                            "+ util.log.ColorLogger.colorStr(jsonArgs,util.log.ColorLogger.GREEN));" +
                             "}";
 
             ctMethod.insertBefore(logCode);

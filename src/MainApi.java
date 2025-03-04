@@ -6,7 +6,7 @@ import service.wlt.AddMoneyToWltService;
 
 import static cfg.MyCfg.iniCfgFrmCfgfile;
 import static cfg.WebSvr.start;
-import static util.SprUtil.getBeanFrmSpr;
+import static util.proxy.SprUtil.getBeanFrmSpr;
 import static util.dbutil.setField;
 //import static cfg.IocPicoCfg.iniIocContainr;
 

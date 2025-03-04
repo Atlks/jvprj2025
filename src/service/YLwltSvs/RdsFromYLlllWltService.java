@@ -1,6 +1,6 @@
 package service.YLwltSvs;
 
-import biz.BalanceNotEnghou;
+import util.ex.BalanceNotEnghou;
 import entityx.LogBlsLogYLwlt;
 import entityx.TransDto;
 import entityx.Usr;
@@ -13,7 +13,7 @@ import static api.wlt.TransHdr.curLockAcc;
 import static cfg.AppConfig.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static service.YLwltSvs.AddMoney2YLWltService.addBlsLog4ylwlt;
-import static util.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.mergeByHbnt;
 import static util.util2026.getCurrentMethodName;
 
 /**

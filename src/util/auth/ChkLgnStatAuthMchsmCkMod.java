@@ -8,7 +8,7 @@ import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import static util.AtProxy4api.httpExchangeCurThrd;
+import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 import static util.ExptUtil.appendEx2lastExs;
 import static util.util2026.getcookie;
 

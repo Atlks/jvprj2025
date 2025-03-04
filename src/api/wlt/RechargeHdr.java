@@ -2,14 +2,11 @@ package api.wlt;
 
 
 import annos.CookieParam;
-import biz.BaseHdr;
-import biz.HttpHandlerX;
 
 import static cfg.AppConfig.sessionFactory;
 import static java.time.LocalTime.now;
 
 import entityx.ReChgOrd;
-import entityx.Usr;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
@@ -20,13 +17,11 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import util.Icall;
 
-import static util.HbntUtil.persistByHibernate;
+import static util.tx.HbntUtil.persistByHibernate;
 import static util.dbutil.addObj;
 import static util.util2026.*;
 

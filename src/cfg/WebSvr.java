@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 
 
 import static cfg.MyCfg.iniCfgFrmCfgfile;
-import static util.SprUtil.getBeanFrmSpr;
+import static util.proxy.SprUtil.getBeanFrmSpr;
 import static util.util2026.scanAllClass;
 
 

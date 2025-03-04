@@ -2,7 +2,7 @@
 
 package api.usr;
 
-import biz.existUserEx;
+import util.ex.existUserEx;
 import entityx.Usr;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,9 +21,9 @@ import util.Icall;
 
 import static api.usr.LoginHdr.Key4pwd4aeskey;
 import static cfg.AppConfig.sessionFactory;
-import static util.AopUtil.ivk4log;
+import static util.proxy.AopUtil.ivk4log;
 import static util.EncryUtil.encryptAesToStrBase64;
-import static util.HbntUtil.persistByHibernate;
+import static util.tx.HbntUtil.persistByHibernate;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
 
