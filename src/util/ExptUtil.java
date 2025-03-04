@@ -16,8 +16,8 @@ public class ExptUtil {
     public static ThreadLocal<String> curFun4dbg = new ThreadLocal<>();
 
     public static ThreadLocal<Object> currFunPrms4dbg = new ThreadLocal<>();
-    public static ThreadLocal<List<Exception>> lastExsList =new ThreadLocal<>();
-    public static void appendEx2lastExs(Exception e) {
+    public static ThreadLocal<List<Throwable>> lastExsList =new ThreadLocal<>();
+    public static void appendEx2lastExs(Throwable e) {
         ExptUtil.lastExsList.get().add(e);
     }
     /**

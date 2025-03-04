@@ -32,8 +32,8 @@ import static util.util2026.getcookie;
 public class ChkLgnStatAuthenticationMechanism implements HttpAuthenticationMechanism {
 
     //@Inject
-  //  private AuthenticationService authenticationService;
-   // @Inject
+    //  private AuthenticationService authenticationService;
+    // @Inject
 
 //    @Qualifier("chkLoginStatIdentityStore")
 //    public IdentityStore IdentityStore1;
@@ -55,16 +55,13 @@ public class ChkLgnStatAuthenticationMechanism implements HttpAuthenticationMech
         HttpExchange httpExchange = httpExchangeCurThrd.get();
         String mode = getAuthChkMode(httpExchange);
         if (mode.equals("cookie")) {
-            return new ChkLgnStatAuthMchsmCkMod().validateRequest(null,null,null);
+            return new ChkLgnStatAuthMchsmCkMod().validateRequest(null, null, null);
         }
-        if (isBlank(mode) || mode.equals("jwt")) {
-            return new chkLgnStatAuthMchsmJwtMod().validateRequest(null,null,null);
+        //def jwt  is empty or jwt
+        return new chkLgnStatAuthMchsmJwtMod().validateRequest(null, null, null);
 
-        }
-        return null;
+
     }
-
-
 
 
     //  System.out.println(jakarta.security.enterprise.authentication.mechanism.http.);

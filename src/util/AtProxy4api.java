@@ -161,7 +161,7 @@ public class AtProxy4api implements  HttpHandler {
     public HttpAuthenticationMechanism HttpAuthenticationMechanism1;
 
     //public  static
-    private void urlAuthChkV2(HttpExchange exchange) throws AuthenticationException, ValideTokenFailEx {
+    private void urlAuthChkV2(HttpExchange exchange) throws ValideTokenFailEx, AuthenticationException {
 
         injectAll4spr(this);
         Class<?> aClass = this.getClass();
@@ -169,15 +169,16 @@ public class AtProxy4api implements  HttpHandler {
             aClass = this.target.getClass();
         }
         if (needLoginUserAuth(aClass)) {
-            AuthenticationStatus authStt = HttpAuthenticationMechanism1.validateRequest(null, null, null);
 
-            if (authStt == AuthenticationStatus.SUCCESS) {
-                //next prcs
-            } else {
-                ValideTokenFailEx 需要登录 = new ValideTokenFailEx("登录标识校验失败");
-                需要登录.lastExsList=ExptUtil.lastExsList.get();
-                throw  需要登录;
-            }
+             HttpAuthenticationMechanism1.validateRequest(null, null, null);
+
+//            if (authStt == AuthenticationStatus.SUCCESS) {
+//                //next prcs
+//            } else {
+//                ValideTokenFailEx 需要登录 = new ValideTokenFailEx("登录标识校验失败");
+//                需要登录.lastExsList=ExptUtil.lastExsList.get();
+//                throw  需要登录;
+//            }
         }
 
     }

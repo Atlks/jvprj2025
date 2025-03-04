@@ -4,6 +4,7 @@ import api.usr.PwdNotEqExceptn;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import javassist.*;
+import service.auth.IsEmptyEx;
 
 import java.io.*;
 import java.lang.invoke.MethodHandle;
@@ -703,6 +704,15 @@ public class util2026 {
 
         // 如果无法识别的类型，抛出异常
 //        throw new IllegalArgumentException("Unsupported target type: " + type.getName());
+    }
+
+
+    public static void chkCantBeEmpty(String caller) throws IsEmptyEx {
+        if (caller.equals("")) {
+            //  NeedLoginEx e = new NeedLoginEx("","BaseHdr." + getCurrentMethodName(),credential2);
+
+            throw new IsEmptyEx("");
+        }
     }
 
     //    publicpublic static String getFieldAsStrFrmMap(Map<String, String> queryParams, String uname) {

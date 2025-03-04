@@ -80,7 +80,7 @@ public class ChkLgnStatAuthMchsmCkMod implements HttpAuthenticationMechanism, Id
             NeedLoginEx e = new NeedLoginEx("需要登录");
             e.fun = "BaseHdr." + getCurrentMethodName();
             e.funPrm = credential2;
-            throw new RuntimeExNeedLoginEx("需要登录", e);
+            throw new NeedLoginRuntimeEx("需要登录", e);
         }
         //todo qery db chk uname
         Set<String> roles = new HashSet<>();

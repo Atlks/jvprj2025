@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.security.Keys;
+import jakarta.security.enterprise.AuthenticationException;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,12 +22,12 @@ import static org.apache.commons.lang3.StringUtils.trim;
 
 /**
  * 一个完整的 JWT 可能长这样：
- *
+ * <p>
  * 复制
  * 编辑
  * eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
  * 其中：
- *
+ * <p>
  * 第一部分是 Header，经过 Base64Url 编码。
  * 第二部分是 Payload，也经过 Base64Url 编码。
  * 第三部分是 Signature，由前两部分和密钥生成。
@@ -49,6 +50,7 @@ public class JwtUtil {
      * aud (Audience)：令牌的受众，表示谁是这个 JWT 的目标用户。
      * iss (Issuer)：JWT 的签发者，通常为生成该令牌的应用或服务。
      * scope：定义该令牌的权限范围，常用于 OAuth2 授权中，表示允许的操作或访问的资源范围
+     *
      * @param username
      * @return
      */
@@ -89,36 +91,39 @@ public class JwtUtil {
 //    }
 
     public static Claims getClaims(String token) {
-        byte[]  keys= get64Bytes512bitKey(SECRET_KEY);
+        byte[] keys = get64Bytes512bitKey(SECRET_KEY);
         JwtParser jwtParser = Jwts.parserBuilder()
                 .setSigningKey(keys)
                 .build();
         return jwtParser.parseClaimsJws(token).getBody();
     }
-    //  从http请求头部提取    AuthChkMode  标头
-    public static  String getAuthChkMode(HttpExchange he){
+
+    //  从http请求头部提取    AuthChkMode  标头  dft jwt
+    public static String getAuthChkMode(HttpExchange he) {
 // 从请求头中获取 "AuthChkMode" 标头
         String authChkMode = he.getRequestHeaders().getFirst("AuthChkMode");
-        if(authChkMode==null)
-            return  "";
-        return  trim(authChkMode) ;
+        if (authChkMode == null)
+            return "jwt";
+        return trim(authChkMode);
 
     }
-    public static  String getTokenMust(HttpExchange he) throws CantGetTokenJwtEx {
+
+    public static String getTokenMust(HttpExchange he) throws CantGetTokenJwtEx, validateTokenExcptn {
 // 从请求头中获取 Authorization 字段
         String authHeader = he.getRequestHeaders().getFirst("Authorization");
-        String substring = authHeader.substring(7);
-        if(isBlank(substring))
+        String token = authHeader.substring(7);
+        if (isBlank(token))
             throw new CantGetTokenJwtEx("Authorization token cant get");
-        return substring; // 去掉 "Bearer " 前缀
-
+        validateToken(token);
+        return token; // 去掉 "Bearer " 前缀
 
     }
 
- //   @Deprecated
+    //   @Deprecated
     //  //    Authorization 头部中提取出 JWT Token
 //    public static  String getToken(HttpExchange he){
-//// 从请求头中获取 Authorization 字段
+
+    /// / 从请求头中获取 Authorization 字段
 //        String authHeader = he.getRequestHeaders().getFirst("Authorization");
 //
 //        // 检查 Authorization 字段是否为空，并且它是否以 "Bearer " 开头
@@ -137,15 +142,24 @@ public class JwtUtil {
         return getClaims(token).getSubject();
     }
 
+    public static String getUsernameFrmJwtToken(HttpExchange httpExchange) throws CantGetTokenJwtEx, unameIsEmptyExcptn, validateTokenExcptn {
+        var token = getTokenMust(httpExchange);
+        var uname = getUsername(token);
+        if (isBlank(uname)) {
+            throw new unameIsEmptyExcptn("");
+        }
+        return uname;
+    }
+
     // 验证 JWT 是否有效
     public static boolean isTokenExpired(String token) {
         return getClaims(token).getExpiration().before(new Date());
     }
 
     // 验证 JWT 是否有效
-    public static boolean validateToken(String token) {
-        if( !isValidStr(token))
-            return  false;
+    public static boolean validateToken(String token) throws validateTokenExcptn {
+        if (!isValidStr(token))
+            throw new validateTokenExcptn("");
 
 //        if (token == null || token.isEmpty()) {
 //            throw new InvalidTokenException("Token is invalid");
@@ -154,7 +168,7 @@ public class JwtUtil {
         String username = getUsername(token);
 
         // 2. 验证 token 是否过期以及用户名是否有效
-        if (username == null|| username.equals("") || isTokenExpired(token)) {
+        if (username == null || username.equals("") || isTokenExpired(token)) {
             return false;  // 无效的用户名或令牌过期
         }
 

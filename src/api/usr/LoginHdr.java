@@ -36,6 +36,7 @@ import static cfg.AppConfig.sessionFactory;
 import static util.AtProxy4api.httpExchangeCurThrd;
 import static util.EncryUtil.*;
 import static util.ExptUtil.currFunPrms4dbg;
+import static util.HbntUtil.findByHerbinate;
 import static util.Util2025.encodeJson;
 import static util.util2026.*;
 
@@ -137,14 +138,19 @@ public class LoginHdr implements Icall<Usr, Object>, HttpAuthenticationMechanism
 //    }
 
 
+    /**
+     * 登录验证   登录验证HttpAuthenticationMechanism 接口
+     步骤，拿到用户名密码frm http or dto，检测validate
+     * @return
+     * @throws AuthenticationException
+     */
     @Override
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext httpMessageContext) throws AuthenticationException {
 
         Usr dto = usrdto.get();
-        UsernamePasswordCredential crdt = new UsernamePasswordCredential(dto.uname, dto.pwd);
-        CredentialValidationResult rst = validate(crdt);
-        //    if (rst.getStatus() == CredentialValidationResult.Status.VALID) {
-        System.out.println("认证成功，用户：" + rst.getCallerPrincipal().getName());
+        validate(new UsernamePasswordCredential(dto.uname, dto.pwd));
+
+        System.out.println("认证成功，用户：" + dto.uname);
 
         //=========save coookie
         //  securityContext=new SecurityContextImp(dto.uname) ;
@@ -164,20 +170,25 @@ public class LoginHdr implements Icall<Usr, Object>, HttpAuthenticationMechanism
 //        }
 
 
+    /**
+     * 用户名密码验证  IdentityStore接口
+     * 步骤  findById , jude pwd eq
+     * @param credential
+     * @return
+     */
     @Override
     public CredentialValidationResult validate(Credential credential) {
 
-        currFunPrms4dbg.set(credential);
-        UsernamePasswordCredential crdt = (UsernamePasswordCredential) credential;
-        String uname = crdt.getCaller();
+
 
         try {
-            var u = HbntUtil.findByHerbinate(Usr.class, uname, sessionFactory.getCurrentSession());
-            String encryPwdInCrdt = encryptAesToStrBase64(crdt.getPasswordAsString(), Key4pwd4aeskey);
-            hopePwdEq(u.pwd, encryPwdInCrdt);
-            HashSet roles = new HashSet<>();
-            roles.add("USER");
-            return new CredentialValidationResult(uname, roles);
+            currFunPrms4dbg.set(credential);
+            UsernamePasswordCredential crdt = (UsernamePasswordCredential) credential;
+            String uname = crdt.getCaller();
+            var u = findByHerbinate(Usr.class, uname, sessionFactory.getCurrentSession());
+            hopePwdEq(u.pwd,  encryptAesToStrBase64(crdt.getPasswordAsString(), Key4pwd4aeskey));
+            return new CredentialValidationResult(uname, java.util.Set.of("USER"));
+
         } catch (NotExistRow e) {
             throw new UserNotExistRuntimeExcept("用户不存在", e);
         } catch (PwdNotEqExceptn e) {
