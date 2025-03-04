@@ -29,10 +29,13 @@ import util.Icall;
 import static util.HbntUtil.persistByHibernate;
 import static util.dbutil.addObj;
 import static util.util2026.*;
-@Slf4j
+
 /**
+ * 充值
  * http://localhost:8889/RechargeHdr?amt=888
  */
+@Slf4j
+
 @Path("/RechargeHdr")
 @DeclareRoles({"ADMIN", "USER"})
 @RolesAllowed({"", "USER"})

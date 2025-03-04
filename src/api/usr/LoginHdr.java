@@ -21,6 +21,7 @@ import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 
+import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
 import util.Icall;
@@ -41,8 +42,8 @@ import static util.Util2025.encodeJson;
 import static util.util2026.*;
 /**
  * login
- * @param uname
- * @param pwd
+ * //@param uname
+ * //@param pwd
  */
 @RestController
 
@@ -51,9 +52,11 @@ import static util.util2026.*;
 @PermitAll
 @Path("/login")
 //   http://localhost:8889/login?uname=008&pwd=000
-
+@NoArgsConstructor
 public class LoginHdr implements Icall<Usr, Object>, HttpAuthenticationMechanism, IdentityStore {
 
+    public LoginHdr(String uname,String pwd) {
+    }
 
     public static ThreadLocal<Usr> usrdto = new ThreadLocal<>();
     public static String Key4pwd4aeskey = "a123456789qwerty";//aes key 16byte

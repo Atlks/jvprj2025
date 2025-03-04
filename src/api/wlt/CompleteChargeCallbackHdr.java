@@ -31,7 +31,7 @@ import static util.SprUtil.getBeanFrmSpr;
 import static util.SprUtil.injectAll4spr;
 import static util.util2026.*;
 
-/**  ivk by
+/** 完成充值回调 ivk by
  * http://localhost:8889/UpdtCompleteChargeHdr?id=ordchg2222
  */
 @Path("/CompleteChargeHdr")
