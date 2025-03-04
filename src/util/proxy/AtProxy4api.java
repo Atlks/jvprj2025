@@ -167,9 +167,9 @@ public class AtProxy4api implements  HttpHandler {
             aClass = this.target.getClass();
         }
         if (needLoginUserAuth(aClass)) {
-
              new ChkLgnStatAuthenticationMechanism().validateRequest(null, null, null);
-
+        }
+    }
 //            if (authStt == AuthenticationStatus.SUCCESS) {
 //                //next prcs
 //            } else {
@@ -177,10 +177,6 @@ public class AtProxy4api implements  HttpHandler {
 //                需要登录.lastExsList=ExptUtil.lastExsList.get();
 //                throw  需要登录;
 //            }
-        }
-
-    }
-
 
     protected boolean needLoginUserAuth(Class<?> aClass) {
         boolean annotationPresent = aClass.isAnnotationPresent(PermitAll.class);

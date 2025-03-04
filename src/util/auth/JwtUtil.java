@@ -21,6 +21,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
 
 /**
+ * jwt visa spec
  * 一个完整的 JWT 可能长这样：
  * <p>
  * 复制
@@ -61,7 +62,6 @@ public class JwtUtil {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setIssuer("ati")
-
                 .setAudience("nmlUser")  //Audience，受众，表示这个 JWT 是为谁生成的。
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, key)

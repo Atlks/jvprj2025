@@ -175,8 +175,6 @@ public class LoginHdr implements Icall<Usr, Object> , IdentityStore {
     @Override
     public CredentialValidationResult validate(Credential credential) {
 
-
-
         try {
             currFunPrms4dbg.set(credential);
             UsernamePasswordCredential crdt = (UsernamePasswordCredential) credential;

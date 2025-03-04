@@ -14,11 +14,11 @@ import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 import static util.ExptUtil.appendEx2lastExs;
 import static util.auth.JwtUtil.*;
 
-public class chkLgnStatAuthMchsmJwtMod implements HttpAuthenticationMechanism, IdentityStore {
+public class chkLgnStatAuthMchsmJwtMod implements HttpAuthenticationMechanism {
     /**
      * 登录验证HttpAuthenticationMechanism 接口
      * 步骤，拿到用户名密码frm http or dto，检测validate
-
+     *
      * @return
      * @throws AuthenticationException
      */
@@ -29,19 +29,16 @@ public class chkLgnStatAuthMchsmJwtMod implements HttpAuthenticationMechanism, I
         try {
             @NotNull
             String uname = getUsernameFrmJwtToken(httpExchangeCurThrd.get());
-         new ChkLgnStatAuthenticationMechanism().   validate( new UsernamePasswordCredential(uname, "noNeed"));
+            new ChkLgnStatAuthenticationMechanism().validate(new UsernamePasswordCredential(uname, "noNeed"));
             return AuthenticationStatus.SUCCESS;
-        }catch (Throwable e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             appendEx2lastExs(e);
-            throw new   AuthenticationException(""+e.getMessage(),e);
+            throw new AuthenticationException("" + e.getMessage(), e);
         }
 
 
     }
-
-
-
 
 
     //    Authorization 头部中提取出 JWT Token
