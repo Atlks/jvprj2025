@@ -2,6 +2,7 @@
 
 package api.usr;
 
+import jakarta.ws.rs.BeanParam;
 import util.ex.existUserEx;
 import entityx.Usr;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
 
 
-
 import static cfg.AppConfig.sessionFactory;
 import static util.algo.EncryUtil.Key4pwd4aeskey;
 import static util.proxy.AopUtil.ivk4log;
@@ -31,7 +31,7 @@ import static util.misc.util2026.*;
 
 /**
  * 注册 用户
- *  // @param uname
+ * // @param uname
  * // @param pwd
  */
 @Component  // 让 Spring 自动管理这个 Bean
@@ -41,17 +41,17 @@ import static util.misc.util2026.*;
 @Path("/reg")
 @RequestMapping("/reg")
 @Tag(name = "用户管理", description = "用户相关操作")
-@annos.Parameter(name="uname")
-@annos.Parameter(name="pwd")
+@annos.Parameter(name = "uname")
+@annos.Parameter(name = "pwd")
 @PermitAll
 @NoArgsConstructor
-public class RegHandler   implements Icall<Usr,Object> {
-    public RegHandler(String uname,String pwd) {
+public class RegHandler implements Icall<Usr, Object> {
+    public RegHandler(String uname, String pwd) {
     }
 
-    public static  String  saveDirUsrs;
+    public static String saveDirUsrs;
+
     /**
-     *
      * @throws Exception
      */
 
@@ -72,28 +72,27 @@ public class RegHandler   implements Icall<Usr,Object> {
     @Path("/reg")
     @Tag(name = "usr")
     @Operation(summary = "注册用户的方法reg", description = "注册用户的方法dscrp。。。。")
-    @RequestMapping("/reg")
+
     @Parameter(name = "uname", description = "用户名", required = true)
     @Parameter(name = "pwd", description = "密码", required = true)
     @Parameter(name = "uname", description = "邀请人", required = false)
     @PermitAll
     @Validated
 
-    public Object call(  @ModelAttribute Usr dtoU) throws Exception {
+    public Object call(@BeanParam Usr dtoU) throws Throwable {
         System.out.println("reghdl.hd3(" + encodeJson(dtoU));
         dtoU.id = dtoU.uname;
-        boolean rzt=ivk4log("existUser",()->{
-                return  existUser(dtoU);
+        boolean rzt = ivk4log("existUser", () -> {
+            return existUser(dtoU);
         });
         if (rzt && (!ovrwtest)) {
-            var e = new existUserEx("存在用户",getCurrentMethodName(),dtoU);
+            var e = new existUserEx("存在用户", getCurrentMethodName(), dtoU);
             throw e;
         }
-        dtoU.pwd=encryptAesToStrBase64(dtoU.pwd,Key4pwd4aeskey);
-        persistByHibernate(  dtoU, sessionFactory.getCurrentSession());
+        dtoU.pwd = encryptAesToStrBase64(dtoU.pwd, Key4pwd4aeskey);
+        persistByHibernate(dtoU, sessionFactory.getCurrentSession());
         return dtoU;
     }
-
 
 
     public static boolean ovrwtest = false;
@@ -109,9 +108,9 @@ public class RegHandler   implements Icall<Usr,Object> {
         Usr jo = session.find(Usr.class, user.uname);
         if (jo == null)
             return false;
-        // 空安全处理，直接操作结果
+            // 空安全处理，直接操作结果
 
-         else
+        else
             return true;
     }
 

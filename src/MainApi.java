@@ -1,4 +1,4 @@
-import api.wlt.CompleteChargeCallbackHdr;
+import api.wlt.RechargeCallbackHdr;
 import org.noear.solon.annotation.SolonMain;
 import org.springframework.context.annotation.ComponentScan;
 import service.wlt.AddMoneyToWltService;
@@ -23,7 +23,7 @@ public class MainApi {
         System.out.println("AddMoneyToWltService is :"+ AddMoneyToWltService1.getClass());
 
 //
-        Object bean = getBeanFrmSpr(CompleteChargeCallbackHdr.class);
+        Object bean = getBeanFrmSpr(RechargeCallbackHdr.class);
 //        setField(bean,"addMoneyToWltService1", AddMoneyToWltService1);
 //
 //        System.out.println("bean.addMoneyToWltService1::"+getField(bean,"addMoneyToWltService1") );

@@ -2,6 +2,7 @@ package util.tx;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.LockModeType;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -182,7 +183,7 @@ public class HbntUtil {
         return var1;
     }
 
-    public static <T> T mergeByHbnt(T  t, Session session) {
+    public static @NotNull @org.jetbrains.annotations.NotNull <T> T mergeByHbnt(@NotNull T  t, @NotNull  Session session) {
         String mthClr=colorStr("mergeByHbnt",YELLOW_bright);
         System.out.println("\r\n▶\uFE0Ffun "+mthClr+"(t="+encodeJsonObj(t));
         System.out.println("mergeByHbnt("+ t.getClass().getName());

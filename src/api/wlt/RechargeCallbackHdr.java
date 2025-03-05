@@ -3,6 +3,7 @@ package api.wlt;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
@@ -19,6 +20,7 @@ import entityx.ReChgOrd;
 import entityx.Usr;
 import org.hibernate.Session;
 import util.algo.Icall;
+import util.excptn.NotExistRow;
 
 import java.math.BigDecimal;
 
@@ -32,15 +34,16 @@ import static util.proxy.SprUtil.injectAll4spr;
 import static util.misc.util2026.*;
 
 /** 完成充值回调 ivk by
- * http://localhost:8889/UpdtCompleteChargeHdr?id=ordchg2222
+ * 这里不能知识判断sign，很可能去反查以下比较好安全
+ * http://localhost:8889/recharge_callback?rechargeId=ordchg2222&transactionId=11&amount=99&status=success&sign=432432
  */
-@Path("/CompleteChargeHdr")
+@Path("/recharge_callback")
 @Data
 @Lazy
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class CompleteChargeCallbackHdr  implements  Icall<ReChgOrd,Object> {
+public class RechargeCallbackHdr implements  Icall<ReChgOrd,Object> {
     public static String saveUrlLogBalance;
 
     static boolean ovrtTEst = false;
@@ -68,7 +71,7 @@ public class CompleteChargeCallbackHdr  implements  Icall<ReChgOrd,Object> {
     //@CookieValue
     @Transactional
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
-    public Object call(@ModelAttribute ReChgOrd ordDto) throws Exception {
+    public Object call(@BeanParam ReChgOrd ordDto) throws Throwable {
      //  iniAllField();
         injectAll4spr(this);
         ovrtTEst=true;//todo cancel if test ok
@@ -77,7 +80,7 @@ public class CompleteChargeCallbackHdr  implements  Icall<ReChgOrd,Object> {
         //------------blk chge regch stat=ok
         String mthBiz=colorStr("设置订单状态=完成",RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  "+mthBiz);
-        ReChgOrd objChrg = findByHbntDep(ReChgOrd.class, ordDto.id, session);
+        ReChgOrd objChrg = findByHerbinate(ReChgOrd.class, ordDto.id, session);
         // System.out.println("\r\n----blk updt chg ord set stat=ok");
         String stat = (String) getField2025(objChrg, "stat", "");
         BigDecimal amt = objChrg.amt;
@@ -85,7 +88,7 @@ public class CompleteChargeCallbackHdr  implements  Icall<ReChgOrd,Object> {
             System.out.println("alread cpmlt ord,id=" +ordDto. id);
             if (ovrtTEst) {
             } else
-                return null;
+                return objChrg;
         }
         if (stat.equals(""))
             objChrg.stat = "ok";

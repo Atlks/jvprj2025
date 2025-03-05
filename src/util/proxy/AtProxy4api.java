@@ -76,7 +76,7 @@ public class AtProxy4api implements  HttpHandler {
      * @throws Exception
      */
 
-    public Object invoke_call(Object args) throws Exception {
+    public Object invoke_call(Object args) throws Throwable {
         String mthFullname = target.getClass().getName() + ".call";
 
 

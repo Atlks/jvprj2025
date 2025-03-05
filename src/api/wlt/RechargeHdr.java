@@ -27,11 +27,11 @@ import static util.misc.util2026.*;
 
 /**
  * 充值
- * http://localhost:8889/RechargeHdr?amt=888
+ * http://localhost:8889/recharge?amt=888
  */
 @Slf4j
 
-@Path("/RechargeHdr")
+@Path("/recharge")
 @DeclareRoles({"ADMIN", "USER"})
 @RolesAllowed({"", "USER"})
 @CookieParam(name = "uname",value = "$curuser")

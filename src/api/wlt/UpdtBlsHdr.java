@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import static api.wlt.CompleteChargeCallbackHdr.saveUrlLogBalance;
+import static api.wlt.RechargeCallbackHdr.saveUrlLogBalance;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static util.algo.ToXX.parseQueryParams;
 import static util.tx.dbutil.addObj;

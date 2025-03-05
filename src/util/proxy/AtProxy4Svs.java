@@ -31,7 +31,7 @@ public class AtProxy4Svs implements Icall {
      * @throws Exception
      */
     @Override
-    public Object call(Object args) throws Exception {
+    public Object call(Object args) throws Throwable {
         String mthFullname = target.getClass().getName() + ".call";
 
         Object result=ivk4log(mthFullname,args,()->{
@@ -41,7 +41,7 @@ public class AtProxy4Svs implements Icall {
     }
 
     @Override
-    public Object call2(Object args) throws Exception {
+    public Object call2(Object args) throws Throwable {
         String mthFullname = target.getClass().getName() + ".call2";
 
         Object result=ivk4log(mthFullname,args,()->{
@@ -52,7 +52,7 @@ public class AtProxy4Svs implements Icall {
 
 
     @Override
-    public Object call3(Object args) throws Exception {
+    public Object call3(Object args) throws Throwable {
         String mthFullname = target.getClass().getName() + ".call3";
 
         Object result=ivk4log(mthFullname,args,()->{

@@ -1,6 +1,6 @@
 package cfg;
 
-import api.wlt.CompleteChargeCallbackHdr;
+import api.wlt.RechargeCallbackHdr;
 import api.bet.QryOrdBetHdr;
 import api.usr.RegHandler;
 import api.ylwlt.WithdrawHdr;
@@ -35,7 +35,7 @@ public class MyCfg {
         QryOrdBetHdr.saveUrlOrdBet = (String) cfg.get("saveUrlOrdBet");
         saveUrlOrdChrg = RegHandler.saveDirUsrs;
         //(String) cfg.get("saveUrlOrdChrg");
-        CompleteChargeCallbackHdr.saveUrlLogBalance = (String) cfg.get("saveUrlLogBalance");
+        RechargeCallbackHdr.saveUrlLogBalance = (String) cfg.get("saveUrlLogBalance");
         BaseBiz.saveUrlLogBalanceYinliWlt = (String) cfg.get("saveUrlLogBalanceYinliWlt");
         WithdrawHdr.saveUrlOrdWthdr = (String) cfg.get("saveUrlOrdWthdr");
         CmsBiz.saveUrlLogCms = (String) cfg.get("saveUrlLogCms");
@@ -58,7 +58,7 @@ public class MyCfg {
         QryOrdBetHdr.saveUrlOrdBet = RegHandler.saveDirUsrs;
         saveUrlOrdChrg = RegHandler.saveDirUsrs;
         //(String) cfg.get("saveUrlOrdChrg");
-        CompleteChargeCallbackHdr.saveUrlLogBalance = RegHandler.saveDirUsrs;
+        RechargeCallbackHdr.saveUrlLogBalance = RegHandler.saveDirUsrs;
         BaseBiz.saveUrlLogBalanceYinliWlt = RegHandler.saveDirUsrs;
         WithdrawHdr.saveUrlOrdWthdr = RegHandler.saveDirUsrs;
         CmsBiz.saveUrlLogCms = RegHandler.saveDirUsrs;

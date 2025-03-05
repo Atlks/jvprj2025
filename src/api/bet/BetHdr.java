@@ -61,7 +61,7 @@ public class BetHdr implements Icall<OrdBet, Object> {
 
 
     @Override
-    public Object call(@BeanParam @ModelAttribute OrdBet betOrd) throws Exception {
+    public Object call(@BeanParam @ModelAttribute OrdBet betOrd) throws Throwable {
         injectAll4spr(this);
         var curUname = SecurityContext1.getCallerPrincipal().getName();
         var uname = getCurrentUser();

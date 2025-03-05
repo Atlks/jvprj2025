@@ -13,7 +13,7 @@ import static util.misc.Util2025.*;
 //cglib outtime,asm too lowlev ,bytebuddy cant log 3lev
 //only jvvst is ok..
 public class AopUtil {
-    public static <T> T ivk4log(String funName,Object args, SupplierX<T> spl) throws Exception {
+    public static <T> T ivk4log(String funName,Object args, SupplierX<T> spl) throws Throwable {
         // 在调用 Lambda 表达式之前或之后，你可以添加日志记录或其他操作
         //   System.out.println("开始执行 blk..."+funName);
         String mthClred = colorStr(funName, YELLOW_bright);
@@ -27,7 +27,7 @@ public class AopUtil {
         return result;
     }
 
-    public static <T> T ivk4log(String funName, SupplierX<T> spl) throws Exception {
+    public static <T> T ivk4log(String funName, SupplierX<T> spl) throws Throwable {
         // 在调用 Lambda 表达式之前或之后，你可以添加日志记录或其他操作
      //   System.out.println("开始执行 blk..."+funName);
         String mthClred = colorStr(funName, YELLOW_bright);
@@ -47,7 +47,7 @@ public class AopUtil {
      * @param methodName The name of the method to invoke
      * @param objs The parameters to pass to the method
      */
-    public static Object invokeMethod2025(Object object, String methodName, Object... objs) throws  Exception {
+    public static Object invokeMethod2025(Object object, String methodName, Object... objs) throws  Throwable {
         try {
             System.out.println("▶\uFE0Ffun "+methodName+"("+encodeJson(objs));
             curFun4dbg.set(methodName);

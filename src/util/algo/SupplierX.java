@@ -8,5 +8,5 @@ public interface SupplierX<T> {
      *
      * @return a result
      */
-    T get() throws  Exception;
+    T get() throws Throwable;
 }

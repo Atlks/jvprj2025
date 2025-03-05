@@ -82,7 +82,7 @@ public class TransHdr implements Icall<TransDto, String> {
 
     @Transactional
     @Override
-    public String call(@ModelAttribute  TransDto lgblsDto) throws Exception {
+    public String call(@ModelAttribute  TransDto lgblsDto) throws Throwable {
 
         injectAll4spr(this);
         //blk login ed
