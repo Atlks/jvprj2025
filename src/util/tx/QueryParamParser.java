@@ -27,22 +27,7 @@ public class QueryParamParser {
 //        Object o=toDto(exchange,cls);
 //        return (T) o;
 //    }
-    public static <T> T toDtoFrmQrystr(HttpExchange exchange, Class<T> usrClass) {
 
-        if(exchange.getClass()==usrClass)
-            return (T) exchange;
-        // 获取查询参数 ?name=John&age=30
-        String query = exchange.getRequestURI().getQuery();
-        if (query == null || query.isEmpty()) {
-            return null;
-        }
-
-        // 解析查询参数到 Map
-        Map<String, String> paramMap = parseQueryParams(query);
-        System.out.println("parmmap="+encodeJson(paramMap));
-
-        return toDto( paramMap,usrClass);
-    }
 
     public static void main(String[] args) {
         Map<String, String> paramMap=new HashMap<>();
@@ -51,7 +36,7 @@ public class QueryParamParser {
         System.out.println(encodeJsonObj(toDto(paramMap, ReChgOrd.class)));
       //  System.out.println(encodeJsonObj(toDto(paramMap, Usr.class)));
     }
-    private static <T> @NotNull T toDto( Map<String, String> paramMap ,Class<T> usrClass){
+    public static <T> @NotNull T toDto(Map<String, String> paramMap, Class<T> usrClass){
         try {
             // 反射创建 DTO 实例
             T dto = usrClass.getDeclaredConstructor().newInstance();
@@ -95,7 +80,7 @@ public class QueryParamParser {
     }
 
     // 类型转换 (支持 int, long, double, boolean, String)
-    private static Object convertType(String value, Class<?> targetType) {
+    private static Object convertType(@NotNull String value,@NotNull Class<?> targetType) {
         if (targetType == String.class) return value;
         if (targetType == int.class || targetType == Integer.class) return Integer.parseInt(value);
         if (targetType == long.class || targetType == Long.class) return Long.parseLong(value);

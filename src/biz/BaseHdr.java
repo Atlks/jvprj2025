@@ -22,10 +22,11 @@ import java.util.List;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 
 import static util.algo.AnnotationUtils.getCookieParams;
+import static util.algo.ToXX.toDtoFrmQrystr;
 import static util.log.ColorLogger.*;
 import static util.excptn.ExptUtil.addInfo2ex;
 import static util.excptn.ExptUtil.curUrl;
-import static util.tx.QueryParamParser.toDtoFrmQrystr;
+
 
 import static util.tx.TransactMng.*;
 import static util.misc.Util2025.*;

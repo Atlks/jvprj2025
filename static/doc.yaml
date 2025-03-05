@@ -158,6 +158,23 @@ paths:
                   message:
                     type: string
                     example: "注册成功"
+  /users/me:
+    get:
+      tags:
+        - user
+      summary: 获取当前用户
+      responses:
+        '200':
+          description: 当前用户
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
   /users:
 
     get:

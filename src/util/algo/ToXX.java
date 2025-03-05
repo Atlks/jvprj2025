@@ -7,9 +7,29 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
+import static util.misc.Util2025.encodeJson;
+import static util.tx.QueryParamParser.toDto;
 
 
 public class ToXX {
+
+    public static @jakarta.validation.constraints.NotNull <T> T toDtoFrmQrystr(HttpExchange exchange, Class<T> usrClass) throws Exception {
+
+        if(exchange.getClass()==usrClass)
+            return (T) exchange;
+        // 获取查询参数 ?name=John&age=30
+        String query = exchange.getRequestURI().getQuery();
+        if (query == null || query.isEmpty()) {
+            return usrClass.getConstructor().newInstance();
+        }
+
+        // 解析查询参数到 Map
+        Map<String, String> paramMap = parseQueryParams(exchange.getRequestURI());
+        System.out.println("parmmap="+encodeJson(paramMap));
+
+        return toDto( paramMap,usrClass);
+    }
+
     public static <T> T toObjFrmQrystr(HttpExchange exchange, Class<?> class1) {
         Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
         //    Class<?> class1 = OrdBet.class;

@@ -13,6 +13,7 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
 
 
+import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import util.algo.Icall;
 
+import static util.auth.AuthUtil.getCurrentUser;
 import static util.tx.HbntUtil.persistByHibernate;
 import static util.tx.dbutil.addObj;
 import static util.misc.util2026.*;
@@ -55,7 +57,7 @@ public class RechargeHdr implements Icall<ReChgOrd,Object> {
     //@CookieValue
     @Transactional
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
-    public Object call(@ModelAttribute ReChgOrd ord) throws Exception {
+    public Object call(@BeanParam ReChgOrd ord) throws Exception {
         System.out.println("handle2.sessfac=" + sessionFactory);
         System.out.println("regchg hrl.hadler3()");
         //blk login ed
@@ -68,7 +70,7 @@ public class RechargeHdr implements Icall<ReChgOrd,Object> {
 //        ord.amt = new BigDecimal(queryParams.get("amt"));
         ord.timestamp = System.currentTimeMillis();
         ord.id = "ordChrg" + getFilenameFrmLocalTimeString();
-
+        ord.uname=getCurrentUser();
 
        return persistByHibernate(ord, sessionFactory.getCurrentSession());
          //   wrtResp(exchange, encodeJson(r));

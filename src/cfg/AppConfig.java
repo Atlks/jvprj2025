@@ -1,6 +1,7 @@
 package cfg;
 
 import api.usr.QueryUsrHdr;
+import biz.Containr;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.hibernate.SessionFactory;
@@ -41,6 +42,7 @@ public class AppConfig {
             MyCfg.iniCfgFrmCfgfile();
             SessionFactory sessionFactory2 = getSessionFactory(saveDirUsrs, li);
             sessionFactory=sessionFactory2;
+            Containr.sessionFactory=sessionFactory2;
             return sessionFactory;
         }else
             return  sessionFactory;

@@ -31,12 +31,13 @@ import java.util.Map;
 
 import static biz.BaseHdr.*;
 import static util.algo.AnnotationUtils.getCookieParamsV2;
+import static util.algo.ToXX.toDtoFrmQrystr;
 import static util.proxy.AopUtil.ivk4log;
 import static util.auth.AuthUtil.getCurrentUser;
 import static util.log.ColorLogger.*;
 
 import static util.excptn.ExptUtil.curUrl;
-import static util.tx.QueryParamParser.toDtoFrmQrystr;
+
 import static util.proxy.SprUtil.injectAll4spr;
 import static util.tx.TransactMng.commitTsact;
 import static util.tx.TransactMng.openSessionBgnTransact;
@@ -202,6 +203,7 @@ public class AtProxy4api implements  HttpHandler {
         } else {
             var dto = toDto(exchange, cls);
             assert dto != null;
+           // addDeftParam(dto);
             validDto(dto);
             rzt = invoke_call(dto);
         }
@@ -221,8 +223,9 @@ public class AtProxy4api implements  HttpHandler {
 
     }
 
-    @Nullable
-    private Object toDto(HttpExchange exchange, Class cls) throws Exception, IsEmptyEx {
+   // @Nullable
+   @NotNull
+    private @NotNull Object toDto(HttpExchange exchange,@NotNull Class cls) throws Exception, IsEmptyEx {
 
         // 反射创建 DTO 实例
         Object dto = cls.getDeclaredConstructor().newInstance();

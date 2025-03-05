@@ -29,6 +29,7 @@ import static java.time.LocalTime.now;
 import static util.algo.EncodeUtil.decodeUrl;
 import static util.algo.EncodeUtil.encodeUrl;
 
+import static util.algo.NullUtil.isBlank;
 import static util.algo.ToXX.parseQueryParams;
 import static util.misc.Util2025.encodeJson;
 import static util.tx.dbutil.setField;
@@ -306,12 +307,12 @@ public class util2026 {
         return "";
 
     }
-    public static String getcookie(String cookieName, HttpExchange exchange) throws IsEmptyEx {
-        String cookie=  getcookieDp(cookieName,exchange);
-        chkCantBeEmpty(cookieName,cookie);
-        return  cookie;
-    }
 
+    public static String getcookie(String cookieName, HttpExchange exchange) throws IsEmptyEx {
+        String cookie = getcookieDp(cookieName, exchange);
+        chkCantBeEmpty(cookieName, cookie);
+        return cookie;
+    }
 
 
     public static String getcookieDp(String cookieName, HttpExchange exchange) {
@@ -345,7 +346,7 @@ public class util2026 {
         System.out.println("scannAllcls at " + now());
         try {
             // 获取 classes 目录
-            String classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+            String classpath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
             File classDir = new File(classpath);
             if (!classDir.exists() || !classDir.isDirectory()) {
                 System.err.println("classes 目录不存在！");
@@ -649,7 +650,11 @@ public class util2026 {
                         continue;
 
                     Object fldTypeObj = toFldType(valueFrmSourceObj, field.getType());
-                    field.set(target, fldTypeObj);
+                    if (fldTypeObj.getClass() == String.class) {
+                        if (!isBlank(fldTypeObj))
+                            field.set(target, fldTypeObj);
+                    } else
+                        field.set(target, fldTypeObj);
 
 
                 } catch (Exception e) {
@@ -719,7 +724,7 @@ public class util2026 {
         if (caller.equals("")) {
             //  NeedLoginEx e = new NeedLoginEx("","BaseHdr." + getCurrentMethodName(),credential2);
 
-            throw new IsEmptyEx("var("+caller+") is blank");
+            throw new IsEmptyEx("var(" + caller + ") is blank");
         }
     }
 
@@ -760,10 +765,12 @@ public class util2026 {
         return StackWalker.getInstance()
                 .walk(frames -> frames.skip(1).findFirst().get().getMethodName());
     }
+
     public static void hopePwdEq(String pwd, String encryPwdInCrdt) throws PwdNotEqExceptn {
-        if(!pwd.equals(encryPwdInCrdt))
-            throw  new PwdNotEqExceptn("");
+        if (!pwd.equals(encryPwdInCrdt))
+            throw new PwdNotEqExceptn("");
     }
+
     public static void wrtRespErrNoex(HttpExchange exchange, String responseTxt) {
         try {
             wrtRespErr(exchange, responseTxt);
