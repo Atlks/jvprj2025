@@ -243,6 +243,19 @@ paths:
             type: "string"
             example: "ORD123456"
           description: "订单 ID (ordid)"
+        - name : "status"
+          in: "query"
+          schema:
+            type: "string"
+            example: "sucess"
+          description: "status"
+        - name: "sign"
+          in: "query"
+          schema:
+            type: "string"
+            example: "sssss"
+
+
       responses:
         "200":
           description: "充值订单完成"

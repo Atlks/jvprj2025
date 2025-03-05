@@ -1,5 +1,6 @@
 package api.wlt;
 
+import com.alibaba.fastjson2.JSONObject;
 import entityx.TransDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.RolesAllowed;
@@ -78,6 +79,9 @@ public class RechargeCallbackHdr implements  Icall<ReChgOrd,Object> {
         ovrtTEst=true;//todo cancel if test ok
         Session session = sessionFactory.getCurrentSession();
 
+        //--------------chk ,qry thrd party api
+        JSONObject jo=getFromHttpget("xxxxxc?id="+ordDto.id);
+
         //------------blk chge regch stat=ok
         String mthBiz=colorStr("设置订单状态=完成",RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  "+mthBiz);
@@ -102,9 +106,6 @@ public class RechargeCallbackHdr implements  Icall<ReChgOrd,Object> {
         String mthBiz2=colorStr("主钱包加钱",RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun "+mthBiz2);
         String uname = objChrg.uname;
-
-
-      // Icall c=   getBeanFrmBeanmap(addMoneyToWltService);
         TransDto transDto=new TransDto();
         copyProps(objChrg,transDto);
         transDto.refUniqId="reqid="+objChrg.id;
@@ -129,6 +130,8 @@ public class RechargeCallbackHdr implements  Icall<ReChgOrd,Object> {
 
         return null;
     }
+
+
 
     private void iniAllField() {
 
