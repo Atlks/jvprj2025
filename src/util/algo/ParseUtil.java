@@ -1,5 +1,8 @@
 package util.algo;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -8,7 +11,7 @@ import java.util.Map;
 public class ParseUtil {
 
 
-    public static Map<String, String> parseUrl(String url) {
+    public static @NotNull  Map<String, String> parseUrl(@org.hibernate.validator.constraints.NotBlank @NotBlank  String url) {
         Map<String, String> result = new HashMap<>();
         try {
             URI uri = new URI(url);

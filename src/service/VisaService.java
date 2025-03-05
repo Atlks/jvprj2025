@@ -7,7 +7,7 @@ import entityx.Visa;
 import java.time.LocalDate;
 import java.util.List;
 
-import static api.usr.LoginHdr.Key4pwd4aeskey;
+
 import static util.algo.EncryUtil.*;
 import static util.oo.JsonUtil.deserializeFromJson;
 import static util.oo.JsonUtil.serializeToJson;

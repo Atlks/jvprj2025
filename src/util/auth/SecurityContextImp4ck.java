@@ -9,7 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.Set;
 
-import static api.usr.LoginHdr.Key4pwd4aeskey;
+
+import static util.algo.EncryUtil.Key4pwd4aeskey;
 import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 import static util.algo.EncryUtil.decryptAesFromStrBase64;
 import static util.misc.util2026.getcookie;

@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
 
-import static api.usr.LoginHdr.Key4pwd4aeskey;
+
 
 
 public class EncryUtil {
@@ -77,7 +77,7 @@ public class EncryUtil {
 
     }
 
-
+    public static String Key4pwd4aeskey = "a123456789qwerty";
     // public static String Key_a1235678 = "a1235678";
 
     public static void main(String[] args) throws Exception {

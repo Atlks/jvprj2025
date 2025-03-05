@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
 
 
-import static api.usr.LoginHdr.Key4pwd4aeskey;
+
 import static cfg.AppConfig.sessionFactory;
+import static util.algo.EncryUtil.Key4pwd4aeskey;
 import static util.proxy.AopUtil.ivk4log;
 import static util.algo.EncryUtil.encryptAesToStrBase64;
 import static util.tx.HbntUtil.persistByHibernate;
