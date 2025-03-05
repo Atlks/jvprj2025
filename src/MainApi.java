@@ -14,7 +14,7 @@ import static util.tx.dbutil.setField;
 @ComponentScan("apiUsr")
 public class MainApi {
     public static void main(String[] args) throws Exception {
-
+    //    ovrtTEst=true;//todo cancel if test ok
         start();
 
 //        sleep(3000);

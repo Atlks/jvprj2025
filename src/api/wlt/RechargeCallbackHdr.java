@@ -5,6 +5,7 @@ import entityx.TransDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -16,13 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import service.CmsBiz;
 import entityx.ReChgOrd;
 import entityx.Usr;
 import org.hibernate.Session;
 import util.algo.Icall;
-import util.excptn.NotExistRow;
 
 import java.math.BigDecimal;
 
@@ -33,7 +32,6 @@ import static util.log.ColorLogger.*;
 import static util.misc.HttpUtil.getFromHttpget;
 import static util.tx.HbntUtil.*;
 import static util.proxy.SprUtil.getBeanFrmSpr;
-import static util.proxy.SprUtil.injectAll4spr;
 import static util.misc.util2026.*;
 
 /** 完成充值回调 ivk by
@@ -74,14 +72,16 @@ public class RechargeCallbackHdr implements  Icall<ReChgOrd,Object> {
     //@CookieValue
     @Transactional
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
-    public Object call(@BeanParam ReChgOrd ordDto) throws Throwable {
+    public @NotNull Object call(@BeanParam ReChgOrd ordDto) throws Throwable {
      //  iniAllField();
      //   injectAll4spr(this);
-        ovrtTEst=true;//todo cancel if test ok
+     //
         Session session = sessionFactory.getCurrentSession();
 
         //--------------chk ,qry thrd party api
-        JSONObject jo= JSONObject.from(getFromHttpget("xxxxxc?id="+ordDto.id));
+
+        chkRechgSucessByQryThrd(ordDto.id);
+
 
         //------------blk chge regch stat=ok
         String mthBiz=colorStr("设置订单状态=完成",RED_bright);
@@ -129,9 +129,19 @@ public class RechargeCallbackHdr implements  Icall<ReChgOrd,Object> {
         //  session.getTransaction().commit();
         System.out.println("\n\r\n---------endblk  calcCms4FrmOrdChrg");
 
-        return null;
+        return "ok";
     }
 
+    private boolean chkRechgSucessByQryThrd(String id) throws Throwable {
+
+        if("test".equals("test"))
+            return  true;
+        JSONObject jo= JSONObject.from(getFromHttpget("xxxxxc?id="+id));
+
+        if(jo.getString("Stat").equals("ok"))
+            return  true;
+        throw new  RechargeFailExptn("qry by thrd,id="+id);
+    }
 
 
     private void iniAllField() {
