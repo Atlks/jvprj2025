@@ -215,14 +215,14 @@ public class HbntUtil {
     }
 
     //good bp  throw ex,,,more lubst
-    public static <T> T findByHerbinate(Class<T> t, String id, Session session) throws NotExistRow {
+    public static <T> T findByHerbinate(Class<T> t, String id, Session session) throws findByIdExptn {
 
         String mthClr=colorStr("findByHbnt",YELLOW_bright);
         System.out.println("\r\n▶\uFE0Ffun "+mthClr+"(class="+t+",id="+id);
         //  System.out.println("findByHbnt("+ t.getClass().getName()+",id="+id);
         T rzt = session.find(t, id);
         if(rzt==null)
-            throw new NotExistRow("cls="+t+",id="+id);
+            throw new findByIdExptn("cls="+t+",id="+id);
         System.out.println("✅endfun findByHbnt.ret="+ encodeJson(rzt));
         return rzt;
     }

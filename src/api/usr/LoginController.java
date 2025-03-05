@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
 import util.algo.Icall;
 import util.auth.JwtUtil;
-import util.excptn.NotExistRow;
 import util.ex.*;
+import util.tx.findByIdExptn;
 
 
 import java.util.Collections;
@@ -183,10 +183,10 @@ public class LoginController implements Icall<Usr, Object> , IdentityStore {
             hopePwdEq(u.pwd,  encryptAesToStrBase64(crdt.getPasswordAsString(), Key4pwd4aeskey));
             return new CredentialValidationResult(uname, java.util.Set.of("USER"));
 
-        } catch (NotExistRow e) {
-            throw new UserNotExistRuntimeExcept("用户不存在", e);
-        } catch (PwdNotEqExceptn e) {
+        } catch (PwdNotEqExceptn  e) {
             throw new PwdErrRuntimeExcept("PwdErrEx", e);
+        } catch (findByIdExptn e) {
+            throw new validateRtmExptn(e.getMessage(),e);
         }
 
 
