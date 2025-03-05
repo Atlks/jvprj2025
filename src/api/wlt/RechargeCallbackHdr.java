@@ -30,6 +30,7 @@ import static cfg.AppConfig.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static java.time.LocalTime.now;
 import static util.log.ColorLogger.*;
+import static util.misc.HttpUtil.getFromHttpget;
 import static util.tx.HbntUtil.*;
 import static util.proxy.SprUtil.getBeanFrmSpr;
 import static util.proxy.SprUtil.injectAll4spr;
@@ -80,7 +81,7 @@ public class RechargeCallbackHdr implements  Icall<ReChgOrd,Object> {
         Session session = sessionFactory.getCurrentSession();
 
         //--------------chk ,qry thrd party api
-        JSONObject jo=getFromHttpget("xxxxxc?id="+ordDto.id);
+        JSONObject jo= JSONObject.from(getFromHttpget("xxxxxc?id="+ordDto.id));
 
         //------------blk chge regch stat=ok
         String mthBiz=colorStr("设置订单状态=完成",RED_bright);
