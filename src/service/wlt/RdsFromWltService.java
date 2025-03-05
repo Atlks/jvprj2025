@@ -1,5 +1,6 @@
 package service.wlt;
 
+import jakarta.validation.constraints.NotNull;
 import util.ex.BalanceNotEnghou;
 import entityx.LogBls;
 import entityx.TransDto;
@@ -25,7 +26,8 @@ public class RdsFromWltService  implements Icall<TransDto, Object> {
      * @throws Exception
      */
     @Override
-    public Object call(TransDto TransDto88) throws Exception {
+    @NotNull
+    public @NotNull Object call(@NotNull TransDto TransDto88) throws Exception {
 
 
 
@@ -66,6 +68,6 @@ public class RdsFromWltService  implements Icall<TransDto, Object> {
         System.out.println(" add balanceLog ");
         //  addObj(logBalance,saveUrlLogBalance);
         persistByHibernate(logBalance, sessionFactory.getCurrentSession());
-        return null;
+        return objU;
     }
 }
