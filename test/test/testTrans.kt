@@ -10,7 +10,7 @@ import cfg.IocSpringCfg
 import cfg.MyCfg
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
-import util.HttpExchangeImp
+import util.misc.HttpExchangeImp
 
 
 fun main(){
@@ -27,7 +27,11 @@ fun main(){
 
 
     val he: HttpExchange =
-        HttpExchangeImp("http://localhost:8889/TransHdr?changeAmount=8", "uname=007", "output2025.txt")
+        HttpExchangeImp(
+            "http://localhost:8889/TransHdr?changeAmount=8",
+            "uname=007",
+            "output2025.txt"
+        )
 
     var obj=IocSpringCfg.context.getBean(TransHdr::class.java.name);
     obj=obj as HttpHandler

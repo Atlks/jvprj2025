@@ -2,7 +2,7 @@ package test;
 
 import entityx.OrdBet;
 import org.hibernate.Session;
-import util.HttpExchangeImp;
+import util.misc.HttpExchangeImp;
 import util.excptn.OrmUtilBiz;
 
 import java.util.List;
@@ -13,9 +13,9 @@ import java.util.regex.Pattern;
 import static api.wlt.RechargeHdr.saveUrlOrdChrg;
 import static cfg.MyCfg.iniCfgFrmCfgfile;
 import static util.tx.Qry.convertSqlToSpEL;
-import static util.Util2025.encodeJson;
-import static util.Util2025.encodeJsonObj;
-import static util.dbutil.nativeQueryGetResultList;
+import static util.misc.Util2025.encodeJson;
+import static util.misc.Util2025.encodeJsonObj;
+import static util.tx.dbutil.nativeQueryGetResultList;
 
 public class QryLstByHbntTest {
 

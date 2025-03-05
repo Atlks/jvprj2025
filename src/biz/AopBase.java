@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.inject.Inject;
 import java.io.Serializable;
 
-import static util.dbutil.setField;
+import static util.tx.dbutil.setField;
 
 @Component
 public abstract class AopBase implements Serializable {

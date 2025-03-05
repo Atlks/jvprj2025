@@ -6,7 +6,7 @@ import util.auth.IsEmptyEx;
 
 import java.io.IOException;
 
-import static util.util2026.*;
+import static util.misc.util2026.*;
 
 // 自定义的请求处理器
 public class HelloHandler implements HttpHandler {

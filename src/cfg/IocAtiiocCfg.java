@@ -17,8 +17,8 @@ import static biz.BaseHdr.saveDirUsrs;
 import static cfg.AopLogJavassist.*;
 //import static cfg.AopLogJavassist.printLn;
 import static util.tx.HbntUtil.getSessionFactory;
-import static util.dbutil.setField;
-import static util.util2026.*;
+import static util.tx.dbutil.setField;
+import static util.misc.util2026.*;
 
 //PicoContainer more easy thena guice lite,guice ,spring
 public class IocAtiiocCfg {

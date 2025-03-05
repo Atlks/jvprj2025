@@ -9,8 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import static util.proxy.AtProxy4api.httpExchangeCurThrd;
-import static util.ExptUtil.appendEx2lastExs;
-import static util.util2026.getcookie;
+import static util.excptn.ExptUtil.appendEx2lastExs;
+import static util.misc.util2026.getcookie;
 
 public class ChkLgnStatAuthMchsmCkMod implements HttpAuthenticationMechanism {
     /**

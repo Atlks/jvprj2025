@@ -4,7 +4,7 @@ import util.ex.BalanceNotEnghou;
 import entityx.LogBls;
 import entityx.TransDto;
 import entityx.Usr;
-import util.Icall;
+import util.algo.Icall;
 
 import java.math.BigDecimal;
 
@@ -13,7 +13,7 @@ import static cfg.AppConfig.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static service.CmsBiz.toBigDcmTwoDot;
 import static util.tx.HbntUtil.*;
-import static util.util2026.*;
+import static util.misc.util2026.*;
 
 /**
  * 减去钱包余额服务

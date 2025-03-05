@@ -7,8 +7,8 @@ import java.util.*;
 
 import org.json.*;
 
-import static util.StrUtil.toStr;
-import static util.Util2025.encodeJson;
+import static util.oo.StrUtil.toStr;
+import static util.misc.Util2025.encodeJson;
 
 
 public class StellarHelper {

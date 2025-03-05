@@ -17,13 +17,13 @@ import java.util.*;
 import java.util.stream.Stream;
 
 
-import static util.ArrUtil.getEndidx;
-import static util.OrdUtil.delOrderby;
-import static util.OrdUtil.orderBySqlOrderMode;
-import static util.QryLstByHbntTest.getOrderbyFromSql;
+import static util.oo.ArrUtil.getEndidx;
+import static util.oo.OrdUtil.delOrderby;
+import static util.oo.OrdUtil.orderBySqlOrderMode;
+import static util.tx.QryLstByHbntTest.getOrderbyFromSql;
 import static util.tx.Qry.*;
-import static util.dbutil.*;
-import static util.util2026.getSqlPrmVal;
+import static util.tx.dbutil.*;
+import static util.misc.util2026.getSqlPrmVal;
 
 public class NativeQueryImp4ini<T> implements NativeQuery {
     public String saveUrl;

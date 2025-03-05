@@ -16,16 +16,16 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import util.Icall;
+import util.algo.Icall;
 
 
 import static api.usr.LoginHdr.Key4pwd4aeskey;
 import static cfg.AppConfig.sessionFactory;
 import static util.proxy.AopUtil.ivk4log;
-import static util.EncryUtil.encryptAesToStrBase64;
+import static util.algo.EncryUtil.encryptAesToStrBase64;
 import static util.tx.HbntUtil.persistByHibernate;
-import static util.Util2025.encodeJson;
-import static util.util2026.*;
+import static util.misc.Util2025.encodeJson;
+import static util.misc.util2026.*;
 
 
 /**

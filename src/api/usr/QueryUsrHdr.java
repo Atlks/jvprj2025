@@ -16,12 +16,12 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 
-import static util.ToXX.parseQueryParams;
-import static util.Util2025.encodeJson;
+import static util.algo.ToXX.parseQueryParams;
+import static util.misc.Util2025.encodeJson;
 
-import static util.dbutil.*;
+import static util.tx.dbutil.*;
 
-import static util.util2026.*;
+import static util.misc.util2026.*;
 
 @Component
 public class QueryUsrHdr extends BaseHdr<Usr, Usr> {

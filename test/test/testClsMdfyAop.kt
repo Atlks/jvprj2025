@@ -12,8 +12,8 @@ import com.sun.net.httpserver.HttpHandler
 import org.hibernate.SessionFactory
 import cfg.AopLogJavassist
 import cfg.MyCfg
-import util.HttpExchangeImp
-import util.dbutil.setField
+import util.misc.HttpExchangeImp
+import util.tx.dbutil.setField
 
 
 fun main(){
@@ -32,7 +32,11 @@ fun main(){
     setField(obj,SessionFactory::class.java, AppConfig().sessionFactory())
 
     val he: HttpExchange =
-        HttpExchangeImp("http://localhost:8889/TransHdr?changeAmount=8", "uname=007", "output2025.txt")
+        HttpExchangeImp(
+            "http://localhost:8889/TransHdr?changeAmount=8",
+            "uname=007",
+            "output2025.txt"
+        )
 
   //  var obj=IocSpringCfg.context.getBean(TransHdr::class.java);
     obj.handle(he)

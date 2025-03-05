@@ -15,8 +15,8 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.internal.constraintvalidators.bv.NotBlankValidator;
 import org.hibernate.validator.internal.constraintvalidators.bv.NotNullValidator;
 import org.jetbrains.annotations.Nullable;
-import util.ExptUtil;
-import util.Icall;
+import util.excptn.ExptUtil;
+import util.algo.Icall;
 import util.auth.ChkLgnStatAuthenticationMechanism;
 import util.auth.IsEmptyEx;
 
@@ -30,19 +30,19 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import static biz.BaseHdr.*;
-import static util.AnnotationUtils.getCookieParamsV2;
+import static util.algo.AnnotationUtils.getCookieParamsV2;
 import static util.proxy.AopUtil.ivk4log;
 import static util.auth.AuthUtil.getCurrentUser;
 import static util.log.ColorLogger.*;
 
-import static util.ExptUtil.curUrl;
+import static util.excptn.ExptUtil.curUrl;
 import static util.tx.QueryParamParser.toDtoFrmQrystr;
 import static util.proxy.SprUtil.injectAll4spr;
 import static util.tx.TransactMng.commitTsact;
 import static util.tx.TransactMng.openSessionBgnTransact;
-import static util.Util2025.*;
-import static util.dbutil.setField;
-import static util.util2026.*;
+import static util.misc.Util2025.*;
+import static util.tx.dbutil.setField;
+import static util.misc.util2026.*;
 
 /**
  * todo

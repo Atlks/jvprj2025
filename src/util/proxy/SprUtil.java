@@ -4,7 +4,7 @@ import cfg.IocSpringCfg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import service.wlt.AddMoneyToWltService;
-import util.TraveUtil;
+import util.algo.TraveUtil;
 
 
 import javax.inject.Inject;

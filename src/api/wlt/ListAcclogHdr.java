@@ -6,9 +6,9 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 
 
-import static util.AccBiz.listAccLog;
-import static util.Util2025.encodeJson;
-import static util.util2026.*;
+import static util.oo.AccBiz.listAccLog;
+import static util.misc.Util2025.encodeJson;
+import static util.misc.util2026.*;
 
 public class ListAcclogHdr implements HttpHandler {
     @Override

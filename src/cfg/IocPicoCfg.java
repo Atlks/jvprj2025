@@ -17,7 +17,7 @@ import static biz.BaseHdr.saveDirUsrs;
 import static org.picocontainer.Characteristics.CACHE;
 import static cfg.AopLogJavassist.getAClassAoped;
 import static util.tx.HbntUtil.getSessionFactory;
-import static util.util2026.scanClasses;
+import static util.misc.util2026.scanClasses;
 
 //PicoContainer more easy thena guice lite,guice ,spring
 public class IocPicoCfg {

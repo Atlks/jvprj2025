@@ -18,7 +18,7 @@ import jakarta.ws.rs.core.Context;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
-import util.Icall;
+import util.algo.Icall;
 import util.auth.JwtUtil;
 import util.excptn.NotExistRow;
 import util.ex.*;
@@ -30,11 +30,11 @@ import java.util.Map;
 import static cfg.AppConfig.sessionFactory;
 
 import static util.proxy.AtProxy4api.httpExchangeCurThrd;
-import static util.EncryUtil.*;
-import static util.ExptUtil.currFunPrms4dbg;
+import static util.algo.EncryUtil.*;
+import static util.excptn.ExptUtil.currFunPrms4dbg;
 import static util.tx.HbntUtil.findByHerbinate;
-import static util.Util2025.encodeJson;
-import static util.util2026.*;
+import static util.misc.Util2025.encodeJson;
+import static util.misc.util2026.*;
 /**
  * login
  * //@param uname

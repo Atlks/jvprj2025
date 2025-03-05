@@ -7,7 +7,7 @@ import org.web3j.crypto.ECKeyPair
 import org.web3j.crypto.Keys
 import org.web3j.crypto.MnemonicUtils
 
-import util.EncodeUtil.*
+import util.algo.EncodeUtil.*
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Paths

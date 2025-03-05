@@ -12,7 +12,7 @@ import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.noear.solon.Solon
 import org.noear.solon.core.AppContext
-import util.HttpExchangeImp
+import util.misc.HttpExchangeImp
 import utilDep.AOPASM
 import java.io.File
 
@@ -22,7 +22,11 @@ fun main(){
     MyCfg.iniCfgFrmCfgfile()
     cfg.IocSpringCfg.iniIocContainr4spr()
     val he: HttpExchange =
-        HttpExchangeImp("http://localhost:8889/reg?uname=0098&pwd=ppp", "", "output2025.txt")
+        HttpExchangeImp(
+            "http://localhost:8889/reg?uname=0098&pwd=ppp",
+            "",
+            "output2025.txt"
+        )
     //uname=0093
   // val container = iniIocContainr()
     val java = RegHandler::class.java.name
@@ -35,7 +39,11 @@ fun main230(){
   //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
     MyCfg.iniCfgFrmCfgfile()
     val he: HttpExchange =
-        HttpExchangeImp("http://localhost:8889/reg?uname=007&pwd=ppp", "uname=0093", "output2025.txt")
+        HttpExchangeImp(
+            "http://localhost:8889/reg?uname=007&pwd=ppp",
+            "uname=0093",
+            "output2025.txt"
+        )
     val container = iniIocContainr()
     val component = container.getComponent(RegHandler::class.java)
     var RegHandler1: RegHandler = component as RegHandler
@@ -50,7 +58,11 @@ fun main4asm() {
     MyCfg.iniCfgFrmCfgfile()
     //  StaticMethodAOP. enhanceClass(RegHandler::class.toString());
     val he: HttpExchange =
-        HttpExchangeImp("http://localhost:8889/reg?uname=qq1&pwd=ppp", "uname=0091", "output2025.txt")
+        HttpExchangeImp(
+            "http://localhost:8889/reg?uname=qq1&pwd=ppp",
+            "uname=0091",
+            "output2025.txt"
+        )
     //  val Object1 = RegHandler()
 
 
@@ -132,7 +144,11 @@ fun main22() {
 
     MyCfg.iniCfgFrmCfgfile()
 
-    val he = HttpExchangeImp("http://localhost:8889/reg?uname=qq&pwd=ppp", "uname=0091", "output2025.txt")
+    val he = HttpExchangeImp(
+        "http://localhost:8889/reg?uname=qq&pwd=ppp",
+        "uname=0091",
+        "output2025.txt"
+    )
     // bean1 = AppContext1.getBean(RegHandler::class.java)
     bean1.handle(he)
     //  RegHandler().handle(he)

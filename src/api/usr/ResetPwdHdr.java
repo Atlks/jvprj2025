@@ -6,8 +6,8 @@ import com.sun.net.httpserver.HttpExchange;
 import entityx.Usr;
 
 
-import static util.dbutil.*;
-import static util.util2026.wrtResp;
+import static util.tx.dbutil.*;
+import static util.misc.util2026.wrtResp;
 
 public class ResetPwdHdr extends BaseHdr<Usr, Usr> {
     @Override

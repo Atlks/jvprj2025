@@ -3,11 +3,11 @@ package util.tx;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 
-import static util.Util2025.mkdir2025;
-import static util.Util2025.writeFile2501;
-import static util.UtilEncode.encodeFilename;
-import static util.dbutil.*;
-import static util.util2026.*;
+import static util.misc.Util2025.mkdir2025;
+import static util.misc.Util2025.writeFile2501;
+import static util.misc.UtilEncode.encodeFilename;
+import static util.tx.dbutil.*;
+import static util.misc.util2026.*;
 
 public class SessionImpIni<R,T> extends SessionImpBase implements Session {
 

@@ -18,11 +18,11 @@ import java.util.Properties;
 
 import static util.log.ColorLogger.*;
 //import static cfg.IocPicoCfg.scanClasses;
-import static util.StrUtil.getPwdFromJdbcurl;
-import static util.StrUtil.getUnameFromJdbcurl;
-import static util.Util2025.*;
-import static util.dbutil.*;
-import static util.util2026.scanClasses;
+import static util.oo.StrUtil.getPwdFromJdbcurl;
+import static util.oo.StrUtil.getUnameFromJdbcurl;
+import static util.misc.Util2025.*;
+import static util.tx.dbutil.*;
+import static util.misc.util2026.scanClasses;
 
 //ormUtilHbnt
 public class HbntUtil {

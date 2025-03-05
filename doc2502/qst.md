@@ -53,7 +53,7 @@ import apis.BaseHdr
 import apis.MyAspect
 import com.sun.tools.javac.tree.TreeInfo.args
 import org.noear.solon.Solon
-import util.HttpExchangeImp
+import util.misc.HttpExchangeImp
 
 
 
@@ -93,7 +93,7 @@ import static util.EncodeUtil.encodeMd5;
 import static util.tx.HbntUtil.openSession;
 import static util.Util2025.encodeJson;
 import static util.Util2025.encodeJsonObj;
-import static util.dbutil.*;
+import static util.tx.dbutil.*;
 import static util.util2026.*;
 
 @Component

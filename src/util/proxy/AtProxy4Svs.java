@@ -1,9 +1,9 @@
 package util.proxy;
 
-import util.Icall;
+import util.algo.Icall;
 
 import static util.proxy.AopUtil.ivk4log;
-import static util.dbutil.setField;
+import static util.tx.dbutil.setField;
 
 
 //aop shuld log auth ,ex catch,,,pfm

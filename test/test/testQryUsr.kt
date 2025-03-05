@@ -10,14 +10,18 @@ import cfg.MyCfg
 import com.sun.net.httpserver.HttpExchange
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
-import util.HttpExchangeImp
+import util.misc.HttpExchangeImp
 
 
 fun main() {
     //  AnsiConsole.systemInstall(); // 启用 ANSI 支持
     MyCfg.iniCfgFrmCfgfile()
     val he: HttpExchange =
-        HttpExchangeImp("http://localhost:8889/QueryUsrHdr?bettxt=龙湖和", "uname=008", "output2025.txt")
+        HttpExchangeImp(
+            "http://localhost:8889/QueryUsrHdr?bettxt=龙湖和",
+            "uname=008",
+            "output2025.txt"
+        )
     val container =IocPicoCfg. iniIocContainr()
 //  //  println(    container.getComponent(SessionFactory::class.java))
 //    val component = container.getComponent(AddOrdBetHdr::class.java)

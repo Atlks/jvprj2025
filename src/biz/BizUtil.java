@@ -4,7 +4,7 @@ import cfg.JdkDynamicProxy4log;
 
 import java.lang.reflect.Proxy;
 
-import static util.Util2025.encodeJsonObj;
+import static util.misc.Util2025.encodeJsonObj;
 
 public class BizUtil {
 

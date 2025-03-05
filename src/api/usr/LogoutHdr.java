@@ -5,7 +5,7 @@ import com.sun.net.httpserver.HttpHandler;
 import entityx.Usr;
 import jakarta.ws.rs.Path;
 
-import static util.util2026.setcookie;
+import static util.misc.util2026.setcookie;
 
 @jakarta.annotation.security.RolesAllowed("user")
 @Path("/logout")

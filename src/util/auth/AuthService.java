@@ -6,9 +6,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Set;
 
-import static util.Util2025.encodeJsonObj;
-import static util.Util2025.toExchgDt;
-import static util.util2026.getcookie;
+import static util.misc.Util2025.*;
+import static util.misc.util2026.getcookie;
 
 public class AuthService {
     public static final Set<String> NO_AUTH_PATHS = Set.of("/reg", "/login");
@@ -37,6 +36,7 @@ public class AuthService {
     }
 
     public static  boolean isNotLogined(HttpExchange exchange) throws IOException, IsEmptyEx {
+
         System.out.println("fun isNotLogined(httpExch="+encodeJsonObj(toExchgDt(exchange)));
         String uname = getcookie("uname", exchange);
 

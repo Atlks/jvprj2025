@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
-import util.Icall;
+import util.algo.Icall;
 
 import java.math.BigDecimal;
 
@@ -28,7 +28,7 @@ import static util.auth.AuthUtil.getCurrentUser;
 import static util.log.ColorLogger.RED_bright;
 import static util.log.ColorLogger.colorStr;
 import static util.tx.HbntUtil.*;
-import static util.util2026.*;
+import static util.misc.util2026.*;
 
 /**
  * here api service is same

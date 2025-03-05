@@ -5,13 +5,12 @@ import jakarta.security.enterprise.AuthenticationStatus;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpMessageContext;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
-import jakarta.security.enterprise.identitystore.IdentityStore;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 
 import static util.proxy.AtProxy4api.httpExchangeCurThrd;
-import static util.ExptUtil.appendEx2lastExs;
+import static util.excptn.ExptUtil.appendEx2lastExs;
 import static util.auth.JwtUtil.*;
 
 public class chkLgnStatAuthMchsmJwtMod implements HttpAuthenticationMechanism {

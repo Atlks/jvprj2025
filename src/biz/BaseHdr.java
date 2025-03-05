@@ -21,16 +21,16 @@ import java.util.List;
 
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 
-import static util.AnnotationUtils.getCookieParams;
+import static util.algo.AnnotationUtils.getCookieParams;
 import static util.log.ColorLogger.*;
-import static util.ExptUtil.addInfo2ex;
-import static util.ExptUtil.curUrl;
+import static util.excptn.ExptUtil.addInfo2ex;
+import static util.excptn.ExptUtil.curUrl;
 import static util.tx.QueryParamParser.toDtoFrmQrystr;
 
 import static util.tx.TransactMng.*;
-import static util.Util2025.*;
-import static util.dbutil.setField;
-import static util.util2026.*;
+import static util.misc.Util2025.*;
+import static util.tx.dbutil.setField;
+import static util.misc.util2026.*;
 
 /**
  * aop  some log....aop auth ,,aop ex

@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static util.Util2025.encodeJson;
+import static util.misc.Util2025.encodeJson;
 
 class RecordDayly {
     public String date;

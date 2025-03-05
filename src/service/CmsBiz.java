@@ -15,8 +15,8 @@ import static cfg.MyCfg.iniCfgFrmCfgfile;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 import static util.tx.HbntUtil.mergeByHbnt;
 import static util.tx.HbntUtil.persistByHibernate;
-import static util.Util2025.encodeJson;
-import static util.util2026.*;
+import static util.misc.Util2025.encodeJson;
+import static util.misc.util2026.*;
 
 public class CmsBiz {
 

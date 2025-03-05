@@ -8,8 +8,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-import static util.Util2025.*;
-import static util.dbutil.setField;
+import static util.misc.Util2025.*;
+import static util.tx.dbutil.setField;
 
 //for test
 //aop shuld log auth ,ex catch,,,pfm

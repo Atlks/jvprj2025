@@ -17,8 +17,8 @@ import static cfg.MyCfg.iniCfgFrmCfgfile;
 import static util.log.ColorLogger.*;
 import static util.tx.HbntUtil.*;
 import static util.tx.TransactMng.beginTransaction;
-import static util.dbutil.setField;
-import static util.util2026.*;
+import static util.tx.dbutil.setField;
+import static util.misc.util2026.*;
 
 /**  ivk by
  *  UpdtCompleteChargeHdr?id=ordchg2222

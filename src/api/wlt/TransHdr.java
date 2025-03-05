@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
-import util.Icall;
+import util.algo.Icall;
 import service.Trans2YLwltService;
 
 import static cfg.AppConfig.sessionFactory;

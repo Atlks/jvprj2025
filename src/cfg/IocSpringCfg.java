@@ -6,8 +6,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import util.proxy.AtProxy4Svs;
 import util.proxy.AtProxy4api;
-import util.Icall;
-import util.StrUtil;
+import util.algo.Icall;
+import util.oo.StrUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.Consumer;
@@ -15,8 +15,8 @@ import java.util.function.Consumer;
 import static java.time.LocalTime.now;
 //import static cfg.AopLogJavassist.printLn;
 import static util.proxy.IocUtil.registerBean2map;
-import static util.dbutil.setField;
-import static util.util2026.*;
+import static util.tx.dbutil.setField;
+import static util.misc.util2026.*;
 
 //PicoContainer more easy thena guice lite,guice ,spring
 public class IocSpringCfg {

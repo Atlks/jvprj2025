@@ -3,7 +3,7 @@ package util.web3;
 import java.util.List;
 import java.util.Map;
 
-import static util.Util2025.encodeJson;
+import static util.misc.Util2025.encodeJson;
 import static util.web3.StellarHelper.getXlmTransactionList;
 
 public class xlmQry {

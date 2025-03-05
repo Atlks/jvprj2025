@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import util.Icall;
+import util.algo.Icall;
 
 import java.math.BigDecimal;
 
@@ -32,8 +32,8 @@ import static util.auth.AuthUtil.getCurrentUser;
 import static util.tx.HbntUtil.findByHbntDep;
 import static util.tx.HbntUtil.persistByHibernate;
 import static util.proxy.SprUtil.injectAll4spr;
-import static util.dbutil.addObj;
-import static util.util2026.*;
+import static util.tx.dbutil.addObj;
+import static util.misc.util2026.*;
 
 
 /**

@@ -1,6 +1,6 @@
 package service;
 
-import util.Icall;
+import util.algo.Icall;
 
 public class Trans2YLwltService extends  BaseService implements Icall {
 

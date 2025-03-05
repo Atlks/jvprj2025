@@ -12,8 +12,8 @@ import static biz.BizUtil.createProxy4log;
 import static cfg.AopLogJavassist.isObjectMethod;
 import static cfg.AopLogJavassist.isObjectMethodEx;
 import static util.log.ColorLogger.*;
-import static util.Util2025.*;
-import static util.dbutil.setField;
+import static util.misc.Util2025.*;
+import static util.tx.dbutil.setField;
 
 
 //aop shuld log auth ,ex catch,,,pfm

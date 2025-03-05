@@ -3,8 +3,8 @@ package test;
 import java.util.List;
 import java.util.SortedMap;
 
-import static util.dbutil.addObj;
-import static util.dbutil.findObjsJsDocdb;
+import static util.tx.dbutil.addObj;
+import static util.tx.dbutil.findObjsJsDocdb;
 
 public class AccBiz {
 

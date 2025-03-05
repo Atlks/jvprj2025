@@ -6,11 +6,11 @@ import entityx.Usr;
 import jakarta.persistence.LockModeType;
 
 
-import static util.EncodeUtil.encodeMd5;
+import static util.algo.EncodeUtil.encodeMd5;
 import static util.tx.HbntUtil.findByHbntDep;
 import static util.tx.HbntUtil.mergeByHbnt;
-import static util.dbutil.addObj;
-import static util.util2026.*;
+import static util.tx.dbutil.addObj;
+import static util.misc.util2026.*;
 
 public class UpdtPwdHdr extends BaseHdr<Usr, Usr> {
     @Override

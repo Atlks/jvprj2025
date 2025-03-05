@@ -7,7 +7,7 @@ import com.sun.net.httpserver.HttpExchange;
 import entityx.LogCms;
 import entityx.Usr;
 import org.hibernate.Session;
-import util.HttpExchangeImp;
+import util.misc.HttpExchangeImp;
 import entityx.PageResult;
 import util.excptn.OrmUtilBiz;
 
@@ -18,12 +18,12 @@ import java.util.function.Predicate;
 
 //import static util.Fltr.filterWithSpEL;
 import static api.wlt.RechargeHdr.saveUrlOrdChrg;
-import static util.Fltr.fltr2501;
-import static util.ToXX.parseQueryParams;
-import static util.ToXX.toObjFrmMap;
-import static util.Util2025.encodeJson;
-import static util.dbutil.*;
-import static util.util2026.*;
+import static util.algo.Fltr.fltr2501;
+import static util.algo.ToXX.parseQueryParams;
+import static util.algo.ToXX.toObjFrmMap;
+import static util.misc.Util2025.encodeJson;
+import static util.tx.dbutil.*;
+import static util.misc.util2026.*;
 import static service.CmsBiz.saveUrlLogCms;
 
 /**

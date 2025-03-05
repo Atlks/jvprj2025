@@ -4,19 +4,13 @@ import entityx.MRZ;
 import entityx.Passport;
 import entityx.Visa;
 
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
-import java.util.Base64;
 import java.time.LocalDate;
 import java.util.List;
 
 import static api.usr.LoginHdr.Key4pwd4aeskey;
-import static util.EncryUtil.*;
-import static util.JsonUtil.deserializeFromJson;
-import static util.JsonUtil.serializeToJson;
+import static util.algo.EncryUtil.*;
+import static util.oo.JsonUtil.deserializeFromJson;
+import static util.oo.JsonUtil.serializeToJson;
 
 public class VisaService {
 

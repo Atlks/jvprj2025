@@ -1,14 +1,14 @@
 package util.proxy;
 
-import util.SupplierX;
+import util.algo.SupplierX;
 
 import java.lang.reflect.Method;
 
 
 import static util.log.ColorLogger.*;
-import static util.ExptUtil.curFun4dbg;
-import static util.ExptUtil.currFunPrms4dbg;
-import static util.Util2025.*;
+import static util.excptn.ExptUtil.curFun4dbg;
+import static util.excptn.ExptUtil.currFunPrms4dbg;
+import static util.misc.Util2025.*;
 
 //cglib outtime,asm too lowlev ,bytebuddy cant log 3lev
 //only jvvst is ok..

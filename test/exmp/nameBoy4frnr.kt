@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import entityx.CharBo
 import net.sourceforge.pinyin4j.PinyinHelper
-import util.Util2025.encodeJson
+import util.misc.Util2025.encodeJson
 import java.io.File
 
 //得到最好起名的汉字，笔画少，语音简单，含义好

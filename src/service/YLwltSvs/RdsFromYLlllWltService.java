@@ -5,7 +5,7 @@ import entityx.LogBlsLogYLwlt;
 import entityx.TransDto;
 import entityx.Usr;
 import org.hibernate.Session;
-import util.Icall;
+import util.algo.Icall;
 
 import java.math.BigDecimal;
 
@@ -14,7 +14,7 @@ import static cfg.AppConfig.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static service.YLwltSvs.AddMoney2YLWltService.addBlsLog4ylwlt;
 import static util.tx.HbntUtil.mergeByHbnt;
-import static util.util2026.getCurrentMethodName;
+import static util.misc.util2026.getCurrentMethodName;
 
 /**
  * 减去钱包余额服务

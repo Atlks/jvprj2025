@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
-import static util.ArrUtil.subList2025;
+import static util.oo.ArrUtil.subList2025;
 
-import static util.dbutil.nativeQueryGetResultList;
-import static util.dbutil.setPrmts4sql;
+import static util.tx.dbutil.nativeQueryGetResultList;
+import static util.tx.dbutil.setPrmts4sql;
 
 public class Pagging {
 

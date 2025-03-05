@@ -16,9 +16,9 @@ import java.util.Map;
 import static api.wlt.RechargeHdr.saveUrlOrdChrg;
 import static java.time.LocalTime.now;
 import static util.tx.Pagging.getPageResultByHbntV2;
-import static util.ToXX.toObjFrmQrystr;
-import static util.Util2025.encodeJson;
-import static util.util2026.*;
+import static util.algo.ToXX.toObjFrmQrystr;
+import static util.misc.Util2025.encodeJson;
+import static util.misc.util2026.*;
 
 /**   查询规则，参数使用类型化，不要新定义dto，直接使用实体代替
  * http://localhost:8889/QryOrdBetHdr

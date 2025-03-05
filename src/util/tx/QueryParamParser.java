@@ -14,8 +14,8 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import static util.Util2025.encodeJson;
-import static util.Util2025.encodeJsonObj;
+import static util.misc.Util2025.encodeJson;
+import static util.misc.Util2025.encodeJsonObj;
 
 public class QueryParamParser {
 //    public static <T> T toDto(HttpExchange exchange) {

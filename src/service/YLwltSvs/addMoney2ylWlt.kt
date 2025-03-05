@@ -9,7 +9,7 @@ import entityx.Usr
 import jakarta.persistence.LockModeType
 import util.auth.SecurityContextImp4ck
 import util.tx.HbntUtil
-import util.Icall
+import util.algo.Icall
 import util.proxy.SprUtil.getBeanFrmSprAsObj
 import util.tx.TransactMng
 import java.math.BigDecimal
