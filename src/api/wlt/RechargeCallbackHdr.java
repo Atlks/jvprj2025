@@ -1,5 +1,6 @@
 package api.wlt;
 
+import entityx.TransDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
@@ -73,7 +74,7 @@ public class RechargeCallbackHdr implements  Icall<ReChgOrd,Object> {
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
     public Object call(@BeanParam ReChgOrd ordDto) throws Throwable {
      //  iniAllField();
-        injectAll4spr(this);
+     //   injectAll4spr(this);
         ovrtTEst=true;//todo cancel if test ok
         Session session = sessionFactory.getCurrentSession();
 
@@ -104,7 +105,12 @@ public class RechargeCallbackHdr implements  Icall<ReChgOrd,Object> {
 
 
       // Icall c=   getBeanFrmBeanmap(addMoneyToWltService);
-        addMoneyToWltService1.call(objChrg);
+        TransDto transDto=new TransDto();
+        copyProps(objChrg,transDto);
+        transDto.refUniqId="reqid="+objChrg.id;
+        transDto.lockAccObj=findByHerbinate(Usr.class,ordDto.uname,session);
+
+        addMoneyToWltService1.call(transDto);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
 

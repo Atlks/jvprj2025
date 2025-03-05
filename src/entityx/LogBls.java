@@ -2,6 +2,7 @@ package entityx;
 
 //jakarta.persistence.Entity（JPA 3.x, Jakarta EE 9 及以后）
 //javax.persistence.Entity  already dep
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -48,6 +49,9 @@ public class LogBls {
     public String changeType;
     public String changeMode;
     public BigDecimal amtBefore;
+    //这里设置refUniqId 为unique模式，不能重复
+    @Column(unique = true, nullable = false) // refUniqId 需要唯一约束
+    public String refUniqId;
 
     public BigDecimal getChangeAmount() {
         return  toBigDecimal(changeAmount);

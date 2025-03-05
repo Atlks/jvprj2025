@@ -208,6 +208,8 @@ public class AtProxy4api implements  HttpHandler {
 
         //  默认返回 JSON，不需要额外加 @ResponseBody
         //  默认会将 String 直接作为 text/plain 处理：
+        if(rzt==null)
+            rzt="ok";
         if (rzt.getClass() == String.class)
             wrtResp(exchange, (rzt.toString()));
         else

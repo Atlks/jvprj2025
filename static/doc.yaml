@@ -229,7 +229,7 @@ paths:
           summary: 示例调用
           description: 以 `changeAmount=8` 进行调用
           value: "/Trans?changeAmount=8"
-  /CompleteChargeHdr:
+  /recharge_callback:
     get:
       tags:
         -  wlt
@@ -292,7 +292,7 @@ paths:
                   message:
                     type: string
                     example: "提现成功，账户余额已更新"
-  /RechargeHdr:
+  /recharge:
     get:
 
       components:

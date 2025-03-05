@@ -111,6 +111,7 @@ public class JwtUtil {
     public static  @jakarta.validation.constraints.NotBlank String getTokenMust(HttpExchange he) throws CantGetTokenJwtEx, validateTokenExcptn {
 // 从请求头中获取 Authorization 字段
         String authHeader = he.getRequestHeaders().getFirst("Authorization");
+     //  if(isBlank(authHeader))
         String token = authHeader.substring(7);
         if (isBlank(token))
             throw new CantGetTokenJwtEx("Authorization token cant get");

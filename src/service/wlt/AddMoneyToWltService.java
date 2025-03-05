@@ -23,6 +23,10 @@ import static util.misc.util2026.getFilenameFrmLocalTimeString;
 
 /**
  *  增加钱包余额服务
+ *
+ *  referenceId 关联充值订单，防止重复加钱
+ * 防并发处理，确保 同一个 rechargeId 只处理一次
+ *
  *   AddMoneyToWltService
  *  @author at
  *   @param amt
@@ -49,27 +53,17 @@ public class AddMoneyToWltService   implements Icall<TransDto, Object> {
         return null;
     }
     public Object call(TransDto TransDto88 ) throws Exception {
-        //  printLn("\n▶️fun updtBlsByAddChrg(", BLUE);
-        //    printLn("objChrg= " + encodeJson(objChrg), GREEN);
-        //    System.out.println(")");
-        //  printlnx();
-        //   System.out.println("\r\n ▶fun updtBlsByAddChrg(objChrg= "+encodeJson(objChrg));
+
 
         String uname = TransDto88.uname;
         BigDecimal amt = TransDto88.getAmt();
-
         Session session=sessionFactory.getCurrentSession();
-
-
         Usr    objU=TransDto88.lockAccObj;
-
-        BigDecimal nowAmt = getFieldAsBigDecimal(objU, "balance", 0);
-
+        BigDecimal nowAmt =objU.getBalance();
         BigDecimal newBls = nowAmt.add(amt);
-        objU.balance = toBigDcmTwoDot(newBls);
-        mergeByHbnt(objU, session);
 
-        //add balanceLog
+
+        //==================add balanceLog
         LogBls logBalance = new LogBls();
         logBalance.id = "LogBalance" + getFilenameFrmLocalTimeString();
         logBalance.uname = uname;
@@ -79,15 +73,25 @@ public class AddMoneyToWltService   implements Icall<TransDto, Object> {
         logBalance.changeAmount = amt;
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
         logBalance.newBalance = toBigDcmTwoDot(newBls);
+        logBalance.refUniqId=TransDto88.refUniqId;
         System.out.println(" add balanceLog ");
         persistByHibernate(logBalance, session);
+
+
+
+
+        //=================updt
+        objU.balance = toBigDcmTwoDot(newBls);
+        mergeByHbnt(objU, session);
+
+
         
         
         mm2();
         System.out.println("1217");
 
         //  System.out.println("✅endfun updtBlsByAddChrg()");
-        return null;
+        return  objU;
     }
 
     public void mm2() {

@@ -97,8 +97,7 @@ public class HbntUtil {
         properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
         //    hibernate.dialect.storage_engine
         properties.put(Environment.SHOW_SQL, "true");
-
-        //   properties.put(Environment.FORMAT_SQL, "true");
+        properties.put(Environment.FORMAT_SQL, "true");
         properties.put(Environment.STORAGE_ENGINE, "innodb");
         //HBM2DDL_CHARSET_NAME
         properties.put(Environment.HBM2DDL_AUTO, "update"); // 自动建表
