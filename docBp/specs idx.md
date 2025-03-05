@@ -27,3 +27,6 @@ use entrn ,not map
 
 use orm ,sqlt vs mysql test
 
+=other
+数据传输dto 只把valid加载dto上。。bo不需要，因为不是外籍输入
+
