@@ -24,14 +24,13 @@ import static util.misc.util2026.getFilenameFrmLocalTimeString;
 /**
  *  增加钱包余额服务
  *
- *  referenceId 关联充值订单，防止重复加钱
+ *  先添加日志可防止重复添加，在更新余额即可
+ *  referenceId 关联充值订单，防止重复加钱，格式使用urlqrystr模式 ,序列化oo了
  * 防并发处理，确保 同一个 rechargeId 只处理一次
  *
  *   AddMoneyToWltService
  *  @author at
- *   @param amt
- *   @param uname
- *    @param lockAccObj
+
  *   @return 计算结果
  *   @throws Exception
  *  @code
