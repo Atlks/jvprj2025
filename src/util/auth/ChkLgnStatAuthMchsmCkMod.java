@@ -26,7 +26,7 @@ public class ChkLgnStatAuthMchsmCkMod implements HttpAuthenticationMechanism {
         try {
 
             var uname = getcookie("uname", httpExchangeCurThrd.get());
-            new chkLgnStatAuthMchsmJwtMod().  validate(new UsernamePasswordCredential(uname, "no_need"));
+            new ChkLgnStatAuthenticationMechanism().  validate(new UsernamePasswordCredential(uname, "no_need"));
             return AuthenticationStatus.SUCCESS;
 
         } catch (Throwable e) {
