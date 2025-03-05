@@ -61,7 +61,7 @@ public class RdsFromWltService  implements Icall<TransDto, Object> {
         logBalance.changeAmount = TransDto88.getChangeAmount();
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
         logBalance.newBalance = toBigDcmTwoDot(newBls);
-
+        logBalance.refUniqId= String.valueOf(System.currentTimeMillis());
         logBalance.changeMode = "减去";
         System.out.println(" add balanceLog ");
         //  addObj(logBalance,saveUrlLogBalance);

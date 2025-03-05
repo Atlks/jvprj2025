@@ -6,6 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -50,6 +51,8 @@ public class LogBls {
     public String changeMode;
     public BigDecimal amtBefore;
     //这里设置refUniqId 为unique模式，不能重复
+
+    @NotBlank
     @Column(unique = true, nullable = false) // refUniqId 需要唯一约束
     public String refUniqId;
 

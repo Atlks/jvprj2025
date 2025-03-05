@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 import static util.oo.ArrUtil.getEndidx;
 import static util.oo.OrdUtil.delOrderby;
 import static util.oo.OrdUtil.orderBySqlOrderMode;
-import static util.tx.QryLstByHbntTest.getOrderbyFromSql;
+
 import static util.tx.Qry.*;
 import static util.tx.dbutil.*;
 import static util.misc.util2026.getSqlPrmVal;

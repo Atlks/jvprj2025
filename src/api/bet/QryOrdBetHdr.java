@@ -2,7 +2,7 @@ package api.bet;
 
 import biz.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
-import entityx.OrdBet;
+import entityx.BetOrd;
 import entityx.Usr;
 import org.hibernate.Session;
 import util.auth.IsEmptyEx;
@@ -32,7 +32,7 @@ public class QryOrdBetHdr extends BaseHdr<Usr, Usr> {
 
         //blk login ed
         String uname = getcookie("uname", exchange);
-        OrdBet qryDto4page=toObjFrmQrystr(exchange,OrdBet.class);
+        BetOrd qryDto4page=toObjFrmQrystr(exchange, BetOrd.class);
 
         var sql = "select * from ordbet where uname =:uname order by timestamp desc " ;
         Map<String, Object> sqlprmMap= Map.of( "sql",sql,   "uname",uname);

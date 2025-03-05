@@ -13,7 +13,24 @@ import static util.misc.Util2025.encodeJson;
 //paging fun also here
 public class Qry {
 
+    /**
+     * 截取 SQL 排序部分的内容
+     * @param sql SQL 查询语句
+     * @return 排序部分，若没有排序部分则返回空字符串   返回 order by xxxx
+     */
+    public static String getOrderbyFromSql(String sql) {
+        // 正则表达式用于匹配 ORDER BY 后面的内容
+        // 正则表达式用于匹配完整的 ORDER BY 部分
+        String regex = "(?i)(order by\\s+.*)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(sql);
 
+        if (matcher.find()) {
+            return matcher.group(1).trim(); // 返回排序部分
+        } else {
+            return ""; // 如果没有 ORDER BY 部分，返回空字符串
+        }
+    }
     /**
      * 将 JPQL 转换为 SpEL 语法
      * @param jpql  JPQL 语句，例如：SELECT e FROM Entity e WHERE e.age > :age AND e.name = :name

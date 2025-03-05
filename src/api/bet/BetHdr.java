@@ -1,7 +1,7 @@
 package api.bet;
 
 import annos.注入;
-import entityx.OrdBet;
+import entityx.BetOrd;
 import entityx.TransDto;
 import entityx.Usr;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,12 +40,12 @@ import static util.misc.util2026.*;
  * http://localhost:8889/BetHdr?bettxt=龙湖和
  */
 @Tag(name = "bet")
-@Path("/BetHdr")
+@Path("/bet")
 @annos.Parameter(name = "bettxt")
-@annos.CookieParam(name = "uname",value="$curuser")
+@annos.JwtParam(name = "uname")
 @Component
 @NoArgsConstructor
-public class BetHdr implements Icall<OrdBet, Object> {
+public class BetHdr implements Icall<BetOrdDto, Object> {
 
 
     //    @Autowired
@@ -61,18 +61,16 @@ public class BetHdr implements Icall<OrdBet, Object> {
 
 
     @Override
-    public Object call(@BeanParam @ModelAttribute OrdBet betOrd) throws Throwable {
-        injectAll4spr(this);
+    public Object call(@BeanParam BetOrdDto dto88) throws Throwable {
+
         var curUname = SecurityContext1.getCallerPrincipal().getName();
         var uname = getCurrentUser();
 
+        BetOrd bet=new BetOrd(dto88);
 
-        betOrd.timestamp = System.currentTimeMillis();
-        betOrd.uname = uname;
-        betOrd.id = "ordBet" + getFilenameFrmLocalTimeString();
 
         Session session = sessionFactory.getCurrentSession();
-        Object obj = persistByHibernate(betOrd, session);
+        Object obj = persistByHibernate(bet, session);
 
 
 

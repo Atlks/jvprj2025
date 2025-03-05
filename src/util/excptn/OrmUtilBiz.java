@@ -3,7 +3,7 @@ package util.excptn;
 import entityx.LogBls;
 import entityx.ReChgOrd;
 import entityx.LogCms;
-import entityx.OrdBet;
+import entityx.BetOrd;
 import entityx.Usr;
 import entityx.LogBlsLogYLwlt;
 import org.hibernate.Session;
@@ -32,7 +32,7 @@ public class OrmUtilBiz {
             li.add(LogBlsLogYLwlt.class);
             li.add(ReChgOrd.class);
             li.add(Usr.class);
-            li.add(OrdBet.class);
+            li.add(BetOrd.class);
             li.add(LogCms.class);
             //todo dync cls
 

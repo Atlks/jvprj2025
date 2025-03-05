@@ -378,7 +378,7 @@ paths:
 
         '500':
           description: Internal server error.
-  /BetHdr:
+  /bet:
     get:
       tags:
         - bet
@@ -394,11 +394,12 @@ paths:
             type: string
             example: "123"
         - name: uname
-          in: cookie
+          in: JwtParam
           required: true
-          description: 用户名（从 Cookie 获取）
+          description: 用户名（从 JwtParam 获取）
           schema:
             type: string
+            example: "123"
       responses:
         '200':
           description: 成功响应

@@ -11,8 +11,8 @@ public class baseObj {
     public  int page=1;
 
     @CreationTimestamp
-    public long crtTimeStmp;
+    public long crtTimeStmp=System.currentTimeMillis();
 
     @UpdateTimestamp
-    public long updtTmstmp;
+    public long updtTmstmp=System.currentTimeMillis();
 }
