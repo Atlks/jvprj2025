@@ -5,7 +5,7 @@ info:
   title: 用户 API
   version: 0.0.7
   description: |
-    这是一个用于用户管理的 API。通过该 API，您可以注册、更新、删除用户，并查询用户信息。
+    这是一个用于用户端的 API。通过该 API，您可以作为文档开发。
     该文档提供了所有可用接口的详细说明。
   contact:
     name: 开发者支持
@@ -17,7 +17,7 @@ tags:
     description: 钱包方面接口
   - name: bet
     description: 注单方面接口
-  - name: YLwlt
+  - name: ylwlt
     description: 盈利钱包方面接口
 
 
@@ -59,6 +59,46 @@ security:
   - BearerAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /ylwlt/changeLog:
+    get:
+      tags:
+        - ylwlt
+      summary: "盈利钱包账变流水"
+  /wlt/changeLog:
+    get:
+      tags:
+        - wlt
+      summary: "钱包账变流水"
+  /bet/query:
+    get:
+      tags:
+        - bet
+      summary: "注单记录列表"
+  /logout:
+    get:
+      tags:
+        - user
+      summary: "退出"
+  /modifyPwd:
+    get:
+      tags:
+        - user
+      summary: "修改密码"
+      description: " "
+
+      parameters:
+        - name: oldpwd
+          in: query
+          description: "旧密码"
+          required: true
+          schema:
+            type: string
+        - name: newpwd
+          in: query
+          description: "新密码"
+          required: true
+          schema:
+            type: string
   /login:
     get:
       tags:
@@ -195,7 +235,7 @@ paths:
                       type: integer
                     name:
                       type: string
-  /Trans:
+  /wlt/trans:
     get:
       summary: 转账操作
       description: 进行转账操作
@@ -286,10 +326,10 @@ paths:
           description: "订单未找到"
         "500":
           description: "服务器内部错误"
-  /Withdraw:
+  /ylwlt/withdraw:
     get:
       tags:
-        - Ylwlt
+        - ylwlt
       summary: 提现
       description: |
         该接口用于进行提现操作，提现会导致有效金额变化，冻结金额也会变化，最终导致总金额变化。
@@ -405,3 +445,14 @@ paths:
           description: 成功响应
         '400':
           description: 错误请求
+  /wlt/adjust:
+    get:
+      tags:
+        - wlt
+      summary: "资金调整 中心钱包"
+
+  /ylwlt/adjust:
+    get:
+      tags:
+        - ylwlt
+      summary: "资金调整 盈利钱包"

@@ -1,14 +1,16 @@
 package api.wlt;
 
-import biz.BaseHdr;
-import cfg.MyCfg;
-import com.sun.net.httpserver.HttpExchange;
-import entityx.Usr;
+import annos.JwtParam;
+import annos.Parameter;
+import entityx.TransDto;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.ws.rs.Path;
+import org.springframework.web.bind.annotation.RestController;
+import util.algo.Icall;
 import util.auth.AuthService;
 import util.auth.IsEmptyEx;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -20,33 +22,26 @@ import static util.tx.dbutil.addObj;
 import static util.tx.dbutil.getObjIni;
 import static util.misc.util2026.*;
 
-/**
+/** 资金调整
  * http://localhost:8889/AddOrdBetHdr?bettxt=龙湖和
  */
-public class UpdtBlsHdr extends BaseHdr<Usr, Usr> {
+
+@RestController   // 默认返回 JSON，不需要额外加 @ResponseBody。
+@Tag(name = "wlt 钱包")
+@Path("/wlt/adjust")
+@JwtParam(name = "uname")
+@Parameter(name="adjustType")    //+ -  Increase Decrease
+@Parameter(name="amt")
 
 
-    public static void main(String[] args) throws Exception {
-      MyCfg.iniCfgFrmCfgfile();
-        Map<String, String> queryParams=new HashMap<>();
-        queryParams.put("adjst","add");  //sub
-        queryParams.put("amt","9");  //sub
-        updtBls("007","add", BigDecimal.valueOf(9),queryParams);
-    }
+public class UpdtBlsHdr implements Icall<TransDto, String> {
 
-    private static void updtBls(String uname,String adjstOp,BigDecimal amt,  Map<String, String> queryParams ) throws Exception {
-
-        //add blance
-        SortedMap<String, Object> objU = getObjIni(uname, saveDirUsrs);
-        if(objU.get("id")==null)
-        {
-            objU.put("id",uname);
-            objU.put("uname",uname);
-        }
+    @Override
+    public String call(TransDto TransDto1) throws Exception, IsEmptyEx {
 
 
         BigDecimal nowAmt= getFieldAsBigDecimal(objU,"balance",0);
-       //def is add
+        //def is add
         BigDecimal newBls=nowAmt.add(amt);
         if(adjstOp.equals("sub"))
             newBls=nowAmt.subtract(amt);
@@ -64,26 +59,33 @@ public class UpdtBlsHdr extends BaseHdr<Usr, Usr> {
         logBalance.put("amtBefore",nowAmt);
         logBalance.put("amtAfter",newBls);
         addObj(logBalance,saveUrlLogBalance);
+
+
+        return uname;
     }
+//    public static void main(String[] args) throws Exception {
+//      MyCfg.iniCfgFrmCfgfile();
+//        Map<String, String> queryParams=new HashMap<>();
+//        queryParams.put("adjst","add");  //sub
+//        queryParams.put("amt","9");  //sub
+//        updtBls("007","add", BigDecimal.valueOf(9),queryParams);
+//    }
 
-    @Override
-    public void handle2(HttpExchange exchange) throws Exception, IsEmptyEx {
+    private static void updtBls(String uname,String adjstOp,BigDecimal amt,  Map<String, String> queryParams ) throws Exception {
 
-
-        if (AuthService.isNotLogined(exchange)) {
-            //need login
-            wrtResp(exchange, "needLogin");
-            return;
+        //add blance
+        SortedMap<String, Object> objU = getObjIni(uname, saveDirUsrs);
+        if(objU.get("id")==null)
+        {
+            objU.put("id",uname);
+            objU.put("uname",uname);
         }
 
-        //blk login ed
-        String uname = getcookie("uname", exchange);
-        Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
-        updtBls(uname,queryParams.get("adjstOp"),toBigDecimal(queryParams.get("amt")) ,queryParams );
-        wrtResp(exchange, "ok");
 
 
     }
+
+
 
 
 }

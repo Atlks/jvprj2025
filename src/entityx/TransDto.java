@@ -51,7 +51,7 @@ public class TransDto {
         @Id
         public String id;
         public String uname;
-
+    public String adjustType;  //incrs   decrs  + -
         public long changeTime;
         public String changeType;
         public String changeMode;
