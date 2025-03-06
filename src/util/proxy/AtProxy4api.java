@@ -1,6 +1,7 @@
 package util.proxy;
 
 import annos.CookieParam;
+import annos.JwtParam;
 import biz.MinValidator;
 import util.ex.ValideTokenFailEx;
 import com.sun.net.httpserver.HttpExchange;
@@ -31,6 +32,7 @@ import java.util.Map;
 
 import static biz.BaseHdr.*;
 import static util.algo.AnnotationUtils.getCookieParamsV2;
+import static util.algo.AnnotationUtils.getParams;
 import static util.algo.ToXX.toDtoFrmQrystr;
 import static util.proxy.AopUtil.ivk4log;
 import static util.auth.AuthUtil.getCurrentUser;
@@ -49,12 +51,12 @@ import static util.misc.util2026.*;
  * todo
  * 多个拦截器（责任链模式）
  * 如果需要多个拦截器，可以链式包装： 增强复用性
- *
+ * <p>
  * server.createContext("/test",
- *     new AuthInterceptor(new LoggingInterceptor(new MyHandler())));
+ * new AuthInterceptor(new LoggingInterceptor(new MyHandler())));
  */
 //aop shuld log auth ,ex catch,,,pfm
-public class AtProxy4api implements  HttpHandler {
+public class AtProxy4api implements HttpHandler {
     private Icall target; // 目标对象
 
     public AtProxy4api(Object target) {
@@ -139,7 +141,7 @@ public class AtProxy4api implements  HttpHandler {
             responseTxt = processInvkExpt(exchange, e);
 
         } catch (Throwable e) {
-           e.printStackTrace();
+            e.printStackTrace();
             responseTxt = processNmlExptn(exchange, e);
             // throw new RuntimeException(e);
 
@@ -168,7 +170,7 @@ public class AtProxy4api implements  HttpHandler {
             aClass = this.target.getClass();
         }
         if (needLoginUserAuth(aClass)) {
-             new ChkLgnStatAuthenticationMechanism().validateRequest(null, null, null);
+            new ChkLgnStatAuthenticationMechanism().validateRequest(null, null, null);
         }
     }
 //            if (authStt == AuthenticationStatus.SUCCESS) {
@@ -203,15 +205,15 @@ public class AtProxy4api implements  HttpHandler {
         } else {
             var dto = toDto(exchange, cls);
             assert dto != null;
-           // addDeftParam(dto);
+            // addDeftParam(dto);
             validDto(dto);
             rzt = invoke_call(dto);
         }
 
         //  默认返回 JSON，不需要额外加 @ResponseBody
         //  默认会将 String 直接作为 text/plain 处理：
-        if(rzt==null)
-            rzt="ok";
+        if (rzt == null)
+            rzt = "ok";
         if (rzt.getClass() == String.class)
             wrtResp(exchange, (rzt.toString()));
         else
@@ -223,23 +225,29 @@ public class AtProxy4api implements  HttpHandler {
 
     }
 
-   // @Nullable
-   @NotNull
-    private @NotNull Object toDto(HttpExchange exchange,@NotNull Class cls) throws Exception, IsEmptyEx {
+    // @Nullable
+    @NotNull
+    private @NotNull Object toDto(HttpExchange exchange, @NotNull Class cls) throws Exception, IsEmptyEx {
 
         // 反射创建 DTO 实例
         Object dto = cls.getDeclaredConstructor().newInstance();
         addDeftParam(dto);
         var dtoQrystr = toDtoFrmQrystr(exchange, cls);
-        copyProps(dtoQrystr,dto);
+        copyProps(dtoQrystr, dto);
 
         //--------set cook to dto
         List<CookieParam> cookieParams = getCookieParamsV2(target.getClass(), "call");
         for (CookieParam cknm : cookieParams) {
             String v = getcookie(cknm.name(), httpExchangeCurThrd.get());
-            if(cknm.value().equals("$curuser"))
-                v =   getCurrentUser();
+            if (cknm.value().equals("$curuser"))
+                v = getCurrentUser();
             setField(dto, cknm.name(), v);
+        }
+        //------set jwt to dto
+        List<JwtParam> JwtParams = getParams(target.getClass(), JwtParam.class);
+        for (JwtParam jw : JwtParams) {
+            if (jw.name().equals("uname"))
+                setField(dto, jw.name(), getCurrentUser());
         }
         return dto;
     }
@@ -247,7 +255,7 @@ public class AtProxy4api implements  HttpHandler {
     //uname cookie
     private void addDeftParam(Object dto) {
 
-               setField(dto, "uname", getCurrentUser());
+        setField(dto, "uname", getCurrentUser());
     }
 
     private void validDto(Object dto) {
@@ -269,7 +277,7 @@ public class AtProxy4api implements  HttpHandler {
                         m.put("dto", dto);
                         m.put("fld", field.getName());
                         m.put("msg", "vldfail");
-                        m.put("msgAnno",annotation1.message());
+                        m.put("msgAnno", annotation1.message());
                         throw new RuntimeException(encodeJsonObj(m));
                     }
                     ;
@@ -287,7 +295,7 @@ public class AtProxy4api implements  HttpHandler {
                         m.put("dto", dto);
                         m.put("fld", field.getName());
                         m.put("msg", "vldfail");
-                        m.put("msgAnno",annotation1.message());
+                        m.put("msgAnno", annotation1.message());
                         throw new RuntimeException(encodeJsonObj(m));
                     }
                     ;
@@ -297,12 +305,12 @@ public class AtProxy4api implements  HttpHandler {
                     NotNullValidator vldr = new NotNullValidator();
                     NotNull annotation1 = (NotNull) annotation;
 
-                    if (!vldr.isValid( getField(dto, field.getName()), null)) {
+                    if (!vldr.isValid(getField(dto, field.getName()), null)) {
                         Map<String, Object> m = new HashMap<>();
                         m.put("dto", dto);
                         m.put("fld", field.getName());
                         m.put("msg", "vldfail");
-                        m.put("msgAnno",annotation1.message());
+                        m.put("msgAnno", annotation1.message());
                         throw new RuntimeException(encodeJsonObj(m));
                     }
                     ;

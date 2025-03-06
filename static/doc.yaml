@@ -450,6 +450,26 @@ paths:
       tags:
         - wlt
       summary: "资金调整 中心钱包"
+      parameters:
+        - name: adjustType
+          in: query
+          required: true
+          description: "调整类型 增加+  减去-"
+          schema:
+            type: string
+            example: "+"
+
+        - name: changeAmount
+          in: query
+          required: true
+          description: "改改的金额  "
+          schema:
+            type: string
+            example: "99"
+      responses:
+        '200':
+          description: 成功响应
+
 
   /ylwlt/adjust:
     get:

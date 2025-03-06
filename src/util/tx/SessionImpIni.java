@@ -9,12 +9,13 @@ import static util.misc.UtilEncode.encodeFilename;
 import static util.tx.dbutil.*;
 import static util.misc.util2026.*;
 
-public class SessionImpIni<R,T> extends SessionImpBase implements Session {
+public class SessionImpIni<R, T> extends SessionImpBase implements Session {
 
     private final String saveDir;
- ;
+    ;
+
     public SessionImpIni(String saveDir0) {
-       //  getTransaction()
+        //  getTransaction()
         mkdir2025(saveDir0);
         saveDir = saveDir0;
     }
@@ -28,8 +29,8 @@ public class SessionImpIni<R,T> extends SessionImpBase implements Session {
         String fname = (String) getField2025(obj, "id", "");
         //todo need fname encode
         fname = encodeFilename(fname) + ".ini";
-var collName=obj.getClass().getName();
-        String fnamePath = saveDir +collName +"/" + fname;
+        var collName = obj.getClass().getName();
+        String fnamePath = saveDir + collName + "/" + fname;
         System.out.println("fnamePath=" + fnamePath);
         writeFile2501(fnamePath, encodeIni(obj));
 
@@ -37,7 +38,6 @@ var collName=obj.getClass().getName();
     }
 
     /**
-
      * @param <T>
      * @return
      */
@@ -51,7 +51,7 @@ var collName=obj.getClass().getName();
     }
 
     /**
-
+     *
      */
     @Override
     public void remove(Object obj) {
@@ -65,20 +65,15 @@ var collName=obj.getClass().getName();
     }
 
 
-
-
-
-
     /**
      * @param aClass
-
      * @param <T>
      * @return
      */
     @Override
     public <T> T find(Class<T> aClass, Object id) {
 
-        var collName=aClass.getName();
+        var collName = aClass.getName();
         String fname = encodeFilename(id.toString()) + ".ini";
 
         String collPath = saveDir + "/" + aClass.getName();
@@ -107,15 +102,14 @@ var collName=obj.getClass().getName();
 
 
     /**
-
      * @param aClass
      * @return
      */
     @Override
     public NativeQuery createNativeQuery(String sql, Class aClass) {
-        NativeQueryImp4ini nq=new NativeQueryImp4ini(sql,aClass);
-        nq.saveUrl=this.saveDir;
-        nq.aClass=aClass;
+        NativeQueryImp4ini nq = new NativeQueryImp4ini(sql, aClass);
+        nq.saveUrl = this.saveDir;
+        nq.aClass = aClass;
         return nq;
     }
 

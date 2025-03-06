@@ -56,6 +56,8 @@ public class LogBls {
     @Column(unique = true, nullable = false) // refUniqId 需要唯一约束
     public String refUniqId;
 
+    public @NotBlank String adjustType;
+
     public BigDecimal getChangeAmount() {
         return  toBigDecimal(changeAmount);
     }

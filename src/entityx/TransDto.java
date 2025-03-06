@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -48,21 +50,24 @@ public class TransDto {
      */
 
 
-        @Id
+
         public String id;
-        public String uname;
-    public String adjustType;  //incrs   decrs  + -
+        @NotBlank
+        public String uname="";
+    @NotBlank
+    public String adjustType="";  //incrs   decrs  + -
         public long changeTime;
         public String changeType;
         public String changeMode;
         public BigDecimal amtBefore;
+
     public Usr lockAccObj;
     public String refUniqId;
 
     public BigDecimal getChangeAmount() {
             return  toBigDecimal(changeAmount);
         }
-
+@NotNull
         public BigDecimal changeAmount;
     public BigDecimal amt;
         public BigDecimal newBalance;

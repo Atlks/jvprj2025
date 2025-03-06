@@ -9,6 +9,27 @@ import java.util.List;
 
 public class AnnotationUtils {
 
+
+    public static <T> List<T> getParams(Class<?> Objclazz, Class<T> annoType) {
+
+        List<T> params = new ArrayList<>();
+        // 获取类中所有方法
+        //  clazz.getAnnotations()
+        for (Annotation annotation : Objclazz.getAnnotations()) {
+            if (annoType.isInstance(annotation)) {
+                {
+                    //   String paramName = ((CookieParam) annotation).name();
+                    params.add((T) annotation);
+                }
+
+            }
+            return params;
+
+
+        }
+        return params;
+    }
+
     public static List<CookieParam> getCookieParamsV2(Class<?> clazz, String methodName) {
         try {
             List<CookieParam> params = new ArrayList<>();
@@ -17,23 +38,23 @@ public class AnnotationUtils {
             for (Annotation annotation : clazz.getAnnotations()) {
                 if (annotation instanceof CookieParam) {
                     //String paramName = ((CookieParam) annotation).name();
-                    params.add((CookieParam)annotation);
+                    params.add((CookieParam) annotation);
                 }
             }
 
-            return  params;
+            return params;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return new ArrayList<>();
     }
 
-@Deprecated
+    @Deprecated
     public static List<String> getCookieParams(Class<?> clazz, String methodName) {
         try {
             List<String> params = new ArrayList<>();
             // 获取类中所有方法
-          //  clazz.getAnnotations()
+            //  clazz.getAnnotations()
             for (Annotation annotation : clazz.getAnnotations()) {
                 if (annotation instanceof CookieParam) {
                     String paramName = ((CookieParam) annotation).name();
@@ -54,7 +75,7 @@ public class AnnotationUtils {
 //                  //  return String.join(" ", params);
 //                }
 //            }
-            return  params;
+            return params;
         } catch (Exception e) {
             e.printStackTrace();
         }
