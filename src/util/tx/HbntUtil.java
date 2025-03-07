@@ -186,8 +186,19 @@ public class HbntUtil {
         System.out.println("✅endfun persistByHbnt()");
         return var1;
     }
-
     public static @NotNull Object getListBySql(@NotBlank String sql, @NotNull Session session) throws Throwable {
+
+        ifIsBlank(sql);
+        NativeQuery nativeQuery = session.createNativeQuery(sql);
+        // setPrmts4sql(sqlprmMap, nativeQuery);
+
+        //       .setParameter("age", 18);
+        @NotNull
+        List<?> list1 = nativeQuery.getResultList();
+        return  list1;
+    }
+
+    public static @NotNull Object getListBySqlLmt200(@NotBlank String sql, @NotNull Session session) throws Throwable {
 
         ifIsBlank(sql);
         NativeQuery nativeQuery = session.createNativeQuery(sql);

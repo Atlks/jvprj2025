@@ -25,6 +25,7 @@ import static biz.Response.createResponse;
 import static cfg.AppConfig.sessionFactory;
 import static java.time.LocalTime.now;
 import static util.algo.EncodeUtil.encodeParamSql;
+import static util.tx.HbntUtil.getListBySql;
 import static util.tx.Pagging.getPageResultByHbntV2;
 import static util.algo.ToXX.toObjFrmQrystr;
 import static util.misc.Util2025.encodeJson;
@@ -45,13 +46,13 @@ public class ListBetsHdr  implements Icall<QryDto4bets, Object>  {
     public static String saveUrlOrdBet = "";
 
     @Override
-    public Object  call( QryDto4bets dto) throws Exception {
+    public Object  call( QryDto4bets dto) throws Throwable {
 
         //blk login ed
       //  String uname = getcookie("uname", exchange);
      //   BetOrd qryDto4page=toObjFrmQrystr(exchange, BetOrd.class);
 
-        var sql = "select * from ordbet where uname ="+encodeParamSql(dto.uname)+" order by timestamp desc " ;
+        var sql = "select * from ordbet where uname ="+encodeParamSql(dto.uname)+" order by timestamp desc limit 200 " ;
         System.out.println( sql);
 //        Map<String, Object> sqlprmMap= Map.of( "sql",sql,   "uname",dto.uname);
 //        System.out.println( encodeJson(sqlprmMap));
