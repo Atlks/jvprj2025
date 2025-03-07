@@ -3,7 +3,7 @@ package api.ylwlt;
 import annos.CookieParam;
 import annos.Parameter;
 import util.ex.BalanceNotEnghou;
-import entityx.LogBlsLogYLwlt;
+import entityx.LogBls4YLwlt;
 import entityx.OrdWthdr;
 import entityx.Usr;
 import entityx.WithdrawDto;
@@ -107,7 +107,7 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
         //取款体现后  日志的变化  冻结金额 ，有效金额变化。。。
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("增加余额变化了流水", RED_bright));
         //------------add balanceLog
-        LogBlsLogYLwlt logBlsYinliWlt = new LogBlsLogYLwlt(dtoWithdrawDto,nowAmt2, newBls2,"减去");
+        LogBls4YLwlt logBlsYinliWlt = new LogBls4YLwlt(dtoWithdrawDto,nowAmt2, newBls2,"减去");
         addBlsLog4ylwlt(logBlsYinliWlt, session);
         return usr;
 

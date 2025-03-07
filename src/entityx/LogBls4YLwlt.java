@@ -5,6 +5,7 @@ package entityx;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -38,7 +39,7 @@ import java.math.BigDecimal;
 @Table
 @Data
 @NoArgsConstructor
-public class LogBlsLogYLwlt {
+public class LogBls4YLwlt {
 
     @Id
     public String id;
@@ -50,11 +51,14 @@ public class LogBlsLogYLwlt {
     public BigDecimal amtBefore;
     public BigDecimal changeAmount;
     public BigDecimal newBalance;
+    @NotBlank
+    public String refUniqId;
+    public @NotBlank String adjustType;
     // 备注信息
     private String remark;
 
 
-    public LogBlsLogYLwlt(TransDto lgblsDto, BigDecimal nowAmt, BigDecimal newBls, String changeMode) {
+    public LogBls4YLwlt(TransDto lgblsDto, BigDecimal nowAmt, BigDecimal newBls, String changeMode) {
 this.uname=lgblsDto.uname;
         this.amtBefore = nowAmt;
         this.newBalance = newBls;
@@ -62,7 +66,7 @@ this.uname=lgblsDto.uname;
     }
 
 
-    public LogBlsLogYLwlt(WithdrawDto lgblsDto, BigDecimal nowAmt, BigDecimal newBls, String changeMode) {
+    public LogBls4YLwlt(WithdrawDto lgblsDto, BigDecimal nowAmt, BigDecimal newBls, String changeMode) {
         this.uname=lgblsDto.getUserId();
         this.amtBefore = nowAmt;
         this.newBalance = newBls;

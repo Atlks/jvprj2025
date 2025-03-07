@@ -3,7 +3,7 @@ package service;
 import entityx.ReChgOrd;
 import entityx.LogCms;
 import entityx.Usr;
-import entityx.LogBlsLogYLwlt;
+import entityx.LogBls4YLwlt;
 import org.hibernate.Session;
 
 import java.math.BigDecimal;
@@ -118,7 +118,7 @@ public class CmsBiz {
 
 
         //add balanceLog yonjin wlt
-        LogBlsLogYLwlt logBalanceYlWlt=new LogBlsLogYLwlt();
+        LogBls4YLwlt logBalanceYlWlt=new LogBls4YLwlt();
         logBalanceYlWlt.id="LogBalanceYinliwlt"+getFilenameFrmLocalTimeString();
         logBalanceYlWlt.uname=uname;
         logBalanceYlWlt.changeMode="增加";

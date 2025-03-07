@@ -1,7 +1,7 @@
 package service.YLwltSvs;
 
 import util.ex.BalanceNotEnghou;
-import entityx.LogBlsLogYLwlt;
+import entityx.LogBls4YLwlt;
 import entityx.TransDto;
 import entityx.Usr;
 import org.hibernate.Session;
@@ -56,7 +56,7 @@ public class RdsFromYLlllWltService implements Icall<TransDto, Object> {
 
         //------------add balanceLog
         System.out.println("\n\n\n===========余额流水");
-        LogBlsLogYLwlt logBlsYinliWlt = new LogBlsLogYLwlt(TransDto88,nowAmt, newBls,"减去");
+        LogBls4YLwlt logBlsYinliWlt = new LogBls4YLwlt(TransDto88,nowAmt, newBls,"减去");
         addBlsLog4ylwlt(logBlsYinliWlt, currentSession);
         return null;
     }

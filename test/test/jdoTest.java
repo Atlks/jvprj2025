@@ -3,7 +3,7 @@ package test;
 import entityx.LogBls;
 import entityx.ReChgOrd;
 import entityx.Usr;
-import entityx.LogBlsLogYLwlt;
+import entityx.LogBls4YLwlt;
 import utilFuchr.JdoPstsMngrHbnt;
 import utilFuchr.JdoPstsMngrIni;
 
@@ -22,7 +22,7 @@ public class jdoTest {
         List<Class> li=new ArrayList<>();
         li.add(Usr.class);
         li.add(LogBls.class);
-        li.add(LogBlsLogYLwlt.class);
+        li.add(LogBls4YLwlt.class);
         li.add(ReChgOrd.class);
         li.add(Usr.class);
      //   PersistenceManager pm=newPersistenceManager("/0db");

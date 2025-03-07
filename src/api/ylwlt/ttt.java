@@ -1,6 +1,6 @@
 package api.ylwlt;
 
-import entityx.LogBlsLogYLwlt;
+import entityx.LogBls4YLwlt;
 
 import java.math.BigDecimal;
 
@@ -16,7 +16,7 @@ public class ttt {
     public static void main(String[] args) throws Exception {
         iniCfgFrmCfgfile();
         //add balanceLog yonjin wlt
-        LogBlsLogYLwlt logBalanceYlWlt=new LogBlsLogYLwlt();
+        LogBls4YLwlt logBalanceYlWlt=new LogBls4YLwlt();
         logBalanceYlWlt.id="LogBalanceYinliwlt"+getFilenameFrmLocalTimeString();
         logBalanceYlWlt.uname="007";
         logBalanceYlWlt.changeMode="增加";
@@ -24,7 +24,7 @@ public class ttt {
         logBalanceYlWlt.changeAmount=toBigDcmTwoDot(BigDecimal.valueOf(88));
 
         logBalanceYlWlt.newBalance=toBigDcmTwoDot(logBalanceYlWlt.amtBefore.add(logBalanceYlWlt.changeAmount));
-        System.out.println(addObj(logBalanceYlWlt,saveUrlLogBalanceYinliWlt,LogBlsLogYLwlt.class));
+        System.out.println(addObj(logBalanceYlWlt,saveUrlLogBalanceYinliWlt, LogBls4YLwlt.class));
 
     }
 }

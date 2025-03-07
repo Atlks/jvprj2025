@@ -5,7 +5,7 @@ import entityx.ReChgOrd;
 import entityx.LogCms;
 import entityx.BetOrd;
 import entityx.Usr;
-import entityx.LogBlsLogYLwlt;
+import entityx.LogBls4YLwlt;
 import org.hibernate.Session;
 import util.tx.HbntUtil;
 import util.tx.SessionImpIni;
@@ -29,7 +29,7 @@ public class OrmUtilBiz {
             List<Class> li=new ArrayList<>();
             li.add(Usr.class);
             li.add(LogBls.class);
-            li.add(LogBlsLogYLwlt.class);
+            li.add(LogBls4YLwlt.class);
             li.add(ReChgOrd.class);
             li.add(Usr.class);
             li.add(BetOrd.class);

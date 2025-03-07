@@ -46,13 +46,13 @@ public class AddMoney2YLWltService implements Icall<TransDto,Object> {
         objU.balanceYinliwlt = toBigDcmTwoDot(newBls);
         mergeByHbnt(objU, session);
 
-        LogBlsLogYLwlt logBlsYinliWlt = new LogBlsLogYLwlt(TransDto1,nowAmt, newBls,"增加");
+        LogBls4YLwlt logBlsYinliWlt = new LogBls4YLwlt(TransDto1,nowAmt, newBls,"增加");
         addBlsLog4ylwlt(logBlsYinliWlt, session);
         //  System.out.println("✅endfun updtBlsByAddChrg()");
         return null;
     }
 
-    public static void addBlsLog4ylwlt(LogBlsLogYLwlt logBlsYinliWlt, Session session) {
+    public static void addBlsLog4ylwlt(LogBls4YLwlt logBlsYinliWlt, Session session) {
         //--------------add logBlsYinliWlt
 
         logBlsYinliWlt.id = "LogBalanceYinliWlt" + getFilenameFrmLocalTimeString();
