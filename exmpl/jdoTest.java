@@ -4,8 +4,8 @@ import entityx.LogBls;
 import entityx.ReChgOrd;
 import entityx.Usr;
 import entityx.LogBls4YLwlt;
-import utilFuchr.JdoPstsMngrHbnt;
-import utilFuchr.JdoPstsMngrIni;
+//import utilFuchr.JdoPstsMngrHbnt;
+//import utilFuchr.JdoPstsMngrIni;
 
 import javax.jdo.PersistenceManager;
 import java.util.ArrayList;

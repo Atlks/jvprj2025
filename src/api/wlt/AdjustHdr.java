@@ -2,6 +2,7 @@ package api.wlt;
 
 import annos.JwtParam;
 import annos.Parameter;
+import biz.Response;
 import entityx.LogBls;
 import entityx.TransDto;
 import entityx.Usr;
@@ -10,25 +11,19 @@ import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
-import util.auth.IsEmptyEx;
 
 import java.math.BigDecimal;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
-import static api.wlt.RechargeCallbackHdr.saveUrlLogBalance;
 import static cfg.AppConfig.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static service.CmsBiz.toBigDcmTwoDot;
 import static util.tx.HbntUtil.*;
 import static util.tx.dbutil.addObj;
-import static util.tx.dbutil.getObjIni;
 import static util.misc.util2026.*;
 
 /**
  * 资金调整
- * http://localhost:8889/AddOrdBetHdr?bettxt=龙湖和
+ *  {@literal http://localhost:8889/wlt/adjust?adjustType=%2B&changeAmount=99}
  */
 
 @RestController   // 默认返回 JSON，不需要额外加 @ResponseBody。
@@ -39,7 +34,7 @@ import static util.misc.util2026.*;
 @Parameter(name = "changeAmount")
 
 
-public class adjustHdr implements Icall<TransDto, Object> {
+public class AdjustHdr implements Icall<TransDto, Object> {
 
     @Override
     public Object call(TransDto TransDto1) throws Throwable {
@@ -81,7 +76,7 @@ public class adjustHdr implements Icall<TransDto, Object> {
        persistByHibernate(logBalance,sessionFactory.getCurrentSession());
 
 
-        return objU;
+        return new Response(objU);
     }
 //    public static void main(String[] args) throws Exception {
 //      MyCfg.iniCfgFrmCfgfile();

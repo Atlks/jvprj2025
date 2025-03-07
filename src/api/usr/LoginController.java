@@ -1,5 +1,6 @@
 package api.usr;
 
+import biz.Response;
 import entityx.Passport;
 import entityx.Usr;
 import entityx.Visa;
@@ -82,11 +83,11 @@ public class LoginController implements Icall<Usr, Object> , IdentityStore {
 
         //======ret token jwt
         //also set cookie todo
-        ResponsRet rt = new ResponsRet(getTokenJwt(usr_dto));
 
+        return new Response(getTokenJwt(usr_dto));
         //  setcookie("tokenJwt", tokenJwt, httpExchangeCurThrd.get());
 
-        return rt;
+
 
 
     }
