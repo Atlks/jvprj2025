@@ -21,6 +21,8 @@ import java.util.List;
 
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 
+import static biz.Response.createErrResponse;
+import static biz.Response.createErrResponseWzErrcode;
 import static util.algo.AnnotationUtils.getCookieParams;
 import static util.algo.ToXX.toDtoFrmQrystr;
 import static util.log.ColorLogger.*;
@@ -28,6 +30,8 @@ import static util.excptn.ExptUtil.addInfo2ex;
 import static util.excptn.ExptUtil.curUrl;
 
 
+import static util.proxy.AtProxy4api.processInvkExpt;
+import static util.proxy.AtProxy4api.processNmlExptn;
 import static util.tx.TransactMng.*;
 import static util.misc.Util2025.*;
 import static util.tx.dbutil.setField;
@@ -110,60 +114,6 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
     }
 
 
-    public static String processNmlExptn(HttpExchange exchange, Throwable e) {
-        ExceptionBase ex;
-//        System.out.println(
-//                "⚠\uFE0F e="
-//                        + e.getMessage() + "\nStackTrace="
-//                        + getStackTraceAsString(e)
-//                        + "\n end stacktrace......................"
-//        );
-
-
-        //my throw ex.incld funprm
-        if (e instanceof ExceptionBase) {
-            ex = (ExceptionBase) e;
-            ex.errcode = e.getClass().getName();
-
-
-        } else {
-            //nml err
-            ex = new ExceptionBase(e.getMessage());
-
-            //cvt to cstm ex
-            String message = e.getMessage();
-            ex = new ExceptionBase(message);
-            ex.cause = e;
-            ex.errcode = e.getClass().getName();
-
-        }
-
-        addInfo2ex(ex, e);
-
-        String responseTxt = encodeJson(ex);
-
-        wrtRespErrNoex(exchange, responseTxt);
-        return responseTxt;
-    }
-
-    public static String processInvkExpt(HttpExchange exchange, InvocationTargetException e) throws IOException {
-        ExceptionBase ex;
-        ex = new ExceptionBase(e.getMessage());
-        ex.cause = e;
-        Throwable cause = e.getCause();
-
-        ex.errcode = cause.getClass().getName();
-        ex.errmsg = e.getCause().getMessage();
-
-
-        addInfo2ex(ex, e);
-
-        String responseTxt = encodeJson(ex);
-
-        wrtRespErr(exchange, responseTxt);
-
-        return responseTxt;
-    }
 
     private void AopNlog(HttpExchange exchange) throws Throwable {
         String prmurl;

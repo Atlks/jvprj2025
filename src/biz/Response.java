@@ -1,6 +1,7 @@
 package biz;
 
 import lombok.Data;
+import util.excptn.ExceptionBase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +25,18 @@ public class Response {
         this.stat_code=500;
         this.message=err_message;
     }
+
+    public  static Response  createErrResponse(Throwable ex )
+    {
+        return new Response(ex, ex.getMessage());
+    }
+
+    public  static Response  createErrResponseWzErrcode(ExceptionBase ex )
+    {
+        return new Response(ex, ex.errcode);
+    }
+
+
 
     private int stat_code=200;      // 状态码，如 200、400、500
     private Object message="ok"; // 响应信息，如 "OK" 或 "Error"

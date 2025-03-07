@@ -22,6 +22,7 @@ import util.auth.ChkLgnStatAuthenticationMechanism;
 import util.auth.IsEmptyEx;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,9 +32,11 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import static biz.BaseHdr.*;
+import static biz.Response.createErrResponseWzErrcode;
 import static util.algo.AnnotationUtils.getCookieParamsV2;
 import static util.algo.AnnotationUtils.getParams;
 import static util.algo.ToXX.toDtoFrmQrystr;
+import static util.excptn.ExptUtil.addInfo2ex;
 import static util.proxy.AopUtil.ivk4log;
 import static util.auth.AuthUtil.getCurrentUser;
 import static util.log.ColorLogger.*;
@@ -318,6 +321,64 @@ public class AtProxy4api implements HttpHandler {
             }
         }
 
+    }
+
+
+    public static String processNmlExptn(HttpExchange exchange, Throwable e) {
+        ExceptionBase ex;
+//        System.out.println(
+//                "⚠\uFE0F e="
+//                        + e.getMessage() + "\nStackTrace="
+//                        + getStackTraceAsString(e)
+//                        + "\n end stacktrace......................"
+//        );
+
+
+        //my throw ex.incld funprm
+        if (e instanceof ExceptionBase) {
+            ex = (ExceptionBase) e;
+            ex.errcode = e.getClass().getName();
+
+
+        } else {
+            //nml err
+            ex = new ExceptionBase(e.getMessage());
+
+            //cvt to cstm ex
+            String message = e.getMessage();
+            ex = new ExceptionBase(message);
+            ex.cause = e;
+            ex.errcode = e.getClass().getName();
+
+        }
+
+        addInfo2ex(ex, e);
+
+
+        String responseTxt = encodeJson(createErrResponseWzErrcode(ex));
+
+        wrtRespErrNoex(exchange, responseTxt);
+        return responseTxt;
+    }
+
+    public static String processInvkExpt(HttpExchange exchange, InvocationTargetException e) throws IOException {
+        ExceptionBase ex;
+        ex = new ExceptionBase(e.getMessage());
+        ex.cause = e;
+        Throwable cause = e.getCause();
+
+        ex.errcode = cause.getClass().getName();
+        ex.errmsg = e.getCause().getMessage();
+
+
+        addInfo2ex(ex, e);
+
+        String responseTxt = encodeJson(createErrResponseWzErrcode(ex));
+        //   String responseTxt = encodeJson(ex);
+
+        wrtRespErr(exchange, responseTxt);
+
+        return responseTxt;
     }
 
     //protected abstract void urlAuthChk(HttpExchange exchange) throws Exception;
