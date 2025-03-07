@@ -1,13 +1,26 @@
 package util.algo;
 
 import jakarta.validation.constraints.NotBlank;
+import util.misc.StrIsBlankEx;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class IsXXX {
 
+    public static void ifIsBlank(@NotBlank String sql) throws StrIsBlankEx {
+        if(isblank(sql))
+            throw  new StrIsBlankEx("val(sql) is empty");
+    }
 
+    public static void isblankThrEx(@NotBlank String sql) throws StrIsBlankEx {
+        if(isblank(sql))
+            throw  new StrIsBlankEx("val(sql) is empty");
+    }
+
+    public static boolean isblank(@NotBlank String sql) {
+        return sql == null || sql.trim().isEmpty();
+    }
     /**
      *  * 全面增加了空安全 检测 与自动转换机制
      * @param s1

@@ -2,21 +2,26 @@ package util.tx;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.LockModeType;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.service.ServiceRegistry;
 import util.excptn.NotExistRow;
+import util.misc.StrIsBlankEx;
 
 import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 
+import static util.algo.IsXXX.ifIsBlank;
 import static util.log.ColorLogger.*;
 //import static cfg.IocPicoCfg.scanClasses;
 import static util.oo.StrUtil.getPwdFromJdbcurl;
@@ -127,7 +132,7 @@ public class HbntUtil {
     private static void addAnnotatedClasses2025(MetadataSources metadataSources) {
 
         // 获取 classes 目录
-        String classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        String classpath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
         File classDir = new File(classpath);
         if (!classDir.exists() || !classDir.isDirectory()) {
             System.err.println("classes 目录不存在！");
@@ -181,6 +186,22 @@ public class HbntUtil {
         System.out.println("✅endfun persistByHbnt()");
         return var1;
     }
+
+    public static @NotNull Object getListBySql(@NotBlank String sql, @NotNull Session session) throws Throwable {
+
+        ifIsBlank(sql);
+        NativeQuery nativeQuery = session.createNativeQuery(sql);
+        // setPrmts4sql(sqlprmMap, nativeQuery);
+        // 设置分页
+        nativeQuery.setFirstResult(0);
+        nativeQuery.setMaxResults(200);
+        //       .setParameter("age", 18);
+        @NotNull
+        List<?> list1 = nativeQuery.getResultList();
+        return  list1;
+    }
+
+
 
     public static @NotNull @org.jetbrains.annotations.NotNull <T> T mergeByHbnt(@NotNull T  t, @NotNull  Session session) {
         String mthClr=colorStr("mergeByHbnt",YELLOW_bright);

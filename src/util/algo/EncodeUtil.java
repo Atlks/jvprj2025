@@ -11,7 +11,9 @@ import java.security.NoSuchAlgorithmException;
 public class EncodeUtil {
 
     //serialize
-
+    public static String encodeParamSql(String uname) {
+        return  uname.replaceAll("'","''");
+    }
 
     public static String htmlspecialchars(String input) {
         if (input == null) return null;
