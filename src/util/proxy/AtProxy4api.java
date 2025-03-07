@@ -168,11 +168,8 @@ public class AtProxy4api implements HttpHandler {
     private void urlAuthChkV2(HttpExchange exchange) throws ValideTokenFailEx, AuthenticationException {
 
         injectAll4spr(this);
-        Class<?> aClass = this.getClass();
-        if (aClass == AtProxy4api.class) {
-            aClass = this.target.getClass();
-        }
-        if (needLoginUserAuth(aClass)) {
+
+        if (needLoginUserAuth()) {
             new ChkLgnStatAuthenticationMechanism().validateRequest(null, null, null);
         }
     }
@@ -184,7 +181,13 @@ public class AtProxy4api implements HttpHandler {
 //                throw  需要登录;
 //            }
 
-    protected boolean needLoginUserAuth(Class<?> aClass) {
+    protected boolean needLoginUserAuth() {
+
+        Class<?> aClass = this.getClass();
+        if (aClass == AtProxy4api.class) {
+            aClass = this.target.getClass();
+        }
+
         boolean annotationPresent = aClass.isAnnotationPresent(PermitAll.class);
 
         //if has anno ,not need login
@@ -258,7 +261,10 @@ public class AtProxy4api implements HttpHandler {
     //uname cookie
     private void addDeftParam(Object dto) {
 
-        setField(dto, "uname", getCurrentUser());
+        if (needLoginUserAuth())
+            setField(dto, "uname", getCurrentUser());
+        else
+            setField(dto, "uname", "defusr");
     }
 
     private void validDto(Object dto) {
