@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Data
 public class baseObj {
 
+    public  int debugMode=0;
     public  int page=1;
 
     public  int   pagesize=200;
