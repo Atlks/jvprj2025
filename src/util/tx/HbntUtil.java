@@ -189,18 +189,24 @@ public class HbntUtil {
     public static @NotNull Object getListBySql(@NotBlank String sql, @NotNull Session session) throws Throwable {
 
         ifIsBlank(sql);
+        String mthClr=colorStr("getListBySql",YELLOW_bright);
+        System.out.println("\r\n▶\uFE0Ffun "+mthClr+"("+(sql));
         NativeQuery nativeQuery = session.createNativeQuery(sql);
         // setPrmts4sql(sqlprmMap, nativeQuery);
 
         //       .setParameter("age", 18);
         @NotNull
         List<?> list1 = nativeQuery.getResultList();
+        System.out.println("✅endfun getListBySql.ret=list,listsize="+list1.size());
         return  list1;
     }
 
     public static @NotNull Object getListBySqlLmt200(@NotBlank String sql, @NotNull Session session) throws Throwable {
 
         ifIsBlank(sql);
+        String mthClr=colorStr("getListBySqlLmt200",YELLOW_bright);
+        System.out.println("\r\n▶\uFE0Ffun "+mthClr+"("+(sql));
+       // System.out.println("mergeByHbnt("+ t.getClass().getName());
         NativeQuery nativeQuery = session.createNativeQuery(sql);
         // setPrmts4sql(sqlprmMap, nativeQuery);
         // 设置分页
@@ -209,6 +215,7 @@ public class HbntUtil {
         //       .setParameter("age", 18);
         @NotNull
         List<?> list1 = nativeQuery.getResultList();
+        System.out.println("✅endfun getListBySqlLmt200.ret=list,listsize="+list1.size());
         return  list1;
     }
 

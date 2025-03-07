@@ -1,5 +1,6 @@
 package entityx;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,6 +12,11 @@ public class baseObj {
 
     public  int   pagesize=200;
 
+    public int  offset=0;  //偏移量
+
+    public int limit=200;
+
+    @NotBlank    //most need auth   ,,if not need uname,just fill defUsre
     public String uname="";
 
     @CreationTimestamp

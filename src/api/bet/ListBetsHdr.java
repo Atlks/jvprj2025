@@ -52,7 +52,7 @@ public class ListBetsHdr  implements Icall<QryDto4bets, Object>  {
       //  String uname = getcookie("uname", exchange);
      //   BetOrd qryDto4page=toObjFrmQrystr(exchange, BetOrd.class);
 
-        var sql = "select * from ordbet where uname ="+encodeParamSql(dto.uname)+" order by timestamp desc limit 200 " ;
+        var sql = "select * from ordbet where uname ="+encodeParamSql(dto.uname)+" order by timestamp desc limit  "+dto.limit+" offset "+dto.offset ;
         System.out.println( sql);
 //        Map<String, Object> sqlprmMap= Map.of( "sql",sql,   "uname",dto.uname);
 //        System.out.println( encodeJson(sqlprmMap));
