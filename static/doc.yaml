@@ -59,6 +59,18 @@ security:
   - BearerAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /list_bets:
+    get:
+      tags:
+        - bet
+      summary: "列出投注记录"
+      responses:
+        "200":
+          description: ""
+          content:
+            text/plain:
+              schema:
+                type: string
   /ylwlt/changeLog:
     get:
       tags:

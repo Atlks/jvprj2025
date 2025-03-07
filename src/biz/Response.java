@@ -1,5 +1,6 @@
 package biz;
 
+import entityx.PageResult;
 import lombok.Data;
 import util.excptn.ExceptionBase;
 
@@ -13,6 +14,7 @@ public class Response {
     //sucess ret
     public Response(Object data) {
         this.data = data;
+
     }
 
     public Response(Object data,PageInfo pageInfo) {
@@ -24,6 +26,20 @@ public class Response {
         this.data = e;
         this.stat_code=500;
         this.message=err_message;
+    }
+
+    public  static Response  createResponse(Object data )
+    {
+        Response rs=new Response(data);
+        if(data instanceof PageResult)
+        {
+            PageResult pr= (PageResult) data;
+            rs. pageInfo.setPage(pr.page); rs.pageInfo.setPagesize(pr.pagesize);
+            rs. pageInfo.setTotalRows(pr.totalRecords);
+            rs. pageInfo.setTotalPages(pr.totalPages);
+        }
+
+        return  rs;
     }
 
     public  static Response  createErrResponse(Throwable ex )

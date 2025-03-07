@@ -1,7 +1,8 @@
 package cfg;
 
+import api.bet.ListBetsHdr;
 import api.wlt.RechargeCallbackHdr;
-import api.bet.QryOrdBetHdr;
+
 import api.usr.RegHandler;
 import api.ylwlt.WithdrawHdr;
 import biz.BaseBiz;
@@ -32,7 +33,7 @@ public class MyCfg {
         // saveDirAcc= (String) cfg.get("saveDirAcc");
         //   savedirOrd= (String) cfg.get("savedirOrd");
         //QryOrdBetHdr.saveUrlOrdBet
-        QryOrdBetHdr.saveUrlOrdBet = (String) cfg.get("saveUrlOrdBet");
+        ListBetsHdr.saveUrlOrdBet = (String) cfg.get("saveUrlOrdBet");
         saveUrlOrdChrg = RegHandler.saveDirUsrs;
         //(String) cfg.get("saveUrlOrdChrg");
         RechargeCallbackHdr.saveUrlLogBalance = (String) cfg.get("saveUrlLogBalance");
@@ -55,7 +56,7 @@ public class MyCfg {
         // saveDirAcc= (String) cfg.get("saveDirAcc");
         //   savedirOrd= (String) cfg.get("savedirOrd");
         //QryOrdBetHdr.saveUrlOrdBet
-        QryOrdBetHdr.saveUrlOrdBet = RegHandler.saveDirUsrs;
+        ListBetsHdr.saveUrlOrdBet = RegHandler.saveDirUsrs;
         saveUrlOrdChrg = RegHandler.saveDirUsrs;
         //(String) cfg.get("saveUrlOrdChrg");
         RechargeCallbackHdr.saveUrlLogBalance = RegHandler.saveDirUsrs;

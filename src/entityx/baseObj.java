@@ -7,8 +7,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Data
 public class baseObj {
 
-    public  int pagesize=10;
     public  int page=1;
+
+    public  int   pagesize=200;
+
+    public String uname="";
 
     @CreationTimestamp
     public long crtTimeStmp=System.currentTimeMillis();

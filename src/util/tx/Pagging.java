@@ -39,8 +39,8 @@ public class Pagging {
         long totalRecords = nativeQuery.getResultCount();
 
 
-        long totalPages = (long) Math.ceil((double) totalRecords / pageSize);
-        return new PageResult<>(list1, totalRecords, totalPages);
+        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+        return new PageResult<>(list1, totalRecords, totalPages,pageNumber,pageSize);
     }
 
     /**
@@ -67,7 +67,7 @@ public class Pagging {
 //                .setParameter(2, minAge)
                 .getSingleResult()).longValue();
 
-        long totalPages = (long) Math.ceil((double) totalRecords / pageSize);
+        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
         return new PageResult<>(list1, totalRecords, totalPages);
     }
 
@@ -83,7 +83,7 @@ public class Pagging {
 
     public static <T> PageResult<T> getPageResultBySblst(List<T> list1, int pageSize, int pageNumber) {
         long totalRecords = list1.size();
-        long totalPages = (long) Math.ceil((double) totalRecords / pageSize);
+        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
 
         List<T> listPageed = subList2025(list1, pageSize, pageNumber);
         return new PageResult<>(listPageed, totalRecords, totalPages);
