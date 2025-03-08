@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import api.bet.QryDto4bets;
 import entityx.Coin;
 import entityx.Non;
 import jakarta.annotation.security.PermitAll;

@@ -6,7 +6,6 @@ package entityx;
 //import javax.persistence.Id;
 //import javax.persistence.Table;
 
-import api.bet.BetOrdDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

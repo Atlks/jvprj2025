@@ -1,6 +1,5 @@
-package api.bet;
+package entityx;
 
-import entityx.baseObj;
 import lombok.Data;
 
 @Data

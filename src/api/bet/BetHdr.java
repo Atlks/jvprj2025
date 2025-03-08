@@ -3,6 +3,7 @@ package api.bet;
 import annos.注入;
 import biz.Response;
 import entityx.BetOrd;
+import entityx.BetOrdDto;
 import entityx.TransDto;
 import entityx.Usr;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +20,6 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import util.algo.Icall;
 
 import java.math.BigDecimal;
@@ -32,9 +32,7 @@ import static java.time.LocalTime.now;
 import static util.auth.AuthUtil.getCurrentUser;
 import static util.tx.HbntUtil.findByHbntDep;
 import static util.tx.HbntUtil.persistByHibernate;
-import static util.proxy.SprUtil.injectAll4spr;
 import static util.tx.dbutil.addObj;
-import static util.misc.util2026.*;
 
 
 /**
