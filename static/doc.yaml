@@ -59,6 +59,18 @@ security:
   - BearerAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /coinRank:
+    get:
+      tags:
+        - other
+      summary: "加密货币排行榜"
+      responses:
+        "200":
+          description: ""
+          content:
+            text/plain:
+              schema:
+                type: string
   /list_bets:
     get:
       tags:

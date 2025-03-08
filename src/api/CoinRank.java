@@ -7,12 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import api.bet.QryDto4bets;
 import entityx.Coin;
+import entityx.Non;
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.Path;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
-//加密货币排行榜
-// 虚拟货币实体类
+import org.springframework.web.bind.annotation.RestController;
+import util.algo.Icall;
+
+//加密货币排行榜   CryptoRank
+// 虚拟货币实体类  coinRank
 //class Coin {
 //    public String name; // 名称，如 btc、eth
 //    public double price; // 价格
@@ -22,8 +29,11 @@ import org.json.JSONObject;
 //        this.price = price;
 //    }
 //}
+@RestController
 
-public class CryptoPriceRank {
+@PermitAll
+@Path("/coinRank")
+public class CoinRank  implements Icall<Non, Object> {
     private static final String API_URL = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1";
 
     /**
@@ -31,7 +41,7 @@ public class CryptoPriceRank {
      * @return
      * @throws IOException
      */
-    public static List<Coin> getTop5CryptoPrices() throws IOException {
+    public List<Coin> call(Non dto) throws IOException {
         List<Coin> coins = new ArrayList<>();
         String string = getStrFrmUrl(API_URL);
         System.out.println( string);
@@ -48,16 +58,16 @@ public class CryptoPriceRank {
 
 
 
-    public static void main(String[] args) {
-        try {
-            List<Coin> topCoins = getTop5CryptoPrices();
-            for (Coin coin : topCoins) {
-                System.out.println(coin.name + ": $" + coin.price);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        try {
+//            List<Coin> topCoins = getTop5CryptoPrices();
+//            for (Coin coin : topCoins) {
+//                System.out.println(coin.name + ": $" + coin.price);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 
