@@ -5,6 +5,7 @@ import lombok.Data;
 import util.excptn.ExceptionBase;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -35,9 +36,17 @@ public class Response {
         if(data instanceof PageResult)
         {
             PageResult pr= (PageResult) data;
-//            rs. pageInfo.setPage(pr.page); rs.pageInfo.setPagesize(pr.pagesize);
-//            rs. pageInfo.setTotalRows(pr.totalRecords);
-//            rs. pageInfo.setTotalPages(pr.totalPages);
+            rs. pageInfo.setPage(pr.page); rs.pageInfo.setPagesize(pr.pagesize);
+            rs. pageInfo.setTotalRows(pr.totalRecords);
+            rs. pageInfo.setTotalPages(pr.totalPages);
+        }else {
+            if(data instanceof List<?>)
+            {
+                List li= (List) data;
+                rs.pageInfo.setTotalRows(li.size());
+
+            }
+
         }
 
         return  rs;
@@ -63,5 +72,5 @@ public class Response {
     private String path="";       // 请求路径（可用于调试）
     private String requestId="";  // 请求唯一 ID，便于追踪问题
     private Map<String, Object> debugInfo=new HashMap<>(); // 额外调试信息（可选）
-    //private PageInfo pageInfo=new PageInfo();    // 分页信息（仅对列表查询有效）
+    public PageInfo pageInfo=new PageInfo();    // 分页信息（仅对列表查询有效）
 }
