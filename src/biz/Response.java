@@ -36,6 +36,7 @@ public class Response {
         if(data instanceof PageResult)
         {
             PageResult pr= (PageResult) data;
+            rs.data=pr.records;
             rs. pageInfo.setPage(pr.page); rs.pageInfo.setPagesize(pr.pagesize);
             rs. pageInfo.setTotalRows(pr.totalRecords);
             rs. pageInfo.setTotalPages(pr.totalPages);
