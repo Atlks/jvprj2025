@@ -2,7 +2,7 @@
 
 openapi: 3.0.0
 info:
-  title: 用户 API
+  title: 用户端 API
   version: 0.0.7
   description: |
     这是一个用于用户端的 API。通过该 API，您可以作为文档开发。
@@ -13,11 +13,11 @@ info:
 tags:
   - name: user
     description: 用户方面接口
-  - name: wlt
+  - name: Wallet
     description: 钱包方面接口
   - name: bet
     description: 注单方面接口
-  - name: ylwlt
+  - name: ylWallet
     description: 盈利钱包方面接口
 
 
@@ -86,12 +86,12 @@ paths:
   /ylwlt/changeLog:
     get:
       tags:
-        - ylwlt
+        - ylWallet
       summary: "盈利钱包账变流水"
   /wlt/changeLog:
     get:
       tags:
-        - wlt
+        - Wallet
       summary: "钱包账变流水"
   /bet/query:
     get:
@@ -264,7 +264,7 @@ paths:
       summary: 转账操作
       description: 进行转账操作
       tags:
-        - wlt
+        - Wallet
       parameters:
         - name: uname
           in: cookie
@@ -313,7 +313,7 @@ paths:
   /recharge_callback:
     get:
       tags:
-        -  wlt
+        -  Wallet
       summary: "完成充值订单"
       description: "根据订单 ID 完成充值操作"
       parameters:
@@ -353,7 +353,7 @@ paths:
   /ylwlt/withdraw:
     get:
       tags:
-        - ylwlt
+        - ylWallet
       summary: 提现
       description: |
         该接口用于进行提现操作，提现会导致有效金额变化，冻结金额也会变化，最终导致总金额变化。
@@ -400,7 +400,7 @@ paths:
         - cookieAuth: [ ]
         - BearerAuth88: [ ]  # 指定此接口支持 JWT 认证
       tags:
-        - wlt
+        - Wallet
       summary:   充值
       description: This endpoint retrieves recharge header information based on the provided amount and username.
       parameters:
@@ -472,7 +472,7 @@ paths:
   /wlt/adjust:
     get:
       tags:
-        - wlt
+        - Wallet
       summary: "资金调整 中心钱包"
       parameters:
         - name: adjustType
@@ -498,7 +498,7 @@ paths:
   /ylwlt/adjust:
     get:
       tags:
-        - ylwlt
+        - ylWallet
       summary: "资金调整 盈利钱包"
       parameters:
         - name: adjustType
