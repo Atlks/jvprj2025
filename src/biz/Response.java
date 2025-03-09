@@ -60,7 +60,7 @@ public class Response {
 
 
     private int stat_code = 200;      // 状态码，如 200、400、500
-    private Object message = "ok"; // 响应信息，如 "OK" 或 "Error"
+    private Object message = "ok"; //statCodeStr  响应信息，如 "OK" 或 "Error"
     private Object data = "";        // 具体的数据对象
 
     private long timestamp = System.currentTimeMillis();    // 时间戳，前端可以用来计算请求时间

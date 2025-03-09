@@ -15,8 +15,7 @@ import lombok.Data;
 
 //  must jakarta not javax
 
-    @Entity
-    @Table(name = "OrdBet")
+
     @Data
     public class BetOrdDto extends baseObj {
 

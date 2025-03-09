@@ -2,6 +2,7 @@ package api.usr;
 
 import biz.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
+import entityx.Pwd;
 import entityx.Usr;
 import jakarta.persistence.LockModeType;
 
@@ -29,11 +30,11 @@ public class UpdtPwdHdr extends BaseHdr<Usr, Usr> {
         //JSONObject jo = getObjDocdb(uname,  saveDirUsrs);
         org.hibernate.Session session = sessionFactory.getCurrentSession();
 
-        Usr u = findByHbntDep(Usr.class, uname, LockModeType.PESSIMISTIC_WRITE, session);
+        Pwd u = findByHbntDep(Pwd.class, uname, LockModeType.PESSIMISTIC_WRITE, session);
 //        Usr objU =findByHbnt(Usr.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE,session);
-        if (u.pwd.equals(encodeMd5(oldpwd))) {
+        if (u.hashedPassword.equals(encodeMd5(oldpwd))) {
             // 创建 User 对象
-            u.pwd = encodeMd5(new_pwd);
+            u.hashedPassword = encodeMd5(new_pwd);
             //   saveDir = saveDir;
             var rzt = mergeByHbnt(u, session);
 

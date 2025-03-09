@@ -31,7 +31,7 @@ public class Usr {
     @Valid
     public String uname = "";
     public String invtr="";
-    public String pwd="";
+
 
     @PrimaryKey
     @Id
@@ -55,7 +55,7 @@ public class Usr {
 
     public Usr(String uname, String pwd) {
         this.uname = uname;
-        this.pwd = pwd;
+
     }
 
     public Usr() {

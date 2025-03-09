@@ -2,6 +2,7 @@ package api.usr;
 
 import biz.Response;
 import entityx.Passport;
+import entityx.Pwd;
 import entityx.Usr;
 import entityx.Visa;
 import jakarta.annotation.security.PermitAll;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
 import util.algo.Icall;
 import util.auth.JwtUtil;
+import util.auth.SAM;
 import util.ex.*;
 import util.tx.findByIdExptn;
 
@@ -49,7 +51,7 @@ import static util.misc.util2026.*;
 @Path("/login")
 //   http://localhost:8889/login?uname=008&pwd=000
 @NoArgsConstructor
-public class LoginController implements Icall<Usr, Object> , IdentityStore {
+public class LoginController implements Icall< RegDto, Object> , IdentityStore {
 
     public LoginController(String uname,String pwd) {
     }
@@ -65,9 +67,9 @@ public class LoginController implements Icall<Usr, Object> , IdentityStore {
      * @throws existUserEx
      */
     @Override
-    public Object call(@BeanParam Usr usr_dto) throws Exception, PwdErrEx {
+    public Object call(@BeanParam RegDto usr_dto) throws Exception, PwdErrEx {
 
-        usrdto.set(usr_dto);
+      //  usrdto.set(usr_dto);
 
 
         validate(new UsernamePasswordCredential(usr_dto.uname, usr_dto.pwd));
@@ -75,7 +77,7 @@ public class LoginController implements Icall<Usr, Object> , IdentityStore {
         //============set cok
         //=========save coookie
         //  securityContext=new SecurityContextImp(dto.uname) ;
-        setVisa(usr_dto);
+     //   setVisa(usr_dto);
         setcookie("unameHRZ", usr_dto.uname, httpExchangeCurThrd.get());
         setcookie("uname", encryptAesToStrBase64(usr_dto.uname, Key4pwd4aeskey), httpExchangeCurThrd.get());
 
@@ -96,7 +98,7 @@ public class LoginController implements Icall<Usr, Object> , IdentityStore {
 
 
     @NotNull
-    private static @NotNull Map<String, String> getTokenJwt(@NotNull Usr Udto) {
+    private static @NotNull Map<String, String> getTokenJwt(@NotNull RegDto Udto) {
         return Collections.singletonMap("tokenJwt", JwtUtil.generateToken(Udto.uname));
     }
 
@@ -180,10 +182,10 @@ public class LoginController implements Icall<Usr, Object> , IdentityStore {
             currFunPrms4dbg.set(credential);
             UsernamePasswordCredential crdt = (UsernamePasswordCredential) credential;
             String uname = crdt.getCaller();
-            var u = findByHerbinate(Usr.class, uname, sessionFactory.getCurrentSession());
-            hopePwdEq(u.pwd,  encryptAesToStrBase64(crdt.getPasswordAsString(), Key4pwd4aeskey));
-            return new CredentialValidationResult(uname, java.util.Set.of("USER"));
 
+            SAM.chkPwd(credential);
+
+            return new CredentialValidationResult(uname, java.util.Set.of("USER"));
         } catch (PwdNotEqExceptn  e) {
             throw new PwdErrRuntimeExcept("PwdErrEx", e);
         } catch (findByIdExptn e) {

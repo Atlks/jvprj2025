@@ -2,7 +2,9 @@
 
 package api.usr;
 
+import entityx.Pwd;
 import jakarta.ws.rs.BeanParam;
+import util.auth.SAM;
 import util.ex.existUserEx;
 import entityx.Usr;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,7 +47,7 @@ import static util.misc.util2026.*;
 @annos.Parameter(name = "pwd")
 @PermitAll
 @NoArgsConstructor
-public class RegHandler implements Icall<Usr, Object> {
+public class RegHandler implements Icall< RegDto, Object> {
     public RegHandler(String uname, String pwd) {
     }
 
@@ -79,18 +81,19 @@ public class RegHandler implements Icall<Usr, Object> {
     @PermitAll
     @Validated
 
-    public Object call(@BeanParam Usr dtoU) throws Throwable {
+    public Object call(@BeanParam RegDto dtoU) throws Throwable {
         System.out.println("reghdl.hd3(" + encodeJson(dtoU));
-        dtoU.id = dtoU.uname;
-        boolean rzt = ivk4log("existUser", () -> {
+
+        ivk4log("existUser", () -> {
             return existUser(dtoU);
         });
-        if (rzt && (!ovrwtest)) {
-            var e = new existUserEx("存在用户", getCurrentMethodName(), dtoU);
-            throw e;
-        }
-        dtoU.pwd = encryptAesToStrBase64(dtoU.pwd, Key4pwd4aeskey);
-        persistByHibernate(dtoU, sessionFactory.getCurrentSession());
+
+        Pwd pwdstore=new Pwd();
+        pwdstore.setUserId(dtoU.getUname());
+        pwdstore.setUsername(dtoU.uname);
+        pwdstore.hashedPassword = SAM.encryPwd(dtoU.pwd,pwdstore);
+
+        persistByHibernate( pwdstore, sessionFactory.getCurrentSession());
         return dtoU;
     }
 
@@ -100,7 +103,7 @@ public class RegHandler implements Icall<Usr, Object> {
 
     //@Autowired
 //    org.hibernate.Session session;
-    public boolean existUser(Usr user) throws Exception {
+    public boolean existUser(RegDto user) throws existUserEx {
 //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         //  om.jdbcurl=saveDirUsrs;
 
@@ -111,7 +114,7 @@ public class RegHandler implements Icall<Usr, Object> {
             // 空安全处理，直接操作结果
 
         else
-            return true;
+           throw new existUserEx("uname("+user.uname+")");
     }
 
 
