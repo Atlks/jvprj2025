@@ -3,6 +3,7 @@ package util.proxy;
 import annos.CookieParam;
 import annos.JwtParam;
 import biz.MinValidator;
+import entityx.Non;
 import util.ex.ValideTokenFailEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -207,10 +208,10 @@ public class AtProxy4api implements HttpHandler {
         //---------log
         Class cls = getPrmClass(this.target, "call");
         if (cls == null) {
-            rzt = invoke_call(null);
+            rzt = invoke_call(new Non());
         } else {
             var dto = toDto(exchange, cls);
-            assert dto != null;
+
             // addDeftParam(dto);
             validDto(dto);
             rzt = invoke_call(dto);
