@@ -43,6 +43,7 @@ public class Usr {
 
     public Usr(String uname) {
         this.uname = uname;
+        this.id=uname;
     }
 
     public BigDecimal getTotalCommssionAmt() {

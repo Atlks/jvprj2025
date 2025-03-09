@@ -93,6 +93,8 @@ public class RegHandler implements Icall< RegDto, Object> {
         pwdstore.setUsername(dtoU.uname);
         pwdstore.hashedPassword = SAM.encryPwd(dtoU.pwd,pwdstore);
 
+        Usr u=new Usr(dtoU.uname);
+        persistByHibernate( u, sessionFactory.getCurrentSession());
         persistByHibernate( pwdstore, sessionFactory.getCurrentSession());
         return dtoU;
     }
