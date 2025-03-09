@@ -3,11 +3,23 @@
 =mmnc2addr
 =top10 rank
 =geneMMNcForeach 1...888
+=isHead3isNumChkEthAdd筛选头部为靓号的地址
 
 
+
+
+=isHead3isNumChkEthAdd筛选头部为良好的地址
+C:\Users\attil\IdeaProjects\jvprj2025\test\test\mmnc2add.kt
+//mmnc2add.kt
+// 获取前三位 字符，如果全是数字，那么返回true
+fun isHead3isNumChkEthAdd(str: String): Boolean {
+var strDeHd=str.substring(2);
+val allIsDgt = strDeHd.take(3).all { it.isDigit() }
+return allIsDgt
+}
 
 =geneMMNcForeach 1...888
-\CoinRank.java.geneMMNcForeach()
+//mmnc2add.kt a.geneMMNcForeach()
 
 =top10 rank
 C:\Users\attil\IdeaProjects\jvprj2025\src\api\CoinRank.java

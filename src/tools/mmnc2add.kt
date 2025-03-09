@@ -1,4 +1,4 @@
-package test
+package tools
 
 import org.bitcoinj.crypto.HDKeyDerivation
 import org.bitcoinj.crypto.MnemonicCode
@@ -37,15 +37,45 @@ fun main() {
 
    // testMykey2mmnc()
 
-    scanAddrNumbAddr()
+   //  scanAddrNumbAddr()
 
+    getMMncByWltnum(670)
+
+}
+
+
+private fun getMMncByWltnum(num:Number) {
+    var basewd = String(Files.readAllBytes(Paths.get("C:\\Program Files\\tmp\\basewd.txt")), StandardCharsets.UTF_8)
+    // val offst = 1
+    var slt = String(Files.readAllBytes(Paths.get("C:\\Program Files\\tmp\\salt.txt")), StandardCharsets.UTF_8)
+   // for (offst in 1..0) { // 使用Kotlin的区间语法
+        //  println(i)
+        println("\n\n\n")
+        var offset = num
+        //  offset = 999999999
+//    basewd=""
+//    slt=""
+        val baseNNNst = basewd + offset + slt
+
+        if(offset==3)
+            println("D435")
+        println("ff8." + offset + "s")
+            println(baseNNNst)
+        var mmnc = geneMMncByMyseed(baseNNNst)
+    println(mmnc)
+        val addr = mmnc2addr(mmnc)
+        //   println(addr)
+        if(isHead3isNumChkEthAdd(addr)  ) {
+            println("add=$addr")
+        }
+  //  }
 }
 
 private fun scanAddrNumbAddr() {
     val basewd = String(Files.readAllBytes(Paths.get("C:\\Program Files\\tmp\\basewd.txt")), StandardCharsets.UTF_8)
     // val offst = 1
     val slt = String(Files.readAllBytes(Paths.get("C:\\Program Files\\tmp\\salt.txt")), StandardCharsets.UTF_8)
-    for (offst in 1..0) { // 使用Kotlin的区间语法
+    for (offst in 666..888) { // 使用Kotlin的区间语法
         //  println(i)
         println("\n\n\n")
         var offset = offst
