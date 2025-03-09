@@ -3,7 +3,7 @@
 package api.usr;
 
 import jakarta.ws.rs.BeanParam;
-import util.auth.SAM;
+import service.auth.SAM;
 import util.ex.existUserEx;
 import entityx.Usr;
 import io.swagger.v3.oas.annotations.Operation;

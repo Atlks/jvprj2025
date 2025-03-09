@@ -40,7 +40,18 @@ public class SprUtil {
 
         //  Field field = clazz.getDeclaredField(fieldName);
         Qualifier qualifier = field.getAnnotation(Qualifier.class);
-        return (qualifier != null) ? qualifier.value() : "";
+        if(qualifier!=null)
+        {
+            return   qualifier.value()  ;
+        }
+//        jakarta.inject.Qualifier qualifier2 = field.getAnnotation(jakarta.inject.Qualifier.class);
+//        if(qualifier2!=null)
+//        {
+//            return   qualifier2.toString()  ;
+//        }
+
+        return  "";
+
 
     }
 
@@ -58,7 +69,9 @@ public class SprUtil {
             try {
                 var inject = field.getAnnotation(Inject.class);
                 var Autowired1 = field.getAnnotation(Autowired.class);
-                if( inject==null && Autowired1==null)
+                jakarta.inject.Inject injktJkrt = field.getAnnotation(jakarta.inject.Inject.class);
+
+                if( injktJkrt==null && inject==null && Autowired1==null)
                     return;
                 var qlfNm= getQualifierName(field);
 

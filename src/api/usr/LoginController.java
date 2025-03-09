@@ -5,6 +5,7 @@ import entityx.Passport;
 import entityx.Usr;
 import entityx.Visa;
 import jakarta.annotation.security.PermitAll;
+import jakarta.inject.Inject;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.SecurityContext;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
@@ -14,10 +15,12 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
 import util.algo.Icall;
 import util.auth.JwtUtil;
+import service.auth.SAM;
 import util.ex.*;
 
 
@@ -51,6 +54,10 @@ public class LoginController implements Icall< RegDto, Object>  {
     @Context
     public static SecurityContext securityContext;
 
+    @Inject
+    @Qualifier("SAM")
+  public   SAM sam;
+
     /**
      * @return
      * @throws Exception
@@ -62,7 +69,7 @@ public class LoginController implements Icall< RegDto, Object>  {
       //  usrdto.set(usr_dto);
 
 
-        validate(new UsernamePasswordCredential(usr_dto.uname, usr_dto.pwd));
+        sam. validate(new UsernamePasswordCredential(usr_dto.uname, usr_dto.pwd));
 
         //============set cok
         //=========save coookie

@@ -1,9 +1,8 @@
-package util.auth;
+package service.auth;
 
 
-import api.usr.RegDto;
 import api.usr.validateRtmExptn;
-import entityx.Key;
+import entityx.Keyx;
 import jakarta.security.enterprise.credential.Credential;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import jakarta.security.enterprise.identitystore.CredentialValidationResult;
@@ -12,10 +11,13 @@ import util.ex.PwdErrRuntimeExcept;
 import util.ex.PwdNotEqExceptn;
 import util.tx.findByIdExptn;
 
+import java.util.Set;
+
 import static cfg.AppConfig.sessionFactory;
 import static util.algo.EncryUtil.Key4pwd4aeskey;
 import static util.algo.EncryUtil.encryptAesToStrBase64;
 import static util.excptn.ExptUtil.currFunPrms4dbg;
+import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.hopePwdEq;
 import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.persistByHibernate;
@@ -34,7 +36,7 @@ public class SAM  implements IdentityStore {
 
     public static void addPwd(String uid,String pwdOri) {
 
-        Key pwdstore=new Key();
+        Keyx pwdstore=new Keyx();
         pwdstore.setUserId(uid);
         pwdstore.hashedPassword = SAM.encryPwd(pwdOri,pwdstore.salt);
         persistByHibernate( pwdstore, sessionFactory.getCurrentSession());
@@ -49,14 +51,17 @@ public class SAM  implements IdentityStore {
     @Override
     public CredentialValidationResult validate(Credential credential) {
 
+        System.out.println("fun SAM.vld(crdt="+encodeJson(credential));
         try {
             currFunPrms4dbg.set(credential);
             UsernamePasswordCredential crdt = (UsernamePasswordCredential) credential;
             String uname = crdt.getCaller();
 
-            var u = findByHerbinate(Key.class, uname, sessionFactory.getCurrentSession());
+            var u = findByHerbinate(Keyx.class, uname, sessionFactory.getCurrentSession());
             hopePwdEq(u.hashedPassword, SAM.encryPwd(crdt.getPasswordAsString(),u.salt));
-            return new CredentialValidationResult(uname, java.util.Set.of("USER"));
+            CredentialValidationResult user = new CredentialValidationResult(uname, Set.of("USER"));
+            System.out.println("endfun  SAM.vld().ret="+encodeJson(user));
+            return user;
 
 
 
