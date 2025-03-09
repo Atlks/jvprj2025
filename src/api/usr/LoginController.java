@@ -9,6 +9,7 @@ import jakarta.inject.Inject;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.SecurityContext;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
+import jakarta.security.enterprise.identitystore.IdentityStore;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
@@ -56,7 +57,7 @@ public class LoginController implements Icall< RegDto, Object>  {
 
     @Inject
     @Qualifier("SAM")
-  public   SAM sam;
+  public IdentityStore sam;
 
     /**
      * @return
