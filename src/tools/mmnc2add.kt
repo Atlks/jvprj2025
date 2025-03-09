@@ -39,7 +39,7 @@ fun main() {
 
    //  scanAddrNumbAddr()
 
-    getMMncByWltnum(670)
+    getMMncByWltnum(673)
 
 }
 

@@ -4,8 +4,16 @@
 =top10 rank
 =geneMMNcForeach 1...888
 =isHead3isNumChkEthAdd筛选头部为靓号的地址
+=getMMncByWltnum
+=getMMncByBasexxNNNslt
 
 
+===================================
+=getMMncByBasexxNNNslt
+atkwdNNNslt2mmnc
+
+=getMMncByWltnum
+tools\mmnc2add.kt
 
 
 =isHead3isNumChkEthAdd筛选头部为良好的地址
