@@ -29,7 +29,7 @@ import org.bitcoinj.crypto.*
  */
 fun main() {
     //0x9eaa09b2505455486a80a95c4c8bcfc141f756d3
-    var mmnc = " glare pave fatal catch cake large mad exit any hood expose neither"
+    var mmnc = "  large mad exit any hood expose neither"
 //+
     //       "这个助剂词生成的eth地址是多少"
 
