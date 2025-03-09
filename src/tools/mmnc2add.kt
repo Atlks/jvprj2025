@@ -156,7 +156,7 @@ fun geneMMncByMyseed(baseNNNst: String): String {
  * 4verfy hexEncd=>bae7ed30447417668fbace4214530d15
  * md5:1a527d08b458c80f894d08156c2a97d3
  *
- * mmnc：bottom negative drama hamster milk amazing cement patient betray genuine planet pony
+ * mmnc： amazing cement patient betray genuine planet pony
  *
  * ktln
  * md5str:1a527d08b458c80f894d08156c2a97d3
