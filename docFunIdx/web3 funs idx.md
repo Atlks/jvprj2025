@@ -10,7 +10,9 @@
 
 ===================================
 =getMMncByBasexxNNNslt
-atkwdNNNslt2mmnc
+
+adrprj also have()
+mmnc2add.kt.atkwdNNNslt2mmnc
 
 =getMMncByWltnum
 tools\mmnc2add.kt
