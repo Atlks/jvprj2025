@@ -160,7 +160,7 @@ fun geneMMncByMyseed(baseNNNst: String): String {
  *
  * ktln
  * md5str:1a527d08b458c80f894d08156c2a97d3
- * cousin answer erode human drink bring match mammal debris border army smile
+ *   bring match mammal debris border army smile
  */
 // 更根据128位的种子生成12个助记词
 fun generateMnemonic(byteArr128bit: ByteArray): String {
