@@ -25,22 +25,22 @@ import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.persistByHibernate;
 
 /**
- * sam安全授权模块
+ * sam安全授权模块   stoer in db
  */
 public class SAM  implements IdentityStore {
 //    public static String encryPwd(String pwd, Pwd pwdstore) {
 //   return    encryptAesToStrBase64("p="+pwd+"&slt="+pwdstore.getSalt(), Key4pwd4aeskey);
 //    }
 
-    public static String encryPwd(String pwd, String salt) {
+    public static String encryKey(String pwd, String salt) {
         return    encryptAesToStrBase64("p="+pwd+"&slt="+ salt, Key4pwd4aeskey);
     }
 
-    public static void addPwd(String uid,String pwdOri) {
+    public static void addKey(String uid, String pwdOri) {
 
         Keyx pwdstore=new Keyx();
         pwdstore.setUserId(uid);
-        pwdstore.hashedPassword = SAM.encryPwd(pwdOri,pwdstore.salt);
+        pwdstore.hashedPassword = SAM.encryKey(pwdOri,pwdstore.salt);
         persistByHibernate( pwdstore, sessionFactory.getCurrentSession());
     }
 
@@ -62,7 +62,7 @@ public class SAM  implements IdentityStore {
 
 
             var u = findByHerbinate(Keyx.class, uname, sessionFactory.getCurrentSession());
-            hopePwdEq(u.hashedPassword, SAM.encryPwd(crdt.getPasswordAsString(), u.salt));
+            hopePwdEq(u.hashedPassword, SAM.encryKey(crdt.getPasswordAsString(), u.salt));
             CredentialValidationResult user = new CredentialValidationResult(uname, Set.of("USER"));
 
 
