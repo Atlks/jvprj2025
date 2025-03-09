@@ -3,10 +3,12 @@ package service.auth;
 
 import api.usr.validateRtmExptn;
 import entityx.Keyx;
+import entityx.SecuryLog;
 import jakarta.security.enterprise.credential.Credential;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import jakarta.security.enterprise.identitystore.CredentialValidationResult;
 import jakarta.security.enterprise.identitystore.IdentityStore;
+import org.hibernate.Session;
 import util.ex.PwdErrRuntimeExcept;
 import util.ex.PwdNotEqExceptn;
 import util.tx.findByIdExptn;
@@ -51,28 +53,52 @@ public class SAM  implements IdentityStore {
     @Override
     public CredentialValidationResult validate(Credential credential) {
 
-        System.out.println("fun SAM.vld(crdt="+encodeJson(credential));
+        System.out.println("fun SAM.vld(crdt=" + encodeJson(credential));
+        String uname = null;
         try {
             currFunPrms4dbg.set(credential);
             UsernamePasswordCredential crdt = (UsernamePasswordCredential) credential;
-            String uname = crdt.getCaller();
+            uname = crdt.getCaller();
+
 
             var u = findByHerbinate(Keyx.class, uname, sessionFactory.getCurrentSession());
-            hopePwdEq(u.hashedPassword, SAM.encryPwd(crdt.getPasswordAsString(),u.salt));
+            hopePwdEq(u.hashedPassword, SAM.encryPwd(crdt.getPasswordAsString(), u.salt));
             CredentialValidationResult user = new CredentialValidationResult(uname, Set.of("USER"));
-            System.out.println("endfun  SAM.vld().ret="+encodeJson(user));
+
+
+            SecuryLog lg = new SecuryLog();
+            lg.setOp("vld");
+            lg.setUser(uname);
+            lg.setUser(uname);
+            lg.setDscrp("vld rzt is ok");
+            persistByHibernate(lg, sessionFactory.getCurrentSession());
+            System.out.println("endfun  SAM.vld().ret=" + encodeJson(user));
             return user;
 
 
-
-
-        } catch (PwdNotEqExceptn  e) {
+        } catch (PwdNotEqExceptn e) {
+            logEx(e, uname);
             throw new PwdErrRuntimeExcept("PwdErrEx", e);
         } catch (findByIdExptn e) {
-            throw new validateRtmExptn(e.getMessage(),e);
+            logEx(e,uname);
+            throw new validateRtmExptn(e.getMessage(), e);
         }
 
 
+    }
+
+    private void logEx(Throwable e, String uname) {
+        System.out.println("fun logex(u="+uname+",e="+e);
+        //must new session not in trx
+        Session currentSession = sessionFactory.openSession();
+        currentSession.beginTransaction();
+        SecuryLog lg=new SecuryLog();
+        lg.setOp("vld");
+
+        lg.setUser(uname);
+        lg.setDscrp("vld rzt is err,e="+e.getClass().getName()+",emsg="+e.getMessage());
+        persistByHibernate( lg, currentSession);
+        currentSession.getTransaction().commit();
     }
 
 
