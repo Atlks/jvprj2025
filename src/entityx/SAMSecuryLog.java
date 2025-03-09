@@ -7,7 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Data
-public class SecuryLog {
+public class SAMSecuryLog {
 
     @Id
     String id = "Evt" + System.currentTimeMillis();

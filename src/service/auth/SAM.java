@@ -3,7 +3,7 @@ package service.auth;
 
 import api.usr.validateRtmExptn;
 import entityx.Keyx;
-import entityx.SecuryLog;
+import entityx.SAMSecuryLog;
 import jakarta.security.enterprise.credential.Credential;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import jakarta.security.enterprise.identitystore.CredentialValidationResult;
@@ -66,7 +66,7 @@ public class SAM  implements IdentityStore {
             CredentialValidationResult user = new CredentialValidationResult(uname, Set.of("USER"));
 
 
-            SecuryLog lg = new SecuryLog();
+            SAMSecuryLog lg = new SAMSecuryLog();
             lg.setOp("vld");
             lg.setUser(uname);
             lg.setUser(uname);
@@ -92,7 +92,7 @@ public class SAM  implements IdentityStore {
         //must new session not in trx
         Session currentSession = sessionFactory.openSession();
         currentSession.beginTransaction();
-        SecuryLog lg=new SecuryLog();
+        SAMSecuryLog lg=new SAMSecuryLog();
         lg.setOp("vld");
 
         lg.setUser(uname);
