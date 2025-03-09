@@ -186,7 +186,7 @@ fun generateMnemonic(byteArr128bit: ByteArray): String {
 
 /**
  * fk999999999s
- * bottom negative drama hamster milk amazing cement patient betray genuine planet pony
+ *   amazing cement patient betray genuine planet pony
  */
 //fun generateMnemonic(a32Bytestr: String?): String {
 //    // 将十六进制密钥转换为字节数组
