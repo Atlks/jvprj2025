@@ -68,7 +68,7 @@ public class SAM  implements IdentityStore {
 
             SAMSecuryLog lg = new SAMSecuryLog();
             lg.setOp("vld");
-            lg.setUser(uname);
+
             lg.setUser(uname);
             lg.setDscrp("vld rzt is ok");
             persistByHibernate(lg, sessionFactory.getCurrentSession());
