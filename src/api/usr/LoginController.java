@@ -2,16 +2,12 @@ package api.usr;
 
 import biz.Response;
 import entityx.Passport;
-import entityx.Pwd;
 import entityx.Usr;
 import entityx.Visa;
 import jakarta.annotation.security.PermitAll;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.SecurityContext;
-import jakarta.security.enterprise.credential.Credential;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
-import jakarta.security.enterprise.identitystore.CredentialValidationResult;
-import jakarta.security.enterprise.identitystore.IdentityStore;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
@@ -22,20 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
 import util.algo.Icall;
 import util.auth.JwtUtil;
-import util.auth.SAM;
 import util.ex.*;
-import util.tx.findByIdExptn;
 
 
 import java.util.Collections;
 import java.util.Map;
 
-import static cfg.AppConfig.sessionFactory;
-
 import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 import static util.algo.EncryUtil.*;
-import static util.excptn.ExptUtil.currFunPrms4dbg;
-import static util.tx.HbntUtil.findByHerbinate;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.*;
 /**
@@ -51,7 +41,7 @@ import static util.misc.util2026.*;
 @Path("/login")
 //   http://localhost:8889/login?uname=008&pwd=000
 @NoArgsConstructor
-public class LoginController implements Icall< RegDto, Object> , IdentityStore {
+public class LoginController implements Icall< RegDto, Object>  {
 
     public LoginController(String uname,String pwd) {
     }
@@ -169,31 +159,7 @@ public class LoginController implements Icall< RegDto, Object> , IdentityStore {
 //        }
 
 
-    /**
-     * 用户名密码验证  IdentityStore接口
-     * 步骤  findById , jude pwd eq
-     * @param credential
-     * @return
-     */
-    @Override
-    public CredentialValidationResult validate(Credential credential) {
 
-        try {
-            currFunPrms4dbg.set(credential);
-            UsernamePasswordCredential crdt = (UsernamePasswordCredential) credential;
-            String uname = crdt.getCaller();
-
-            SAM.chkPwd(credential);
-
-            return new CredentialValidationResult(uname, java.util.Set.of("USER"));
-        } catch (PwdNotEqExceptn  e) {
-            throw new PwdErrRuntimeExcept("PwdErrEx", e);
-        } catch (findByIdExptn e) {
-            throw new validateRtmExptn(e.getMessage(),e);
-        }
-
-
-    }
 
 
     private static String setVisa(Usr dto) throws AuthenticationException {

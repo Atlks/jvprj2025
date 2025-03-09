@@ -7,16 +7,14 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 
 @Entity
 @Data
-public class Pwd {
+public class Key {
 
-    public Pwd() {
+    public Key() {
         this.salt = BCrypt.gensalt(); // 生成盐
      //   this.hashedPassword = BCrypt.hashpw(password, salt); // 哈希密码
     }
-
-    public String userId;   //uname
     @Id
-    public String username;
-    public String hashedPassword;
+    public String userId;   //uname
+    public String hashedPassword;//ecry key
     public String salt;
 }

@@ -2,7 +2,6 @@
 
 package api.usr;
 
-import entityx.Pwd;
 import jakarta.ws.rs.BeanParam;
 import util.auth.SAM;
 import util.ex.existUserEx;
@@ -16,19 +15,15 @@ import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
 
 
 import static cfg.AppConfig.sessionFactory;
-import static util.algo.EncryUtil.Key4pwd4aeskey;
 import static util.proxy.AopUtil.ivk4log;
-import static util.algo.EncryUtil.encryptAesToStrBase64;
 import static util.tx.HbntUtil.persistByHibernate;
 import static util.misc.Util2025.encodeJson;
-import static util.misc.util2026.*;
 
 
 /**
@@ -81,22 +76,21 @@ public class RegHandler implements Icall< RegDto, Object> {
     @PermitAll
     @Validated
 
-    public Object call(@BeanParam RegDto dtoU) throws Throwable {
-        System.out.println("reghdl.hd3(" + encodeJson(dtoU));
+    public Object call(@BeanParam RegDto dtoReg) throws Throwable {
+        System.out.println("reghdl.hd3(" + encodeJson(dtoReg));
 
         ivk4log("existUser", () -> {
-            return existUser(dtoU);
+            return existUser(dtoReg);
         });
 
-        Pwd pwdstore=new Pwd();
-        pwdstore.setUserId(dtoU.getUname());
-        pwdstore.setUsername(dtoU.uname);
-        pwdstore.hashedPassword = SAM.encryPwd(dtoU.pwd,pwdstore);
 
-        Usr u=new Usr(dtoU.uname);
+
+        Usr u=new Usr(dtoReg.uname);
         persistByHibernate( u, sessionFactory.getCurrentSession());
-        persistByHibernate( pwdstore, sessionFactory.getCurrentSession());
-        return dtoU;
+
+        SAM.addPwd(dtoReg.uname,dtoReg.pwd);
+
+        return dtoReg;
     }
 
 
