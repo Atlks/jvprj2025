@@ -7,7 +7,7 @@
 ICAO Doc 9303：机读旅行证件标准，详细规定了MRZ的格式和BAC机制。
 ISO/IEC 14443：非接触式智能卡标准，定义了与芯片通信的协议。
 ICAO LDS：逻辑数据结构标准，定义了芯片中数据的存储格式
-
+=jwt
 =JSR 375：Security API
 
 =JSR 250：Common Annotations   @RolesAllowed。
@@ -15,6 +15,7 @@ ICAO LDS：逻辑数据结构标准，定义了芯片中数据的存储格式
 JSR 250 定义了一组通用的注解，@RolesAllowed。
 其中，@RolesAllowed 注解用于指定允许访问特定方法或类的角色。
 它提供了一种简单的方式，用于在 Java EE 应用程序中实现基于角色的访问控制。
+
 
 =SAM secury access mode  
 
