@@ -1,11 +1,13 @@
 import api.wlt.RechargeCallbackHdr;
+import biz.Containr;
 import org.noear.solon.annotation.SolonMain;
 import org.springframework.context.annotation.ComponentScan;
 import service.wlt.AddMoneyToWltService;
+import util.auth.SecurityContextImp4jwt;
 //import service.AddRchgOrdToWltService;
 
 import static cfg.MyCfg.iniCfgFrmCfgfile;
-import static cfg.WebSvr.start;
+import static cfg.WebSvr.*;
 import static util.proxy.SprUtil.getBeanFrmSpr;
 import static util.tx.dbutil.setField;
 //import static cfg.IocPicoCfg.iniIocContainr;
@@ -15,6 +17,7 @@ import static util.tx.dbutil.setField;
 public class MainApi {
     public static void main(String[] args) throws Exception {
     //    ovrtTEst=true;//todo cancel if test ok
+
         start();
 
 //        sleep(3000);
@@ -32,6 +35,28 @@ public class MainApi {
 //      //  injectAll4spr(bean);
 //        System.out.println("HttpHandler is:"+ bean);
         AutoRestartApp.main(null);
+    }
+
+    /**
+     *
+     * @throws Exception
+     */
+    public static void start() throws Exception {
+        //--------ini saveurlFrm Cfg
+
+        iniContnr();
+
+        //================== 创建 HTTP 服务器，监听端口8080
+        iniRestPathMap();
+        startWebSrv();
+    }
+    private static void iniContnr() throws Exception {
+        //@NonNull
+        iniCfgFrmCfgfile();
+        //---------------ini contarin
+        cfg.IocSpringCfg.iniIocContainr4spr();
+        Containr.SecurityContext1=new SecurityContextImp4jwt();
+
     }
 
     private static void sleep(int i) throws InterruptedException {

@@ -7,7 +7,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import service.auth.SAM;
 import util.auth.SAM4chkLgnStatJwtMod;
 import util.proxy.AtProxy4Svs;
-import util.proxy.AtProxy4api;
 import util.algo.Icall;
 import util.oo.StrUtil;
 
@@ -18,7 +17,8 @@ import static api.usr.RegHandler.SAM4regLgn;
 import static java.time.LocalTime.now;
 //import static cfg.AopLogJavassist.printLn;
 import static util.proxy.AtProxy4api.ChkLgnStatSam;
-import static util.proxy.IocUtil.registerBean2map;
+import static util.proxy.IocUtil.registerBeanAsClz2map;
+import static util.proxy.IocUtil.registerBeanAsObj2map;
 import static util.proxy.SprUtil.registerBean;
 import static util.tx.dbutil.setField;
 import static util.misc.util2026.*;
@@ -46,7 +46,7 @@ public class IocSpringCfg {
             //only prxy service obj
             if (clazz.getName().startsWith("service.") && isImpltInterface(clazz, Icall.class)) {
                 proxyObj = AtProxy4Svs.createProxy4log(obj1); // 创建代理
-                registerBean2sprNmapAsObj(clazz, proxyObj);
+                registerBeanAsObj2sprNmap(clazz, proxyObj);
             } else {
                 /** if (clazz.getName().startsWith("api"))
                  * 默认行为：
@@ -73,8 +73,8 @@ public class IocSpringCfg {
 
         //---------------ini  custm
         //    obj1 = clazz.getConstructor().newInstance();
-        registerBean2sprNmapAsClz(ChkLgnStatSam, SAM4chkLgnStatJwtMod.class);
-        registerBean2sprNmapAsClz(SAM4regLgn, SAM.class);
+        registerBeanAsClz2sprNmap(ChkLgnStatSam, SAM4chkLgnStatJwtMod.class);
+        registerBeanAsClz2sprNmap(SAM4regLgn, SAM.class);
         return context;
     }
 
@@ -94,23 +94,23 @@ public class IocSpringCfg {
         return obj1;
     }
 
-    private static void registerBean2sprNmapAsClz(String beanname, Class<?> clz) {
+    private static void registerBeanAsClz2sprNmap(String beanname, Class<?> clz) {
         context.registerBean(beanname, clz);
-        registerBean2map(beanname, clz);
+        registerBeanAsClz2map(beanname, clz);
 //        context.registerBean(SAM4regLgn, SAM.class);
 //        registerBean2map(SAM4regLgn, SAM.class);
 
     }
 
-    private static void registerBean2sprNmapAsObj(Class clazz, Object proxyObj) {
-        registerBean2sprAsObj(clazz, proxyObj);
-        registerBean2map(clazz.getSimpleName(), proxyObj);
+    private static void registerBeanAsObj2sprNmap(Class clazz4beanName, Object proxyObj) {
+        registerBeanAsObj2spr(clazz4beanName, proxyObj);
+        registerBeanAsObj2map(clazz4beanName.getSimpleName(), proxyObj);
 
     }
 
-    private static void registerBean2sprAsObj(Class clazz, Object proxyObj) {
+    private static void registerBeanAsObj2spr(Class clazz, Object proxyObj) {
 
-        context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
+//        context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
         String beanName = StrUtil.lowerFirstChar(clazz.getSimpleName());
         context.registerBean(beanName, (Class) proxyObj.getClass(), () -> proxyObj);
         context.registerBean(clazz.getSimpleName(), (Class) proxyObj.getClass(), () -> proxyObj);

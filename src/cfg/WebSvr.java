@@ -36,25 +36,9 @@ import static util.proxy.SprUtil.getBeanFrmSprByClz;
 public class WebSvr {
 
 
-    /**
-     *
-     * @throws Exception
-     */
-    public static void start() throws Exception {
-        //--------ini saveurlFrm Cfg
-        //@NonNull
-        iniCfgFrmCfgfile();
-        //---------------ini contarin
-        cfg.IocSpringCfg.iniIocContainr4spr();
-        Containr.SecurityContext1=new SecurityContextImp4jwt();
 
 
-        //================== 创建 HTTP 服务器，监听端口8080
-        iniRestPathMap();
-        startWebSrv();
-    }
-
-    private static void startWebSrv() throws IOException {
+    public static void startWebSrv() throws IOException {
         int port = 8889;
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         // 定义一个上下文，绑定到 "/api/hello" 路径
@@ -97,7 +81,7 @@ public class WebSvr {
 
     }
 
-    private static void iniRestPathMap() {
+    public static void iniRestPathMap() {
         Consumer<Class> fun=aClass-> {
                 if(aClass.getName().startsWith("api"))
                 {
