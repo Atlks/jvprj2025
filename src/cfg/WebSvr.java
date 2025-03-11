@@ -21,6 +21,8 @@ import java.util.function.Consumer;
 
 
 import static util.algo.NullUtil.isBlank;
+import static util.oo.WebsrvUtil.processNmlExptn;
+
 import static util.proxy.SprUtil.getBeanFrmSpr;
 import static util.misc.util2026.scanAllClass;
 import static util.proxy.SprUtil.getBeanByClzFrmSpr;
@@ -95,18 +97,23 @@ public class WebSvr {
     }
 
     private static void handleAllReq(HttpExchange exchange) throws IOException {
-        URI requestURI = exchange.getRequestURI();
-        System.out.println("" + requestURI);
+        try{
+            URI requestURI = exchange.getRequestURI();
+            System.out.println("" + requestURI);
 
-        @NotNull String path1 = getPathNoQuerystring(exchange);
-        if (isBlank(path1))
-            throw new RuntimeException("path is blnk");
-        @NotNull Class<?> hdrclas = pathMap.get(path1);
-        if (hdrclas == null)
-            throw new RuntimeException("key is null,key=" + requestURI);
-        var bean = getBeanByClzFrmSpr(hdrclas);
-        @NotNull HttpHandler proxyObj = new AtProxy4api(bean);
-        proxyObj.handle(exchange);
+            @NotNull String path1 = getPathNoQuerystring(exchange);
+            if (isBlank(path1))
+                throw new RuntimeException("path is blnk");
+            @NotNull Class<?> hdrclas = pathMap.get(path1);
+            if (hdrclas == null)
+                throw new RuntimeException("key is null,key=" + requestURI);
+            var bean = getBeanByClzFrmSpr(hdrclas);
+            @NotNull HttpHandler proxyObj = new AtProxy4api(bean);
+            proxyObj.handle(exchange);
+        } catch (Exception e) {
+             processNmlExptn(exchange, e);
+        }
+
 
     }
 
