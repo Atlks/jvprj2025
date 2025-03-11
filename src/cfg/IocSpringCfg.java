@@ -95,7 +95,7 @@ public class IocSpringCfg {
         context.registerBean( ChkLgnStatSam, SAM4chkLgnStatJwtMod.class );
         registerBean2map(ChkLgnStatSam, SAM4chkLgnStatJwtMod.class);
         context.registerBean( SAM4regLgn, SAM.class );
-
+        registerBean2map(SAM4regLgn, SAM.class);
         return context;
     }
 

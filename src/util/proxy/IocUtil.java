@@ -10,7 +10,16 @@ public class IocUtil {
         beansMap.put(simpleName,proxyObj);
     }
 
-    public static <T>  T getBeanFrmBeanmap(String simpleName ) {
-      return (T) beansMap.get(simpleName);
+    public static <T>  T getBeanFrmBeanmap(String simpleName ) throws Throwable {
+        T t = (T) beansMap.get(simpleName);
+
+        if( t instanceof Class<?>)
+        {
+           Class c= (Class) t;
+           return (T) c.getConstructor().newInstance();
+        }
+
+        //obj mode
+        return t;
     }
 }

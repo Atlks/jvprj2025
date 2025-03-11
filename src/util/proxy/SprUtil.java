@@ -102,6 +102,8 @@ public class SprUtil {
             } catch (Exception e) {
                 //    e.printStackTrace();
                 throw new RuntimeException(field.getName(), e);
+            } catch (Throwable e) {
+                throw new RuntimeException(field.getName(), e);
             }
         };
         TraveUtil. traveProp(ins, csmr);
