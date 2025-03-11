@@ -17,7 +17,7 @@ import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 import static util.excptn.ExptUtil.appendEx2lastExs;
 import static util.auth.JwtUtil.*;
 
-public class chkLgnStatAuthMchsmJwtMod implements ISAM, HttpAuthenticationMechanism {
+public class SAM4chkLgnStatJwtMod implements ISAM, HttpAuthenticationMechanism {
     /**
      * 登录验证HttpAuthenticationMechanism 接口
      * 步骤，拿到用户名密码frm http or dto，检测validate
@@ -44,6 +44,7 @@ public class chkLgnStatAuthMchsmJwtMod implements ISAM, HttpAuthenticationMechan
     }
 
     /**
+     * jwt
      * @param oriData
      * @return
      */
@@ -52,7 +53,7 @@ public class chkLgnStatAuthMchsmJwtMod implements ISAM, HttpAuthenticationMechan
         return "";
     }
 
-    /**
+    /**jwt
      * @param uid
      * @param oriKeyData
      */

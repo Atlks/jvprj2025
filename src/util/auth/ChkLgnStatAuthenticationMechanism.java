@@ -54,7 +54,7 @@ public class ChkLgnStatAuthenticationMechanism implements HttpAuthenticationMech
             return new ChkLgnStatAuthMchsmCkMod().validateRequest(null, null, null);
         }
         //def jwt  is empty or jwt
-        return new chkLgnStatAuthMchsmJwtMod().validateRequest(null, null, null);
+        return new SAM4chkLgnStatJwtMod().validateRequest(null, null, null);
 
 
     }

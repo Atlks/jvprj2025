@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import service.auth.SAM;
-import util.auth.chkLgnStatAuthMchsmJwtMod;
+import util.auth.SAM4chkLgnStatJwtMod;
 import util.proxy.AtProxy4Svs;
 import util.proxy.AtProxy4api;
 import util.algo.Icall;
@@ -92,8 +92,8 @@ public class IocSpringCfg {
 
 //---------------ini  custm
    //    obj1 = clazz.getConstructor().newInstance();
-        context.registerBean( ChkLgnStatSam, chkLgnStatAuthMchsmJwtMod.class );
-        registerBean2map(ChkLgnStatSam,chkLgnStatAuthMchsmJwtMod.class);
+        context.registerBean( ChkLgnStatSam, SAM4chkLgnStatJwtMod.class );
+        registerBean2map(ChkLgnStatSam, SAM4chkLgnStatJwtMod.class);
         context.registerBean( SAM4regLgn, SAM.class );
 
         return context;
