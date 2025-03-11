@@ -27,22 +27,10 @@ import static util.tx.HbntUtil.persistByHibernate;
 /**
  * sam安全授权模块   stoer in db
  */
-public class SAM  implements IdentityStore {
+public class SAM  implements ISAM {
 //    public static String encryPwd(String pwd, Pwd pwdstore) {
 //   return    encryptAesToStrBase64("p="+pwd+"&slt="+pwdstore.getSalt(), Key4pwd4aeskey);
 //    }
-
-    public static String encryKey(String pwd, String salt) {
-        return    encryptAesToStrBase64("p="+pwd+"&slt="+ salt, Key4pwd4aeskey);
-    }
-
-    public static void addKey(String uid, String pwdOri) {
-
-        Keyx pwdstore=new Keyx();
-        pwdstore.setUserId(uid);
-        pwdstore.hashedPassword = SAM.encryKey(pwdOri,pwdstore.salt);
-        persistByHibernate( pwdstore, sessionFactory.getCurrentSession());
-    }
 
     /**
      * 用户名密码验证  IdentityStore接口
@@ -62,44 +50,60 @@ public class SAM  implements IdentityStore {
 
 
             var u = findByHerbinate(Keyx.class, uname, sessionFactory.getCurrentSession());
-            hopePwdEq(u.hashedPassword, SAM.encryKey(crdt.getPasswordAsString(), u.salt));
+            hopePwdEq(u.hashedPassword, geneKey(crdt.getPasswordAsString(), u.salt));
             CredentialValidationResult user = new CredentialValidationResult(uname, Set.of("USER"));
 
 
-            SAMSecuryLog lg = new SAMSecuryLog();
-            lg.setOp("vld");
-
-            lg.setUser(uname);
-            lg.setDscrp("vld rzt is ok");
-            persistByHibernate(lg, sessionFactory.getCurrentSession());
+            // addLogVldSucess()
+            addLogVldSucess(uname);
             System.out.println("endfun  SAM.vld().ret=" + encodeJson(user));
             return user;
 
 
         } catch (PwdNotEqExceptn e) {
-            logEx(e, uname);
+            addLogVldFail(uname,e);
             throw new PwdErrRuntimeExcept("PwdErrEx", e);
         } catch (findByIdExptn e) {
-            logEx(e,uname);
+            addLogVldFail(uname,e);
             throw new validateRtmExptn(e.getMessage(), e);
         }
 
 
     }
 
-    private void logEx(Throwable e, String uname) {
-        System.out.println("fun logex(u="+uname+",e="+e);
-        //must new session not in trx
-        Session currentSession = sessionFactory.openSession();
-        currentSession.beginTransaction();
-        SAMSecuryLog lg=new SAMSecuryLog();
-        lg.setOp("vld");
+    public String geneKey(String pwd, String salt) {
 
+        return encryptAesToStrBase64("p=" + pwd + "&slt=" + salt, Key4pwd4aeskey);
+    }
+
+    public void storeKey(String uid, String pwdOri) {
+
+        Keyx pwdstore = new Keyx();
+        pwdstore.setUserId(uid);
+        pwdstore.hashedPassword = geneKey(pwdOri, pwdstore.salt);
+        persistByHibernate(pwdstore, sessionFactory.getCurrentSession());
+    }
+
+    public void addLogVldSucess(String uname) {
+        SAMSecuryLog lg = new SAMSecuryLog();
+        lg.setOp("vld");
         lg.setUser(uname);
-        lg.setDscrp("vld rzt is err,e="+e.getClass().getName()+",emsg="+e.getMessage());
-        persistByHibernate( lg, currentSession);
-        currentSession.getTransaction().commit();
+        lg.setDscrp("vld rzt is ok");
+        persistByHibernate(lg, sessionFactory.getCurrentSession());
     }
 
 
+    public void addLogVldFail(String uname, Throwable e) {
+        System.out.println("fun logex(u=" + uname + ",e=" + e);
+        //must new session not in trx
+        Session currentSession = sessionFactory.openSession();
+        currentSession.beginTransaction();
+        SAMSecuryLog lg = new SAMSecuryLog();
+        lg.setOp("vld");
+
+        lg.setUser(uname);
+        lg.setDscrp("vld rzt is err,e=" + e.getClass().getName() + ",emsg=" + e.getMessage());
+        persistByHibernate(lg, currentSession);
+        currentSession.getTransaction().commit();
+    }
 }

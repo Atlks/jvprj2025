@@ -46,7 +46,7 @@ public class ListBetsHdr  implements Icall<QryDto4bets, Object>  {
         Session session =  sessionFactory.getCurrentSession();
         var list1 =getListBySql(sql,session);
                 //getPageResultByHbntV2(sql,  Map.of(), dto.page, dto.pagesize,session);
-
+          //bind gui (respTmplt,list1)
         return  createResponse(list1);
     }
 

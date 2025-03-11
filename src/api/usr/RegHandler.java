@@ -88,7 +88,7 @@ public class RegHandler implements Icall< RegDto, Object> {
         Usr u=new Usr(dtoReg.uname);
         persistByHibernate( u, sessionFactory.getCurrentSession());
 
-        SAM.addKey(dtoReg.uname,dtoReg.pwd);
+        SAM.storeKey(dtoReg.uname,dtoReg.pwd);
 
         return dtoReg;
     }
