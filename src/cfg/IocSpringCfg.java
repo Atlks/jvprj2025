@@ -4,6 +4,7 @@ import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import service.auth.SAM;
 import util.auth.chkLgnStatAuthMchsmJwtMod;
 import util.proxy.AtProxy4Svs;
 import util.proxy.AtProxy4api;
@@ -13,6 +14,7 @@ import util.oo.StrUtil;
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.Consumer;
 
+import static api.usr.RegHandler.SAM4regLgn;
 import static java.time.LocalTime.now;
 //import static cfg.AopLogJavassist.printLn;
 import static util.proxy.AtProxy4api.ChkLgnStatSam;
@@ -92,6 +94,7 @@ public class IocSpringCfg {
    //    obj1 = clazz.getConstructor().newInstance();
         context.registerBean( ChkLgnStatSam, chkLgnStatAuthMchsmJwtMod.class );
         registerBean2map(ChkLgnStatSam,chkLgnStatAuthMchsmJwtMod.class);
+        context.registerBean( SAM4regLgn, SAM.class );
 
         return context;
     }

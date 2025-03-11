@@ -47,6 +47,8 @@ import static util.misc.Util2025.encodeJson;
 @PermitAll
 @NoArgsConstructor
 public class RegHandler implements Icall< RegDto, Object> {
+    public static final String SAM4regLgn ="SAM4regLgn" ;
+
     public RegHandler(String uname, String pwd) {
     }
 
@@ -99,7 +101,7 @@ public class RegHandler implements Icall< RegDto, Object> {
 
 
     @Inject
-    @Qualifier("SAM")
+    @Qualifier(SAM4regLgn)
     public ISAM sam;
 
 

@@ -20,6 +20,11 @@ public interface ISAM extends HttpAuthenticationMechanism,IKeyMngr,Alarm, IDPS, 
         return AuthenticationStatus.SUCCESS;
     }
 
+    /**
+     *    oridat,,,pwd  fgrprint ,faceid
+     * @param oriData
+     * @return
+     */
     String geneKey(String oriData);
     public void storeKey(String uid, String oriKeyData);
 
