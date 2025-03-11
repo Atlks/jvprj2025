@@ -64,7 +64,7 @@ import static util.misc.util2026.*;
  */
 //aop shuld log auth ,ex catch,,,pfm
 public class AtProxy4api implements HttpHandler {
-    private static final String ChkLgnStatSam ="ChkLgnStatSam" ;
+    public static final String ChkLgnStatSam ="ChkLgnStatSam" ;
     private Icall target; // 目标对象
 
     public AtProxy4api(Object target) {

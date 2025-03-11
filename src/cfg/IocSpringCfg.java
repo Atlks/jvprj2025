@@ -4,6 +4,7 @@ import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import util.auth.chkLgnStatAuthMchsmJwtMod;
 import util.proxy.AtProxy4Svs;
 import util.proxy.AtProxy4api;
 import util.algo.Icall;
@@ -14,6 +15,7 @@ import java.util.function.Consumer;
 
 import static java.time.LocalTime.now;
 //import static cfg.AopLogJavassist.printLn;
+import static util.proxy.AtProxy4api.ChkLgnStatSam;
 import static util.proxy.IocUtil.registerBean2map;
 import static util.tx.dbutil.setField;
 import static util.misc.util2026.*;
@@ -85,6 +87,11 @@ public class IocSpringCfg {
         for (String beanName : context.getBeanDefinitionNames()) {
             System.out.println("..已注册 Bean：" + beanName);
         }
+
+//---------------ini  custm
+   //    obj1 = clazz.getConstructor().newInstance();
+        context.registerBean( ChkLgnStatSam, chkLgnStatAuthMchsmJwtMod.class );
+        registerBean2map(ChkLgnStatSam,chkLgnStatAuthMchsmJwtMod.class);
 
         return context;
     }
