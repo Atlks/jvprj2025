@@ -50,6 +50,7 @@ public class WebSvr {
 
 
         //================== 创建 HTTP 服务器，监听端口8080
+        iniRestPathMap();
         startWebSrv();
     }
 
@@ -93,6 +94,10 @@ public class WebSvr {
         server.createContext("/", exchange -> handleAllReq(exchange));
 
 
+
+    }
+
+    private static void iniRestPathMap() {
         Consumer<Class> fun=aClass-> {
                 if(aClass.getName().startsWith("api"))
                 {
