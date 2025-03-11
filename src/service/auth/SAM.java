@@ -27,7 +27,7 @@ import static util.tx.HbntUtil.persistByHibernate;
 /**
  * sam安全授权模块   stoer in db
  */
-public class SAM  implements ISAM {
+public class SAM implements ISAM {
 //    public static String encryPwd(String pwd, Pwd pwdstore) {
 //   return    encryptAesToStrBase64("p="+pwd+"&slt="+pwdstore.getSalt(), Key4pwd4aeskey);
 //    }
@@ -35,6 +35,7 @@ public class SAM  implements ISAM {
     /**
      * 用户名密码验证  IdentityStore接口
      * 步骤  findById , jude pwd eq
+     *
      * @param credential
      * @return
      */
@@ -49,8 +50,9 @@ public class SAM  implements ISAM {
             uname = crdt.getCaller();
 
 
-            var u = findByHerbinate(Keyx.class, uname, sessionFactory.getCurrentSession());
-            hopePwdEq(u.hashedPassword, geneKey(crdt.getPasswordAsString(), u.salt));
+            var k = findByHerbinate(Keyx.class, uname, sessionFactory.getCurrentSession());
+            String data = "p=" + crdt.getPasswordAsString() + "&slt=" + k.salt;
+            hopePwdEq(k.hashedPassword, geneKey( data));
             CredentialValidationResult user = new CredentialValidationResult(uname, Set.of("USER"));
 
 
@@ -61,26 +63,28 @@ public class SAM  implements ISAM {
 
 
         } catch (PwdNotEqExceptn e) {
-            addLogVldFail(uname,e);
+            addLogVldFail(uname, e);
             throw new PwdErrRuntimeExcept("PwdErrEx", e);
         } catch (findByIdExptn e) {
-            addLogVldFail(uname,e);
+            addLogVldFail(uname, e);
             throw new validateRtmExptn(e.getMessage(), e);
         }
 
 
     }
 
-    public String geneKey(String pwd, String salt) {
+    public String geneKey(String oriData) {
 
-        return encryptAesToStrBase64("p=" + pwd + "&slt=" + salt, Key4pwd4aeskey);
+
+        return encryptAesToStrBase64(oriData, Key4pwd4aeskey);
     }
 
-    public void storeKey(String uid, String pwdOri) {
+    public void storeKey(String uid, String oriKey) {
 
         Keyx pwdstore = new Keyx();
         pwdstore.setUserId(uid);
-        pwdstore.hashedPassword = geneKey(pwdOri, pwdstore.salt);
+        String data = "p=" + oriKey + "&slt=" + pwdstore.salt;
+        pwdstore.hashedPassword = geneKey( data);
         persistByHibernate(pwdstore, sessionFactory.getCurrentSession());
     }
 
