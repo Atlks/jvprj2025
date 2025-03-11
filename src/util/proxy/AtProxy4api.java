@@ -67,7 +67,7 @@ public class AtProxy4api implements HttpHandler {
     public static final String ChkLgnStatSam ="ChkLgnStatSam" ;
     private Icall target; // 目标对象
 
-    public AtProxy4api(Object target) {
+    public   @NotNull AtProxy4api(  @NotNull Object target) {
         this.target = (Icall) target;
     }
 

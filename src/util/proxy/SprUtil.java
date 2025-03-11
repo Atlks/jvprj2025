@@ -1,10 +1,13 @@
 package util.proxy;
 
 import cfg.IocSpringCfg;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import service.wlt.AddMoneyToWltService;
 import util.algo.TraveUtil;
+import util.oo.StrUtil;
 
 
 import javax.inject.Inject;
@@ -34,6 +37,23 @@ public class SprUtil {
         T ins = (T) IocSpringCfg.context.getBean(clazz.getName());
 
      //  injectAll4spr(ins);
+        return ins;
+    }
+
+    /**
+     *    registerBean  ,,so u can getbean(clazz)   getbean
+     * @param clazz
+     * @param context
+     */
+    public static void registerBean(Class clazz, AnnotationConfigApplicationContext context) {
+        String beanName = StrUtil.lowerFirstChar(clazz.getSimpleName());
+        context.registerBean(beanName,clazz);
+    }
+
+    public static   @NotNull <T> T getBeanFrmSprByClz(  @NotNull Class<T> clazz) {
+        @NotNull  T ins = (T) IocSpringCfg.context.getBean(clazz);
+
+        //  injectAll4spr(ins);
         return ins;
     }
     public static String getQualifierName(Field field) {

@@ -5,14 +5,19 @@ import biz.HelloHandler;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.*;
 import util.auth.SecurityContextImp4jwt;
+import util.proxy.AtProxy4api;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.net.InetSocketAddress;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
@@ -20,6 +25,7 @@ import java.util.function.Consumer;
 import static cfg.MyCfg.iniCfgFrmCfgfile;
 import static util.proxy.SprUtil.getBeanFrmSpr;
 import static util.misc.util2026.scanAllClass;
+import static util.proxy.SprUtil.getBeanFrmSprByClz;
 
 
 /**
@@ -74,6 +80,8 @@ public class WebSvr {
 //             AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
 
+    // path,hdrClz
+    public static Map<String,Class> pathMap=new HashMap<>();
     /**
      * ini rest url wz bean
      * @param server
@@ -88,10 +96,11 @@ public class WebSvr {
         Consumer<Class> fun=aClass-> {
                 if(aClass.getName().startsWith("api"))
                 {
-                    var bean=getBeanFrmSpr(aClass);
+                    //  var bean=getBeanFrmSpr(aClass);
                     var path=getPathFromBean(aClass);
-                    System.out.println("cftCtx(path="+path+",bean="+bean.toString());
-                    server.createContext(path, (HttpHandler) bean);
+//                    System.out.println("cftCtx(path="+path+",bean="+bean.toString());
+                 //   server.createContext(path, (HttpHandler) bean);
+                    pathMap.put(path,aClass);
 
                 }
         };
@@ -100,8 +109,17 @@ public class WebSvr {
         System.out.println("====end createContext");
     }
 
-    private static void handleAllReq(HttpExchange exchange) {
-        System.out.println(""+exchange.getRequestURI());
+    private static void handleAllReq(HttpExchange exchange) throws IOException {
+        URI requestURI = exchange.getRequestURI();
+        System.out.println(""+ requestURI);
+
+        @NotNull Class<?>  hdrclas=pathMap.get(requestURI.toString());
+        if(hdrclas==null)
+            throw  new RuntimeException("key is null,key="+requestURI);
+        var  bean=getBeanFrmSprByClz(hdrclas);
+        @NotNull    HttpHandler  proxyObj = new AtProxy4api(bean);
+        proxyObj.handle(exchange);
+
     }
 
 //    server.createContext("/UserCentrHdr", new UserCentrHdr());

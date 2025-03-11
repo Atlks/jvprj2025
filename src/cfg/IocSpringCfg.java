@@ -19,6 +19,7 @@ import static java.time.LocalTime.now;
 //import static cfg.AopLogJavassist.printLn;
 import static util.proxy.AtProxy4api.ChkLgnStatSam;
 import static util.proxy.IocUtil.registerBean2map;
+import static util.proxy.SprUtil.registerBean;
 import static util.tx.dbutil.setField;
 import static util.misc.util2026.*;
 
@@ -45,13 +46,21 @@ public class IocSpringCfg {
             //only prxy service obj
             if (clazz.getName().startsWith("service.") && isImpltInterface(clazz, Icall.class)) {
                 proxyObj = AtProxy4Svs.createProxy4log(obj1); // 创建代理
-
-            } else if (clazz.getName().startsWith("api")) {
-                proxyObj = new AtProxy4api(obj1);
+                registerBean2sprNmapAsObj(clazz, proxyObj);
             } else {
-                proxyObj = obj1;
+                /** if (clazz.getName().startsWith("api"))
+                 * 默认行为：
+                 * 它使用默认的 bean 定义，这意味着：
+                 * bean 将使用默认的构造函数创建。
+                 * bean 的作用域将是单例（singleton）。
+                 * bean 将不会有任何初始化或销毁回调。
+                 * 适用场景：
+                 * 适用于简单的 bean 注册，当你不需要对 bean 的创建和生命周期进行精细控制时。
+                 */
+                registerBean(clazz,context);
+
             }
-            registerBean2sprNmapAsObj(clazz, proxyObj);
+
         };
         scanAllClass(csmr4log);//  all add class  ...  mdfyed class btr
 
@@ -68,6 +77,8 @@ public class IocSpringCfg {
         registerBean2sprNmapAsClz(SAM4regLgn, SAM.class);
         return context;
     }
+
+
     //只针对api 和biz的开放注册修改class注入aop
     //clazz.getName() 只是获取类的全限定名（package.ClassName），不会触发类的静态初始化 或 类加载。
 
