@@ -96,7 +96,7 @@ public class WebSvr {
         System.out.println("====end createContext");
     }
 
-    private static void handleAllReq(HttpExchange exchange) throws IOException {
+    private static void handleAllReq( @NotNull HttpExchange exchange) throws IOException {
         try{
             URI requestURI = exchange.getRequestURI();
             System.out.println("" + requestURI);

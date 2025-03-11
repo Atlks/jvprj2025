@@ -22,6 +22,11 @@ public class MainApi {
 
 //        sleep(3000);
         System.out.println("--------------------\n\n main()");
+        t1();
+        AutoRestartApp.main(null);
+    }
+
+    private static void t1() {
         Object AddMoneyToWltService1 = getBeanFrmSpr(AddMoneyToWltService.class);
         System.out.println("AddMoneyToWltService is :"+ AddMoneyToWltService1.getClass());
 
@@ -34,7 +39,6 @@ public class MainApi {
 //     //   bean.addMoneyToWltService1= (util.Iservice) AddMoneyToWltService1;
 //      //  injectAll4spr(bean);
 //        System.out.println("HttpHandler is:"+ bean);
-        AutoRestartApp.main(null);
     }
 
     /**
