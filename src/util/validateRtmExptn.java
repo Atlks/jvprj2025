@@ -1,4 +1,4 @@
-package api.usr;
+package util;
 
 import util.tx.findByIdExptn;
 

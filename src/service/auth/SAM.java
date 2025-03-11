@@ -1,13 +1,12 @@
 package service.auth;
 
 
-import api.usr.validateRtmExptn;
+import util.validateRtmExptn;
 import entityx.Keyx;
 import entityx.SAMSecuryLog;
 import jakarta.security.enterprise.credential.Credential;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import jakarta.security.enterprise.identitystore.CredentialValidationResult;
-import jakarta.security.enterprise.identitystore.IdentityStore;
 import org.hibernate.Session;
 import util.ex.PwdErrRuntimeExcept;
 import util.ex.PwdNotEqExceptn;

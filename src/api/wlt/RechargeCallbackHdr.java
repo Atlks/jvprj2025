@@ -1,5 +1,6 @@
 package api.wlt;
 
+import biz.RechargeFailExptn;
 import com.alibaba.fastjson2.JSONObject;
 import entityx.TransDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -140,7 +141,7 @@ public class RechargeCallbackHdr implements  Icall<ReChgOrd,Object> {
 
         if(jo.getString("Stat").equals("ok"))
             return  true;
-        throw new  RechargeFailExptn("qry by thrd,id="+id);
+        throw new RechargeFailExptn("qry by thrd,id="+id);
     }
 
 

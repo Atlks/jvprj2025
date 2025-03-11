@@ -8,6 +8,8 @@ ts java c#
 =web frmwk
 jv sdk also ok
 
+=only svs...  rest as anno...store as orm
+
 
 4. API 设计
 

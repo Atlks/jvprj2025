@@ -2,7 +2,7 @@ package api.ylwlt;
 
 import annos.JwtParam;
 import annos.Parameter;
-import api.wlt.ErrAdjstTypeEx;
+import biz.ErrAdjstTypeEx;
 import entityx.LogBls4YLwlt;
 import entityx.TransDto;
 import entityx.Usr;
