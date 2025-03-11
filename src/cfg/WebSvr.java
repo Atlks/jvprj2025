@@ -1,6 +1,5 @@
 package cfg;
 
-import biz.Containr;
 import biz.HelloHandler;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -8,7 +7,6 @@ import com.sun.net.httpserver.HttpServer;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.*;
-import util.auth.SecurityContextImp4jwt;
 import util.proxy.AtProxy4api;
 
 import java.io.IOException;
@@ -22,10 +20,9 @@ import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 
-import static cfg.MyCfg.iniCfgFrmCfgfile;
 import static util.proxy.SprUtil.getBeanFrmSpr;
 import static util.misc.util2026.scanAllClass;
-import static util.proxy.SprUtil.getBeanFrmSprByClz;
+import static util.proxy.SprUtil.getBeanByClzFrmSpr;
 
 
 /**
@@ -105,7 +102,7 @@ public class WebSvr {
         @NotNull Class<?>  hdrclas=pathMap.get(requestURI.toString());
         if(hdrclas==null)
             throw  new RuntimeException("key is null,key="+requestURI);
-        var  bean=getBeanFrmSprByClz(hdrclas);
+        var  bean= getBeanByClzFrmSpr(hdrclas);
         @NotNull    HttpHandler  proxyObj = new AtProxy4api(bean);
         proxyObj.handle(exchange);
 
@@ -166,7 +163,7 @@ public class WebSvr {
                 return String.join(", ", ((DeleteMapping) annotation).value());
             }
         }
-        return null;
+        return "/defPathhhhhh";
     }
 
 

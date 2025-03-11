@@ -50,7 +50,7 @@ public class SprUtil {
         context.registerBean(beanName,clazz);
     }
 
-    public static   @NotNull <T> T getBeanFrmSprByClz(  @NotNull Class<T> clazz) {
+    public static   @NotNull <T> T getBeanByClzFrmSpr(@NotNull Class<T> clazz) {
         @NotNull  T ins = (T) IocSpringCfg.context.getBean(clazz);
 
         //  injectAll4spr(ins);
