@@ -9,6 +9,7 @@ import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.*;
 import util.auth.SecurityContextImp4jwt;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.net.InetSocketAddress;
@@ -37,13 +38,16 @@ public class WebSvr {
         //--------ini saveurlFrm Cfg
         //@NonNull
         iniCfgFrmCfgfile();
-
+        //---------------ini contarin
         cfg.IocSpringCfg.iniIocContainr4spr();
-
         Containr.SecurityContext1=new SecurityContextImp4jwt();
 
 
         //================== 创建 HTTP 服务器，监听端口8080
+        startWebSrv();
+    }
+
+    private static void startWebSrv() throws IOException {
         int port = 8889;
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         // 定义一个上下文，绑定到 "/api/hello" 路径
@@ -51,14 +55,14 @@ public class WebSvr {
         // 设置静态资源目录 (例如: D:/myweb/static)
         String staticDir = "C:\\Users\\attil\\IdeaProjects\\jvprj2025\\static";
         server.createContext("/static", new StaticFileHandler(staticDir));
-    //    http://localhost:8889/static/doc.htm
+        //    http://localhost:8889/static/doc.htm
         cfgPath(server);
         //  http://localhost:8889/
         // 启动服务器
-     //   server.setExecutor(null); // 默认的线程池  单线程
+        //   server.setExecutor(null); // 默认的线程池  单线程
         // 设置 10 线程并发执行
-         server.setExecutor(Executors.newFixedThreadPool(20));
-      //  server.setExecutor(Executors.newSingleThreadExecutor());//每次新线程
+        server.setExecutor(Executors.newFixedThreadPool(20));
+        //  server.setExecutor(Executors.newSingleThreadExecutor());//每次新线程
 
         server.start();
         System.out.println("http://localhost:" + port + "/reg");
@@ -78,6 +82,8 @@ public class WebSvr {
 
         server.createContext("/users/get", exchange -> handleGetUser(exchange));
 
+        server.createContext("/", exchange -> handleAllReq(exchange));
+
 
         Consumer<Class> fun=aClass-> {
                 if(aClass.getName().startsWith("api"))
@@ -92,6 +98,10 @@ public class WebSvr {
         System.out.println("====start createContext");
         scanAllClass(fun);
         System.out.println("====end createContext");
+    }
+
+    private static void handleAllReq(HttpExchange exchange) {
+        System.out.println(""+exchange.getRequestURI());
     }
 
 //    server.createContext("/UserCentrHdr", new UserCentrHdr());

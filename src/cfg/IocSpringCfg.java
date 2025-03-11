@@ -30,74 +30,87 @@ public class IocSpringCfg {
     public static ApplicationContext iniIocContainr4spr() throws Exception {
         MyCfg.iniCfgFrmCfgfile();
         AppConfig.sessionFactory = new AppConfig().sessionFactory();
-        //   context.scan("");
-
+        //===================scan ini all
         Consumer<Class> csmr4log = clazz -> {
-            //只针对api 和biz的开放注册修改class注入aop
-            //clazz.getName() 只是获取类的全限定名（package.ClassName），不会触发类的静态初始化 或 类加载。
 
             if (!clazz.getName().startsWith("api") && !clazz.getName().startsWith("service")) {
                 System.out.println("contine clz=" + clazz.getName());
                 return;
             }
             printLn("\n开始注册" + clazz.getName());
-            //-----------jdk dync pro xy
-//                    if(clazz.getName().contains("RechargeHdr"))
-//                        System.out.println("d306");
-            Object obj1 = null;
-            try {
-                obj1 = clazz.getConstructor().newInstance();
-            } catch (InstantiationException e) {
-                throw new RuntimeException(e);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            } catch (InvocationTargetException e) {
-                throw new RuntimeException(e);
-            } catch (NoSuchMethodException e) {
-                throw new RuntimeException(e);
-            }
+            Object obj1 = getObject(clazz);
             setField(obj1, SessionFactory.class, AppConfig.sessionFactory);
             // 目标对象
             Object proxyObj;  //def no prxy ,,
             //only prxy service obj
-            if(clazz.getName().startsWith("service.") && isImpltInterface(clazz,Icall.class) )
-            {
-                proxyObj  = AtProxy4Svs.createProxy4log(obj1); // 创建代理
-//                context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
-//                String beanName = StrUtil.lowerFirstChar(clazz.getSimpleName());
-//                context.registerBean(beanName, (Class) Icall.class, () -> (Icall)proxyObj);
-            } else if(clazz.getName().startsWith("api")) {
+            if (clazz.getName().startsWith("service.") && isImpltInterface(clazz, Icall.class)) {
+                proxyObj = AtProxy4Svs.createProxy4log(obj1); // 创建代理
+
+            } else if (clazz.getName().startsWith("api")) {
                 proxyObj = new AtProxy4api(obj1);
             } else {
                 proxyObj = obj1;
             }
-
-            context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
-            String beanName = StrUtil.lowerFirstChar(clazz.getSimpleName());
-            context.registerBean(beanName, (Class)proxyObj.getClass(), () -> proxyObj);
-            context.registerBean(clazz.getSimpleName(), (Class)proxyObj.getClass(), () ->proxyObj);
-
-            registerBean2map(clazz.getSimpleName(),proxyObj);
-
-            //context.registerBean( clazz.getName(), proxy);
-            printLn("spr已注册: " + beanName);
-            printLn("spr已注册: " + clazz.getName());
-
+            registerBean2sprNmapAsObj(clazz, proxyObj);
         };
         scanAllClass(csmr4log);//  all add class  ...  mdfyed class btr
-        //chkek reg bean ..must use beanmae to reg ,not bean.class,,bcz maybe reg custome class aop mdfyed...
+
+
+        //===============chkek reg bean ..must use beanmae to reg ,not bean.class,,bcz maybe reg custome class aop mdfyed...
         for (String beanName : context.getBeanDefinitionNames()) {
             System.out.println("..已注册 Bean：" + beanName);
         }
 
-//---------------ini  custm
-   //    obj1 = clazz.getConstructor().newInstance();
-        context.registerBean( ChkLgnStatSam, SAM4chkLgnStatJwtMod.class );
-        registerBean2map(ChkLgnStatSam, SAM4chkLgnStatJwtMod.class);
-        context.registerBean( SAM4regLgn, SAM.class );
-        registerBean2map(SAM4regLgn, SAM.class);
+
+        //---------------ini  custm
+        //    obj1 = clazz.getConstructor().newInstance();
+        registerBean2sprNmapAsClz(ChkLgnStatSam, SAM4chkLgnStatJwtMod.class);
+        registerBean2sprNmapAsClz(SAM4regLgn, SAM.class);
         return context;
     }
+    //只针对api 和biz的开放注册修改class注入aop
+    //clazz.getName() 只是获取类的全限定名（package.ClassName），不会触发类的静态初始化 或 类加载。
+
+    @NotNull
+    private static Object getObject(Class clazz) {
+        Object obj1 = null;
+        try {
+            obj1 = clazz.getConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+        return obj1;
+    }
+
+    private static void registerBean2sprNmapAsClz(String beanname, Class<?> clz) {
+        context.registerBean(beanname, clz);
+        registerBean2map(beanname, clz);
+//        context.registerBean(SAM4regLgn, SAM.class);
+//        registerBean2map(SAM4regLgn, SAM.class);
+
+    }
+
+    private static void registerBean2sprNmapAsObj(Class clazz, Object proxyObj) {
+        registerBean2sprAsObj(clazz, proxyObj);
+        registerBean2map(clazz.getSimpleName(), proxyObj);
+
+    }
+
+    private static void registerBean2sprAsObj(Class clazz, Object proxyObj) {
+
+        context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
+        String beanName = StrUtil.lowerFirstChar(clazz.getSimpleName());
+        context.registerBean(beanName, (Class) proxyObj.getClass(), () -> proxyObj);
+        context.registerBean(clazz.getSimpleName(), (Class) proxyObj.getClass(), () -> proxyObj);
+        printLn("spr已注册: " + beanName);
+        printLn("spr已注册: " + clazz.getName());
+    }
+
+
+    //                context.registerBean(clazz.getName(), (Class) proxyObj.getClass(), () -> proxyObj);
+//                String beanName = StrUtil.lowerFirstChar(clazz.getSimpleName());
+//                context.registerBean(beanName, (Class) Icall.class, () -> (Icall)proxyObj);
 
     //判断此类是否实现了icall接口
     private static boolean isImpltInterface(Class clazz, Class<Icall> icallClass) {
@@ -106,7 +119,7 @@ public class IocSpringCfg {
 
         // 遍历接口数组，检查是否有与 icallClass 匹配的接口
         for (Class<?> iface : interfaces) {
-            if (iface==(icallClass)) {
+            if (iface == (icallClass)) {
                 return true;  // 类实现了 icall 接口
             }
         }
@@ -121,8 +134,6 @@ public class IocSpringCfg {
     //   container888.addAdapter(new SessionProvider());
 
     //  List<Class> li = List.of();
-
-
 
 
     //  context.register(modifiedClass);

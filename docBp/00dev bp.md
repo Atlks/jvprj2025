@@ -10,6 +10,8 @@ jv sdk also ok
 
 =only svs...  rest as anno...store as orm
 
+=单合一职责原则，一个类实现一个业务方法api rest接口
+
 
 4. API 设计
 
