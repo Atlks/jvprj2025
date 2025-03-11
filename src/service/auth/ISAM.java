@@ -21,7 +21,7 @@ import java.util.List;
 public interface ISAM extends HttpAuthenticationMechanism, IKeyMngr, Alarm, IDPS, SWG, ASB, SASE, DLP {
 
     default AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext httpMessageContext) throws AuthenticationException {
-        return AuthenticationStatus.SUCCESS;
+        throw  new RuntimeException("not implt");
     }
 
     /**
@@ -37,6 +37,8 @@ public interface ISAM extends HttpAuthenticationMechanism, IKeyMngr, Alarm, IDPS
 
     CredentialValidationResult validate(@NotNull Credential credential);
 
+
+    //--------------log
     public void addLogVldFail(@NotBlank String uid, @NotNull Throwable e);
 
     public void addLogVldSucess(@NotBlank String uid);
