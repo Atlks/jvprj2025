@@ -1,8 +1,13 @@
 package service.auth;
 
+import jakarta.security.enterprise.AuthenticationException;
+import jakarta.security.enterprise.AuthenticationStatus;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
+import jakarta.security.enterprise.authentication.mechanism.http.HttpMessageContext;
 import jakarta.security.enterprise.credential.Credential;
 import jakarta.security.enterprise.identitystore.CredentialValidationResult;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import service.secury.*;
 
 /**
@@ -11,7 +16,9 @@ import service.secury.*;
  */
 public interface ISAM extends HttpAuthenticationMechanism,IKeyMngr,Alarm, IDPS, SWG, ASB, SASE, DLP {
 
-
+    default AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext httpMessageContext) throws AuthenticationException {
+        return AuthenticationStatus.SUCCESS;
+    }
 
     String geneKey(String oriData);
     public void storeKey(String uid, String oriKeyData);

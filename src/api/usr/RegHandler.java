@@ -2,7 +2,11 @@
 
 package api.usr;
 
+import jakarta.inject.Inject;
+import jakarta.security.enterprise.identitystore.IdentityStore;
 import jakarta.ws.rs.BeanParam;
+import org.springframework.beans.factory.annotation.Qualifier;
+import service.auth.ISAM;
 import service.auth.SAM;
 import util.ex.existUserEx;
 import entityx.Usr;
@@ -88,10 +92,15 @@ public class RegHandler implements Icall< RegDto, Object> {
         Usr u=new Usr(dtoReg.uname);
         persistByHibernate( u, sessionFactory.getCurrentSession());
 
-        SAM.storeKey(dtoReg.uname,dtoReg.pwd);
+        sam.storeKey(dtoReg.uname,dtoReg.pwd);
 
         return dtoReg;
     }
+
+
+    @Inject
+    @Qualifier("SAM")
+    public ISAM sam;
 
 
     public static boolean ovrwtest = false;
