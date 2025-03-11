@@ -31,6 +31,14 @@ public class IocSpringCfg {
     public static ApplicationContext iniIocContainr4spr() throws Exception {
         MyCfg.iniCfgFrmCfgfile();
         AppConfig.sessionFactory = new AppConfig().sessionFactory();
+
+
+        //---------------ini  custm
+        //    obj1 = clazz.getConstructor().newInstance();
+        registerBeanAsClz2sprNmap(ChkLgnStatSam, SAM4chkLgnStatJwtMod.class);
+        registerBeanAsClz2sprNmap(SAM4regLgn, SAM.class);
+
+
         //===================scan ini all
         Consumer<Class> csmr4log = clazz -> {
 
@@ -71,10 +79,7 @@ public class IocSpringCfg {
         }
 
 
-        //---------------ini  custm
-        //    obj1 = clazz.getConstructor().newInstance();
-        registerBeanAsClz2sprNmap(ChkLgnStatSam, SAM4chkLgnStatJwtMod.class);
-        registerBeanAsClz2sprNmap(SAM4regLgn, SAM.class);
+
         return context;
     }
 

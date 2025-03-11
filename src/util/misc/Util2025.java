@@ -3,6 +3,7 @@ package util.misc;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSONWriter;
+import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -156,7 +157,14 @@ public class Util2025 {
     }
 
 
-
+    /**
+     * 使用gson序列化对象
+     * @param obj
+     * @return
+     */
+    public static String encodeJsonByGson(Object obj){
+        Gson gson = new Gson();
+        return gson.toJson(obj);    }
 
 
 

@@ -1,11 +1,13 @@
 package util.oo;
 
+import biz.Response;
 import com.sun.net.httpserver.HttpExchange;
 import util.excptn.ExceptionBase;
 
 import static biz.Response.createErrResponseWzErrcode;
 import static util.excptn.ExptUtil.addInfo2ex;
 import static util.misc.Util2025.encodeJson;
+import static util.misc.Util2025.encodeJsonByGson;
 import static util.misc.util2026.wrtRespErrNoex;
 
 public class WebsrvUtil {
@@ -42,7 +44,8 @@ public class WebsrvUtil {
         addInfo2ex(ex, e);
 
 
-        String responseTxt = encodeJson(createErrResponseWzErrcode(ex));
+        Response errResponseWzErrcode = createErrResponseWzErrcode(ex);
+        String responseTxt = encodeJsonByGson(errResponseWzErrcode);
 
         wrtRespErrNoex(exchange, responseTxt);
         return responseTxt;

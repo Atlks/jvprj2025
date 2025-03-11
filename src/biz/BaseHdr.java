@@ -30,8 +30,9 @@ import static util.excptn.ExptUtil.addInfo2ex;
 import static util.excptn.ExptUtil.curUrl;
 
 
+import static util.oo.WebsrvUtil.processNmlExptn;
 import static util.proxy.AtProxy4api.processInvkExpt;
-import static util.proxy.AtProxy4api.processNmlExptn;
+
 import static util.tx.TransactMng.*;
 import static util.misc.Util2025.*;
 import static util.tx.dbutil.setField;

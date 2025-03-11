@@ -111,6 +111,7 @@ public class WebSvr {
             @NotNull HttpHandler proxyObj = new AtProxy4api(bean);
             proxyObj.handle(exchange);
         } catch (Exception e) {
+            e.printStackTrace();
              processNmlExptn(exchange, e);
         }
 
