@@ -4,16 +4,20 @@ import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.AuthenticationStatus;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpMessageContext;
+import jakarta.security.enterprise.credential.Credential;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
+import jakarta.security.enterprise.identitystore.CredentialValidationResult;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
+import org.jetbrains.annotations.Nullable;
+import service.auth.ISAM;
 
 import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 import static util.excptn.ExptUtil.appendEx2lastExs;
 import static util.auth.JwtUtil.*;
 
-public class chkLgnStatAuthMchsmJwtMod implements HttpAuthenticationMechanism {
+public class chkLgnStatAuthMchsmJwtMod implements ISAM, HttpAuthenticationMechanism {
     /**
      * 登录验证HttpAuthenticationMechanism 接口
      * 步骤，拿到用户名密码frm http or dto，检测validate
@@ -36,6 +40,51 @@ public class chkLgnStatAuthMchsmJwtMod implements HttpAuthenticationMechanism {
             throw new AuthenticationException("" + e.getMessage(), e);
         }
 
+
+    }
+
+    /**
+     * @param oriData
+     * @return
+     */
+    @Override
+    public String geneKey(String oriData) {
+        return "";
+    }
+
+    /**
+     * @param uid
+     * @param oriKeyData
+     */
+    @Override
+    public void storeKey(String uid, String oriKeyData) {
+
+    }
+
+    /**
+     * @param credential
+     * @return
+     */
+    @Nullable
+    @Override
+    public CredentialValidationResult validate(Credential credential) {
+        return null;
+    }
+
+    /**
+     * @param uid
+     * @param e
+     */
+    @Override
+    public void addLogVldFail(String uid, Throwable e) {
+
+    }
+
+    /**
+     * @param uid
+     */
+    @Override
+    public void addLogVldSucess(String uid) {
 
     }
 

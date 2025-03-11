@@ -4,6 +4,9 @@ import annos.CookieParam;
 import annos.JwtParam;
 import biz.MinValidator;
 import entityx.Non;
+import jakarta.inject.Inject;
+import org.springframework.beans.factory.annotation.Qualifier;
+import service.auth.ISAM;
 import util.ex.ValideTokenFailEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -61,6 +64,7 @@ import static util.misc.util2026.*;
  */
 //aop shuld log auth ,ex catch,,,pfm
 public class AtProxy4api implements HttpHandler {
+    private static final String ChkLgnStatSam ="ChkLgnStatSam" ;
     private Icall target; // 目标对象
 
     public AtProxy4api(Object target) {
@@ -160,6 +164,10 @@ public class AtProxy4api implements HttpHandler {
         System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
     }
 
+    @Inject
+    @Qualifier(ChkLgnStatSam)  //"ChkLgnStatSam"
+    public ISAM sam1;
+
 //    @Inject
 //    @Autowired
 //    @Qualifier("ChkLgnStatAuthenticationMechanism")
@@ -171,7 +179,7 @@ public class AtProxy4api implements HttpHandler {
         injectAll4spr(this);
 
         if (needLoginUserAuth()) {
-            new ChkLgnStatAuthenticationMechanism().validateRequest(null, null, null);
+            sam1.validateRequest(null, null, null);
         }
     }
 //            if (authStt == AuthenticationStatus.SUCCESS) {
