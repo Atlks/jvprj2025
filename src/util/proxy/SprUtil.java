@@ -34,7 +34,9 @@ public class SprUtil {
       //  return ins;
     }
     public static <T> T getBeanFrmSpr(Class<T> clazz) {
-        T ins = (T) IocSpringCfg.context.getBean(clazz.getName());
+        String name = clazz.getName();
+        String beanName = StrUtil.lowerFirstChar(clazz.getSimpleName());
+        T ins = (T) IocSpringCfg.context.getBean(beanName);
 
      //  injectAll4spr(ins);
         return ins;

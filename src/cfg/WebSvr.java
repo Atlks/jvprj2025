@@ -20,6 +20,7 @@ import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 
+import static util.algo.NullUtil.isBlank;
 import static util.proxy.SprUtil.getBeanFrmSpr;
 import static util.misc.util2026.scanAllClass;
 import static util.proxy.SprUtil.getBeanByClzFrmSpr;
@@ -31,8 +32,6 @@ import static util.proxy.SprUtil.getBeanByClzFrmSpr;
  * ini containr
  */
 public class WebSvr {
-
-
 
 
     public static void startWebSrv() throws IOException {
@@ -54,7 +53,7 @@ public class WebSvr {
 
         server.start();
         System.out.println("http://localhost:" + port + "/reg");
-        System.out.println("Server started on port "+port);
+        System.out.println("Server started on port " + port);
     }
 //    http://localhost:8889/QueryOrdChrgHdr
 
@@ -63,9 +62,11 @@ public class WebSvr {
 
 
     // path,hdrClz
-    public static Map<String,Class> pathMap=new HashMap<>();
+    public static Map<String, Class> pathMap = new HashMap<>();
+
     /**
      * ini rest url wz bean
+     *
      * @param server
      */
     public static void cfgPath(HttpServer server) {
@@ -75,20 +76,18 @@ public class WebSvr {
         server.createContext("/", exchange -> handleAllReq(exchange));
 
 
-
     }
 
     public static void iniRestPathMap() {
-        Consumer<Class> fun=aClass-> {
-                if(aClass.getName().startsWith("api"))
-                {
-                    //  var bean=getBeanFrmSpr(aClass);
-                    var path=getPathFromBean(aClass);
+        Consumer<Class> fun = aClass -> {
+            if (aClass.getName().startsWith("api")) {
+                //  var bean=getBeanFrmSpr(aClass);
+                var path = getPathFromBean(aClass);
 //                    System.out.println("cftCtx(path="+path+",bean="+bean.toString());
-                 //   server.createContext(path, (HttpHandler) bean);
-                    pathMap.put(path,aClass);
+                //   server.createContext(path, (HttpHandler) bean);
+                pathMap.put(path, aClass);
 
-                }
+            }
         };
         System.out.println("====start createContext");
         scanAllClass(fun);
@@ -97,15 +96,30 @@ public class WebSvr {
 
     private static void handleAllReq(HttpExchange exchange) throws IOException {
         URI requestURI = exchange.getRequestURI();
-        System.out.println(""+ requestURI);
+        System.out.println("" + requestURI);
 
-        @NotNull Class<?>  hdrclas=pathMap.get(requestURI.toString());
-        if(hdrclas==null)
-            throw  new RuntimeException("key is null,key="+requestURI);
-        var  bean= getBeanByClzFrmSpr(hdrclas);
-        @NotNull    HttpHandler  proxyObj = new AtProxy4api(bean);
+        @NotNull String path1 = getPathNoQuerystring(exchange);
+        if (isBlank(path1))
+            throw new RuntimeException("path is blnk");
+        @NotNull Class<?> hdrclas = pathMap.get(path1);
+        if (hdrclas == null)
+            throw new RuntimeException("key is null,key=" + requestURI);
+        var bean = getBeanByClzFrmSpr(hdrclas);
+        @NotNull HttpHandler proxyObj = new AtProxy4api(bean);
         proxyObj.handle(exchange);
 
+    }
+
+    /**
+     * 获取path ，不要带Querystring
+     *
+     * @param exchange
+     * @return
+     */
+    private static String getPathNoQuerystring(HttpExchange exchange) {
+        URI uri = exchange.getRequestURI();
+        String path = uri.getPath();
+        return path;
     }
 
 //    server.createContext("/UserCentrHdr", new UserCentrHdr());
@@ -134,8 +148,8 @@ public class WebSvr {
 
 
         if (aClass.isAnnotationPresent(Path.class)) {
-            Path mapping = aClass.getAnnotation( Path.class);
-            return  mapping.value();  // 可能有多个路径
+            Path mapping = aClass.getAnnotation(Path.class);
+            return mapping.value();  // 可能有多个路径
         }
 
         // 查找 @RequestMapping（类级别）
