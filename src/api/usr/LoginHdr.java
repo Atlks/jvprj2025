@@ -95,12 +95,12 @@ public class LoginHdr implements Icall<RegDto, Object> {
     }
 
 
-    @EventListener({LoginValidEvt.class, AnotherEvent.class})
+    @EventListener({LoginEvt.class, AnotherEvent.class})
     public void setVisa2cookie(LoginValidEvt evt) {
 
-        UsernamePasswordCredential  dtoReg = (UsernamePasswordCredential ) evt.getSource();
-        setcookie("unameHRZ", dtoReg.getCaller(), httpExchangeCurThrd.get());
-        setcookie("uname", encryptAesToStrBase64(dtoReg.getCaller(), Key4pwd4aeskey), httpExchangeCurThrd.get());
+        RegDto  dtoReg = (RegDto ) evt.getSource();
+        setcookie("unameHRZ", dtoReg.uname, httpExchangeCurThrd.get());
+        setcookie("uname", encryptAesToStrBase64(dtoReg.uname, Key4pwd4aeskey), httpExchangeCurThrd.get());
     }
 
     public static ThreadLocal<Object> retobj = new ThreadLocal<>();
