@@ -13,13 +13,18 @@ import jakarta.ws.rs.Path;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 import service.auth.ISAM;
 import util.algo.Icall;
+import util.evtdrv.AnotherEvent;
+import util.evtdrv.MyEvent;
 import util.ex.existUserEx;
 
+import static cfg.AppConfig.evtPublisher;
 import static cfg.AppConfig.sessionFactory;
 import static util.misc.Util2025.encodeJson;
 import static util.proxy.AopUtil.ivk4log;
@@ -33,7 +38,7 @@ import static util.tx.HbntUtil.persistByHibernate;
  */
 @Component  // 让 Spring 自动管理这个 Bean
 
-//  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
+//  http://localhost:8889/reg2?uname=008&pwd=000&invtr=007
 @RestController
 @Path("/reg2")
 
@@ -42,8 +47,8 @@ import static util.tx.HbntUtil.persistByHibernate;
 @annos.Parameter(name = "pwd")
 @PermitAll
 @NoArgsConstructor
-public class RegHandler2 implements Icall< RegDto, Object> {
-    public static final String SAM4regLgn ="SAM4regLgn" ;
+public class RegHandler2 implements Icall<RegDto, Object> {
+    public static final String SAM4regLgn = "SAM4regLgn";
 
     public RegHandler2(String uname, String pwd) {
     }
@@ -68,7 +73,7 @@ public class RegHandler2 implements Icall< RegDto, Object> {
 //
 //
 //    }
-    @Path("/reg")
+    @Path("/reg2")
     @Tag(name = "usr")
     @Operation(summary = "注册用户的方法reg", description = "注册用户的方法dscrp。。。。")
 
@@ -81,19 +86,34 @@ public class RegHandler2 implements Icall< RegDto, Object> {
     public Object call(@BeanParam RegDto dtoReg) throws Throwable {
         System.out.println("reghdl.hd3(" + encodeJson(dtoReg));
 
-        ivk4log("existUser", () -> {
-             chkExistUser(dtoReg);
-            return 1;
-        });
 
+        evtPublisher.publishEvent(new ChkUsrExstEvt(dtoReg));
+//        ivk4log("existUser", () -> {
+//             chkExistUser(dtoReg);
+//            return 1;
+//        });
 
+        evtPublisher.publishEvent(new StartRegEvt(dtoReg));
 
-        Usr u=new Usr(dtoReg.uname);
-        persistByHibernate( u, sessionFactory.getCurrentSession());
-
-        sam.storeKey(dtoReg.uname,dtoReg.pwd);
-
+//        addU(dtoReg);
+//
+//        strorKey(dtoReg);
+        evtPublisher.publishEvent(new FinishRegEvt(dtoReg));
         return dtoReg;
+    }
+
+    @EventListener({StartRegEvt.class, AnotherEvent.class})
+    private void strorKey(Object event) {
+        RegDto dtoReg = (RegDto) ((StartRegEvt) event).getSource();
+        sam.storeKey(dtoReg.uname, dtoReg.pwd);
+    }
+
+
+    @EventListener({StartRegEvt.class, AnotherEvent.class})
+    private static void addU(Object event) {
+        RegDto dtoReg = (RegDto) ((StartRegEvt) event).getSource();
+        Usr u = new Usr(dtoReg.uname);
+        persistByHibernate(u, sessionFactory.getCurrentSession());
     }
 
 
@@ -107,18 +127,19 @@ public class RegHandler2 implements Icall< RegDto, Object> {
 
     //@Autowired
 //    org.hibernate.Session session;
-    public boolean chkExistUser(RegDto user) throws existUserEx {
+    @EventListener({ChkUsrExstEvt.class, AnotherEvent.class})
+    public boolean chkExistUser(ChkUsrExstEvt event) throws existUserEx {
 //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         //  om.jdbcurl=saveDirUsrs;
-
+        RegDto dtoReg = (RegDto) ((ChkUsrExstEvt) event).getSource();
         Session session = sessionFactory.getCurrentSession();
-        Usr jo = session.find(Usr.class, user.uname);
+        Usr jo = session.find(Usr.class, dtoReg.uname);
         if (jo == null)
             return false;
             // 空安全处理，直接操作结果
 
         else
-           throw new existUserEx("uname("+user.uname+")");
+            throw new existUserEx("uname(" + dtoReg.uname + ")");
     }
 
 
@@ -147,4 +168,9 @@ public class RegHandler2 implements Icall< RegDto, Object> {
     }
 
 
+    private class FinishRegEvt extends ApplicationEvent {
+        public FinishRegEvt(RegDto dtoReg) {
+            super(dtoReg);
+        }
+    }
 }

@@ -2,6 +2,8 @@ package util.evtdrv;
 
 import cfg.AppConfig;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.event.EventListener;
@@ -28,12 +30,15 @@ import static util.tx.dbutil.setField;
  */
 @Component
 public class MyEventPublisher {
+
+    @Autowired
+    @Qualifier("applicationEventPublisher")
     public ApplicationEventPublisher publisher;
 
     // 通过构造函数自动注入
-    public MyEventPublisher(ApplicationEventPublisher publisher) {
-        this.publisher = publisher;
-    }
+//    public MyEventPublisher(ApplicationEventPublisher publisher) {
+//        this.publisher = publisher;
+//    }
 
     public static void main(String[] args) throws InterruptedException {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
@@ -45,7 +50,7 @@ public class MyEventPublisher {
         iniEvtHdrCtnr();
         sleep(500);
         MyEventPublisher bean = (MyEventPublisher) context.getBean("MyEventPublisher");
-        bean.publisher = new ApplicationEventPublisherImplt();
+    //    bean.publisher = new ApplicationEventPublisherImplt();
         bean.publish("msgxxx");
         sleep(5000);
     }

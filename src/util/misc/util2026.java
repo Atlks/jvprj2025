@@ -12,6 +12,7 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Field;
+import java.lang.reflect.InaccessibleObjectException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.HttpCookie;
@@ -32,6 +33,7 @@ import static util.algo.EncodeUtil.encodeUrl;
 import static util.algo.NullUtil.isBlank;
 import static util.algo.ToXX.parseQueryParams;
 import static util.misc.Util2025.encodeJson;
+import static util.misc.Util2025.printlnx;
 import static util.tx.dbutil.setField;
 
 public class util2026 {
@@ -449,8 +451,11 @@ public class util2026 {
         }
     }
 
+
+    //no delay
     public static void printLn(String msg) {
-        synchronized (lock) {
+      //  printlnx();
+        synchronized (System.out){
             PrintWriter writer = new PrintWriter(System.out, true);  // 自动刷新
 
             writer.println(msg);
@@ -639,7 +644,12 @@ public class util2026 {
         while (clazz != null) { // 处理继承层级
             Field[] fields = clazz.getDeclaredFields();
             for (Field field : fields) {
-                field.setAccessible(true);
+                try{
+                    field.setAccessible(true);
+                } catch (InaccessibleObjectException e) {
+                    continue;
+                }
+
                 try {
                     if (field.getName().contains("uname"))
                         System.out.println("D1241");

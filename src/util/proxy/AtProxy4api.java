@@ -150,7 +150,14 @@ public class AtProxy4api implements HttpHandler {
             responseTxt = processInvkExpt(exchange, e);
 
         } catch (Throwable e) {
+
+             printLn("---------------------print ex ()");
+
             e.printStackTrace();
+            System.out.flush();  // 立即刷新缓冲区
+            System.err.flush();  // 立即刷新缓冲区
+            sleepx(500);
+            printLn("---------------------end print ex ()");
             responseTxt = processNmlExptn(exchange, e);
             // throw new RuntimeException(e);
 

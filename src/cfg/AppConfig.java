@@ -9,10 +9,12 @@ import org.springdoc.core.properties.SpringDocConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.*;
 import org.springframework.instrument.classloading.LoadTimeWeaver;
 import org.springframework.instrument.classloading.SimpleLoadTimeWeaver;
 import org.springframework.scheduling.annotation.EnableAsync;
+import util.evtdrv.ApplicationEventPublisherImplt;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -47,6 +49,12 @@ public class AppConfig {
         }else
             return  sessionFactory;
 
+    }
+    public static ApplicationEventPublisher evtPublisher=new ApplicationEventPublisherImplt();
+
+    @Bean
+    public ApplicationEventPublisher applicationEventPublisher() {
+        return new ApplicationEventPublisherImplt();
     }
 
     @Bean
