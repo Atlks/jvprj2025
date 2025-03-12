@@ -39,6 +39,8 @@ public class EvtUtil {
         for (Method mth : mthds) {
             if (mth.isAnnotationPresent(EventListener.class)) {
                 EventListener ano = mth.getAnnotation(EventListener.class);
+
+                //set evt map by cls lsit
                 Class<?>[] lstEvts = ano.value();
                 for (Class evtClz : lstEvts) {
                     Set<Method> li_meth = evtHdrMap.get(evtClz);
