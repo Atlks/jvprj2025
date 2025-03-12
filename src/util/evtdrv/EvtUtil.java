@@ -3,19 +3,17 @@ package util.evtdrv;
 import org.springframework.context.event.EventListener;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
+import static util.misc.ReflectionUtils.getFirstParamClassFromMethod;
 import static util.misc.util2026.printLn;
 import static util.misc.util2026.scanAllClass;
 
 public class EvtUtil {
 
 
-    public static Map<Class, List<Method>> evtHdrMap = new HashMap<>();
+    public static Map<Class, Set<Method>> evtHdrMap = new HashMap<>();
 
     public static void iniEvtHdrCtnr() {
         //  Class clz = MyEventListener.class;
@@ -43,18 +41,37 @@ public class EvtUtil {
                 EventListener ano = mth.getAnnotation(EventListener.class);
                 Class<?>[] lstEvts = ano.value();
                 for (Class evtClz : lstEvts) {
-                    List<Method> li_meth = evtHdrMap.get(evtClz);
+                    Set<Method> li_meth = evtHdrMap.get(evtClz);
                     if (li_meth == null) {
-                        li_meth = new ArrayList<>();
+                        li_meth = new HashSet<>();
                         evtHdrMap.put(evtClz, li_meth);
                     }
                     li_meth.add(mth);
                     // evtHdrMap.put(evtClz, mth);
                 }
 
+                //
+                setEVtMapByParam(mth);
+
             }
 
         }
     }
+
+    private static void setEVtMapByParam(Method mth) {
+        Class firstParamClass=getFirstParamClassFromMethod(mth);
+        Class evtClz=firstParamClass;
+        Set<Method> li_meth = evtHdrMap.get(evtClz);
+        if (li_meth == null) {
+            li_meth = new HashSet<>();
+            evtHdrMap.put(evtClz, li_meth);
+        }
+        li_meth.add(mth);
+    }
+
+//    private static Class getFirstParamClassFromMethod(Method mth) {
+//        Class<?>[] paramTypes = mth.getParameterTypes();
+//        return paramTypes.length > 0 ? paramTypes[0] : null;
+//    }
 
 }
