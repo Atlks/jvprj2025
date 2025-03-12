@@ -360,7 +360,7 @@ public class AtProxy4api implements HttpHandler {
 
         addInfo2ex(ex, e);
 
-        String responseTxt = encodeJson(createErrResponseWzErrcode(ex));
+        String responseTxt = encodeJson4ex(createErrResponseWzErrcode(ex));
         //   String responseTxt = encodeJson(ex);
 
         wrtRespErr(exchange, responseTxt);

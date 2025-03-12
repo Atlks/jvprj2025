@@ -13,7 +13,8 @@ import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 import static util.proxy.SprUtil.getBeanFrmSpr;
 import static util.tx.dbutil.setField;
 //import static cfg.IocPicoCfg.iniIocContainr;
-
+//  System.out.flush();  // 刷新输出缓冲区
+//            System.err.flush();  // 刷新输出缓冲区
 @SolonMain
 @ComponentScan("apiUsr")
 public class MainApi {

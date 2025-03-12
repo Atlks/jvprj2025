@@ -1,0 +1,396 @@
+{
+  "stat_code": 500,
+  "message": "util.ex.existUserEx",
+  "data": {
+    "cause": {
+      "cause": null,
+      "stackTrace": [
+        {
+          "classLoaderName": "app",
+          "moduleName": null,
+          "moduleVersion": null,
+          "methodName": "publishEvent",
+          "fileName": "ApplicationEventPublisherImplt.java",
+          "lineNumber": 53,
+          "className": "util.evtdrv.ApplicationEventPublisherImplt",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": "app",
+          "moduleName": null,
+          "moduleVersion": null,
+          "methodName": "publishEvent",
+          "fileName": "ApplicationEventPublisher.java",
+          "lineNumber": 65,
+          "className": "org.springframework.context.ApplicationEventPublisher",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": "app",
+          "moduleName": null,
+          "moduleVersion": null,
+          "methodName": "publishEvent",
+          "fileName": "ApplicationEventPublisherImplt.java",
+          "lineNumber": 24,
+          "className": "util.evtdrv.ApplicationEventPublisherImplt",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": "app",
+          "moduleName": null,
+          "moduleVersion": null,
+          "methodName": "call",
+          "fileName": "RegHandler2.java",
+          "lineNumber": 90,
+          "className": "api.usr.RegHandler2",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": "app",
+          "moduleName": null,
+          "moduleVersion": null,
+          "methodName": "call",
+          "fileName": "RegHandler2.java",
+          "lineNumber": 39,
+          "className": "api.usr.RegHandler2",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": "app",
+          "moduleName": null,
+          "moduleVersion": null,
+          "methodName": "lambda$invoke_call$0",
+          "fileName": "AtProxy4api.java",
+          "lineNumber": 98,
+          "className": "util.proxy.AtProxy4api",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": "app",
+          "moduleName": null,
+          "moduleVersion": null,
+          "methodName": "ivk4log",
+          "fileName": "AopUtil.java",
+          "lineNumber": 22,
+          "className": "util.proxy.AopUtil",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": "app",
+          "moduleName": null,
+          "moduleVersion": null,
+          "methodName": "invoke_call",
+          "fileName": "AtProxy4api.java",
+          "lineNumber": 96,
+          "className": "util.proxy.AtProxy4api",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": "app",
+          "moduleName": null,
+          "moduleVersion": null,
+          "methodName": "handlexProcess",
+          "fileName": "AtProxy4api.java",
+          "lineNumber": 233,
+          "className": "util.proxy.AtProxy4api",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": "app",
+          "moduleName": null,
+          "moduleVersion": null,
+          "methodName": "handle",
+          "fileName": "AtProxy4api.java",
+          "lineNumber": 142,
+          "className": "util.proxy.AtProxy4api",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": "app",
+          "moduleName": null,
+          "moduleVersion": null,
+          "methodName": "handleAllReq",
+          "fileName": "WebSvr.java",
+          "lineNumber": 113,
+          "className": "cfg.WebSvr",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": "app",
+          "moduleName": null,
+          "moduleVersion": null,
+          "methodName": "lambda$cfgPath$1",
+          "fileName": "WebSvr.java",
+          "lineNumber": 79,
+          "className": "cfg.WebSvr",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": "platform",
+          "moduleName": "jdk.httpserver",
+          "moduleVersion": "21.0.6",
+          "methodName": "doFilter",
+          "fileName": "Filter.java",
+          "lineNumber": 98,
+          "className": "com.sun.net.httpserver.Filter$Chain",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": "platform",
+          "moduleName": "jdk.httpserver",
+          "moduleVersion": "21.0.6",
+          "methodName": "doFilter",
+          "fileName": "AuthFilter.java",
+          "lineNumber": 82,
+          "className": "sun.net.httpserver.AuthFilter",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": "platform",
+          "moduleName": "jdk.httpserver",
+          "moduleVersion": "21.0.6",
+          "methodName": "doFilter",
+          "fileName": "Filter.java",
+          "lineNumber": 101,
+          "className": "com.sun.net.httpserver.Filter$Chain",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": "platform",
+          "moduleName": "jdk.httpserver",
+          "moduleVersion": "21.0.6",
+          "methodName": "handle",
+          "fileName": "ServerImpl.java",
+          "lineNumber": 871,
+          "className": "sun.net.httpserver.ServerImpl$Exchange$LinkHandler",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": "platform",
+          "moduleName": "jdk.httpserver",
+          "moduleVersion": "21.0.6",
+          "methodName": "doFilter",
+          "fileName": "Filter.java",
+          "lineNumber": 98,
+          "className": "com.sun.net.httpserver.Filter$Chain",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": "platform",
+          "moduleName": "jdk.httpserver",
+          "moduleVersion": "21.0.6",
+          "methodName": "run",
+          "fileName": "ServerImpl.java",
+          "lineNumber": 847,
+          "className": "sun.net.httpserver.ServerImpl$Exchange",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": null,
+          "moduleName": "java.base",
+          "moduleVersion": "21.0.6",
+          "methodName": "runWorker",
+          "fileName": "ThreadPoolExecutor.java",
+          "lineNumber": 1144,
+          "className": "java.util.concurrent.ThreadPoolExecutor",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": null,
+          "moduleName": "java.base",
+          "moduleVersion": "21.0.6",
+          "methodName": "run",
+          "fileName": "ThreadPoolExecutor.java",
+          "lineNumber": 642,
+          "className": "java.util.concurrent.ThreadPoolExecutor$Worker",
+          "nativeMethod": false
+        },
+        {
+          "classLoaderName": null,
+          "moduleName": "java.base",
+          "moduleVersion": "21.0.6",
+          "methodName": "run",
+          "fileName": "Thread.java",
+          "lineNumber": 1583,
+          "className": "java.lang.Thread",
+          "nativeMethod": false
+        }
+      ],
+      "url": null,
+      "urlprm": null,
+      "stackTraceStr": null,
+      "type": "util.ex.existUserEx",
+      "timestamp": null,
+      "details": null,
+      "errmsg": "uname(008)",
+      "errcode": "util.ex.existUserEx",
+      "fun": "",
+      "funPrm": null,
+      "info": null,
+      "lastExsList": null,
+      "requestId": null,
+      "extraData": {},
+      "message": null,
+      "suppressed": [],
+      "localizedMessage": null
+    },
+    "stackTrace": [
+      {
+        "classLoaderName": "app",
+        "moduleName": null,
+        "moduleVersion": null,
+        "methodName": "processNmlExptn",
+        "fileName": "WebsrvUtil.java",
+        "lineNumber": 37,
+        "className": "util.oo.WebsrvUtil",
+        "nativeMethod": false
+      },
+      {
+        "classLoaderName": "app",
+        "moduleName": null,
+        "moduleVersion": null,
+        "methodName": "handle",
+        "fileName": "AtProxy4api.java",
+        "lineNumber": 161,
+        "className": "util.proxy.AtProxy4api",
+        "nativeMethod": false
+      },
+      {
+        "classLoaderName": "app",
+        "moduleName": null,
+        "moduleVersion": null,
+        "methodName": "handleAllReq",
+        "fileName": "WebSvr.java",
+        "lineNumber": 113,
+        "className": "cfg.WebSvr",
+        "nativeMethod": false
+      },
+      {
+        "classLoaderName": "app",
+        "moduleName": null,
+        "moduleVersion": null,
+        "methodName": "lambda$cfgPath$1",
+        "fileName": "WebSvr.java",
+        "lineNumber": 79,
+        "className": "cfg.WebSvr",
+        "nativeMethod": false
+      },
+      {
+        "classLoaderName": "platform",
+        "moduleName": "jdk.httpserver",
+        "moduleVersion": "21.0.6",
+        "methodName": "doFilter",
+        "fileName": "Filter.java",
+        "lineNumber": 98,
+        "className": "com.sun.net.httpserver.Filter$Chain",
+        "nativeMethod": false
+      },
+      {
+        "classLoaderName": "platform",
+        "moduleName": "jdk.httpserver",
+        "moduleVersion": "21.0.6",
+        "methodName": "doFilter",
+        "fileName": "AuthFilter.java",
+        "lineNumber": 82,
+        "className": "sun.net.httpserver.AuthFilter",
+        "nativeMethod": false
+      },
+      {
+        "classLoaderName": "platform",
+        "moduleName": "jdk.httpserver",
+        "moduleVersion": "21.0.6",
+        "methodName": "doFilter",
+        "fileName": "Filter.java",
+        "lineNumber": 101,
+        "className": "com.sun.net.httpserver.Filter$Chain",
+        "nativeMethod": false
+      },
+      {
+        "classLoaderName": "platform",
+        "moduleName": "jdk.httpserver",
+        "moduleVersion": "21.0.6",
+        "methodName": "handle",
+        "fileName": "ServerImpl.java",
+        "lineNumber": 871,
+        "className": "sun.net.httpserver.ServerImpl$Exchange$LinkHandler",
+        "nativeMethod": false
+      },
+      {
+        "classLoaderName": "platform",
+        "moduleName": "jdk.httpserver",
+        "moduleVersion": "21.0.6",
+        "methodName": "doFilter",
+        "fileName": "Filter.java",
+        "lineNumber": 98,
+        "className": "com.sun.net.httpserver.Filter$Chain",
+        "nativeMethod": false
+      },
+      {
+        "classLoaderName": "platform",
+        "moduleName": "jdk.httpserver",
+        "moduleVersion": "21.0.6",
+        "methodName": "run",
+        "fileName": "ServerImpl.java",
+        "lineNumber": 847,
+        "className": "sun.net.httpserver.ServerImpl$Exchange",
+        "nativeMethod": false
+      },
+      {
+        "classLoaderName": null,
+        "moduleName": "java.base",
+        "moduleVersion": "21.0.6",
+        "methodName": "runWorker",
+        "fileName": "ThreadPoolExecutor.java",
+        "lineNumber": 1144,
+        "className": "java.util.concurrent.ThreadPoolExecutor",
+        "nativeMethod": false
+      },
+      {
+        "classLoaderName": null,
+        "moduleName": "java.base",
+        "moduleVersion": "21.0.6",
+        "methodName": "run",
+        "fileName": "ThreadPoolExecutor.java",
+        "lineNumber": 642,
+        "className": "java.util.concurrent.ThreadPoolExecutor$Worker",
+        "nativeMethod": false
+      },
+      {
+        "classLoaderName": null,
+        "moduleName": "java.base",
+        "moduleVersion": "21.0.6",
+        "methodName": "run",
+        "fileName": "Thread.java",
+        "lineNumber": 1583,
+        "className": "java.lang.Thread",
+        "nativeMethod": false
+      }
+    ],
+    "url": "\"/reg2?uname=008&pwd=000&invtr=007\"",
+    "urlprm": null,
+    "stackTraceStr": "ExceptionBaseRtm(url=null, urlprm=null, stackTraceStr=null, type=util.ex.existUserEx, timestamp=null, details=null, errmsg=uname(008), errcode=util.ex.existUserEx, fun=, funPrm=null, info=null, lastExsList=null, requestId=null, cause=null, extraData={})\r\n\tat util.evtdrv.ApplicationEventPublisherImplt.publishEvent(ApplicationEventPublisherImplt.java:53)\r\n\tat org.springframework.context.ApplicationEventPublisher.publishEvent(ApplicationEventPublisher.java:65)\r\n\tat util.evtdrv.ApplicationEventPublisherImplt.publishEvent(ApplicationEventPublisherImplt.java:24)\r\n\tat api.usr.RegHandler2.call(RegHandler2.java:90)\r\n\tat api.usr.RegHandler2.call(RegHandler2.java:39)\r\n\tat util.proxy.AtProxy4api.lambda$invoke_call$0(AtProxy4api.java:98)\r\n\tat util.proxy.AopUtil.ivk4log(AopUtil.java:22)\r\n\tat util.proxy.AtProxy4api.invoke_call(AtProxy4api.java:96)\r\n\tat util.proxy.AtProxy4api.handlexProcess(AtProxy4api.java:233)\r\n\tat util.proxy.AtProxy4api.handle(AtProxy4api.java:142)\r\n\tat cfg.WebSvr.handleAllReq(WebSvr.java:113)\r\n\tat cfg.WebSvr.lambda$cfgPath$1(WebSvr.java:79)\r\n\tat jdk.httpserver/com.sun.net.httpserver.Filter$Chain.doFilter(Filter.java:98)\r\n\tat jdk.httpserver/sun.net.httpserver.AuthFilter.doFilter(AuthFilter.java:82)\r\n\tat jdk.httpserver/com.sun.net.httpserver.Filter$Chain.doFilter(Filter.java:101)\r\n\tat jdk.httpserver/sun.net.httpserver.ServerImpl$Exchange$LinkHandler.handle(ServerImpl.java:871)\r\n\tat jdk.httpserver/com.sun.net.httpserver.Filter$Chain.doFilter(Filter.java:98)\r\n\tat jdk.httpserver/sun.net.httpserver.ServerImpl$Exchange.run(ServerImpl.java:847)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)\r\n\tat java.base/java.lang.Thread.run(Thread.java:1583)\r\n",
+    "timestamp": null,
+    "details": null,
+    "errmsg": null,
+    "errcode": "util.ex.existUserEx",
+    "fun": null,
+    "funPrm": null,
+    "info": null,
+    "lastExsList": null,
+    "requestId": null,
+    "extraData": {},
+    "message": null,
+    "suppressed": [],
+    "localizedMessage": null
+  },
+  "timestamp": 1741786965710,
+  "path": "",
+  "requestId": "",
+  "debugInfo": {},
+  "pageInfo": {
+    "page": 1,
+    "pagesize": 200,
+    "totalRows": 0,
+    "totalPages": 1
+  }
+}

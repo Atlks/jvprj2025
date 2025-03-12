@@ -13,6 +13,7 @@ import java.util.List;
 
 import static util.evtdrv.EvtUtil.evtHdrMap;
 import static util.misc.util2026.copyProps;
+import static util.proxy.SprUtil.injectAll4spr;
 
 
 public class ApplicationEventPublisherImplt implements ApplicationEventPublisher {
@@ -41,6 +42,8 @@ public class ApplicationEventPublisherImplt implements ApplicationEventPublisher
             Object obj = null;
             try {
                 obj = m.getDeclaringClass().getConstructor().newInstance();
+                injectAll4spr(obj);
+                System.out.println("▶\uFE0Ffun "+m.getName());
                 m.invoke(obj, event);
             } catch (InstantiationException | IllegalAccessException |
                      NoSuchMethodException e) {

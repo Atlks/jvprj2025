@@ -7,8 +7,7 @@ import util.excptn.ExceptionBaseRtm;
 
 import static biz.Response.createErrResponseWzErrcode;
 import static util.excptn.ExptUtil.addInfo2ex;
-import static util.misc.Util2025.encodeJson;
-import static util.misc.Util2025.encodeJsonByGson;
+import static util.misc.Util2025.*;
 import static util.misc.util2026.wrtRespErrNoex;
 
 public class WebsrvUtil {
@@ -56,7 +55,7 @@ public class WebsrvUtil {
 
 
         Response errResponseWzErrcode = createErrResponseWzErrcode(ex);
-        String responseTxt = encodeJsonByGson(errResponseWzErrcode);
+        String responseTxt =  encodeJson4ex(errResponseWzErrcode);
 
         wrtRespErrNoex(exchange, responseTxt);
         return responseTxt;

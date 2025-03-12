@@ -103,14 +103,14 @@ public class RegHandler2 implements Icall<RegDto, Object> {
     }
 
     @EventListener({StartRegEvt.class, AnotherEvent.class})
-    private void strorKey(Object event) {
+    public void strorKey(Object event) {
         RegDto dtoReg = (RegDto) ((StartRegEvt) event).getSource();
         sam.storeKey(dtoReg.uname, dtoReg.pwd);
     }
 
 
     @EventListener({StartRegEvt.class, AnotherEvent.class})
-    private static void addU(Object event) {
+    public    void addU(Object event) {
         RegDto dtoReg = (RegDto) ((StartRegEvt) event).getSource();
         Usr u = new Usr(dtoReg.uname);
         persistByHibernate(u, sessionFactory.getCurrentSession());

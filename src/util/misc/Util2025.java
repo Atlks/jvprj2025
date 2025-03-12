@@ -3,6 +3,8 @@ package util.misc;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSONWriter;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -156,7 +158,20 @@ public class Util2025 {
         return buffer.toString("UTF-8");
     }
 
+    public static String encodeJson4ex(Object obj) {
 
+      try{
+
+          return  encodeJsonByJackjson(obj);
+      } catch (Exception e) {
+          try{
+              return encodeJsonByFastjson2(obj);
+          } catch (Exception ex) {
+              return encodeJsonByGson(obj);
+          }
+
+      }
+    }
     /**
      * 使用gson序列化对象
      * @param obj
@@ -165,6 +180,20 @@ public class Util2025 {
     public static String encodeJsonByGson(Object obj){
         Gson gson = new Gson();
         return gson.toJson(obj);    }
+
+    // 使用 Fastjson2 进行 JSON 序列化
+    public static String encodeJsonByFastjson2(Object obj) {
+        return JSON.toJSONString(obj);
+    }
+
+    // 使用 Jackson 进行 JSON 序列化
+    public static String encodeJsonByJackjson(Object obj) throws JsonProcessingException {
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(obj);
+
+
+    }
 
 
 
