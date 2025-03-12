@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import service.auth.SAM;
-import util.auth.SAM4chkLgnStatJwtMod;
+import service.auth.SAM4chkLgnStatJwtMod;
 import util.proxy.AtProxy4Svs;
 import util.algo.Icall;
 import util.oo.StrUtil;

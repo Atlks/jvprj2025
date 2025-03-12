@@ -1,6 +1,10 @@
 package service.auth;
 
 
+import api.usr.LoginEvt;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Service;
+import util.evtdrv.AnotherEvent;
 import util.validateRtmExptn;
 import entityx.Keyx;
 import entityx.SAMSecuryLog;
@@ -22,22 +26,28 @@ import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.hopePwdEq;
 import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.persistByHibernate;
-
+@Service
 /**
- * sam安全授权模块   stoer in db
+ * sam安全授权模块   stoer in db,,this sam for reg login
  */
 public class SAM implements ISAM {
 //    public static String encryPwd(String pwd, Pwd pwdstore) {
 //   return    encryptAesToStrBase64("p="+pwd+"&slt="+pwdstore.getSalt(), Key4pwd4aeskey);
 //    }
 
-    /**
-     * 用户名密码验证  IdentityStore接口
-     * 步骤  findById , jude pwd eq
-     *
-     * @param credential
-     * @return
-     */
+    @EventListener({LoginValidEvt.class, AnotherEvent.class})
+    public CredentialValidationResult validate(LoginValidEvt evt) {
+        Credential crdt= (Credential) evt.getSource();
+        return  validate(crdt);
+    }
+
+        /**
+         * 用户名密码验证  IdentityStore接口
+         * 步骤  findById , jude pwd eq
+         *
+         * @param credential
+         * @return
+         */
     @Override
     public CredentialValidationResult validate(Credential credential) {
 

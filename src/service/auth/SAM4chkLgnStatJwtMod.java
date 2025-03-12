@@ -1,4 +1,4 @@
-package util.auth;
+package service.auth;
 
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.AuthenticationStatus;
@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 import org.jetbrains.annotations.Nullable;
-import service.auth.ISAM;
+import util.auth.ChkLgnStatAuthenticationMechanism;
 
 import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 import static util.excptn.ExptUtil.appendEx2lastExs;
