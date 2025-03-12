@@ -45,6 +45,8 @@ public class ApplicationEventPublisherImplt implements ApplicationEventPublisher
                 injectAll4spr(obj);
                 System.out.println("▶\uFE0Ffun "+m.getName());
                 m.invoke(obj, event);
+                System.out.println( "✅endfun " +m.getName());
+
             } catch (InstantiationException | IllegalAccessException |
                      NoSuchMethodException e) {
                 throw new RuntimeException(e);
