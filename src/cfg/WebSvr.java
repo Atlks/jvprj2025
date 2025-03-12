@@ -21,6 +21,7 @@ import java.util.function.Consumer;
 
 
 import static util.algo.NullUtil.isBlank;
+import static util.misc.util2026.printLn;
 import static util.oo.WebsrvUtil.processNmlExptn;
 
 import static util.proxy.SprUtil.getBeanFrmSpr;
@@ -111,7 +112,9 @@ public class WebSvr {
             @NotNull HttpHandler proxyObj = new AtProxy4api(bean);
             proxyObj.handle(exchange);
         } catch (Exception e) {
+            printLn("---------------statt eprint");
             e.printStackTrace();
+            printLn("---------------endstatt eprint");
              processNmlExptn(exchange, e);
         }
 

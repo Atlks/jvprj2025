@@ -53,7 +53,7 @@ public class ApplicationEventPublisherImplt implements ApplicationEventPublisher
 
                     copyProps(oriEx1, ex);
                     ex.errmsg=oriEx1.getErrmsg();
-                    ex.errcode=oriEx1.getErrcode();
+                    ex.errcode=oriEx1.getClass().getName();
                     ex.type=oriEx1.getClass().getName();
                     throw ex;
 

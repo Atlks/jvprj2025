@@ -3,6 +3,7 @@ package util.oo;
 import biz.Response;
 import com.sun.net.httpserver.HttpExchange;
 import util.excptn.ExceptionBase;
+import util.excptn.ExceptionBaseRtm;
 
 import static biz.Response.createErrResponseWzErrcode;
 import static util.excptn.ExptUtil.addInfo2ex;
@@ -29,7 +30,17 @@ public class WebsrvUtil {
             ex.errcode = e.getClass().getName();
 
 
-        } else {
+        }else if( e instanceof ExceptionBaseRtm){
+            ex = new ExceptionBase(e.getMessage());
+
+            //cvt to cstm ex
+            String message = e.getMessage();
+            ex = new ExceptionBase(message);
+            ex.cause = e;
+            ex.errcode =((ExceptionBaseRtm) e).getType();
+        }
+
+        else {
             //nml err
             ex = new ExceptionBase(e.getMessage());
 
