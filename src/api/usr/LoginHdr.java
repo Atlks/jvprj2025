@@ -96,7 +96,7 @@ public class LoginHdr implements Icall<RegDto, Object> {
 
 
     @EventListener({LoginEvt.class, AnotherEvent.class})
-    public void setVisa2cookie(LoginValidEvt evt) {
+    public void setVisa2cookie(LoginEvt evt) {
 
         RegDto  dtoReg = (RegDto ) evt.getSource();
         setcookie("unameHRZ", dtoReg.uname, httpExchangeCurThrd.get());

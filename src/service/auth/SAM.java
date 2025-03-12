@@ -51,6 +51,7 @@ public class SAM implements ISAM {
     @Override
     public CredentialValidationResult validate(Credential credential) {
 
+        System.out.println("\n\n==============================sam vld===");
         System.out.println("fun SAM.vld(crdt=" + encodeJson(credential));
         String uname = null;
         try {
