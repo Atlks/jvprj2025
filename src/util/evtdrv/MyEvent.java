@@ -1,14 +1,15 @@
 package util.evtdrv;
 
-public class MyEvent {
-    private final String message;
+import lombok.Data;
+import lombok.Getter;
 
-    public MyEvent(String message) {
+@Data
+public class MyEvent {
+    private final Object message;
+
+    public MyEvent(Object message) {
         this.message = message;
     }
 
-    public String getMessage() {
-        return message;
-    }
 }
 

@@ -8,6 +8,8 @@ import util.auth.SecurityContextImp4jwt;
 
 import static cfg.MyCfg.iniCfgFrmCfgfile;
 import static cfg.WebSvr.*;
+import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
+
 import static util.proxy.SprUtil.getBeanFrmSpr;
 import static util.tx.dbutil.setField;
 //import static cfg.IocPicoCfg.iniIocContainr;
@@ -49,6 +51,7 @@ public class MainApi {
         //--------ini saveurlFrm Cfg
 
         iniContnr();
+        iniEvtHdrCtnr();
 
         //================== 创建 HTTP 服务器，监听端口8080
         iniRestPathMap();
