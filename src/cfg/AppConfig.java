@@ -22,8 +22,8 @@ import static util.tx.HbntUtil.getSessionFactory;
 
 @EnableAsync  // 启用异步功能
 @Configuration
-@EnableAspectJAutoProxy(proxyTargetClass = false)  // 禁用类加载时的字节码增强
-@ComponentScan("")  // 指定扫描包 all pkg if empty
+//@EnableAspectJAutoProxy(proxyTargetClass = false)  // 禁用类加载时的字节码增强
+@ComponentScan("")  // 指定扫描包 all pkg if empty  ComponentScan 注解的参数为空字符串，这意味着它不会扫描任何包。Spring 无法找到
 //@EnableMBeanExport
 @EnableMBeanExport
 //启用 MBean（Managed Bean） 的导出，即 将 Spring 管理的 Bean 注册到 JMX（Java Management Extensions） 中，使其可以被 JMX 监控和管理。
