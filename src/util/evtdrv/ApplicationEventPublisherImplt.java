@@ -9,7 +9,9 @@ import util.excptn.ExceptionBaseRtm;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static util.evtdrv.EvtUtil.evtHdrMap;
 import static util.misc.util2026.copyProps;
@@ -31,9 +33,9 @@ public class ApplicationEventPublisherImplt implements ApplicationEventPublisher
     @Override
     public void publishEvent(Object event) {
         Class evtClz = event.getClass();
-        List<Method> li_meth = evtHdrMap.get(evtClz);
+        Set<Method> li_meth = evtHdrMap.get(evtClz);
         if (li_meth == null) {
-            evtHdrMap.put(evtClz, new ArrayList<>());
+            evtHdrMap.put(evtClz, new HashSet<>());
             li_meth = evtHdrMap.get(evtClz);
         }
 
