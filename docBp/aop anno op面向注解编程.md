@@ -18,3 +18,6 @@
 Spring Boot 的 @Slf4j（Lombok 提供）
 
 ✅ 自动化和减少样板代码：Lombok 的 @Data、Spring 的 @RestController 都让代码更简洁。
+
+@eventLister 
+@condtion  分支注解 choose
