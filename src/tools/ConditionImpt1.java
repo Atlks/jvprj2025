@@ -7,7 +7,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 public class ConditionImpt1 implements Condition {
     @Override
     public boolean matches(@NotNull ConditionContext context, @NotNull AnnotatedTypeMetadata metadata) {
-        return  true;
+        return  false;
     }
 }
 

@@ -81,13 +81,13 @@ public class ifelseUtil {
                 Object objByMethod = getObjByMethod(Method1);
 
                 Object[] args = {""};
-                Method1.invoke(objByMethod, args);
+                Method1.invoke(objByMethod, 1);
             }
 
         } else {
             Set<Method> st = mapCls_CdtElseMth.get(c);
             for (Method m : st) {
-                m.invoke(getObjByMethod(m));
+                m.invoke(getObjByMethod(m),2);
             }
         }
         // traveMethodByClass(ifelseUtil.class);
@@ -126,18 +126,18 @@ public class ifelseUtil {
 
     // @ConditionalOnProperty(name = "my.feature.enabled", havingValue = "true")
     @ConditionalElse({ConditionImpt1.class})
-    private void elseblk(Object... args) {
+    private void elseblk(Object args) {
         System.out.println("else blk");
     }
 
     @Conditional({ConditionImpt1.class})
-    public void ifblk(Object... args) {
+    public void ifblk(Object  args) {
         System.out.println("ifblk blk");
     }
 
 
     @Conditional({ConditionImpt1.class})
-    public void ifblk2(Object... args) {
+    public void ifblk2(Object  args) {
         System.out.println("ifblk blk stmt 2");
     }
 }
