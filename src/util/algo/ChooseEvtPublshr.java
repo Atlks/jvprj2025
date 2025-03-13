@@ -39,14 +39,14 @@ public class ChooseEvtPublshr implements ApplicationEventPublisher {
         } else {
             Set<Method> st = mapCls_CdtElseMth.get(c);
             for (Method m : st) {
-                System.out.println(" m503="+m);
-                m.invoke(getObjByMethod(m),2);
+                System.out.println(" m503=" + m);
+                m.invoke(getObjByMethod(m), 2);
             }
         }
         // traveMethodByClass(ifelseUtil.class);
     }
 
-    public static void   iniCondtEvtMap(){
+    public static void iniCondtEvtMap() {
         Consumer<Class> csmr4log = clazz -> {
 
             if (!clazz.getName().startsWith("api") && !clazz.getName().startsWith("service")) {
@@ -56,13 +56,13 @@ public class ChooseEvtPublshr implements ApplicationEventPublisher {
             printLn("\n开始注册evt" + clazz.getName());
 
 
-
             iniCondtEvtMap4sngClz(clazz);
 
 
         };
         scanAllClass(csmr4log);//  all add class  ...  mdfyed class btr
     }
+
     public static void iniCondtEvtMap4sngClz(Class clz) {
 
         Method[] ms = clz.getDeclaredMethods();
@@ -72,29 +72,29 @@ public class ChooseEvtPublshr implements ApplicationEventPublisher {
                 for (Class cdtClz : cdtClss) {
                     pushSet(mapCls, cdtClz, m);
 
-//                    Condition cdtObj = (Condition) getObject(c);
-//                    if (cdtObj.matches(null, null))
-//                        m.invoke(getObjByMethod(m), null);
                 }
             }
-
             if (m.isAnnotationPresent(ConditionalElse.class)) {
                 Class[] cdtClss = m.getAnnotation(ConditionalElse.class).value();
                 for (Class cdtClz : cdtClss) {
                     pushSet(mapCls_CdtElseMth, cdtClz, m);
+                }
+            }
+            //endif
+        }
+        //endfor
+
+    }
+
 //                    Condition cdtObj = (Condition) getObject(c);
+//                    if (cdtObj.matches(null, null))
+//                        m.invoke(getObjByMethod(m), null);
+//Condition cdtObj = (Condition) getObject(c);
 //                    if (cdtObj.matches(null, null)) {
 //
 //                    } else {
 //                        m.invoke(getObjByMethod(m), null);
 //                    }
-
-                }
-            }
-        }
-
-    }
-
 
     /**
      * @param event
