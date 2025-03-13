@@ -19,9 +19,11 @@ import util.tx.findByIdExptn;
 
 import java.util.Set;
 
+import static api.usr.LgnHdr3.loginVldObsvs;
 import static cfg.AppConfig.sessionFactory;
 import static util.algo.EncryUtil.Key4pwd4aeskey;
 import static util.algo.EncryUtil.encryptAesToStrBase64;
+
 import static util.excptn.ExptUtil.currFunPrms4dbg;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.hopePwdEq;
@@ -51,7 +53,7 @@ public class SAM implements ISAM {
      * @return
      */
     @Override
-    @Observes({"loginVldObsvs"})
+    @Observes({loginVldObsvs})
     public CredentialValidationResult validate(Credential credential) {
 
         System.out.println("\n\n==============================sam vld===");

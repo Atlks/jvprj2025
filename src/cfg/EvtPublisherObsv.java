@@ -1,6 +1,5 @@
 package cfg;
 
-import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import util.excptn.ExceptionBase;
 import util.excptn.ExceptionBaseRtm;
 
@@ -8,18 +7,22 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
+import static util.evtdrv.EvtUtil.evtHdrMapStrStMod;
+import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.copyProps;
 import static util.proxy.SprUtil.injectAll4spr;
 
 public class EvtPublisherObsv {
-    public void notifyObsvrs(Set<Method> obsSet, Object prm) {
+    public void notifyObsvrs(String evtName, Object prm) {
 
+        Set<Method> obsSet = evtHdrMapStrStMod.get(evtName);
         for (Method m : obsSet) {
             Object obj = null;
             try {
                 obj = m.getDeclaringClass().getConstructor().newInstance();
                 injectAll4spr(obj);
                 System.out.println("▶\uFE0Ffun " + m.getName());
+                System.out.println("prm=" + encodeJson(prm));
                 m.invoke(obj, prm);
                 System.out.println("✅endfun " + m.getName());
 
@@ -36,13 +39,20 @@ public class EvtPublisherObsv {
                     ex.errmsg = oriEx1.getErrmsg();
                     ex.errcode = oriEx1.getClass().getName();
                     ex.type = oriEx1.getClass().getName();
+                    ex.cause = e;
                     throw ex;
 
-                } else
+                } else if (e.getCause() instanceof RuntimeException) {
+                    throw (RuntimeException) e.getCause();
+                } else {
                     throw new RuntimeException(oriEx.getMessage(), oriEx);
+                }
+
             }
+            //end catch
 
         }
+        //end for
 
     }
 

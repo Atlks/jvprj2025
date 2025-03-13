@@ -1,5 +1,6 @@
 package util.evtdrv;
 
+import annos.Observes;
 import org.springframework.context.event.EventListener;
 
 import java.lang.reflect.Method;
@@ -13,6 +14,8 @@ import static util.misc.util2026.scanAllClass;
 public class EvtUtil {
 
 
+
+    public static Map<String, Set<Method>> evtHdrMapStrStMod = new HashMap<>();
     public static Map<Class, Set<Method>> evtHdrMap = new HashMap<>();
 
     public static void iniEvtHdrCtnr() {
@@ -27,11 +30,38 @@ public class EvtUtil {
 
             iniEvtHdrCtnr(clazz);
 
+            iniEvtHdrCtnr4strEVt(clazz);
+
 
         };
         scanAllClass(csmr4log);//  all add class  ...  mdfyed class btr
 
 
+    }
+
+    private static void iniEvtHdrCtnr4strEVt(Class clazz) {
+        Method[] mthds = clazz .getDeclaredMethods();
+        for (Method mth : mthds) {
+            if (mth.isAnnotationPresent(Observes.class)) {
+                Observes ano = mth.getAnnotation(Observes.class);
+
+                //set evt map by cls lsit
+                String[] lstEvts = ano.value();
+                for (String evtClz : lstEvts) {
+                    Set<Method> li_meth = evtHdrMapStrStMod.get(evtClz);
+                    if (li_meth == null) {
+                        li_meth = new HashSet<>();
+                        evtHdrMapStrStMod.put(evtClz, li_meth);
+                    }
+                    li_meth.add(mth);
+                    // evtHdrMap.put(evtClz, mth);
+                }
+
+
+
+            }
+
+        }
     }
 
     private static void iniEvtHdrCtnr(Class clz) {

@@ -56,6 +56,8 @@ import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 //   http://localhost:8889/login?uname=008&pwd=000
 @NoArgsConstructor
 public class LgnHdr3 implements Icall<RegDto, Object> {
+    public static final String loginVldObsvs="loginVldObsvs";
+    public static final String LoginEvtObsvs="LoginEvtObsvs";
 
     public LgnHdr3(String uname, String pwd) {
     }
@@ -70,8 +72,7 @@ public class LgnHdr3 implements Icall<RegDto, Object> {
     public IdentityStore sam;
 
 
-    public static Set<Method> loginVldObsvs = new HashSet<>();
-    public static Set<Method> LoginEvtObsvs = new HashSet<>();
+
 
     /**
      * @return
@@ -96,8 +97,8 @@ public class LgnHdr3 implements Icall<RegDto, Object> {
 
     }
 
-    @annos.Observes({"LoginEvtObsvs"})
-    public void setVisa2cookie(@Observes RegDto dtoReg) {
+    @annos.Observes({LoginEvtObsvs})
+    public void setVisa2cookie(@Observes @NotNull RegDto dtoReg) {
 
         //   RegDto dtoReg = (RegDto) evt.getSource();
         setcookie("unameHRZ", dtoReg.uname, httpExchangeCurThrd.get());
@@ -108,7 +109,7 @@ public class LgnHdr3 implements Icall<RegDto, Object> {
 
     public static ThreadLocal<Object> retobj = new ThreadLocal<>();
 
-    @annos.Observes({"LoginEvtObsvs"})
+    @annos.Observes({LoginEvtObsvs})
     public @NotNull Map<String, String> getTokenJwt(@NotNull RegDto Udto) {
         //  RegDto Udto = (RegDto) evt.getSource();
         Map<String, String> tokenJwt = Collections.singletonMap("tokenJwt", JwtUtil.generateToken(Udto.uname));
