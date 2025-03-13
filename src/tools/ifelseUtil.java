@@ -4,6 +4,7 @@ import api.usr.ConditionContextMockImp;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.Conditional;
+import util.algo.ChooseEvtPublshr;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static cfg.IocSpringCfg.getObject;
+import static util.algo.ChooseEvtPublshr.iniCondtEvtMap4sngClz;
 
 public class ifelseUtil {
 
@@ -19,7 +21,7 @@ public class ifelseUtil {
     public static void main(String[] args) throws Exception {
 
         iniCondtEvtMap4sngClz(ifelseUtil.class);
-        new ifelseUtil().publishEvent4exeCdtn(ConditionImpt1.class);
+        new ChooseEvtPublshr().publishEvent4exeCdtn(ConditionImpt1.class);
     }
 
     private static void iniCondtEvtMap() {

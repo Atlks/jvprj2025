@@ -3,6 +3,7 @@ import biz.Containr;
 import org.noear.solon.annotation.SolonMain;
 import org.springframework.context.annotation.ComponentScan;
 import service.wlt.AddMoneyToWltService;
+import util.algo.ChooseEvtPublshr;
 import util.auth.SecurityContextImp4jwt;
 //import service.AddRchgOrdToWltService;
 
@@ -64,6 +65,7 @@ public class MainApi {
         //---------------ini contarin
         cfg.IocSpringCfg.iniIocContainr4spr();
         Containr.SecurityContext1=new SecurityContextImp4jwt();
+        Containr.chooseEvtPblshr=  new ChooseEvtPublshr();
 
     }
 

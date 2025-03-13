@@ -50,9 +50,7 @@ public class AppConfig {
             return  sessionFactory;
 
     }
-    public static ApplicationEventPublisher evtPublisher=new ApplicationEventPublisherImplt();
 
-    public static EvtPublisherObsv  evtPublisherObsv=new EvtPublisherObsv();
 
     @Bean
     public ApplicationEventPublisher applicationEventPublisher() {
