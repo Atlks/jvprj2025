@@ -83,11 +83,11 @@ public class AtProxy4api implements HttpHandler {
 
 
     /**
+     * ivk  here,,,aop log,maybe need decra mode,,not pxy mod
      * @param args
      * @return
      * @throws Exception
      */
-
     public Object invoke_call(Object args) throws Throwable {
         String mthFullname = target.getClass().getName() + ".call";
 
