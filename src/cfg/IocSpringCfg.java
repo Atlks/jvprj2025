@@ -88,7 +88,7 @@ public class IocSpringCfg {
     //clazz.getName() 只是获取类的全限定名（package.ClassName），不会触发类的静态初始化 或 类加载。
 
     @NotNull
-    private static Object getObject(Class clazz) {
+    public static Object getObject(Class clazz) {
         Object obj1 = null;
         try {
             obj1 = clazz.getConstructor().newInstance();
