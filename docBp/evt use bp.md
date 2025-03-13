@@ -1,5 +1,6 @@
 
 
+evt str btr than evtClz mode
 
 =def evt as str betr
 
