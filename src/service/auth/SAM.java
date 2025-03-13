@@ -1,6 +1,7 @@
 package service.auth;
 
 
+import annos.Observes;
 import api.usr.LoginEvt;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.hopePwdEq;
 import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.persistByHibernate;
+
 @Service
 /**
  * sam安全授权模块   stoer in db,,this sam for reg login
@@ -37,18 +39,19 @@ public class SAM implements ISAM {
 
     @EventListener({LoginValidEvt.class, AnotherEvent.class})
     public CredentialValidationResult validate(LoginValidEvt evt) {
-        Credential crdt= (Credential) evt.getSource();
-        return  validate(crdt);
+        Credential crdt = (Credential) evt.getSource();
+        return validate(crdt);
     }
 
-        /**
-         * 用户名密码验证  IdentityStore接口
-         * 步骤  findById , jude pwd eq
-         *
-         * @param credential
-         * @return
-         */
+    /**
+     * 用户名密码验证  IdentityStore接口
+     * 步骤  findById , jude pwd eq
+     *
+     * @param credential
+     * @return
+     */
     @Override
+    @Observes({"loginVldObsvs"})
     public CredentialValidationResult validate(Credential credential) {
 
         System.out.println("\n\n==============================sam vld===");
@@ -62,7 +65,7 @@ public class SAM implements ISAM {
 
             var k = findByHerbinate(Keyx.class, uname, sessionFactory.getCurrentSession());
             String data = "p=" + crdt.getPasswordAsString() + "&slt=" + k.salt;
-            hopePwdEq(k.hashedPassword, geneKey( data));
+            hopePwdEq(k.hashedPassword, geneKey(data));
             CredentialValidationResult user = new CredentialValidationResult(uname, Set.of("USER"));
 
 
@@ -94,7 +97,7 @@ public class SAM implements ISAM {
         Keyx pwdstore = new Keyx();
         pwdstore.setUserId(uid);
         String data = "p=" + oriKey + "&slt=" + pwdstore.salt;
-        pwdstore.hashedPassword = geneKey( data);
+        pwdstore.hashedPassword = geneKey(data);
         persistByHibernate(pwdstore, sessionFactory.getCurrentSession());
     }
 

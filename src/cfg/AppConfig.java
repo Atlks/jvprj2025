@@ -52,6 +52,8 @@ public class AppConfig {
     }
     public static ApplicationEventPublisher evtPublisher=new ApplicationEventPublisherImplt();
 
+    public static EvtPublisherObsv  evtPublisherObsv=new EvtPublisherObsv();
+
     @Bean
     public ApplicationEventPublisher applicationEventPublisher() {
         return new ApplicationEventPublisherImplt();
