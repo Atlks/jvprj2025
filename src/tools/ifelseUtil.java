@@ -65,7 +65,7 @@ public class ifelseUtil {
 
     // @ConditionalOnProperty(name = "my.feature.enabled", havingValue = "true")
     @ConditionalElse({ConditionImpt1.class})
-    private void elseblk(Object args) {
+    public void elseblk(Object args) {
         System.out.println("else blk");
     }
 

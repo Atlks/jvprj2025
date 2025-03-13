@@ -39,6 +39,7 @@ public class ChooseEvtPublshr implements ApplicationEventPublisher {
         } else {
             Set<Method> st = mapCls_CdtElseMth.get(c);
             for (Method m : st) {
+                System.out.println(" m503="+m);
                 m.invoke(getObjByMethod(m),2);
             }
         }

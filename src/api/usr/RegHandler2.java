@@ -24,7 +24,8 @@ import util.evtdrv.AnotherEvent;
 import util.evtdrv.MyEvent;
 import util.ex.existUserEx;
 
-import static cfg.AppConfig.evtPublisher;
+
+import static biz.Containr.evtPublisher;
 import static cfg.AppConfig.sessionFactory;
 import static util.misc.Util2025.encodeJson;
 import static util.proxy.AopUtil.ivk4log;
