@@ -7,11 +7,11 @@ import util.misc.Util2025.encodeJson
 import java.io.File
 
 
-@Serializable
-data class RecordDaylyx(val date: String, val amount: Double, val category: String, val description: String)
-
-@Serializable
-data class CategorySummaryx(val category: String, val totalAmount: Double)
+//@Serializable
+//data class RecordDaylyx(val date: String, val amount: Double, val category: String, val description: String)
+//
+//@Serializable
+//data class CategorySummaryx(val category: String, val totalAmount: Double)
 
 
 fun main() {
