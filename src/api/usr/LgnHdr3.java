@@ -69,8 +69,10 @@ public class LgnHdr3 implements Icall<RegDto, Object> {
     @Qualifier(SAM4regLgn)
     public IdentityStore sam;
 
-    public  static Set<Method> loginVldObsvs =new HashSet<>();
-    public  static Set<Method> LoginEvtObsvs =new HashSet<>();
+
+    public static Set<Method> loginVldObsvs = new HashSet<>();
+    public static Set<Method> LoginEvtObsvs = new HashSet<>();
+
     /**
      * @return
      * @throws Exception
@@ -80,9 +82,9 @@ public class LgnHdr3 implements Icall<RegDto, Object> {
     public Object call(@BeanParam RegDto dtoReg) throws Exception, PwdErrEx {
 
         //  usrdto.set(dtoReg);
-        evtPublisherObsv.notifyObsvrs(loginVldObsvs,new UsernamePasswordCredential(dtoReg.uname, dtoReg.pwd));
+        evtPublisherObsv.notifyObsvrs(loginVldObsvs, new UsernamePasswordCredential(dtoReg.uname, dtoReg.pwd));
 
-        evtPublisherObsv.notifyObsvrs(LoginEvtObsvs,dtoReg);
+        evtPublisherObsv.notifyObsvrs(LoginEvtObsvs, dtoReg);
 
 
         //======ret token jwt
@@ -94,23 +96,21 @@ public class LgnHdr3 implements Icall<RegDto, Object> {
 
     }
 
-    @annos.Observes({"loginVldObsvs"})
-//jakarta.enterprise.event.Observes
+    @annos.Observes({"LoginEvtObsvs"})
+    public void setVisa2cookie(@Observes RegDto dtoReg) {
 
-    public void setVisa2cookie( @Observes LoginEvt evt) {
-
-        RegDto  dtoReg = (RegDto ) evt.getSource();
+        //   RegDto dtoReg = (RegDto) evt.getSource();
         setcookie("unameHRZ", dtoReg.uname, httpExchangeCurThrd.get());
         setcookie("uname", encryptAesToStrBase64(dtoReg.uname, Key4pwd4aeskey), httpExchangeCurThrd.get());
     }
+    //jakarta.enterprise.event.Observes
+
 
     public static ThreadLocal<Object> retobj = new ThreadLocal<>();
 
     @annos.Observes({"LoginEvtObsvs"})
-
-    @NotNull
-    public @NotNull Map<String, String> getTokenJwt(@NotNull LoginEvt evt) {
-        RegDto Udto = (RegDto) evt.getSource();
+    public @NotNull Map<String, String> getTokenJwt(@NotNull RegDto Udto) {
+        //  RegDto Udto = (RegDto) evt.getSource();
         Map<String, String> tokenJwt = Collections.singletonMap("tokenJwt", JwtUtil.generateToken(Udto.uname));
         retobj.set(tokenJwt);
         return tokenJwt;
