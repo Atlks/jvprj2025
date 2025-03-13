@@ -17,7 +17,7 @@ public class ifelseUtil {
 
 
     public static void main(String[] args) throws Exception {
-        iniCondtEvtMap();
+
         iniCondtEvtMap4sngClz(ifelseUtil.class);
         new ifelseUtil().publishEvent4exeCdtn(ConditionImpt1.class);
     }
@@ -25,73 +25,12 @@ public class ifelseUtil {
     private static void iniCondtEvtMap() {
     }
 
-    public static Map<Class, Set<Method>> mapCls = new HashMap<>();
-    public static Map<Class, Set<Method>> mapCls_CdtElseMth = new HashMap<>();
-
-    private static void iniCondtEvtMap4sngClz(Class clz) {
-
-        Method[] ms = clz.getDeclaredMethods();
-        for (Method m : ms) {
-            if (m.isAnnotationPresent(Conditional.class)) {
-                Class[] cdtClss = m.getAnnotation(Conditional.class).value();
-                for (Class cdtClz : cdtClss) {
-                    pushSet(mapCls, cdtClz, m);
-
-//                    Condition cdtObj = (Condition) getObject(c);
-//                    if (cdtObj.matches(null, null))
-//                        m.invoke(getObjByMethod(m), null);
-                }
-            }
-
-            if (m.isAnnotationPresent(ConditionalElse.class)) {
-                Class[] cdtClss = m.getAnnotation(ConditionalElse.class).value();
-                for (Class cdtClz : cdtClss) {
-                    pushSet(mapCls_CdtElseMth, cdtClz, m);
-//                    Condition cdtObj = (Condition) getObject(c);
-//                    if (cdtObj.matches(null, null)) {
-//
-//                    } else {
-//                        m.invoke(getObjByMethod(m), null);
-//                    }
-
-                }
-            }
-        }
-
-    }
-
-    private static void pushSet(Map<Class, Set<Method>> mapCls, Class cdtClz, Method m) {
-        Set<Method> st = mapCls.get(cdtClz);
-        if (st == null) {
-            st = new HashSet<>();
-
-        }
-        st.add(m);
-        mapCls.put(cdtClz, st);
-
-    }
 
 
-    private void publishEvent4exeCdtn(Class<ConditionImpt1> c) throws Exception {
-        Condition cdtObj = (Condition) getObject(c);
-        if (cdtObj.matches(new ConditionContextMockImp(), new api.usr.AnnotatedTypeMetadataImpMock())) {
-            Set<Method> st = mapCls.get(c);
-            for (Method Method1 : st) {
-                System.out.println(Method1);
-                Object objByMethod = getObjByMethod(Method1);
 
-                Object[] args = {""};
-                Method1.invoke(objByMethod, 1);
-            }
 
-        } else {
-            Set<Method> st = mapCls_CdtElseMth.get(c);
-            for (Method m : st) {
-                m.invoke(getObjByMethod(m),2);
-            }
-        }
-        // traveMethodByClass(ifelseUtil.class);
-    }
+
+
 
 //    private void traveMethodByClass(Class<ifelseUtil> ifelseUtilClass) throws Exception {
 //        Method[] ms = ifelseUtilClass.getDeclaredMethods();
@@ -120,9 +59,7 @@ public class ifelseUtil {
 //        }
 //    }
 
-    private Object getObjByMethod(Method m) {
-        return getObject(m.getDeclaringClass());
-    }
+
 
     // @ConditionalOnProperty(name = "my.feature.enabled", havingValue = "true")
     @ConditionalElse({ConditionImpt1.class})

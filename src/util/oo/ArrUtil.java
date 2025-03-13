@@ -3,13 +3,24 @@ package util.oo;
 //import org.springframework.expression.spel.standard.SpelExpressionParser;
 //import org.springframework.expression.spel.support.StandardEvaluationContext;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Method;
+import java.util.*;
 
 import static util.tx.dbutil.getstartPosition;
 
 public class ArrUtil {
 
+
+    public static void pushSet(Map<Class, Set<Method>> mapCls, Class keyClz, Method m) {
+        Set<Method> st = mapCls.get(keyClz);
+        if (st == null) {
+            st = new HashSet<>();
+
+        }
+        st.add(m);
+        mapCls.put(keyClz, st);
+
+    }
     public static <T> List<T> subList2025(List<T> list1, int pageNumber, int pageSize) {
 
         int fromIndex = getstartPosition(pageNumber, pageSize);

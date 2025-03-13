@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Consumer;
 
+import static util.algo.ChooseEvtPublshr.iniCondtEvtMap4sngClz;
 import static util.misc.ReflectionUtils.getFirstParamClassFromMethod;
 import static util.misc.util2026.printLn;
 import static util.misc.util2026.scanAllClass;
@@ -31,7 +32,7 @@ public class EvtUtil {
             iniEvtHdrCtnr(clazz);
 
             iniEvtHdrCtnr4strEVt(clazz);
-
+            iniCondtEvtMap4sngClz(clazz);
 
         };
         scanAllClass(csmr4log);//  all add class  ...  mdfyed class btr

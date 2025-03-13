@@ -1,7 +1,13 @@
 package util.algo;
 
-public class GetUti {
+import java.lang.reflect.Method;
 
+import static cfg.IocSpringCfg.getObject;
+
+public class GetUti {
+    public static Object getObjByMethod(Method m) {
+        return getObject(m.getDeclaringClass());
+    }
     /**
      * getType data type
      * ✅ 如果你想模仿 PHP，请使用 instanceof 方法。
