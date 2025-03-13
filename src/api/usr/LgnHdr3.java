@@ -17,24 +17,17 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.event.EventListener;
 import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
-import service.auth.LoginValidEvt;
 import util.algo.Icall;
 import util.auth.JwtUtil;
-import util.evtdrv.AnotherEvent;
 import util.ex.PwdErrEx;
 import util.ex.existUserEx;
 
-import java.lang.reflect.Method;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import static api.usr.RegHandler.SAM4regLgn;
-import static cfg.AppConfig.evtPublisher;
 import static cfg.AppConfig.evtPublisherObsv;
 import static util.algo.EncryUtil.Key4pwd4aeskey;
 import static util.algo.EncryUtil.encryptAesToStrBase64;
@@ -83,9 +76,9 @@ public class LgnHdr3 implements Icall<RegDto, Object> {
     public Object call(@BeanParam RegDto dtoReg) throws Exception, PwdErrEx {
 
         //  usrdto.set(dtoReg);
-        evtPublisherObsv.notifyObsvrs(loginVldObsvs, new UsernamePasswordCredential(dtoReg.uname, dtoReg.pwd));
+        evtPublisherObsv.publishEvent(loginVldObsvs, new UsernamePasswordCredential(dtoReg.uname, dtoReg.pwd));
 
-        evtPublisherObsv.notifyObsvrs(LoginEvtObsvs, dtoReg);
+        evtPublisherObsv.publishEvent(LoginEvtObsvs, dtoReg);
 
 
         //======ret token jwt

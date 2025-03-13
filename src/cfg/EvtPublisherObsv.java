@@ -1,5 +1,6 @@
 package cfg;
 
+import org.jetbrains.annotations.NotNull;
 import util.excptn.ExceptionBase;
 import util.excptn.ExceptionBaseRtm;
 
@@ -7,13 +8,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
+import org.springframework.context.ApplicationEventPublisher;
+
 import static util.evtdrv.EvtUtil.evtHdrMapStrStMod;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.copyProps;
 import static util.proxy.SprUtil.injectAll4spr;
 
-public class EvtPublisherObsv {
-    public void notifyObsvrs(String evtName, Object prm) {
+public class EvtPublisherObsv implements ApplicationEventPublisher {
+    public void publishEvent(String evtName, Object prm) {
 
         Set<Method> obsSet = evtHdrMapStrStMod.get(evtName);
         for (Method m : obsSet) {
@@ -56,4 +59,13 @@ public class EvtPublisherObsv {
 
     }
 
+    /**
+     * @param event
+     */
+    @Deprecated
+    @Override
+    public void publishEvent(@NotNull Object event) {
+        throw new RuntimeException("not implt");
+
+    }
 }
