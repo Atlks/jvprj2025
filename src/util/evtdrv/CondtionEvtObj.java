@@ -1,13 +1,19 @@
 package util.evtdrv;
 
-import org.springframework.context.annotation.Condition;
+import lombok.Data;
 
 import java.lang.reflect.Method;
-import java.util.Set;
 
+@Data
 public class CondtionEvtObj {
 
-    public Class cdt;
+    public Class conditionClz;
     public Object cdtResult;
-public Set<Method> methodSet;
+
+    public Method mthd;
 }
+
+
+
+
+//public Set<Method> methodSet;

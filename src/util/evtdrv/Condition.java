@@ -16,16 +16,10 @@ package util.evtdrv;
  * limitations under the License.
  */
 
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.context.annotation.ConditionContext;
-import org.springframework.context.annotation.Conditional;
-import org.springframework.context.annotation.ConfigurationCondition;
-import org.springframework.core.type.AnnotatedTypeMetadata;
-
 @FunctionalInterface
 public interface Condition {
 
 
-    Object matches( );
+    Object matches(Object prm4cdt);
 
 }

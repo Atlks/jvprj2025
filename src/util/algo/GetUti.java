@@ -1,12 +1,31 @@
 package util.algo;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import static cfg.IocSpringCfg.getObject;
+
 
 public class GetUti {
     public static Object getObjByMethod(Method m) {
         return getObject(m.getDeclaringClass());
+    }
+
+
+    //只针对api 和biz的开放注册修改class注入aop
+    //clazz.getName() 只是获取类的全限定名（package.ClassName），不会触发类的静态初始化 或 类加载。
+
+    @NotNull
+    public static Object getObject(Class clazz) {
+        Object obj1 = null;
+        try {
+            obj1 = clazz.getConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+        return obj1;
     }
     /**
      * getType data type

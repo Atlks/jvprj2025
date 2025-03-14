@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 import static api.usr.RegHandler.SAM4regLgn;
 import static java.time.LocalTime.now;
 //import static cfg.AopLogJavassist.printLn;
+import static util.algo.GetUti.getObject;
 import static util.proxy.AtProxy4api.ChkLgnStatSam;
 import static util.proxy.IocUtil.registerBeanAsClz2map;
 import static util.proxy.IocUtil.registerBeanAsObj2map;
@@ -84,20 +85,7 @@ public class IocSpringCfg {
     }
 
 
-    //只针对api 和biz的开放注册修改class注入aop
-    //clazz.getName() 只是获取类的全限定名（package.ClassName），不会触发类的静态初始化 或 类加载。
 
-    @NotNull
-    public static Object getObject(Class clazz) {
-        Object obj1 = null;
-        try {
-            obj1 = clazz.getConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-        return obj1;
-    }
 
     private static void registerBeanAsClz2sprNmap(String beanname, Class<?> clz) {
         context.registerBean(beanname, clz);

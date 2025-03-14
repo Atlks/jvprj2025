@@ -14,8 +14,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import static cfg.IocSpringCfg.getObject;
+
 import static util.algo.GetUti.getObjByMethod;
+import static util.algo.GetUti.getObject;
 import static util.misc.util2026.printLn;
 import static util.misc.util2026.scanAllClass;
 import static util.oo.ArrUtil.pushSet;

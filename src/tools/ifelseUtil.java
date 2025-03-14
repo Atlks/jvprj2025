@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static cfg.IocSpringCfg.getObject;
+
 import static util.algo.ChooseEvtPublshr.iniCondtEvtMap4sngClz;
 
 public class ifelseUtil {

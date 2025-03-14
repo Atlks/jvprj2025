@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.function.Consumer;
 
 import static util.algo.ChooseEvtPublshr.iniCondtEvtMap4sngClz;
+import static util.evtdrv.ChooseContionEvtPublshr.addCondtEvt2evtList4sngClz;
 import static util.misc.ReflectionUtils.getFirstParamClassFromMethod;
 import static util.misc.util2026.printLn;
 import static util.misc.util2026.scanAllClass;
@@ -35,7 +36,7 @@ public class EvtUtil {
             iniEvtHdrCtnr4strEVt(clazz);
             iniEvtHdrCtnr4pathEVt(clazz);
             iniCondtEvtMap4sngClz(clazz);
-
+            addCondtEvt2evtList4sngClz(clazz);
 
         };
         scanAllClass(csmr4log);//  all add class  ...  mdfyed class btr

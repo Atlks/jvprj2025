@@ -8,24 +8,22 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationEventPublisher;
 
 
-import tools.ConditionalElse;
-
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
-import static cfg.IocSpringCfg.getObject;
+
 import static util.algo.GetUti.getObjByMethod;
-import static util.misc.util2026.printLn;
+import static util.algo.GetUti.getObject;
 import static util.misc.util2026.scanAllClass;
 import static util.oo.ArrUtil.pushSet;
 
 public class ChooseContionEvtPublshr implements ApplicationEventPublisher {
     public static List<CondtionEvtObj> evtList = new ArrayList<>();
 
-    public void publishEvent4exeCdtn(Class<Condition> c) throws Exception {
+    public void publishEvent4exeCdtn(Class<? extends  Condition> evtClz,Object prm4cdt) throws Exception {
 
-        Set<Method> st = qryEvtLst(c);
+        Set<Method> st = qryEvtLst(  evtClz,prm4cdt);
         for (Method Method1 : st) {
             System.out.println(Method1);
             Object objByMethod = getObjByMethod(Method1);
@@ -37,18 +35,22 @@ public class ChooseContionEvtPublshr implements ApplicationEventPublisher {
         // traveMethodByClass(ifelseUtil.class);
     }
 
-    private Set<Method> qryEvtLst(Class<Condition> c) {
-        Condition cdtObj = (Condition) getObject(c);
-        Object cdtResult = cdtObj.matches();
-        Optional<CondtionEvtObj> first = evtList.stream()
-                .filter(e -> e.cdt.equals(c) && Objects.equals(e.cdtResult, cdtResult))
-                .findFirst();
-        return first
-                .map(obj -> {
-                    System.out.println("找到对象：" + obj);
-                    return obj.methodSet;
-                })
-                .orElse(Collections.emptySet());  // 如果未找到，返回空 Set 避免 NullPointerException
+    private Set<Method> qryEvtLst(Class<?> evtClz, Object prm4cdt) {
+        Condition cdtObj = (Condition) getObject(evtClz);
+        Object cdtResult = cdtObj.matches(prm4cdt);
+        List<CondtionEvtObj> evtLstSlkted = evtList.stream()
+                .filter(e ->
+                        {
+                            boolean equalsCls = e.conditionClz.equals(evtClz);
+                            boolean eqRzt= Objects.equals(e.cdtResult, cdtResult);
+                            return  equalsCls && eqRzt;
+                        })
+                .toList();
+        System.out.println("sz123:"+evtLstSlkted.size());
+        //从删选后的记录中，提取mthd属性，组合成set
+        return evtLstSlkted.stream()
+                .map(e -> e.mthd) // ✅ 直接使用 `map()` 提取 `mthd`
+                .collect(Collectors.toSet()); // 转换成 Set
 
     }
 
@@ -86,12 +88,16 @@ public class ChooseContionEvtPublshr implements ApplicationEventPublisher {
                 for (Class cdtClz : cdtClss) {
                     if (cdtClz == AssertTrue.class) {
                         evt.cdtResult = true;
+                        evt.mthd=m;
+                      //  pushset(evt,m);
+                       // pushSet();
                         evtList.add(evt);
                     } else if (cdtClz == AssertFalse.class) {
                         evt.cdtResult = false;
+                        evt.mthd=m;
                         evtList.add(evt);
                     } else
-                        evt.cdt = cdtClz;
+                        evt.conditionClz = cdtClz;
                     //  pushSet(mapCls, cdtClz, m);
 
                 }
@@ -102,6 +108,18 @@ public class ChooseContionEvtPublshr implements ApplicationEventPublisher {
         //endfor
 
     }
+
+//    private static void pushset(CondtionEvtObj evt, Method m) {
+//
+//        Set<Method> st =evt.methodSet;
+//        if (st == null) {
+//            st = new HashSet<>();
+//            evt.methodSet=st;
+//        }
+//        st.add(m);
+//      //  mapCls.put(pathKey, st);
+//
+//    }
 
 //                    Condition cdtObj = (Condition) getObject(c);
 //                    if (cdtObj.matches(null, null))
