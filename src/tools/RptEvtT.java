@@ -17,6 +17,8 @@ public class RptEvtT {
     public static class ConditionImpt88 implements Condition {
         @Override
         public Object matches(Object prm4cdt) {
+
+            System.out.println("\n\n============");
             if (prm4cdt instanceof Number) { // ✅ 确保参数是数值类型
                 boolean b = ((Number) prm4cdt).intValue() > 3;
                 return !b; // ✅ 进行整数比较
@@ -53,8 +55,10 @@ public class RptEvtT {
     @RepeatUtil(ConditionImpt88.class)
     public void stepNutilStmt(Object  args) throws Exception {
         System.out.println(" utilStmt");
+
         nmm.set(nmm.get()+1);
         new RptEvtPublshr().publishEvent4rpt4exeCdtn(ConditionImpt88.class,nmm.get());
+
     }
 
 
