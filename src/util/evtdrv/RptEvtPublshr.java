@@ -1,8 +1,11 @@
 package util.evtdrv;
 
 
+
+
 import annos.Conditional;
 import annos.Repeat;
+import annos.RepeatUtil;
 import jakarta.validation.constraints.AssertFalse;
 import jakarta.validation.constraints.AssertTrue;
 import org.jetbrains.annotations.NotNull;
@@ -19,12 +22,12 @@ import static util.algo.GetUti.getObject;
 import static util.misc.util2026.scanAllClass;
 import static util.oo.ArrUtil.pushSet;
 
-public class ChooseContionEvtPublshr implements ApplicationEventPublisher {
+public class RptEvtPublshr implements ApplicationEventPublisher {
     public static List<CondtionEvtObj> evtList = new ArrayList<>();
 
-    public void publishEvent4exeCdtn(Class<? extends  Condition> evtClz,Object prm4cdt) throws Exception {
+    public void publishEvent4rpt4exeCdtn(Class<? extends Condition> evtClz, Object prm4cdt) throws Exception {
 
-        Set<Method> st = qryEvtLst(  evtClz,prm4cdt);
+        Set<Method> st = qryEvtLst(evtClz, prm4cdt);
         for (Method Method1 : st) {
             System.out.println(Method1);
             Object objByMethod = getObjByMethod(Method1);
@@ -41,13 +44,13 @@ public class ChooseContionEvtPublshr implements ApplicationEventPublisher {
         Object cdtResult = cdtObj.matches(prm4cdt);
         List<CondtionEvtObj> evtLstSlkted = evtList.stream()
                 .filter(e ->
-                        {
-                            boolean equalsCls = e.conditionClz.equals(evtClz);
-                            boolean eqRzt= Objects.equals(e.cdtResult, cdtResult);
-                            return  equalsCls && eqRzt;
-                        })
+                {
+                    boolean equalsCls = e.conditionClz.equals(evtClz);
+                    boolean eqRzt = Objects.equals(e.cdtResult, cdtResult);
+                    return equalsCls && eqRzt;
+                })
                 .toList();
-        System.out.println("sz123:"+evtLstSlkted.size());
+        System.out.println("sz123:" + evtLstSlkted.size());
         //从删选后的记录中，提取mthd属性，组合成set
         return evtLstSlkted.stream()
                 .map(e -> e.mthd) // ✅ 直接使用 `map()` 提取 `mthd`
@@ -80,36 +83,47 @@ public class ChooseContionEvtPublshr implements ApplicationEventPublisher {
 //    }
 
 
-//    public static void addRptEvt2evtList4sngClz(Class clz) {
-//
-//        Method[] ms = clz.getDeclaredMethods();
-//        for (Method m : ms) {
-//            if (m.isAnnotationPresent(Repeat.class)) {
-//                CondtionEvtObj evt = new CondtionEvtObj();
-//                Class cdtClz = m.getAnnotation(Repeat.class).value();
-//              //  for (Class cdtClz : cdtClss) {
-//                    if (cdtClz == AssertTrue.class) {
-//                        evt.cdtResult = true;
-//                        evt.mthd=m;
-//                        //  pushset(evt,m);
-//                        // pushSet();
-//                        evtList.add(evt);
-//                    } else if (cdtClz == AssertFalse.class) {
-//                        evt.cdtResult = false;
-//                        evt.mthd=m;
-//                        evtList.add(evt);
-//                    } else
-//                        evt.conditionClz = cdtClz;
-//                    //  pushSet(mapCls, cdtClz, m);
-//
-//                }
-//            }
-//
-//            //endif
-//        }
-//        //endfor
-//
-//    }
+    public static void addRptEvt2evtList4sngClz(Class clz) {
+
+        Method[] ms = clz.getDeclaredMethods();
+        for (Method m : ms) {
+            if (m.isAnnotationPresent(Repeat.class)) {
+                CondtionEvtObj evt = new CondtionEvtObj();
+                Class cdtClz = m.getAnnotation(Repeat.class).value();
+               // for (Class cdtClz : cdtClss) {
+
+                    evt.conditionClz = cdtClz;
+                    evt.cdtResult = true;
+                    evt.mthd = m;
+                    evtList.add(evt);
+                    //  pushSet(mapCls, cdtClz, m);
+
+               // }
+            }
+
+            //endif
+        }
+        //endfor
+
+        //--------------add util stmt ,last line
+        for (Method m : ms) {
+            if (m.isAnnotationPresent(RepeatUtil.class)) {
+                CondtionEvtObj evt = new CondtionEvtObj();
+                Class cdtClz = m.getAnnotation(RepeatUtil.class).value();
+                // for (Class cdtClz : cdtClss) {
+
+                evt.conditionClz = cdtClz;
+                evt.cdtResult = true;
+                evt.mthd = m;
+                evtList.add(evt);
+                //  pushSet(mapCls, cdtClz, m);
+
+                // }
+            }
+
+            //endif
+        }
+    }
 
     public static void addCondtEvt2evtList4sngClz(Class clz) {
 
@@ -121,13 +135,13 @@ public class ChooseContionEvtPublshr implements ApplicationEventPublisher {
                 for (Class cdtClz : cdtClss) {
                     if (cdtClz == AssertTrue.class) {
                         evt.cdtResult = true;
-                        evt.mthd=m;
-                      //  pushset(evt,m);
-                       // pushSet();
+                        evt.mthd = m;
+                        //  pushset(evt,m);
+                        // pushSet();
                         evtList.add(evt);
                     } else if (cdtClz == AssertFalse.class) {
                         evt.cdtResult = false;
-                        evt.mthd=m;
+                        evt.mthd = m;
                         evtList.add(evt);
                     } else
                         evt.conditionClz = cdtClz;
@@ -172,3 +186,4 @@ public class ChooseContionEvtPublshr implements ApplicationEventPublisher {
 
     }
 }
+
