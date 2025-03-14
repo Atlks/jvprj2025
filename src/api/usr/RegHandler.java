@@ -3,6 +3,7 @@
 package api.usr;
 
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.security.enterprise.identitystore.IdentityStore;
 import jakarta.ws.rs.BeanParam;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -46,6 +47,7 @@ import static util.misc.Util2025.encodeJson;
 @annos.Parameter(name = "pwd")
 @PermitAll
 @NoArgsConstructor
+// @Produces / @Consumes：指定返回和接收的数据格式（如 application/json）
 public class RegHandler implements Icall< RegDto, Object> {
     public static final String SAM4regLgn ="SAM4regLgn" ;
 
@@ -102,6 +104,7 @@ public class RegHandler implements Icall< RegDto, Object> {
 
     @Inject
     @Qualifier(SAM4regLgn)
+    @Named(SAM4regLgn)
     public ISAM sam;
 
 

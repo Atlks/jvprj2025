@@ -122,3 +122,27 @@ Publisher：负责提供数据流。
 Subscriber：负责接收数据流。
 Subscription：管理发布者与订阅者之间的订阅关系，支持请求数据和取消订阅。
 这种模式适用于需要异步、响应式编程的场景，特别是当你需要处理数据流（例如事件流、消息流等）时，Publisher 和 Subscriber 提供了一种标准化的方式来实现它们之间的交互。
+
+
+=frmwk 提供的fun itfs
+
+
+Spring 提供了许多基于函数式编程的接口，尤其是在 spring-core 和 spring-webflux 中。
+
+常见函数式接口：
+org.springframework.beans.factory.ObjectProvider<T>
+用于延迟获取 Bean。
+org.springframework.web.reactive.function.client.ExchangeFilterFunction
+org.springframework.transaction.support.TransactionCallback<T>
+用于事务管理：
+
+
+2. Guava (com.google.common.base)
+   Guava 是 Google 提供的 Java 扩展库，提供了大量函数式接口。
+
+4. Reactor (Project Reactor)
+   Reactor 是 Spring WebFlux 采用的响应式编程库，它的 reactor.core.publisher 包提供了大量函数式接口。
+
+常见函数式接口：
+reactor.function.Function3<T1, T2, T3, R>
+接受 3 个参数的函数：
