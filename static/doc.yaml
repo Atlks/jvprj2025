@@ -3,12 +3,12 @@
 openapi: 3.0.0
 info:
   title: 用户端 API
-  version: 0.0.7
+  version: 1.0.1
   description: |
-    这是一个用于用户端的 API。通过该 API，您可以作为文档开发。
+    这是一个用于用户端的 API。通过该 API，可以作为开发。
     该文档提供了所有可用接口的详细说明。
   contact:
-    name: 开发者支持
+    name: dddddomas
     email: support@example.com
 tags:
   - name: user

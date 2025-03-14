@@ -36,6 +36,7 @@ public class EvtUtil {
             iniEvtHdrCtnr4pathEVt(clazz);
             iniCondtEvtMap4sngClz(clazz);
 
+
         };
         scanAllClass(csmr4log);//  all add class  ...  mdfyed class btr
 
