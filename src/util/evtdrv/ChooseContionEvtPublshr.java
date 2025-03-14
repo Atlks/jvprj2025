@@ -41,7 +41,7 @@ public class ChooseContionEvtPublshr implements ApplicationEventPublisher {
         Condition cdtObj = (Condition) getObject(c);
         Object cdtResult = cdtObj.matches();
         Optional<CondtionEvtObj> first = evtList.stream()
-                .filter(e -> e.cdt.equals(cdtObj) && Objects.equals(e.cdtResult, cdtResult))
+                .filter(e -> e.cdt.equals(c) && Objects.equals(e.cdtResult, cdtResult))
                 .findFirst();
         return first
                 .map(obj -> {
