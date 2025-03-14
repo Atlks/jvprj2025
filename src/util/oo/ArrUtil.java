@@ -9,7 +9,16 @@ import java.util.*;
 import static util.tx.dbutil.getstartPosition;
 
 public class ArrUtil {
+    public static void pushSet(Map<String, Set<Method>> mapCls, String pathKey, Method m) {
+        Set<Method> st = mapCls.get(pathKey);
+        if (st == null) {
+            st = new HashSet<>();
 
+        }
+        st.add(m);
+        mapCls.put(pathKey, st);
+
+    }
 
     public static void pushSet(Map<Class, Set<Method>> mapCls, Class keyClz, Method m) {
         Set<Method> st = mapCls.get(keyClz);

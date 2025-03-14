@@ -11,11 +11,12 @@ import static util.algo.ChooseEvtPublshr.iniCondtEvtMap4sngClz;
 import static util.misc.ReflectionUtils.getFirstParamClassFromMethod;
 import static util.misc.util2026.printLn;
 import static util.misc.util2026.scanAllClass;
+import static util.oo.ArrUtil.pushSet;
 
 public class EvtUtil {
 
 
-
+    public static Map<String, Set<Method>> evtHdrMap4pathEvtMod = new HashMap<>();
     public static Map<String, Set<Method>> evtHdrMapStrStMod = new HashMap<>();
     public static Map<Class, Set<Method>> evtHdrMap = new HashMap<>();
 
@@ -32,12 +33,29 @@ public class EvtUtil {
             iniEvtHdrCtnr(clazz);
 
             iniEvtHdrCtnr4strEVt(clazz);
+            iniEvtHdrCtnr4pathEVt(clazz);
             iniCondtEvtMap4sngClz(clazz);
 
         };
         scanAllClass(csmr4log);//  all add class  ...  mdfyed class btr
 
 
+    }
+    private static void iniEvtHdrCtnr4pathEVt(Class clazz) {
+        Method[] mthds = clazz .getDeclaredMethods();
+        for (Method mth : mthds) {
+            if (mth.isAnnotationPresent(Observes.class)) {
+                Observes ano = mth.getAnnotation(Observes.class);
+
+                //set evt map by cls lsit
+                String[] lstEvts = ano.value();
+                for (String path : lstEvts) {
+                    pushSet(evtHdrMap4pathEvtMod,path,mth);
+
+                }
+            }
+
+        }
     }
 
     private static void iniEvtHdrCtnr4strEVt(Class clazz) {

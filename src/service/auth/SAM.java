@@ -54,6 +54,7 @@ public class SAM implements ISAM {
      */
     @Override
     @Observes({loginVldObsvs})
+    @EvtLsnr({"lgnVldEvt"})
     public CredentialValidationResult validate(Credential credential) {
 
         System.out.println("\n\n==============================sam vld===");
