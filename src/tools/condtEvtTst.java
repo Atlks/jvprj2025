@@ -2,9 +2,11 @@ package tools;
 
 
 import annos.Conditional;
+
 import jakarta.validation.constraints.AssertFalse;
 import jakarta.validation.constraints.AssertTrue;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Scope;
 import util.evtdrv.ChooseContionEvtPublshr;
 import util.evtdrv.Condition;
 
@@ -23,7 +25,7 @@ public class condtEvtTst {
 
         }
     }
-
+    @Scope("thread")
     public static void main(String[] args) throws Exception {
 
       //  System.out.println(  ConditionImpt66.class.getConstructor().newInstance());
