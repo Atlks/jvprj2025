@@ -1,7 +1,7 @@
 package api.bet;
 
 import annos.注入;
-import biz.Response;
+import biz.ApiResponse;
 import entityx.BetOrd;
 import entityx.BetOrdDto;
 import entityx.TransDto;
@@ -82,7 +82,7 @@ public class BetHdr implements Icall<BetOrdDto, Object> {
         dto.lockAccObj=objU;
         RdsFromWltService1.call(dto);
 
-        return  new Response(obj);
+        return  new ApiResponse(obj);
     }
 
 //

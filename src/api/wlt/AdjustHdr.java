@@ -3,7 +3,7 @@ package api.wlt;
 import annos.JwtParam;
 import annos.Parameter;
 import biz.ErrAdjstTypeEx;
-import biz.Response;
+import biz.ApiResponse;
 import entityx.LogBls;
 import entityx.TransDto;
 import entityx.Usr;
@@ -77,7 +77,7 @@ public class AdjustHdr implements Icall<TransDto, Object> {
        persistByHibernate(logBalance,sessionFactory.getCurrentSession());
 
 
-        return new Response(objU);
+        return new ApiResponse(objU);
     }
 //    public static void main(String[] args) throws Exception {
 //      MyCfg.iniCfgFrmCfgfile();

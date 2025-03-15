@@ -1,6 +1,6 @@
 package api.usr;
 
-import biz.Response;
+import biz.ApiResponse;
 import entityx.Passport;
 import entityx.Usr;
 import entityx.Visa;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
 import util.algo.Icall;
 import util.auth.JwtUtil;
-import service.auth.SAM;
 import util.ex.*;
 
 
@@ -85,7 +84,7 @@ public class LoginController implements Icall< RegDto, Object>  {
         //======ret token jwt
         //also set cookie todo
 
-        return new Response(getTokenJwt(usr_dto));
+        return new ApiResponse(getTokenJwt(usr_dto));
         //  setcookie("tokenJwt", tokenJwt, httpExchangeCurThrd.get());
 
 

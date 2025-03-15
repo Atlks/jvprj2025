@@ -1,6 +1,6 @@
 package api.usr;
 
-import biz.Response;
+import biz.ApiResponse;
 import entityx.Passport;
 import entityx.Usr;
 import entityx.Visa;
@@ -29,7 +29,6 @@ import java.util.Collections;
 import java.util.Map;
 
 import static api.usr.RegHandler.SAM4regLgn;
-import static biz.Containr.evtPublisherObsv;
 import static biz.Containr.evtPublisherPathmd;
 import static util.algo.EncryUtil.Key4pwd4aeskey;
 import static util.algo.EncryUtil.encryptAesToStrBase64;
@@ -87,7 +86,7 @@ public class LgnHdr4pathevt implements Icall<RegDto, Object> {
         //======ret token jwt
         //also set cookie todo
 
-        return new Response(retobj.get());
+        return new ApiResponse(retobj.get());
         //  setcookie("tokenJwt", tokenJwt, httpExchangeCurThrd.get());
 
 

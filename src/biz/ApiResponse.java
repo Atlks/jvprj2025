@@ -9,29 +9,29 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-public class Response {
+public class ApiResponse {
 
 
     //sucess ret
     //not for page
-    public Response(Object data) {
+    public ApiResponse(Object data) {
         this.data = data;
 
     }
 
-    public Response(Object data, PageInfo pageInfo) {
+    public ApiResponse(Object data, PageInfo pageInfo) {
         this.data = data;
     }
 
 
-    public Response(Object e, Object err_message) {
+    public ApiResponse(Object e, Object err_message) {
         this.data = e;
         this.stat_code = 500;
         this.message = err_message;
     }
 
-    public static Response createResponse(Object data) {
-        Response rs = new Response(data);
+    public static ApiResponse createResponse(Object data) {
+        ApiResponse rs = new ApiResponse(data);
         if (data instanceof PageResult) {
             PageResult pr = (PageResult) data;
             rs.data = pr.records;
@@ -50,15 +50,16 @@ public class Response {
         return rs;
     }
 
-    public static Response createErrResponse(Throwable ex) {
-        return new Response(ex, ex.getMessage());
+    public static ApiResponse createErrResponse(Throwable ex) {
+        return new ApiResponse(ex, ex.getMessage());
     }
 
-    public static Response createErrResponseWzErrcode(ExceptionBase ex) {
-        return new Response(ex, ex.errcode);
+    public static ApiResponse createErrResponseWzErrcode(ExceptionBase ex) {
+        return new ApiResponse(ex, ex.errcode);
     }
 
-
+    public String statusCodeStr;
+    public String errcode;
     private int stat_code = 200;      // 状态码，如 200、400、500
     private Object message = "ok"; //statCodeStr  响应信息，如 "OK" 或 "Error"
     private Object data = "";        // 具体的数据对象

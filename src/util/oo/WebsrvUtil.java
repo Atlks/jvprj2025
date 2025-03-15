@@ -1,11 +1,11 @@
 package util.oo;
 
-import biz.Response;
+import biz.ApiResponse;
 import com.sun.net.httpserver.HttpExchange;
 import util.excptn.ExceptionBase;
 import util.excptn.ExceptionBaseRtm;
 
-import static biz.Response.createErrResponseWzErrcode;
+import static biz.ApiResponse.createErrResponseWzErrcode;
 import static util.excptn.ExptUtil.addInfo2ex;
 import static util.misc.Util2025.*;
 import static util.misc.util2026.wrtRespErrNoex;
@@ -54,7 +54,7 @@ public class WebsrvUtil {
         addInfo2ex(ex, e);
 
 
-        Response errResponseWzErrcode = createErrResponseWzErrcode(ex);
+        ApiResponse errResponseWzErrcode = createErrResponseWzErrcode(ex);
         String responseTxt =  encodeJson4ex(errResponseWzErrcode);
 
         wrtRespErrNoex(exchange, responseTxt);

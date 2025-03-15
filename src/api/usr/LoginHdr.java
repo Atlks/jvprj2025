@@ -1,6 +1,6 @@
 package api.usr;
 
-import biz.Response;
+import biz.ApiResponse;
 import entityx.Passport;
 import entityx.Usr;
 import entityx.Visa;
@@ -89,7 +89,7 @@ public class LoginHdr implements Icall<RegDto, Object> {
         //======ret token jwt
         //also set cookie todo
 
-        return new Response(retobj.get());
+        return new ApiResponse(retobj.get());
         //  setcookie("tokenJwt", tokenJwt, httpExchangeCurThrd.get());
 
 
