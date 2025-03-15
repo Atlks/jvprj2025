@@ -32,6 +32,7 @@ import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 import static util.algo.EncryUtil.*;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.*;
+
 /**
  * login
  * //@param uname
@@ -45,19 +46,19 @@ import static util.misc.util2026.*;
 @Path("/login")
 //   http://localhost:8889/login?uname=008&pwd=000
 @NoArgsConstructor
-public class LoginController implements Icall< RegDto, Object>  {
+public class LoginController implements Icall<RegDto, Object> {
 
-    public LoginController(String uname,String pwd) {
+    public LoginController(String uname, String pwd) {
     }
 
     public static ThreadLocal<Usr> usrdto = new ThreadLocal<>();
-  //aes key 16byte
+    //aes key 16byte
     @Context
     public static SecurityContext securityContext;
 
     @Inject
     @Qualifier(SAM4regLgn)
-  public IdentityStore sam;
+    public IdentityStore sam;
 
     /**
      * @return
@@ -67,18 +68,17 @@ public class LoginController implements Icall< RegDto, Object>  {
     @Override
     public Object call(@BeanParam RegDto usr_dto) throws Exception, PwdErrEx {
 
-      //  usrdto.set(usr_dto);
+        //  usrdto.set(usr_dto);
 
 
-        sam. validate(new UsernamePasswordCredential(usr_dto.uname, usr_dto.pwd));
+        sam.validate(new UsernamePasswordCredential(usr_dto.uname, usr_dto.pwd));
 
         //============set cok
         //=========save coookie
         //  securityContext=new SecurityContextImp(dto.uname) ;
-     //   setVisa(usr_dto);
+        //   setVisa(usr_dto);
         setcookie("unameHRZ", usr_dto.uname, httpExchangeCurThrd.get());
         setcookie("uname", encryptAesToStrBase64(usr_dto.uname, Key4pwd4aeskey), httpExchangeCurThrd.get());
-
 
 
         //======ret token jwt
@@ -88,11 +88,7 @@ public class LoginController implements Icall< RegDto, Object>  {
         //  setcookie("tokenJwt", tokenJwt, httpExchangeCurThrd.get());
 
 
-
-
     }
-
-
 
 
     @NotNull
@@ -158,16 +154,11 @@ public class LoginController implements Icall< RegDto, Object>  {
 //    }
 
 
-
-
     //        } else {
 //            // 未登录或认证失败
 //            System.out.println("认证失败");
 //            return AuthenticationStatus.SEND_FAILURE;
 //        }
-
-
-
 
 
     private static String setVisa(Usr dto) throws AuthenticationException {

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * resps obj
  * from swg apirps props
  *  private String description = null;
  *      *     private Map<String, Header> headers = null;
