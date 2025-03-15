@@ -20,6 +20,7 @@ import static service.CmsBiz.toBigDcmTwoDot;
 @Entity
 @Table
 @org.hibernate.annotations.Comment(  "用户表")
+@org.hibernate.annotations.Table(appliesTo = "Usr", comment = "用户表")
 @DynamicUpdate  // 仅更新被修改的字段
 @DynamicInsert //如果还希望 INSERT 时也只插入非 null 的字段，可以搭配
 @PersistenceCapable
