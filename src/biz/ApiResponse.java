@@ -8,9 +8,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * from swg apirps props
+ *  private String description = null;
+ *      *     private Map<String, Header> headers = null;
+ *      *     private Content content = null;
+ */
 @Data
-public class ApiResponse {
+public class ApiResponse extends  io.swagger.v3.oas.models.responses.ApiResponse {
 
+    /**
+     *
+     * @param data
+     */
 
     //sucess ret
     //not for page
