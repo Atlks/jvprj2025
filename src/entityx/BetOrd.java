@@ -11,10 +11,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 import static util.misc.util2026.getFilenameFrmLocalTimeString;
 //  must jakarta not javax
 
+/**
+ * 注单 投注单
+ */
 @Entity
 @Table(name = "OrdBet")
 @Data
@@ -26,6 +30,8 @@ public class BetOrd extends baseObj {
     @Id
     public String id;
 
+
+    @Comment("注单日期")
     @NotBlank
     public String drawDate="";
     @NotNull
