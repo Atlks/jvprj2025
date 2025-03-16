@@ -1,3 +1,4 @@
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 
 import java.io.File;
@@ -7,6 +8,8 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
+
+import static util.misc.Util2025.encodeJson;
 
 public class AutoRestartApp {
     public static void main(String[] args) throws Exception {
@@ -53,7 +56,7 @@ public class AutoRestartApp {
     }
 
 
-    // 这里好像 -classpath参数没有收集到
+    // 这里好像 -classpath参数 没有收集 到
     public static void restartApplication() throws IOException, InterruptedException {
         System.out.println("正在重启应用...");
 
@@ -64,6 +67,55 @@ public class AutoRestartApp {
 
         // 获取当前 JVM 运行的参 数     // 这里好像 -classpath参数没有收集到
         List<String> inputArguments = ManagementFactory.getRuntimeMXBean().getInputArguments();
+        String vmArgs = geneVmArgsCmd(inputArguments);
+        //  String vmArgs = String.join(" ", processedArgs);
+        System.out.println("vmargs======\n" + vmArgs);
+        // 获取主类（entry point）
+        String mainClass = ManagementFactory.getRuntimeMXBean().getSystemProperties().get("sun.java.command");
+        var classpathPrm = getClasspath(filePathClassps);
+
+        //  classpathPrm="xxx.jar";
+        //    classpathPrm="\""+classpathPrm+"\"";
+        String args = vmArgs + " " + "-classpath " + classpathPrm;
+        System.out.println("重启命令：" + javaBin + " " + args + " " + mainClass);
+
+
+        // 组装命令
+        List<String> command =new ArrayList<>();
+        command.add(javaBin);
+        command.addAll(inputArguments);
+        command.add("-classpath");
+        command.add( classpathPrm);
+        command.add( mainClass);
+        System.out.println(encodeJson(command));
+
+        // 创建新进程，重新运行当前 程序
+        ProcessBuilder builder = new ProcessBuilder( command);
+       var process= builder.start();
+
+        // 捕获错误日志，避免新进程启动失败但没有日志
+        try (var reader = new java.io.BufferedReader(new java.io.InputStreamReader(process.getErrorStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.err.println("新进程错误输出：" + line);
+            }
+        }
+
+
+        int exitCode = process.waitFor();
+        System.out.println("新进程退出代码: " + exitCode);
+
+//      //  int exitCode = process.waitFor();"新进程退出代码: " +
+                System.exit(0); // 退出当前进程sdfd v
+
+
+        // 创建新进程，重新运行 当前程序
+
+
+    }
+
+    @NotNull
+    private static String geneVmArgsCmd(List<String> inputArguments) {
         //判断如果String里面包含空格，那么list的元素使用双引号包起来
         // 创建一个新的列表来存储处理后的参数
         List<String> processedArgs = new ArrayList<>();
@@ -79,30 +131,7 @@ public class AutoRestartApp {
 
         // 拼接成一个完整的命令行参数字符串
         String vmArgs = String.join(" ", processedArgs);
-        //  String vmArgs = String.join(" ", processedArgs);
-        System.out.println("vmargs======\n" + vmArgs);
-        // 获取主类（entry point）
-        String mainClass = ManagementFactory.getRuntimeMXBean().getSystemProperties().get("sun.java.command");
-        var classpathPrm = getClasspath(filePathClassps);
-
-        //  classpathPrm="xxx.jar";
-        //    classpathPrm="\""+classpathPrm+"\"";
-        System.out.println("重启命令：" + javaBin + " " + vmArgs + " " + "-classpath " + classpathPrm + " " + mainClass);
-
-
-        // 创建新进程，重新运行当前程序
-        ProcessBuilder builder = new ProcessBuilder(javaBin, vmArgs, "-classpath", classpathPrm, mainClass);
-       var process= builder.start();
-        int exitCode = process.waitFor();
-        System.out.println("新进程退出代码: " + exitCode);
-
-//      //  int exitCode = process.waitFor();"新进程退出代码: " +
-                System.exit(0); // 退出当前进程
-
-
-        // 创建新进程，重新运行当前程序
-
-
+        return vmArgs;
     }
 
 
