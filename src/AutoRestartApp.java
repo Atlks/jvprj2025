@@ -77,6 +77,7 @@ public class AutoRestartApp {
 
         // 组装命令
         List<String> command = new ArrayList<>();
+        command.add("exittt");
         command.add(javaBin);
         command.addAll(inputArguments);
         command.add("-classpath");
