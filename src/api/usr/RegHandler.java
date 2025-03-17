@@ -48,8 +48,7 @@ import static util.misc.Util2025.encodeJson;
 @PermitAll
 @NoArgsConstructor
 // @Produces / @Consumes：指定返回和接收的数据格式（如 application/json）
-public class RegHandler implements Icall< RegDto, Object> {
-    public static final String SAM4regLgn ="SAM4regLgn" ;
+public class RegHandler implements IRegHandler {
 
     public RegHandler(String uname, String pwd) {
     }
@@ -77,13 +76,12 @@ public class RegHandler implements Icall< RegDto, Object> {
     @Path("/reg")
     @Tag(name = "usr")
     @Operation(summary = "注册用户的方法reg", description = "注册用户的方法dscrp。。。。")
-
     @Parameter(name = "uname", description = "用户名", required = true)
     @Parameter(name = "pwd", description = "密码", required = true)
     @Parameter(name = "uname", description = "邀请人", required = false)
     @PermitAll
     @Validated
-
+    @Override
     public Object call(@BeanParam RegDto dtoReg) throws Throwable {
         System.out.println("reghdl.hd3(" + encodeJson(dtoReg));
 
@@ -92,7 +90,7 @@ public class RegHandler implements Icall< RegDto, Object> {
         });
 
 
-
+        //add u
         Usr u=new Usr(dtoReg.uname);
         persistByHibernate( u, sessionFactory.getCurrentSession());
 
@@ -113,6 +111,7 @@ public class RegHandler implements Icall< RegDto, Object> {
 
     //@Autowired
 //    org.hibernate.Session session;
+    @Override
     public boolean existUser(RegDto user) throws existUserEx {
 //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         //  om.jdbcurl=saveDirUsrs;
@@ -133,24 +132,25 @@ public class RegHandler implements Icall< RegDto, Object> {
 //        // record 自动生成构造函数、getters、equals、hashCode 和 toString 方法
 //    }
 
-    public boolean existUser(String uname) throws Exception {
-
-        //    Usr jo = getObjById(uname, saveDirUsrs, Usr.class);
-
-//        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
-        //  om.jdbcurl=saveDirUsrs;
-        //todo start tx
-        // session.beginTransaction();
-        Session session = sessionFactory.getCurrentSession();
-        Usr jo = session.find(Usr.class, uname);
-        if (jo == null)
-            return false;
-        // 空安全处理，直接操作结果
-        if (jo.uname.equals("")) {
-            return false;
-        } else
-            return true;
-    }
+//    @Override
+//    public boolean existUser(String uname) throws Exception {
+//
+//        //    Usr jo = getObjById(uname, saveDirUsrs, Usr.class);
+//
+////        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
+//        //  om.jdbcurl=saveDirUsrs;
+//        //todo start tx
+//        // session.beginTransaction();
+//        Session session = sessionFactory.getCurrentSession();
+//        Usr jo = session.find(Usr.class, uname);
+//        if (jo == null)
+//            return false;
+//        // 空安全处理，直接操作结果
+//        if (jo.uname.equals("")) {
+//            return false;
+//        } else
+//            return true;
+//    }
 
 
 }

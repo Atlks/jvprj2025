@@ -27,7 +27,7 @@ import util.ex.*;
 import java.util.Collections;
 import java.util.Map;
 
-import static api.usr.RegHandler.SAM4regLgn;
+import static api.usr.IRegHandler.SAM4regLgn;
 import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 import static util.algo.EncryUtil.*;
 import static util.misc.Util2025.encodeJson;

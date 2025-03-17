@@ -10,10 +10,9 @@ import util.proxy.AtProxy4Svs;
 import util.algo.Icall;
 import util.oo.StrUtil;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.function.Consumer;
 
-import static api.usr.RegHandler.SAM4regLgn;
+import static api.usr.IRegHandler.SAM4regLgn;
 import static java.time.LocalTime.now;
 //import static cfg.AopLogJavassist.printLn;
 import static util.algo.GetUti.getObject;
