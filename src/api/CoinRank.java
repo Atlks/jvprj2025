@@ -41,6 +41,8 @@ public class CoinRank  implements Icall<Non, Object> {
      * @throws IOException
      */
     public List<Coin> call(Non dto) throws IOException {
+
+        String API_URL = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1";
         List<Coin> coins = new ArrayList<>();
         String string = getStrFrmUrl(API_URL);
         System.out.println( string);
