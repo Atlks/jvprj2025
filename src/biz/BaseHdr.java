@@ -160,7 +160,7 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
         }
 
         // 获取 obj 的所有方法
-        Method[] methods = obj.getClass().getDeclaredMethods();
+        Method[] methods = obj.getClass().getMethods();
 
         for (Method method : methods) {
             // 确保方法名称匹配

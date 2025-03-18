@@ -5,11 +5,9 @@ package api.usr;
 import biz.ApiResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.security.enterprise.identitystore.IdentityStore;
 import jakarta.ws.rs.BeanParam;
 import org.springframework.beans.factory.annotation.Qualifier;
 import service.auth.ISAM;
-import service.auth.SAM;
 import util.ex.existUserEx;
 import entityx.Usr;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,7 +21,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import util.algo.Icall;
 
 
 import static cfg.AppConfig.sessionFactory;
@@ -74,32 +71,29 @@ public class RegHandler implements IRegHandler {
 //
 //
 //    }
-    @Path("/reg")
-    @Tag(name = "usr")
-    @Operation(summary = "注册用户的方法reg", description = "注册用户的方法dscrp。。。。")
-    @Parameter(name = "uname", description = "用户名", required = true)
-    @Parameter(name = "pwd", description = "密码", required = true)
-    @Parameter(name = "uname", description = "邀请人", required = false)
-    @PermitAll
-    @Validated
-    @Override
-    public Object call(@BeanParam RegDto dtoReg) throws Throwable {
-        System.out.println("reghdl.hd3(" + encodeJson(dtoReg));
-
-        ivk4log("existUser", () -> {
-            return existUser(dtoReg);
-        });
+//    @Path("/reg")
+//    @Tag(name = "usr")
+//    @Operation(summary = "注册用户的方法reg", description = "注册用户的方法dscrp。。。。")
+//    @Parameter(name = "uname", description = "用户名", required = true)
+//    @Parameter(name = "pwd", description = "密码", required = true)
+//    @Parameter(name = "uname", description = "邀请人", required = false)
+//    @PermitAll
+//    @Validated
+//    @Override
+//    public Object call(@BeanParam RegDto dtoReg) throws Throwable {
+//
+//    }
 
 
-        //add u
+
+    public   void addU(RegDto dtoReg) {
         Usr u=new Usr(dtoReg.uname);
         persistByHibernate( u, sessionFactory.getCurrentSession());
-
-        sam.storeKey(dtoReg.uname,dtoReg.pwd);
-
-        return new ApiResponse(dtoReg) ;
     }
 
+    public void storekey(RegDto dtoReg) {
+        sam.storeKey(dtoReg.uname, dtoReg.pwd);
+    }
 
     @Inject
     @Qualifier(SAM4regLgn)
@@ -113,7 +107,7 @@ public class RegHandler implements IRegHandler {
     //@Autowired
 //    org.hibernate.Session session;
     @Override
-    public boolean existUser(RegDto user) throws existUserEx {
+    public boolean chkExistUser(RegDto user) throws existUserEx {
 //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         //  om.jdbcurl=saveDirUsrs;
 

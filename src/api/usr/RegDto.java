@@ -16,4 +16,5 @@ public class RegDto {
     @NotBlank
     public String pwd = "";
     public String invtr = "";
+    public String email = "";
 }

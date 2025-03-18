@@ -1,5 +1,6 @@
 package api.usr;
 
+import biz.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -7,10 +8,13 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
 import util.ex.existUserEx;
+
+import static util.misc.Util2025.encodeJson;
+import static util.proxy.AopUtil.ivk4log;
+
 @RestController
 @Path("/reg")
 @Tag(name = "usr")
@@ -50,11 +54,26 @@ public interface IRegHandler extends Icall<RegDto, Object> {
     @Parameter(name = "uname", description = "邀请人", required = false)
     @PermitAll
     @Validated
-    Object call(@BeanParam RegDto dtoReg) throws Throwable;
+   default Object call(@BeanParam RegDto dtoReg) throws Throwable{
+        System.out.println("reghdl.hd3(" + encodeJson(dtoReg));
+
+        ivk4log("existUser", () -> {
+            return chkExistUser(dtoReg);
+        });
+
+
+        //add u
+        addU(dtoReg);
+
+        storekey(dtoReg);
+
+        return new ApiResponse(dtoReg) ;
+    }
 
     //@Autowired
 //    org.hibernate.Session session;
-    boolean existUser(RegDto user) throws existUserEx;
+    boolean chkExistUser(RegDto user) throws existUserEx;
+    public   void addU(RegDto dtoReg);
+    public void storekey(RegDto dtoReg);
 
- //   boolean existUser(String uname) throws Exception;
 }
