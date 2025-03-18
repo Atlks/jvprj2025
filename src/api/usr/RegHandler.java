@@ -2,6 +2,7 @@
 
 package api.usr;
 
+import biz.ApiResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.security.enterprise.identitystore.IdentityStore;
@@ -96,7 +97,7 @@ public class RegHandler implements IRegHandler {
 
         sam.storeKey(dtoReg.uname,dtoReg.pwd);
 
-        return dtoReg;
+        return new ApiResponse(dtoReg) ;
     }
 
 

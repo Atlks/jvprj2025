@@ -13,14 +13,15 @@ import util.algo.Icall;
 import util.ex.existUserEx;
 @RestController
 @Path("/reg")
-@RequestMapping("/reg")
+@Tag(name = "usr")
 @Tag(name = "用户管理", description = "用户相关操作")
 @annos.Parameter(name = "uname")
 @annos.Parameter(name = "pwd")
+@annos.Parameter(name = "invtr",description = "邀请人",required = false)
 @PermitAll
 /**
  * reg
- * existUserEvt,regEvt   事件抽象
+ *
  * existUser,adduser,storekey (这里流程抽象)
  */
 public interface IRegHandler extends Icall<RegDto, Object> {

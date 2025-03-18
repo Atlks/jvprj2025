@@ -2,9 +2,11 @@ package util.proxy;
 
 import annos.CookieParam;
 import annos.JwtParam;
+import biz.ApiResponse;
 import biz.MinValidator;
 import entityx.Non;
 import jakarta.inject.Inject;
+import org.hibernate.context.internal.ThreadLocalSessionContext;
 import org.springframework.beans.factory.annotation.Qualifier;
 import service.auth.ISAM;
 import util.ex.ValideTokenFailEx;
@@ -35,6 +37,7 @@ import java.util.Map;
 
 import static biz.BaseHdr.*;
 import static biz.ApiResponse.createErrResponseWzErrcode;
+import static cfg.AppConfig.sessionFactory;
 import static util.algo.AnnotationUtils.getCookieParamsV2;
 import static util.algo.AnnotationUtils.getParams;
 import static util.algo.ToXX.toDtoFrmQrystr;
@@ -139,7 +142,7 @@ public class AtProxy4api implements HttpHandler {
             urlAuthChkV2(exchange);
             handlexProcess(exchange);
 
-
+            commitTsact();
             //      System.out.println("endfun handle2()");
             System.out.println("✅endfun handle()");
             return;
@@ -160,7 +163,8 @@ public class AtProxy4api implements HttpHandler {
             // throw new RuntimeException(e);
 
         } finally {
-            commitTsact();
+            sessionFactory.getCurrentSession().close();
+            ThreadLocalSessionContext.unbind(sessionFactory);
         }
         //end catch
 
@@ -235,6 +239,7 @@ public class AtProxy4api implements HttpHandler {
         //  默认会将 String 直接作为 text/plain 处理：
         if (rzt == null)
             rzt = "ok";
+      //  rzt=new ApiResponse(rzt);
         if (rzt.getClass() == String.class)
             wrtResp(exchange, (rzt.toString()));
         else
