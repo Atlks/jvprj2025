@@ -2,7 +2,6 @@ package util.proxy;
 
 import annos.CookieParam;
 import annos.JwtParam;
-import biz.ApiResponse;
 import biz.MinValidator;
 import entityx.Non;
 import jakarta.inject.Inject;
@@ -36,18 +35,17 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import static biz.BaseHdr.*;
-import static biz.ApiResponse.createErrResponseWzErrcode;
+import static entityx.ApiResponse.createErrResponseWzErrcode;
 import static cfg.AppConfig.sessionFactory;
 import static util.algo.AnnotationUtils.getCookieParamsV2;
 import static util.algo.AnnotationUtils.getParams;
+import static util.algo.GetUti.getUUid;
 import static util.algo.ToXX.toDtoFrmQrystr;
-import static util.excptn.ExptUtil.addInfo2ex;
+import static util.excptn.ExptUtil.*;
 import static util.oo.WebsrvUtil.processNmlExptn;
 import static util.proxy.AopUtil.ivk4log;
 import static util.auth.AuthUtil.getCurrentUser;
 import static util.log.ColorLogger.*;
-
-import static util.excptn.ExptUtil.curUrl;
 
 import static util.proxy.SprUtil.injectAll4spr;
 import static util.tx.TransactMng.commitTsact;
@@ -128,6 +126,7 @@ public class AtProxy4api implements HttpHandler {
         String mth = colorStr("handle", YELLOW_bright);
         String prmurl = colorStr(String.valueOf(exchange.getRequestURI()), GREEN);
         curUrl.set(encodeJson(exchange.getRequestURI()));
+        requestIdCur.set(getUUid());
         System.out.println("▶\uFE0Ffun " + mth + "(url=" + prmurl);
         //   curUrlPrm.set(exchange.getrequ);
         var responseTxt = "";

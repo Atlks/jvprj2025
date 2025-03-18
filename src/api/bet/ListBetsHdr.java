@@ -11,7 +11,7 @@ import util.algo.Icall;
 //import static api.usr.QueryUsrHdr.qryuserLucene;
 
 
-import static biz.ApiResponse.createResponse;
+import static entityx.ApiResponse.createResponse;
 import static cfg.AppConfig.sessionFactory;
 import static java.time.LocalTime.now;
 import static util.algo.EncodeUtil.encodeParamSql;

@@ -808,6 +808,11 @@ public class util2026 {
     }
 
 
+
+    public static void sleep(int i) throws InterruptedException {
+        Thread.sleep(i);
+    }
+
     public static void wrtResp(HttpExchange exchange, String responseTxt) throws IOException {
 
         System.out.println("wrtResp(resptxt=" + responseTxt);

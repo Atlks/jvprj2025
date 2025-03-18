@@ -792,9 +792,7 @@ public class Util2025 {
         }
     }
 
-    public static String getUUid4game() {
-        return UUID.randomUUID().toString();
-    }
+
 
 // 处理数组的 JSON 字符串，将每个元素换行显示
 

@@ -49,6 +49,7 @@ public class SprUtil {
      */
     public static void registerBean(Class clazz, AnnotationConfigApplicationContext context) {
         String beanName = StrUtil.lowerFirstChar(clazz.getSimpleName());
+        System.out.println("regbean1237 bname="+beanName+",clz="+clazz);
         context.registerBean(beanName,clazz);
     }
 

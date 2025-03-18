@@ -1,6 +1,6 @@
 package api.wlt;
 
-import biz.RechargeFailExptn;
+import util.excptn.RechargeFailExptn;
 import com.alibaba.fastjson2.JSONObject;
 import entityx.TransDto;
 import io.swagger.v3.oas.annotations.tags.Tag;

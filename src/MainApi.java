@@ -59,7 +59,12 @@ public class MainApi {
         iniRestPathMap();
         startWebSrv();
     }
-    private static void iniContnr() throws Exception {
+
+    /**
+     * for ban
+     * @throws Exception
+     */
+    public static void iniContnr() throws Exception {
         //@NonNull
         iniCfgFrmCfgfile();
         //---------------ini contarin
@@ -69,9 +74,7 @@ public class MainApi {
 
     }
 
-    private static void sleep(int i) throws InterruptedException {
-         Thread.sleep(i);
-    }
+
 
     public static void openMap4test() {
 

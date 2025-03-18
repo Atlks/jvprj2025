@@ -33,7 +33,7 @@ public @interface Parameter {
 
     String description() default "";
 
-    boolean required() default false;
+    boolean required() default true;
 
     boolean deprecated() default false;
 

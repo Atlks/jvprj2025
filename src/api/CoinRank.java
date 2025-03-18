@@ -1,21 +1,20 @@
 package api;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
+import entityx.ApiResponse;
 import entityx.Coin;
 import entityx.Non;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
+
+import static util.algo.GetUti.getStrFrmUrl;
 
 //加密货币排行榜   CryptoRank
 // 虚拟货币实体类  coinRank
@@ -40,7 +39,7 @@ public class CoinRank  implements Icall<Non, Object> {
      * @return
      * @throws IOException
      */
-    public List<Coin> call(Non dto) throws IOException {
+    public Object call(Non dto) throws IOException {
 
         String API_URL = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1";
         List<Coin> coins = new ArrayList<>();
@@ -54,7 +53,7 @@ public class CoinRank  implements Icall<Non, Object> {
             double price = obj.getDouble("current_price");
             coins.add(new Coin(name, price));
         }
-        return coins;
+        return  new ApiResponse(coins) ;
     }
 
 
@@ -72,26 +71,5 @@ public class CoinRank  implements Icall<Non, Object> {
 
 
 
-    @NotNull
-    private static String getStrFrmUrl(String apiUrl) throws IOException {
-        URL url = new URL(API_URL);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Accept", "application/json");
 
-        if (conn.getResponseCode() != 200) {
-            throw new IOException("Failed to fetch data: HTTP error code " + conn.getResponseCode());
-        }
-
-        Scanner scanner = new Scanner(conn.getInputStream());
-        StringBuilder jsonStr = new StringBuilder();
-        while (scanner.hasNext()) {
-            jsonStr.append(scanner.nextLine());
-        }
-        scanner.close();
-        conn.disconnect();
-
-        String string = jsonStr.toString();
-        return string;
-    }
 }

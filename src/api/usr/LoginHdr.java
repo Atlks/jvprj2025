@@ -1,6 +1,6 @@
 package api.usr;
 
-import biz.ApiResponse;
+import entityx.ApiResponse;
 import entityx.Passport;
 import entityx.Usr;
 import entityx.Visa;

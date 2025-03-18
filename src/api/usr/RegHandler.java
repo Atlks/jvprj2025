@@ -2,23 +2,18 @@
 
 package api.usr;
 
-import biz.ApiResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.ws.rs.BeanParam;
 import org.springframework.beans.factory.annotation.Qualifier;
 import service.auth.ISAM;
 import util.ex.existUserEx;
 import entityx.Usr;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import static cfg.AppConfig.sessionFactory;
 import static util.proxy.AopUtil.ivk4log;
 import static util.tx.HbntUtil.persistByHibernate;
-import static util.misc.Util2025.encodeJson;
 
 
 /**

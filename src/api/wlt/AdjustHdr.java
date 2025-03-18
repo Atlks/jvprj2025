@@ -2,8 +2,8 @@ package api.wlt;
 
 import annos.JwtParam;
 import annos.Parameter;
-import biz.ErrAdjstTypeEx;
-import biz.ApiResponse;
+import util.ex.ErrAdjstTypeEx;
+import entityx.ApiResponse;
 import entityx.LogBls;
 import entityx.TransDto;
 import entityx.Usr;

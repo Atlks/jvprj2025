@@ -1,0 +1,90 @@
+{
+  "data": [
+    {
+      "name": "bitcoin",
+      "price": 81582.0
+    },
+    {
+      "name": "ethereum",
+      "price": 1879.48
+    },
+    {
+      "name": "tether",
+      "price": 0.999726
+    },
+    {
+      "name": "ripple",
+      "price": 2.23
+    },
+    {
+      "name": "binancecoin",
+      "price": 630.95
+    },
+    {
+      "name": "solana",
+      "price": 123.1
+    },
+    {
+      "name": "usd-coin",
+      "price": 0.999868
+    },
+    {
+      "name": "cardano",
+      "price": 0.685137
+    },
+    {
+      "name": "dogecoin",
+      "price": 0.163671
+    },
+    {
+      "name": "tron",
+      "price": 0.224784
+    },
+    {
+      "name": "staked-ether",
+      "price": 1876.96
+    },
+    {
+      "name": "wrapped-bitcoin",
+      "price": 81319.0
+    },
+    {
+      "name": "the-open-network",
+      "price": 3.64
+    },
+    {
+      "name": "leo-token",
+      "price": 9.71
+    },
+    {
+      "name": "chainlink",
+      "price": 13.53
+    },
+    {
+      "name": "usds",
+      "price": 0.999678
+    },
+    {
+      "name": "stellar",
+      "price": 0.265785
+    },
+    {
+      "name": "wrapped-steth",
+      "price": 2251.01
+    },
+    {
+      "name": "pi-network",
+      "price": 1.14
+    },
+    {
+      "name": "hedera-hashgraph",
+      "price": 0.183115
+    }
+  ],
+  "debugInfo": {},
+  "message": "ok",
+  "path": "",
+  "requestId": "",
+  "statusCode": 200,
+  "timestamp": 1742320196876
+}

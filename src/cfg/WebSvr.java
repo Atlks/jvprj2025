@@ -86,7 +86,7 @@ public class WebSvr {
             if (aClass.getName().startsWith("api")) {
                 //  var bean=getBeanFrmSpr(aClass);
                 var path = getPathFromBean(aClass);
-//                    System.out.println("cftCtx(path="+path+",bean="+bean.toString());
+                 System.out.println("pathMap(path="+path+",aClass="+aClass.toString());
                 //   server.createContext(path, (HttpHandler) bean);
                 pathMap.put(path, aClass);
 

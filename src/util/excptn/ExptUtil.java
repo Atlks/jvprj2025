@@ -9,6 +9,7 @@ import static util.misc.util2026.getStackTraceAsString;
 public class ExptUtil {
 
     //wz qrystr
+    public static ThreadLocal<String> requestIdCur = new ThreadLocal<>();
     public static ThreadLocal<String> curUrl = new ThreadLocal<>();
     public static ThreadLocal<String> curUrlPrm = new ThreadLocal<>();
     public static ThreadLocal<String> curFun4dbg = new ThreadLocal<>();

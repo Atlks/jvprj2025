@@ -1,7 +1,7 @@
 package api.bet;
 
 import annos.注入;
-import biz.ApiResponse;
+import entityx.ApiResponse;
 import entityx.BetOrd;
 import entityx.BetOrdDto;
 import entityx.TransDto;

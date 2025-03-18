@@ -1,11 +1,11 @@
 package util.oo;
 
-import biz.ApiResponse;
+import entityx.ApiResponse;
 import com.sun.net.httpserver.HttpExchange;
 import util.excptn.ExceptionBase;
 import util.excptn.ExceptionBaseRtm;
 
-import static biz.ApiResponse.createErrResponseWzErrcode;
+import static entityx.ApiResponse.createErrResponseWzErrcode;
 import static util.excptn.ExptUtil.addInfo2ex;
 import static util.misc.Util2025.*;
 import static util.misc.util2026.wrtRespErrNoex;
