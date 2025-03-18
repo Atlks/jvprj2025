@@ -45,20 +45,20 @@ public class ApiResponse extends  io.swagger.v3.oas.models.responses.ApiResponse
 
     public static ApiResponse createResponse(Object data) {
         ApiResponse rs = new ApiResponse(data);
-        if (data instanceof PageResult) {
-            PageResult pr = (PageResult) data;
-            rs.data = pr.records;
-//            rs.pageInfo.setPage(pr.page);
-//            rs.pageInfo.setPagesize(pr.pagesize);
-//            rs.pageInfo.setTotalRows(pr.totalRecords);
-//            rs.pageInfo.setTotalPages(pr.totalPages);
-        } else if (data instanceof List<?>) {
-            List li = (List) data;
-         //   rs.pageInfo.setTotalRows(li.size());
-            //page1  pagesize xx
-            //total page 1
-
-        }
+//        if (data instanceof PageResult) {
+//            PageResult pr = (PageResult) data;
+//            rs.data = pr.records;
+////            rs.pageInfo.setPage(pr.page);
+////            rs.pageInfo.setPagesize(pr.pagesize);
+////            rs.pageInfo.setTotalRows(pr.totalRecords);
+////            rs.pageInfo.setTotalPages(pr.totalPages);
+//        } else if (data instanceof List<?>) {
+//            List li = (List) data;
+//         //   rs.pageInfo.setTotalRows(li.size());
+//            //page1  pagesize xx
+//            //total page 1
+//
+//        }
 
         return rs;
     }
