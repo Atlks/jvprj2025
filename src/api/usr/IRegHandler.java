@@ -20,6 +20,7 @@ import util.ex.existUserEx;
 @PermitAll
 /**
  * reg
+ * existUserEvt,regEvt   事件抽象
  * existUser,adduser,storekey (这里流程抽象)
  */
 public interface IRegHandler extends Icall<RegDto, Object> {
