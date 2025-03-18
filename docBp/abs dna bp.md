@@ -10,7 +10,11 @@
 CMD mode  ，，比较完整
 ..interface 是定义方法的一种方式，确实更多属于流程抽象而非数据抽象
 ..函数式编程（Functional Programming, FP）主要属于流程抽象，但也涉及数据抽象。
-
+Lambda 表达式 & 函数式编程
+..dsl
+2. DSL（领域特定语言）
+   领域特定语言（Domain-Specific Language）可以高度概括某个业务领域的逻辑。例如：
+..元编程（Metaprogramming）  anno
 
 
 1. 主要是流程抽象
