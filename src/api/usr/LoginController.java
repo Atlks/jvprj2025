@@ -1,5 +1,6 @@
 package api.usr;
 
+import Interfs.Ilogin;
 import entityx.ApiResponse;
 import entityx.Passport;
 import entityx.Usr;
@@ -15,6 +16,7 @@ import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,9 +29,8 @@ import util.ex.*;
 import java.util.Collections;
 import java.util.Map;
 
-import static api.usr.IRegHandler.SAM4regLgn;
+import static Interfs.IRegHandler.SAM4regLgn;
 import static util.proxy.AtProxy4api.httpExchangeCurThrd;
-import static util.algo.EncryUtil.*;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.*;
 
@@ -46,7 +47,24 @@ import static util.misc.util2026.*;
 @Path("/login")
 //   http://localhost:8889/login?uname=008&pwd=000
 @NoArgsConstructor
-public class LoginController implements Icall<RegDto, Object> {
+@Data
+public class LoginController implements Icall<RegDto, Object>, Ilogin {
+    /**
+     * @return
+     * @throws Exception
+     * @throws existUserEx
+     */
+    @Override
+    public Object call(@BeanParam RegDto usr_dto) throws Exception, PwdErrEx {
+        var retObj = Ilogin.super.call(usr_dto);
+        //also set cookie todo
+        api.usr.lgnDlgt.setVisaByCookie(usr_dto);
+//======ret token jwt
+        return retObj;
+    }
+
+
+    private final api.usr.lgnDlgt lgnDlgt = new lgnDlgt(this);
 
     public LoginController(String uname, String pwd) {
     }
@@ -60,34 +78,13 @@ public class LoginController implements Icall<RegDto, Object> {
     @Qualifier(SAM4regLgn)
     public IdentityStore sam;
 
-    /**
-     * @return
-     * @throws Exception
-     * @throws existUserEx
-     */
+    public Object setLoginTicket(RegDto usr_dto) {
+        return new ApiResponse(LoginController.getTokenJwt(usr_dto));
+    }
+
     @Override
-    public Object call(@BeanParam RegDto usr_dto) throws Exception, PwdErrEx {
-
-        //  usrdto.set(usr_dto);
-
-
-        sam.validate(new UsernamePasswordCredential(usr_dto.uname, usr_dto.pwd));
-
-        //============set cok
-        //=========save coookie
-        //  securityContext=new SecurityContextImp(dto.uname) ;
-        //   setVisa(usr_dto);
-        setcookie("unameHRZ", usr_dto.uname, httpExchangeCurThrd.get());
-        setcookie("uname", encryptAesToStrBase64(usr_dto.uname, Key4pwd4aeskey), httpExchangeCurThrd.get());
-
-
-        //======ret token jwt
-        //also set cookie todo
-
-        return new ApiResponse(getTokenJwt(usr_dto));
-        //  setcookie("tokenJwt", tokenJwt, httpExchangeCurThrd.get());
-
-
+    public void valid(RegDto usr_dto) {
+        getSam().validate(new UsernamePasswordCredential(usr_dto.uname, usr_dto.pwd));
     }
 
 

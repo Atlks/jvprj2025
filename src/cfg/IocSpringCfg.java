@@ -12,7 +12,7 @@ import util.oo.StrUtil;
 
 import java.util.function.Consumer;
 
-import static api.usr.IRegHandler.SAM4regLgn;
+import static Interfs.IRegHandler.SAM4regLgn;
 import static java.time.LocalTime.now;
 //import static cfg.AopLogJavassist.printLn;
 import static util.algo.GetUti.getObject;

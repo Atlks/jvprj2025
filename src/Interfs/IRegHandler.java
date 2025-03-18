@@ -1,5 +1,6 @@
-package api.usr;
+package Interfs;
 
+import api.usr.RegDto;
 import entityx.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;

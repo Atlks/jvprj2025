@@ -27,7 +27,7 @@ import util.ex.existUserEx;
 import java.util.Collections;
 import java.util.Map;
 
-import static api.usr.IRegHandler.SAM4regLgn;
+import static Interfs.IRegHandler.SAM4regLgn;
 
 import static biz.Containr.evtPublisherObsv;
 import static util.algo.EncryUtil.Key4pwd4aeskey;
