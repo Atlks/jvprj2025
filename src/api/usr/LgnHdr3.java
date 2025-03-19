@@ -74,7 +74,7 @@ public class LgnHdr3 implements Icall<RegDto, Object> {
      * @throws existUserEx
      */
     @Override
-    public Object call(@BeanParam RegDto dtoReg) throws Exception, PwdErrEx {
+    public Object main(@BeanParam RegDto dtoReg) throws Exception, PwdErrEx {
 
         //  usrdto.set(dtoReg);
         evtPublisherObsv.publishEvent(loginVldObsvs, new UsernamePasswordCredential(dtoReg.uname, dtoReg.pwd));

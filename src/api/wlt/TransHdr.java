@@ -82,7 +82,7 @@ public class TransHdr implements Icall<TransDto, String> {
 
     @Transactional
     @Override
-    public String call(@ModelAttribute  TransDto lgblsDto) throws Throwable {
+    public String main(@ModelAttribute  TransDto lgblsDto) throws Throwable {
 
         injectAll4spr(this);
         //blk login ed
@@ -102,8 +102,8 @@ public class TransHdr implements Icall<TransDto, String> {
         }
         curLockAcc.set(objU);
 
-        RdsFromWltService1.call(lgblsDto);
-        AddMoney2YLWltService1.call(lgblsDto);
+        RdsFromWltService1.main(lgblsDto);
+        AddMoney2YLWltService1.main(lgblsDto);
 
 //        Icall is = Trans2YLwltService1;
 //        ((Trans2YLwltService) is).handle(lgblsDto);

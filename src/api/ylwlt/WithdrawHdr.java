@@ -55,7 +55,7 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
     SecurityContext SecurityContext1;
 
     @Override
-    public Object call(@BeanParam  WithdrawDto dtoWithdrawDto) throws Exception {
+    public Object main(@BeanParam  WithdrawDto dtoWithdrawDto) throws Exception {
 
 
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("检测余额", RED_bright));

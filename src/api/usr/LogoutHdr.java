@@ -13,7 +13,7 @@ import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 @Path("/logout")
 public class LogoutHdr implements Icall<Object, Object> {
     @Override
-    public Object call(Object dto) throws Exception {
+    public Object main(Object dto) throws Exception {
         setcookie("uname","",httpExchangeCurThrd.get());
 
         return "";

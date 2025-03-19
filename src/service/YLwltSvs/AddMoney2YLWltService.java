@@ -21,7 +21,7 @@ import static util.misc.util2026.getFilenameFrmLocalTimeString;
 @Lazy
 public class AddMoney2YLWltService implements Icall<TransDto,Object> {
 
-    public Object call(TransDto TransDto1 ) throws Exception {
+    public Object main(TransDto TransDto1 ) throws Exception {
 
 
 

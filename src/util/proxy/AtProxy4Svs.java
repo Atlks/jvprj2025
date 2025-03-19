@@ -31,21 +31,21 @@ public class AtProxy4Svs implements Icall {
      * @throws Exception
      */
     @Override
-    public Object call(Object args) throws Throwable {
+    public Object main(Object args) throws Throwable {
         String mthFullname = target.getClass().getName() + ".call";
 
         Object result=ivk4log(mthFullname,args,()->{
-            return  target.call(args);
+            return  target.main(args);
         });
         return result;
     }
 
     @Override
-    public Object call2(Object args) throws Throwable {
+    public Object main2(Object args) throws Throwable {
         String mthFullname = target.getClass().getName() + ".call2";
 
         Object result=ivk4log(mthFullname,args,()->{
-            return  target.call2(args);
+            return  target.main2(args);
         });
         return result;
     }

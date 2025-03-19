@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
 import util.ex.existUserEx;
 
+import static biz.Containr.sam4regLgn;
 import static util.misc.Util2025.encodeJson;
 import static util.proxy.AopUtil.ivk4log;
 /**
@@ -31,14 +32,15 @@ public interface IRegHandler extends Icall<RegDto, Object> {
     String SAM4regLgn = "SAM4regLgn";
 
 
-    default Object call(@BeanParam RegDto dtoReg) throws Throwable {
+    default Object main(@BeanParam RegDto dtoReg) throws Throwable {
         System.out.println("reghdl.hd3(" + encodeJson(dtoReg));
         ivk4log("existUser", () -> {
             return chkExistUser(dtoReg);
         });
         //add u
         addU(dtoReg);
-        storekey(dtoReg);
+      //  storekey(dtoReg);
+        sam4regLgn.storeKey(dtoReg.uname, dtoReg.pwd);
         return new ApiResponse(dtoReg);
     }
 
@@ -47,7 +49,5 @@ public interface IRegHandler extends Icall<RegDto, Object> {
     boolean chkExistUser(RegDto user) throws existUserEx;
 
     public void addU(RegDto dtoReg);
-
-    public void storekey(RegDto dtoReg);
 
 }

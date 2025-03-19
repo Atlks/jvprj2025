@@ -20,7 +20,7 @@ import static util.tx.HbntUtil.findByHerbinate;
 @Path("/users/me")
 public class Me implements Icall<Usr, Object> {
     @Override
-    public Object call(Usr dto) throws  Throwable {
+    public Object main(Usr dto) throws  Throwable {
         Usr objU = findByHerbinate(Usr.class, getCurrentUser(), sessionFactory.getCurrentSession());
 
         return objU;

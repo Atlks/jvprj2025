@@ -60,7 +60,7 @@ public class BetHdr implements Icall<BetOrdDto, Object> {
 
 
     @Override
-    public Object call(@BeanParam BetOrdDto dto88) throws Throwable {
+    public Object main(@BeanParam BetOrdDto dto88) throws Throwable {
 
         var curUname = SecurityContext1.getCallerPrincipal().getName();
         var uname = getCurrentUser();
@@ -80,7 +80,7 @@ public class BetHdr implements Icall<BetOrdDto, Object> {
         dto.uname = uname;
         dto.changeAmount = new BigDecimal("88");
         dto.lockAccObj=objU;
-        RdsFromWltService1.call(dto);
+        RdsFromWltService1.main(dto);
 
         return  new ApiResponse(obj);
     }

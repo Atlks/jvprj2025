@@ -26,7 +26,7 @@ public class RdsFromYLlllWltService implements Icall<TransDto, Object> {
      * @throws Exception
      */
     @Override
-    public Object call(TransDto TransDto88) throws Exception {
+    public Object main(TransDto TransDto88) throws Exception {
 
 
         //--------------chk bls

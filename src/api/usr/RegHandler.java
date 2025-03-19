@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import static biz.Containr.sam4regLgn;
 import static cfg.AppConfig.sessionFactory;
 import static util.proxy.AopUtil.ivk4log;
 import static util.tx.HbntUtil.persistByHibernate;
@@ -86,9 +87,7 @@ public class RegHandler implements IRegHandler {
         persistByHibernate( u, sessionFactory.getCurrentSession());
     }
 
-    public void storekey(RegDto dtoReg) {
-        sam.storeKey(dtoReg.uname, dtoReg.pwd);
-    }
+
 
     @Inject
     @Qualifier(SAM4regLgn)

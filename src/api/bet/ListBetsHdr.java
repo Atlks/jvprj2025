@@ -32,7 +32,7 @@ public class ListBetsHdr  implements Icall<QryDto4bets, Object>  {
     public static String saveUrlOrdBet = "";
 
     @Override
-    public Object  call( QryDto4bets dto) throws Throwable {
+    public Object main(QryDto4bets dto) throws Throwable {
 
         //blk login ed
       //  String uname = getcookie("uname", exchange);

@@ -57,7 +57,7 @@ fun main() {
     dto.changeAmount = BigDecimal("8888")
     dto.amt=dto.changeAmount;
     dto.lockAccObj = objU
-    bean?.call(dto);
+    bean?.main(dto);
 
 
     TransactMng.commitTsact()

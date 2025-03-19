@@ -39,7 +39,7 @@ public class CoinRank  implements Icall<Non, Object> {
      * @return
      * @throws IOException
      */
-    public Object call(Non dto) throws IOException {
+    public Object main(Non dto) throws IOException {
 
         String API_URL = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1";
         List<Coin> coins = new ArrayList<>();

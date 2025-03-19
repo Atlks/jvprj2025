@@ -2,7 +2,6 @@ package service.auth;
 
 
 import annos.Observes;
-import api.usr.LoginEvt;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import util.evtdrv.AnotherEvent;
@@ -34,7 +33,7 @@ import static util.tx.HbntUtil.persistByHibernate;
 /**
  * sam安全授权模块   stoer in db,,this sam for reg login
  */
-public class SAM implements ISAM {
+public class SAM4reglgn implements ISAM {
 //    public static String encryPwd(String pwd, Pwd pwdstore) {
 //   return    encryptAesToStrBase64("p="+pwd+"&slt="+pwdstore.getSalt(), Key4pwd4aeskey);
 //    }

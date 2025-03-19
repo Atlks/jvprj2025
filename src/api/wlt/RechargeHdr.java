@@ -57,7 +57,7 @@ public class RechargeHdr implements Icall<ReChgOrd,Object> {
     //@CookieValue
     @Transactional
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
-    public Object call(@BeanParam ReChgOrd ord) throws Exception {
+    public Object main(@BeanParam ReChgOrd ord) throws Exception {
         System.out.println("handle2.sessfac=" + sessionFactory);
         System.out.println("regchg hrl.hadler3()");
         //blk login ed

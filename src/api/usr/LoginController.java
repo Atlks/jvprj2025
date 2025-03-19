@@ -55,8 +55,8 @@ public class LoginController implements Icall<RegDto, Object>, Ilogin {
      * @throws existUserEx
      */
     @Override
-    public Object call(@BeanParam RegDto usr_dto) throws Exception, PwdErrEx {
-        var retObj = Ilogin.super.call(usr_dto);
+    public Object main(@BeanParam RegDto usr_dto) throws Exception, PwdErrEx {
+        var retObj = Ilogin.super.main(usr_dto);
         //also set cookie todo
         api.usr.lgnDlgt.setVisaByCookie(usr_dto);
 //======ret token jwt
@@ -74,18 +74,15 @@ public class LoginController implements Icall<RegDto, Object>, Ilogin {
     @Context
     public static SecurityContext securityContext;
 
-    @Inject
-    @Qualifier(SAM4regLgn)
-    public IdentityStore sam;
+//    @Inject
+//    @Qualifier(SAM4regLgn)
+//    public IdentityStore sam;
 
     public Object setLoginTicket(RegDto usr_dto) {
         return new ApiResponse(LoginController.getTokenJwt(usr_dto));
     }
 
-    @Override
-    public void valid(RegDto usr_dto) {
-        getSam().validate(new UsernamePasswordCredential(usr_dto.uname, usr_dto.pwd));
-    }
+
 
 
     @NotNull

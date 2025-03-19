@@ -35,7 +35,7 @@ import static util.tx.HbntUtil.*;
 public class adjustHdr4ylwlt implements Icall<TransDto, Object> {
 
     @Override
-    public Object call(TransDto TransDto1) throws Throwable {
+    public Object main(TransDto TransDto1) throws Throwable {
 
 
         Usr objU = findByHbntDep(Usr.class, TransDto1.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());

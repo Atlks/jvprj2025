@@ -27,7 +27,7 @@ public class RdsFromWltService  implements Icall<TransDto, Object> {
      */
     @Override
     @NotNull
-    public @NotNull Object call(@NotNull TransDto TransDto88) throws Exception {
+    public @NotNull Object main(@NotNull TransDto TransDto88) throws Exception {
 
 
 

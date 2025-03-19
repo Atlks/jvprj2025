@@ -84,7 +84,7 @@ public class RegHandler2 implements Icall<RegDto, Object> {
     @PermitAll
     @Validated
 
-    public Object call(@BeanParam RegDto dtoReg) throws Throwable {
+    public Object main(@BeanParam RegDto dtoReg) throws Throwable {
         System.out.println("reghdl.hd3(" + encodeJson(dtoReg));
 
 

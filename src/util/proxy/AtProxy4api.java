@@ -94,7 +94,7 @@ public class AtProxy4api implements HttpHandler {
         //---------blk chk auth
         Object result = ivk4log(mthFullname, args, () -> {
             injectAll4spr(target);
-            return target.call(args);
+            return target.main(args);
         });
 
 
@@ -223,7 +223,7 @@ public class AtProxy4api implements HttpHandler {
 
         Object rzt;
         //---------log
-        Class cls = getPrmClass(this.target, "call");
+        Class cls = getPrmClass(this.target, "main");
         if (cls == null) {
             rzt = invoke_call(new Non());
         } else {

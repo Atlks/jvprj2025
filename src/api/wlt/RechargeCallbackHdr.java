@@ -73,7 +73,7 @@ public class RechargeCallbackHdr implements  Icall<ReChgOrd,Object> {
     //@CookieValue
     @Transactional
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
-    public @NotNull Object call(@BeanParam ReChgOrd ordDto) throws Throwable {
+    public @NotNull Object main(@BeanParam ReChgOrd ordDto) throws Throwable {
      //  iniAllField();
      //   injectAll4spr(this);
      //
@@ -113,7 +113,7 @@ public class RechargeCallbackHdr implements  Icall<ReChgOrd,Object> {
         transDto.refUniqId="reqid="+objChrg.id;
         transDto.lockAccObj=findByHerbinate(Usr.class,ordDto.uname,session);
 
-        addMoneyToWltService1.call(transDto);
+        addMoneyToWltService1.main(transDto);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
 

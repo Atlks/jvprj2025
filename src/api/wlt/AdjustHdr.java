@@ -38,7 +38,7 @@ import static util.misc.util2026.*;
 public class AdjustHdr implements Icall<TransDto, Object> {
 
     @Override
-    public Object call(TransDto TransDto1) throws Throwable {
+    public Object main(TransDto TransDto1) throws Throwable {
 
 
         Usr objU = findByHbntDep(Usr.class, TransDto1.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());

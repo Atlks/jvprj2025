@@ -71,7 +71,7 @@ public class LoginHdr implements Icall<RegDto, Object> {
      * @throws existUserEx
      */
     @Override
-    public Object call(@BeanParam RegDto dtoReg) throws Exception, PwdErrEx {
+    public Object main(@BeanParam RegDto dtoReg) throws Exception, PwdErrEx {
 
         //  usrdto.set(dtoReg);
 

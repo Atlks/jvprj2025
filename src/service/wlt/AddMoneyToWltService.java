@@ -47,11 +47,11 @@ public class AddMoneyToWltService   implements Icall<TransDto, Object> {
     }
 
     @Name("add")
-    public Object call2(TransDto args) throws Exception{
+    public Object main2(TransDto args) throws Exception{
 
         return null;
     }
-    public Object call(TransDto TransDto88 ) throws Exception {
+    public Object main(TransDto TransDto88 ) throws Exception {
 
 
         String uname = TransDto88.uname;

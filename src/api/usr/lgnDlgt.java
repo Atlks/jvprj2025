@@ -18,6 +18,6 @@ public class lgnDlgt {
     }
 
     void valid(RegDto usr_dto) {
-        loginController.getSam().validate(new UsernamePasswordCredential(usr_dto.uname, usr_dto.pwd));
+      //  loginController.getSam().validate(new UsernamePasswordCredential(usr_dto.uname, usr_dto.pwd));
     }
 }

@@ -4,7 +4,7 @@ import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import service.auth.SAM;
+import service.auth.SAM4reglgn;
 import service.auth.SAM4chkLgnStatJwtMod;
 import util.proxy.AtProxy4Svs;
 import util.algo.Icall;
@@ -36,7 +36,7 @@ public class IocSpringCfg {
         //---------------ini  custm
         //    obj1 = clazz.getConstructor().newInstance();
         registerBeanAsClz2sprNmap(ChkLgnStatSam, SAM4chkLgnStatJwtMod.class);
-        registerBeanAsClz2sprNmap(SAM4regLgn, SAM.class);
+        registerBeanAsClz2sprNmap(SAM4regLgn, SAM4reglgn.class);
 
 
         //===================scan ini all
