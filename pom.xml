@@ -537,7 +537,16 @@
             <version>1.12.3</version> <!-- 使用最新版 -->
         </dependency>
 
-        <dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
+    <dependency>
+        <groupId>com.jcraft</groupId>
+        <artifactId>jsch</artifactId>
+        <version>0.1.55</version>
+    </dependency>
+
+
+    <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
             <version>3.3.0</version>
