@@ -2,6 +2,7 @@ package util.algo;
 
 import jakarta.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.retry.annotation.CircuitBreaker;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -20,7 +21,11 @@ public class GetUti {
     public static String getUUid() {
         return UUID.randomUUID().toString();
     }
+
     @NotNull
+    //@Retry @TimeLimiter
+    @CircuitBreaker(maxAttempts = 3, openTimeout = 5000, resetTimeout = 10000)
+    //name = "myService", fallbackMethod = "fallback"
     public static String getStrFrmUrl(@NotBlank String apiUrl) throws IOException {
         URL url = new URL(apiUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();

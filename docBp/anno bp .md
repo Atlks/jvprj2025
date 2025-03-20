@@ -37,3 +37,32 @@ ProductDTO toDto(Product product);
 
 
 动态映射需求（字段不固定，使用 Jackson / Gson 更合适）
+
+=log 类注解
+=tx 类注解
+=ex 类注解
+=远程调用类注解  重试 超时啦配置
+= 安全控制： 类注解   @inject注入sam
+=远程调用：
+
+在远程方法调用前后进行数据序列化、反序列化、网络传输等操作。
+实现远程方法调用超时、重试等策略。
+简化分布式系统开发。
+
+@Retry:
+Resilience4j的注解，用于声明重试策略。
+@TimeLimiter:
+Resilience4j的注解，用于设置超时时间。
+断路器模式
+org.springframework.retry.annotation.CircuitBreaker 如何使用
+@CircuitBreaker(maxAttempts = 3, openTimeout = 5000, resetTimeout = 10000)
+
+@CircuitBreaker(name = "myService", fallbackMethod = "fallback")
+public String remoteCall() {
+// 远程调用逻辑
+return "remote call success";
+}
+
+    public String fallback(Throwable t) {
+        return "fallback";
+    }
