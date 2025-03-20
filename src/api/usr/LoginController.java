@@ -21,9 +21,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
+import util.algo.EncryUtil;
 import util.algo.Icall;
 import util.auth.JwtUtil;
 import util.ex.*;
+import util.misc.util2026;
+import util.proxy.AtProxy4api;
 
 
 import java.util.Collections;
@@ -58,7 +61,7 @@ public class LoginController implements Icall<RegDto, Object>, Ilogin {
     public Object main(@BeanParam RegDto usr_dto) throws Exception, PwdErrEx {
         var retObj = Ilogin.super.main(usr_dto);
         //also set cookie todo
-        api.usr.lgnDlgt.setVisaByCookie(usr_dto);
+       setVisaByCookie(usr_dto);
 //======ret token jwt
         return retObj;
     }
@@ -74,21 +77,18 @@ public class LoginController implements Icall<RegDto, Object>, Ilogin {
     @Context
     public static SecurityContext securityContext;
 
-//    @Inject
-//    @Qualifier(SAM4regLgn)
-//    public IdentityStore sam;
 
-    public Object setLoginTicket(RegDto usr_dto) {
-        return new ApiResponse(LoginController.getTokenJwt(usr_dto));
+    public void setVisaByCookie(RegDto usr_dto) {
+        util2026.setcookie("unameHRZ", usr_dto.uname, AtProxy4api.httpExchangeCurThrd.get());
+        util2026.setcookie("uname", EncryUtil.encryptAesToStrBase64(usr_dto.uname, EncryUtil.Key4pwd4aeskey), AtProxy4api.httpExchangeCurThrd.get());
     }
 
 
-
-
-    @NotNull
-    private static @NotNull Map<String, String> getTokenJwt(@NotNull RegDto Udto) {
-        return Collections.singletonMap("tokenJwt", JwtUtil.generateToken(Udto.uname));
-    }
+//
+//    @NotNull
+//    private static @NotNull Map<String, String> getTokenJwt(@NotNull RegDto Udto) {
+//        return Collections.singletonMap("tokenJwt", JwtUtil.generateToken(Udto.uname));
+//    }
 
 
 //    public Object calllori(@ModelAttribute Usr Udto) throws Exception, PwdErrEx {

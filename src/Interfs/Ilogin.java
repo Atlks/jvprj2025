@@ -1,11 +1,15 @@
 package Interfs;
 
 import api.usr.RegDto;
+import entityx.ApiResponse;
 import jakarta.annotation.security.PermitAll;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.BeanParam;
+import util.auth.JwtUtil;
 import util.ex.PwdErrEx;
+
+import java.util.Collections;
 
 import static biz.Containr.sam4regLgn;
 
@@ -27,5 +31,8 @@ public interface Ilogin {
     ;
 
 
-    Object setLoginTicket(@NotNull RegDto usr_dto);
+    default Object setLoginTicket(@NotNull RegDto usr_dto){
+        var jwtobj=Collections.singletonMap("tokenJwt", JwtUtil.generateToken(usr_dto.uname));
+        return new ApiResponse(jwtobj);
+    };
 }
