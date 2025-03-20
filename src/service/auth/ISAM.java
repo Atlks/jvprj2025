@@ -18,34 +18,15 @@ import java.util.List;
  * sam安全授权模块   stoer in db
  * 包括俩个部分  keymng 和 安全审计日志接口
  */
-public interface ISAM extends HttpAuthenticationMechanism, IKeyMngr, Alarm, IDPS, SWG, ASB, SASE, DLP {
+public interface ISAM extends HttpAuthenticationMechanism, IKeyMngr, IsamLogMng,Alarm, IDPS, SWG, ASB, SASE, DLP {
 
     default AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext httpMessageContext) throws AuthenticationException {
         throw  new RuntimeException("not implt");
     }
 
-    /**
-     * oridat,,,pwd  fgrprint ,faceid
-     *
-     * @param oriData
-     * @return
-     */
-    @NotBlank
-    String geneKey(@NotNull String oriData);
-
-    public void storeKey(@NotBlank String uid, @NotBlank String oriKeyData);
-
-    CredentialValidationResult validate(@NotNull Credential credential);
 
 
-    //--------------log
-    public void addLogVldFail(@NotBlank String uid, @NotNull Throwable e);
 
-    public void addLogVldSucess(@NotBlank String uid);
-
-    default @NotNull List<Object> listLog() {
-        return List.of();
-    }
 
     ;
 
