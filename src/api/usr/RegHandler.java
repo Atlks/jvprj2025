@@ -2,7 +2,7 @@
 
 package api.usr;
 
-import Interfs.IRegHandler;
+import core.IRegHandler;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import static biz.Containr.sam4regLgn;
 import static cfg.AppConfig.sessionFactory;
 import static util.proxy.AopUtil.ivk4log;
 import static util.tx.HbntUtil.persistByHibernate;

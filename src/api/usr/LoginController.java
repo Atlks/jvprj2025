@@ -1,38 +1,27 @@
 package api.usr;
 
-import Interfs.Ilogin;
-import entityx.ApiResponse;
+import core.Ilogin;
 import entityx.Passport;
 import entityx.Usr;
 import entityx.Visa;
 import jakarta.annotation.security.PermitAll;
-import jakarta.inject.Inject;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.SecurityContext;
-import jakarta.security.enterprise.credential.UsernamePasswordCredential;
-import jakarta.security.enterprise.identitystore.IdentityStore;
-import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
 import util.algo.EncryUtil;
 import util.algo.Icall;
-import util.auth.JwtUtil;
 import util.ex.*;
 import util.misc.util2026;
 import util.proxy.AtProxy4api;
 
 
-import java.util.Collections;
-import java.util.Map;
-
-import static Interfs.IRegHandler.SAM4regLgn;
 import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.*;

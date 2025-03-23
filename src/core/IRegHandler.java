@@ -1,4 +1,4 @@
-package Interfs;
+package core;
 
 import api.usr.RegDto;
 import entityx.ApiResponse;
