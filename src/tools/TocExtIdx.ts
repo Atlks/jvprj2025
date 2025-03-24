@@ -2,6 +2,7 @@ import * as fs from "fs";
 
 // Extract table of contents from file
 /**
+v250324
  * ver 24.1227
  */
 
@@ -50,7 +51,13 @@ function includesx(line:string, searchKeywords: string) {
     // 检查是否有任意一个关键词存在于 line 中
     return keywords.some(keyword => line.includes(keyword));
 }
-
+/**
+ * 判断给定的字符串是否以指定的关键词开头
+ *
+ * @param line - 需要检查的字符串
+ * @param searchKeywords - 以空格分隔的多个关键词
+ * @returns 如果 `line` 以任意一个 `searchKeywords` 中的关键词开头，则返回 `true`，否则返回 `false`
+ */
 function isStartWith(line, searchKeywords: string) {
     // 将关键词字符串按空格分割成数组
     const keywords = searchKeywords.split(" ");

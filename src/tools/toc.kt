@@ -2,7 +2,11 @@ package tools
 
 import java.io.File
 
-
+/**
+ * toc 生成 title
+ * v250324
+ *
+ */
 fun main() {
 
     var filePath = "C:\\Users\\attil\\IdeaProjects\\jvprj2025\\doc2503\\地理学 ，那些南海岛礁的故事.md" // 替换为你的文件路径
@@ -43,8 +47,15 @@ fun includesx(line: String, searchKeywords: String): Boolean {
     // 检查是否有任意一个关键词存在于 line 中
     return keywords.any { line.contains(it) }
 }
-
+/**
+ * 判断给定的字符串是否以指定的关键词开头
+ *
+ * @param line - 需要检查的字符串
+ * @param searchKeywords - 以空格分隔的多个关键词
+ * @returns 如果 `line` 以任意一个 `searchKeywords` 中的关键词开头，则返回 `true`，否则返回 `false`
+ */
 fun isStartWith(line: String, searchKeywords: String): Boolean {
+    // 将关键词字符串按空格分割成数组
     val keywords = searchKeywords.split(" ")
     // 检查是否有任意一个关键词存在于 line 中
     return keywords.any { line.startsWith(it) }
