@@ -1,0 +1,516 @@
+
+
+openapi: 3.0.0
+info:
+  title: 用户端 API
+  version: 1.0.1
+  description: |
+    这是一个用于用户端的 API。通过该 API，可以作为开发。
+    该文档提供了所有可用接口的详细说明。
+  contact:
+    name: dddddomas
+    email: support@example.com
+tags:
+  - name: user
+    description: 用户方面接口
+  - name: Wallet
+    description: 钱包方面接口
+  - name: bet
+    description: 注单方面接口
+  - name: ylWallet
+    description: 盈利钱包方面接口
+
+
+components:
+  parameters:
+    unamexx:
+      name: uname
+      in: cookie
+      required: true
+      schema:
+        type: string
+        default: "007"
+    ClientIdHeader:
+      name:  AuthChkMode
+      in: header
+      required: false
+      schema:
+        type: string
+        default: "jwt"
+      description:  cookie or jwt
+
+  securitySchemes:
+    BearerAuth88:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  # 说明使用 JWT 作为 token 格式
+    cookieAuth:
+      type: http
+      scheme: cookie
+      in: cookie
+      name: uname
+
+security:
+  - BearerAuth88: []  # 全局应用 JWT 认证
+
+paths:
+  /coinRank:
+    get:
+      tags:
+        - other
+      summary: "加密货币排行榜"
+      responses:
+        "200":
+          description: ""
+          content:
+            text/plain:
+              schema:
+                type: string
+  /list_bets:
+    get:
+      tags:
+        - bet
+      summary: "列出投注记录"
+      responses:
+        "200":
+          description: ""
+          content:
+            text/plain:
+              schema:
+                type: string
+  /ylwlt/changeLog:
+    get:
+      tags:
+        - ylWallet
+      summary: "盈利钱包账变流水"
+  /wlt/changeLog:
+    get:
+      tags:
+        - Wallet
+      summary: "钱包账变流水"
+  /bet/query:
+    get:
+      tags:
+        - bet
+      summary: "注单记录列表"
+  /logout:
+    get:
+      tags:
+        - user
+      summary: "退出"
+  /modifyPwd:
+    get:
+      tags:
+        - user
+      summary: "修改密码"
+      description: " "
+
+      parameters:
+        - name: oldpwd
+          in: query
+          description: "旧密码"
+          required: true
+          schema:
+            type: string
+        - name: newpwd
+          in: query
+          description: "新密码"
+          required: true
+          schema:
+            type: string
+  /login:
+    get:
+      tags:
+        - user
+      summary: "登录用户的方法"
+      description: " "
+
+      parameters:
+        - name: uname
+          in: query
+          description: "用户名"
+          required: true
+          schema:
+            type: string
+        - name: pwd
+          in: query
+          description: "密码"
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: "登录成功"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "ok"
+        "500":
+          description: 登录失败"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errcode:
+                    type: string
+                    example: "user pwd err"
+                  errmsg:
+                    type: string
+                    example: "错误用户名"
+  /reg:
+    get:
+      tags:
+        - user
+      summary: "注册用户的方法reg"
+      description: "注册用户的方法dscrp。。。。"
+      operationId: "registerUser"
+      parameters:
+        - name: uname
+          in: query
+          description: "用户名"
+          required: true
+          schema:
+            type: string
+        - name: pwd
+          in: query
+          description: "密码"
+          required: true
+          schema:
+            type: string
+        - name: invtr
+          in: query
+          description: "邀请人"
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "注册成功"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "ok"
+        "500":
+          description: "注册失败"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errcode:
+                    type: string
+                    example: "user exist"
+                  errmsg:
+                    type: string
+                    example: "重复用户名"
+        "201":
+          description: "注册成功"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "注册成功"
+  /users/me:
+    get:
+      tags:
+        - user
+      summary: 获取当前用户
+      responses:
+        '200':
+          description: 当前用户
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+  /users:
+
+    get:
+      tags:
+        - user
+      summary: 获取所有用户
+      responses:
+        '200':
+          description: 用户列表
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+  /wlt/trans:
+    get:
+      summary: 转账操作
+      description: 进行转账操作
+      tags:
+        - Wallet
+      parameters:
+        - name: uname
+          in: cookie
+          required: true
+          description: 用户名（存储于 Cookie 中）
+          schema:
+            type: string
+        - name: changeAmount
+          in: query
+          required: true
+          description: 转账金额
+          schema:
+            type: number
+      responses:
+        "200":
+          description: 转账成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: 转账成功
+        "400":
+          description: 参数错误
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: 无效的转账金额
+      examples:
+        example-1:
+          summary: 示例调用
+          description: 以 `changeAmount=8` 进行调用
+          value: "/Trans?changeAmount=8"
+  /recharge_callback:
+    get:
+      tags:
+        -  Wallet
+      summary: "完成充值订单"
+      description: "根据订单 ID 完成充值操作"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+            example: "ORD123456"
+          description: "订单 ID (ordid)"
+        - name : "status"
+          in: "query"
+          schema:
+            type: "string"
+            example: "sucess"
+          description: "status"
+        - name: "sign"
+          in: "query"
+          schema:
+            type: "string"
+            example: "sssss"
+
+
+      responses:
+        "200":
+          description: "充值订单完成"
+          content:
+            application/json:
+              schema:
+                type: "object"
+        "400":
+          description: "请求参数错误"
+        "404":
+          description: "订单未找到"
+        "500":
+          description: "服务器内部错误"
+  /ylwlt/withdraw:
+    get:
+      tags:
+        - ylWallet
+      summary: 提现
+      description: |
+        该接口用于进行提现操作，提现会导致有效金额变化，冻结金额也会变化，最终导致总金额变化。
+      parameters:
+        - name: amount
+          in: query
+          description: 提现金额
+          required: true
+          schema:
+            type: integer
+            example: 7
+        - name: uname
+          in: cookie
+          description: 用户名
+          required: true
+          schema:
+            type: string
+            example: john_doe
+      responses:
+        '200':
+          description: 操作成功，返回提现后的账户信息。
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "提现成功，账户余额已更新"
+  /recharge:
+    get:
+
+      components:
+        securitySchemes:
+          cookieAuth:
+            type: apiKey
+            in: cookie
+            name: uname
+
+      security:
+        - cookieAuth: [ ]
+        - BearerAuth88: [ ]  # 指定此接口支持 JWT 认证
+      tags:
+        - Wallet
+      summary:   充值
+      description: This endpoint retrieves recharge header information based on the provided amount and username.
+      parameters:
+        - $ref: "#/components/parameters/ClientIdHeader"
+        - in: query
+          name: amt
+          required: true
+          schema:
+            type: integer
+            example: 888
+          description: The amount to be recharged.
+        - in: cookie
+          name: uname
+          required: true
+          schema:
+            type: string
+            default: "007"
+          description: The username for the request.
+      responses:
+        '200':
+          description: Successful response with recharge details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      rechargeId:
+                        type: integer
+                        example: 12345
+                      amount:
+                        type: integer
+                        example: 888
+
+        '500':
+          description: Internal server error.
+  /bet:
+    get:
+      tags:
+        - bet
+      summary: 投注
+      description: ""
+      operationId: getBet
+      parameters:
+        - name: bettxt
+          in: query
+          required: true
+          description: "投注内容"
+          schema:
+            type: string
+            example: "123"
+        - name: uname
+          in: JwtParam
+          required: true
+          description: 用户名（从 JwtParam 获取）
+          schema:
+            type: string
+            example: "123"
+      responses:
+        '200':
+          description: 成功响应
+        '400':
+          description: 错误请求
+  /wlt/adjust:
+    get:
+      tags:
+        - Wallet
+      summary: "资金调整 中心钱包"
+      parameters:
+        - name: adjustType
+          in: query
+          required: true
+          description: "调整类型 增加+  减去-"
+          schema:
+            type: string
+            example: "+"
+
+        - name: changeAmount
+          in: query
+          required: true
+          description: "改改的金额  "
+          schema:
+            type: string
+            example: "99"
+      responses:
+        '200':
+          description: 成功响应
+
+
+  /ylwlt/adjust:
+    get:
+      tags:
+        - ylWallet
+      summary: "资金调整 盈利钱包"
+      parameters:
+        - name: adjustType
+          in: query
+          required: true
+          description: "调整类型 增加+  减去-"
+          schema:
+            type: string
+            example: "+"
+
+        - name: changeAmount
+          in: query
+          required: true
+          description: "改改的金额  "
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: 成功响应
