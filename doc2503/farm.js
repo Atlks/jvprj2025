@@ -79,7 +79,7 @@ function anml(radius){
 
 }
 
-
+//ati center
 function waterCenter(radius){
  // 圆的参数
     const centerX = canvas.width / 2;
@@ -90,7 +90,7 @@ function waterCenter(radius){
     // 绘制绿色填充的圆
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-    ctx.fillStyle = "blue";
+    ctx.fillStyle = "green";
     ctx.fill();
 
 
@@ -99,8 +99,13 @@ function waterCenter(radius){
         ctx.font = "30px Arial"; // 字体大小和样式
         ctx.textAlign = "center"; // 文字居中对齐
         ctx.textBaseline = "middle"; // 文字基线居中
-        ctx.fillText("water", centerX, centerY); // 在圆心绘制文字
+        ctx.fillText("a1k", centerX, centerY); // 在圆心绘制文字
 
+
+ // 设置褐色边框
+        ctx.strokeStyle = "blue"; // 颜色
+        ctx.lineWidth = 10; // 线条宽度
+        ctx.stroke(); // 画边框
 
     ctx.closePath();
 
