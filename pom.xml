@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>uke</groupId>
-    <artifactId>jvprj2025</artifactId>
-    <version>888</version>
+    <artifactId>jvprj2025api</artifactId>
+    <version>202505</version>
     <packaging>jar</packaging>
 
     <modules>
@@ -605,6 +605,11 @@
             <version>2.9.4</version>
         </dependency>
 
+    <dependency>
+        <groupId>p6spy</groupId>
+        <artifactId>p6spy</artifactId>
+        <version>3.9.1</version>  <!-- 请使用最新版本 -->
+    </dependency>
 
         <!-- AspectJ依赖（用于增强AOP的功能） -->
         <!-- AspectJ 依赖 -->
@@ -678,11 +683,7 @@
             <version>3.1.0</version> <!-- Or use the version corresponding to your JPA implementation -->
         </dependency>
 
-        <dependency>
-            <groupId>p6spy</groupId>
-            <artifactId>p6spy</artifactId>
-            <version>3.9.1</version>
-        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/javax.jdo/jdo-api -->
         <dependency>
@@ -818,6 +819,49 @@
                     <compilerArgs>
                      </compilerArgs>
                 </configuration>
+            </plugin>
+
+
+
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-static</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/static</outputDirectory>
+                            <resources>
+
+                                <!-- 复制 src 目录下的 properties 文件 -->
+                                <resource>
+                                    <directory>${project.basedir}/src</directory>
+                                    <includes>
+                                        <include>**/*.properties</include>
+                                    </includes>
+                                    <filtering>false</filtering>
+                                    <targetPath>../classes</targetPath>
+                                </resource>
+
+                                <resource>
+                                    <directory>${project.basedir}/static</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+
+
+                                <resource>
+                                    <directory>${project.basedir}/cfg</directory>
+                                    <filtering>false</filtering>
+                                    <targetPath>../cfg</targetPath>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <!--

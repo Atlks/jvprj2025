@@ -6,7 +6,7 @@ info:
   version: 1.0.1
   description: |
     这是一个用于用户端的 API。通过该 API，可以作为开发。
-    该文档提供了所有可用接口的详细说明。
+    该文档提供了所有可用接口的详细说明。v326
   contact:
     name: dddddomas
     email: support@example.com

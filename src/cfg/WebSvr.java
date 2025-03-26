@@ -7,13 +7,16 @@ import com.sun.net.httpserver.HttpServer;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.*;
+import util.misc.PathUtil;
 import util.proxy.AtProxy4api;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -21,6 +24,7 @@ import java.util.function.Consumer;
 
 
 import static util.algo.NullUtil.isBlank;
+import static util.misc.PathUtil.getDirTaget;
 import static util.misc.util2026.printLn;
 import static util.oo.WebsrvUtil.processNmlExptn;
 
@@ -37,15 +41,23 @@ import static util.proxy.SprUtil.getBeanByClzFrmSpr;
 public class WebSvr {
 
 
-    public static void startWebSrv() throws IOException {
+    public static void startWebSrv() throws Exception {
         int port = 8889;
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         // 定义一个上下文，绑定到 "/api/hello" 路径
         server.createContext("/hello", new HelloHandler());
+
+
         // 设置静态资源目录 (例如: D:/myweb/static)
+      //  String dirWzClassesDirSameLev = "static";
+        String dirTaget = getDirTaget();
         String staticDir = "C:\\Users\\attil\\IdeaProjects\\jvprj2025\\static";
+        staticDir = dirTaget + "/static";
         server.createContext("/static", new StaticFileHandler(staticDir));
         //    http://localhost:8889/static/doc.htm
+
+
+        //-------------------
         cfgPath(server);
         //  http://localhost:8889/
         // 启动服务器
@@ -58,6 +70,8 @@ public class WebSvr {
         System.out.println("http://localhost:" + port + "/reg");
         System.out.println("Server started on port " + port);
     }
+
+
 //    http://localhost:8889/QueryOrdChrgHdr
 
     //    MutablePicoContainer container = IocPicoCfg.iniIocContainr();
@@ -86,7 +100,7 @@ public class WebSvr {
             if (aClass.getName().startsWith("api")) {
                 //  var bean=getBeanFrmSpr(aClass);
                 var path = getPathFromBean(aClass);
-                 System.out.println("pathMap(path="+path+",aClass="+aClass.toString());
+                System.out.println("pathMap(path=" + path + ",aClass=" + aClass.toString());
                 //   server.createContext(path, (HttpHandler) bean);
                 pathMap.put(path, aClass);
 
@@ -97,8 +111,8 @@ public class WebSvr {
         System.out.println("====end createContext");
     }
 
-    private static void handleAllReq( @NotNull HttpExchange exchange) throws IOException {
-        try{
+    private static void handleAllReq(@NotNull HttpExchange exchange) throws IOException {
+        try {
             URI requestURI = exchange.getRequestURI();
             System.out.println("" + requestURI);
 
@@ -115,7 +129,7 @@ public class WebSvr {
             printLn("---------------statt eprint");
             e.printStackTrace();
             printLn("---------------endstatt eprint");
-             processNmlExptn(exchange, e);
+            processNmlExptn(exchange, e);
         }
 
 
