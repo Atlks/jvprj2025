@@ -752,19 +752,33 @@
     <build>
 
         <sourceDirectory>src</sourceDirectory> <!-- Custom source directory -->
-
-        <resources>
-            <resource>
-                <directory>cfg</directory>
-            </resource>
-        </resources>
-
-
-
-
         <plugins>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.4.1</version>  <!-- 确保使用最新版本 -->
 
+                <configuration>
+                    <!--
+                    <createDependencyReducedPom>true</createDependencyReducedPom>
+-->
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>MainApi</mainClass> <!-- 替换为你的 Main 类 -->
+                        </transformer>
+                    </transformers>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -847,23 +861,6 @@
                             <outputDirectory>${project.build.directory}/static</outputDirectory>
                             <resources>
 
-                                <resource>
-                                    <directory>${project.basedir}/static</directory>
-                                    <filtering>false</filtering>
-                                </resource>
-                                <resource>
-                                    <directory>${project.basedir}/META-INF</directory>
-                                    <includes>
-                                        <include>**/*.MF</include>
-                                    </includes>
-                                    <filtering>false</filtering>
-                                    <targetPath>../classes/META-INF</targetPath>
-                                </resource>
-
-
-
-
-
                                 <!-- 复制 src 目录下的 properties 文件 -->
                                 <resource>
                                     <directory>${project.basedir}/src</directory>
@@ -874,15 +871,9 @@
                                     <targetPath>../classes</targetPath>
                                 </resource>
 
-
-                                <!-- 复制 src 目录下的 properties 文件 -->
                                 <resource>
-                                    <directory>${project.basedir}/cfg</directory>
-                                    <includes>
-                                        <include>**/*.*</include>
-                                    </includes>
+                                    <directory>${project.basedir}/static</directory>
                                     <filtering>false</filtering>
-                                    <targetPath>../classes</targetPath>
                                 </resource>
 
 
