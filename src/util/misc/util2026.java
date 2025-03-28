@@ -1,11 +1,13 @@
 package util.misc;
 
+import util.algo.JarClassScanner;
 import util.ex.PwdNotEqExceptn;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import jakarta.validation.constraints.NotNull;
 import javassist.*;
 import util.auth.IsEmptyEx;
+import util.oo.UserBiz;
 
 import java.io.*;
 import java.lang.invoke.MethodHandle;
@@ -16,7 +18,12 @@ import java.lang.reflect.InaccessibleObjectException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.HttpCookie;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.security.CodeSource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -24,12 +31,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import static cfg.AopLogJavassist.lock;
 import static java.time.LocalTime.now;
 import static util.algo.EncodeUtil.decodeUrl;
 import static util.algo.EncodeUtil.encodeUrl;
 
+import static util.algo.JarClassScanner.getCurrentJarPath;
 import static util.algo.NullUtil.isBlank;
 import static util.algo.ToXX.parseQueryParams;
 import static util.misc.Util2025.encodeJson;
@@ -341,10 +351,119 @@ public class util2026 {
 
     }
 
+    //MutablePicoContainer
+
     /**
-     * 扫描classes路径所有class，加入到容器 MutablePicoContainer
+     * 扫描jar包里面  所有class，加入到容器
+     * 要扫描 JAR 文件内部 的 class，需要使用 URLClassLoader 或 JarFile 来读取 jar 内部的 .class 文
      */
     public static <T> void scanAllClass(Consumer<T> csmr) {
+        System.out.println("scannAllcls at " + now());
+        // 获取当前 JAR 文件路径
+        String jarPath = getCurrentJarPath();
+        if (jarPath.endsWith(".jar"))
+            scanAllClzByJarMode(csmr);
+        else
+            scanAllClassByClsesDir(csmr);
+    }
+
+    /**
+     * need extednd libjar clz
+     *
+     * @param csmr
+     * @param <T>
+     */
+    private static <T> void scanAllClzByJarMode(Consumer<T> csmr) {
+        // 获取当前 JAR 文件路径
+        String jarPath = getCurrentJarPath();
+        if (jarPath == null) {
+            System.err.println("无法获取当前 JAR 路径");
+            return;
+        }
+
+        try (JarFile jarFile = new JarFile(jarPath)) {
+            Enumeration<JarEntry> entries = jarFile.entries();
+            while (entries.hasMoreElements()) {
+                JarEntry entry = entries.nextElement();
+                String nameEntry = entry.getName();
+                if (nameEntry.endsWith(".class") &&
+
+                        (!nameEntry.startsWith("jnr/")) &&
+                        (!nameEntry.startsWith("ch/"))   &&
+                        (!nameEntry.startsWith("io/")) &&
+                        (!nameEntry.startsWith("com/")) &&
+                        (!nameEntry.startsWith("org/"))    &&
+                        (!nameEntry.startsWith("net/"))
+                        &&
+                        (!nameEntry.startsWith("jakarta/"))
+
+                        &&
+                        (!nameEntry.startsWith("javax/"))
+                        &&
+                        (!nameEntry.startsWith("META-INF/"))
+
+                        &&
+                        (!nameEntry.startsWith("kotlin/"))
+
+                        &&
+                        (!nameEntry.startsWith("kotlinx/"))
+                        &&
+                        (!nameEntry.startsWith("okhttp3/"))
+                        &&
+                        (!nameEntry.startsWith("okio/"))
+                        &&
+                        (!nameEntry.startsWith("javassist/"))
+
+                        &&
+                        (!nameEntry.startsWith("reactor/"))
+                        &&
+
+
+                        (!nameEntry.startsWith("javafx/"))
+                        &&
+                        (!nameEntry.startsWith("liquibase/"))
+
+
+                ) {
+                    String className = nameEntry
+                            .replace("/", ".")
+                            .replace(".class", "");
+                    try {
+                        Class<?> clazz = Class.forName(className);
+                        csmr.accept((T) clazz);
+                    } catch (Throwable e) {
+                        System.out.println("waning:" + e.getMessage());
+                        appendFile("scanAllClzByJarMode.log", "waning ex:  className=" + className);
+                    }
+
+
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throwEx(e);
+        }
+    }
+
+    private static void appendFile(String file, String txt) {
+        try {
+            txt = txt + "\r\n";
+            Files.write(Path.of(file), txt.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace(); // 或者日志记录
+        }
+
+    }
+
+
+    /**
+     * 递归扫描普通文件夹中的 class 文件
+     *
+     * @param csmr
+     * @param <T>
+     */
+    public static <T> void scanAllClassByClsesDir(Consumer<T> csmr) {
         System.out.println("scannAllcls at " + now());
         try {
             // 获取 classes 目录
@@ -359,31 +478,30 @@ public class util2026 {
             List<Class<?>> classList = new ArrayList<>();
             scanClasses(classDir, classDir.getAbsolutePath(), classList);
 
-            // 注册到 PicoContainer
+            // 注册到 Container
             for (Class<?> clazz : classList) {
-                try {
+                // try {
+                csmr.accept((T) clazz);
 
-                    csmr.accept((T) clazz);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throwEx(e);
+        }
+    }
 
 
-                    //-----------------jvvst mode new class
+//                } catch (Exception e) {
+//                    printLn("spr注册失败: " + clazz.getName());
+//                    printLn("spr注册失败msg: " + e.getMessage());
+//
+//                }
+
+    //-----------------jvvst mode new class
 //                    Class<?> modifiedClass = getAClassAoped(clazz);
 //                    context.registerBean(modifiedClass);
 //                    context.registerBean(modifiedClass.getName(), modifiedClass);
 ////                   //  context.register(modifiedClass);  jeig bhao,,beanname not classname
-
-
-                } catch (Exception e) {
-                    printLn("spr注册失败: " + clazz.getName());
-                    printLn("spr注册失败msg: " + e.getMessage());
-                    //  System.err.println("注册失败: " + clazz.getName());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * 扫描classes路径所有class，
      */
@@ -454,8 +572,8 @@ public class util2026 {
 
     //no delay
     public static void printLn(String msg) {
-      //  printlnx();
-        synchronized (System.out){
+        //  printlnx();
+        synchronized (System.out) {
             PrintWriter writer = new PrintWriter(System.out, true);  // 自动刷新
 
             writer.println(msg);
@@ -549,6 +667,136 @@ public class util2026 {
 
         return result;
     }
+
+    public static Map<String, String> parse_ini_fileNosecByJarPath(String filePath) {
+        System.out.println("fun parse_ini_fileNosecByJarPath(path=" + filePath);
+        InputStream inputStream = UserBiz.class.getClassLoader().getResourceAsStream(filePath);
+        Map<String, String> result = new HashMap<>();
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+
+                // 忽略空行和注释行
+                if (line.isEmpty() || line.startsWith(";") || line.startsWith("#")) {
+                    continue;
+                }
+
+                // 处理键值对，格式为 key = value
+                if (line.contains("=")) {
+                    String[] parts = line.split("=", 2);
+                    if (parts.length == 2) {
+                        String key = parts[0].trim();
+                        String value = parts[1].trim();
+                        result.put(key, value);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
+
+    public static Map<String, String> parse_ini_fileNosecByStream(InputStream inputStream) {
+        //  System.out.println("fun parse_ini_fileNosecByStream(path="+filePath);
+        Map<String, String> result = new HashMap<>();
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+
+                // 忽略空行和注释行
+                if (line.isEmpty() || line.startsWith(";") || line.startsWith("#")) {
+                    continue;
+                }
+
+                // 处理键值对，格式为 key = value
+                if (line.contains("=")) {
+                    String[] parts = line.split("=", 2);
+                    if (parts.length == 2) {
+                        String key = parts[0].trim();
+                        String value = parts[1].trim();
+                        result.put(key, value);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
+
+    public static Map<String, String> parse_ini_fileNosecByPath(Path filePath) {
+        System.out.println("fun parse ini by path(path=" + filePath);
+        Map<String, String> result = new HashMap<>();
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(String.valueOf(filePath)));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+
+                // 忽略空行和注释行
+                if (line.isEmpty() || line.startsWith(";") || line.startsWith("#")) {
+                    continue;
+                }
+
+                // 处理键值对，格式为 key = value
+                if (line.contains("=")) {
+                    String[] parts = line.split("=", 2);
+                    if (parts.length == 2) {
+                        String key = parts[0].trim();
+                        String value = parts[1].trim();
+                        result.put(key, value);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
 
     public static void setcookie(String name, String val, HttpExchange exchange) {
         // 创建 Set-Cookie 头部内容
@@ -644,7 +892,7 @@ public class util2026 {
         while (clazz != null) { // 处理继承层级
             Field[] fields = clazz.getDeclaredFields();
             for (Field field : fields) {
-                try{
+                try {
                     field.setAccessible(true);
                 } catch (InaccessibleObjectException e) {
                     continue;
@@ -806,7 +1054,6 @@ public class util2026 {
 
 
     }
-
 
 
     public static void sleep(int i) throws InterruptedException {

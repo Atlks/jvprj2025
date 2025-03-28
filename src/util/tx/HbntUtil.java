@@ -22,6 +22,7 @@ import java.util.Objects;
 import java.util.Properties;
 
 import static util.algo.IsXXX.ifIsBlank;
+import static util.algo.JarClassScanner.getClassesList;
 import static util.log.ColorLogger.*;
 //import static cfg.IocPicoCfg.scanClasses;
 import static util.oo.StrUtil.getPwdFromJdbcurl;
@@ -131,17 +132,10 @@ public class HbntUtil {
 
     private static void addAnnotatedClasses2025(MetadataSources metadataSources) {
 
-        // 获取 classes 目录
-        String classpath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
-        File classDir = new File(classpath);
-        if (!classDir.exists() || !classDir.isDirectory()) {
-            System.err.println("classes 目录不存在！");
-            return;
-        }
 
         // 递归扫描 .class 文件
-        List<Class<?>> classList = new ArrayList<>();
-        scanClasses(classDir, classDir.getAbsolutePath(), classList);
+        List<Class<?>> classList =getClassesList();
+     //   scanClasses(classDir, classDir.getAbsolutePath(), classList);
 
         // 注册到 hbnt
         for (Class<?> clazz : classList) {
@@ -165,6 +159,16 @@ public class HbntUtil {
         }
 
     }
+
+
+
+//        // 获取 classes 目录
+//        String classpath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
+//        File classDir = new File(classpath);
+//        if (!classDir.exists() || !classDir.isDirectory()) {
+//            System.err.println("classes 目录不存在！");
+//            return;
+//        }
 
 
     //clazz是否包含某个注解AnnoClass

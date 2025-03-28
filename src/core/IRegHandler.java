@@ -33,8 +33,8 @@ public interface IRegHandler extends Icall<RegDto, Object> {
 
 
     default Object main(@BeanParam RegDto dtoReg) throws Throwable {
-        System.out.println("reghdl.hd3(" + encodeJson(dtoReg));
-        ivk4log("existUser", () -> {
+        System.out.println("IRegHandler.main(" + encodeJson(dtoReg));
+        ivk4log("chkExistUser", () -> {
             return chkExistUser(dtoReg);
         });
         //add u

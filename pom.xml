@@ -64,6 +64,68 @@
 
 <dependencies>
 
+<!-- vldr   -->
+    <dependency>
+        <groupId>jakarta.validation</groupId>
+        <artifactId>jakarta.validation-api</artifactId>
+        <version>3.0.2</version>
+    </dependency>
+
+    <dependency>
+        <groupId>com.fasterxml</groupId>
+        <artifactId>classmate</artifactId>
+        <version>1.5.1</version>
+    </dependency>
+
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.16.2</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>2.16.2</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+        <version>2.16.2</version>
+    </dependency>
+
+
+    <!-- JavaFX Base -->
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-base</artifactId>
+        <version>21</version>
+    </dependency>
+
+<!--
+    <dependency>
+        <groupId>com.uke</groupId>
+        <artifactId>hbnt-vldtr</artifactId>
+        <version>6.2.5.fnl</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/libjar/hibernate-validator-6.2.5.Final.jar</systemPath>
+    </dependency>
+-->
+
+    <!-- jdk9+ must vldtr7+ -->
+    <!--
+
+
+    https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
+
+    <dependency>
+        <groupId>org.hibernate.validator</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>8.0.2.Final</version>
+    </dependency>
+
+
     <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
     <dependency>
         <groupId>io.jsonwebtoken</groupId>
@@ -764,6 +826,21 @@
 
         <plugins>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>MainApi</mainClass> <!-- Replace with your main class -->
+                        </manifest>
+                        <!--
+                             <manifestFile>${project.basedir}/src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+                      -->
+                    </archive>
+                </configuration>
+            </plugin>
 
 
             <plugin>

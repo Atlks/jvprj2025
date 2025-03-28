@@ -1,5 +1,6 @@
 import api.wlt.RechargeCallbackHdr;
 import biz.Containr;
+import cfg.AppConfig;
 import org.noear.solon.annotation.SolonMain;
 import org.springframework.context.annotation.ComponentScan;
 import service.wlt.AddMoneyToWltService;
@@ -52,6 +53,7 @@ public class MainApi {
     public static void start() throws Exception {
         //--------ini saveurlFrm Cfg
 
+        new AppConfig().sessionFactory();//ini sessFctr
         iniContnr();
         iniEvtHdrCtnr();
 

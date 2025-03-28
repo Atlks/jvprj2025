@@ -32,7 +32,7 @@ public class AopUtil {
      //   System.out.println("开始执行 blk..."+funName);
         String mthClred = colorStr(funName, YELLOW_bright);
        // String prmurl = colorStr(encodeJsonV2(args), GREEN);
-        System.out.println("▶\uFE0Ffun " + mthClred + "(args=" + "");
+        System.out.println("▶\uFE0Ffun " + mthClred + "(args=" + "SupplierX");
         T result = spl.get();
 
     //    System.out.println("endblk $funName 执行完毕，结果为: " + result);

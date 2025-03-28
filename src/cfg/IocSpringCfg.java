@@ -10,6 +10,8 @@ import util.proxy.AtProxy4Svs;
 import util.algo.Icall;
 import util.oo.StrUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import static core.IRegHandler.SAM4regLgn;
@@ -42,32 +44,42 @@ public class IocSpringCfg {
         //===================scan ini all
         Consumer<Class> csmr4log = clazz -> {
 
-            if (!clazz.getName().startsWith("api") && !clazz.getName().startsWith("service")) {
-                System.out.println("contine clz=" + clazz.getName());
-                return;
-            }
-            printLn("\n开始注册" + clazz.getName());
-            Object obj1 = getObject(clazz);
-            setField(obj1, SessionFactory.class, AppConfig.sessionFactory);
-            // 目标对象
-            Object proxyObj;  //def no prxy ,,
-            //only prxy service obj
-            if (clazz.getName().startsWith("service.") && isImpltInterface(clazz, Icall.class)) {
-                proxyObj = AtProxy4Svs.createProxy4log(obj1); // 创建代理
-                registerBeanAsObj2sprNmap(clazz, proxyObj);
-            } else {
-                /** if (clazz.getName().startsWith("api"))
-                 * 默认行为：
-                 * 它使用默认的 bean 定义，这意味着：
-                 * bean 将使用默认的构造函数创建。
-                 * bean 的作用域将是单例（singleton）。
-                 * bean 将不会有任何初始化或销毁回调。
-                 * 适用场景：
-                 * 适用于简单的 bean 注册，当你不需要对 bean 的创建和生命周期进行精细控制时。
-                 */
-                registerBean(clazz,context);
+            try{
+                if(clazz.getName().startsWith("com") || clazz.getName().startsWith("org"))
+                    return;
+                if (!clazz.getName().startsWith("api") && !clazz.getName().startsWith("service")) {
+                    System.out.println("iniIocContainr4spr().not api n svrs, contine, cur clz=" + clazz.getName());
+                    return;
+                }
+                printLn("\n开始注册" + clazz.getName());
+                Object obj1 = getObject(clazz);
+                setField(obj1, SessionFactory.class, AppConfig.sessionFactory);
+                // 目标对象
+                Object proxyObj;  //def no prxy ,,
+                //only prxy service obj
+                if (clazz.getName().startsWith("service.") && isImpltInterface(clazz, Icall.class)) {
+                    proxyObj = AtProxy4Svs.createProxy4log(obj1); // 创建代理
+                    registerBeanAsObj2sprNmap(clazz, proxyObj);
+                } else {
+                    /** if (clazz.getName().startsWith("api"))
+                     * 默认行为：
+                     * 它使用默认的 bean 定义，这意味着：
+                     * bean 将使用默认的构造函数创建。
+                     * bean 的作用域将是单例（singleton）。
+                     * bean 将不会有任何初始化或销毁回调。
+                     * 适用场景：
+                     * 适用于简单的 bean 注册，当你不需要对 bean 的创建和生命周期进行精细控制时。
+                     */
+                    registerBean(clazz,context);
 
-            }
+                }
+              } catch (Throwable e) {
+                    printLn("spr注册失败: " + clazz.getName());
+                    printLn("spr注册失败msg: " + e.getMessage());
+//
+                 }
+
+
 
         };
         scanAllClass(csmr4log);//  all add class  ...  mdfyed class btr

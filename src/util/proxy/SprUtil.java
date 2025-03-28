@@ -44,6 +44,7 @@ public class SprUtil {
 
     /**
      *    registerBean  ,,so u can getbean(clazz)   getbean
+     *    lowerFirstChar as beanName ,,deflt
      * @param clazz
      * @param context
      */

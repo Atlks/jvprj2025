@@ -387,10 +387,12 @@ public class dbutil {
     }
 
     public static String getDvr(String jdbcUrl) {
-        return "com.p6spy.engine.spy.P6SpyDriver";
-//        if (jdbcUrl.startsWith("jdbc:mysql"))
-//            return "com.mysql.cj.jdbc.Driver";
-//        return "sqlt";
+
+        if (jdbcUrl.startsWith("jdbc:mysql"))
+            return "com.mysql.cj.jdbc.Driver";
+        else if(jdbcUrl.contains("p6spy"))
+            return "com.p6spy.engine.spy.P6SpyDriver";
+        return "sqlt";
     }
 
 //    private static String addObjHbntCfgmd(Object obj, String saveDir, Class class1) {

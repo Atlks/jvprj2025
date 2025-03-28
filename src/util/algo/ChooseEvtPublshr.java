@@ -51,7 +51,7 @@ public class ChooseEvtPublshr implements ApplicationEventPublisher {
         Consumer<Class> csmr4log = clazz -> {
 
             if (!clazz.getName().startsWith("api") && !clazz.getName().startsWith("service")) {
-                System.out.println("contine clz=" + clazz.getName());
+                System.out.println("iniCondtEvtMap().contine clz=" + clazz.getName());
                 return;
             }
             printLn("\n开始注册evt" + clazz.getName());

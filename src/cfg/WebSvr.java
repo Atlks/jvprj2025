@@ -119,6 +119,8 @@ public class WebSvr {
             @NotNull String path1 = getPathNoQuerystring(exchange);
             if (isBlank(path1))
                 throw new RuntimeException("path is blnk");
+            if(path1.equals("/favicon.ico"))
+                return;
             @NotNull Class<?> hdrclas = pathMap.get(path1);
             if (hdrclas == null)
                 throw new RuntimeException("key is null,key=" + requestURI);
