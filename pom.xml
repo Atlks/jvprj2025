@@ -178,19 +178,7 @@
         <version>3.0.2</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
-    <dependency>
-        <groupId>org.hibernate.validator</groupId>
-        <artifactId>hibernate-validator</artifactId>
-        <version>8.0.2.Final</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
-    <dependency>
-        <groupId>org.hibernate.validator</groupId>
-        <artifactId>hibernate-validator</artifactId>
-        <version>8.0.1.Final</version>
-    </dependency>
+ 
 
     <!-- https://mvnrepository.com/artifact/org.glassfish/jakarta.el -->
     <dependency>
@@ -418,11 +406,7 @@
             <artifactId>spring-integration-core</artifactId>
             <version>6.2.2</version> </dependency>
 
-        <dependency>
-            <groupId>co.elastic.clients</groupId>
-            <artifactId>elasticsearch-java</artifactId>
-            <version>8.6.0</version> <!-- 使用合适的版本 -->
-        </dependency>
+
 
         <dependency>
             <groupId>org.flywaydb</groupId>
@@ -731,12 +715,7 @@
         <!-- Hibernate EntityManager (if you are using JPA) -->
 
 
-        <!-- Optional: Hibernate Validator (if you need validation support) -->
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>6.2.0.Final</version> <!-- Use the latest version -->
-        </dependency>
+
 
         <!-- Optional: JPA (if you want to use Jakarta Persistence API) -->
         <dependency>
