@@ -53,6 +53,8 @@ public class WebSvr {
         String dirTaget = getDirTaget();
         String staticDir = "C:\\Users\\attil\\IdeaProjects\\jvprj2025\\static";
         staticDir = dirTaget + "/static";
+        if(new File("/staticSrc").exists())
+            staticDir = "C:\\0prj\\jvprj2025\\static";
         server.createContext("/static", new StaticFileHandler(staticDir));
         //    http://localhost:8889/static/doc.htm
 

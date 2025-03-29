@@ -17,6 +17,8 @@ tags:
     description: 钱包方面接口
   - name: bet
     description: 注单方面接口
+  - name: coin
+    description: 加密货币外汇贵金属方面接口
   - name: ylWallet
     description: 盈利钱包方面接口
 
@@ -54,10 +56,34 @@ security:
   - BearerAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /coin/frnXchg:
+    get:
+      tags:
+        - coin
+      summary: "外汇排行榜"
+      responses:
+        "200":
+          description: ""
+          content:
+            text/plain:
+              schema:
+                type: string
+  /coin/goldSilver:
+    get:
+      tags:
+        - coin
+      summary: "贵金属"
+      responses:
+        "200":
+          description: ""
+          content:
+            text/plain:
+              schema:
+                type: string
   /coinRank:
     get:
       tags:
-        - other
+        - coin
       summary: "加密货币排行榜"
       responses:
         "200":

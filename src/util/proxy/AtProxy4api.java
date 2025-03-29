@@ -242,7 +242,7 @@ public class AtProxy4api implements HttpHandler {
         if (rzt.getClass() == String.class)
             wrtResp(exchange, (rzt.toString()));
         else
-            wrtResp(exchange, encodeJsonObj(rzt));
+            wrtResp(exchange, encodeJsonByGson(rzt));
 
 
         /// ----------log

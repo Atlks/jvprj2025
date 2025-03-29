@@ -13,7 +13,7 @@ import static util.misc.Util2025.encodeJson;
 
 public class AutoRestartApp {
     public static void main(String[] args) throws Exception {
-        String pathToWatch = "C:\\Users\\attil\\IdeaProjects\\jvprj2025\\src";
+        String pathToWatch = "C:\\0prj\\jvprj2025\\src";
         // 监听的文件夹路径
         watchDirectory(pathToWatch);
 

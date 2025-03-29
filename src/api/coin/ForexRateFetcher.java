@@ -11,23 +11,27 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 @RestController
 
 @PermitAll
-@Path("/coin/frrt")
+@Path("/coin/frnXchg")
 public class ForexRateFetcher implements Icall<Non, Object> {
     private static final String API_URL = "https://api.exchangerate-api.com/v4/latest/USD"; // 可换成其他 API
 
-    public   Object main (Non dto) throws IOException {
+    public static void main(String[] args) throws Exception {
+        System.out.println(getExchangeRate());
+    }
+    public   Object main (Non dto) throws Exception {
         return  getExchangeRate();
 //        System.out.println("USD to EUR: " + getExchangeRate("EUR"));
 //        System.out.println("USD to CNY: " + getExchangeRate("CNY"));
 //        System.out.println("USD to thb: " + getExchangeRate("THB"));
     }
 
-    public static Object getExchangeRate() {
-        try {
+    public static Object getExchangeRate() throws  Exception {
+
             URL url = new URL(API_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -50,10 +54,6 @@ public class ForexRateFetcher implements Icall<Non, Object> {
             return json;
            //         json.getJSONObject("rates").getDouble(currencyCode);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1; // 获取失败时返回 -1
-        }
     }
 }
 
