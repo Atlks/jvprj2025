@@ -7,16 +7,28 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.Path;
 import kotlinx.serialization.descriptors.StructureKind;
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.RestController;
 
 import static util.misc.Util2025.encodeJson;
 import static util.misc.Util2025.encodeJsonByGson;
+@RestController
 
+@PermitAll
+@Path("/coin/goldSilver")
 public class GoldSilverPriceFetcher {
 
     private static final String API_URL = "https://api.gold-api.com/price/";
 
+
+    /**
+     * 金属货币 金银铜铝爬
+     * @param metal
+     * @return
+     */
     public static JSONObject getGoldSilverPrice(String metal) {
         try {
             String url2 = API_URL + "" + metal;
