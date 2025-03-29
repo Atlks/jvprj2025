@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
 
 import static util.algo.GetUti.getStrFrmUrl;
-
+/**
+ * 加密货币排行榜   CryptoRank
+ */
 //加密货币排行榜   CryptoRank
 // 虚拟货币实体类  coinRank
 //class Coin {
@@ -31,6 +33,7 @@ import static util.algo.GetUti.getStrFrmUrl;
 
 @PermitAll
 @Path("/coinRank")
+
 public class CoinRank  implements Icall<Non, Object> {
     private static final String API_URL = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1";
 

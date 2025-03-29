@@ -13,10 +13,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+
+/**
+ * 外汇
+ */
 @RestController
 
 @PermitAll
 @Path("/coin/frnXchg")
+
 public class ForexRateFetcher implements Icall<Non, Object> {
     private static final String API_URL = "https://api.exchangerate-api.com/v4/latest/USD"; // 可换成其他 API
 
