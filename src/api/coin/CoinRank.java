@@ -1,4 +1,4 @@
-package api;
+package api.coin;
 
 import java.io.IOException;
 import java.util.ArrayList;
