@@ -24,6 +24,7 @@ import java.util.function.Consumer;
 
 
 import static util.algo.JarClassScanner.getPrjPath;
+import static util.algo.JarClassScanner.getTargetPath;
 import static util.algo.NullUtil.isBlank;
 import static util.misc.PathUtil.getDirTaget;
 import static util.misc.util2026.printLn;
@@ -57,9 +58,13 @@ public class WebSvr {
         String prjDirMode = getPrjPath() + "/static/";
        // if(new File("/staticSrc").exists())
        //     staticDir = "C:\\0prj\\jvprj2025\\static";
+        String targetDirMode = getTargetPath() + "/static/";
         if(isExistDir(prjDirMode))
         {            staticDir=prjDirMode;
-        }else {
+        } else if(isExistDir(targetDirMode))
+        {            staticDir=prjDirMode;
+        }
+        else {
             dirTaget = getDirTaget();
             staticDir = dirTaget + "/static/";
         }
