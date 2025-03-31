@@ -8,6 +8,8 @@ import util.algo.ChooseEvtPublshr;
 import util.auth.SecurityContextImp4jwt;
 //import service.AddRchgOrdToWltService;
 
+import java.io.FileNotFoundException;
+
 import static cfg.MyCfg.iniCfgFrmCfgfile;
 import static cfg.WebSvr.*;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
@@ -20,6 +22,12 @@ import static util.tx.dbutil.setField;
 @SolonMain
 @ComponentScan("apiUsr")
 public class MainApi {
+
+    /**
+     * -Ddbcfg=/cfg/dbcfg.ini
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
     //    ovrtTEst=true;//todo cancel if test ok
 
@@ -86,7 +94,11 @@ public class MainApi {
     }
 
     static {
-        iniCfgFrmCfgfile();
+        try {
+            iniCfgFrmCfgfile();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         //   saveUrlOrdChrg
     }
 

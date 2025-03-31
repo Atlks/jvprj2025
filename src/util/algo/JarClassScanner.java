@@ -1,5 +1,6 @@
 package util.algo;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.CodeSource;
@@ -44,13 +45,22 @@ public class JarClassScanner {
         return  classList;
 
     }
+    public static String getTargetPath() {
+        String jarOrClsesPath= getCurrentJarPath();
+      return   new File(jarOrClsesPath).getParent();
+    }
+
+    public static String getPrjPath() {
+        String tgt= getTargetPath();
+        return   new File(tgt).getParent();
+    }
 
 
-    /**
-     * 获取当前 JAR 文件的路径  C:\apps\myapp.jar
-     * if dir mode ,ret  C:\0prj\OptiBot\target\classes
-     * 未打包成 JAR），则可能返回classes 目录：
-     */
+        /**
+         * 获取当前 JAR 文件的路径  C:\apps\myapp.jar
+         * if dir mode ,ret  C:\0prj\OptiBot\target\classes
+         * 未打包成 JAR），则可能返回classes 目录：
+         */
     public static String getCurrentJarPath() {
         try {
             CodeSource codeSource = JarClassScanner.class.getProtectionDomain().getCodeSource();

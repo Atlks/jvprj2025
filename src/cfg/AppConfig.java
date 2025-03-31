@@ -16,6 +16,7 @@ import org.springframework.instrument.classloading.SimpleLoadTimeWeaver;
 import org.springframework.scheduling.annotation.EnableAsync;
 import util.evtdrv.ApplicationEventPublisherImplt;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class AppConfig {
     }
     public static   SessionFactory sessionFactory;
     @Bean
-    public SessionFactory sessionFactory() throws SQLException {
+    public SessionFactory sessionFactory() throws SQLException, FileNotFoundException {
         if(sessionFactory==null)
         {
             List<Class> li = List.of();

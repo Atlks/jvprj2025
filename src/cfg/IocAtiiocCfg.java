@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.lang.reflect.Constructor;
@@ -25,7 +26,7 @@ public class IocAtiiocCfg {
     public static Map<String,Object> AtIoc_context=new HashMap<>();
 
     @NotNull
-    public static Map<String,Object> iniIocContainr4at() throws SQLException {
+    public static Map<String,Object> iniIocContainr4at() throws SQLException, FileNotFoundException {
         MyCfg.iniCfgFrmCfgfile();
 
 //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);

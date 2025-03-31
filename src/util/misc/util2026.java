@@ -671,48 +671,12 @@ public class util2026 {
     public static Map<String, String> parse_ini_fileNosecByJarPath(String filePath) {
         System.out.println("fun parse_ini_fileNosecByJarPath(path=" + filePath);
         InputStream inputStream = UserBiz.class.getClassLoader().getResourceAsStream(filePath);
-        Map<String, String> result = new HashMap<>();
-        BufferedReader reader = null;
 
-        try {
-            reader = new BufferedReader(new InputStreamReader(inputStream));
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                line = line.trim();
-
-                // 忽略空行和注释行
-                if (line.isEmpty() || line.startsWith(";") || line.startsWith("#")) {
-                    continue;
-                }
-
-                // 处理键值对，格式为 key = value
-                if (line.contains("=")) {
-                    String[] parts = line.split("=", 2);
-                    if (parts.length == 2) {
-                        String key = parts[0].trim();
-                        String value = parts[1].trim();
-                        result.put(key, value);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return result;
+        return parse_ini_fileNosecByStream(inputStream);
     }
 
 
-    public static Map<String, String> parse_ini_fileNosecByStream(InputStream inputStream) {
+    public static Map<String, String> parse_ini_fileNosecByStream(@NotNull InputStream inputStream) {
         //  System.out.println("fun parse_ini_fileNosecByStream(path="+filePath);
         Map<String, String> result = new HashMap<>();
         BufferedReader reader = null;
