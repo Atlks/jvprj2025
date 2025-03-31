@@ -74,25 +74,30 @@ public class MyCfg {
         //   String content = new String(Files.readAllBytes(path));
         String sysPropDbcfg = System.getProperty("dbcfg");
         if (!isblank(sysPropDbcfg)) {
-            System.out.println(" iniCfgFrmCfgfile(),rd sys prop,dbcfg="+sysPropDbcfg);
+            System.out.println(" iniCfgFrmCfgfile(),rd sys prop,dbcfg=" + sysPropDbcfg);
             inputStream = new FileInputStream(sysPropDbcfg);
-        }
-        else {
+        } else {
+            //-root dir mode
             String rootDirMode = "/cfg/" + dbcfgName;
             if (new File(rootDirMode).exists()) {
-                System.out.println(" iniCfgFrmCfgfile().rootDir,,dbcfg="+rootDirMode);
+                System.out.println(" iniCfgFrmCfgfile().rootDir,,dbcfg=" + rootDirMode);
                 inputStream = new FileInputStream(rootDirMode);
-            }
-            else {
+            } else {
+                //---prj path
                 String prjDirMode = getPrjPath() + "/cfg/" + dbcfgName;
                 if (new File(prjDirMode).exists()) {
-                    System.out.println(" iniCfgFrmCfgfile().prjDirMode blk,,dbcfg="+prjDirMode);
+                    System.out.println(" iniCfgFrmCfgfile().prjDirMode blk,,dbcfg=" + prjDirMode);
                     inputStream = new FileInputStream(prjDirMode);
                 } else {
-                    String  targetDirMode= getPrjPath() + "/target/cfg/" + dbcfgName;
-                    System.out.println(" iniCfgFrmCfgfile().targetDirMode blk,,dbcfg="+targetDirMode);
+                    //--target dir mode
+                    String targetDirMode = getTargetPath() + "/cfg/" + dbcfgName;
+                    System.out.println(" iniCfgFrmCfgfile().targetDirMode blk,,dbcfg=" + targetDirMode);
                     if (new File(targetDirMode).exists()) {
-                        inputStream = new FileInputStream( targetDirMode);
+                        inputStream = new FileInputStream(targetDirMode);
+                    } else {
+                        //-----jar mode
+                        //  inputStream = new FileInputStream( targetDirMode);
+                        inputStream = MyCfg.class.getClassLoader().getResourceAsStream(dbcfgName);
                     }
                 }
             }
