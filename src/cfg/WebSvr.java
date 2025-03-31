@@ -23,6 +23,7 @@ import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 
+import static util.algo.JarClassScanner.getPrjPath;
 import static util.algo.NullUtil.isBlank;
 import static util.misc.PathUtil.getDirTaget;
 import static util.misc.util2026.printLn;
@@ -52,9 +53,18 @@ public class WebSvr {
       //  String dirWzClassesDirSameLev = "static";
         String dirTaget = getDirTaget();
         String staticDir = "C:\\Users\\attil\\IdeaProjects\\jvprj2025\\static";
-        staticDir = dirTaget + "/static";
-        if(new File("/staticSrc").exists())
-            staticDir = "C:\\0prj\\jvprj2025\\static";
+
+        String prjDirMode = getPrjPath() + "/static/";
+       // if(new File("/staticSrc").exists())
+       //     staticDir = "C:\\0prj\\jvprj2025\\static";
+        if(isExistDir(prjDirMode))
+        {            staticDir=prjDirMode;
+        }else {
+            dirTaget = getDirTaget();
+            staticDir = dirTaget + "/static/";
+        }
+
+
         server.createContext("/static", new StaticFileHandler(staticDir));
         //    http://localhost:8889/static/doc.htm
 
@@ -71,6 +81,10 @@ public class WebSvr {
         server.start();
         System.out.println("http://localhost:" + port + "/reg");
         System.out.println("Server started on port " + port);
+    }
+
+    private static boolean isExistDir(String prjDirMode) {
+   return  new File(prjDirMode).exists();
     }
 
 
