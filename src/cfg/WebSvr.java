@@ -55,10 +55,11 @@ public class WebSvr {
         String dirTaget = getDirTaget();
         String staticDir = "C:\\Users\\attil\\IdeaProjects\\jvprj2025\\static";
 
-        String prjDirMode = getPrjPath() + "/static/";
+        String docRestDir = "/docRestApi/";
+        String prjDirMode = getPrjPath() + docRestDir;
        // if(new File("/staticSrc").exists())
        //     staticDir = "C:\\0prj\\jvprj2025\\static";
-        String targetDirMode = getTargetPath() + "/static/";
+        String targetDirMode = getTargetPath() + docRestDir;
         if(isExistDir(prjDirMode))
         {            staticDir=prjDirMode;
         } else if(isExistDir(targetDirMode))
@@ -66,7 +67,7 @@ public class WebSvr {
         }
         else {
             dirTaget = getDirTaget();
-            staticDir = dirTaget + "/static/";
+            staticDir = dirTaget + docRestDir;
         }
 
 

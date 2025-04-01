@@ -49,7 +49,10 @@ public class JarClassScanner {
         String jarOrClsesPath= getCurrentJarPath();
       return   new File(jarOrClsesPath).getParent();
     }
-
+    public static String getPrjDir() {
+        String tgt= getTargetPath();
+        return   new File(tgt).getParent();
+    }
     public static String getPrjPath() {
         String tgt= getTargetPath();
         return   new File(tgt).getParent();

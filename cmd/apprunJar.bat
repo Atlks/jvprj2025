@@ -6,8 +6,8 @@ C:\Users\attil\.jdks\corretto-21.0.6\bin\java.exe ^
   MainApi
 
 
+/jdk21\bin\java.exe   -jar /0prj\OptiBot\target\apiPrj-8.jar
 
-
-/jdk21\bin\java.exe  -jar /0prj\OptiBot\target\apiPrj-8.jar
+/jdk21\bin\java.exe -Ddbcfg=/cfg/db.ini -jar /0prj\OptiBot\target\apiPrj-8.jar
 
 /jdk21\bin\java.exe  -cp "/0prj\OptiBot\target\apiPrj-8.jar;/0prj\OptiBot\target\lib\*"  MainApi

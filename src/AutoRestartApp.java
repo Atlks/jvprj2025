@@ -9,11 +9,12 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
+import static util.algo.JarClassScanner.getPrjPath;
 import static util.misc.Util2025.encodeJson;
 
 public class AutoRestartApp {
     public static void main(String[] args) throws Exception {
-        String pathToWatch = "C:\\0prj\\jvprj2025\\src";
+        String pathToWatch =getPrjPath()+ "/src";
         // 监听的文件夹路径
         watchDirectory(pathToWatch);
 
