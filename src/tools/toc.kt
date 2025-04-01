@@ -11,6 +11,7 @@ fun main() {
 
     var filePath = "C:\\Users\\attil\\IdeaProjects\\jvprj2025\\doc2503\\地理学 ，那些南海岛礁的故事.md" // 替换为你的文件路径
     filePath="C:\\0prj\\jvprj2025\\doc2503\\跨国家地理名词.md"
+    filePath="C:\\0prj\\jvprj2025\\doc2503\\十大堡垒要塞top10.md"
     val searchStartWzChars = "= - ." // 替换为你要查找的字符串
     println("-----------TOC INDEX------------")
     extractTOC(filePath, searchStartWzChars)
