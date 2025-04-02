@@ -3,11 +3,23 @@ package util.algo;
 import jakarta.validation.constraints.NotBlank;
 import util.misc.StrIsBlankEx;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 public class IsXXX {
 
+
+
+    public static boolean isImp(File file) {
+        if (file == null || !file.exists() || !file.isFile()) {
+            return false;
+        }
+        String fileName = file.getName().toLowerCase();
+        return fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png") ||
+                fileName.endsWith(".gif") || fileName.endsWith(".bmp") || fileName.endsWith(".webp");
+
+    }
     public static void ifIsBlank(@NotBlank String sql) throws StrIsBlankEx {
         if(isblank(sql))
             throw  new StrIsBlankEx("val(sql) is empty");

@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.retry.annotation.CircuitBreaker;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -14,6 +15,23 @@ import java.util.UUID;
 
 
 public class GetUti {
+
+
+    public static String getImageMimeType(File file) {
+        String fileName = file.getName().toLowerCase();
+        if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
+            return "image/jpeg";
+        } else if (fileName.endsWith(".png")) {
+            return "image/png";
+        } else if (fileName.endsWith(".gif")) {
+            return "image/gif";
+        } else if (fileName.endsWith(".bmp")) {
+            return "image/bmp";
+        } else if (fileName.endsWith(".webp")) {
+            return "image/webp";
+        }
+        return "application/octet-stream"; // 默认二进制流
+    }
     public static Object getObjByMethod(Method m) {
         return getObject(m.getDeclaringClass());
     }

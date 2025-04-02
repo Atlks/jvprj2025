@@ -62,6 +62,33 @@ security:
   - BearerAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /uploads:
+    post:
+      summary: 上传图片
+      description: 上传图片 and returns the file path
+      operationId: uploadFile
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Image file to upload
+      responses:
+        '200':
+          description: File uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  filePath:
+                    type: string
+                    description: Path to the uploaded file
   /coin/frnXchg:
     get:
       tags:

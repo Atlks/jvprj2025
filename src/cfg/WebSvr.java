@@ -7,7 +7,6 @@ import com.sun.net.httpserver.HttpServer;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.*;
-import util.misc.PathUtil;
 import util.proxy.AtProxy4api;
 
 import java.io.File;
@@ -52,29 +51,15 @@ public class WebSvr {
 
         // 设置静态资源目录 (例如: D:/myweb/static)
       //  String dirWzClassesDirSameLev = "static";
-        String dirTaget = getDirTaget();
-        String staticDir = "C:\\Users\\attil\\IdeaProjects\\jvprj2025\\static";
+        String docRestApiDir = getdirRestapiDoc();
+        System.out.println("docRestApiDir="+docRestApiDir);
+        server.createContext("/static", new StaticFileHandler(docRestApiDir,"/static"));
+        server.createContext("/docRestApi", new StaticFileHandler(docRestApiDir,"/docRestApi"));
 
-        String docRestDir = "/docRestApi/";
-        String prjDirMode = getPrjPath() + docRestDir;
-       // if(new File("/staticSrc").exists())
-       //     staticDir = "C:\\0prj\\jvprj2025\\static";
-        String targetDirMode = getTargetPath() + docRestDir;
-        if(isExistDir(prjDirMode))
-        {            staticDir=prjDirMode;
-        } else if(isExistDir(targetDirMode))
-        {            staticDir=prjDirMode;
-        }
-        else {
-            dirTaget = getDirTaget();
-            staticDir = dirTaget + docRestDir;
-        }
-
-
-        server.createContext("/static", new StaticFileHandler(staticDir));
+        server.createContext("/res/uploads", new StaticFileHandler(getPrjPath()+"/res/uploads", "/res/uploads"));
         //    http://localhost:8889/static/doc.htm
 
-
+        server.createContext("/", exchange -> handleAllReq(exchange));
         //-------------------
         cfgPath(server);
         //  http://localhost:8889/
@@ -87,6 +72,28 @@ public class WebSvr {
         server.start();
         System.out.println("http://localhost:" + port + "/reg");
         System.out.println("Server started on port " + port);
+    }
+
+    @org.jetbrains.annotations.NotNull
+    private static String getdirRestapiDoc() throws URISyntaxException {
+        String dirTaget = getDirTaget();
+        String staticDir = "C:\\Users\\attil\\IdeaProjects\\jvprj2025\\static";
+
+        String docRestDir = "/docRestApi/";
+        String prjDirMode = getPrjPath() + docRestDir;
+        // if(new File("/staticSrc").exists())
+        //     staticDir = "C:\\0prj\\jvprj2025\\static";
+        String targetDirMode = getTargetPath() + docRestDir;
+        if(isExistDir(prjDirMode))
+        {            staticDir=prjDirMode;
+        } else if(isExistDir(targetDirMode))
+        {            staticDir=prjDirMode;
+        }
+        else {
+            dirTaget = getDirTaget();
+            staticDir = dirTaget + docRestDir;
+        }
+        return staticDir;
     }
 
     private static boolean isExistDir(String prjDirMode) {
@@ -112,7 +119,7 @@ public class WebSvr {
 
         server.createContext("/users/get", exchange -> handleGetUser(exchange));
 
-        server.createContext("/", exchange -> handleAllReq(exchange));
+
 
 
     }
