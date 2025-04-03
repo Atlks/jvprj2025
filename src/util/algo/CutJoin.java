@@ -3,8 +3,28 @@ package util.algo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CutJoin {
+import static util.algo.IndexOfUti.indexOf;
 
+public class CutJoin {
+    /**
+     * 截取字节数组 前面若干个字节
+     * @param part
+     * @param num
+     * @return
+     */
+    public static byte[] subByte(byte[] part, int num) {
+
+        if (part == null || num <= 0) {
+            return new byte[0]; // 返回空数组，防止异常
+        }
+
+        // 取 num 和 part.length 中较小的值，防止越界
+        int len = Math.min(num, part.length);
+        byte[] result = new byte[len];
+
+        System.arraycopy(part, 0, result, 0, len);
+        return result;
+    }
     /**这个函数的作用是将 bodyBytes 按照 boundaryBytes 进行分割，并返回一个 List<byte[]>，其中每个 byte[] 是一个分割后的部分。
      * 流程是
      * 遍历 bodyBytes 并查找 boundaryBytes 的位置

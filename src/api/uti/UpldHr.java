@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 import static util.algo.CutJoin.splitByBytearray;
+import static util.algo.CutJoin.subByte;
 import static util.algo.GetUti.*;
 import static util.algo.IndexOfUti.indexOfFirst;
 import static util.algo.JarClassScanner.getPrjPath;
@@ -45,27 +46,27 @@ import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 //   http://localhost:8889/login?uname=008&pwd=000
 @NoArgsConstructor
 @Data
-public class UpldHr implements Icall<Non, Object>  {
+public class UpldHr implements Icall<Non, Object> {
     /**
      * upload file
+     *
      * @return file path
      * @throws Exception
      * @throws existUserEx
      */
     @Override
     public Object main(@BeanParam Non usr_dto) throws Exception {
-        HttpExchange httpExchange= httpExchangeCurThrd.get();
-        HttpExchange exchange=httpExchange;
-        String uploadDir=getPrjPath()+"/res/uploads";
-      //  mkdir2025(uploadDir+"/xxx.jpg");
+        HttpExchange httpExchange = httpExchangeCurThrd.get();
+        HttpExchange exchange = httpExchange;
+        String uploadDir = getPrjPath() + "/res/uploads";
+        //  mkdir2025(uploadDir+"/xxx.jpg");
         // 确保上传目录存在
         Files.createDirectories(Paths.get(uploadDir));
 
 
-
         // 提取 Content-Type 以获取 boundary
         String boundary = getBoundary(exchange);
-        if (boundary .equals("")) {
+        if (boundary.equals("")) {
             exchange.sendResponseHeaders(400, 0); // Bad Request
             return "";
         }
@@ -76,11 +77,11 @@ public class UpldHr implements Icall<Non, Object>  {
         // 处理上传的文件
         // 读取请求体并提取文件内容
         InputStream inputStream = exchange.getRequestBody();
-        parseSingleFile(inputStream,boundary,uploadDir,newFileName);
+        parseSingleFile(inputStream, boundary, uploadDir, newFileName);
 
 
         // 发送响应
-        String rltpath="/res/uploads/"+newFileName;
+        String rltpath = "/res/uploads/" + newFileName;
         return rltpath;
 
     }
@@ -89,24 +90,23 @@ public class UpldHr implements Icall<Non, Object>  {
     /**
      * post data
      * ------geckoformboundary34b49dbfd9a4a64fa922e966447ac390
-     *     Content-Disposition: form-data; name="file"; filename="download (1).jpg"
-     *     Content-Type: image/jpeg
-     *
+     * Content-Disposition: form-data; name="file"; filename="download (1).jpg"
+     * Content-Type: image/jpeg
+     * <p>
      * fgsfgsfg
-     *  ------geckoformboundary34b49dbfd9a4a64fa922e966447ac390--
+     * ------geckoformboundary34b49dbfd9a4a64fa922e966447ac390--
      */
-    public static void parseSingleFile(@NotNull  InputStream inputStream, String boundary, String outputDir, String newFileName) throws IOException {
+    public static void parseSingleFile(@NotNull InputStream inputStream, String boundary, String outputDir, String newFileName) throws IOException {
         // Step 1: Read the request body and split by boundary
         byte[] boundaryBytes = boundary.getBytes("UTF-8");
         byte[] bodyBytes = getBytes4bodyPost(inputStream);
 
-        List<byte[]> parts=splitByBytearray( bodyBytes,  boundaryBytes);
+        List<byte[]> parts = splitByBytearray(bodyBytes, boundaryBytes);
 
-        // Step 2: Find the part with the file (based on boundary)
-        String body = new String(bodyBytes, "utf-8");
-      //  String[] parts = body.split("--" + boundary);
+
         for (byte[] part : parts) {
-            var partStr=new String(part, "utf-8");
+            byte[] partHead = subByte(part, 3000);
+            var partStr = new String(partHead, "utf-8");
             if (partStr.contains("Content-Disposition")) {
                 String filename = getFilenameFromUpdtStream(partStr);
                 System.out.println(filename);
@@ -121,16 +121,11 @@ public class UpldHr implements Icall<Non, Object>  {
     }
 
 
-
-
     // Save the file to the output directory
     // 生成唯一文件名
 //                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmssSSS").format(new Date());
 //                String newFileName = "upload_" + timeStamp + ".jpg";
     //   java.nio.file. Path filePath = Paths.get(uploadDir, newFileName);
-
-
-
 
 
 }
