@@ -2,6 +2,7 @@ package util.algo;
 
 import com.sun.net.httpserver.HttpExchange;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -55,7 +56,7 @@ public class getPostdataUti {
         return "";
     }
 
-    public static byte @org.jetbrains.annotations.NotNull [] getBytes4bodyPost(InputStream inputStream) throws IOException {
+    public static byte @NotNull [] getBytes4bodyPost(InputStream inputStream) throws IOException {
         ByteArrayOutputStream bufferByteArray = new ByteArrayOutputStream();
         int bytesRead;
         byte[] tempBuffer = new byte[8192];
@@ -67,7 +68,7 @@ public class getPostdataUti {
         byte[] bodyBytes = bufferByteArray.toByteArray();
         return bodyBytes;
     }
-    public static byte @org.jetbrains.annotations.NotNull [] getBytesFilecontext(byte[] part) {
+    public static byte @NotNull [] getBytesFilecontext(byte[] part) {
         int fileDataStartIndex =indexOfFirst(part,"\r\n\r\n".getBytes()) + 4;
 
         byte[] fileContentBytes = Arrays.copyOfRange(part, fileDataStartIndex, part.length);

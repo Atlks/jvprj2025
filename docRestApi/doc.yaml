@@ -62,6 +62,38 @@ security:
   - BearerAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /post2:
+    post:
+      summary: 提交参数 a 和 b
+      description: 接收 `a` 和 `b` 作为参数，并返回处理结果
+      operationId: post2
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                a:
+                  type: integer
+                  example: 1
+                b:
+                  type: integer
+                  example: 2
+      responses:
+        "200":
+          description: 成功返回结果
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "处理成功"
+                  result:
+                    type: integer
+                    example: 3
   /uploads:
     post:
       summary: 上传图片

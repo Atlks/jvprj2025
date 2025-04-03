@@ -9,13 +9,14 @@ import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.*;
 import util.proxy.AtProxy4api;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -58,7 +59,13 @@ public class WebSvr {
 
         server.createContext("/res/uploads", new StaticFileHandler(getPrjPath()+"/res/uploads", "/res/uploads"));
         //    http://localhost:8889/static/doc.htm
-
+        server.createContext("/post2", exchange -> {
+            try {
+                handlePost2(exchange);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
         server.createContext("/", exchange -> handleAllReq(exchange));
         //-------------------
         cfgPath(server);
@@ -72,6 +79,39 @@ public class WebSvr {
         server.start();
         System.out.println("http://localhost:" + port + "/reg");
         System.out.println("Server started on port " + port);
+    }
+
+    private static void handlePost2(HttpExchange exchange) throws Exception {
+        if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+            // 读取请求体
+            InputStream inputStream = exchange.getRequestBody();
+            String body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+
+            // body:::     a=1&b=2
+            // 解析 form 数据
+            Map<String, String> params = parseFormData(body);
+            String response = "Received: a=" + params.get("a") + ", b=" + params.get("b");
+
+            // 发送响应
+            exchange.sendResponseHeaders(200, response.length());
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(response.getBytes());
+            }
+        } else {
+            exchange.sendResponseHeaders(405, -1); // 方法不允许
+        }
+    }
+
+    private static Map<String, String> parseFormData(String body) throws UnsupportedEncodingException {
+        Map<String, String> params = new HashMap<>();
+        for (String pair : body.split("&")) {
+            String[] keyValue = pair.split("=");
+            if (keyValue.length == 2) {
+                params.put(URLDecoder.decode(keyValue[0], "UTF-8"),
+                        URLDecoder.decode(keyValue[1], "UTF-8"));
+            }
+        }
+        return params;
     }
 
     @org.jetbrains.annotations.NotNull
