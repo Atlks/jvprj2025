@@ -1,20 +1,30 @@
 package util.algo;
 
+import com.sun.net.httpserver.HttpExchange;
 import jakarta.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.retry.annotation.CircuitBreaker;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.UUID;
 
+import static util.algo.IndexOfUti.indexOfFirst;
+
 
 public class GetUti {
+
 
 
     public static String getImageMimeType(File file) {
@@ -64,6 +74,15 @@ public class GetUti {
 
         String string = jsonStr.toString();
         return string;
+    }
+
+
+    @NotBlank
+    public static String getFilename(   @NotBlank String uploadDir,   @NotBlank   @NotBlank String prefix) {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmssSSS").format(new Date());
+        String newFileName =prefix + timeStamp + ".jpg";
+        java.nio.file. Path filePath = Paths.get(uploadDir, newFileName);
+        return newFileName;
     }
 
     //只针对api 和biz的开放注册修改class注入aop
