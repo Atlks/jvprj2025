@@ -7,14 +7,22 @@ import jakarta.validation.constraints.NotNull;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 
 import static util.algo.IndexOfUti.indexOfFirst;
 
-public class getPostdataUti {
+
+
+/**
+ * post data
+ * ------geckoformboundary34b49dbfd9a4a64fa922e966447ac390
+ * Content-Disposition: form-data; name="file"; filename="download (1).jpg"
+ * Content-Type: image/jpeg
+ * <p>
+ * fgsfgsfg
+ * ------geckoformboundary34b49dbfd9a4a64fa922e966447ac390--
+ */
+public class ParsePostFileUti {
 
 
 
@@ -68,6 +76,12 @@ public class getPostdataUti {
         byte[] bodyBytes = bufferByteArray.toByteArray();
         return bodyBytes;
     }
+
+    /**
+     * get file context by part
+     * @param part
+     * @return
+     */
     public static byte @NotNull [] getBytesFilecontext(byte[] part) {
         int fileDataStartIndex =indexOfFirst(part,"\r\n\r\n".getBytes()) + 4;
 
