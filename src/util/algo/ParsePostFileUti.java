@@ -37,6 +37,33 @@ import static util.algo.ParsePostFileUti.getBytesFilecontext;
  * * ------geckoformboundary34b49dbfd9a4a64fa922e966447ac390--
  */
 public class ParsePostFileUti {
+    public static List<UploadedFile> parseUpldedFiles(HttpExchange exchange) throws Exception {
+        List<UploadedFile> li = new ArrayList<>();
+        InputStream inputStream = exchange.getRequestBody();
+        String boundary = getBoundary(exchange);
+        byte[] boundaryBytes = boundary.getBytes("UTF-8");
+        byte[] bodyBytes = getBytes4bodyPost(inputStream);
+
+        List<byte[]> parts = splitByBytearray(bodyBytes, boundaryBytes);
+        for (byte[] part : parts) {
+            byte[] partHead = subByte(part, 3000);
+            var partHeadStr = new String(partHead, "utf-8");
+            var extractContentType = extractContentType(partHeadStr);
+            if (partHeadStr.contains("Content-Disposition")) {
+                String filename = getFilenameFromUpdtStream(partHeadStr);
+                System.out.println(filename);
+                var getNameByParthead = getNameByParthead(partHeadStr);
+
+                // Extract the file content (after the headers)
+                byte[] fileContentBytes = getBytesFilecontext(part);
+                UploadedFile uf = new UploadedFile(getNameByParthead, filename, extractContentType, fileContentBytes);
+                li.add(uf);
+            }
+
+        }
+        return li;
+
+    }
 
 
     @NotBlank
@@ -116,33 +143,6 @@ public class ParsePostFileUti {
         return bodyBytes;
     }
 
-    public static List<UploadedFile> parseUpldedFiles(HttpExchange exchange) throws Exception {
-        List<UploadedFile> li = new ArrayList<>();
-        InputStream inputStream = exchange.getRequestBody();
-        String boundary = getBoundary(exchange);
-        byte[] boundaryBytes = boundary.getBytes("UTF-8");
-        byte[] bodyBytes = getBytes4bodyPost(inputStream);
-
-        List<byte[]> parts = splitByBytearray(bodyBytes, boundaryBytes);
-        for (byte[] part : parts) {
-            byte[] partHead = subByte(part, 3000);
-            var partHeadStr = new String(partHead, "utf-8");
-            var extractContentType = extractContentType(partHeadStr);
-            if (partHeadStr.contains("Content-Disposition")) {
-                String filename = getFilenameFromUpdtStream(partHeadStr);
-                System.out.println(filename);
-                var getNameByParthead = getNameByParthead(partHeadStr);
-
-                // Extract the file content (after the headers)
-                byte[] fileContentBytes = getBytesFilecontext(part);
-                UploadedFile uf = new UploadedFile(getNameByParthead, filename, extractContentType, fileContentBytes);
-                li.add(uf);
-            }
-
-        }
-        return li;
-
-    }
 
     /**
      * 这个函数的作用是将 bodyBytes 按照 boundaryBytes 进行分割，并返回一个 List<byte[]>，其中每个 byte[] 是一个分割后的部分。
