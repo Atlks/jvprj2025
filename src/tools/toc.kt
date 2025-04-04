@@ -13,6 +13,8 @@ fun main() {
     filePath="C:\\0prj\\jvprj2025\\doc2503\\跨国家地理名词.md"
     filePath="C:\\0prj\\jvprj2025\\doc2503\\十大堡垒要塞top10.md"
     filePath="C:\\0prj\\jvprj2025\\doc2503\\地理 板块学.md"
+    filePath="C:\\0prj\\jvprj2025\\doc2504\\东南亚避暑圣地.md"
+
     val searchStartWzChars = "= - ." // 替换为你要查找的字符串
     println("-----------TOC INDEX------------")
     extractTOC(filePath, searchStartWzChars)
