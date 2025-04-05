@@ -14,6 +14,10 @@ fun main() {
     filePath="C:\\0prj\\jvprj2025\\doc2503\\十大堡垒要塞top10.md"
     filePath="C:\\0prj\\jvprj2025\\doc2503\\地理 板块学.md"
     filePath="C:\\0prj\\jvprj2025\\doc2504\\东南亚避暑圣地.md"
+    filePath="C:\\0prj\\jvprj2025\\doc2504\\适合普通人移民的方法大总结.md"
+   // .md
+    filePath="C:\\0prj\\jvprj2025\\doc2504\\prgrmlan future new fuchr 编程语言未来十大新特点2025-2035.md"
+
 
     val searchStartWzChars = "= - ." // 替换为你要查找的字符串
     println("-----------TOC INDEX------------")
