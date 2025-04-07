@@ -854,7 +854,8 @@ public class util2026 {
 
         Class<?> clazz = target.getClass();
         while (clazz != null) { // 处理继承层级
-            Field[] fields = clazz.getDeclaredFields();
+            Field[] fields = clazz.getFields();
+            //fx here chg to fields,,bcs  page reqdto need extend
             for (Field field : fields) {
                 try {
                     field.setAccessible(true);
@@ -895,8 +896,11 @@ public class util2026 {
 
         // 遍历类的所有字段
         try {
+
+            if(name.equals("page"))
+                System.out.println("d135");
             // 尝试获取指定名称的字段
-            Field field = clazz.getDeclaredField(name);
+            Field field = clazz.getField(name);
             return field != null;
         } catch (NoSuchFieldException e) {
             // 如果找不到该字段，则抛出异常，返回false
@@ -971,7 +975,7 @@ public class util2026 {
         Class<?> clazz = obj.getClass();
 
         // 查找字段，包括私有字段
-        Field field = clazz.getDeclaredField(fieldName);
+        Field field = clazz.getField(fieldName);
 
         // 如果是私有字段，取消访问限制
         field.setAccessible(true);

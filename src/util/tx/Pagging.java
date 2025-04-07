@@ -2,8 +2,11 @@ package util.tx;
 
 import entityx.baseObj;
 import entityx.PageResult;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
+import util.entty.Pageobj;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -21,6 +24,27 @@ public class Pagging {
 
         int startPosition = (pageNumber - 1) * pageSize; // 计算起始行
         return startPosition;
+    }
+
+
+    public static @NotNull PageResult<?> getPageResultByHbntV3(@NotBlank  String sql, Map<String, Object> sqlprmMap, Pageobj pageobj, Session session) throws SQLException {
+
+
+        NativeQuery nativeQuery = session.createNativeQuery(sql);
+        setPrmts4sql(sqlprmMap, nativeQuery);
+        // 设置分页
+        nativeQuery.setFirstResult(getstartPosition(pageobj.page, pageobj.pagesize));
+        nativeQuery.setMaxResults(pageobj.pagesize);
+        //       .setParameter("age", 18);
+        List<?> list1 = nativeQuery.getResultList();
+
+
+        //------------page
+        long totalRecords = nativeQuery.getResultCount();
+
+
+        int totalPages = (int) Math.ceil((double) totalRecords / pageobj.pagesize);
+        return new PageResult<>(list1, totalRecords, totalPages,pageobj.page,pageobj.pagesize);
     }
 
     public static PageResult<?> getPageResultByHbntV2(String sql, Map<String, Object> sqlprmMap, int pageNumber, int pageSize, Session session) throws SQLException {

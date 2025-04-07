@@ -18,8 +18,10 @@ fun main() {
    // .md
     filePath="C:\\0prj\\jvprj2025\\doc2504\\prgrmlan future new fuchr 编程语言未来十大新特点2025-2035.md"
 
+    filePath="C:\\0prj\\jvprj2025\\doc2504\\y imgrt为什么要移民.md"
 
-    val searchStartWzChars = "= - ." // 替换为你要查找的字符串
+
+    val searchStartWzChars = "= - . 。" // 替换为你要查找的字符串
     println("-----------TOC INDEX------------")
     extractTOC(filePath, searchStartWzChars)
 

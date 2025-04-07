@@ -69,11 +69,11 @@ public class AppConfig {
     }
 
     //手动注入class
-    @Bean
-    public QueryUsrHdr queryUsrHdr(@Autowired SessionFactory sessionFactory) {
-        // 确保 sessionFactory 被正确注入
-        return new QueryUsrHdr(sessionFactory);
-    }
+//    @Bean
+//    public QueryUsrHdr queryUsrHdr(@Autowired SessionFactory sessionFactory) {
+//        // 确保 sessionFactory 被正确注入
+//        return new QueryUsrHdr(sessionFactory);
+//    }
 
     @Bean
     public CacheManager cacheManager() {
