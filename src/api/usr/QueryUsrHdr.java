@@ -1,7 +1,5 @@
 package api.usr;
 
-import cfg.MyCfg;
-import com.sun.net.httpserver.HttpExchange;
 import entityx.ReqDtoQryUsr;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
@@ -24,11 +22,7 @@ import static cfg.AppConfig.sessionFactory;
 import static entityx.ApiResponse.createResponse;
 import static util.algo.EncodeUtil.encodeParamSql;
 import static util.algo.NullUtil.isBlank;
-import static util.algo.ToXX.parseQueryParams;
-import static util.misc.Util2025.encodeJson;
 
-import static util.misc.util2026.*;
-import static util.tx.HbntUtil.getListBySql;
 import static util.tx.Pagging.getPageResultByHbntV3;
 
 @RestController
@@ -46,8 +40,8 @@ public class QueryUsrHdr implements Icall<ReqDtoQryUsr, Object> {
     public Object main(ReqDtoQryUsr reqdto) throws Exception {
 
         var uNameLikeConditon = "";
-        if (!isBlank(reqdto.uname4qry))
-            uNameLikeConditon = "where  uname like '%" + encodeParamSql(reqdto.uname4qry) + "%'";
+        if (!isBlank(reqdto.unameKeyword))
+            uNameLikeConditon = "where  uname like '%" + encodeParamSql(reqdto.unameKeyword) + "%'";
         var sql = "select * from usr " + uNameLikeConditon + " order by crtTimeStmp desc  ";
         System.out.println(sql);
 
