@@ -69,7 +69,7 @@ paths:
     summary: 查询用户
     description: 根据用户名分页查询用户列表。
     parameters:
-      - name: uname
+      - name: uname4qry
         in: query
         required: false
         schema:
