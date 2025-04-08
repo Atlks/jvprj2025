@@ -6,6 +6,7 @@ import com.alibaba.fastjson2.JSONWriter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -25,6 +26,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
+
+import static com.fatboyindustrial.gsonjavatime.Converters.registerAll;
 
 
 public class Util2025 {
@@ -178,7 +181,10 @@ public class Util2025 {
      * @return
      */
     public static String encodeJsonByGson(Object obj){
-        Gson gson = new Gson();
+        GsonBuilder builder = new GsonBuilder();
+        registerAll(builder);  // 自动注册常见 Java 时间类适配器
+        Gson gson = builder.create();
+      //  Gson gson = new Gson();
         return gson.toJson(obj);    }
 
     // 使用 Fastjson2 进行 JSON 序列化
