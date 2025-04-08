@@ -1,8 +1,34 @@
+fuchr job 未来工作.md
 
-===============================idx
+-----------TOC INDEX------------
+ 
+=============tech road
+=hi tech。。core tech ,core code
+=tchr tech scholl
+=mng tech
+=============info proxy agt 信息查收割
+=agt proxy
+=imgrt
+=money trans
+=导游
+==============外贸
+=驻外代表
+=当地考察员 仓库库管
+=对外经济
+ 
+ 
+ 
+-----------end TOC INDEX------------
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 =============tech road
-=hi tech
+=hi tech。。core tech ,core code
+
+我们做主机，然后东南亚国家做组装。
+
+arch ai web3 bot
 
 =tchr tech scholl
 
@@ -10,14 +36,7 @@
 
  
 
-=============info proxy agt 信息查收割
-
-=agt proxy
-=imgrt
-=money trans
-=导游
-endind
-
+ 
 
 ==============外贸
 =驻外代表
@@ -31,18 +50,7 @@ endind
 
 
 
-====================================================
-=============tech road
-=hi tech
-arch ai web3 bot
-
-=tchr  tech scholl
-
-
-
-
-
-=mng tech
+ 
 
 ============info  proxy agt  信息查收割
 
