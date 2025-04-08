@@ -32,7 +32,7 @@ import static util.tx.HbntUtil.persistByHibernate;
  */
 @RestController
 
-@PermitAll
+//@PermitAll
 @Path("/user/setScrQstn")
 //   http://localhost:8889/user/setScrQstn?customQuestionText=???&answer=000
 @NoArgsConstructor
@@ -45,7 +45,7 @@ public class SetSecyQstnHdr implements Icall<SecurityQuestion, Object> {
      */
     @Override
     public Object main(@BeanParam SecurityQuestion usr_dto) throws Exception  {
-        usr_dto.setUserName("00912");//for test
+     //   usr_dto.setUserName("00912");//for test
         persistByHibernate( usr_dto, sessionFactory.getCurrentSession());
         return     new ApiResponse(usr_dto);
     }
