@@ -26,8 +26,7 @@ import static util.algo.EncryUtil.encryptAesToStrBase64;
 import static util.excptn.ExptUtil.currFunPrms4dbg;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.hopePwdEq;
-import static util.tx.HbntUtil.findByHerbinate;
-import static util.tx.HbntUtil.persistByHibernate;
+import static util.tx.HbntUtil.*;
 
 @Service
 /**
@@ -100,7 +99,8 @@ public class SAM4reglgn implements ISAM {
         pwdstore.setUserId(uid);
         String data = "p=" + oriKey + "&slt=" + pwdstore.salt;
         pwdstore.hashedPassword = geneKey(data);
-        persistByHibernate(pwdstore, sessionFactory.getCurrentSession());
+        mergeByHbnt(pwdstore, sessionFactory.getCurrentSession());
+        //here updt or isnert,bcs rest pwd is updt...reg is add
     }
 
     public void addLogVldSucess(String uname) {
