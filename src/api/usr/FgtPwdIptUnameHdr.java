@@ -43,7 +43,7 @@ public class FgtPwdIptUnameHdr implements Icall<FgtPwdIptUnameDto, Object> {
         HashMap vo=new HashMap();
         vo.put("uname",sq.getUserName());
         vo.put("customQuestionText",sq.customQuestionText);
-        return sq;
+        return vo;
     }
 
 
