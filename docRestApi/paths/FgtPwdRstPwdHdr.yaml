@@ -1,0 +1,33 @@
+get:
+  tags:
+    - user
+  summary: Reset password with security answer
+  description: Resets the password by validating the security question answer.
+  parameters:
+    - name: uname
+      in: query
+      required: true
+      schema:
+        type: string
+      description: Username
+    - name: answer
+      in: query
+      required: true
+      schema:
+        type: string
+      description: Security question answer
+    - name: newpwd
+      in: query
+      required: true
+      schema:
+        type: string
+      description: New password to set
+  responses:
+    '200':
+      $ref: '../components/responses/CommonResponse.yaml'
+    '400':
+      description: Invalid input
+    '401':
+      description: Security answer incorrect
+    '500':
+      description: Internal server error

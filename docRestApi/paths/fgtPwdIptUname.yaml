@@ -1,0 +1,25 @@
+get:
+  tags:
+    - user
+  summary: Set or reset  password..now input uname
+  description: Accepts username and related data to set/reset  password.
+  parameters:
+    - name: uname
+      in: query
+      required: true
+      schema:
+        type: string
+      description: Username to identify the account
+    # 如果 DTO 中还有其它字段，比如 code, newPassword，可以继续加上
+  responses:
+    '200':
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              success:
+                type: boolean

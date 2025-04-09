@@ -62,6 +62,10 @@ security:
   - BearerAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /FgtPwdRstPwdHdr:
+    $ref: './paths/FgtPwdRstPwdHdr.yaml'
+  /FgtPwdIptUname:
+    $ref: './paths/fgtPwdIptUname.yaml'
   /user/setScrQstn:
     get:
       tags:
