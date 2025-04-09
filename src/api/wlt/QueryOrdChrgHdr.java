@@ -11,7 +11,8 @@ import util.excptn.OrmUtilBiz;
 
 import java.util.*;
 
-import static api.wlt.RechargeHdr.saveUrlOrdChrg;
+
+import static biz.Containr.saveUrlOrdChrg;
 import static util.algo.ToXX.parseQueryParams;
 import static util.misc.Util2025.encodeJson;
 import static util.tx.dbutil.*;
@@ -20,7 +21,7 @@ import static util.misc.util2026.*;
 public class QueryOrdChrgHdr extends BaseHdr<Usr, Usr> {
 
     public static void main(String[] args) throws Exception {
-        MyCfg.iniCfgFrmCfgfile();
+        MyCfg.iniContnr4cfgfile();
         Map<String, String> queryParams = Map.of(
                 "uname", "007",
                 "key2", "value2"

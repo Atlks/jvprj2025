@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
-import static api.wlt.RechargeHdr.saveUrlOrdChrg;
+
+import static biz.Containr.saveUrlOrdChrg;
 import static util.excptn.ExptUtil.currFunPrms4dbg;
 import static util.algo.ToXX.parseQueryParams;
 import static util.misc.Util2025.encodeJson;
@@ -22,7 +23,7 @@ import static util.misc.util2026.*;
 public class UserCentrHdr extends BaseHdr<Usr, Usr> {
 
     public static void main(String[] args) throws Exception {
-        MyCfg.iniCfgFrmCfgfile();
+        MyCfg.iniContnr4cfgfile();
         Map<String, String> queryParams = Map.of(
                 "uname", "007",
                 "key2", "value2"

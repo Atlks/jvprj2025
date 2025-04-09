@@ -11,7 +11,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 
-import static cfg.MyCfg.iniCfgFrmCfgfile;
+import static cfg.MyCfg.iniContnr4cfgfile;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 import static util.tx.HbntUtil.mergeByHbnt;
 import static util.tx.HbntUtil.persistByHibernate;
@@ -21,7 +21,7 @@ import static util.misc.util2026.*;
 public class CmsBiz {
 
     public static void main(String[] args) throws Exception {
-        iniCfgFrmCfgfile();
+        iniContnr4cfgfile();
         SortedMap<String, Object> objU=new TreeMap<>();
         objU.put("uname","008");
         objU.put("invtr","007");

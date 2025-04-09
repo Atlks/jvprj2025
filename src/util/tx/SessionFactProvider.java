@@ -14,7 +14,7 @@ import static util.tx.HbntUtil.getSessionFactory;
 public class SessionFactProvider extends ProviderAdapter {
     public SessionFactory provide() throws SQLException, FileNotFoundException {
         List<Class> li = List.of();
-        MyCfg.iniCfgFrmCfgfile();
+        MyCfg.iniContnr4cfgfile();
         SessionFactory sessionFactory = getSessionFactory(saveDirUsrs, li);
 
         return sessionFactory;

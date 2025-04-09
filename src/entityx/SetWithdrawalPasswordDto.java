@@ -12,20 +12,18 @@ import java.time.LocalDateTime;
 /**
  * 提现密码
  */
-@Entity
-@Table(name = "withdrawal_passwords")
+
 @Data
-public class WithdrawalPassword {
+public class SetWithdrawalPasswordDto {
 
     @Id
 
 
-    @Column(nullable = false)
-    private String uname;
+
+    public String uname;
 
     public  String pwd;
-    @Column(nullable = false)
-    private String encryptedPassword; // 加密后的提现密码
+
 
     private LocalDateTime createdAt = LocalDateTime.now();  // 设置时间
 
@@ -38,16 +36,12 @@ public class WithdrawalPassword {
     private Boolean isLocked = false; // 是否锁定
 
     // 构造函数
-    public WithdrawalPassword() {}
+    public SetWithdrawalPasswordDto() {}
 
     // Getters & Setters
 
 
-    public String getEncryptedPassword() { return encryptedPassword; }
 
-    public void setEncryptedPassword(String encryptedPassword) {
-        this.encryptedPassword = encryptedPassword;
-    }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
 

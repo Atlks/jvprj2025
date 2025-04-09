@@ -117,7 +117,7 @@ public class RechargeHdr implements Icall<ReChgOrd,Object> {
      *         throw new RuntimeException(e);
      */
 
-    public static String saveUrlOrdChrg;
+
 
     //    public AddOrdChargeHdr() {
 //    }

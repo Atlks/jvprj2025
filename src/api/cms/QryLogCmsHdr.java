@@ -17,7 +17,8 @@ import java.util.*;
 import java.util.function.Predicate;
 
 //import static util.Fltr.filterWithSpEL;
-import static api.wlt.RechargeHdr.saveUrlOrdChrg;
+
+import static biz.Containr.saveUrlOrdChrg;
 import static util.algo.Fltr.fltr2501;
 import static util.algo.ToXX.parseQueryParams;
 import static util.algo.ToXX.toObjFrmMap;
@@ -52,7 +53,7 @@ public class QryLogCmsHdr extends BaseHdr<Usr, Usr> {
 
     public static void main(String[] args) throws Exception {
 
-        MyCfg.iniCfgFrmCfgfile();
+        MyCfg.iniContnr4cfgfile();
         HttpExchangeImp he = new HttpExchangeImp();
         // he.setAttribute();
         he.setRequestURI("http://localhost:8889/QryLogCmsHdr");

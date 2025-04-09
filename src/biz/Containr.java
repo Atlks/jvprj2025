@@ -19,7 +19,8 @@ public class Containr {
     public  static  SecurityContext SecurityContext1;
     public static ChooseEvtPublshr chooseEvtPblshr=new ChooseEvtPublshr();
 
-
+    public static String saveDirUsrs;
+    public static String saveUrlOrdChrg;
     //======ex
 
 

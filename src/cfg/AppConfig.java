@@ -1,12 +1,10 @@
 package cfg;
 
-import api.usr.QueryUsrHdr;
 import biz.Containr;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.hibernate.SessionFactory;
 import org.springdoc.core.properties.SpringDocConfigProperties;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.ApplicationEventPublisher;
@@ -42,7 +40,7 @@ public class AppConfig {
         if(sessionFactory==null)
         {
             List<Class> li = List.of();
-            MyCfg.iniCfgFrmCfgfile();
+            MyCfg.iniContnr4cfgfile();
             SessionFactory sessionFactory2 = getSessionFactory(saveDirUsrs, li);
             sessionFactory=sessionFactory2;
             Containr.sessionFactory=sessionFactory2;

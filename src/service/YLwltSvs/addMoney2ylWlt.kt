@@ -19,7 +19,7 @@ fun main() {
 
     //--------ini saveurlFrm Cfg
     //@NonNull
-    MyCfg.iniCfgFrmCfgfile()
+    MyCfg.iniContnr4cfgfile()
 
     IocSpringCfg.iniIocContainr4spr()
     Containr.SecurityContext1 = SecurityContextImp4ck()

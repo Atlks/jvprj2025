@@ -10,8 +10,6 @@ import util.proxy.AtProxy4Svs;
 import util.algo.Icall;
 import util.oo.StrUtil;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
 
 import static core.IRegHandler.SAM4regLgn;
@@ -31,7 +29,7 @@ public class IocSpringCfg {
 
     @NotNull
     public static ApplicationContext iniIocContainr4spr() throws Exception {
-        MyCfg.iniCfgFrmCfgfile();
+        MyCfg.iniContnr4cfgfile();
         AppConfig.sessionFactory = new AppConfig().sessionFactory();
 
 

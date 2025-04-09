@@ -7,11 +7,10 @@ import util.excptn.OrmUtilBiz;
 
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static api.wlt.RechargeHdr.saveUrlOrdChrg;
-import static cfg.MyCfg.iniCfgFrmCfgfile;
+
+import static biz.Containr.saveUrlOrdChrg;
+import static cfg.MyCfg.iniContnr4cfgfile;
 import static util.tx.Qry.convertSqlToSpEL;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.Util2025.encodeJsonObj;
@@ -20,7 +19,7 @@ import static util.tx.dbutil.nativeQueryGetResultList;
 public class QryLstByHbntTest {
 
     public static void main(String[] args) throws Exception {
-        iniCfgFrmCfgfile();;
+        iniContnr4cfgfile();;
         BetOrd queryParams=new BetOrd();
         queryParams.uname="008";
         //    System.out.println(encodeJson( qryOrdBetSql(queryParams)));

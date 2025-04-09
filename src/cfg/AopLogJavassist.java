@@ -23,7 +23,7 @@ public class AopLogJavassist {
         Class<?> modifiedClass = getAClassAoped(aClass);
 
 
-        MyCfg.iniCfgFrmCfgfile();
+        MyCfg.iniContnr4cfgfile();
         //  StaticMethodAOP. enhanceClass(RegHandler::class.toString());
         HttpExchange he =
                 new HttpExchangeImp("http://localhost:8889/reg?uname=qq1&pwd=ppp", "uname=0091", "output2025.txt");

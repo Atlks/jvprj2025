@@ -10,7 +10,7 @@ import util.auth.SecurityContextImp4jwt;
 
 import java.io.FileNotFoundException;
 
-import static cfg.MyCfg.iniCfgFrmCfgfile;
+import static cfg.MyCfg.iniContnr4cfgfile;
 import static cfg.WebSvr.*;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 
@@ -62,6 +62,7 @@ public class MainApi {
         //--------ini saveurlFrm Cfg
 
         new AppConfig().sessionFactory();//ini sessFctr
+        //ini contnr 4cfg,, svrs
         iniContnr();
         iniEvtHdrCtnr();
 
@@ -77,7 +78,8 @@ public class MainApi {
      */
     public static void iniContnr() throws Exception {
         //@NonNull
-        iniCfgFrmCfgfile();
+        iniContnr4cfgfile();
+        new AppConfig().sessionFactory();//ini sessFctr
         //---------------ini contarin
         cfg.IocSpringCfg.iniIocContainr4spr();
         Containr.SecurityContext1=new SecurityContextImp4jwt();
@@ -95,7 +97,7 @@ public class MainApi {
 
     static {
         try {
-            iniCfgFrmCfgfile();
+            iniContnr4cfgfile();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

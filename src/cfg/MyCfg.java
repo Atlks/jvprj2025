@@ -7,9 +7,9 @@ import api.usr.RegHandler;
 import api.ylwlt.WithdrawHdr;
 import biz.BaseBiz;
 import biz.BaseHdr;
+import biz.Containr;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.jetbrains.annotations.Nullable;
 import service.CmsBiz;
 import util.oo.UserBiz;
 
@@ -17,14 +17,13 @@ import util.oo.UserBiz;
 import java.util.Map;
 import java.util.Objects;
 
-import static api.wlt.RechargeHdr.saveUrlOrdChrg;
+
 import static util.algo.IsXXX.isblank;
 import static util.algo.JarClassScanner.getPrjPath;
 import static util.algo.JarClassScanner.getTargetPath;
 import static util.misc.util2026.*;
 
 import java.io.*;
-import java.nio.file.*;
 
 public class MyCfg {
 
@@ -43,7 +42,7 @@ public class MyCfg {
         //   savedirOrd= (String) cfg.get("savedirOrd");
         //QryOrdBetHdr.saveUrlOrdBet
         ListBetsHdr.saveUrlOrdBet = (String) cfg.get("saveUrlOrdBet");
-        saveUrlOrdChrg = RegHandler.saveDirUsrs;
+    //    saveUrlOrdChrg = RegHandler.saveDirUsrs;
         //(String) cfg.get("saveUrlOrdChrg");
         RechargeCallbackHdr.saveUrlLogBalance = (String) cfg.get("saveUrlLogBalance");
         BaseBiz.saveUrlLogBalanceYinliWlt = (String) cfg.get("saveUrlLogBalanceYinliWlt");
@@ -58,7 +57,7 @@ public class MyCfg {
      * /target/jvprj.jar
      * jvprj.jar 里面有个mainapi类，这个类要如何代码里面要要如何读取xx.cfg
      */
-    public static void iniCfgFrmCfgfile() throws FileNotFoundException {
+    public static void iniContnr4cfgfile() throws FileNotFoundException {
 
         //test
         //   openMap4test();
@@ -76,16 +75,17 @@ public class MyCfg {
         Map cfg = parse_ini_fileNosecByStream(inputStream);
         //rootPath + "../../cfg/dbcfg.ini");
         BaseHdr.saveDirUsrs = (String) cfg.get("saveDirUsrs");
+        Containr.saveDirUsrs= (String) cfg.get("saveDirUsrs");
         // saveDirAcc= (String) cfg.get("saveDirAcc");
         //   savedirOrd= (String) cfg.get("savedirOrd");
         //QryOrdBetHdr.saveUrlOrdBet
-        ListBetsHdr.saveUrlOrdBet = RegHandler.saveDirUsrs;
-        saveUrlOrdChrg = RegHandler.saveDirUsrs;
+        ListBetsHdr.saveUrlOrdBet = Containr.saveDirUsrs;
+     //   saveUrlOrdChrg = RegHandler.saveDirUsrs;
         //(String) cfg.get("saveUrlOrdChrg");
-        RechargeCallbackHdr.saveUrlLogBalance = RegHandler.saveDirUsrs;
-        BaseBiz.saveUrlLogBalanceYinliWlt = RegHandler.saveDirUsrs;
-        WithdrawHdr.saveUrlOrdWthdr = RegHandler.saveDirUsrs;
-        CmsBiz.saveUrlLogCms = RegHandler.saveDirUsrs;
+        RechargeCallbackHdr.saveUrlLogBalance = Containr.saveDirUsrs;
+        BaseBiz.saveUrlLogBalanceYinliWlt = Containr.saveDirUsrs;
+        WithdrawHdr.saveUrlOrdWthdr = Containr.saveDirUsrs;
+        CmsBiz.saveUrlLogCms = Containr.saveDirUsrs;
         System.out.println("ini cfg finish..");
     }
 
