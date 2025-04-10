@@ -48,7 +48,7 @@ components:
       description:  cookie or jwt
 
   securitySchemes:
-    BearerAuth88:
+    JwtAuth88:
       type: http
       scheme: bearer
       bearerFormat: JWT  # 说明使用 JWT 作为 token 格式
@@ -59,7 +59,7 @@ components:
       name: uname
 
 security:
-  - BearerAuth88: []  # 全局应用 JWT 认证
+  - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
   /user/IsSetWthdrPwdHdr:
@@ -588,7 +588,7 @@ paths:
 
       security:
         - cookieAuth: [ ]
-        - BearerAuth88: [ ]  # 指定此接口支持 JWT 认证
+        - JwtAuth88: [ ]  # 指定此接口支持 JWT 认证
       tags:
         - Wallet
       summary:   充值

@@ -37,12 +37,12 @@ public class IsSetWthdrPwdHdr implements Icall<SetWithdrawalPasswordDto, Object>
     @Override
     public Object main(@BeanParam SetWithdrawalPasswordDto reqdto) throws Exception, findByIdExptn_CantFindData {
 
-        WithdrawalPassword wp=      findByHerbinate(WithdrawalPassword.class,reqdto.getUname(),sessionFactory.getCurrentSession());
+        //test
+      //  reqdto.setUname("007");
+        WithdrawalPassword wp = findByHerbinate(WithdrawalPassword.class, reqdto.getUname(), sessionFactory.getCurrentSession());
 
-        return     new ApiResponse(wp.getUname());
+        return new ApiResponse(wp.getUname());
     }
-
-
 
 
 }
