@@ -39,8 +39,8 @@ public class JwtUtil {
     // 密钥，通常应该从环境变量或配置文件中获取，避免硬编码
     private static final String SECRET_KEY = "mysecretkey";
 
-    // JWT过期时间，单位毫秒
-    private static final long EXPIRATION_TIME = 864_000_000L; // 10 days
+    // JWT过期时间，单位毫秒  100day
+    private static final long EXPIRATION_TIME = 100*24*3600*1000; // 10 days
 
 
     /**
