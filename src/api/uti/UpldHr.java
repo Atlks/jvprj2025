@@ -1,7 +1,7 @@
 package api.uti;
 
 import com.sun.net.httpserver.HttpExchange;
-import entityx.Non;
+import entityx.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.BeanParam;
@@ -39,7 +39,7 @@ import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 //   http://localhost:8889/login?uname=008&pwd=000
 @NoArgsConstructor
 @Data
-public class UpldHr implements Icall<Non, Object> {
+public class UpldHr implements Icall<NonDto, Object> {
     /**
      * upload file
      *
@@ -48,7 +48,7 @@ public class UpldHr implements Icall<Non, Object> {
      * @throws existUserEx
      */
     @Override
-    public Object main(@BeanParam Non usr_dto) throws Exception {
+    public Object main(@BeanParam NonDto usr_dto) throws Exception {
         HttpExchange httpExchange = httpExchangeCurThrd.get();
         HttpExchange exchange = httpExchange;
         String uploadDir = getPrjPath() + "/res/uploads";

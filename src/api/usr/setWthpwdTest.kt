@@ -23,7 +23,7 @@ class setWthpwdTest {
         }
 
         // 创建 Java 类实例
-        val service = SetWthdrPwd()
+        val service = SetWthdrPwdHdr()
 
         // 调用 main 方法
         val result: Any? = service.main(reqdto)

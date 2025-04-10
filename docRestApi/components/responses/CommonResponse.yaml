@@ -1,0 +1,14 @@
+#CommonResponse.yaml
+
+description: Operation successful
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        statusCodeStr:
+          type: string
+        data:
+          type: string

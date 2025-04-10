@@ -5,6 +5,7 @@ import annos.Observes;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import util.evtdrv.AnotherEvent;
+import util.tx.findByIdExptn_CantFindData;
 import util.validateRtmExptn;
 import entityx.Keyx;
 import entityx.SAMSecuryLog;
@@ -14,7 +15,6 @@ import jakarta.security.enterprise.identitystore.CredentialValidationResult;
 import org.hibernate.Session;
 import util.ex.PwdErrRuntimeExcept;
 import util.ex.PwdNotEqExceptn;
-import util.tx.findByIdExptn;
 
 import java.util.Set;
 
@@ -79,7 +79,7 @@ public class SAM4reglgn implements ISAM {
         } catch (PwdNotEqExceptn e) {
             addLogVldFail(uname, e);
             throw new PwdErrRuntimeExcept("PwdErrEx", e);
-        } catch (findByIdExptn e) {
+        } catch (findByIdExptn_CantFindData e) {
             addLogVldFail(uname, e);
             throw new validateRtmExptn(e.getMessage(), e);
         }

@@ -11,14 +11,9 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.service.ServiceRegistry;
-import util.excptn.NotExistRow;
-import util.misc.StrIsBlankEx;
 
-import java.io.File;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Properties;
 
 import static util.algo.IsXXX.ifIsBlank;
@@ -29,7 +24,6 @@ import static util.oo.StrUtil.getPwdFromJdbcurl;
 import static util.oo.StrUtil.getUnameFromJdbcurl;
 import static util.misc.Util2025.*;
 import static util.tx.dbutil.*;
-import static util.misc.util2026.scanClasses;
 
 //ormUtilHbnt
 public class HbntUtil {
@@ -258,14 +252,14 @@ public class HbntUtil {
     }
 
     //good bp  throw ex,,,more lubst
-    public static <T> T findByHerbinate(Class<T> t, String id, Session session) throws findByIdExptn {
+    public static <T> T findByHerbinate(Class<T> t, String id, Session session) throws findByIdExptn_CantFindData {
 
         String mthClr=colorStr("findByHbnt",YELLOW_bright);
         System.out.println("\r\n▶\uFE0Ffun "+mthClr+"(class="+t+",id="+id);
         //  System.out.println("findByHbnt("+ t.getClass().getName()+",id="+id);
         T rzt = session.find(t, id);
         if(rzt==null)
-            throw new findByIdExptn("cls="+t+",id="+id);
+            throw new findByIdExptn_CantFindData("cls="+t+",id="+id);
         System.out.println("✅endfun findByHbnt.ret="+ encodeJson(rzt));
         return rzt;
     }

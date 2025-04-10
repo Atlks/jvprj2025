@@ -6,6 +6,10 @@ import org.hibernate.context.internal.ThreadLocalSessionContext;
 
 import static cfg.AppConfig.sessionFactory;
 
+
+/**
+ * 事务管理器
+ */
 public class TransactMng {
 
 
@@ -27,12 +31,20 @@ public class TransactMng {
             return transaction;
         }
 
+    /**
+     *
+     */
     public static void commitTsact() {
         commitTransaction(sessionFactory.getCurrentSession());
         sessionFactory.getCurrentSession().close();
         ThreadLocalSessionContext.unbind(sessionFactory);
     }
 
+
+    /**
+     * openSessionBgnTransact
+     * todo here by maybe ing trsct..so maybe dont need bgn ts if sometime
+     */
     public static void openSessionBgnTransact() {
         //这里需要新开session。。因为可能复用同一个http线程
         Session session = sessionFactory.openSession();

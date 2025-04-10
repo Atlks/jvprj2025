@@ -1,7 +1,6 @@
 package api.usr;
 
 import entityx.ApiResponse;
-import entityx.SecurityQuestion;
 import entityx.SetWithdrawalPasswordDto;
 import entityx.WithdrawalPassword;
 import jakarta.ws.rs.BeanParam;
@@ -28,7 +27,7 @@ import static util.tx.HbntUtil.persistByHibernate;
 //   http://localhost:8889/user/SetWthdrPwd?pwd=000
 @NoArgsConstructor
 @Data
-public class SetWthdrPwd implements Icall<SetWithdrawalPasswordDto, Object> {
+public class SetWthdrPwdHdr implements Icall<SetWithdrawalPasswordDto, Object> {
     /**
      * @return
      * @throws Exception

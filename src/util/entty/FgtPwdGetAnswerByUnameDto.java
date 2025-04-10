@@ -3,7 +3,7 @@ package util.entty;
 import lombok.Data;
 
 @Data
-public class FgtPwdIptUnameDto {
+public class FgtPwdGetAnswerByUnameDto {
     public String uname;
 
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 import entityx.ApiResponse;
 import entityx.Coin;
-import entityx.Non;
+import entityx.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import org.json.JSONArray;
@@ -34,7 +34,7 @@ import static util.algo.GetUti.getStrFrmUrl;
 @PermitAll
 @Path("/coinRank")
 
-public class CoinRank  implements Icall<Non, Object> {
+public class CoinRank  implements Icall<NonDto, Object> {
     private static final String API_URL = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1";
 
     /**
@@ -42,7 +42,7 @@ public class CoinRank  implements Icall<Non, Object> {
      * @return
      * @throws IOException
      */
-    public Object main(Non dto) throws IOException {
+    public Object main(NonDto dto) throws IOException {
 
         String API_URL = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1";
         List<Coin> coins = new ArrayList<>();

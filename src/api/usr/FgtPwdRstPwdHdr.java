@@ -2,14 +2,12 @@ package api.usr;
 
 import entityx.FgtPwdRstPwdHdrDto;
 import entityx.SecurityQuestion;
-import entityx.Usr;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
-import util.entty.FgtPwdIptUnameDto;
 
 import static biz.Containr.sam4regLgn;
 import static cfg.AppConfig.sessionFactory;

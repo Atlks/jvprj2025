@@ -1,6 +1,6 @@
 package api.coin;
 
-import entityx.Non;
+import entityx.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import org.json.JSONObject;
@@ -8,10 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 
@@ -23,13 +21,13 @@ import java.net.URL;
 @PermitAll
 @Path("/coin/frnXchg")
 
-public class ForexRateFetcher implements Icall<Non, Object> {
+public class ForexRateFetcher implements Icall<NonDto, Object> {
     private static final String API_URL = "https://api.exchangerate-api.com/v4/latest/USD"; // 可换成其他 API
 
     public static void main(String[] args) throws Exception {
         System.out.println(getExchangeRate());
     }
-    public   Object main (Non dto) throws Exception {
+    public   Object main (NonDto dto) throws Exception {
         return  getExchangeRate();
 //        System.out.println("USD to EUR: " + getExchangeRate("EUR"));
 //        System.out.println("USD to CNY: " + getExchangeRate("CNY"));

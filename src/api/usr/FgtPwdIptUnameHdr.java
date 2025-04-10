@@ -1,19 +1,18 @@
 package api.usr;
 
 import entityx.SecurityQuestion;
-import entityx.SetWithdrawalPasswordDto;
-import entityx.Usr;
 import jakarta.annotation.security.PermitAll;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Path;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
-import util.entty.FgtPwdIptUnameDto;
+import util.entty.FgtPwdGetAnswerByUnameDto;
 
 import java.util.HashMap;
 
-import static biz.Containr.sam4regLgn;
 import static cfg.AppConfig.sessionFactory;
 import static util.tx.HbntUtil.findByHerbinate;
 
@@ -29,14 +28,15 @@ import static util.tx.HbntUtil.findByHerbinate;
 //   http://localhost:8889/FgtPwdIptUname?uname=007
 @NoArgsConstructor
 @Data
-public class FgtPwdIptUnameHdr implements Icall<FgtPwdIptUnameDto, Object> {
+@Transactional(Transactional.TxType.NOT_SUPPORTED)  //忽略事务
+public class FgtPwdIptUnameHdr implements Icall<FgtPwdGetAnswerByUnameDto, Object> {
     /**
      * @param arg
      * @return
      * @throws Throwable
      */
     @Override
-    public Object main(FgtPwdIptUnameDto arg) throws Throwable {
+    public Object main(FgtPwdGetAnswerByUnameDto arg) throws Throwable {
 
         SecurityQuestion sq=    findByHerbinate(SecurityQuestion.class,arg.uname,sessionFactory.getCurrentSession());
      //   sq.setAnswer("***");

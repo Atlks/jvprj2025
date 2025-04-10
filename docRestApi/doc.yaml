@@ -62,6 +62,8 @@ security:
   - BearerAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /user/IsSetWthdrPwdHdr:
+    $ref: './paths/IsSetWthdrPwdHdr.yaml'
   /FgtPwdRstPwdHdr:
     $ref: './paths/FgtPwdRstPwdHdr.yaml'
   /FgtPwdIptUname:

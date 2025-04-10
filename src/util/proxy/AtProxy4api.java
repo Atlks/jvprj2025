@@ -3,7 +3,7 @@ package util.proxy;
 import annos.CookieParam;
 import annos.JwtParam;
 import biz.MinValidator;
-import entityx.Non;
+import entityx.NonDto;
 import jakarta.inject.Inject;
 import org.hibernate.context.internal.ThreadLocalSessionContext;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -225,7 +225,7 @@ public class AtProxy4api implements HttpHandler {
         //---------log
         Class cls = getPrmClass(this.target, "main");
         if (cls == null) {
-            rzt = invoke_call(new Non());
+            rzt = invoke_call(new NonDto());
         } else {
             var dto = toDto(exchange, cls);
 
