@@ -52,7 +52,7 @@ public class htmlTppltl {
      * @return
      * @throws IOException
      */
-    private static String rend(String tmpleFileName, Context context) throws IOException {
+    public static String rend(String tmpleFileName, Context context) throws IOException {
         // 1. 配置模板解析器（从文件读取）
         FileTemplateResolver resolver = new  FileTemplateResolver();
         resolver.setPrefix( getPrjPath() + "/res/templates/");     // 模板目录

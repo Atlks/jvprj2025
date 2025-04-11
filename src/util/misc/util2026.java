@@ -1028,6 +1028,12 @@ public class util2026 {
         Thread.sleep(i);
     }
 
+    /**
+     * if restcontrole ret json mode,,,   controle mode,ret html mode
+     * @param exchange
+     * @param responseTxt
+     * @throws IOException
+     */
     public static void wrtResp(HttpExchange exchange, String responseTxt) throws IOException {
 
         System.out.println("wrtResp(resptxt=" + responseTxt);
@@ -1035,8 +1041,9 @@ public class util2026 {
             responseTxt = "";
 
         // 设置跨域响应头
-        exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*"); // 允许所有来源
-        exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=utf-8");
+        exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*"); // 输出为html
+        exchange.getResponseHeaders().set("Content-Type", "text/html; charset=utf-8");
+
         exchange.sendResponseHeaders(200, responseTxt.getBytes().length);
         OutputStream os = exchange.getResponseBody();
         os.write(responseTxt.getBytes());
