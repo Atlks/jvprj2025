@@ -846,6 +846,7 @@ public class util2026 {
 
     /**
      * 复制属性  ing null prop
+     * if fld prvt ,cant copy ,so must fld is public need
      *
      * @param <T>
      */
@@ -867,7 +868,7 @@ public class util2026 {
                 }
 
                 try {
-                    if (field.getName().contains("uname"))
+                    if (field.getName().contains("password"))
                         System.out.println("D1241");
                     if (!isObjHasField(source, field.getName()))
                         continue;

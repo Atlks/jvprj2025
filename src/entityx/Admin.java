@@ -10,15 +10,15 @@ import lombok.NoArgsConstructor;
  * 管理员
  */
 @Entity
-@Table(name = "OrdBet")
+@Table(name = "Admin")
 @Data
 //@NoArgsConstructor
 public class Admin {
 
 
    @Id           // 唯一主键
-    private String username;     // 登录用户名
-    private String password;     // 密码（建议加密）
+   public String username;     // 登录用户名
+    public String password;     // 密码（建议加密）
     private String nickname;     // 显示用名称
     private String role;         // 角色（如：admin、editor）
     private boolean enabled;     // 是否启用
@@ -28,16 +28,16 @@ public class Admin {
     public Admin() {
     }
 
-    public Admin(int id, String username, String password, String nickname, String role, boolean enabled, long createdAt, long updatedAt) {
-       // this.id = id;
-        this.username = username;
-        this.password = password;
-        this.nickname = nickname;
-        this.role = role;
-        this.enabled = enabled;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
+//    public Admin(int id, String username, String password, String nickname, String role, boolean enabled, long createdAt, long updatedAt) {
+//       // this.id = id;
+//        this.username = username;
+//        this.password = password;
+//        this.nickname = nickname;
+//        this.role = role;
+//        this.enabled = enabled;
+//        this.createdAt = createdAt;
+//        this.updatedAt = updatedAt;
+//    }
 
 //    // getter 和 setter 方法
 //    public int getId() { return id; }
