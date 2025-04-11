@@ -7,6 +7,7 @@ import com.sun.net.httpserver.HttpServer;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.context.Context;
 import util.proxy.AtProxy4api;
 
 import java.io.*;
@@ -23,15 +24,15 @@ import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 
+import static test.htmlTppltl.rend;
 import static util.algo.JarClassScanner.getPrjPath;
 import static util.algo.JarClassScanner.getTargetPath;
 import static util.algo.NullUtil.isBlank;
 import static util.misc.PathUtil.getDirTaget;
-import static util.misc.util2026.printLn;
+import static util.misc.util2026.*;
 import static util.oo.WebsrvUtil.processNmlExptn;
 
 import static util.proxy.SprUtil.getBeanFrmSpr;
-import static util.misc.util2026.scanAllClass;
 import static util.proxy.SprUtil.getBeanByClzFrmSpr;
 
 
@@ -190,6 +191,18 @@ public class WebSvr {
                 throw new RuntimeException("path is blnk");
             if(path1.equals("/favicon.ico"))
                 return;
+            if(path1.endsWith(".htm"))
+            {
+                Context context = new Context();
+
+                //listAdm
+                String tmpleFileName = path1.substring(0,path1.length()-4);
+
+                var rsp=rend(tmpleFileName, context );
+                wrtRespHtml(exchange,rsp);
+                return;
+            }
+
             @NotNull Class<?> hdrclas = pathMap.get(path1);
             if (hdrclas == null)
                 throw new RuntimeException("key is null,key=" + requestURI);
