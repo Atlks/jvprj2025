@@ -46,8 +46,8 @@ public class htmlTppltl {
     }
 
     /**
-     * 渲染模板并输出到字符串
-     * @param tmpleFileName
+     * 渲染模板并输出到字符串，，，
+     * @param tmpleFileName     adm/lgn.htm
      * @param context
      * @return
      * @throws IOException
@@ -57,6 +57,27 @@ public class htmlTppltl {
         FileTemplateResolver resolver = new  FileTemplateResolver();
         resolver.setPrefix( getPrjPath() + "/res/templates/");     // 模板目录
         resolver.setSuffix(".htm");         // 模板后缀
+        resolver.setTemplateMode("HTML");    // 模板模式
+        resolver.setCharacterEncoding("UTF-8");
+
+        // 2. 创建模板引擎
+        TemplateEngine engine = new TemplateEngine();
+        engine.setTemplateResolver(resolver);
+
+
+        // 3. 渲染模板并输出到字符串
+        try (StringWriter writer = new StringWriter()) {
+            engine.process(tmpleFileName, context, writer);
+            return writer.toString();  // 返回字符串
+        }
+    }
+
+
+    public static String renderHtml(String tmpleFileName, Context context) throws IOException {
+        // 1. 配置模板解析器（从文件读取）
+        FileTemplateResolver resolver = new  FileTemplateResolver();
+        resolver.setPrefix( getPrjPath() + "/res/templates/");     // 模板目录
+        resolver.setSuffix(".html");         // 模板后缀
         resolver.setTemplateMode("HTML");    // 模板模式
         resolver.setCharacterEncoding("UTF-8");
 

@@ -1,5 +1,7 @@
 package api.adm;
 
+import core.Ilogin;
+import core.IloginV2;
 import entityx.Admin;
 import entityx.Keyx;
 import entityx.NonDto;
@@ -9,8 +11,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
+import util.algo.EncryUtil;
 import util.algo.Icall;
 import util.ex.PwdNotEqExceptn;
+import util.misc.util2026;
+import util.proxy.AtProxy4api;
 import util.tx.findByIdExptn_CantFindData;
 
 import static cfg.AppConfig.sessionFactory;
@@ -27,14 +32,13 @@ import static util.tx.HbntUtil.findByHerbinate;
 //   http://localhost:8889/adm/loginSbmt
 @NoArgsConstructor
 @Data
-public class LoginSbmtHdr implements Icall<AdminLoginDto, Object> {
+public class LoginSbmtHdr implements   Icall<AdminLoginDto,Object>, IloginV2<AdminLoginDto> {
     /**
      * @param arg
      * @return
-     * @throws Throwable
      */
-    @Override
-    public Object main(AdminLoginDto arg) throws Throwable {
+
+    public Object main(AdminLoginDto arg) {
 
 
 
@@ -42,6 +46,7 @@ public class LoginSbmtHdr implements Icall<AdminLoginDto, Object> {
      try{
          var admin = findByHerbinate(Admin.class, arg.username, sessionFactory.getCurrentSession());
          hopePwdEq(admin.getPassword(), encodeMd5(arg.password));
+         setLoginTicket(arg);
          return "<script>location='/adm/home'</script>";
      }catch (findByIdExptn_CantFindData e)
      {
@@ -54,5 +59,17 @@ public class LoginSbmtHdr implements Icall<AdminLoginDto, Object> {
 
 
 
+    }
+
+    /**
+     * @param usr_dto
+     * @return
+     */
+    @Override
+    public Object setLoginTicket(AdminLoginDto usr_dto) {
+        util2026.setcookie("admHRZ", usr_dto.username, AtProxy4api.httpExchangeCurThrd.get());
+        util2026.setcookie("adm", EncryUtil.encryptAesToStrBase64(usr_dto.username, EncryUtil.Key4pwd4aeskey), AtProxy4api.httpExchangeCurThrd.get());
+
+        return null;
     }
 }

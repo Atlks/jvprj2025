@@ -51,7 +51,7 @@ public class ListAdmHdr implements Icall<NonDto, Object> {
      //   return createResponse(list1);
         Context context = new Context();
         context.setVariable("users", list1);
-        String tmpleFileName = "listAdm";
+        String tmpleFileName = "adm/listAdm";
 
 
        return  ( rend(tmpleFileName, context ));

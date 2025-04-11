@@ -191,12 +191,15 @@ public class WebSvr {
                 throw new RuntimeException("path is blnk");
             if(path1.equals("/favicon.ico"))
                 return;
-            if(path1.endsWith(".htm"))
+            if(path1.endsWith(".htm")  || path1.endsWith(".html"))
             {
                 Context context = new Context();
 
                 //listAdm
                 String tmpleFileName = path1.substring(0,path1.length()-4);
+
+                if(path1.endsWith(".html"))
+                    tmpleFileName = path1.substring(0,path1.length()-5);
 
                 var rsp=rend(tmpleFileName, context );
                 wrtRespHtml(exchange,rsp);

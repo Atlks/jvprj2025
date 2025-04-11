@@ -24,6 +24,7 @@ import util.misc.util2026;
 import util.proxy.AtProxy4api;
 
 import static test.htmlTppltl.rend;
+import static test.htmlTppltl.renderHtml;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.setcookie;
 import static util.proxy.AtProxy4api.httpExchangeCurThrd;
@@ -52,11 +53,11 @@ public class HomeHdr4adm implements Icall<NonDto, Object> {
 
         org.thymeleaf.context.Context context = new org.thymeleaf.context.Context();
        // context.setVariable("users", users);
-        String tmpleFileName = "home";
+        String tmpleFileName = "adm/home";
 
 
       //  System.out.println( );
-        return rend(tmpleFileName, context );
+        return renderHtml(tmpleFileName, context );
     }
 
 
