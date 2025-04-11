@@ -1,5 +1,7 @@
 package util.misc;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 import util.algo.JarClassScanner;
 import util.ex.PwdNotEqExceptn;
 import com.sun.net.httpserver.Headers;
@@ -34,6 +36,7 @@ import java.util.function.Function;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import static biz.Containr.curCtrlCls;
 import static cfg.AopLogJavassist.lock;
 import static java.time.LocalTime.now;
 import static util.algo.EncodeUtil.decodeUrl;
@@ -389,10 +392,10 @@ public class util2026 {
                 if (nameEntry.endsWith(".class") &&
 
                         (!nameEntry.startsWith("jnr/")) &&
-                        (!nameEntry.startsWith("ch/"))   &&
+                        (!nameEntry.startsWith("ch/")) &&
                         (!nameEntry.startsWith("io/")) &&
                         (!nameEntry.startsWith("com/")) &&
-                        (!nameEntry.startsWith("org/"))    &&
+                        (!nameEntry.startsWith("org/")) &&
                         (!nameEntry.startsWith("net/"))
                         &&
                         (!nameEntry.startsWith("jakarta/"))
@@ -897,7 +900,7 @@ public class util2026 {
         // 遍历类的所有字段
         try {
 
-            if(name.equals("page"))
+            if (name.equals("page"))
                 System.out.println("d135");
             // 尝试获取指定名称的字段
             Field field = clazz.getField(name);
@@ -1030,6 +1033,7 @@ public class util2026 {
 
     /**
      * if restcontrole ret json mode,,,   controle mode,ret html mode
+     *
      * @param exchange
      * @param responseTxt
      * @throws IOException
@@ -1041,8 +1045,17 @@ public class util2026 {
             responseTxt = "";
 
         // 设置跨域响应头
-        exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*"); // 输出为html
-        exchange.getResponseHeaders().set("Content-Type", "text/html; charset=utf-8");
+        exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+
+        Class ctrlCls = curCtrlCls.get();
+        if (ctrlCls != null && ctrlCls.isAnnotationPresent(Controller.class)) {
+            // 输出为html
+            exchange.getResponseHeaders().set("Content-Type", "text/html; charset=utf-8");
+        } else {
+            //输出为json
+            exchange.getResponseHeaders().set("Content-Type", "application/json; charset=utf-8");
+        }
+
 
         exchange.sendResponseHeaders(200, responseTxt.getBytes().length);
         OutputStream os = exchange.getResponseBody();

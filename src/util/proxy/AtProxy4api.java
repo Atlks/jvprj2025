@@ -35,6 +35,7 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import static biz.BaseHdr.*;
+import static biz.Containr.curCtrlCls;
 import static entityx.ApiResponse.createErrResponseWzErrcode;
 import static cfg.AppConfig.sessionFactory;
 import static util.algo.AnnotationUtils.getCookieParamsV2;
@@ -123,6 +124,7 @@ public class AtProxy4api implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         ExptUtil.lastExsList.set(new ArrayList<>());
         httpExchangeCurThrd.set(exchange);
+        curCtrlCls.set(this.target.getClass());
         String mth = colorStr("handle", YELLOW_bright);
         String prmurl = colorStr(String.valueOf(exchange.getRequestURI()), GREEN);
         curUrl.set(encodeJson(exchange.getRequestURI()));
@@ -223,11 +225,11 @@ public class AtProxy4api implements HttpHandler {
 
         Object rzt;
         //---------log
-        Class cls = getPrmClass(this.target, "main");
-        if (cls == null) {
+        Class Prmcls = getPrmClass(this.target, "main");
+        if (Prmcls == null) {
             rzt = invoke_call(new NonDto());
         } else {
-            var dto = toDto(exchange, cls);
+            var dto = toDto(exchange, Prmcls);
 
             // addDeftParam(dto);
             validDto(dto);
