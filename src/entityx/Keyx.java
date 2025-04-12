@@ -21,6 +21,7 @@ public class Keyx {
     //如何定义长度
     @Column(length = 600)
     public String hashedPassword;//ecry key
-    public String salt;
-    String type;  //pwd ,print ,faceid
+    public String salt="";
+    public  String type="pwd";  //pwd ,print ,faceid
+    public  boolean frz=false;//freeze
 }

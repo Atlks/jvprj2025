@@ -36,6 +36,7 @@ import java.util.Map;
 
 import static biz.BaseHdr.*;
 import static biz.Containr.curCtrlCls;
+import static biz.Containr.sam4chkLgnStat;
 import static entityx.ApiResponse.createErrResponseWzErrcode;
 import static cfg.AppConfig.sessionFactory;
 import static util.algo.AnnotationUtils.getCookieParamsV2;
@@ -175,9 +176,10 @@ public class AtProxy4api implements HttpHandler {
         System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
     }
 
-    @Inject
-    @Qualifier(ChkLgnStatSam)  //"ChkLgnStatSam"
-    public ISAM sam1;
+//    @Inject
+//    @Qualifier(ChkLgnStatSam)  //"ChkLgnStatSam"
+//
+ //   public ISAM sam1;
 
 //    @Inject
 //    @Autowired
@@ -190,7 +192,8 @@ public class AtProxy4api implements HttpHandler {
         injectAll4spr(this);
 
         if (needLoginUserAuth()) {
-            sam1.validateRequest(null, null, null);
+            //chk token blk list
+            sam4chkLgnStat.validateRequest(null, null, null);
         }
     }
 //            if (authStt == AuthenticationStatus.SUCCESS) {

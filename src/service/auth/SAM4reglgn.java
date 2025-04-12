@@ -2,9 +2,11 @@ package service.auth;
 
 
 import annos.Observes;
+import jakarta.security.enterprise.AuthenticationException;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import util.evtdrv.AnotherEvent;
+import util.misc.AuthenticationExceptionRtm;
 import util.tx.findByIdExptn_CantFindData;
 import util.validateRtmExptn;
 import entityx.Keyx;
@@ -65,6 +67,10 @@ public class SAM4reglgn implements ISAM {
 
 
             var k = findByHerbinate(Keyx.class, uname, sessionFactory.getCurrentSession());
+
+
+            if( k.frz)
+                throw  new AuthenticationExceptionRtm(" acc frz ");
             String data = "p=" + crdt.getPasswordAsString() + "&slt=" + k.salt;
             hopePwdEq(k.hashedPassword, geneKey(data));
             CredentialValidationResult user = new CredentialValidationResult(uname, Set.of("USER"));

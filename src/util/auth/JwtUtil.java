@@ -64,8 +64,13 @@ public class JwtUtil {
                 .setIssuer("ati")
                 .setAudience("nmlUser")  //Audience，受众，表示这个 JWT 是为谁生成的。
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .setId(getUuid())
                 .signWith(SignatureAlgorithm.HS512, key)
                 .compact();
+    }
+
+    private static String getUuid() {
+        return java.util.UUID.randomUUID().toString().replace("-", "");
     }
 
     //生成512位  64字节的密钥，，根据字符串做散列运算得到 64字节的hash值

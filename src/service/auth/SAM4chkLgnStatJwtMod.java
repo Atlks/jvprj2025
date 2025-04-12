@@ -1,5 +1,7 @@
 package service.auth;
 
+import entityx.JwtBlacklist;
+import entityx.Keyx;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.AuthenticationStatus;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
@@ -11,11 +13,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 import org.jetbrains.annotations.Nullable;
+import util.auth.CantGetTokenJwtEx;
 import util.auth.ChkLgnStatAuthenticationMechanism;
+import util.auth.validateTokenExcptn;
+import util.tx.findByIdExptn_CantFindData;
 
+import static cfg.AppConfig.sessionFactory;
 import static util.proxy.AtProxy4api.httpExchangeCurThrd;
 import static util.excptn.ExptUtil.appendEx2lastExs;
 import static util.auth.JwtUtil.*;
+import static util.tx.HbntUtil.findByHerbinate;
 
 public class SAM4chkLgnStatJwtMod implements ISAM, HttpAuthenticationMechanism {
     /**
@@ -32,15 +39,29 @@ public class SAM4chkLgnStatJwtMod implements ISAM, HttpAuthenticationMechanism {
         try {
             @NotNull
             String uname = getUsernameFrmJwtToken(httpExchangeCurThrd.get());
-            new ChkLgnStatAuthenticationMechanism().validate(new UsernamePasswordCredential(uname, "noNeed"));
-            return AuthenticationStatus.SUCCESS;
-        } catch (Throwable e) {
+             //is not in jwt blk lst
+            chkIsInJwtBlkLst();
+        }
+        catch (Throwable e) {
             e.printStackTrace();
             appendEx2lastExs(e);
             throw new AuthenticationException("" + e.getMessage(), e);
         }
 
 
+    }
+
+    private void chkIsInJwtBlkLst() throws CantGetTokenJwtEx, validateTokenExcptn {
+        var token = getTokenMust(httpExchangeCurThrd.get());
+        String jwthash=token.split(".")[2];
+
+        try{
+            var k = findByHerbinate(JwtBlacklist.class, jwthash, sessionFactory.getCurrentSession());
+            throw new AuthenticationException("jwt token in JwtBlacklist", e);
+        }catch (findByIdExptn_CantFindData e)
+        {
+
+        }
     }
 
     /**
