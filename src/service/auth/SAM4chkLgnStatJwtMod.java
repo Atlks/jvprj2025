@@ -12,6 +12,7 @@ import jakarta.security.enterprise.identitystore.CredentialValidationResult;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.Nullable;
 import util.auth.CantGetTokenJwtEx;
 import util.auth.ChkLgnStatAuthenticationMechanism;
@@ -32,6 +33,7 @@ public class SAM4chkLgnStatJwtMod implements ISAM, HttpAuthenticationMechanism {
      * @return
      * @throws AuthenticationException
      */
+    @Nullable
     @Override
     public AuthenticationStatus validateRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, HttpMessageContext httpMessageContext) throws AuthenticationException {
 
@@ -49,15 +51,17 @@ public class SAM4chkLgnStatJwtMod implements ISAM, HttpAuthenticationMechanism {
         }
 
 
+        return null;
     }
 
-    private void chkIsInJwtBlkLst() throws CantGetTokenJwtEx, validateTokenExcptn {
+  //
+    private void chkIsInJwtBlkLst() throws CantGetTokenJwtEx, validateTokenExcptn ,AuthenticationException{
         var token = getTokenMust(httpExchangeCurThrd.get());
         String jwthash=token.split(".")[2];
 
         try{
             var k = findByHerbinate(JwtBlacklist.class, jwthash, sessionFactory.getCurrentSession());
-            throw new AuthenticationException("jwt token in JwtBlacklist", e);
+            throw new AuthenticationException("jwt token in JwtBlacklist");
         }catch (findByIdExptn_CantFindData e)
         {
 
