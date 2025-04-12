@@ -41,7 +41,7 @@ public class SAM4chkLgnStatJwtMod implements ISAM, HttpAuthenticationMechanism {
         try {
             @NotNull
             String uname = getUsernameFrmJwtToken(httpExchangeCurThrd.get());
-             //is not in jwt blk lst
+             //is not in jwt blk lst..
             chkIsInJwtBlkLst();
         }
         catch (Throwable e) {
