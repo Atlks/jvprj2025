@@ -21,6 +21,8 @@ fun main() {
     filePath="C:\\0prj\\jvprj2025\\doc2504\\y imgrt为什么要移民.md"
 
     filePath="C:\\0prj\\jvprj2025\\doc2503\\fuchr job 未来工作.md"
+    filePath="C:\\0prj\\jvprj2025\\doc2504\\单车改装计划.md"
+
 
 
     val searchStartWzChars = "= - . 。" // 替换为你要查找的字符串
