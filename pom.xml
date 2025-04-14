@@ -64,6 +64,15 @@
 
 <dependencies>
 
+
+    <dependency>
+        <groupId>com.github.xiaoymin</groupId>
+        <artifactId>knife4j-openapi3-ui</artifactId>
+        <version>4.3.0</version>
+    </dependency>
+
+
+
     <dependency>
         <groupId>org.thymeleaf</groupId>
         <artifactId>thymeleaf</artifactId>
