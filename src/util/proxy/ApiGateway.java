@@ -88,7 +88,7 @@ public class ApiGateway implements HttpHandler {
      * @return
      * @throws Exception
      */
-    public Object invoke_call(Object args) throws Throwable {
+    public Object invoke_callNlogWarp(Object args) throws Throwable {
         String mthFullname = target.getClass().getName() + ".call";
 
 
@@ -239,13 +239,13 @@ public class ApiGateway implements HttpHandler {
         //---------log
         Class Prmcls = getPrmClass(this.target, "main");
         if (Prmcls == null) {
-            rzt = invoke_call(new NonDto());
+            rzt = invoke_callNlogWarp(new NonDto());
         } else {
             var dto = toDto(exchange, Prmcls);
 
             // addDeftParam(dto);
             validDto(dto);
-            rzt = invoke_call(dto);
+            rzt = invoke_callNlogWarp(dto);
         }
 
         //  默认返回 JSON，不需要额外加 @ResponseBody
