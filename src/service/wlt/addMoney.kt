@@ -45,10 +45,10 @@ fun main() {
 
 
     val uname="9999"
-    val objU = HbntUtil.findByHbntDep<Usr>(
+    val objU = HbntUtil.findByHerbinateLockForUpdt<Usr>(
         Usr::class.java,
         uname,
-        LockModeType.PESSIMISTIC_WRITE,
+
         AppConfig.sessionFactory.currentSession
     )
    // TransHdr.curLockAcc.set(objU)

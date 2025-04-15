@@ -186,7 +186,7 @@ public class ApiGateway implements HttpHandler {
 //    public HttpAuthenticationMechanism HttpAuthenticationMechanism1;
 
     //public  static
-    private void urlAuthChkV2(HttpExchange exchange) throws ValideTokenFailEx, AuthenticationException {
+    private void urlAuthChkV2(HttpExchange exchange) throws ValideTokenFailEx, AuthenticationException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
 
         injectAll4spr(this);
 

@@ -238,6 +238,15 @@ public class HbntUtil {
 
     }
 
+    public static <T> T findByHbntDep(Class<T> t, String id, LockModeType lockModeType, Session session) {
+        String mthClr = colorStr("findByHbnt", YELLOW_bright);
+        System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(class=" + t + ",id=" + id + ",LockModeType=" + lockModeType);
+        //  System.out.println("findByHbnt("+ t+"。。。");
+        T rzt = session.find(t, id, lockModeType);
+        System.out.println("✅endfun findByHbnt.ret=" + encodeJson(rzt));
+        return rzt;
+    }
+
     public static <T> T findByHerbinateLockForUpdt(Class<T> t, String id, Session session) {
 
         var lockModeType = LockModeType.PESSIMISTIC_WRITE;
