@@ -1,5 +1,6 @@
 package util.tx;
 
+import entityx.Keyx;
 import jakarta.persistence.Entity;
 import jakarta.persistence.LockModeType;
 import jakarta.validation.constraints.NotBlank;
@@ -29,10 +30,10 @@ import static util.tx.dbutil.*;
 public class HbntUtil {
 
     public static Session openSession(String jdbcUrl, List<Class> li) throws SQLException {
-        String mthClr=colorStr("openSession",YELLOW_bright);
-        String urlClr=colorStr(jdbcUrl,GREEN);
-        String liClr=colorStr(encodeJsonObj(li),GREEN);
-        System.out.println("▶\uFE0F fun "+mthClr+"(url="+urlClr+",listClass="+liClr);
+        String mthClr = colorStr("openSession", YELLOW_bright);
+        String urlClr = colorStr(jdbcUrl, GREEN);
+        String liClr = colorStr(encodeJsonObj(li), GREEN);
+        System.out.println("▶\uFE0F fun " + mthClr + "(url=" + urlClr + ",listClass=" + liClr);
 
 
         SessionFactory sessionFactory = getSessionFactory(jdbcUrl, li);
@@ -40,7 +41,7 @@ public class HbntUtil {
         // 获取 Session
         Session session = sessionFactory.openSession();
         System.out.println("✅endfun openSession()");
-        return  session;
+        return session;
 
 
         // Create the Configuration object
@@ -85,13 +86,13 @@ public class HbntUtil {
     }
 
     public static SessionFactory getSessionFactory(String jdbcUrl, List<Class> li) throws SQLException {
-        var db=getDatabaseFileName4mysql(jdbcUrl);
-        crtDatabase(jdbcUrl,db);
+        var db = getDatabaseFileName4mysql(jdbcUrl);
+        crtDatabase(jdbcUrl, db);
 
         // Hibernate 配置属性
         Properties properties = new Properties();
         properties.put(Environment.DRIVER, getDvr(jdbcUrl));
-        properties.put(Environment.URL, ""+ jdbcUrl);
+        properties.put(Environment.URL, "" + jdbcUrl);
         properties.put(Environment.USER, getUnameFromJdbcurl(jdbcUrl));
         properties.put(Environment.PASS, getPwdFromJdbcurl(jdbcUrl));
         properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
@@ -103,8 +104,8 @@ public class HbntUtil {
         properties.put(Environment.HBM2DDL_AUTO, "update"); // 自动建表
         properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
 
-        properties.put( Environment.ORDER_INSERTS, "false");
-        properties.put( Environment.ORDER_UPDATES, "false");
+        properties.put(Environment.ORDER_INSERTS, "false");
+        properties.put(Environment.ORDER_UPDATES, "false");
 
         // 创建 ServiceRegistry
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
@@ -113,8 +114,7 @@ public class HbntUtil {
 
         // 添加实体类映射
         MetadataSources metadataSources = new MetadataSources(serviceRegistry);
-        for(Class cls : li)
-        {
+        for (Class cls : li) {
             metadataSources.addAnnotatedClasses(cls);
         }
         addAnnotatedClasses2025(metadataSources);
@@ -128,17 +128,15 @@ public class HbntUtil {
 
 
         // 递归扫描 .class 文件
-        List<Class<?>> classList =getClassesList();
-     //   scanClasses(classDir, classDir.getAbsolutePath(), classList);
+        List<Class<?>> classList = getClassesList();
+        //   scanClasses(classDir, classDir.getAbsolutePath(), classList);
 
         // 注册到 hbnt
         for (Class<?> clazz : classList) {
             try {
-                if(clazz.getName().startsWith("entityx"))
-                {
+                if (clazz.getName().startsWith("entityx")) {
 
-                    if(clazz.isAnnotationPresent(Entity.class))
-                    {
+                    if (clazz.isAnnotationPresent(Entity.class)) {
                         metadataSources.addAnnotatedClasses(clazz);
                         System.out.println("hbnt已注册hbnt: " + clazz.getName());
                     }
@@ -153,7 +151,6 @@ public class HbntUtil {
         }
 
     }
-
 
 
 //        // 获取 classes 目录
@@ -173,38 +170,39 @@ public class HbntUtil {
     // @log
     public static Object persistByHibernate(Object var1, Session session) {
 
-        String mth= colorStr("persistByHbnt",YELLOW_bright);
-        String prmurl= colorStr(encodeJsonObj(var1),GREEN);
-        System.out.println("\r\n▶\uFE0Ffun "+mth+"(o="+prmurl);
+        String mth = colorStr("persistByHbnt", YELLOW_bright);
+        String prmurl = colorStr(encodeJsonObj(var1), GREEN);
+        System.out.println("\r\n▶\uFE0Ffun " + mth + "(o=" + prmurl);
 
-        System.out.println("persistByHbnt("+ var1.getClass().getName());
+        System.out.println("persistByHbnt(" + var1.getClass().getName());
         session.persist(var1);
         session.flush();
 
         System.out.println("✅endfun persistByHbnt()");
         return var1;
     }
+
     public static @NotNull Object getListBySql(@NotBlank String sql, @NotNull Session session) throws Throwable {
 
         ifIsBlank(sql);
-        String mthClr=colorStr("getListBySql",YELLOW_bright);
-        System.out.println("\r\n▶\uFE0Ffun "+mthClr+"("+(sql));
+        String mthClr = colorStr("getListBySql", YELLOW_bright);
+        System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(" + (sql));
         NativeQuery nativeQuery = session.createNativeQuery(sql);
         // setPrmts4sql(sqlprmMap, nativeQuery);
 
         //       .setParameter("age", 18);
         @NotNull
         List<?> list1 = nativeQuery.getResultList();
-        System.out.println("✅endfun getListBySql.ret=list,listsize="+list1.size());
-        return  list1;
+        System.out.println("✅endfun getListBySql.ret=list,listsize=" + list1.size());
+        return list1;
     }
 
     public static @NotNull Object getListBySqlLmt200(@NotBlank String sql, @NotNull Session session) throws Throwable {
 
         ifIsBlank(sql);
-        String mthClr=colorStr("getListBySqlLmt200",YELLOW_bright);
-        System.out.println("\r\n▶\uFE0Ffun "+mthClr+"("+(sql));
-       // System.out.println("mergeByHbnt("+ t.getClass().getName());
+        String mthClr = colorStr("getListBySqlLmt200", YELLOW_bright);
+        System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(" + (sql));
+        // System.out.println("mergeByHbnt("+ t.getClass().getName());
         NativeQuery nativeQuery = session.createNativeQuery(sql);
         // setPrmts4sql(sqlprmMap, nativeQuery);
         // 设置分页
@@ -213,54 +211,55 @@ public class HbntUtil {
         //       .setParameter("age", 18);
         @NotNull
         List<?> list1 = nativeQuery.getResultList();
-        System.out.println("✅endfun getListBySqlLmt200.ret=list,listsize="+list1.size());
-        return  list1;
+        System.out.println("✅endfun getListBySqlLmt200.ret=list,listsize=" + list1.size());
+        return list1;
     }
 
 
-
-    public static @NotNull @org.jetbrains.annotations.NotNull <T> T mergeByHbnt(@NotNull T  t, @NotNull  Session session) {
-        String mthClr=colorStr("mergeByHbnt",YELLOW_bright);
-        System.out.println("\r\n▶\uFE0Ffun "+mthClr+"(t="+encodeJsonObj(t));
-        System.out.println("mergeByHbnt("+ t.getClass().getName());
+    public static @NotNull @org.jetbrains.annotations.NotNull <T> T mergeByHbnt(@NotNull T t, @NotNull Session session) {
+        String mthClr = colorStr("mergeByHbnt", YELLOW_bright);
+        System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(t=" + encodeJsonObj(t));
+        System.out.println("mergeByHbnt(" + t.getClass().getName());
         T rzt = session.merge(t);
         //   session.merge(objU);
         session.flush();
-        System.out.println("✅endfun mergeByHbnt.ret="+ encodeJson(rzt));
+        System.out.println("✅endfun mergeByHbnt.ret=" + encodeJson(rzt));
         return rzt;
     }
 
-    public static  <T> T findByHbntDep(Class<T> t, String id, Session session) {
+    public static <T> T findByHbntDep(Class<T> t, String id, Session session) {
 
-        String mthClr=colorStr("findByHbnt",YELLOW_bright);
-        System.out.println("\r\n▶\uFE0Ffun "+mthClr+"(class="+t+",id="+id);
-      //  System.out.println("findByHbnt("+ t.getClass().getName()+",id="+id);
+        String mthClr = colorStr("findByHbnt", YELLOW_bright);
+        System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(class=" + t + ",id=" + id);
+        //  System.out.println("findByHbnt("+ t.getClass().getName()+",id="+id);
         T rzt = session.find(t, id);
-        System.out.println("✅endfun findByHbnt.ret="+ encodeJson(rzt));
+        System.out.println("✅endfun findByHbnt.ret=" + encodeJson(rzt));
         return rzt;
 
     }
 
+    public static <T> T findByHerbinateLockForUpdt(Class<T> t, String id, Session session) {
 
-    public static <T> T findByHbntDep(Class<T> t, String id, LockModeType lockModeType, Session session) {
-        String mthClr=colorStr("findByHbnt",YELLOW_bright);
-        System.out.println("\r\n▶\uFE0Ffun "+mthClr+"(class="+t+",id="+id+",LockModeType="+lockModeType);
-      //  System.out.println("findByHbnt("+ t+"。。。");
-        T rzt = session.find(t, id,lockModeType);
-        System.out.println("✅endfun findByHbnt.ret="+ encodeJson(rzt));
+        var lockModeType = LockModeType.PESSIMISTIC_WRITE;
+        String mthClr = colorStr("findByHbnt", YELLOW_bright);
+        System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(class=" + t + ",id=" + id + ",LockModeType=" + lockModeType);
+        //  System.out.println("findByHbnt("+ t+"。。。");
+        T rzt = session.find(t, id, lockModeType);
+        System.out.println("✅endfun findByHbnt.ret=" + encodeJson(rzt));
         return rzt;
     }
+
 
     //good bp  throw ex,,,more lubst
     public static <T> T findByHerbinate(Class<T> t, String id, Session session) throws findByIdExptn_CantFindData {
 
-        String mthClr=colorStr("findByHbnt",YELLOW_bright);
-        System.out.println("\r\n▶\uFE0Ffun "+mthClr+"(class="+t+",id="+id);
+        String mthClr = colorStr("findByHbnt", YELLOW_bright);
+        System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(class=" + t + ",id=" + id);
         //  System.out.println("findByHbnt("+ t.getClass().getName()+",id="+id);
         T rzt = session.find(t, id);
-        if(rzt==null)
-            throw new findByIdExptn_CantFindData("cls="+t+",id="+id);
-        System.out.println("✅endfun findByHbnt.ret="+ encodeJson(rzt));
+        if (rzt == null)
+            throw new findByIdExptn_CantFindData("cls=" + t + ",id=" + id);
+        System.out.println("✅endfun findByHbnt.ret=" + encodeJson(rzt));
         return rzt;
     }
 }

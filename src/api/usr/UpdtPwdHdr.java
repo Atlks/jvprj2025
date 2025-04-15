@@ -8,8 +8,7 @@ import jakarta.persistence.LockModeType;
 
 
 import static util.algo.EncodeUtil.encodeMd5;
-import static util.tx.HbntUtil.findByHbntDep;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.*;
 import static util.tx.dbutil.addObj;
 import static util.misc.util2026.*;
 
@@ -30,7 +29,7 @@ public class UpdtPwdHdr extends BaseHdr<Usr, Usr> {
         //JSONObject jo = getObjDocdb(uname,  saveDirUsrs);
         org.hibernate.Session session = sessionFactory.getCurrentSession();
 
-        Keyx u = findByHbntDep(Keyx.class, uname, LockModeType.PESSIMISTIC_WRITE, session);
+        Keyx u = findByHerbinateLockForUpdt(Keyx.class, uname, session);
 //        Usr objU =findByHbnt(Usr.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE,session);
         if (u.hashedPassword.equals(encodeMd5(oldpwd))) {
             // 创建 User 对象
