@@ -27,7 +27,7 @@ import static service.CmsBiz.toBigDcmTwoDot;
 @Data
 public class Usr {
     @NotBlank
-    @NotNull
+
     @Valid
     public String uname = "";
 
@@ -66,6 +66,8 @@ public class Usr {
     public Usr() {
 
     }
+
+    public  boolean enabled=true;
 
     @CreationTimestamp
     public long crtTimeStmp;

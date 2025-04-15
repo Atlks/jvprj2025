@@ -1,5 +1,6 @@
 package util.tx;
 
+import entityx.Usr;
 import entityx.baseObj;
 import entityx.PageResult;
 import jakarta.validation.constraints.NotBlank;
@@ -30,13 +31,13 @@ public class Pagging {
     public static @NotNull PageResult<?> getPageResultByHbntV3(@NotBlank  String sql, Map<String, Object> sqlprmMap, Pageobj pageobj, Session session) throws SQLException {
 
 
-        NativeQuery nativeQuery = session.createNativeQuery(sql);
+        NativeQuery<Usr> nativeQuery = session.createNativeQuery(sql, Usr.class);
         setPrmts4sql(sqlprmMap, nativeQuery);
         // 设置分页
         nativeQuery.setFirstResult(getstartPosition(pageobj.page, pageobj.pagesize));
         nativeQuery.setMaxResults(pageobj.pagesize);
         //       .setParameter("age", 18);
-        List<?> list1 = nativeQuery.getResultList();
+        List<Usr> list1 = nativeQuery.getResultList();
 
 
         //------------page

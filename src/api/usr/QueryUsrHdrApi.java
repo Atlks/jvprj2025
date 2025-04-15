@@ -30,12 +30,12 @@ import static util.tx.Pagging.getPageResultByHbntV3;
 
 //组合了 @Controller 和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
 @PermitAll
-@Path("/admin/qryUsr")
+@Path("/admin/qryUsrApi")
 //   http://localhost:8889/admin/qryUsr?uname=008&page=1&pagesize=100
 @NoArgsConstructor
 @Data
 @Component
-public class QueryUsrHdr implements Icall<ReqDtoQryUsr, Object> {
+public class QueryUsrHdrApi implements Icall<ReqDtoQryUsr, Object> {
 
     public Object main(ReqDtoQryUsr reqdto) throws Exception {
 

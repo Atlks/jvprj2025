@@ -1,4 +1,4 @@
-package tools
+package bot
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -12,12 +12,13 @@ fun main() {
     var Url_fri = "https://www.rfi.fr/cn/"
     var url_abc="https://www.abc.net.au/news/chinese"
     showNews(url_abc)
- //   showNews(dw)
-  //  showNews(Url_fri)
+   showNews(dw)
+    showNews(Url_fri)
 
 }
 
 private fun showNews(Url_fri: String) {
+   println(Url_fri)
     var html = getHtml(Url_fri);
     var news: List<String> = getListString(html)
     for (newItem in news) {
