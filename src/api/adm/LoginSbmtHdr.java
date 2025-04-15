@@ -1,21 +1,17 @@
 package api.adm;
 
-import core.Ilogin;
 import core.IloginV2;
 import entityx.Admin;
-import entityx.Keyx;
-import entityx.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
 import util.algo.EncryUtil;
 import util.algo.Icall;
 import util.ex.PwdNotEqExceptn;
 import util.misc.util2026;
-import util.proxy.AtProxy4api;
+import util.proxy.ApiGateway;
 import util.tx.findByIdExptn_CantFindData;
 
 import static cfg.AppConfig.sessionFactory;
@@ -67,8 +63,8 @@ public class LoginSbmtHdr implements   Icall<AdminLoginDto,Object>, IloginV2<Adm
      */
     @Override
     public Object setLoginTicket(AdminLoginDto usr_dto) {
-        util2026.setcookie("admHRZ", usr_dto.username, AtProxy4api.httpExchangeCurThrd.get());
-        util2026.setcookie("adm", EncryUtil.encryptAesToStrBase64(usr_dto.username, EncryUtil.Key4pwd4aeskey), AtProxy4api.httpExchangeCurThrd.get());
+        util2026.setcookie("admHRZ", usr_dto.username, ApiGateway.httpExchangeCurThrd.get());
+        util2026.setcookie("adm", EncryUtil.encryptAesToStrBase64(usr_dto.username, EncryUtil.Key4pwd4aeskey), ApiGateway.httpExchangeCurThrd.get());
 
         return null;
     }

@@ -34,7 +34,7 @@ import static util.algo.EncryUtil.Key4pwd4aeskey;
 import static util.algo.EncryUtil.encryptAesToStrBase64;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.setcookie;
-import static util.proxy.AtProxy4api.httpExchangeCurThrd;
+import static util.proxy.ApiGateway.httpExchangeCurThrd;
 
 /**
  * login obs evt mode

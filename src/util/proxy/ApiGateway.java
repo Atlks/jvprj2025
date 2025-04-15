@@ -2,12 +2,10 @@ package util.proxy;
 
 import annos.CookieParam;
 import annos.JwtParam;
+import annos.RequireAuth;
 import biz.MinValidator;
 import entityx.NonDto;
-import jakarta.inject.Inject;
 import org.hibernate.context.internal.ThreadLocalSessionContext;
-import org.springframework.beans.factory.annotation.Qualifier;
-import service.auth.ISAM;
 import util.ex.ValideTokenFailEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -57,7 +55,7 @@ import static util.tx.dbutil.setField;
 import static util.misc.util2026.*;
 
 /**
- * todo
+ * API Gateway...api proxy
  * 多个拦截器（责任链模式）
  * 如果需要多个拦截器，可以链式包装： 增强复用性
  * <p>
@@ -65,11 +63,11 @@ import static util.misc.util2026.*;
  * new AuthInterceptor(new LoggingInterceptor(new MyHandler())));
  */
 //aop shuld log auth ,ex catch,,,pfm
-public class AtProxy4api implements HttpHandler {
-    public static final String ChkLgnStatSam ="ChkLgnStatSam" ;
+public class ApiGateway implements HttpHandler {
+    public static final String ChkLgnStatSam = "ChkLgnStatSam";
     private Icall target; // 目标对象
 
-    public   @NotNull AtProxy4api(  @NotNull Object target) {
+    public @NotNull ApiGateway(@NotNull Object target) {
         this.target = (Icall) target;
     }
 
@@ -85,6 +83,7 @@ public class AtProxy4api implements HttpHandler {
 
     /**
      * ivk  here,,,aop log,maybe need decra mode,,not pxy mod
+     *
      * @param args
      * @return
      * @throws Exception
@@ -154,7 +153,7 @@ public class AtProxy4api implements HttpHandler {
 
         } catch (Throwable e) {
 
-             printLn("---------------------print ex ()");
+            printLn("---------------------print ex ()");
 
             e.printStackTrace();
             System.out.flush();  // 立即刷新缓冲区
@@ -179,7 +178,7 @@ public class AtProxy4api implements HttpHandler {
 //    @Inject
 //    @Qualifier(ChkLgnStatSam)  //"ChkLgnStatSam"
 //
- //   public ISAM sam1;
+    //   public ISAM sam1;
 
 //    @Inject
 //    @Autowired
@@ -192,8 +191,18 @@ public class AtProxy4api implements HttpHandler {
         injectAll4spr(this);
 
         if (needLoginUserAuth()) {
-            //chk token blk list
-            sam4chkLgnStat.validateRequest(null, null, null);
+           //apigat reqauth mode...
+            var aClass = this.target.getClass();
+            if (aClass.isAnnotationPresent(RequireAuth.class)) {
+                RequireAuth RequireAuth1 = aClass.getAnnotation(RequireAuth.class);
+                var authfun1 = RequireAuth1.authFun();
+                var obj = authfun1.getConstructor().newInstance();
+                obj.validateRequest(null, null, null);
+            } else {
+                //chk token blk list
+                sam4chkLgnStat.validateRequest(null, null, null);
+            }
+
         }
     }
 //            if (authStt == AuthenticationStatus.SUCCESS) {
@@ -207,7 +216,7 @@ public class AtProxy4api implements HttpHandler {
     protected boolean needLoginUserAuth() {
 
         Class<?> aClass = this.getClass();
-        if (aClass == AtProxy4api.class) {
+        if (aClass == ApiGateway.class) {
             aClass = this.target.getClass();
         }
 
@@ -243,7 +252,7 @@ public class AtProxy4api implements HttpHandler {
         //  默认会将 String 直接作为 text/plain 处理：
         if (rzt == null)
             rzt = "ok";
-      //  rzt=new ApiResponse(rzt);
+        //  rzt=new ApiResponse(rzt);
         if (rzt.getClass() == String.class)
             wrtResp(exchange, (rzt.toString()));
         else
@@ -352,7 +361,6 @@ public class AtProxy4api implements HttpHandler {
         }
 
     }
-
 
 
     public static String processInvkExpt(HttpExchange exchange, InvocationTargetException e) throws IOException {

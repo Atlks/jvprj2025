@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
-import util.proxy.AtProxy4api;
+import util.proxy.ApiGateway;
 
 import java.io.*;
 import java.lang.annotation.Annotation;
@@ -210,7 +210,7 @@ public class WebSvr {
             if (hdrclas == null)
                 throw new RuntimeException("key is null,key=" + requestURI);
             var bean = getBeanByClzFrmSpr(hdrclas);
-            @NotNull HttpHandler proxyObj = new AtProxy4api(bean);
+            @NotNull HttpHandler proxyObj = new ApiGateway(bean);
             proxyObj.handle(exchange);
         } catch (Exception e) {
             printLn("---------------statt eprint");

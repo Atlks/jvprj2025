@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.Set;
 
-import static util.proxy.AtProxy4api.httpExchangeCurThrd;
+import static util.proxy.ApiGateway.httpExchangeCurThrd;
 import static util.auth.JwtUtil.getUsernameFrmJwtToken;
 
 public class SecurityContextImp4jwt implements SecurityContext {

@@ -1,10 +1,5 @@
 package api.usr;
 
-import jakarta.security.enterprise.credential.UsernamePasswordCredential;
-import util.algo.EncryUtil;
-import util.misc.util2026;
-import util.proxy.AtProxy4api;
-
 public class lgnDlgt {
     private final LoginController loginController;
 

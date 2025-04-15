@@ -27,7 +27,7 @@ import static util.excptn.ExptUtil.curUrl;
 
 
 import static util.oo.WebsrvUtil.processNmlExptn;
-import static util.proxy.AtProxy4api.processInvkExpt;
+import static util.proxy.ApiGateway.processInvkExpt;
 
 import static util.tx.TransactMng.*;
 import static util.misc.Util2025.*;

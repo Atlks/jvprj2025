@@ -1,26 +1,22 @@
 package service.auth;
 
 import entityx.JwtBlacklist;
-import entityx.Keyx;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.AuthenticationStatus;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpMessageContext;
 import jakarta.security.enterprise.credential.Credential;
-import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import jakarta.security.enterprise.identitystore.CredentialValidationResult;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
-import lombok.SneakyThrows;
 import org.jetbrains.annotations.Nullable;
 import util.auth.CantGetTokenJwtEx;
-import util.auth.ChkLgnStatAuthenticationMechanism;
 import util.auth.validateTokenExcptn;
 import util.tx.findByIdExptn_CantFindData;
 
 import static cfg.AppConfig.sessionFactory;
-import static util.proxy.AtProxy4api.httpExchangeCurThrd;
+import static util.proxy.ApiGateway.httpExchangeCurThrd;
 import static util.excptn.ExptUtil.appendEx2lastExs;
 import static util.auth.JwtUtil.*;
 import static util.tx.HbntUtil.findByHerbinate;

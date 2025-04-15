@@ -1,13 +1,12 @@
 package api.adm;
 
+import annos.RequireAuth;
 import entityx.ReqDtoQryUsr;
-import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.context.Context;
 import util.algo.Icall;
 
@@ -15,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.stereotype.Controller;
 import static cfg.AppConfig.sessionFactory;
-import static entityx.ApiResponse.createResponse;
 import static test.htmlTppltl.rend;
 import static util.algo.EncodeUtil.encodeParamSql;
 import static util.algo.NullUtil.isBlank;
@@ -25,12 +23,13 @@ import static util.tx.Pagging.getPageResultByHbntV3;
 
 
 //组合了 @Controller 和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
-@PermitAll
+//@PermitAll
 @Path("/admin/qryUsr")
 //   http://localhost:8889/admin/qryUsr?uname=008&page=1&pagesize=100
 @NoArgsConstructor
 @Data
 @Component
+@RequireAuth(role="admin",authFun= AuthFun4admin.class)
 public class QueryUsrHdr implements Icall<ReqDtoQryUsr, Object> {
 
     public Object main(ReqDtoQryUsr reqdto) throws Exception {

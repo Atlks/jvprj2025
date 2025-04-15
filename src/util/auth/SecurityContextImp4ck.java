@@ -11,7 +11,7 @@ import java.util.Set;
 
 
 import static util.algo.EncryUtil.Key4pwd4aeskey;
-import static util.proxy.AtProxy4api.httpExchangeCurThrd;
+import static util.proxy.ApiGateway.httpExchangeCurThrd;
 import static util.algo.EncryUtil.decryptAesFromStrBase64;
 import static util.misc.util2026.getcookie;
 

@@ -19,10 +19,10 @@ import util.algo.EncryUtil;
 import util.algo.Icall;
 import util.ex.*;
 import util.misc.util2026;
-import util.proxy.AtProxy4api;
+import util.proxy.ApiGateway;
 
 
-import static util.proxy.AtProxy4api.httpExchangeCurThrd;
+import static util.proxy.ApiGateway.httpExchangeCurThrd;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.*;
 
@@ -68,8 +68,8 @@ public class LoginController implements Icall<RegDto, Object>, Ilogin {
 
 
     public void setVisaByCookie(RegDto usr_dto) {
-        util2026.setcookie("unameHRZ", usr_dto.uname, AtProxy4api.httpExchangeCurThrd.get());
-        util2026.setcookie("uname", EncryUtil.encryptAesToStrBase64(usr_dto.uname, EncryUtil.Key4pwd4aeskey), AtProxy4api.httpExchangeCurThrd.get());
+        util2026.setcookie("unameHRZ", usr_dto.uname, ApiGateway.httpExchangeCurThrd.get());
+        util2026.setcookie("uname", EncryUtil.encryptAesToStrBase64(usr_dto.uname, EncryUtil.Key4pwd4aeskey), ApiGateway.httpExchangeCurThrd.get());
     }
 
 

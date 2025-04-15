@@ -10,7 +10,7 @@ import org.thymeleaf.context.Context;
 import util.algo.EncryUtil;
 import util.algo.Icall;
 import util.misc.util2026;
-import util.proxy.AtProxy4api;
+import util.proxy.ApiGateway;
 
 import static test.htmlTppltl.rend;
 @Controller
@@ -30,7 +30,7 @@ public class UpdtAdmPwdHdr implements Icall<NonDto, Object> {
     public Object main(NonDto arg) throws Throwable {
 
 
-    var  adm=    util2026.getcookie("adm",  AtProxy4api.httpExchangeCurThrd.get());
+    var  adm=    util2026.getcookie("adm",  ApiGateway.httpExchangeCurThrd.get());
     adm=  EncryUtil.decryptAesFromStrBase64(adm, EncryUtil.Key4pwd4aeskey);
 
 
