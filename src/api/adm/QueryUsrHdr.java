@@ -1,5 +1,6 @@
 package api.adm;
 
+import annos.NoDftParam;
 import annos.RequireAuth;
 import entityx.ReqDtoQryUsr;
 import jakarta.ws.rs.Path;
@@ -30,6 +31,7 @@ import static util.tx.Pagging.getPageResultByHbntV3;
 @Data
 @Component
 @RequireAuth(role="admin",authFun= AuthFun4admin.class)
+@NoDftParam
 public class QueryUsrHdr implements Icall<ReqDtoQryUsr, Object> {
 
     public Object main(ReqDtoQryUsr reqdto) throws Exception {

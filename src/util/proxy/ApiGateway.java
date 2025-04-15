@@ -2,6 +2,7 @@ package util.proxy;
 
 import annos.CookieParam;
 import annos.JwtParam;
+import annos.NoDftParam;
 import annos.RequireAuth;
 import biz.MinValidator;
 import entityx.NonDto;
@@ -270,7 +271,15 @@ public class ApiGateway implements HttpHandler {
 
         // 反射创建 DTO 实例
         Object dto = cls.getDeclaredConstructor().newInstance();
-        addDeftParam(dto);
+
+        Class c=this.target.getClass();
+        if(c.isAnnotationPresent(NoDftParam.class))
+        {
+
+        }else{
+            addDeftParam(dto);
+        }
+
         var dtoQrystr = toDtoFrmQrystr(exchange, cls);
         copyProps(dtoQrystr, dto);
 
