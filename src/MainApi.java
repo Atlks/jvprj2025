@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import service.wlt.AddMoneyToWltService;
 import util.algo.ChooseEvtPublshr;
 import util.auth.SecurityContextImp4jwt;
+import util.log.ConsoleInterceptor;
 //import service.AddRchgOrdToWltService;
 
 import java.io.FileNotFoundException;
@@ -30,7 +31,7 @@ public class MainApi {
      */
     public static void main(String[] args) throws Exception {
     //    ovrtTEst=true;//todo cancel if test ok
-
+        ConsoleInterceptor.init();// log
         start();
 
 //        sleep(3000);
