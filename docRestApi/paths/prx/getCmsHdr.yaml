@@ -1,0 +1,12 @@
+get:
+  tags:
+    - proxy
+  summary: 获取佣金
+  description:
+  security:
+    - JwtAuth88: [ ]
+
+    # 如果 DTO 中还有其它字段，比如 code, newPassword，可以继续加上
+  responses:
+    '200':
+      $ref: '../../components/responses/CommonResponse.yaml'

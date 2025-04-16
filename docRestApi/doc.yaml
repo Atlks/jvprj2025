@@ -27,8 +27,14 @@ tags:
     description: 加密货币外汇贵金属方面接口
   - name: ylWallet
     description: 盈利钱包方面接口
-
-
+  - name: proxy
+    description: 代理方面接口
+  - name: common
+    description: 基础接口
+  - name: admin
+    description: 管理端接口-管理员管理
+  - name: admin_rpt
+    description: 管理端接口-报表管理
 components:
   parameters:
     unamexx:
@@ -62,6 +68,20 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /admin/adm/add:
+    $ref: './paths/admin/adm/add.yaml'
+  /admin/adm/list:
+    $ref: './paths/admin/adm/list.yaml'
+  /admin/adm/del:
+    $ref: './paths/admin/adm/del.yaml'
+  /admin/adm/login:
+    $ref: './paths/admin/adm/login.yaml'
+  /admin/adm/logout:
+    $ref: './paths/admin/adm/logout.yaml'
+  /uploads:
+    $ref: './paths/common/upld.yaml'
+  /prxy/IsSetWthdrPwdHdr:
+    $ref: './paths/prx/getCmsHdr.yaml'
   /user/IsSetWthdrPwdHdr:
     $ref: './paths/IsSetWthdrPwdHdr.yaml'
   /FgtPwdRstPwdHdr:
@@ -198,33 +218,7 @@ paths:
                   result:
                     type: integer
                     example: 3
-  /uploads:
-    post:
-      summary: 上传图片
-      description: 上传图片 and returns the file path
-      operationId: uploadFile
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                file:
-                  type: string
-                  format: binary
-                  description: Image file to upload
-      responses:
-        '200':
-          description: File uploaded successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  filePath:
-                    type: string
-                    description: Path to the uploaded file
+
   /coin/frnXchg:
     get:
       tags:
