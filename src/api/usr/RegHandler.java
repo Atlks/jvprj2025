@@ -41,9 +41,11 @@ import static util.tx.HbntUtil.persistByHibernate;
 @PermitAll
 @NoArgsConstructor
 // @Produces / @Consumes：指定返回和接收的数据格式（如 application/json）
-public class RegSvs implements IRegHandler {
 
-    public RegSvs(String uname, String pwd) {
+//implements RequestHandler<Map<String,Object>, ApiGatewayResponse> {
+public class RegHandler implements IRegHandler {
+
+    public RegHandler(String uname, String pwd) {
     }
 
     public static String saveDirUsrs;

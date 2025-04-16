@@ -21,3 +21,10 @@ Web Server（如 Spring）	❌ 云函数自带运行环境
 ✅ 极简模式结构图：
 
 API Gateway → Lambda Function (service logic) → ORM → Database
+
+
+
+✅ 小结
+
+你只需专注写业务逻辑函数，数据库通过 ORM 简化，服务端自动托管，控制器、DAO 都可以省略，大大降低了复杂度，非常适合敏捷开发和原型验证。
+

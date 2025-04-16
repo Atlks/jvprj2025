@@ -28,10 +28,12 @@ import static util.proxy.AopUtil.ivk4log;
 @annos.Parameter(name = "invtr", description = "邀请人", required = false)
 @annos.Parameter(name = "email",required = false)
 @PermitAll
+// implements RequestHandler<Map<String,Object>, ApiGatewayResponse> {
 public interface IRegHandler extends Icall<RegDto, Object> {
     String SAM4regLgn = "SAM4regLgn";
 
 
+    //handleRequest(Map<String, Object> input, Context context)
     default Object main(@BeanParam RegDto dtoReg) throws Throwable {
         System.out.println("IRegHandler.main(" + encodeJson(dtoReg));
         ivk4log("chkExistUser", () -> {

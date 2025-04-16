@@ -1,6 +1,6 @@
 package cfg;
 
-import api.usr.RegSvs;
+import api.usr.RegHandler;
 
 import com.sun.net.httpserver.HttpExchange;
 import javassist.*;
@@ -18,7 +18,7 @@ import static util.misc.util2026.*;
 public class AopLogJavassist {
     public static void main(String[] args) throws Exception {
         //  System.out.println(RegHandler.class);
-        Class<?> aClass = RegSvs.class;
+        Class<?> aClass = RegHandler.class;
 
         Class<?> modifiedClass = getAClassAoped(aClass);
 
