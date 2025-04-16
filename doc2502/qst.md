@@ -48,7 +48,7 @@ public class MyAspect {
 //test .kt
 package test;
 
-import api.usr.RegHandler
+import api.usr.RegSvs
 import apis.BaseHdr
 import apis.MyAspect
 import com.sun.tools.javac.tree.TreeInfo.args

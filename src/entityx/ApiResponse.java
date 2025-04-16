@@ -11,7 +11,7 @@ import static util.excptn.ExptUtil.curUrl;
 import static util.excptn.ExptUtil.requestIdCur;
 
 /**
- * resps obj
+ * APIGatewayResponse
  * from swg apirps props
  *  private String description = null;
  *      *     private Map<String, Header> headers = null;
