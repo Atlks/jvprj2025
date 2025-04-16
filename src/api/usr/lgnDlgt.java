@@ -1,10 +1,10 @@
 package api.usr;
 
 public class lgnDlgt {
-    private final LoginController loginController;
+    private final LoginSvs loginSvs;
 
-    public lgnDlgt(LoginController loginController) {
-        this.loginController = loginController;
+    public lgnDlgt(LoginSvs loginSvs) {
+        this.loginSvs = loginSvs;
     }
 
 

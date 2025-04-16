@@ -40,7 +40,7 @@ import static util.misc.util2026.*;
 //   http://localhost:8889/login?uname=008&pwd=000
 @NoArgsConstructor
 @Data
-public class LoginController implements Icall<RegDto, Object>, Ilogin {
+public class LoginSvs implements Icall<RegDto, Object>, Ilogin {
     /**
      * @return
      * @throws Exception
@@ -58,7 +58,7 @@ public class LoginController implements Icall<RegDto, Object>, Ilogin {
 
     private final api.usr.lgnDlgt lgnDlgt = new lgnDlgt(this);
 
-    public LoginController(String uname, String pwd) {
+    public LoginSvs(String uname, String pwd) {
     }
 
     public static ThreadLocal<Usr> usrdto = new ThreadLocal<>();
