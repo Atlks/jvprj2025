@@ -1,14 +1,14 @@
-package tools
+package toolsMy
 
 import java.io.File
-import java.nio.file.Paths
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 
 fun main() {
     val mdfDate = "2020-11-11"
-    val modifiedAfter = LocalDateTime.parse("$mdfDateT00:00:00")
+
+    val modifiedAfter = LocalDateTime.parse("${mdfDate}T00:00:00")
+
     var sourceDirPath = "C:\\0prjNtpc\\digital-bet-service - p3"
     var targetDirPath = "bkPrjDBS241112asrch"
     val extnames = "java,xml"
