@@ -23,3 +23,8 @@ trans console log to file log
 
 
 
+
+    API Gateway = 智能反向代理 + 安全验证 + 路由分发中心。
+
+它是构建微服务、Serverless、BFF（Backend for Frontend）架构的重要组件
+
