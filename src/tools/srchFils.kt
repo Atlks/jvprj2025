@@ -12,7 +12,7 @@ fun main() {
     var sourceDirPath = "C:\\0prjNtpc\\digital-bet-service - p3"
     var targetDirPath = "bkPrjDBS241112asrch"
     val extnames = "java,xml"
-    val srchKwds = "global-game-api-config"
+    val srchKwds = "globadafd ig"
 
     srchFL(modifiedAfter, extnames, sourceDirPath, targetDirPath, srchKwds)
 }
