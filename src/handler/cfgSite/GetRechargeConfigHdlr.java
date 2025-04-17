@@ -1,9 +1,7 @@
-package handler.adm.cfg;
+package handler.cfgSite;
 
 import entityx.NonDto;
 import entityx.RechargeConfig;
-import entityx.SetWithdrawalPasswordDto;
-import entityx.WithdrawalPassword;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
@@ -19,7 +17,7 @@ import static util.tx.HbntUtil.findByHerbinate;
 @RestController
 
 @PermitAll
-@Path("/admin/cfg/GetRechargeConfigHdlr")
+@Path("/cfg/GetRechargeConfigHdlr")
 //   http://localhost:8889/admin/cfg/GetRechargeConfigHdlr
 //
 @NoArgsConstructor

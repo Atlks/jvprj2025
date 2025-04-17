@@ -68,7 +68,7 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
-  /admin/cfg/GetRechargeConfigHdlr:
+  /cfg/GetRechargeConfigHdlr:
     $ref: './paths/admin/cfg/GetRechargeConfigHdlr.yaml'
   /reg:
     $ref: './paths/usr/reg.yaml'
