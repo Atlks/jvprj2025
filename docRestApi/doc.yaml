@@ -87,7 +87,7 @@ paths:
   /prxy/IsSetWthdrPwdHdr:
     $ref: './paths/prx/getCmsHdr.yaml'
   /user/IsSetWthdrPwdHdr:
-    $ref: './paths/IsSetWthdrPwdHdr.yaml'
+    $ref: './paths/usr/IsSetWthdrPwdHdr.yaml'
   /FgtPwdRstPwdHdr:
     $ref: './paths/FgtPwdRstPwdHdr.yaml'
   /FgtPwdIptUname:

@@ -1,0 +1,19 @@
+
+
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          description: http状态码（如 200）
+        errcode:
+          type: string
+          description: 错误码
+        body:
+          description: 实际返回数据（可为对象或数组）
+          oneOf:
+                - type: string
+                - type: object
+                - type: array
+        data:
+          type: string
+          description: 返回内容（冗余字段，可选）

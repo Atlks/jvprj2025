@@ -1,0 +1,24 @@
+#issetWthdrPwdHandler.yaml
+get:
+  tags:
+    - user
+  summary: IsSetWthdrPwdHdr
+  description:
+
+
+    # 如果 DTO 中还有其它字段，比如 code, newPassword，可以继续加上
+  responses:
+    '200':
+      description: 请求成功
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/responses/CommonResponseSchma.yaml'
+          example:
+            statusCode: 200
+            message: "ok"
+            body: false
+            timestamp: 1744867243751
+            path: "/user/IsSetWthdrPwdHdr"
+            requestId: "reqid__12370dba-202c-4321-bcac-e8f8247919b0"
+            debugInfo: { }
