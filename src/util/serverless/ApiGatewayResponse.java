@@ -18,7 +18,7 @@ public class ApiGatewayResponse {
 
     }
     public int statusCode=200;
-    public String statusCodeStr="ok";
+    public String errcode="";   //ok
     public Map<String, String> headers=new HashMap<>();
     public Object body="";
     public String message_err="";
