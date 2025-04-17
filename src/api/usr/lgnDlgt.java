@@ -1,11 +1,12 @@
 package api.usr;
 
+import handler.usr.LoginHdlr;
 import handler.usr.RegDto;
 
 public class lgnDlgt {
-    private final LoginSvs loginSvs;
+    private final LoginHdlr loginSvs;
 
-    public lgnDlgt(LoginSvs loginSvs) {
+    public lgnDlgt(LoginHdlr loginSvs) {
         this.loginSvs = loginSvs;
     }
 

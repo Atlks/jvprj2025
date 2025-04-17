@@ -52,9 +52,9 @@ import static util.proxy.ApiGateway.httpExchangeCurThrd;
 @Path("/login2")
 //   http://localhost:8889/login?uname=008&pwd=000
 @NoArgsConstructor
-public class LoginHdr implements Icall<RegDto, Object> {
+public class LoginHdrDep implements Icall<RegDto, Object> {
 
-    public LoginHdr(String uname, String pwd) {
+    public LoginHdrDep(String uname, String pwd) {
     }
 
     public static ThreadLocal<Usr> usrdto = new ThreadLocal<>();

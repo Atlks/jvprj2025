@@ -1,0 +1,16 @@
+
+
+{
+  "statusCode": 200,
+  "errcode": "",
+  "headers": {},
+  "body": {
+    "tokenJwt": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NzciLCJpYXQiOjE3NDQ4NjM2NjUsImlzcyI6ImF0aSIsImF1ZCI6Im5tbFVzZXIiLCJleHAiOjE3NDQ5MTM3MzAsImp0aSI6ImMzNjZmYjEzMjBhYjQzMzc4Nzg5MzAwNDJlYjc0Y2E4In0.36fkGhkTzu5rfyHse30K6QCRZyHO6vnAluLJBtmHbf4NljCspoqJjgWxZNlJmFGTuOOSoqkvPATfkDNwg29AiQ"
+  },
+  "message_err": "",
+  "message": "",
+  "timestamp": 1744863665444,
+  "path": "\"/login?uname=777&pwd=777\"",
+  "requestId": "reqid__7eb9e449-fb9e-4772-9e95-a6f256901ac6",
+  "debugInfo": {}
+}

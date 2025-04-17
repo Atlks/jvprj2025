@@ -22,17 +22,16 @@ import static biz.Containr.sam4regLgn;
 public interface Ilogin {
 
 
-    default Object main(@NotNull @BeanParam RegDto usr_dto) throws Exception, PwdErrEx {
-       // valid(usr_dto);
-        sam4regLgn.validate(new UsernamePasswordCredential(usr_dto.uname, usr_dto.pwd));
-        return setLoginTicket(usr_dto);
-    }
+//    default Object main(@NotNull @BeanParam RegDto usr_dto) throws Exception, PwdErrEx {
+//       // valid(usr_dto);
+//
+//    }
 
     ;
 
 
     default Object setLoginTicket(@NotNull RegDto usr_dto){
         var jwtobj=Collections.singletonMap("tokenJwt", JwtUtil.generateToken(usr_dto.uname));
-        return new ApiResponse(jwtobj);
+        return  (jwtobj);
     };
 }

@@ -1,0 +1,23 @@
+get:
+  tags:
+    - user
+  summary: "登录用户的方法"
+  description: " "
+
+  parameters:
+    - name: uname
+      in: query
+      description: "用户名"
+      required: true
+      schema:
+        type: string
+    - name: pwd
+      in: query
+      description: "密码"
+      required: true
+      schema:
+        type: string
+
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'

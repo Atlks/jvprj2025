@@ -1,13 +1,14 @@
-package api.usr;
+package handler.usr;
 
+import api.usr.lgnDlgt;
 import core.Ilogin;
 import entityx.Passport;
 import entityx.Usr;
 import entityx.Visa;
-import handler.usr.RegDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.SecurityContext;
+import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
@@ -21,8 +22,11 @@ import util.algo.Icall;
 import util.ex.*;
 import util.misc.util2026;
 import util.proxy.ApiGateway;
+import util.serverless.ApiGatewayResponse;
+import util.serverless.RequestHandler;
 
 
+import static biz.Containr.sam4regLgn;
 import static util.proxy.ApiGateway.httpExchangeCurThrd;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.*;
@@ -41,25 +45,39 @@ import static util.misc.util2026.*;
 //   http://localhost:8889/login?uname=008&pwd=000
 @NoArgsConstructor
 @Data
-public class LoginSvs implements Icall<RegDto, Object>, Ilogin {
+public class LoginHdlr implements RequestHandler<RegDto, ApiGatewayResponse>,  Ilogin {
+
+    /**
+     * @param RegDto1
+     * @param context
+     * @return
+     * @throws Throwable
+     */
+    @Override
+    public ApiGatewayResponse handleRequest(RegDto RegDto1, Context context) throws Throwable {
+        sam4regLgn.validate(new UsernamePasswordCredential(RegDto1.uname, RegDto1.pwd));
+        var rt= setLoginTicket(RegDto1);
+        setVisaByCookie(RegDto1);
+             return new ApiGatewayResponse(rt);
+    }
     /**
      * @return
      * @throws Exception
      * @throws existUserEx
      */
-    @Override
-    public Object main(@BeanParam RegDto usr_dto) throws Exception, PwdErrEx {
-        var retObj = Ilogin.super.main(usr_dto);
-        //also set cookie todo
-       setVisaByCookie(usr_dto);
-//======ret token jwt
-        return retObj;
-    }
+//    @Override
+//    public Object main(@BeanParam RegDto usr_dto) throws Exception, PwdErrEx {
+//        var retObj = Ilogin.super.main(usr_dto);
+//        //also set cookie todo
+//       setVisaByCookie(usr_dto);
+////======ret token jwt
+//        return retObj;
+//    }
 
 
     private final api.usr.lgnDlgt lgnDlgt = new lgnDlgt(this);
 
-    public LoginSvs(String uname, String pwd) {
+    public LoginHdlr(String uname, String pwd) {
     }
 
     public static ThreadLocal<Usr> usrdto = new ThreadLocal<>();
@@ -160,6 +178,8 @@ public class LoginSvs implements Icall<RegDto, Object>, Ilogin {
         setcookie("visa", val, httpExchangeCurThrd.get());
         return uname;
     }
+
+
 
 // if (!u.pwd.equals(encryPwdInCrdt)) {
 //        PwdErrEx e = new PwdErrEx("密码错误");

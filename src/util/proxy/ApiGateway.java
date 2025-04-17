@@ -68,10 +68,10 @@ import static util.misc.util2026.*;
 //aop shuld log auth ,ex catch,,,pfm
 public class ApiGateway implements HttpHandler {
     public static final String ChkLgnStatSam = "ChkLgnStatSam";
-    private Icall target; // 目标对象
+    private Object target; // 目标对象 for compt,,frm icall to obj type
 
     public @NotNull ApiGateway(@NotNull Object target) {
-        this.target = (Icall) target;
+        this.target = target;
     }
 
 //    public static void main(String[] args) throws Exception {
@@ -103,7 +103,7 @@ public class ApiGateway implements HttpHandler {
             if (isImpltInterface(target, RequestHandler.class))
                 return ((RequestHandler) target).handleRequest(args, null);
             else
-                return target.main(args);
+                return ((Icall)target).main(args);
         });
 
 
@@ -268,11 +268,14 @@ public class ApiGateway implements HttpHandler {
 
         Object rzt;
         //---------log
-        Class Prmcls = getPrmClass(this.target, "main");
-        if (Prmcls == null) {
+        Class PrmDtoCls = getPrmClass(this.target, "handleRequest");
+        if(PrmDtoCls==null)
+          PrmDtoCls = getPrmClass(this.target, "main");
+
+        if (PrmDtoCls == null) {
             rzt = invoke_callNlogWarp(new NonDto());
         } else {
-            var dto = toDto(exchange, Prmcls);
+            var dto = toDto(exchange, PrmDtoCls);
 
             // addDeftParam(dto);
             validDto(dto);
