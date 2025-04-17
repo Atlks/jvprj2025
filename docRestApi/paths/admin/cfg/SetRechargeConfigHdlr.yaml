@@ -1,0 +1,42 @@
+get:
+  tags:
+    - admin_cfg
+  summary: "设置充值配置"
+  description: " 。。。。"
+  operationId: "SetRechargeConfigHdlr"
+  parameters:
+    - name: currency
+      in: query
+      required: true
+      schema:
+        type: string
+        example: USDT
+      description: 币种，如 USDT、BTC
+
+    - name: protocol
+      in: query
+      required: true
+      schema:
+        type: string
+        example: BEP20
+      description: 协议，如 ERC20、BEP20
+
+    - name: address
+      in: query
+      required: true
+      schema:
+        type: string
+        example: 0xsdgdfsagag23472385629352345235
+      description: 收款地址
+
+    - name: qrCodeUrl
+      in: query
+      required: true
+      schema:
+        type: string
+        example: xxx/qrcode.png
+      description: 二维码图片地址
+
+  responses:
+    "200":
+      $ref: '../../../components/responses/CommonResponse.yaml'

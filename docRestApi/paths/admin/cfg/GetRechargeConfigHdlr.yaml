@@ -1,0 +1,11 @@
+get:
+  tags:
+    - admin_cfg
+  summary: "获取充值配置"
+  description: " 。。。。"
+  operationId: "GetRechargeConfigHdlr"
+
+
+  responses:
+    "200":
+      $ref: '../../../components/responses/CommonResponse.yaml'
