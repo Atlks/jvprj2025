@@ -1,0 +1,22 @@
+get:
+  tags:
+    - user
+  summary: "修改密码"
+  description: " "
+
+  parameters:
+    - name: oldpwd
+      in: query
+      description: "旧密码"
+      required: true
+      schema:
+        type: string
+    - name: newpwd
+      in: query
+      description: "新密码"
+      required: true
+      schema:
+        type: string
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'
