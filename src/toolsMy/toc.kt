@@ -25,6 +25,7 @@ fun main() {
   //  filePath="C:\\0prj\\jvprj2025\\doc2504\\直接瓜分大清的国家列表.md"
     filePath="C:\\0prj\\jvprj2025\\doc2504\\未来chatgpt 这类ai 可以解决哪些复杂的逻辑，哪些还不能解决.md"
     filePath="C:\\0prj\\jvprj2025\\doc2504\\ai chatgpt不能解决程序的哪些逻辑.md"
+    filePath="C:\\0prj\\jvprj2025\\docBp\\api rest接口需要了解的规范.md"
 
 
 
