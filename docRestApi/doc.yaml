@@ -35,6 +35,10 @@ tags:
     description: 管理端接口-管理员管理
   - name: admin_rpt
     description: 管理端接口-报表管理
+  - name: cfg
+    description: 获取配置方面接口
+  - name: admin_cfg
+    description: 管理后台——配置方面接口
 components:
   parameters:
     unamexx:

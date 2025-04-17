@@ -15,5 +15,5 @@
                 - type: object
                 - type: array
         data:
-          type: string
+          type: object
           description: 返回内容（冗余字段，可选）
