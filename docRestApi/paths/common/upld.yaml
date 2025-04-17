@@ -18,12 +18,4 @@ post:
               description: Image file to upload
   responses:
     '200':
-      description: File uploaded successfully
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              filePath:
-                type: string
-                description: Path to the uploaded file
+      $ref: '../../components/responses/CommonResponse.yaml'

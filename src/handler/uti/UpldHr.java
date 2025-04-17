@@ -1,16 +1,20 @@
-package api.uti;
+package handler.uti;
 
 import com.sun.net.httpserver.HttpExchange;
 import entityx.NonDto;
+import handler.usr.RegDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
 import util.ex.existUserEx;
+import util.serverless.ApiGatewayResponse;
+import util.serverless.RequestHandler;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -39,16 +43,16 @@ import static util.serverless.ApiGateway.httpExchangeCurThrd;
 //   http://localhost:8889/login?uname=008&pwd=000
 @NoArgsConstructor
 @Data
-public class UpldHr implements Icall<NonDto, Object> {
-    /**
-     * upload file
-     *
-     * @return file path
-     * @throws Exception
-     * @throws existUserEx
+public class UpldHr  implements RequestHandler<NonDto, ApiGatewayResponse> {
+
+    /** upload file
+     * @param param
+     * @param context
+     * @return
+     * @throws Throwable
      */
     @Override
-    public Object main(@BeanParam NonDto usr_dto) throws Exception {
+    public ApiGatewayResponse handleRequest(NonDto param, Context context) throws Throwable {
         HttpExchange httpExchange = httpExchangeCurThrd.get();
         HttpExchange exchange = httpExchange;
         String uploadDir = getPrjPath() + "/res/uploads";
@@ -61,7 +65,7 @@ public class UpldHr implements Icall<NonDto, Object> {
         String boundary = getBoundary(exchange);
         if (boundary.equals("")) {
             exchange.sendResponseHeaders(400, 0); // Bad Request
-            return "";
+            return  new ApiGatewayResponse("") ;
         }
 
         // 生成唯一文件名
@@ -75,10 +79,22 @@ public class UpldHr implements Icall<NonDto, Object> {
 
         // 发送响应
         String rltpath = "/res/uploads/" + newFileName;
-        return rltpath;
-
+        return  new ApiGatewayResponse(rltpath) ;
     }
 
+    /**
+     * upload file
+     *
+     * @return file path
+     * @throws Exception
+     * @throws existUserEx
+     */
+//    @Override
+//    public Object main(@BeanParam NonDto usr_dto) throws Exception {
+//
+//
+//    }
+//
 
     /**
      * post data
@@ -112,6 +128,8 @@ public class UpldHr implements Icall<NonDto, Object> {
             }
         }
     }
+
+
 
 
     // Save the file to the output directory

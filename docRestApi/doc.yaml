@@ -36,6 +36,8 @@ tags:
     description: 获取配置方面接口
   - name: admin
     description: 管理端接口-管理员管理
+  - name: admin_usr
+    description: 管理端接口-会员管理
   - name: admin_rpt
     description: 管理端接口-报表管理
   - name: admin_cfg
@@ -141,7 +143,7 @@ paths:
   /admin/qryUsr:
    get:
     tags:
-       - user
+       - admin_usr
     summary: 查询用户
     description: 根据用户名分页查询用户列表。
     parameters:
