@@ -1,6 +1,8 @@
 package util.serverless;
 
+import entityx.ApiResponse;
 import lombok.Data;
+import util.excptn.ExceptionBase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,5 +31,20 @@ public class ApiGatewayResponse {
     public String requestId = "";  // 请求唯一 ID，便于追踪问题
     public Map<String, Object> debugInfo = new HashMap<>(); // 额外调试信息（可选）
    // public Object data = "";        // 具体的数据对象
+   public ApiGatewayResponse(Object e, String statusCodeStr,String err_message) {
+        this.body = e;
+        this.statusCode = 500;
+      //  this.statusCodeStr=statusCodeStr;
+        this.errcode=statusCodeStr;
+        this.message = err_message;
+    }
+
+    public static ApiGatewayResponse createErrResponse(Throwable ex) {
+        return new ApiGatewayResponse(ex,ex.getClass().getName(), ex.getMessage());
+    }
+
+    public static ApiGatewayResponse createErrResponseWzErrcode(ExceptionBase ex) {
+        return new ApiGatewayResponse(ex, ex.errcode,ex.getMessage());
+    }
 }
 

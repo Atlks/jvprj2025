@@ -4,11 +4,13 @@ import entityx.ApiResponse;
 import com.sun.net.httpserver.HttpExchange;
 import util.excptn.ExceptionBase;
 import util.excptn.ExceptionBaseRtm;
+import util.serverless.ApiGatewayResponse;
 
-import static entityx.ApiResponse.createErrResponseWzErrcode;
+
 import static util.excptn.ExptUtil.addInfo2ex;
 import static util.misc.Util2025.*;
 import static util.misc.util2026.wrtRespErrNoex;
+import static util.serverless.ApiGatewayResponse.createErrResponseWzErrcode;
 
 public class WebsrvUtil {
 
@@ -54,7 +56,7 @@ public class WebsrvUtil {
         addInfo2ex(ex, e);
 
 
-        ApiResponse errResponseWzErrcode = createErrResponseWzErrcode(ex);
+        ApiGatewayResponse errResponseWzErrcode = createErrResponseWzErrcode(ex);
         String responseTxt =  encodeJson4ex(errResponseWzErrcode);
 
         wrtRespErrNoex(exchange, responseTxt);

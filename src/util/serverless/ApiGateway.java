@@ -34,7 +34,7 @@ import static biz.BaseHdr.*;
 import static biz.Containr.curCtrlCls;
 import static biz.Containr.sam4chkLgnStat;
 
-import static entityx.ApiResponse.createErrResponseWzErrcode;
+
 import static cfg.AppConfig.sessionFactory;
 import static util.algo.AnnotationUtils.getCookieParamsV2;
 import static util.algo.AnnotationUtils.getParams;
@@ -47,6 +47,7 @@ import static util.auth.AuthUtil.getCurrentUser;
 import static util.log.ColorLogger.*;
 
 import static util.proxy.SprUtil.injectAll4spr;
+import static util.serverless.ApiGatewayResponse.createErrResponseWzErrcode;
 import static util.tx.TransactMng.commitTsact;
 import static util.tx.TransactMng.openSessionBgnTransact;
 import static util.misc.Util2025.*;

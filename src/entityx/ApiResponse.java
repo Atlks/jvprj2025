@@ -41,13 +41,13 @@ public class ApiResponse extends  io.swagger.v3.oas.models.responses.ApiResponse
     }
 
 
-    public ApiResponse(Object e, String statusCodeStr,String err_message) {
-        this.data = e;
-        this.statusCode = 500;
-        this.statusCodeStr=statusCodeStr;
-        this.errcode=statusCodeStr;
-        this.message = err_message;
-    }
+//    public ApiResponse(Object e, String statusCodeStr,String err_message) {
+//        this.data = e;
+//        this.statusCode = 500;
+//        this.statusCodeStr=statusCodeStr;
+//        this.errcode=statusCodeStr;
+//        this.message = err_message;
+//    }
 
     public static ApiResponse createResponse(Object data) {
         ApiResponse rs = new ApiResponse(data);
@@ -69,13 +69,13 @@ public class ApiResponse extends  io.swagger.v3.oas.models.responses.ApiResponse
         return rs;
     }
 
-    public static ApiResponse createErrResponse(Throwable ex) {
-        return new ApiResponse(ex,ex.getClass().getName(), ex.getMessage());
-    }
-
-    public static ApiResponse createErrResponseWzErrcode(ExceptionBase ex) {
-        return new ApiResponse(ex, ex.errcode,ex.getMessage());
-    }
+//    public static ApiResponse createErrResponse(Throwable ex) {
+//        return new ApiResponse(ex,ex.getClass().getName(), ex.getMessage());
+//    }
+//
+//    public static ApiResponse createErrResponseWzErrcode(ExceptionBase ex) {
+//        return new ApiResponse(ex, ex.errcode,ex.getMessage());
+//    }
 
     public String statusCodeStr;
     public String errcode;
