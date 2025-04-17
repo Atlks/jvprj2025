@@ -4,6 +4,7 @@ import entityx.ApiResponse;
 import entityx.Passport;
 import entityx.Usr;
 import entityx.Visa;
+import handler.usr.RegDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.AuthenticationException;

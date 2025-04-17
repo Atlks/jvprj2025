@@ -22,6 +22,7 @@ import org.hibernate.validator.internal.constraintvalidators.bv.NotNullValidator
 import util.excptn.ExptUtil;
 import util.algo.Icall;
 import util.auth.IsEmptyEx;
+import util.serverless.RequestHandler;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -36,6 +37,7 @@ import java.util.Map;
 import static biz.BaseHdr.*;
 import static biz.Containr.curCtrlCls;
 import static biz.Containr.sam4chkLgnStat;
+
 import static entityx.ApiResponse.createErrResponseWzErrcode;
 import static cfg.AppConfig.sessionFactory;
 import static util.algo.AnnotationUtils.getCookieParamsV2;
@@ -90,17 +92,45 @@ public class ApiGateway implements HttpHandler {
      * @throws Exception
      */
     public Object invoke_callNlogWarp(Object args) throws Throwable {
-        String mthFullname = target.getClass().getName() + ".call";
+
+        //funName jst 4 lg
+        String mthFullname = target.getClass().getName() + ".call/hdlrRq";
 
 
         //---------blk chk auth
         Object result = ivk4log(mthFullname, args, () -> {
             injectAll4spr(target);
-            return target.main(args);
+            if (isImpltInterface(target, RequestHandler.class))
+                return ((RequestHandler) target).handleRequest(args, null);
+            else
+                return target.main(args);
         });
 
 
         return result;
+    }
+
+    /**
+     * 是否实现了某个接口
+     *
+     * @param target
+     * @param requestHandlerClass
+     * @return
+     */
+    public static boolean isImpltInterface(@NotNull Object target, @NotNull Class<?> requestHandlerClass) {
+        if (target == null || requestHandlerClass == null || !requestHandlerClass.isInterface()) {
+            return false;
+        }
+        Class<?> clazz = target.getClass();
+        while (clazz != null) {
+            for (Class<?> iface : clazz.getInterfaces()) {
+                if (iface.equals(requestHandlerClass)) {
+                    return true;
+                }
+            }
+            clazz = clazz.getSuperclass(); // 支持父类实现接口的情况
+        }
+        return false;
     }
 
     //    // 生成代理对象
@@ -192,7 +222,7 @@ public class ApiGateway implements HttpHandler {
         injectAll4spr(this);
 
         if (needLoginUserAuth()) {
-           //apigat reqauth mode...
+            //apigat reqauth mode...
             var aClass = this.target.getClass();
             if (aClass.isAnnotationPresent(RequireAuth.class)) {
                 RequireAuth RequireAuth1 = aClass.getAnnotation(RequireAuth.class);
@@ -272,11 +302,10 @@ public class ApiGateway implements HttpHandler {
         // 反射创建 DTO 实例
         Object dto = cls.getDeclaredConstructor().newInstance();
 
-        Class c=this.target.getClass();
-        if(c.isAnnotationPresent(NoDftParam.class))
-        {
+        Class c = this.target.getClass();
+        if (c.isAnnotationPresent(NoDftParam.class)) {
 
-        }else{
+        } else {
             addDeftParam(dto);
         }
 

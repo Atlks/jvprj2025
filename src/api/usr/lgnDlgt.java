@@ -1,5 +1,7 @@
 package api.usr;
 
+import handler.usr.RegDto;
+
 public class lgnDlgt {
     private final LoginSvs loginSvs;
 

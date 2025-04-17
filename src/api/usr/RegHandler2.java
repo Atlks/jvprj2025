@@ -3,6 +3,7 @@
 package api.usr;
 
 import entityx.Usr;
+import handler.usr.RegDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import service.auth.ISAM;
 import util.algo.Icall;
 import util.evtdrv.AnotherEvent;
-import util.evtdrv.MyEvent;
 import util.ex.existUserEx;
 
 

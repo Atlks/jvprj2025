@@ -1,7 +1,9 @@
 package core;
 
-import api.usr.RegDto;
+import handler.usr.RegDto;
 import entityx.ApiResponse;
+import util.serverless.ApiGatewayResponse;
+import util.serverless.RequestHandler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.BeanParam;
@@ -29,7 +31,7 @@ import static util.proxy.AopUtil.ivk4log;
 @annos.Parameter(name = "email",required = false)
 @PermitAll
 // implements RequestHandler<Map<String,Object>, ApiGatewayResponse> {
-public interface IRegHandler extends Icall<RegDto, Object> {
+public interface IRegHandler extends Icall<RegDto, Object>  {
     String SAM4regLgn = "SAM4regLgn";
 
 

@@ -1,8 +1,7 @@
 package cfg;
 
-import api.usr.RegHandler;
-
 import com.sun.net.httpserver.HttpExchange;
+import handler.usr.RegHandler;
 import javassist.*;
 
 import util.misc.HttpExchangeImp;

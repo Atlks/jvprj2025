@@ -13,6 +13,16 @@ import static util.misc.Util2025.*;
 //cglib outtime,asm too lowlev ,bytebuddy cant log 3lev
 //only jvvst is ok..
 public class AopUtil {
+
+    /**
+     *
+     * @param funName  jsut for log
+     * @param args
+     * @param spl
+     * @return
+     * @param <T>
+     * @throws Throwable
+     */
     public static <T> T ivk4log(String funName,Object args, SupplierX<T> spl) throws Throwable {
         // 在调用 Lambda 表达式之前或之后，你可以添加日志记录或其他操作
         //   System.out.println("开始执行 blk..."+funName);

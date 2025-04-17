@@ -1,6 +1,6 @@
 package api.adm;
 
-import api.usr.RegDto;
+import handler.usr.RegDto;
 import entityx.NonDto;
 import entityx.Passport;
 import entityx.Usr;

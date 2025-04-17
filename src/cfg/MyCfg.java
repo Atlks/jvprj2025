@@ -1,7 +1,6 @@
 package cfg;
 
 import api.bet.ListBetsHdr;
-import api.usr.RegHandler;
 import api.wlt.RechargeCallbackHdr;
 
 import api.ylwlt.WithdrawHdr;
@@ -37,7 +36,7 @@ public class MyCfg {
         // 获取类加载器 /C:/Users/attil/IdeaProjects/jvprj2025/out/production/jvprj2025/
         String rootPath = Objects.requireNonNull(UserBiz.class.getClassLoader().getResource("")).getPath();
         Map cfg = parse_ini_fileNosec(rootPath + "cfg/dbcfg.ini");
-        RegHandler.saveDirUsrs = (String) cfg.get("saveDirUsrs");
+        //RegHandler.saveDirUsrs = (String) cfg.get("saveDirUsrs");
         // saveDirAcc= (String) cfg.get("saveDirAcc");
         //   savedirOrd= (String) cfg.get("savedirOrd");
         //QryOrdBetHdr.saveUrlOrdBet

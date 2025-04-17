@@ -45,7 +45,7 @@ public class IocSpringCfg {
             try{
                 if(clazz.getName().startsWith("com") || clazz.getName().startsWith("org"))
                     return;
-                if (!clazz.getName().startsWith("api") && !clazz.getName().startsWith("service")) {
+                if (!clazz.getName().startsWith("api") && !clazz.getName().startsWith("service") && !clazz.getName().startsWith("handler")) {
                     System.out.println("iniIocContainr4spr().not api n svrs, contine, cur clz=" + clazz.getName());
                     return;
                 }

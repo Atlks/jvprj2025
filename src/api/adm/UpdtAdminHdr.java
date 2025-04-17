@@ -2,7 +2,7 @@
 
 package api.adm;
 
-import api.usr.RegDto;
+import handler.usr.RegDto;
 import core.IRegHandler;
 import entityx.Usr;
 import io.swagger.v3.oas.annotations.tags.Tag;

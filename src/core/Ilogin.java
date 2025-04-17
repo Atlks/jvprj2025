@@ -1,6 +1,6 @@
 package core;
 
-import api.usr.RegDto;
+import handler.usr.RegDto;
 import entityx.ApiResponse;
 import jakarta.annotation.security.PermitAll;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;

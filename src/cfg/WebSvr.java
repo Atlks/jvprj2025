@@ -167,7 +167,7 @@ public class WebSvr {
 
     public static void iniRestPathMap() {
         Consumer<Class> fun = aClass -> {
-            if (aClass.getName().startsWith("api")) {
+            if (aClass.getName().startsWith("api")|| aClass.getName().startsWith("handler")) {
                 //  var bean=getBeanFrmSpr(aClass);
                 var path = getPathFromBean(aClass);
                 System.out.println("pathMap(path=" + path + ",aClass=" + aClass.toString());

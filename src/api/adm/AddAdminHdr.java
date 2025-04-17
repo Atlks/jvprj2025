@@ -2,23 +2,15 @@
 
 package api.adm;
 
-import api.usr.RegDto;
-import core.IRegHandler;
 import entityx.Admin;
-import entityx.Usr;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import jakarta.ws.rs.Path;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import service.auth.ISAM;
 import util.algo.Icall;
 import util.ex.existUserEx;
 
