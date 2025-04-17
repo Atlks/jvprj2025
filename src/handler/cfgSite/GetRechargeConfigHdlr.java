@@ -14,6 +14,11 @@ import util.tx.findByIdExptn_CantFindData;
 
 import static cfg.AppConfig.sessionFactory;
 import static util.tx.HbntUtil.findByHerbinate;
+
+
+/**
+ * this also use in api frt ,,when rechager
+ */
 @RestController
 
 @PermitAll

@@ -69,7 +69,7 @@ security:
 
 paths:
   /cfg/GetRechargeConfigHdlr:
-    $ref: './paths/admin/cfg/GetRechargeConfigHdlr.yaml'
+    $ref: './paths/cfg/GetRechargeConfigHdlr.yaml'
   /reg:
     $ref: './paths/usr/reg.yaml'
   /admin/cfg/SetRechargeConfigHdlr:
