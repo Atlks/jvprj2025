@@ -7,9 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
+import util.auth.unameIsEmptyExcptn;
+import util.auth.validateTokenExcptn;
 import util.ex.existUserEx;
+import util.serverless.ApiGatewayResponse;
 
 import static cfg.AppConfig.sessionFactory;
+import static util.auth.JwtUtil.getUsernameFrmJwtToken;
+import static util.serverless.ApiGateway.httpExchangeCurThrd;
 import static util.tx.HbntUtil.mergeByHbnt;
 import static util.tx.HbntUtil.persistByHibernate;
 
@@ -32,10 +37,12 @@ public class SetSecyQstnHdr implements Icall<SecurityQuestion, Object> {
      * @throws existUserEx
      */
     @Override
-    public Object main(@BeanParam SecurityQuestion usr_dto) throws Exception  {
+    public Object main(@BeanParam SecurityQuestion usr_dto) throws Exception, validateTokenExcptn, unameIsEmptyExcptn {
      //   usr_dto.setUserName("00912");//for test
+     //   usr_dto.setUserName( getUsernameFrmJwtToken(httpExchangeCurThrd.get()));
         mergeByHbnt( usr_dto, sessionFactory.getCurrentSession());
-        return     new ApiResponse(usr_dto);
+        return     new ApiGatewayResponse(
+                usr_dto);
     }
 
 

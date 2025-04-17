@@ -6,10 +6,10 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Path;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
 import util.entty.FgtPwdGetAnswerByUnameDto;
+import util.serverless.ApiGatewayResponse;
 
 import java.util.HashMap;
 
@@ -24,12 +24,12 @@ import static util.tx.HbntUtil.findByHerbinate;
 @RestController
 
 @PermitAll
-@Path("/FgtPwdIptUname")
+@Path("/FgtPwdGetQuestionByUnameHdr")
 //   http://localhost:8889/FgtPwdIptUname?uname=007
 @NoArgsConstructor
 @Data
 @Transactional(Transactional.TxType.NOT_SUPPORTED)  //忽略事务
-public class FgtPwdIptUnameHdr implements Icall<FgtPwdGetAnswerByUnameDto, Object> {
+public class FgtPwdGetQuestionByUnameHdr implements Icall<FgtPwdGetAnswerByUnameDto, Object> {
     /**
      * @param arg
      * @return
@@ -43,7 +43,7 @@ public class FgtPwdIptUnameHdr implements Icall<FgtPwdGetAnswerByUnameDto, Objec
         HashMap vo=new HashMap();
         vo.put("uname",sq.getUserName());
         vo.put("customQuestionText",sq.customQuestionText);
-        return vo;
+        return new ApiGatewayResponse(vo) ;
     }
 
 

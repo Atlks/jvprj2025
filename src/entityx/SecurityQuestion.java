@@ -1,5 +1,6 @@
 package entityx;
 
+import annos.CurrentUsername;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -12,14 +13,14 @@ import java.time.LocalDateTime;
  * 密保问题（Security Question）」功能所需的实体类，
  */
 @Entity
-@Table(name = "SecurityQuestion")
+@Table(name = "Security_Question")
 @Data
 //@NoArgsConstructor
 public class SecurityQuestion {
 
 //    @Id
 //    private Long id;
-
+@CurrentUsername
     @Id
     public String userName;
 

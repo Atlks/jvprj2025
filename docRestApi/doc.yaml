@@ -105,8 +105,8 @@ paths:
     $ref: './paths/usr/IsSetWthdrPwdHdr.yaml'
   /FgtPwdRstPwdHdr:
     $ref: './paths/FgtPwdRstPwdHdr.yaml'
-  /FgtPwdIptUname:
-    $ref: './paths/fgtPwdIptUname.yaml'
+  /FgtPwdGetQuestionByUnameHdr:
+    $ref: './paths/FgtPwdGetQuestionByUnameHdr.yaml'
   /user/setScrQstn:
     get:
       tags:

@@ -1,9 +1,6 @@
 package util.serverless;
 
-import annos.CookieParam;
-import annos.JwtParam;
-import annos.NoDftParam;
-import annos.RequireAuth;
+import annos.*;
 import biz.MinValidator;
 import entityx.NonDto;
 import org.hibernate.context.internal.ThreadLocalSessionContext;
@@ -299,10 +296,10 @@ public class ApiGateway implements HttpHandler {
 
     // @Nullable
     @NotNull
-    private @NotNull Object toDto(HttpExchange exchange, @NotNull Class cls) throws Exception, IsEmptyEx {
+    private @NotNull Object toDto(HttpExchange exchange, @NotNull Class Dtocls) throws Exception, IsEmptyEx {
 
         // 反射创建 DTO 实例
-        Object dto = cls.getDeclaredConstructor().newInstance();
+        Object dto = Dtocls.getDeclaredConstructor().newInstance();
 
         Class c = this.target.getClass();
         if (c.isAnnotationPresent(NoDftParam.class)) {
@@ -311,7 +308,7 @@ public class ApiGateway implements HttpHandler {
             addDeftParam(dto);
         }
 
-        var dtoQrystr = toDtoFrmQrystr(exchange, cls);
+        var dtoQrystr = toDtoFrmQrystr(exchange, Dtocls);
         copyProps(dtoQrystr, dto);
 
         //--------set cook to dto
@@ -327,6 +324,15 @@ public class ApiGateway implements HttpHandler {
         for (JwtParam jw : JwtParams) {
             if (jw.name().equals("uname"))
                 setField(dto, jw.name(), getCurrentUser());
+        }
+
+
+        //SET getUsernameFrmJwtToken(httpExchangeCurThrd.get()
+        Field[]  flds=  dto.getClass().getFields();
+        for (Field fld : flds) {
+            if ( fld.isAnnotationPresent(CurrentUsername.class))
+                fld.set(dto,getCurrentUser());
+              //  setField(dto, jw.name(), getCurrentUser());
         }
         return dto;
     }

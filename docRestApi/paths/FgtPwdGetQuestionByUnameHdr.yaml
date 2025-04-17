@@ -1,8 +1,8 @@
 get:
   tags:
     - user
-  summary: Set or reset  password..now input uname
-  description: Accepts username and related data to set/reset  password.
+  summary: 获取用户问题
+  description:
   parameters:
     - name: uname
       in: query
