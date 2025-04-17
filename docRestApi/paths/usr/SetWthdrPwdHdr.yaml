@@ -2,7 +2,7 @@
 get:
   tags:
     - user
-  summary: IsSetWthdrPwdHdr
+  summary: 设置提现密码
   description:
   parameters:
     - name: pwd

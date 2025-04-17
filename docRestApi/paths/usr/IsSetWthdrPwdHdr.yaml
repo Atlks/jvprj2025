@@ -2,7 +2,7 @@
 get:
   tags:
     - user
-  summary: IsSetWthdrPwdHdr
+  summary: 是否设置了交易密码
   description:  IsSetWthdrPwdHdr
 
 

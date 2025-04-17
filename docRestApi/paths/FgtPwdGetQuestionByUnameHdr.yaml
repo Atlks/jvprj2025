@@ -1,7 +1,7 @@
 get:
   tags:
     - user
-  summary: 获取用户问题
+  summary: 获取用户问题  in  重设密码
   description:
   parameters:
     - name: uname

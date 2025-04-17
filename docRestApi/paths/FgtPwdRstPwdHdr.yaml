@@ -1,7 +1,7 @@
 get:
   tags:
     - user
-  summary: Reset password with security answer
+  summary: 重设密码
   description: Resets the password by validating the security question answer.
   parameters:
     - name: uname
