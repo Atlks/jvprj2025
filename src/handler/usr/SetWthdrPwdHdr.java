@@ -16,6 +16,7 @@ import util.serverless.RequestHandler;
 
 import static cfg.AppConfig.sessionFactory;
 import static util.algo.EncodeUtil.encodeMd5;
+import static util.tx.HbntUtil.mergeByHbnt;
 import static util.tx.HbntUtil.persistByHibernate;
 
 /**
@@ -44,7 +45,7 @@ public class SetWthdrPwdHdr    implements RequestHandler<SetWithdrawalPasswordDt
         WithdrawalPassword wp=new WithdrawalPassword();
         wp.setUname(reqdto.getUname());
         wp.setEncryptedPassword(encodeMd5(reqdto.getPwd()));
-        persistByHibernate( wp, sessionFactory.getCurrentSession());
+        mergeByHbnt( wp, sessionFactory.getCurrentSession());
         return     new ApiGatewayResponse(true);
     }
 }

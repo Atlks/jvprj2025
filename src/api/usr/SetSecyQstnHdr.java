@@ -10,6 +10,7 @@ import util.algo.Icall;
 import util.ex.existUserEx;
 
 import static cfg.AppConfig.sessionFactory;
+import static util.tx.HbntUtil.mergeByHbnt;
 import static util.tx.HbntUtil.persistByHibernate;
 
 /**
@@ -33,7 +34,7 @@ public class SetSecyQstnHdr implements Icall<SecurityQuestion, Object> {
     @Override
     public Object main(@BeanParam SecurityQuestion usr_dto) throws Exception  {
      //   usr_dto.setUserName("00912");//for test
-        persistByHibernate( usr_dto, sessionFactory.getCurrentSession());
+        mergeByHbnt( usr_dto, sessionFactory.getCurrentSession());
         return     new ApiResponse(usr_dto);
     }
 
