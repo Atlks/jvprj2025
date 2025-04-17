@@ -102,6 +102,8 @@ paths:
     $ref: './paths/admin/adm/logout.yaml'
   /uploads:
     $ref: './paths/common/upld.yaml'
+  /res/uploads:
+    $ref: './paths/common/getimg.yaml'
   /prxy/getCmsHdr:
     $ref: './paths/prx/getCmsHdr.yaml'
   /user/SetWthdrPwd:
