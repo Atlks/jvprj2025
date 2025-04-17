@@ -11,7 +11,7 @@ import util.algo.EncryUtil;
 import util.algo.Icall;
 import util.ex.PwdNotEqExceptn;
 import util.misc.util2026;
-import util.proxy.ApiGateway;
+import util.serverless.ApiGateway;
 import util.tx.findByIdExptn_CantFindData;
 
 import static cfg.AppConfig.sessionFactory;

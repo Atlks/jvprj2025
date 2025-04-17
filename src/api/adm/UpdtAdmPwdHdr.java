@@ -10,7 +10,7 @@ import org.thymeleaf.context.Context;
 import util.algo.EncryUtil;
 import util.algo.Icall;
 import util.misc.util2026;
-import util.proxy.ApiGateway;
+import util.serverless.ApiGateway;
 
 import static test.htmlTppltl.rend;
 @Controller

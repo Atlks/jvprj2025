@@ -16,7 +16,7 @@ import static core.IRegHandler.SAM4regLgn;
 import static java.time.LocalTime.now;
 //import static cfg.AopLogJavassist.printLn;
 import static util.algo.GetUti.getObject;
-import static util.proxy.ApiGateway.ChkLgnStatSam;
+import static util.serverless.ApiGateway.ChkLgnStatSam;
 import static util.proxy.IocUtil.registerBeanAsClz2map;
 import static util.proxy.IocUtil.registerBeanAsObj2map;
 import static util.proxy.SprUtil.registerBean;

@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
-import util.proxy.ApiGateway;
+import util.serverless.ApiGateway;
 
 import java.io.*;
 import java.lang.annotation.Annotation;

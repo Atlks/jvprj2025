@@ -10,11 +10,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import util.algo.EncryUtil;
 import util.auth.ChkLgnStatAuthenticationMechanism;
 import util.misc.util2026;
-import util.proxy.ApiGateway;
+import util.serverless.ApiGateway;
 
 import static util.excptn.ExptUtil.appendEx2lastExs;
-import static util.misc.util2026.getcookie;
-import static util.proxy.ApiGateway.httpExchangeCurThrd;
 
 public class AuthFun4admin implements HttpAuthenticationMechanism {
 

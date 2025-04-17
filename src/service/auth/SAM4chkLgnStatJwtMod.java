@@ -16,7 +16,7 @@ import util.auth.validateTokenExcptn;
 import util.tx.findByIdExptn_CantFindData;
 
 import static cfg.AppConfig.sessionFactory;
-import static util.proxy.ApiGateway.httpExchangeCurThrd;
+import static util.serverless.ApiGateway.httpExchangeCurThrd;
 import static util.excptn.ExptUtil.appendEx2lastExs;
 import static util.auth.JwtUtil.*;
 import static util.tx.HbntUtil.findByHerbinate;

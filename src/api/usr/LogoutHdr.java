@@ -4,7 +4,7 @@ import jakarta.ws.rs.Path;
 import util.algo.Icall;
 
 import static util.misc.util2026.setcookie;
-import static util.proxy.ApiGateway.httpExchangeCurThrd;
+import static util.serverless.ApiGateway.httpExchangeCurThrd;
 
 @jakarta.annotation.security.RolesAllowed("user")
 @Path("/logout")

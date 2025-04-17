@@ -23,7 +23,7 @@ import static util.algo.GetUti.*;
 import static util.algo.JarClassScanner.getPrjPath;
 import static util.algo.SaveUti.saveFile;
 import static util.algo.ParsePostFileUti.*;
-import static util.proxy.ApiGateway.httpExchangeCurThrd;
+import static util.serverless.ApiGateway.httpExchangeCurThrd;
 
 /**
  * login

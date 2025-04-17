@@ -1,6 +1,6 @@
 package api.usr;
 
-import static util.proxy.ApiGateway.httpExchangeCurThrd;
+import static util.serverless.ApiGateway.httpExchangeCurThrd;
 
 public class ResponsRet
 {

@@ -21,12 +21,12 @@ import util.algo.Icall;
 import util.ex.PwdErrEx;
 import util.ex.existUserEx;
 import util.misc.util2026;
-import util.proxy.ApiGateway;
+import util.serverless.ApiGateway;
 
 import static test.htmlTppltl.rend;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.setcookie;
-import static util.proxy.ApiGateway.httpExchangeCurThrd;
+import static util.serverless.ApiGateway.httpExchangeCurThrd;
 
 /**
  * login

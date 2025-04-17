@@ -9,7 +9,6 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.SecurityContext;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
-import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 
@@ -18,16 +17,15 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
 import util.algo.EncryUtil;
-import util.algo.Icall;
 import util.ex.*;
 import util.misc.util2026;
-import util.proxy.ApiGateway;
+import util.serverless.ApiGateway;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
 
 import static biz.Containr.sam4regLgn;
-import static util.proxy.ApiGateway.httpExchangeCurThrd;
+import static util.serverless.ApiGateway.httpExchangeCurThrd;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.*;
 
