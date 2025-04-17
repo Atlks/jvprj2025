@@ -53,7 +53,8 @@ public class SAM4chkLgnStatJwtMod implements ISAM, HttpAuthenticationMechanism {
   //
     private void chkIsInJwtBlkLst() throws CantGetTokenJwtEx, validateTokenExcptn ,AuthenticationException{
         var token = getTokenMust(httpExchangeCurThrd.get());
-        String jwthash=token.split(".")[2];
+        String[] splitArr = token.split("\\.");
+        String jwthash= splitArr[2];
 
         try{
             var k = findByHerbinate(JwtBlacklist.class, jwthash, sessionFactory.getCurrentSession());

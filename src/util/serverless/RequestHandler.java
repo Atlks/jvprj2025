@@ -1,5 +1,6 @@
 package util.serverless;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.core.Context;
 
 
@@ -15,5 +16,5 @@ import jakarta.ws.rs.core.Context;
  * @param <RspObj>
  */
 public interface RequestHandler<DTO, RspObj> {
-    RspObj handleRequest(DTO param, Context context) throws Throwable;
+    @NotNull RspObj handleRequest(@NotNull DTO param, Context context) throws Throwable;
 }

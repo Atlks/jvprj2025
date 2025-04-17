@@ -1,0 +1,23 @@
+{
+  "statusCode": 200,
+  "errcode": "",
+  "headers": {},
+  "body": {
+    "uname": "777",
+    "invtr": "",
+    "id": "777",
+    "balance": 0,
+    "balanceFreez": 0,
+    "balanceYinliwlt": 0,
+    "balanceYinliwltFreez": 0,
+    "enabled": true,
+    "crtTimeStmp": 20250417085123,
+    "updtTmstmp": 20250417085123
+  },
+  "message_err": "",
+  "message": "",
+  "timestamp": 1744866719565,
+  "path": "\"/users/me\"",
+  "requestId": "reqid__9d0a0ceb-f9fe-4f8c-9ef8-4eea0093b820",
+  "debugInfo": {}
+}
