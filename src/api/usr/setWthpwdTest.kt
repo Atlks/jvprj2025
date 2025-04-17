@@ -1,6 +1,7 @@
 package api.usr
 import MainApi
 import entityx.SetWithdrawalPasswordDto
+import handler.usr.SetWthdrPwdHdr
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 import util.tx.TransactMng
@@ -26,7 +27,7 @@ class setWthpwdTest {
         val service = SetWthdrPwdHdr()
 
         // 调用 main 方法
-        val result: Any? = service.main(reqdto)
+        val result: Any? = service.handleRequest(reqdto,null)
 
 
         TransactMng.commitTsact()

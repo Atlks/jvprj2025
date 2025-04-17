@@ -84,8 +84,11 @@ paths:
     $ref: './paths/admin/adm/logout.yaml'
   /uploads:
     $ref: './paths/common/upld.yaml'
-  /prxy/IsSetWthdrPwdHdr:
+  /prxy/getCmsHdr:
     $ref: './paths/prx/getCmsHdr.yaml'
+  /user/SetWthdrPwd:
+    $ref: './paths/usr/SetWthdrPwdHdr.yaml'
+
   /user/IsSetWthdrPwdHdr:
     $ref: './paths/usr/IsSetWthdrPwdHdr.yaml'
   /FgtPwdRstPwdHdr:

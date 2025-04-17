@@ -1,15 +1,18 @@
-package api.usr;
+package handler.usr;
 
 import entityx.ApiResponse;
 import entityx.SetWithdrawalPasswordDto;
 import entityx.WithdrawalPassword;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
 import util.ex.existUserEx;
+import util.serverless.ApiGatewayResponse;
+import util.serverless.RequestHandler;
 
 import static cfg.AppConfig.sessionFactory;
 import static util.algo.EncodeUtil.encodeMd5;
@@ -27,23 +30,21 @@ import static util.tx.HbntUtil.persistByHibernate;
 //   http://localhost:8889/user/SetWthdrPwd?pwd=000
 @NoArgsConstructor
 @Data
-public class SetWthdrPwdHdr implements Icall<SetWithdrawalPasswordDto, Object> {
+public class SetWthdrPwdHdr    implements RequestHandler<SetWithdrawalPasswordDto, ApiGatewayResponse> {
+
+
     /**
+     * @param reqdto
+     * @param context
      * @return
-     * @throws Exception
-     * @throws existUserEx
+     * @throws Throwable
      */
     @Override
-    public Object main(@BeanParam SetWithdrawalPasswordDto reqdto) throws Exception  {
-     //   reqdto.setUserName("00912");//for test
+    public ApiGatewayResponse handleRequest(SetWithdrawalPasswordDto reqdto, Context context) throws Throwable {
         WithdrawalPassword wp=new WithdrawalPassword();
         wp.setUname(reqdto.getUname());
         wp.setEncryptedPassword(encodeMd5(reqdto.getPwd()));
         persistByHibernate( wp, sessionFactory.getCurrentSession());
-        return     new ApiResponse(wp);
+        return     new ApiGatewayResponse(true);
     }
-
-
-
-
 }
