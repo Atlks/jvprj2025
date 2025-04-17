@@ -1,0 +1,106 @@
+/* 应用全局mixin */
+
+// 清除元素副作用
+@mixin clearfix() {
+  &::before,
+  &::after {
+    content: '';
+    display: table;
+  }
+  &::after {
+    clear: both;
+  }
+}
+
+// 手机端页面布局公共内间距
+@mixin mobile-padding() {
+  padding: 0 15px;
+}
+// 背景色渐变
+@mixin linear-gradient($directions, $color1, $color2) {
+  background: linear-gradient($directions, $color1, $color2);
+}
+// 过渡效果
+@mixin transition($time: 0.25s) {
+  transition: all $time ease-in;
+}
+
+// 段落文本隐藏
+@mixin ellipsis($n: 1) {
+  display: -webkit-box;
+  overflow: hidden;
+  white-space: normal !important;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  -webkit-line-clamp: $n;
+  -webkit-box-orient: vertical;
+}
+
+// 特殊斜体字
+@mixin SpecialItalics() {
+  font-family: TENGXZTB, -apple-system, Hiragino Sans GB, Monospaced Number, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+// 左右垂直居中
+@mixin center-content($justify: center, $align: center) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+// tab样式
+@mixin tabStyle() {
+  :deep() {
+    .van-tabs__line {
+      bottom: 4vw;
+      left: 0px;
+      height: 3px;
+      opacity: 0.8;
+      z-index: 0;
+      @include linear-gradient(90deg, #ff9000 0%, #ff5000 100%);
+    }
+    .van-tab {
+      font-size: 15px;
+      z-index: 1;
+    }
+    .van-tab--active span {
+      font-weight: 600;
+    }
+    .van-cell {
+      padding-left: 0;
+      height: 54px;
+    }
+    .van-cell:after {
+      margin-left: -15px;
+    }
+    .van-cell__title {
+      color: #111;
+      font-size: 15px;
+      font-weight: 600;
+      font-style: normal;
+    }
+    .van-tabs__nav--line.van-tabs__nav--complete {
+      padding-left: 2px;
+    }
+  }
+}
+
+// 文字超出省略号显示
+@mixin textToOmit($w: 100px) {
+  max-width: $w;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// 安全距离
+@mixin safeAreaBottom($base: 0px) {
+  padding-bottom: calc($base + constant(safe-area-inset-bottom));
+  padding-bottom: calc($base + env(safe-area-inset-bottom));
+}
+
+// 数字字体
+@mixin numFrontFamily() {
+  font-family: 'DIN Alternate', microsoft yahei;
+}
+

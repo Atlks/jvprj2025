@@ -1,0 +1,18 @@
+/* vant样式自定义 */
+:root:root {
+  /* 整体主题色 */
+  --van-primary-color: var(--color-primary);
+  --van-danger-color: var(--color-danger);
+  /* checkbox */
+  --van-checkbox-size: 18px;
+  /* navbar高度 */
+  --van-nav-bar-height: 44px;
+  /* tabbar高度 */
+  --van-tabbar-height: 60px;
+  --van-tabbar-item-text-color: #666;
+  --van-skeleton-paragraph-background: var(--gray-gray-1, #f3f3f3);
+  --van-skeleton-avatar-background: var(--gray-gray-1, #f3f3f3);
+  .van-toast {
+    width: auto;
+  }
+}

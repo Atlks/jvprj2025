@@ -1,0 +1,144 @@
+// /* color palette from <https://github.com/vuejs/theme> */
+
+// *,
+// *::before,
+// *::after {
+//   box-sizing: border-box;
+//   margin: 0;
+// }
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6 {
+//   font-weight: normal;
+// }
+// input[type='password']::-ms-reveal {
+//   display: none;
+// }
+// @font-face {
+//   font-family: 'TENGXZTB';
+//   src: url('../font/TENGXZT.ttf');
+// }
+// @font-face {
+//   font-family: 'DIN Alternate';
+//   src: url('../font/din-alternate-bold.ttf');
+// }
+// // ==== start 清除滚动条 ios防拖拽
+// // #app {
+// //   position: absolute;
+// //   top: 0;
+// //   bottom: 0;
+// //   width: 100vw;
+// //   height: var(--app-height);
+// //   overflow: scroll;
+// // }
+// ::-webkit-scrollbar {
+//   display: none;
+//   width: 0;
+// }
+// // ==== end 清除滚动条 ios防拖拽
+
+// body {
+//   color: var(--color-text);
+//   background: var(--color-background);
+//   transition: color 0.5s, background-color 0.5s;
+//   font-family: PingFang SC;
+//   font-size: 14px;
+//   text-rendering: optimizeLegibility;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+//   background: #fff;
+//   line-height: 1;
+// }
+// @font-face {
+//   font-family: 'Bai Jamjuree';
+//   src: url('../font/BaiJamjuree-Medium.ttf') format('truetype');
+//   font-weight: 500; /* Medium 字体的 font-weight 通常为 500 */
+//   font-style: normal;
+// }
+// @font-face {
+//   font-family: 'PingFang SC';
+//   src: url('../font/PingFang-SC.ttf') format('truetype');
+//   font-weight: normal;
+//   font-style: normal;
+// }
+
+// @font-face {
+//   font-family: 'Bai Jamjuree';
+//   src: url('../font/BaiJamjuree-Italic.ttf') format('truetype');
+//   font-style: italic;
+// }
+
+// @font-face {
+//   font-family: 'Bai Jamjuree';
+//   src: url('../font/BaiJamjuree-Regular.ttf') format('truetype');
+//   font-weight: normal;
+//   font-style: normal;
+// }
+
+// @font-face {
+//   font-family: 'Bai Jamjuree';
+//   src: url('../font/BaiJamjuree-SemiBold.ttf') format('truetype');
+//   font-weight: 600; /* SemiBold 字体的 font-weight 通常为 600 */
+//   font-style: normal;
+// }
+// .vietnam {
+//   font-family: 'Bai Jamjuree';
+// }
+// input {
+//   caret-color: var(--color-primary);
+//   background: transparent;
+//   border: none;
+//   outline: none;
+// }
+// input::placeholder {
+//   color: #d7d7d7;
+// }
+// svg {
+//   fill: var(--color-text);
+// }
+// /* flex两端对齐*/
+// .flex {
+//   display: flex;
+//   justify-content: space-between;
+// }
+// .primary {
+//   color: var(--color-primary);
+// }
+// // bet-cart-bar
+// .bet-cart-bar {
+//   position: absolute;
+//   z-index: 99999;
+//   width: 15px;
+//   height: 15px;
+//   background: var(--color-primary);
+//   border-radius: 50%;
+//   transition: left 0.3s linear, top 0.3s cubic-bezier(0.5, -0.5, 1, 1);
+// }
+
+// .disabled-btn {
+//   opacity: 0.7;
+//   pointer-events: none;
+//   cursor: not-allowed;
+// }
+// .num {
+//   @include numFrontFamily();
+// }
+
+#nprogress {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  .bar {
+    background: rgb(19, 105, 255) !important;
+    height: 2px;
+  }
+}
+
+img.lazy {
+  &[lazy='loaded'] {
+    animation: rubberBand 0.8s 1;
+  }
+}
