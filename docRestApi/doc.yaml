@@ -75,17 +75,21 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /reg:
+    $ref: './paths/usr/reg.yaml'
+  /login:
+    $ref: './paths/usr/login.yaml'
+  /users/me:
+    $ref: './paths/usr/me.yaml'
   /user/ModifyPwdHdr:
     $ref: './paths/usr/ModifyPwdHdr.yaml'
   /cfg/GetRechargeConfigHdlr:
     $ref: './paths/cfg/GetRechargeConfigHdlr.yaml'
-  /reg:
-    $ref: './paths/usr/reg.yaml'
+
   /admin/cfg/SetRechargeConfigHdlr:
     $ref: './paths/admin/cfg/SetRechargeConfigHdlr.yaml'
 
-  /login:
-    $ref: './paths/usr/login.yaml'
+
   /admin/adm/add:
     $ref: './paths/admin/adm/add.yaml'
   /admin/adm/list:
@@ -313,23 +317,7 @@ paths:
 
 
 
-  /users/me:
-    get:
-      tags:
-        - user
-      summary: 获取当前用户
-      responses:
-        '200':
-          description: 当前用户
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                    id:
-                      type: string
-                    name:
-                      type: string
+
 
 
   /wlt/trans:
