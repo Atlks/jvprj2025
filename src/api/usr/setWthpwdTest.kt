@@ -1,5 +1,6 @@
 package api.usr
 import MainApi
+import cfg.MyCfg.iniContnr
 import entityx.usr.SetWithdrawalPasswordDto
 import handler.usr.SetWthdrPwdHdr
 import org.junit.Assert.assertNotNull
@@ -14,7 +15,7 @@ class setWthpwdTest {
     fun testSetWithdrawalPassword() {
 
         //ini contnr 4cfg,, svrs
-        MainApi.iniContnr()
+        iniContnr()
         openSessionBgnTransact()
         // 准备测试数据
         val reqdto = SetWithdrawalPasswordDto().apply {

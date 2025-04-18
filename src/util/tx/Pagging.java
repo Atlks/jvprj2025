@@ -48,6 +48,27 @@ public class Pagging {
         return new PageResult<>(list1, totalRecords, totalPages,pageobj.page,pageobj.pagesize);
     }
 
+    public static @NotNull PageResult<?> getPageResultByHbntRtLstmap(@NotBlank  String sql, Map<String, Object> sqlprmMap, PageDto pageobj, Session session) throws SQLException {
+
+        System.out.println("fun getPageResultByHbntV3(sql= "+sql);
+        NativeQuery<?> nativeQuery = session.createNativeQuery(sql );
+        setPrmts4sql(sqlprmMap, nativeQuery);
+        // 设置分页
+        nativeQuery.setFirstResult(getstartPosition(pageobj.page, pageobj.pagesize));
+        nativeQuery.setMaxResults(pageobj.pagesize);
+        //       .setParameter("age", 18);
+        List<?> list1 = nativeQuery.getResultList();
+
+
+        //------------page
+        long totalRecords = nativeQuery.getResultCount();
+
+
+        int totalPages = (int) Math.ceil((double) totalRecords / pageobj.pagesize);
+        return new PageResult<>(list1, totalRecords, totalPages,pageobj.page,pageobj.pagesize);
+    }
+
+
     //bcs use usr .class
     @Deprecated
     public static @NotNull PageResult<?> getPageResultByHbntV3(@NotBlank  String sql, Map<String, Object> sqlprmMap, PageDto pageobj, Session session) throws SQLException {

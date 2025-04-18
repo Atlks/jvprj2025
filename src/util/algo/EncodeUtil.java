@@ -10,13 +10,34 @@ import java.security.NoSuchAlgorithmException;
 
 public class EncodeUtil {
 
+
+
+    /**
+     *
+     * @param uname
+     * @return
+     */
+    public static String encodeSqlAsLikeMatchParam(String uname) {
+        return   "'% "+encodeSqlPrm(uname)+" %'";
+
+    }
+
+
+
+    public static String encodeSqlPrm(String uname) {
+        return  uname.replaceAll("'","''");
+    }
+
+    public static String encodeSqlPrmAsStr(String uname) {
+        return   "'"+encodeSqlPrm(uname)+"'";
+    }
     //serialize
     public static String encodeParamSql(String uname) {
         return  uname.replaceAll("'","''");
     }
 
     public static String htmlspecialchars(String input) {
-        if (input == null) return null;
+        if (input == null) return "";
         return input.replace("&", "&amp;")
                 .replace("<", "&lt;")
                 .replace(">", "&gt;")

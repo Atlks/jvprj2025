@@ -11,6 +11,7 @@ import util.log.ConsoleInterceptor;
 
 import java.io.FileNotFoundException;
 
+import static cfg.MyCfg.iniContnr;
 import static cfg.MyCfg.iniContnr4cfgfile;
 import static cfg.WebSvr.*;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
@@ -73,20 +74,7 @@ public class MainApi {
         System.out.println(11);
     }
 
-    /**
-     * for ban
-     * @throws Exception
-     */
-    public static void iniContnr() throws Exception {
-        //@NonNull
-        iniContnr4cfgfile();
-        new AppConfig().sessionFactory();//ini sessFctr
-        //---------------ini contarin
-        cfg.IocSpringCfg.iniIocContainr4spr();
-        Containr.SecurityContext1=new SecurityContextImp4jwt();
-        Containr.chooseEvtPblshr=  new ChooseEvtPublshr();
 
-    }
 
 
 

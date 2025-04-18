@@ -16,6 +16,7 @@ import java.util.*;
 
 
 import static biz.Containr.sessionFactory;
+import static util.algo.EncodeUtil.encodeSqlAsLikeMatchParam;
 import static util.tx.Pagging.getPageResultByHbntV3;
 import static util.misc.util2026.*;
 import static util.tx.Pagging.getPageResultByHbntV4;
@@ -45,10 +46,10 @@ public class QueryOrdChrgHdr  implements RequestHandler<QryRechgOrdReqDto, ApiGa
     @Override
     public ApiGatewayResponse handleRequest(QryRechgOrdReqDto reqdto, Context context) throws Throwable {
 
-        var sqlNoOrd = "select * from rechg_ord  ";//for count    where  uname =:uname
+        var sqlNoOrd = "select * from rechg_ord where 1=1 ";//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         if(reqdto.uname!="")
-        {  sqlNoOrd=sqlNoOrd+ " uname like "+ encodeSqlAsLikeMatchParam(reqdto.uname);
+        {  sqlNoOrd=sqlNoOrd+ " and  uname like "+ encodeSqlAsLikeMatchParam(reqdto.uname);
           //  sqlprmMap.put("uname",)
         }
 
@@ -64,25 +65,7 @@ public class QueryOrdChrgHdr  implements RequestHandler<QryRechgOrdReqDto, ApiGa
     }
 
 
-    /**
-     *
-     * @param uname
-     * @return
-     */
-    public static String encodeSqlAsLikeMatchParam(String uname) {
-       return   "'% "+encodeSqlPrm(uname)+" %'";
 
-    }
-
-
-
-    public static String encodeSqlPrm(String uname) {
-        return  uname.replaceAll("'","''");
-    }
-
-    public static String encodeSqlPrmAsStr(String uname) {
-        return   "'"+encodeSqlPrm(uname)+"'";
-    }
 
     public static void main(String[] args) throws Exception {
         MyCfg.iniContnr4cfgfile();
