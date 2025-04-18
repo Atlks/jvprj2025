@@ -7,6 +7,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.security.Keys;
 import jakarta.validation.constraints.NotBlank;
+import model.CountryConstants;
+import model.EnableStatus;
+import model.VisaConstants;
 import model.auth.Role;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -16,6 +19,8 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -66,10 +71,22 @@ public class JwtUtil {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setIssuer("ati")
-                .claim("department", "uke")
-                .claim("permissions", "all")
-                .claim("role", String.valueOf(role))   // ← 自定义字段
+                .claim("uname", username)
                 .setAudience(String.valueOf(role))  //Audience，受众，表示这个 JWT 是为谁生成的。
+                .claim("role", String.valueOf(role))   // ← 自定义字段
+                .claim("department", CountryConstants.uke)
+                .claim("permissions", "all")
+                .claim(VisaConstants.country, CountryConstants.glb)
+                .claim(VisaConstants.visaType, VisaConstants.TYPE_vistor)
+                .claim(VisaConstants.issueDate, today())
+                .claim(VisaConstants.status, VisaConstants.STATUS_VALID)
+                .claim(VisaConstants.passportNumber, "glb")
+                .claim("visaNumber", "glb")
+                .claim("MRZ", "glb")
+
+
+
+
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .setId(_getUuid())
                 .signWith(SignatureAlgorithm.HS512, key)
@@ -81,6 +98,13 @@ public class JwtUtil {
 //                复制
 //        编辑
 //        String role = claims.get("role", String.class);
+    }
+
+    //fmt  2025-01-01
+    private static String today() {
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return now.format(formatter);
     }
 
     /**
