@@ -31,7 +31,7 @@ import static util.tx.TransactMng.openSessionBgnTransact;
  *
  */
 @RestController
-@Path("/admin/ylwlt/ListInvtCmsLogHdl")
+@Path("/wlt/ListInvtCmsLogHdl")
 @PermitAll
 @NoDftParam
 public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayResponse> {

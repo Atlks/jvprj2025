@@ -40,7 +40,7 @@ import static util.tx.TransactMng.openSessionBgnTransact;
  *
  */
 @RestController
-@Path("/admin/ylwlt/ListBetWinLogHdl")
+@Path("/wlt/ListBetWinLogHdl")
 @PermitAll
 @NoDftParam
 public class ListBetWinLogHdl implements RequestHandler<QueryDto, ApiGatewayResponse> {

@@ -78,9 +78,9 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
-  /admin/ylwlt/ListInvtCmsLogHdl:
+  /wlt/ListInvtCmsLogHdl:
     $ref: './paths/wlt/ListInvtCmsLogHdl.yaml'
-  /admin/ylwlt/ListBetWinLogHdl:
+  /wlt/ListBetWinLogHdl:
     $ref: './paths/wlt/ListBetWinLogHdl.yaml'
   /admin/wlt/QueryOrdChrgHdr:
     $ref: './paths/adm_wlt/QueryOrdChrgHdr.yaml'
