@@ -1,6 +1,6 @@
 package api.usr
 import MainApi
-import entityx.SetWithdrawalPasswordDto
+import entityx.usr.SetWithdrawalPasswordDto
 import handler.usr.SetWthdrPwdHdr
 import org.junit.Assert.assertNotNull
 import org.junit.Test

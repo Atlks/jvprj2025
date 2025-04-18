@@ -1,6 +1,6 @@
 package api.ylwlt;
 
-import entityx.LogBls4YLwlt;
+import entityx.wlt.LogBls4YLwlt;
 
 import java.math.BigDecimal;
 

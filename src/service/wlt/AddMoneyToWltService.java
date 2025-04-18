@@ -2,9 +2,9 @@ package service.wlt;
 import static cfg.AppConfig.sessionFactory;
 
 import annos.Parameter;
-import entityx.LogBls;
-import entityx.TransDto;
-import entityx.Usr;
+import entityx.wlt.LogBls;
+import entityx.wlt.TransDto;
+import entityx.usr.Usr;
 import jdk.jfr.Name;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,6 @@ import java.math.BigDecimal;
 
 import static service.CmsBiz.toBigDcmTwoDot;
 import static util.tx.HbntUtil.*;
-import static util.misc.util2026.getFieldAsBigDecimal;
 import static util.misc.util2026.getFilenameFrmLocalTimeString;
 
 

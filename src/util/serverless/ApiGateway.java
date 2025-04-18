@@ -2,7 +2,7 @@ package util.serverless;
 
 import annos.*;
 import biz.MinValidator;
-import entityx.NonDto;
+import entityx.usr.NonDto;
 import org.hibernate.context.internal.ThreadLocalSessionContext;
 import util.ex.ValideTokenFailEx;
 import com.sun.net.httpserver.HttpExchange;

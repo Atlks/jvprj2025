@@ -1,13 +1,11 @@
 package test;
 
-import entityx.Usr;
+import entityx.usr.Usr;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.util.Arrays;
 import java.util.List;
 

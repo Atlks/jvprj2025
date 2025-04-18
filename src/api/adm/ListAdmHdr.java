@@ -1,8 +1,7 @@
 package api.adm;
 
-import entityx.Admin;
-import entityx.NonDto;
-import entityx.ReqDtoQryUsr;
+import entityx.admin.Admin;
+import entityx.usr.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.Data;
@@ -10,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.context.Context;
 import util.algo.Icall;
 
@@ -18,11 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static cfg.AppConfig.sessionFactory;
-import static entityx.ApiResponse.createResponse;
 import static test.htmlTppltl.rend;
-import static util.algo.EncodeUtil.encodeParamSql;
-import static util.algo.NullUtil.isBlank;
-import static util.tx.Pagging.getPageResultByHbntV3;
 import static util.tx.dbutil.nativeQueryGetResultList;
 
 @Controller

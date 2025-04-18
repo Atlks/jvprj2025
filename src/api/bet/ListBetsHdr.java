@@ -1,6 +1,6 @@
 package api.bet;
 
-import entityx.QryDto4bets;
+import entityx.bet.QryDto4bets;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ws.rs.Path;
 import lombok.NoArgsConstructor;

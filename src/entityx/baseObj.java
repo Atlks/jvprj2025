@@ -5,6 +5,7 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+//for do
 @Data
 public class baseObj {
 
@@ -17,7 +18,7 @@ public class baseObj {
 
     public int limit=200;
 
-    @NotBlank    //most need auth   ,,if not need uname,just fill defUsre
+  //  @NotBlank    //most need auth   ,,if not need uname,just fill defUsre
     public String uname="";
 
     @CreationTimestamp
@@ -25,4 +26,6 @@ public class baseObj {
 
     @UpdateTimestamp
     public long updtTmstmp=System.currentTimeMillis();
+
+    public long   timestamp=System.currentTimeMillis();
 }

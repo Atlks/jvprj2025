@@ -1,6 +1,6 @@
 package api.usr;
 
-import entityx.SecurityQuestion;
+import entityx.usr.SecurityQuestion;
 import jakarta.annotation.security.PermitAll;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Path;

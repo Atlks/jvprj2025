@@ -2,15 +2,14 @@ package service.auth;
 
 
 import annos.Observes;
-import jakarta.security.enterprise.AuthenticationException;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import util.evtdrv.AnotherEvent;
 import util.misc.AuthenticationExceptionRtm;
 import util.tx.findByIdExptn_CantFindData;
 import util.validateRtmExptn;
-import entityx.Keyx;
-import entityx.SAMSecuryLog;
+import entityx.usr.Keyx;
+import entityx.usr.SAMSecuryLog;
 import jakarta.security.enterprise.credential.Credential;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import jakarta.security.enterprise.identitystore.CredentialValidationResult;

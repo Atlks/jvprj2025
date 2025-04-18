@@ -2,7 +2,7 @@
 
 package api.usr;
 
-import entityx.Usr;
+import entityx.usr.Usr;
 import handler.usr.RegDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

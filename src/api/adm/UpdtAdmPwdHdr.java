@@ -1,6 +1,6 @@
 package api.adm;
 
-import entityx.NonDto;
+import entityx.usr.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.Data;

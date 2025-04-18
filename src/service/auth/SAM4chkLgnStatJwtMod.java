@@ -1,6 +1,6 @@
 package service.auth;
 
-import entityx.JwtBlacklist;
+import entityx.usr.JwtBlacklist;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.AuthenticationStatus;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;

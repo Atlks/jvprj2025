@@ -1,6 +1,5 @@
 package util.tx;
 
-import entityx.Keyx;
 import jakarta.persistence.Entity;
 import jakarta.persistence.LockModeType;
 import jakarta.validation.constraints.NotBlank;

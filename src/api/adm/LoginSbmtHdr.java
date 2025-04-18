@@ -1,7 +1,7 @@
 package api.adm;
 
 import core.IloginV2;
-import entityx.Admin;
+import entityx.admin.Admin;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.Data;

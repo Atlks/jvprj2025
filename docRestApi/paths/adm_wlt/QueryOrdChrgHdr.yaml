@@ -1,0 +1,11 @@
+get:
+  tags:
+    - adm_wlt
+  summary: "管理后台 钱包方面接口 查询订单"
+  description: " 。。。。"
+  operationId: "QueryOrdChrgHdr"
+
+
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'

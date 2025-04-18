@@ -1,6 +1,6 @@
 package api.usr;
 
-import entityx.*;
+import entityx.usr.SecurityQuestion;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
 import lombok.Data;
@@ -13,10 +13,7 @@ import util.ex.existUserEx;
 import util.serverless.ApiGatewayResponse;
 
 import static cfg.AppConfig.sessionFactory;
-import static util.auth.JwtUtil.getUsernameFrmJwtToken;
-import static util.serverless.ApiGateway.httpExchangeCurThrd;
 import static util.tx.HbntUtil.mergeByHbnt;
-import static util.tx.HbntUtil.persistByHibernate;
 
 /**
  * 设置安全问题

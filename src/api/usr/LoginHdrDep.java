@@ -1,9 +1,9 @@
 package api.usr;
 
 import entityx.ApiResponse;
-import entityx.Passport;
-import entityx.Usr;
-import entityx.Visa;
+import entityx.usr.Passport;
+import entityx.usr.Usr;
+import entityx.usr.Visa;
 import handler.usr.RegDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;

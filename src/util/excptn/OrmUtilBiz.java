@@ -1,11 +1,11 @@
 package util.excptn;
 
-import entityx.LogBls;
-import entityx.ReChgOrd;
-import entityx.LogCms;
-import entityx.BetOrd;
-import entityx.Usr;
-import entityx.LogBls4YLwlt;
+import entityx.wlt.LogBls;
+import entityx.wlt.ReChgOrd;
+import entityx.wlt.LogCms;
+import entityx.bet.BetOrd;
+import entityx.usr.Usr;
+import entityx.wlt.LogBls4YLwlt;
 import org.hibernate.Session;
 import util.tx.HbntUtil;
 import util.tx.SessionImpIni;

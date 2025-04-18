@@ -6,7 +6,7 @@ import java.util.List;
 
 import entityx.ApiResponse;
 import entityx.Coin;
-import entityx.NonDto;
+import entityx.usr.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import org.json.JSONArray;

@@ -42,6 +42,9 @@ tags:
     description: 管理端接口-报表管理
   - name: admin_cfg
     description: 管理后台——配置方面接口
+  - name: adm_wlt
+    description: 管理后台——钱包方面接口
+
 components:
   parameters:
     unamexx:
@@ -75,6 +78,12 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /admin/wlt/QueryOrdChrgHdr:
+    $ref: './paths/adm_wlt/QueryOrdChrgHdr.yaml'
+  /admin/wlt/ReviewChrgPassHdr:
+    $ref: './paths/adm_wlt/ReviewChrgPassHdr.yaml'
+  /admin/wlt/ReviewChrgRefuseHdr:
+    $ref: './paths/adm_wlt/ReviewChrgRefuseHdr.yaml'
   /reg:
     $ref: './paths/usr/reg.yaml'
   /login:

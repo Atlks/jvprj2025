@@ -1,13 +1,13 @@
 package util.tx;
 
-import entityx.Usr;
+import entityx.usr.Usr;
 import entityx.baseObj;
 import entityx.PageResult;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
-import util.entty.Pageobj;
+import util.entty.PageDto;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -28,9 +28,31 @@ public class Pagging {
     }
 
 
-    public static @NotNull PageResult<?> getPageResultByHbntV3(@NotBlank  String sql, Map<String, Object> sqlprmMap, Pageobj pageobj, Session session) throws SQLException {
+    public static @NotNull PageResult<?> getPageResultByHbntV4(@NotBlank  String sql, Map<String, Object> sqlprmMap, PageDto pageobj, Session session,Class modelCls) throws SQLException {
+
+        System.out.println("fun getPageResultByHbntV3(sql= "+sql);
+        NativeQuery  nativeQuery = session.createNativeQuery(sql, modelCls);
+        setPrmts4sql(sqlprmMap, nativeQuery);
+        // 设置分页
+        nativeQuery.setFirstResult(getstartPosition(pageobj.page, pageobj.pagesize));
+        nativeQuery.setMaxResults(pageobj.pagesize);
+        //       .setParameter("age", 18);
+        List<?> list1 = nativeQuery.getResultList();
 
 
+        //------------page
+        long totalRecords = nativeQuery.getResultCount();
+
+
+        int totalPages = (int) Math.ceil((double) totalRecords / pageobj.pagesize);
+        return new PageResult<>(list1, totalRecords, totalPages,pageobj.page,pageobj.pagesize);
+    }
+
+    //bcs use usr .class
+    @Deprecated
+    public static @NotNull PageResult<?> getPageResultByHbntV3(@NotBlank  String sql, Map<String, Object> sqlprmMap, PageDto pageobj, Session session) throws SQLException {
+
+        System.out.println("fun getPageResultByHbntV3(sql= "+sql);
         NativeQuery<Usr> nativeQuery = session.createNativeQuery(sql, Usr.class);
         setPrmts4sql(sqlprmMap, nativeQuery);
         // 设置分页

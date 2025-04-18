@@ -1,6 +1,6 @@
 package util.tx;
 
-import entityx.Usr;
+import entityx.usr.Usr;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;

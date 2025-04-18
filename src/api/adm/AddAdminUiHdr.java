@@ -2,23 +2,16 @@
 
 package api.adm;
 
-import entityx.Admin;
+import entityx.admin.Admin;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.NoArgsConstructor;
-import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import util.algo.Icall;
-import util.ex.existUserEx;
 
-import static cfg.AppConfig.sessionFactory;
 import static test.htmlTppltl.rend;
-import static util.algo.EncodeUtil.encodeMd5;
-import static util.misc.Util2025.encodeJson;
-import static util.tx.HbntUtil.persistByHibernate;
 
 
 /**

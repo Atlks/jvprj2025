@@ -35,6 +35,9 @@ import static org.apache.commons.lang3.StringUtils.trim;
  */
 public class JwtUtil {
 
+    public static void main(String[] args) {
+        System.out.println(generateToken("777"));
+    }
     @Value("scrkey")
     // 密钥，通常应该从环境变量或配置文件中获取，避免硬编码
     private static final String SECRET_KEY = "mysecretkey";

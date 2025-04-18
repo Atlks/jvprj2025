@@ -2,7 +2,7 @@ package api.cms;
 
 import biz.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
-import entityx.Usr;
+import entityx.usr.Usr;
 import util.auth.AuthService;
 import util.auth.IsEmptyEx;
 

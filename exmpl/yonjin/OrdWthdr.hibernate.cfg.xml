@@ -37,7 +37,7 @@
 
         <mapping package="apiWltYinli" />
         <!-- 配置实体类扫描路径 -->
-        <mapping class="entityx.OrdWthdr"/>
+        <mapping class="entityx.ylwlt.OrdWthdr"/>
         <!-- Entity mapping -->
 
     </session-factory>

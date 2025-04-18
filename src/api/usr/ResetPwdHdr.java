@@ -3,7 +3,7 @@ package api.usr;
 import biz.BaseHdr;
 import com.alibaba.fastjson2.JSONObject;
 import com.sun.net.httpserver.HttpExchange;
-import entityx.Usr;
+import entityx.usr.Usr;
 
 
 import static util.tx.dbutil.*;

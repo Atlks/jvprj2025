@@ -1,9 +1,9 @@
 package service;
 
-import entityx.ReChgOrd;
-import entityx.LogCms;
-import entityx.Usr;
-import entityx.LogBls4YLwlt;
+import entityx.wlt.ReChgOrd;
+import entityx.wlt.LogCms;
+import entityx.usr.Usr;
+import entityx.wlt.LogBls4YLwlt;
 import org.hibernate.Session;
 
 import java.math.BigDecimal;

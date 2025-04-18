@@ -1,7 +1,6 @@
 package handler.adm.cfg;
 
-import entityx.RechargeConfig;
-import entityx.SetWithdrawalPasswordDto;
+import entityx.wlt.RechargeConfig;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
@@ -10,7 +9,6 @@ import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
 import static cfg.AppConfig.sessionFactory;
-import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.mergeByHbnt;
 @RestController
 @Path("/admin/cfg/SetRechargeConfigHdlr")

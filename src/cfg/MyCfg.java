@@ -1,7 +1,7 @@
 package cfg;
 
 import api.bet.ListBetsHdr;
-import api.wlt.RechargeCallbackHdr;
+import handler.wlt.RechargeCallbackHdr;
 
 import api.ylwlt.WithdrawHdr;
 import biz.BaseBiz;

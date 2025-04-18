@@ -1,6 +1,6 @@
 package util.tx;
 
-import entityx.ReChgOrd;
+import entityx.wlt.ReChgOrd;
 import entityx.baseObj;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;

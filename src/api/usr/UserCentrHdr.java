@@ -3,7 +3,7 @@ package api.usr;
 import biz.BaseHdr;
 import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
-import entityx.Usr;
+import entityx.usr.Usr;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import util.excptn.OrmUtilBiz;

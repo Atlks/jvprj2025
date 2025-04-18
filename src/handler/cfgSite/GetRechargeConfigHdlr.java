@@ -1,7 +1,7 @@
 package handler.cfgSite;
 
-import entityx.NonDto;
-import entityx.RechargeConfig;
+import entityx.usr.NonDto;
+import entityx.wlt.RechargeConfig;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;

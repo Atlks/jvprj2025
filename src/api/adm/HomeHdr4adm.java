@@ -1,10 +1,10 @@
 package api.adm;
 
 import handler.usr.RegDto;
-import entityx.NonDto;
-import entityx.Passport;
-import entityx.Usr;
-import entityx.Visa;
+import entityx.usr.NonDto;
+import entityx.usr.Passport;
+import entityx.usr.Usr;
+import entityx.usr.Visa;
 import jakarta.annotation.security.PermitAll;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.SecurityContext;

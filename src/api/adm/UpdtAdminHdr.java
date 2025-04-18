@@ -4,7 +4,7 @@ package api.adm;
 
 import handler.usr.RegDto;
 import core.IRegHandler;
-import entityx.Usr;
+import entityx.usr.Usr;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;

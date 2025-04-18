@@ -1,10 +1,7 @@
 package handler.usr;
 
-import biz.BaseHdr;
-import com.sun.net.httpserver.HttpExchange;
 import dto.ChangePasswordReqDto;
-import entityx.Keyx;
-import entityx.Usr;
+import entityx.usr.Keyx;
 import jakarta.annotation.security.PermitAll;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import jakarta.ws.rs.Path;
@@ -18,10 +15,9 @@ import util.serverless.RequestHandler;
 
 import static biz.Containr.sam4regLgn;
 import static biz.Containr.sessionFactory;
-import static util.algo.EncodeUtil.encodeMd5;
 import static util.tx.HbntUtil.*;
 import static util.tx.dbutil.addObj;
-import static util.misc.util2026.*;
+
 @RestController
 
 

@@ -1,6 +1,6 @@
 package api.usr;
 
-import entityx.ReqDtoQryUsr;
+import entityx.usr.ReqDtoQryUsr;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.Data;

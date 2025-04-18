@@ -2,9 +2,9 @@ package handler.usr;
 
 import api.usr.lgnDlgt;
 import core.Ilogin;
-import entityx.Passport;
-import entityx.Usr;
-import entityx.Visa;
+import entityx.usr.Passport;
+import entityx.usr.Usr;
+import entityx.usr.Visa;
 import jakarta.annotation.security.PermitAll;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.SecurityContext;

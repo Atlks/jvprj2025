@@ -1,7 +1,7 @@
 package api.usr;
 
-import entityx.FgtPwdRstPwdHdrDto;
-import entityx.SecurityQuestion;
+import entityx.usr.FgtPwdRstPwdHdrDto;
+import entityx.usr.SecurityQuestion;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.Data;
@@ -12,7 +12,6 @@ import util.serverless.ApiGatewayResponse;
 
 import static biz.Containr.sam4regLgn;
 import static cfg.AppConfig.sessionFactory;
-import static util.algo.EncodeUtil.encodeMd5;
 import static util.tx.HbntUtil.findByHerbinate;
 
 /**

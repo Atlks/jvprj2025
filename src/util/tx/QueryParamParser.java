@@ -1,7 +1,6 @@
 package util.tx;
 
-import com.sun.net.httpserver.HttpExchange;
-import entityx.ReChgOrd;
+import entityx.wlt.ReChgOrd;
 import org.jetbrains.annotations.NotNull;
 
 import java.beans.IntrospectionException;
@@ -14,7 +13,6 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import static util.misc.Util2025.encodeJson;
 import static util.misc.Util2025.encodeJsonObj;
 
 public class QueryParamParser {

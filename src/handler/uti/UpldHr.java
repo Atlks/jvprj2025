@@ -1,17 +1,14 @@
 package handler.uti;
 
 import com.sun.net.httpserver.HttpExchange;
-import entityx.NonDto;
-import handler.usr.RegDto;
+import entityx.usr.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.validation.constraints.NotNull;
-import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
-import util.algo.Icall;
 import util.ex.existUserEx;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;

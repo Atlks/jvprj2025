@@ -1,8 +1,8 @@
 package service;
 
-import entityx.MRZ;
-import entityx.Passport;
-import entityx.Visa;
+import entityx.usr.MRZ;
+import entityx.usr.Passport;
+import entityx.usr.Visa;
 
 import java.time.LocalDate;
 import java.util.List;

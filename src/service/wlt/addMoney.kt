@@ -4,9 +4,8 @@ import biz.Containr
 import cfg.AppConfig
 import cfg.IocSpringCfg
 import cfg.MyCfg
-import entityx.TransDto
-import entityx.Usr
-import jakarta.persistence.LockModeType
+import entityx.wlt.TransDto
+import entityx.usr.Usr
 import util.auth.SecurityContextImp4ck
 import util.tx.HbntUtil
 import util.algo.Icall

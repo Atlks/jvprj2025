@@ -2,7 +2,9 @@
 
 package service.YLwltSvs;
 
-import entityx.*;
+import entityx.usr.Usr;
+import entityx.wlt.LogBls4YLwlt;
+import entityx.wlt.TransDto;
 import lombok.Data;
 import org.hibernate.Session;
 import org.springframework.context.annotation.Lazy;
@@ -11,7 +13,7 @@ import util.algo.Icall;
 
 import java.math.BigDecimal;
 
-import static api.wlt.TransHdr.curLockAcc;
+import static handler.wlt.TransHdr.curLockAcc;
 import static cfg.AppConfig.sessionFactory;
 import static service.CmsBiz.toBigDcmTwoDot;
 import static util.tx.HbntUtil.*;

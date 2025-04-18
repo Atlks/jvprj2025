@@ -1,23 +1,18 @@
 package handler.usr;
 
-import entityx.ApiResponse;
-import entityx.SetWithdrawalPasswordDto;
-import entityx.WithdrawalPassword;
-import jakarta.ws.rs.BeanParam;
+import entityx.usr.SetWithdrawalPasswordDto;
+import entityx.usr.WithdrawalPassword;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
-import util.algo.Icall;
-import util.ex.existUserEx;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
 import static cfg.AppConfig.sessionFactory;
 import static util.algo.EncodeUtil.encodeMd5;
 import static util.tx.HbntUtil.mergeByHbnt;
-import static util.tx.HbntUtil.persistByHibernate;
 
 /**
  * 设置安全问题

@@ -2,10 +2,10 @@ package api.bet;
 
 import annos.注入;
 import entityx.ApiResponse;
-import entityx.BetOrd;
-import entityx.BetOrdDto;
-import entityx.TransDto;
-import entityx.Usr;
+import entityx.bet.BetOrd;
+import entityx.bet.BetOrdDto;
+import entityx.wlt.TransDto;
+import entityx.usr.Usr;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -25,7 +25,7 @@ import util.algo.Icall;
 import java.math.BigDecimal;
 
 
-import static api.wlt.TransHdr.curLockAcc;
+import static handler.wlt.TransHdr.curLockAcc;
 import static biz.Containr.SecurityContext1;
 import static cfg.AppConfig.sessionFactory;
 import static java.time.LocalTime.now;

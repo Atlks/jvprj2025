@@ -2,7 +2,7 @@
 
 package api.adm;
 
-import entityx.Admin;
+import entityx.admin.Admin;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;

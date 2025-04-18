@@ -1,6 +1,6 @@
 package cfg;
 
-import api.wlt.RechargeHdr;
+import handler.wlt.RechargeHdr;
 import biz.HttpHandlerX;
 import com.sun.net.httpserver.HttpExchange;
 import org.hibernate.SessionFactory;
