@@ -65,6 +65,14 @@
 <dependencies>
 
 
+        <dependency>
+            <groupId>com.microsoft.playwright</groupId>
+            <artifactId>playwright</artifactId>
+            <version>1.49.0</version> <!-- 最新版本可上官网查看 -->
+        </dependency>
+
+
+
     <dependency>
         <groupId>com.github.xiaoymin</groupId>
         <artifactId>knife4j-openapi3-ui</artifactId>
