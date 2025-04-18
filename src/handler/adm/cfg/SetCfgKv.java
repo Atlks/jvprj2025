@@ -1,6 +1,5 @@
 package handler.adm.cfg;
 
-import entityx.wlt.RechargeConfig;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
@@ -13,12 +12,12 @@ import static cfg.AppConfig.sessionFactory;
 import static util.tx.HbntUtil.mergeByHbnt;
 
 /**
- *     /admin/cfg/SetKvCfg?k=rechargeCommissionRates&v={}
+ *     /admin/cfg/SetCfgKv?k=rechargeCommissionRates&v={}
  */
 @RestController
-@Path("/admin/cfg/SetKvCfg")
+@Path("/admin/cfg/SetCfgKv")
 @PermitAll
-public class SetKvCfg implements RequestHandler<KvCfg, ApiGatewayResponse> {
+public class SetCfgKv implements RequestHandler<KvCfg, ApiGatewayResponse> {
     /**
      * @param reqDto
      * @param context
