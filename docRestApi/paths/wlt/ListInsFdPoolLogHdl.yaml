@@ -1,0 +1,11 @@
+get:
+  tags:
+    - Wallet
+  summary: "管理后台 钱包方面接口 保险资金池记录列表"
+  description: " 。。。。"
+  operationId: "ListInsFdPoolLogHdl"
+
+
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'
