@@ -3,7 +3,7 @@ get:
     - adm_wlt
   summary: "管理后台 钱包方面接口 拒绝充值"
   description: " 。。。。"
-  operationId: "QueryOrdChrgHdr"
+  operationId: "QueryOrdChrgHdr11"
   parameters:
     - name: ord_id
       in: query

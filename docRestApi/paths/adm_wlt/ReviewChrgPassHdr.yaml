@@ -3,7 +3,7 @@ get:
     - adm_wlt
   summary: "管理后台 钱包方面接口 通过充值"
   description: " 。。。。"
-  operationId: "QueryOrdChrgHdr"
+  operationId: "ReviewChrgPassHdr"
   parameters:
     - name: ord_id
       in: query
