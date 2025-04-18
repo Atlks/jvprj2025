@@ -44,6 +44,15 @@ public class Usr {
     public BigDecimal balanceYinliwlt=new BigDecimal(0);;
     public BigDecimal balanceYinliwltFreez=new BigDecimal(0);;
 
+    //保险资金池总额
+    public BigDecimal insFdPoolBalance=new BigDecimal(0);;
+
+    //已经充值总额
+    public BigDecimal alreadyRechgSum=new BigDecimal(0);;
+
+    //待领取佣金
+    public BigDecimal waitApplyCms=new BigDecimal(0);;
+
     public Usr(String uname) {
         this.uname = uname;
         this.id=uname;

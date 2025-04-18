@@ -1,0 +1,36 @@
+
+
+
+{
+  "rechargeCommissionRates": [
+    {
+      "minAmount": 1,
+      "maxAmount": 50000,
+      "commissionRate": 5
+    },
+    {
+      "minAmount": 50000,
+      "maxAmount": 150000,
+      "commissionRate": 7
+    },
+    {
+      "minAmount": 150000,
+      "maxAmount": 500000,
+      "commissionRate": 9
+    },
+    {
+      "minAmount": 500000,
+      "maxAmount": 1500000,
+      "commissionRate": 11
+    },
+    {
+      "minAmount": 1500000,
+      "maxAmount": 5000000,
+      "commissionRate": 13
+    },
+    {
+      "minAmount": 5000000,
+      "commissionRate": 15
+    }
+  ]
+}
