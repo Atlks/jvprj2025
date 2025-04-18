@@ -7,6 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.security.Keys;
 import jakarta.validation.constraints.NotBlank;
+import model.auth.Role;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +37,7 @@ import static org.apache.commons.lang3.StringUtils.trim;
 public class JwtUtil {
 
     public static void main(String[] args) {
-        System.out.println(generateToken("777"));
+        System.out.println(newToken("777"));
     }
     @Value("scrkey")
     // 密钥，通常应该从环境变量或配置文件中获取，避免硬编码
@@ -44,6 +45,7 @@ public class JwtUtil {
 
     // JWT过期时间，单位毫秒  100day
     private static final long EXPIRATION_TIME = 100*24*3600*1000; // 10 days
+
 
 
     /**
@@ -59,13 +61,41 @@ public class JwtUtil {
      * @return
      */
     // 生成 JWT   512bit 64byte
-    public static @NotBlank String generateToken(@NotBlank String username) {
+    public static @NotBlank String newToken(@NotBlank String username, Role role) {
         SecretKey key = Keys.hmacShaKeyFor(get64Bytes512bitKey(SECRET_KEY)); // 生成符合 HS512 规范的密钥
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setIssuer("ati")
-                .setAudience("nmlUser")  //Audience，受众，表示这个 JWT 是为谁生成的。
+                .setAudience(String.valueOf(role))  //Audience，受众，表示这个 JWT 是为谁生成的。
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .setId(getUuid())
+                .signWith(SignatureAlgorithm.HS512, key)
+                .compact();
+    }
+
+    /**
+     * Deprecated
+     * JWT 常见字段解释
+     * sub (Subject)：通常是用户的唯一标识符。
+     * iat (Issued At)：JWT 的创建时间，用来表示该令牌生成的时间。
+     * exp (Expiration Time)：JWT 过期时间，超过此时间后令牌失效。
+     * aud (Audience)：令牌的受众，表示谁是这个 JWT 的目标用户。
+     * iss (Issuer)：JWT 的签发者，通常为生成该令牌的应用或服务。
+     * scope：定义该令牌的权限范围，常用于 OAuth2 授权中，表示允许的操作或访问的资源范围
+     *
+     * @param username
+     * @return
+     */
+    // 生成 JWT   512bit 64byte
+    @Deprecated
+    public static @NotBlank String newToken(@NotBlank String username) {
+        SecretKey key = Keys.hmacShaKeyFor(get64Bytes512bitKey(SECRET_KEY)); // 生成符合 HS512 规范的密钥
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setIssuer("ati")
+                .setAudience(String.valueOf(Role.USER))  //Audience，受众，表示这个 JWT 是为谁生成的。
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .setId(getUuid())
                 .signWith(SignatureAlgorithm.HS512, key)

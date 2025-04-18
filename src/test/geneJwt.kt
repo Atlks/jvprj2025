@@ -3,5 +3,5 @@ package test
 import util.auth.JwtUtil
 
 fun main() {
-    println(JwtUtil.generateToken("007"))
+    println(JwtUtil.newToken("007"))
 }
