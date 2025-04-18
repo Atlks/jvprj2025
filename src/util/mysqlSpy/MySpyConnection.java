@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class MySpyConnection implements Connection {
+public class MySpyConnection extends ConnImpleBase implements Connection {
     private final Connection conn;
 
     public MySpyConnection(Connection conn) {

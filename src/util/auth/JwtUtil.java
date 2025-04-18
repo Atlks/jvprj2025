@@ -19,7 +19,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.trim;
 
 /**
  * jwt visa spec
@@ -37,7 +36,7 @@ import static org.apache.commons.lang3.StringUtils.trim;
 public class JwtUtil {
 
     public static void main(String[] args) {
-        System.out.println(newToken("777"));
+        System.out.println(newToken("777",Role.ADMIN));
     }
     @Value("scrkey")
     // 密钥，通常应该从环境变量或配置文件中获取，避免硬编码
@@ -62,16 +61,26 @@ public class JwtUtil {
      */
     // 生成 JWT   512bit 64byte
     public static @NotBlank String newToken(@NotBlank String username, Role role) {
-        SecretKey key = Keys.hmacShaKeyFor(get64Bytes512bitKey(SECRET_KEY)); // 生成符合 HS512 规范的密钥
+        SecretKey key = Keys.hmacShaKeyFor(_get64Bytes512bitKey(SECRET_KEY)); // 生成符合 HS512 规范的密钥
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setIssuer("ati")
+                .claim("department", "uke")
+                .claim("permissions", "all")
+                .claim("role", String.valueOf(role))   // ← 自定义字段
                 .setAudience(String.valueOf(role))  //Audience，受众，表示这个 JWT 是为谁生成的。
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .setId(getUuid())
+                .setId(_getUuid())
                 .signWith(SignatureAlgorithm.HS512, key)
                 .compact();
+
+//        后在解析时这样读取：
+//
+//        java
+//                复制
+//        编辑
+//        String role = claims.get("role", String.class);
     }
 
     /**
@@ -90,31 +99,21 @@ public class JwtUtil {
     // 生成 JWT   512bit 64byte
     @Deprecated
     public static @NotBlank String newToken(@NotBlank String username) {
-        SecretKey key = Keys.hmacShaKeyFor(get64Bytes512bitKey(SECRET_KEY)); // 生成符合 HS512 规范的密钥
+        SecretKey key = Keys.hmacShaKeyFor(_get64Bytes512bitKey(SECRET_KEY)); // 生成符合 HS512 规范的密钥
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setIssuer("ati")
                 .setAudience(String.valueOf(Role.USER))  //Audience，受众，表示这个 JWT 是为谁生成的。
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .setId(getUuid())
+                .setId(_getUuid())
                 .signWith(SignatureAlgorithm.HS512, key)
                 .compact();
     }
 
-    private static String getUuid() {
-        return java.util.UUID.randomUUID().toString().replace("-", "");
-    }
 
-    //生成512位  64字节的密钥，，根据字符串做散列运算得到 64字节的hash值
-    private static byte[] get64Bytes512bitKey(@NotBlank String secretKey) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-512"); // 使用 SHA-512 进行哈希
-            return digest.digest(secretKey.getBytes(StandardCharsets.UTF_8)); // 生成 64 字节密钥
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("SHA-512 algorithm not available", e);
-        }
-    }
+
+
 
 //jwt 0.11.5 is ok
     //jwt版本  0.12.6 ，这个函数报错语法错误
@@ -128,23 +127,17 @@ public class JwtUtil {
 //                .getBody();
 //    }
 
-    public static Claims getClaims(@NotBlank String token) {
-        byte[] keys = get64Bytes512bitKey(SECRET_KEY);
+
+
+    public static Claims parserClaimsObj(@NotBlank String token) {
+        byte[] keys = _get64Bytes512bitKey(SECRET_KEY);
         JwtParser jwtParser = Jwts.parserBuilder()
                 .setSigningKey(keys)
                 .build();
         return jwtParser.parseClaimsJws(token).getBody();
     }
 
-    //  从http请求头部提取    AuthChkMode  标头  dft jwt
-    public static @NotBlank String getAuthChkMode(HttpExchange he) {
-// 从请求头中获取 "AuthChkMode" 标头
-        String authChkMode = he.getRequestHeaders().getFirst("AuthChkMode");
-        if (authChkMode == null)
-            return "jwt";
-        return trim(authChkMode);
 
-    }
 
     public static  @jakarta.validation.constraints.NotBlank String getTokenMust(HttpExchange he) throws CantGetTokenJwtEx, validateTokenExcptn {
 // 从请求头中获取 Authorization 字段
@@ -179,7 +172,7 @@ public class JwtUtil {
 
     // 获取 JWT 中的用户信息
     public static @NotBlank String getUsername(@NotBlank String token) {
-        return getClaims(token).getSubject();
+        return parserClaimsObj(token).getSubject();
     }
 
     public static  @NotNull String getUsernameFrmJwtToken( @NotNull HttpExchange httpExchange) throws CantGetTokenJwtEx, unameIsEmptyExcptn, validateTokenExcptn {
@@ -193,12 +186,12 @@ public class JwtUtil {
 
     // 验证 JWT 是否有效
     public static boolean isTokenExpired(@NotBlank String token) {
-        return getClaims(token).getExpiration().before(new Date());
+        return parserClaimsObj(token).getExpiration().before(new Date());
     }
 
     // 验证 JWT 是否有效
     public static boolean validateToken(@NotBlank String token) throws validateTokenExcptn {
-        if (!isValidStr(token))
+        if (!_isValidStr(token))
             throw new validateTokenExcptn("");
 
 //        if (token == null || token.isEmpty()) {
@@ -222,8 +215,24 @@ public class JwtUtil {
     }
 
     //是否有效字符串 ，不能为全部空白， 不能为null
-    private static boolean isValidStr(@NotBlank String token) {
+    private static boolean _isValidStr(@NotBlank String token) {
         // 检查字符串是否为 null 或者只包含空白字符
         return StringUtils.isNotBlank(token);
+    }
+
+
+    private static String _getUuid() {
+        return java.util.UUID.randomUUID().toString().replace("-", "");
+    }
+
+
+    //生成512位  64字节的密钥，，根据字符串做散列运算得到 64字节的hash值
+    private static byte[] _get64Bytes512bitKey(@NotBlank String secretKey) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-512"); // 使用 SHA-512 进行哈希
+            return digest.digest(secretKey.getBytes(StandardCharsets.UTF_8)); // 生成 64 字节密钥
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("SHA-512 algorithm not available", e);
+        }
     }
 }

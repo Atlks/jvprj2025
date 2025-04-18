@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 import service.auth.SAM4chkLgnStatJwtMod;
 
+import static util.oo.HttpUti.getAuthChkMode;
 import static util.serverless.ApiGateway.httpExchangeCurThrd;
 import static util.auth.JwtUtil.*;
 import static util.misc.util2026.chkCantBeEmpty;

@@ -109,7 +109,7 @@ public class LgnHdr4pathevt implements Icall<RegDto, Object> {
     @EvtLsnr({"/lgnEvt"})
     public @NotNull Map<String, String> getTokenJwt(@NotNull RegDto Udto) {
         //  RegDto Udto = (RegDto) evt.getSource();
-        Map<String, String> tokenJwt = Collections.singletonMap("tokenJwt", JwtUtil.generateToken(Udto.uname));
+        Map<String, String> tokenJwt = Collections.singletonMap("tokenJwt", JwtUtil.newToken(Udto.uname));
         retobj.set(tokenJwt);
         return tokenJwt;
     }

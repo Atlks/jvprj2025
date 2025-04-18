@@ -1,17 +1,32 @@
 package util.mysqlSpy;
+import com.mysql.cj.jdbc.ConnectionWrapper;
+import com.mysql.cj.jdbc.MysqlPooledConnection;
 import com.mysql.cj.jdbc.PreparedStatementWrapper;
 
 import java.sql.*;
 import java.util.*;
 import java.util.regex.Matcher;
 
-public class MySpyPreparedStatement extends PreparedStatementWrapper {
+public class MySpyPreparedStatement extends PreparedSttmtImpltBase implements PreparedStatement{
     private final String sqlTemplate;
     private final Map<Integer, Object> parameters = new HashMap<>();
 
-    public MySpyPreparedStatement(PreparedStatement ps, String sql) {
-        super(ps);
+    public MySpyPreparedStatement(ConnectionWrapper connWrapper, MysqlPooledConnection pooledConn, PreparedStatement ps, String sql) {
+      //  super(connWrapper, pooledConn, ps);
         this.sqlTemplate = sql;
+    }
+
+    public MySpyPreparedStatement(  PreparedStatement ps, String sql) {
+        //  super(connWrapper, pooledConn, ps);
+        this.sqlTemplate = sql;
+    }
+
+    public String getRawSql() {
+        return sqlTemplate;
+    }
+
+    public Map<Integer, Object> getParameters() {
+        return parameters;
     }
 
     @Override

@@ -31,7 +31,7 @@ public interface Ilogin {
 
 
     default Object setLoginTicket(@NotNull RegDto usr_dto){
-        var jwtobj=Collections.singletonMap("tokenJwt", JwtUtil.generateToken(usr_dto.uname));
+        var jwtobj=Collections.singletonMap("tokenJwt", JwtUtil.newToken(usr_dto.uname));
         return  (jwtobj);
     };
 }

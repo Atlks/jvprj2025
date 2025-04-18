@@ -111,7 +111,7 @@ public class LoginHdrDep implements Icall<RegDto, Object> {
     @NotNull
     public @NotNull Map<String, String> getTokenJwt(@NotNull LoginEvt evt) {
         RegDto Udto = (RegDto) evt.getSource();
-        Map<String, String> tokenJwt = Collections.singletonMap("tokenJwt", JwtUtil.generateToken(Udto.uname));
+        Map<String, String> tokenJwt = Collections.singletonMap("tokenJwt", JwtUtil.newToken(Udto.uname));
         retobj.set(tokenJwt);
         return tokenJwt;
     }

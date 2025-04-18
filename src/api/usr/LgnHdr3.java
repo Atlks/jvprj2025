@@ -107,7 +107,7 @@ public class LgnHdr3 implements Icall<RegDto, Object> {
     @annos.Observes({LoginEvtObsvs})
     public @NotNull Map<String, String> getTokenJwt(@NotNull RegDto Udto) {
         //  RegDto Udto = (RegDto) evt.getSource();
-        Map<String, String> tokenJwt = Collections.singletonMap("tokenJwt", JwtUtil.generateToken(Udto.uname));
+        Map<String, String> tokenJwt = Collections.singletonMap("tokenJwt", JwtUtil.newToken(Udto.uname));
         retobj.set(tokenJwt);
         return tokenJwt;
     }
