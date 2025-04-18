@@ -1,6 +1,6 @@
 get:
   tags:
-    - adm_wlt
+    - wlt
   summary: "管理后台 钱包方面接口 投注盈利列表"
   description: " 。。。。"
   operationId: "ListBetWinLogHdl"

@@ -1,0 +1,11 @@
+get:
+  tags:
+    - wlt
+  summary: "管理后台 钱包方面接口 邀请佣金列表"
+  description: " 。。。。"
+  operationId: "ListInvtCmsLogHdl"
+
+
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'
