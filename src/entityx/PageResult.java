@@ -2,11 +2,19 @@ package entityx;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @Data
 // 分页结果封装类
 public class PageResult<T> {
  public      List<T> records;
+    public BigDecimal sum;  //统计总额
+
+    //如果有多个统计总额的化，读写这里可以
+    public Map<String,Object>  sumInfo=new HashMap<>();
     public    long totalRecords;
     public   int totalPages;
     public    int page;
