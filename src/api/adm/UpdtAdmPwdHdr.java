@@ -12,7 +12,7 @@ import util.algo.Icall;
 import util.misc.util2026;
 import util.serverless.ApiGateway;
 
-import static test.htmlTppltl.rend;
+import static ztest.htmlTppltl.rend;
 @Controller
 //@Controller 注解来标识处理请求并返回视图（HTML 页面）。
 @PermitAll

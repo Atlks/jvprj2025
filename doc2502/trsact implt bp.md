@@ -18,5 +18,5 @@ commitTransaction(session);
 
 
 ==store use orm hbnt 
-easy test in sqlt
+easy ztest in sqlt
 also can implt ini store ...use hbnt api

@@ -242,7 +242,7 @@ implements jakarta.security.enterprise.SecurityContext</span></div>
  If the caller is not authenticated, this always returns <code>false</code>.
 
  <p>
- This method <em>can not</em> be used to test for roles that are mapped to specific named Jakarta Servlets or
+ This method <em>can not</em> be used to ztest for roles that are mapped to specific named Jakarta Servlets or
  named Jakarta Enterprise Beans. For a Servlet an example of this would be the <code>role-name</code> nested in a
  <code>security-role-ref</code> element nested in a <code>servlet</code> element in <code>web.xml</code>.
 
@@ -302,7 +302,7 @@ implements jakarta.security.enterprise.SecurityContext</span></div>
 <dt>Specified by:</dt>
 <dd><code>hasAccessToWebResource</code>&nbsp;in interface&nbsp;<code>jakarta.security.enterprise.SecurityContext</code></dd>
 <dt>Parameters:</dt>
-<dd><code>resource</code> - the name of the web resource to test access for. This is a <code>URLPatternSpec</code> that identifies
+<dd><code>resource</code> - the name of the web resource to ztest access for. This is a <code>URLPatternSpec</code> that identifies
                  the application specific web resources to which the permission pertains. For a full specification of this pattern</dd>
 <dd><code>methods</code> - HTTP methods to check for whether the caller has access to the web resource using one of those
                  methods. If no methods are provided, this method will return <code>true</code> only if the caller can access the resource using all HTTP methods</dd>

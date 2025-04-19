@@ -25,7 +25,7 @@ use entrn ,not map
 
 =data store spec
 
-use orm ,sqlt vs mysql test
+use orm ,sqlt vs mysql ztest
 
 =other
 数据传输dto 只把valid加载dto上。。bo不需要，因为不是外籍输入

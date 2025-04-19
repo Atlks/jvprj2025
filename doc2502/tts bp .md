@@ -1,5 +1,5 @@
 
-espeak "Hello, this is a test." -w output.wav
+espeak "Hello, this is a ztest." -w output.wav
 
 
 方法 2：使用 Google Translate TTS + ffmpeg

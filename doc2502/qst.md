@@ -45,13 +45,13 @@ public class MyAspect {
 
 
 
-//test .kt
-package test;
+//ztest .kt
+package ztest;
 
 import api.usr.RegHandler
 import apis.BaseHdr
 import apis.MyAspect
-import com.sun.tools.javac.tree.TreeInfo.args
+import com.sun.ztools.javac.tree.TreeInfo.args
 import org.noear.solon.Solon
 import util.misc.HttpExchangeImp
 

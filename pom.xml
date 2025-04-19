@@ -899,7 +899,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>test-compile</id>
+                        <id>ztest-compile</id>
                         <phase>test-compile</phase>
                         <goals>
                             <goal>test-compile</goal>
@@ -1012,7 +1012,7 @@
                     </execution>
                     <execution>
                         <id>testCompile</id>
-                        <phase>test-compile</phase>
+                        <phase>ztest-compile</phase>
                         <goals>
                             <goal>testCompile</goal>
                         </goals>

@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 
-import static test.htmlTppltl.rend;
+import static ztest.htmlTppltl.rend;
 import static util.algo.JarClassScanner.getPrjPath;
 import static util.algo.JarClassScanner.getTargetPath;
 import static util.algo.NullUtil.isBlank;

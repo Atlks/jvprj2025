@@ -1,4 +1,4 @@
-package test;
+package ztest;
 
 import cfg.IocPicoCfg;
 import com.sun.net.httpserver.HttpExchange;

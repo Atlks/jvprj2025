@@ -31,6 +31,7 @@ public class MainApi {
     //    ovrtTEst=true;//todo cancel if test ok
         ConsoleInterceptor.init();// log
         start();
+        //cfg auth mode =jwt ,,,in apigateway
 
 //        sleep(3000);
         System.out.println("--------------------\n\n main()");

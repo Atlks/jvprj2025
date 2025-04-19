@@ -4,7 +4,7 @@ import apiUsr.RegHandler;
 import apis.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 import javassist.*;
-import test.MyClassLoader;
+import ztest.MyClassLoader;
 
 import java.io.IOException;
 import java.lang.reflect.Method;

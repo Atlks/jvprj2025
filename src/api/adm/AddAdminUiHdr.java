@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import util.algo.Icall;
 
-import static test.htmlTppltl.rend;
+import static ztest.htmlTppltl.rend;
 
 
 /**

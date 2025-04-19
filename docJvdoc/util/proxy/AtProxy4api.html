@@ -103,7 +103,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/jdk.https
  多个拦截器（责任链模式）
  如果需要多个拦截器，可以链式包装： 增强复用性
  <p>
- server.createContext("/test",
+ server.createContext("/ztest",
  new AuthInterceptor(new LoggingInterceptor(new MyHandler())));</div>
 </section>
 <section class="summary">

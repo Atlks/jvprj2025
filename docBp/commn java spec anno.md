@@ -11,7 +11,7 @@
 
 =ioc 依赖注入  @inject
 
-=test 测试 
+=ztest 测试 
  
 
 =doc  @Documented

@@ -1,4 +1,4 @@
-package test;
+package ztest;
 
 import apis.RegHandler;
 import org.dizitart.no2.Nitrite;

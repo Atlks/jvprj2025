@@ -5,8 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.Conditional;
-import tools.ConditionImpt1;
-import tools.ConditionalElse;
+import ztools.ConditionImpt1;
+import ztools.ConditionalElse;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;

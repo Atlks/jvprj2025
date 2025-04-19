@@ -1,4 +1,4 @@
-package test;
+package ztest;
 
 import entityx.LogBls;
 import entityx.ReChgOrd;

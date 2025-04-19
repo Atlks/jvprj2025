@@ -28,11 +28,11 @@ adrprj also have()
 mmnc2add.kt.atkwdNNNslt2mmnc
 
 =getMMncByWltnum
-tools\mmnc2add.kt
+ztools\mmnc2add.kt
 
 
 =isHead3isNumChkEthAdd筛选头部为良好的地址
-C:\Users\attil\IdeaProjects\jvprj2025\test\test\mmnc2add.kt
+C:\Users\attil\IdeaProjects\jvprj2025\ztest\ztest\mmnc2add.kt
 //mmnc2add.kt
 // 获取前三位 字符，如果全是数字，那么返回true
 fun isHead3isNumChkEthAdd(str: String): Boolean {

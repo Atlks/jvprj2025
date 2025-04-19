@@ -1,4 +1,4 @@
-package test;
+package ztest;
 
 import apiOrdBet.OrdBet;
 import org.hibernate.HibernateException;

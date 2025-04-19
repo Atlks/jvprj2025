@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.stereotype.Controller;
 import static cfg.AppConfig.sessionFactory;
-import static test.htmlTppltl.rend;
+import static ztest.htmlTppltl.rend;
 import static util.algo.EncodeUtil.encodeParamSql;
 import static util.algo.NullUtil.isBlank;
 import static util.tx.Pagging.getPageResultByHbntV3;

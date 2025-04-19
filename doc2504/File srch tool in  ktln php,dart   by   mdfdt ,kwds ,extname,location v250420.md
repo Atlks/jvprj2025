@@ -13,7 +13,7 @@ File srch tool in   php,dart   by   mdfdt ,kwds ,extname,location
 * @param targetDirPath 匹配文件要复制到的目标路径（保留目录结构）
 * @param srchKwds 要搜索的关键词（用空格分隔，全部都必须匹配）
   */
-C:\0prj\jvprj2025\src\tools\srchFils.kt
+C:\0prj\jvprj2025\src\ztools\srchFils.kt
 
 jsPrjMng/lib/fulltxtSrchV2.php
 

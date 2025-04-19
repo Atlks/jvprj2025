@@ -135,7 +135,7 @@ public class RechargeCallbackHdr implements  Icall<ReChgOrd,Object> {
 
     private boolean chkRechgSucessByQryThrd(String id) throws Throwable {
 
-        if("test".equals("test"))
+        if("ztest".equals("ztest"))
             return  true;
         JSONObject jo= JSONObject.from(getFromHttpget("xxxxxc?id="+id));
 

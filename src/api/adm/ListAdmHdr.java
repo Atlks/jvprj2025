@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static cfg.AppConfig.sessionFactory;
-import static test.htmlTppltl.rend;
+import static ztest.htmlTppltl.rend;
 import static util.tx.dbutil.nativeQueryGetResultList;
 
 @Controller

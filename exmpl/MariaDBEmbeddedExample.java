@@ -1,4 +1,4 @@
-package test;
+package ztest;
 
 import org.mariadb.jdbc.MariaDbDataSource;
 import java.sql.Connection;

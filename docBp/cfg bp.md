@@ -62,7 +62,7 @@ return inputStream;
 */
 public static void iniCfgFrmCfgfile() throws FileNotFoundException {
 
-        //test
+        //ztest
      
             }
         }

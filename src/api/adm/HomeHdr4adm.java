@@ -23,7 +23,7 @@ import util.ex.existUserEx;
 import util.misc.util2026;
 import util.serverless.ApiGateway;
 
-import static test.htmlTppltl.renderHtml;
+import static ztest.htmlTppltl.renderHtml;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.setcookie;
 import static util.serverless.ApiGateway.httpExchangeCurThrd;

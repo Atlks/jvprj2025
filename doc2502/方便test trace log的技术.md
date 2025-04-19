@@ -1,5 +1,5 @@
 
-=test
+=ztest
 aop   ioc
 junit
 1. 依赖注入（Dependency Injection, DI）
