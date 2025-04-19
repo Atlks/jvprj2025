@@ -1,17 +1,16 @@
 get:
   tags:
     - Wallet
-  summary: "管理后台 钱包方面接口 通过充值"
-  description: " 。。。。"
-  operationId: "ReviewChrgPassHdr"
+  summary: "查询资金明细"
+  description: ""
+  operationId: "查询资金明细"
   parameters:
-    - name: ord_id
+    - name: day
       in: query
-      description: "订单id"
+      description: " "
       required: true
       schema:
         type: string
-
 
   responses:
     "200":

@@ -78,6 +78,8 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /wlt/QryFundDetailHdl:
+   $ref: './paths/wlt/QryFundDetailHdl.yaml'
   /admin/cfg/SetCfgKv:
     $ref: './paths/cfg/SetCfgKv.yaml'
   /cfg/GetCfg:
