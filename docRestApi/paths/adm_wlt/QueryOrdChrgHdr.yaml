@@ -1,7 +1,7 @@
 get:
   tags:
     - Wallet
-  summary: "管理后台 钱包方面接口 查询订单"
+  summary: "管理后台 钱包方面接口 查询充值订单"
   description: " 。。。。"
   operationId: "QueryOrdChrgHdr"
 

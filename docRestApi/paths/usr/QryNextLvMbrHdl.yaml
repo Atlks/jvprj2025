@@ -1,6 +1,6 @@
 get:
   tags:
-    - user
+    - Wallet
   summary: "查询下一级用户"
   description: ""
   operationId: "QryNextLvMbrHdl"
