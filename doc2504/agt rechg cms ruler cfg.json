@@ -1,8 +1,4 @@
-
-
-
-{
-  "rechargeCommissionRates": [
+ [
     {
       "minAmount": 1,
       "maxAmount": 50000,
@@ -33,4 +29,3 @@
       "commissionRate": 15
     }
   ]
-}

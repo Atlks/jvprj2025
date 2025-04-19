@@ -133,7 +133,7 @@ public class HbntUtil {
         // 注册到 hbnt
         for (Class<?> clazz : classList) {
             try {
-                if (clazz.getName().startsWith("entityx")) {
+                if (clazz.getName().startsWith("entityx") || clazz.getName().startsWith("model.")) {
 
                     if (clazz.isAnnotationPresent(Entity.class)) {
                         metadataSources.addAnnotatedClasses(clazz);

@@ -78,6 +78,10 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /admin/cfg/SetCfgKv:
+    $ref: './paths/cfg/SetCfgKv.yaml'
+  /cfg/GetCfg:
+    $ref: './paths/cfg/GetCfg.yaml'
   /wlt/ListInsFdPoolLogHdl:
     $ref: './paths/wlt/ListInsFdPoolLogHdl.yaml'
   /wlt/ListInvtCmsLogHdl:

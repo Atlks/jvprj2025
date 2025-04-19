@@ -1,4 +1,4 @@
-package handler.adm.cfg;
+package handler.cfg;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
@@ -9,15 +9,16 @@ import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
 import static cfg.AppConfig.sessionFactory;
+import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.mergeByHbnt;
 
-/**
- *     /admin/cfg/SetCfgKv?k=rechargeCommissionRates&v={}
+/**  GetCfg kv mode
+ *     /admin/cfg/GetCfg?k=rechargeCommissionRates&v={}
  */
 @RestController
-@Path("/admin/cfg/SetCfgKv")
+@Path("/cfg/GetCfg")
 @PermitAll
-public class SetCfgKv implements RequestHandler<KvCfg, ApiGatewayResponse> {
+public class GetCfg implements RequestHandler<KvCfg, ApiGatewayResponse> {
     /**
      * @param reqDto
      * @param context
@@ -27,7 +28,7 @@ public class SetCfgKv implements RequestHandler<KvCfg, ApiGatewayResponse> {
     @Override
     public ApiGatewayResponse handleRequest(KvCfg reqDto, Context context) throws Throwable {
      //   reqDto.id="uniqID";
-          mergeByHbnt(reqDto, sessionFactory.getCurrentSession());
-        return new ApiGatewayResponse(reqDto);
+        KvCfg c=   findByHerbinate(KvCfg.class,reqDto.k,sessionFactory.getCurrentSession());
+        return new ApiGatewayResponse(c);
     }
 }

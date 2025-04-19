@@ -1,4 +1,4 @@
-package handler.adm.cfg;
+package handler.cfg;
 
 import entityx.wlt.RechargeConfig;
 import jakarta.annotation.security.PermitAll;

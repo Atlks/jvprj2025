@@ -1,0 +1,23 @@
+get:
+  tags:
+    - cfg
+  summary: "设置配置"
+  description: " 。。。。"
+  operationId: "设置配置"
+  parameters:
+    - name: k
+      in: query
+      description: " "
+      required: true
+      schema:
+        type: string
+    - name: v
+      in: query
+      description: " "
+      required: true
+      schema:
+        type: string
+
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'

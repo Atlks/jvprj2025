@@ -1,0 +1,63 @@
+package handler.cfg;
+
+import cfg.AppConfig;
+import entityx.ylwlt.BetWinLog;
+import handler.ylwlt.ListInsFdPoolLogHdl;
+import handler.ylwlt.QueryDto;
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.Context;
+import model.cfg.KvCfg;
+import org.springframework.web.bind.annotation.RestController;
+import util.serverless.ApiGatewayResponse;
+import util.serverless.RequestHandler;
+
+import java.io.FileNotFoundException;
+import java.math.BigDecimal;
+import java.sql.SQLException;
+
+import static cfg.AppConfig.sessionFactory;
+import static cfg.MyCfg.iniContnr;
+import static util.misc.Util2025.encodeJson;
+import static util.misc.Util2025.readTxtFrmFil;
+import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.TransactMng.commitTsact;
+import static util.tx.TransactMng.openSessionBgnTransact;
+
+/**
+ *     /admin/cfg/SetCfgKv?k=rechargeCommissionRates&v={}
+ */
+@RestController
+@Path("/admin/cfg/SetCfgKv")
+@PermitAll
+public class SetCfgKv implements RequestHandler<KvCfg, ApiGatewayResponse> {
+    /**
+     * @param reqDto
+     * @param context
+     * @return
+     * @throws Throwable
+     */
+    @Override
+    public ApiGatewayResponse handleRequest(KvCfg reqDto, Context context) throws Throwable {
+     //   reqDto.id="uniqID";
+          mergeByHbnt(reqDto, sessionFactory.getCurrentSession());
+        return new ApiGatewayResponse(reqDto);
+    }
+
+    public static void main(String[] args) throws Throwable {
+        new AppConfig().sessionFactory();//ini sessFctr
+        //ini contnr 4cfg,, svrs
+        iniContnr();
+
+        //============aop trans begn
+        openSessionBgnTransact();
+
+        String f="C:\\0prj\\jvprj2025\\doc2504\\agt rechg cms ruler cfg.json";
+        String txt=readTxtFrmFil(f);
+        KvCfg c=new KvCfg("rechargeCommissionRates",txt);
+        //  persistByHibernate(o, AppConfig.sessionFactory.getCurrentSession());
+        System.out.println(encodeJson(new SetCfgKv().handleRequest(c,null)));
+
+        commitTsact();
+    }
+}
