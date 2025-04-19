@@ -339,7 +339,9 @@ public class ApiGateway implements HttpHandler {
         Field[] flds = dto.getClass().getFields();
         for (Field fld : flds) {
             if (fld.isAnnotationPresent(CurrentUsername.class))
-                fld.set(dto, getCurrentUser());
+                if (needLoginUserAuth()) {
+                    fld.set(dto, getCurrentUser());
+                }
             //  setField(dto, jw.name(), getCurrentUser());
         }
         return dto;

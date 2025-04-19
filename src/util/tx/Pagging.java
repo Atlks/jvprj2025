@@ -30,7 +30,7 @@ public class Pagging {
 
     public static @NotNull PageResult<?> getPageResultByHbntV4(@NotBlank  String sql, Map<String, Object> sqlprmMap, PageDto pageobj, Session session,Class modelCls) throws SQLException {
 
-        System.out.println("fun getPageResultByHbntV3(sql= "+sql);
+        System.out.println("fun getPageResultByHbntV4(sql= "+sql+",modelCls="+modelCls);
         NativeQuery  nativeQuery = session.createNativeQuery(sql, modelCls);
         setPrmts4sql(sqlprmMap, nativeQuery);
         // 设置分页

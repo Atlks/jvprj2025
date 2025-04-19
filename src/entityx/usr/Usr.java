@@ -15,6 +15,11 @@ import java.math.BigDecimal;
 
 import static service.CmsBiz.toBigDcmTwoDot;
 
+/**
+ * @PersistenceCapable 是 DataNucleus（JDO） 中的一个注解，用于标记一个 Java 类是可持久化的（Persistent），也就是说，这个类的对象可以被保存到数据库中。
+ *
+ * 它是 Java Data Objects（JDO）规范的一部分。JDO 是一种早期的 Java ORM（对象关系映射）标准，类似于 JPA，但现在使用较少，
+ */
 // C:\Users\attil\.m2\repository\javax\jdo\jdo-api\3.2.1\jdo-api-3.2.1.jar
 @Entity
 @Table
@@ -79,6 +84,8 @@ public class Usr {
 
     @CreationTimestamp
     public long crtTimeStmp;
+
+    public long timestamp=System.currentTimeMillis();
 
     @UpdateTimestamp
     public long updtTmstmp;

@@ -80,6 +80,8 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /usr/QryNextLvMbrHdl:
+    $ref: './paths/usr/QryNextLvMbrHdl.yaml'
   /wlt/QryFundDetailHdl:
    $ref: './paths/wlt/QryFundDetailHdl.yaml'
   /admin/cfg/SetCfgKv:

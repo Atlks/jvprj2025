@@ -52,7 +52,8 @@ public class UpldHr  implements RequestHandler<NonDto, ApiGatewayResponse> {
     public ApiGatewayResponse handleRequest(NonDto param, Context context) throws Throwable {
         HttpExchange httpExchange = httpExchangeCurThrd.get();
         HttpExchange exchange = httpExchange;
-        String uploadDir = getPrjPath() + "/res/uploads";
+        String pathUpld = "/res/uploads";
+        String uploadDir = getPrjPath() + pathUpld;
         //  mkdir2025(uploadDir+"/xxx.jpg");
         // 确保上传目录存在
         Files.createDirectories(Paths.get(uploadDir));
@@ -75,7 +76,7 @@ public class UpldHr  implements RequestHandler<NonDto, ApiGatewayResponse> {
 
 
         // 发送响应
-        String rltpath = "/res/uploads/" + newFileName;
+        String rltpath = pathUpld+"/" + newFileName;
         return  new ApiGatewayResponse(rltpath) ;
     }
 

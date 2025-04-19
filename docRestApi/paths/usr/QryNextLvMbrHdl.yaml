@@ -1,0 +1,17 @@
+get:
+  tags:
+    - user
+  summary: "查询下一级用户"
+  description: ""
+  operationId: "QryNextLvMbrHdl"
+  parameters:
+    - name: uname
+      in: query
+      description: "用户名"
+      required: true
+      schema:
+        type: string
+
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'
