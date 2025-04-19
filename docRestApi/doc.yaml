@@ -11,8 +11,10 @@ info:
     name: dddddomas
     email: support@example.com
 servers:
-  - url: http://localhost:8889
+  - url: http://18.136.123.232:8889
     description: 测试环境
+  - url: http://localhost:8889
+    description: 本地环境
   - url: http://localhost:8888
     description: 生产环境
 
