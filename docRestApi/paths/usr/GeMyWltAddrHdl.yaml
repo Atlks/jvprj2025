@@ -1,9 +1,9 @@
 get:
   tags:
     - user
-  summary: "设置我的钱包地址"
+  summary: "我的钱包地址"
   description: ""
-  operationId: "设置我的钱包地址"
+  operationId: "我的钱包地址"
 
   responses:
     "200":
