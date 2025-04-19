@@ -1,0 +1,10 @@
+get:
+  tags:
+    - user
+  summary: "设置我的钱包地址"
+  description: ""
+  operationId: "设置我的钱包地址"
+
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'

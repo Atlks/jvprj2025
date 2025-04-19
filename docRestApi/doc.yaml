@@ -80,6 +80,10 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /user/GeMyWltAddrHdl:
+    $ref: './paths/usr/GeMyWltAddrHdl.yaml'
+  /user/SeMyWltAddrHdl:
+    $ref: './paths/usr/SeMyWltAddrHdl.yaml'
   /usr/QryNextLvMbrHdl:
     $ref: './paths/usr/QryNextLvMbrHdl.yaml'
   /wlt/QryFundDetailHdl:
