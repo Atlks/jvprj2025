@@ -3,6 +3,8 @@ package util.serverless;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.core.Context;
 
+import java.util.Map;
+
 
 /**
  * （来自 AWS SDK）
@@ -17,4 +19,6 @@ import jakarta.ws.rs.core.Context;
  */
 public interface RequestHandler<DTO, RspObj> {
     @NotNull RspObj handleRequest(@NotNull DTO param, Context context) throws Throwable;
+
+    public  static  ThreadLocal<Map>  request_getHeaders=new ThreadLocal<>();
 }

@@ -1,4 +1,4 @@
-package dto;
+package handler.wlt.qryFdDtl;
 
 import annos.CurrentUsername;
 import lombok.Data;

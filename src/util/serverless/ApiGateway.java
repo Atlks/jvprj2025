@@ -40,6 +40,7 @@ import static util.algo.AnnotationUtils.getCookieParamsV2;
 import static util.algo.AnnotationUtils.getParams;
 import static util.algo.GetUti.getUUid;
 import static util.algo.ToXX.toDtoFrmQrystr;
+import static util.auth.AuthUtil.request_getHeaders_get;
 import static util.excptn.ExptUtil.*;
 import static util.oo.WebsrvUtil.processNmlExptn;
 import static util.proxy.AopUtil.ivk4log;
@@ -48,6 +49,7 @@ import static util.log.ColorLogger.*;
 
 import static util.proxy.SprUtil.injectAll4spr;
 import static util.serverless.ApiGatewayResponse.createErrResponseWzErrcode;
+import static util.serverless.RequestHandler.request_getHeaders;
 import static util.tx.TransactMng.commitTsact;
 import static util.tx.TransactMng.openSessionBgnTransact;
 import static util.misc.Util2025.*;
@@ -100,7 +102,7 @@ public class ApiGateway implements HttpHandler {
             if (isImpltInterface(target, RequestHandler.class))
                 return ((RequestHandler) target).handleRequest(args, null);
             else
-                return ((Icall)target).main(args);
+                return ((Icall) target).main(args);
         });
 
 
@@ -222,17 +224,23 @@ public class ApiGateway implements HttpHandler {
             //apigat reqauth mode...
             var aClass = this.target.getClass();
             if (aClass.isAnnotationPresent(RequireAuth.class)) {
+                //THIS OLY FOR admin page auth chk,,cookie mode
                 RequireAuth RequireAuth1 = aClass.getAnnotation(RequireAuth.class);
                 var authfun1 = RequireAuth1.authFun();
                 var obj = authfun1.getConstructor().newInstance();
                 obj.validateRequest(null, null, null);
             } else {
-                //chk token blk list
+                //chk token blk list  ,,jwt mode ,dft chk mode
+
                 sam4chkLgnStat.validateRequest(null, null, null);
+                var uid = request_getHeaders_get("X-MS-CLIENT-PRINCIPAL-NAME");
+
             }
 
         }
     }
+
+
 //            if (authStt == AuthenticationStatus.SUCCESS) {
 //                //next prcs
 //            } else {
@@ -266,8 +274,8 @@ public class ApiGateway implements HttpHandler {
         Object rzt;
         //---------log
         Class PrmDtoCls = getPrmClass(this.target, "handleRequest");
-        if(PrmDtoCls==null)
-          PrmDtoCls = getPrmClass(this.target, "main");
+        if (PrmDtoCls == null)
+            PrmDtoCls = getPrmClass(this.target, "main");
 
         if (PrmDtoCls == null) {
             rzt = invoke_callNlogWarp(new NonDto());
@@ -329,11 +337,11 @@ public class ApiGateway implements HttpHandler {
 
 
         //SET getUsernameFrmJwtToken(httpExchangeCurThrd.get()
-        Field[]  flds=  dto.getClass().getFields();
+        Field[] flds = dto.getClass().getFields();
         for (Field fld : flds) {
-            if ( fld.isAnnotationPresent(CurrentUsername.class))
-                fld.set(dto,getCurrentUser());
-              //  setField(dto, jw.name(), getCurrentUser());
+            if (fld.isAnnotationPresent(CurrentUsername.class))
+                fld.set(dto, getCurrentUser());
+            //  setField(dto, jw.name(), getCurrentUser());
         }
         return dto;
     }

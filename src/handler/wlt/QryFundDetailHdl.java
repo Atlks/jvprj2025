@@ -1,25 +1,21 @@
 package handler.wlt;
 
 import cfg.AppConfig;
-import dto.QryFundDetailRqdto;
-import entityx.wlt.ReChgOrd;
-import handler.cfg.SetCfg;
-import jakarta.annotation.security.PermitAll;
+import handler.wlt.qryFdDtl.QryFundDetailRqdto;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import model.cfg.CfgKv;
 import model.wlt.FundDetail;
 import org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 import static biz.Containr.sessionFactory;
 import static cfg.MyCfg.iniContnr;
 import static util.algo.EncodeUtil.encodeSqlPrm;
 import static util.misc.Util2025.encodeJson;
-import static util.misc.Util2025.readTxtFrmFil;
 import static util.oo.TimeUti.beforeTmstmp;
 import static util.tx.Pagging.getPageResultByHbntV4;
 import static util.tx.TransactMng.commitTsact;
@@ -56,10 +52,17 @@ public class QryFundDetailHdl implements RequestHandler<QryFundDetailRqdto, ApiG
         //============aop trans begn
         openSessionBgnTransact();
 
+        FundDetail o=new FundDetail();
+        o.changeAmount= BigDecimal.valueOf(666666);
+        o.amtBefore= BigDecimal.valueOf(0);
+        o.amtAfter=o.amtBefore.add(o.changeAmount);
+        o.uname="007";
+      //  persistByHibernate(o, sessionFactory.getCurrentSession());
+
 //        String f="C:\\0prj\\jvprj2025\\doc2504\\agt rechg cms ruler cfg.json";
 //        String txt=readTxtFrmFil(f);
         QryFundDetailRqdto c=new QryFundDetailRqdto();
-        c.uname="777";
+        c.uname="007";
         //  persistByHibernate(o, AppConfig.sessionFactory.getCurrentSession());
         System.out.println(encodeJson(new QryFundDetailHdl().handleRequest(c,null)));
 

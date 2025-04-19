@@ -15,10 +15,14 @@ import util.auth.CantGetTokenJwtEx;
 import util.auth.validateTokenExcptn;
 import util.tx.findByIdExptn_CantFindData;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static cfg.AppConfig.sessionFactory;
 import static util.serverless.ApiGateway.httpExchangeCurThrd;
 import static util.excptn.ExptUtil.appendEx2lastExs;
 import static util.auth.JwtUtil.*;
+import static util.serverless.RequestHandler.request_getHeaders;
 import static util.tx.HbntUtil.findByHerbinate;
 
 public class SAM4chkLgnStatJwtMod implements ISAM, HttpAuthenticationMechanism {
@@ -39,6 +43,13 @@ public class SAM4chkLgnStatJwtMod implements ISAM, HttpAuthenticationMechanism {
             String uname = getUsernameFrmJwtToken(httpExchangeCurThrd.get());
              //is not in jwt blk lst..
             chkIsInJwtBlkLst();
+
+            Map m=new HashMap();
+            m.put("X-MS-CLIENT-PRINCIPAL-ID",uname);
+            m.put("X-MS-CLIENT-PRINCIPAL-NAME",uname);
+          //  m.put("X-MS-TOKEN-AAD-ID-TOKEN",uname);
+            //	Azure AD ID Token（Base64 JWT）
+            request_getHeaders.set(m);
         }
         catch (Throwable e) {
             e.printStackTrace();
