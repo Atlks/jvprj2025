@@ -1,7 +1,7 @@
 package util.algo;
 
 
-import annos.CookieParam;
+import util.annos.CookieParam;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;

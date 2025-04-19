@@ -1,6 +1,7 @@
 package api.bet;
 
-import annos.注入;
+import util.annos.JwtParam;
+import util.annos.注入;
 import entityx.ApiResponse;
 import entityx.bet.BetOrd;
 import entityx.bet.BetOrdDto;
@@ -26,7 +27,7 @@ import java.math.BigDecimal;
 
 
 import static handler.wlt.TransHdr.curLockAcc;
-import static biz.Containr.SecurityContext1;
+import static cfg.Containr.SecurityContext1;
 import static cfg.AppConfig.sessionFactory;
 import static java.time.LocalTime.now;
 import static util.auth.AuthUtil.getCurrentUser;
@@ -40,8 +41,8 @@ import static util.tx.dbutil.addObj;
  */
 @Tag(name = "bet")
 @Path("/bet")
-@annos.Parameter(name = "bettxt")
-@annos.JwtParam(name = "uname")
+@util.annos.Parameter(name = "bettxt")
+@JwtParam(name = "uname")
 @Component
 @NoArgsConstructor
 public class BetHdr implements Icall<BetOrdDto, Object> {

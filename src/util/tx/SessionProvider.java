@@ -6,7 +6,7 @@ import util.excptn.OrmUtilBiz;
 
 import java.sql.SQLException;
 
-import static biz.BaseHdr.saveDirUsrs;
+import static cfg.BaseHdr.saveDirUsrs;
 
 // 提供 Session 的工厂类
 public class SessionProvider extends ProviderAdapter {

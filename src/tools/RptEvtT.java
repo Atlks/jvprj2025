@@ -1,8 +1,8 @@
 package tools;
 
 
-import annos.Repeat;
-import annos.RepeatUtil;
+import util.annos.Repeat;
+import util.annos.RepeatUtil;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import util.evtdrv.Condition;

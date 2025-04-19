@@ -30,7 +30,7 @@ import java.util.Map;
 
 import static core.IRegHandler.SAM4regLgn;
 
-import static biz.Containr.evtPublisherObsv;
+import static cfg.Containr.evtPublisherObsv;
 import static util.algo.EncryUtil.Key4pwd4aeskey;
 import static util.algo.EncryUtil.encryptAesToStrBase64;
 import static util.misc.Util2025.encodeJson;
@@ -92,7 +92,7 @@ public class LgnHdr3 implements Icall<RegDto, Object> {
 
     }
 
-    @annos.Observes({LoginEvtObsvs})
+    @util.annos.Observes({LoginEvtObsvs})
     public void setVisa2cookie(@Observes @NotNull RegDto dtoReg) {
 
         //   RegDto dtoReg = (RegDto) evt.getSource();
@@ -104,7 +104,7 @@ public class LgnHdr3 implements Icall<RegDto, Object> {
 
     public static ThreadLocal<Object> retobj = new ThreadLocal<>();
 
-    @annos.Observes({LoginEvtObsvs})
+    @util.annos.Observes({LoginEvtObsvs})
     public @NotNull Map<String, String> getTokenJwt(@NotNull RegDto Udto) {
         //  RegDto Udto = (RegDto) evt.getSource();
         Map<String, String> tokenJwt = Collections.singletonMap("tokenJwt", JwtUtil.newToken(Udto.uname));

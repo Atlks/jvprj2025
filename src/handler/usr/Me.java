@@ -6,7 +6,7 @@ import jakarta.ws.rs.core.Context;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
-import static biz.Containr.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.auth.AuthUtil.getCurrentUser;
 import static util.tx.HbntUtil.findByHerbinate;
 

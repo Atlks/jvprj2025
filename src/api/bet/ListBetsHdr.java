@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
+import util.annos.JwtParam;
 
 //import static api.usr.QueryUsrHdr.qryuserLucene;
 
@@ -25,7 +26,7 @@ import static util.tx.HbntUtil.getListBySql;
 @RestController
 @Tag(name = "bet")
 @Path("/list_bets")
-@annos.JwtParam(name = "uname")
+@JwtParam(name = "uname")
 @NoArgsConstructor
 public class ListBetsHdr  implements Icall<QryDto4bets, Object>  {
 

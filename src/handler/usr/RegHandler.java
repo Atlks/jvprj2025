@@ -11,11 +11,12 @@ import jakarta.ws.rs.core.Context;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.springframework.web.bind.annotation.RestController;
+import util.annos.Parameter;
 import util.ex.existUserEx;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
-import static biz.Containr.sam4regLgn;
+import static cfg.Containr.sam4regLgn;
 import static cfg.AppConfig.sessionFactory;
 import static util.misc.Util2025.encodeJson;
 import static util.proxy.AopUtil.ivk4log;
@@ -33,8 +34,8 @@ import static util.tx.HbntUtil.persistByHibernate;
 @RestController
 @Path("/reg")
 @Tag(name = "用户管理", description = "用户相关操作")
-@annos.Parameter(name = "uname")
-@annos.Parameter(name = "pwd")
+@Parameter(name = "uname")
+@Parameter(name = "pwd")
 @PermitAll
 @NoArgsConstructor
 // @Produces / @Consumes：指定返回和接收的数据格式（如 application/json）

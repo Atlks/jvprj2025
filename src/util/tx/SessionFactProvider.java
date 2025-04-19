@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.List;
 
-import static biz.BaseHdr.saveDirUsrs;
+import static cfg.BaseHdr.saveDirUsrs;
 import static util.tx.HbntUtil.getSessionFactory;
 
 public class SessionFactProvider extends ProviderAdapter {

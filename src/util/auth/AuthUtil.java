@@ -1,6 +1,6 @@
 package util.auth;
 
-import static biz.Containr.SecurityContext1;
+import static cfg.Containr.SecurityContext1;
 import static util.serverless.RequestHandler.request_getHeaders;
 
 public class AuthUtil {

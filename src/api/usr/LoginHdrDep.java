@@ -32,7 +32,7 @@ import java.util.Map;
 
 import static core.IRegHandler.SAM4regLgn;
 
-import static biz.Containr.evtPublisher;
+import static cfg.Containr.evtPublisher;
 import static util.algo.EncryUtil.Key4pwd4aeskey;
 import static util.algo.EncryUtil.encryptAesToStrBase64;
 import static util.misc.Util2025.encodeJson;

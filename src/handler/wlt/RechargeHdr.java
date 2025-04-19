@@ -1,7 +1,7 @@
 package handler.wlt;
 
 
-import annos.CookieParam;
+import util.annos.CookieParam;
 
 import static cfg.AppConfig.sessionFactory;
 import static java.time.LocalTime.now;

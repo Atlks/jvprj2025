@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.function.Function;
 
-import static biz.BaseHdr.saveDirUsrs;
+import static cfg.BaseHdr.saveDirUsrs;
 import static cfg.AopLogJavassist.*;
 //import static cfg.AopLogJavassist.printLn;
 import static util.tx.HbntUtil.getSessionFactory;

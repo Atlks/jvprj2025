@@ -1,7 +1,6 @@
 package cfg;
 
 import handler.wlt.RechargeHdr;
-import biz.HttpHandlerX;
 import net.sf.cglib.proxy.*;
 
 import java.io.IOException;

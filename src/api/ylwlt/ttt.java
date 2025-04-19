@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 import static service.CmsBiz.toBigDcmTwoDot;
 import static cfg.MyCfg.iniContnr4cfgfile;
-import static biz.BaseBiz.saveUrlLogBalanceYinliWlt;
+import static cfg.BaseBiz.saveUrlLogBalanceYinliWlt;
 import static util.tx.dbutil.addObj;
 import static util.misc.util2026.getFilenameFrmLocalTimeString;
 

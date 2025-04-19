@@ -24,7 +24,7 @@ import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
 
-import static biz.Containr.sam4regLgn;
+import static cfg.Containr.sam4regLgn;
 import static util.serverless.ApiGateway.httpExchangeCurThrd;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.*;

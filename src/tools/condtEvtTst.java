@@ -1,7 +1,7 @@
 package tools;
 
 
-import annos.Conditional;
+import util.annos.Conditional;
 
 import jakarta.validation.constraints.AssertFalse;
 import jakarta.validation.constraints.AssertTrue;

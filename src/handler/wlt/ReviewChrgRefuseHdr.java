@@ -1,7 +1,7 @@
 package handler.wlt;
 
 import cfg.MyCfg;
-import dto.ReviewChrgPassRqdto;
+import handler.dto.ReviewChrgPassRqdto;
 import entityx.wlt.ReChgOrd;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
-import static biz.Containr.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.misc.util2026.getField2025;
 import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.mergeByHbnt;

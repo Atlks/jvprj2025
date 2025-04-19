@@ -12,7 +12,7 @@ import util.serverless.RequestHandler;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
-import static biz.Containr.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static cfg.MyCfg.iniContnr;
 import static util.algo.EncodeUtil.encodeSqlPrm;
 import static util.misc.Util2025.encodeJson;

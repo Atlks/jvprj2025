@@ -5,7 +5,7 @@ package handler.ylwlt;
  * BetWinLog
  */
 
-import annos.NoDftParam;
+import util.annos.NoDftParam;
 import cfg.AppConfig;
 import entityx.ylwlt.BetWinLog;
 import jakarta.annotation.security.PermitAll;
@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.UUID;
 
-import static biz.Containr.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static cfg.MyCfg.iniContnr;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
 import static util.misc.Util2025.encodeJson;

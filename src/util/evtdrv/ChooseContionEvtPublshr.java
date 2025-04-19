@@ -1,8 +1,7 @@
 package util.evtdrv;
 
 
-import annos.Conditional;
-import annos.Repeat;
+import util.annos.Conditional;
 import jakarta.validation.constraints.AssertFalse;
 import jakarta.validation.constraints.AssertTrue;
 import org.jetbrains.annotations.NotNull;

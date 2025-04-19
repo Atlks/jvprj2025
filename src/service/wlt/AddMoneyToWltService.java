@@ -1,7 +1,7 @@
 package service.wlt;
 import static cfg.AppConfig.sessionFactory;
 
-import annos.Parameter;
+import util.annos.Parameter;
 import entityx.wlt.LogBls;
 import entityx.wlt.TransDto;
 import entityx.usr.Usr;

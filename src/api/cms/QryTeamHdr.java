@@ -1,6 +1,6 @@
 package api.cms;
 
-import biz.BaseHdr;
+import cfg.BaseHdr;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.usr.Usr;
 import util.auth.AuthService;

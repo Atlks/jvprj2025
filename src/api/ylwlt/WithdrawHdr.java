@@ -1,7 +1,7 @@
 package api.ylwlt;
 
-import annos.CookieParam;
-import annos.Parameter;
+import util.annos.CookieParam;
+import util.annos.Parameter;
 import util.ex.BalanceNotEnghou;
 import entityx.wlt.LogBls4YLwlt;
 import entityx.ylwlt.OrdWthdr;

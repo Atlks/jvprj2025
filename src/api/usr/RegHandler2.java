@@ -25,7 +25,7 @@ import util.evtdrv.AnotherEvent;
 import util.ex.existUserEx;
 
 
-import static biz.Containr.evtPublisher;
+import static cfg.Containr.evtPublisher;
 import static cfg.AppConfig.sessionFactory;
 import static util.misc.Util2025.encodeJson;
 import static util.proxy.AopUtil.ivk4log;
@@ -44,8 +44,8 @@ import static util.tx.HbntUtil.persistByHibernate;
 @Path("/reg2")
 
 @Tag(name = "用户管理", description = "用户相关操作")
-@annos.Parameter(name = "uname")
-@annos.Parameter(name = "pwd")
+@util.annos.Parameter(name = "uname")
+@util.annos.Parameter(name = "pwd")
 @PermitAll
 @NoArgsConstructor
 public class RegHandler2 implements Icall<RegDto, Object> {

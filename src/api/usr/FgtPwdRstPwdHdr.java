@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
 import util.serverless.ApiGatewayResponse;
 
-import static biz.Containr.sam4regLgn;
+import static cfg.Containr.sam4regLgn;
 import static cfg.AppConfig.sessionFactory;
 import static util.tx.HbntUtil.findByHerbinate;
 

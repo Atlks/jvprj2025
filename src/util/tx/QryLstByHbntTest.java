@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 
-import static biz.Containr.saveUrlOrdChrg;
+import static cfg.Containr.saveUrlOrdChrg;
 import static cfg.MyCfg.iniContnr4cfgfile;
 import static util.tx.Qry.convertSqlToSpEL;
 import static util.misc.Util2025.encodeJson;

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import service.auth.ISAM;
+import util.annos.Parameter;
 import util.ex.existUserEx;
 
 import static cfg.AppConfig.sessionFactory;
@@ -35,8 +36,8 @@ import static util.tx.HbntUtil.persistByHibernate;
 @Path("/reg")
 @RequestMapping("/reg")
 @Tag(name = "用户管理", description = "用户相关操作")
-@annos.Parameter(name = "uname")
-@annos.Parameter(name = "pwd")
+@Parameter(name = "uname")
+@Parameter(name = "pwd")
 @PermitAll
 @NoArgsConstructor
 // @Produces / @Consumes：指定返回和接收的数据格式（如 application/json）

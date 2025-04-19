@@ -1,6 +1,6 @@
 package service.wlt
 
-import biz.Containr
+import cfg.Containr
 import cfg.AppConfig
 import cfg.IocSpringCfg
 import cfg.MyCfg

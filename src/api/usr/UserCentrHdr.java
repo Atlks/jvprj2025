@@ -1,6 +1,6 @@
 package api.usr;
 
-import biz.BaseHdr;
+import cfg.BaseHdr;
 import cfg.MyCfg;
 import com.sun.net.httpserver.HttpExchange;
 import entityx.usr.Usr;
@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.SortedMap;
 
 
-import static biz.Containr.saveUrlOrdChrg;
+import static cfg.Containr.saveUrlOrdChrg;
 import static util.excptn.ExptUtil.currFunPrms4dbg;
 import static util.algo.ToXX.parseQueryParams;
 import static util.misc.Util2025.encodeJson;

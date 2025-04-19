@@ -1,6 +1,6 @@
 package entityx.usr;
 
-import annos.CurrentUsername;
+import util.annos.CurrentUsername;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;

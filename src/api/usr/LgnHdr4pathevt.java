@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import static core.IRegHandler.SAM4regLgn;
-import static biz.Containr.evtPublisherPathmd;
+import static cfg.Containr.evtPublisherPathmd;
 import static util.algo.EncryUtil.Key4pwd4aeskey;
 import static util.algo.EncryUtil.encryptAesToStrBase64;
 import static util.misc.Util2025.encodeJson;

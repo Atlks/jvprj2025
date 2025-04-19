@@ -1,6 +1,5 @@
 package cfg;
 
-import biz.Containr;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.hibernate.SessionFactory;
@@ -18,7 +17,7 @@ import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.List;
 
-import static biz.BaseHdr.saveDirUsrs;
+import static cfg.BaseHdr.saveDirUsrs;
 import static util.tx.HbntUtil.getSessionFactory;
 
 @EnableAsync  // 启用异步功能

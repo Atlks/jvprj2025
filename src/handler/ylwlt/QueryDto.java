@@ -1,7 +1,7 @@
 package handler.ylwlt;
 
 
-import annos.CurrentUsername;
+import util.annos.CurrentUsername;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import util.entty.PageDto;

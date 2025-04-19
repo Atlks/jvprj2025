@@ -1,8 +1,7 @@
 package entityx;
 
-import biz.PageInfo;
+import cfg.PageInfo;
 import lombok.Data;
-import util.excptn.ExceptionBase;
 
 import java.util.HashMap;
 import java.util.Map;

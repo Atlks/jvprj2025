@@ -1,6 +1,6 @@
 package util.evtdrv;
 
-import annos.Observes;
+import util.annos.Observes;
 import org.springframework.context.event.EventListener;
 
 import java.lang.reflect.Method;

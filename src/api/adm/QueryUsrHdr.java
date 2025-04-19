@@ -1,7 +1,7 @@
 package api.adm;
 
-import annos.NoDftParam;
-import annos.RequireAuth;
+import util.annos.NoDftParam;
+import util.annos.RequireAuth;
 import entityx.usr.ReqDtoQryUsr;
 import jakarta.ws.rs.Path;
 import lombok.Data;

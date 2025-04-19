@@ -1,6 +1,6 @@
 package api.cms;
 
-import biz.BaseHdr;
+import cfg.BaseHdr;
 import cfg.MyCfg;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -18,7 +18,7 @@ import java.util.function.Predicate;
 
 //import static util.Fltr.filterWithSpEL;
 
-import static biz.Containr.saveUrlOrdChrg;
+import static cfg.Containr.saveUrlOrdChrg;
 import static util.algo.Fltr.fltr2501;
 import static util.algo.ToXX.parseQueryParams;
 import static util.algo.ToXX.toObjFrmMap;

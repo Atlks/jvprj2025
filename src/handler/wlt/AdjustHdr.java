@@ -1,7 +1,7 @@
 package handler.wlt;
 
-import annos.JwtParam;
-import annos.Parameter;
+import util.annos.JwtParam;
+import util.annos.Parameter;
 import util.ex.ErrAdjstTypeEx;
 import entityx.ApiResponse;
 import entityx.wlt.LogBls;

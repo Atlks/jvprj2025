@@ -1,7 +1,7 @@
 package service.auth;
 
 
-import annos.Observes;
+import util.annos.Observes;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import util.evtdrv.AnotherEvent;

@@ -1,6 +1,6 @@
 package handler.wlt.qryFdDtl;
 
-import annos.CurrentUsername;
+import util.annos.CurrentUsername;
 import lombok.Data;
 import util.entty.PageDto;
 

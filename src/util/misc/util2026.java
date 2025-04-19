@@ -1,8 +1,6 @@
 package util.misc;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
-import util.algo.JarClassScanner;
 import util.ex.PwdNotEqExceptn;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -20,12 +18,10 @@ import java.lang.reflect.InaccessibleObjectException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.HttpCookie;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.security.CodeSource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -36,8 +32,7 @@ import java.util.function.Function;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import static biz.Containr.curCtrlCls;
-import static cfg.AopLogJavassist.lock;
+import static cfg.Containr.curCtrlCls;
 import static java.time.LocalTime.now;
 import static util.algo.EncodeUtil.decodeUrl;
 import static util.algo.EncodeUtil.encodeUrl;
@@ -46,7 +41,6 @@ import static util.algo.JarClassScanner.getCurrentJarPath;
 import static util.algo.NullUtil.isBlank;
 import static util.algo.ToXX.parseQueryParams;
 import static util.misc.Util2025.encodeJson;
-import static util.misc.Util2025.printlnx;
 import static util.tx.dbutil.setField;
 
 public class util2026 {

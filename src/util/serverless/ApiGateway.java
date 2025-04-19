@@ -1,9 +1,9 @@
 package util.serverless;
 
-import annos.*;
-import biz.MinValidator;
+import cfg.MinValidator;
 import entityx.usr.NonDto;
 import org.hibernate.context.internal.ThreadLocalSessionContext;
+import util.annos.*;
 import util.ex.ValideTokenFailEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -30,9 +30,9 @@ import java.lang.reflect.Field;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
-import static biz.BaseHdr.*;
-import static biz.Containr.curCtrlCls;
-import static biz.Containr.sam4chkLgnStat;
+import static cfg.BaseHdr.*;
+import static cfg.Containr.curCtrlCls;
+import static cfg.Containr.sam4chkLgnStat;
 
 
 import static cfg.AppConfig.sessionFactory;
@@ -49,7 +49,6 @@ import static util.log.ColorLogger.*;
 
 import static util.proxy.SprUtil.injectAll4spr;
 import static util.serverless.ApiGatewayResponse.createErrResponseWzErrcode;
-import static util.serverless.RequestHandler.request_getHeaders;
 import static util.tx.TransactMng.commitTsact;
 import static util.tx.TransactMng.openSessionBgnTransact;
 import static util.misc.Util2025.*;
@@ -371,7 +370,7 @@ public class ApiGateway implements HttpHandler {
                     vldr.initialize(annotation1);
                     if (!vldr.isValid((BigDecimal) getField(dto, field.getName()), null)) {
                         Map<String, Object> m = new HashMap<>();
-                        m.put("dto", dto);
+                        m.put("handler/dto", dto);
                         m.put("fld", field.getName());
                         m.put("msg", "vldfail");
                         m.put("msgAnno", annotation1.message());
@@ -389,7 +388,7 @@ public class ApiGateway implements HttpHandler {
                             field1, null
                     )) {
                         Map<String, Object> m = new HashMap<>();
-                        m.put("dto", dto);
+                        m.put("handler/dto", dto);
                         m.put("fld", field.getName());
                         m.put("msg", "vldfail");
                         m.put("msgAnno", annotation1.message());
@@ -404,7 +403,7 @@ public class ApiGateway implements HttpHandler {
 
                     if (!vldr.isValid(getField(dto, field.getName()), null)) {
                         Map<String, Object> m = new HashMap<>();
-                        m.put("dto", dto);
+                        m.put("handler/dto", dto);
                         m.put("fld", field.getName());
                         m.put("msg", "vldfail");
                         m.put("msgAnno", annotation1.message());
