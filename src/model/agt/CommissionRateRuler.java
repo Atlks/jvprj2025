@@ -11,7 +11,7 @@ import lombok.Data;
 public class CommissionRateRuler {
 
      /**
-      * 最小金额（含）
+      * 最小金额（ 含）
       * 适用于该规则的起始金额
       */
      private double minAmount;
