@@ -1,4 +1,4 @@
-package model;
+package model.constt;
 
 
 import java.util.Map;

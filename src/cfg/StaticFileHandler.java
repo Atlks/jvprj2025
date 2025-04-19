@@ -19,7 +19,8 @@ public class StaticFileHandler implements HttpHandler {
         this.rmvUrlPathPrefix = rmvUrlPathPrefix;
         this.rootDir = new File(staticDir);
         if (!rootDir.exists() || !rootDir.isDirectory()) {
-            throw new IllegalArgumentException("静态文件目录不存在: " + staticDir);
+            System.out.println("静态文件目录不存在: " + staticDir);
+            //throw new IllegalArgumentException("静态文件目录不存在: " + staticDir);
         }
     }
 

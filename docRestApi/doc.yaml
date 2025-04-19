@@ -106,7 +106,7 @@ paths:
     $ref: './paths/cfg/GetRechargeConfigHdlr.yaml'
 
   /admin/cfg/SetRechargeConfigHdlr:
-    $ref: './paths/admin/cfg/SetRechargeConfigHdlr.yaml'
+    $ref: './paths/cfg/SetRechargeConfigHdlr.yaml'
 
 
   /admin/adm/add:

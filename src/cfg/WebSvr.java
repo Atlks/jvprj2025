@@ -55,6 +55,8 @@ public class WebSvr {
       //  String dirWzClassesDirSameLev = "static";
         String docRestApiDir = getdirRestapiDoc();
         System.out.println("docRestApiDir="+docRestApiDir);
+
+        server.createContext("/static22", new StaticFileHandler(docRestApiDir+"/aa","/static"));
         server.createContext("/static", new StaticFileHandler(docRestApiDir,"/static"));
         server.createContext("/docRestApi", new StaticFileHandler(docRestApiDir,"/docRestApi"));
 

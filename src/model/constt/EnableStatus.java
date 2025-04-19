@@ -1,4 +1,4 @@
-package model;
+package model.constt;
 
 /**
  * public static final Map<String, String> STATUS_DESCRIPTIONS = Map.of(

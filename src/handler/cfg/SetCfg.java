@@ -1,20 +1,13 @@
 package handler.cfg;
 
 import cfg.AppConfig;
-import entityx.ylwlt.BetWinLog;
-import handler.ylwlt.ListInsFdPoolLogHdl;
-import handler.ylwlt.QueryDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import model.cfg.KvCfg;
+import model.cfg.CfgKv;
 import org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
-
-import java.io.FileNotFoundException;
-import java.math.BigDecimal;
-import java.sql.SQLException;
 
 import static cfg.AppConfig.sessionFactory;
 import static cfg.MyCfg.iniContnr;
@@ -30,7 +23,7 @@ import static util.tx.TransactMng.openSessionBgnTransact;
 @RestController
 @Path("/admin/cfg/SetCfgKv")
 @PermitAll
-public class SetCfgKv implements RequestHandler<KvCfg, ApiGatewayResponse> {
+public class SetCfg implements RequestHandler<CfgKv, ApiGatewayResponse> {
     /**
      * @param reqDto
      * @param context
@@ -38,7 +31,7 @@ public class SetCfgKv implements RequestHandler<KvCfg, ApiGatewayResponse> {
      * @throws Throwable
      */
     @Override
-    public ApiGatewayResponse handleRequest(KvCfg reqDto, Context context) throws Throwable {
+    public ApiGatewayResponse handleRequest(CfgKv reqDto, Context context) throws Throwable {
      //   reqDto.id="uniqID";
           mergeByHbnt(reqDto, sessionFactory.getCurrentSession());
         return new ApiGatewayResponse(reqDto);
@@ -54,9 +47,9 @@ public class SetCfgKv implements RequestHandler<KvCfg, ApiGatewayResponse> {
 
         String f="C:\\0prj\\jvprj2025\\doc2504\\agt rechg cms ruler cfg.json";
         String txt=readTxtFrmFil(f);
-        KvCfg c=new KvCfg("rechargeCommissionRates",txt);
+        CfgKv c=new CfgKv("rechargeCommissionRates",txt);
         //  persistByHibernate(o, AppConfig.sessionFactory.getCurrentSession());
-        System.out.println(encodeJson(new SetCfgKv().handleRequest(c,null)));
+        System.out.println(encodeJson(new SetCfg().handleRequest(c,null)));
 
         commitTsact();
     }
