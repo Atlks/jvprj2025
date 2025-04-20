@@ -3,6 +3,7 @@ package model.opmng;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,8 +17,8 @@ import static util.algo.GetUti.getUuid;
  *
  */
 @Entity
-@Table
-
+@Table(name = "invst_op_rcd")
+@Data
 public class InvestmentOpRecord {
 
     @Id
@@ -27,20 +28,22 @@ public class InvestmentOpRecord {
      */
     private LocalDateTime investmentTime;
 
+    public  long timestamp=System.currentTimeMillis();
+
     /**
      * 订单号（唯一标识）
      */
-    private String orderNumber;
+    private String orderNumber=getUuid();
 
     /**
      * 投资类型（盈利 ）
      */
-    private String investmentType;
+    public String investmentType;
 
     /**
      * 操作金额（例如：8888.00）
      */
-    private BigDecimal amount;
+    public BigDecimal amount;
 
     /**
      * 资金流转方向（例如：转入、转出、收益、亏损）

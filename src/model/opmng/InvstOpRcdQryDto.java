@@ -1,6 +1,7 @@
 package model.opmng;
 
 import lombok.Data;
+import util.entty.PageDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
  *  * 用于传递前端查询条件：投资时间、投资类型、订单号、操作金额等
  */
 @Data
-public class InvstOpRcdQryDto {
+public class InvstOpRcdQryDto extends PageDto {
 
 
     /**

@@ -1,0 +1,27 @@
+get:
+  tags:
+    - invstRcd
+  summary: " 添加投资操作记录"
+  description: " 。。。。"
+  parameters:
+    - name: investmentType
+      in: query
+      description: "投资类型"
+      required: true
+      schema:
+        type: string
+    - name: amount
+      in: query
+      description: "金额"
+      required: true
+      schema:
+        type: number
+        format: double
+
+
+
+
+
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'

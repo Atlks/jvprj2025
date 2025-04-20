@@ -1,6 +1,7 @@
 package model.rpt;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
@@ -23,6 +24,7 @@ public class RechgAmtSumNMbrs {
     /**
      * 月份（格式如：2025-05）
      */
+    @Id
     private YearMonth month;
 
     /**
