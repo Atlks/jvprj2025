@@ -50,6 +50,8 @@ tags:
     description: 管理后台——配置方面接口
   - name: adm_wlt
     description: 管理后台——钱包方面接口
+  - name: role
+    description: 管理后台——自定义角色
 
 components:
   parameters:
@@ -84,7 +86,10 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
-
+  /admin/role/ListRolesHdl:
+   $ref: './paths/role/ListRolesHdl.yaml'
+  /admin/role/SaveRolesHdl:
+   $ref: './paths/role/SaveRolesHdl.yaml'
   /wlt/QryFundDetailHdl:
    $ref: './paths/wlt/QryFundDetailHdl.yaml'
   /admin/cfg/SetCfgKv:
@@ -118,13 +123,13 @@ paths:
     $ref: './paths/cfg/SetRechargeConfigHdlr.yaml'
 
 
-  /admin/adm/add:
+  /admin/AddAdminHdr:
     $ref: './paths/admin/adm/add.yaml'
-  /admin/adm/list:
+  /admin/ListAdmHdr:
     $ref: './paths/admin/adm/list.yaml'
   /admin/adm/del:
     $ref: './paths/admin/adm/del.yaml'
-  /admin/adm/login:
+  /admin/login:
     $ref: './paths/admin/adm/login.yaml'
   /admin/adm/logout:
     $ref: './paths/admin/adm/logout.yaml'

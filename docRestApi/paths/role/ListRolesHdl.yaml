@@ -1,0 +1,11 @@
+get:
+  tags:
+    - role
+  summary: " 列表自定义角色"
+  description: " 。。。。"
+
+
+
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'

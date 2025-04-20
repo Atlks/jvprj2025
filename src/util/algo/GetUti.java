@@ -25,7 +25,9 @@ import static util.algo.IndexOfUti.indexOfFirst;
 
 public class GetUti {
 
-
+    public static String  getUuid() {
+        return java.util.UUID.randomUUID().toString();
+    }
 
     public static String getImageMimeType(File file) {
         String fileName = file.getName().toLowerCase();
