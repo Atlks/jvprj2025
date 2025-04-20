@@ -55,14 +55,13 @@ public class Usr {
     /** 主体标识符（必须） */
     public String sub;
 
-
+   //有效余额
     public BigDecimal balance=new BigDecimal(0);// avdBls
     public BigDecimal balanceFreez=new BigDecimal(0);;// avdBls
     public BigDecimal balanceYinliwlt=new BigDecimal(0);;
     public BigDecimal balanceYinliwltFreez=new BigDecimal(0);;
 
-    //保险资金池总额
-    public BigDecimal insFdPoolBalance=new BigDecimal(0);;
+
 
     //已经充值总额
     public BigDecimal alreadyRechgSum=new BigDecimal(0);;

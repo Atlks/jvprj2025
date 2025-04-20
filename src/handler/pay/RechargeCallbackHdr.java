@@ -1,5 +1,6 @@
 package handler.pay;
 
+import model.wlt.Wallet;
 import util.excptn.RechargeFailExptn;
 import com.alibaba.fastjson2.JSONObject;
 import entityx.wlt.TransDto;
@@ -58,7 +59,8 @@ public class RechargeCallbackHdr implements  Icall<RechargeOrder,Object> {
  // @Inject("addMoneyToWltService")
  @Qualifier("AddMoneyToWltService")  // 使用类名自动转换
  public Icall addMoneyToWltService1;   //=new AddMoneyToWltService();
-    public   String addMoneyToWltService = "AddMoneyToWltService";
+
+public   String addMoneyToWltService = "AddMoneyToWltService";
 //    @Lazy
 //   // @Autowired()
 //    @Qualifier("addMoneyToYLWltService")
@@ -111,7 +113,7 @@ public class RechargeCallbackHdr implements  Icall<RechargeOrder,Object> {
         TransDto transDto=new TransDto();
         copyProps(objChrg,transDto);
         transDto.refUniqId="reqid="+objChrg.id;
-        transDto.lockAccObj=findByHerbinate(Usr.class,ordDto.uname,session);
+        transDto.lockAccObj=findByHerbinate(Wallet.class,ordDto.uname,session);
 
         addMoneyToWltService1.main(transDto);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");

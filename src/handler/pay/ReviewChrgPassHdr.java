@@ -1,21 +1,34 @@
 package handler.pay;
 
 import cfg.MyCfg;
+import entityx.usr.Usr;
+import entityx.wlt.TransDto;
 import handler.dto.ReviewChrgPassRqdto;
 import model.constt.RechargeOrderStat;
 import model.pay.RechargeOrder;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
+import model.wlt.Wallet;
+import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.RestController;
+import util.algo.Icall;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
+import util.tx.findByIdExptn_CantFindData;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
 import static cfg.Containr.sessionFactory;
+import static util.log.ColorLogger.RED_bright;
+import static util.log.ColorLogger.colorStr;
+import static util.misc.util2026.copyProps;
 import static util.misc.util2026.getField2025;
 import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.mergeByHbnt;
@@ -23,14 +36,17 @@ import static util.tx.HbntUtil.mergeByHbnt;
 
 /**
  * 审核通过充值
- *
- *
- //   http://localhost:8889/ReviewChrgPassHdr?ord_id=
+ * <p>
+ * <p>
+ * //   http://localhost:8889/ReviewChrgPassHdr?ord_id=
  */
 @RestController
 @Path("/admin/wlt/ReviewChrgPassHdr")
 @PermitAll
 public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, ApiGatewayResponse> {
+
+    static boolean ovrtTEst = false;
+
     /**
      * @param reqdto
      * @param context
@@ -41,33 +57,82 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
     public ApiGatewayResponse handleRequest(ReviewChrgPassRqdto reqdto, Context context) throws Throwable {
 
 
-        var o=findByHerbinate(RechargeOrder.class,reqdto.endToEndId,sessionFactory.getCurrentSession());
+        //------------blk chge regch stat=accp
+        String mthBiz = colorStr("设置订单状态=完成", RED_bright);
+        System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
+        Session session = sessionFactory.getCurrentSession();
+        var objChrg = findByHerbinate(RechargeOrder.class, reqdto.endToEndId, session);
+        // System.out.println("\r\n----blk updt chg ord set stat=ok");
+        //  is proceed??
+        if (objChrg.status.equals(RechargeOrderStat.ACCP.getCode())
+                || objChrg.status.equals(RechargeOrderStat.RJCT.getCode())) {
+            System.out.println("alread cpmlt ord,id=" + objChrg.id);
+            if (ovrtTEst) {
+            } else {
+                throw new AreadyProcessedEx("");
+            }
+        }
+        //chk stat is not pndg,,, throw ex
+        if (objChrg.status.equals(RechargeOrderStat.PNDG.getCode()))
+            objChrg.setStatus(String.valueOf(RechargeOrderStat.ACCP));
+        mergeByHbnt(objChrg, session);
 
-         o.setStatus(String.valueOf(RechargeOrderStat.ACCP));
-         mergeByHbnt(o,sessionFactory.getCurrentSession());
 
-        return new ApiGatewayResponse(o);
+
+
+        //----=============add blance n log  ..blk
+        String mthBiz2=colorStr("主钱包加钱",RED_bright);
+        System.out.println("\r\n\n\n=============⚡⚡bizfun "+mthBiz2);
+        String uname = objChrg.uname;
+        TransDto transDto=new TransDto();
+        copyProps(objChrg,transDto);
+        transDto.refUniqId="reqid="+objChrg.id;
+        iniWlt( objChrg.uname, session);
+        transDto.lockAccObj=findByHerbinate(Wallet.class, objChrg.uname, session);
+
+
+        addMoneyToWltService1.main(transDto);
+        //  System.out.println("\n\r\n---------endblk  kmplt chrg");
+
+
+        return new ApiGatewayResponse(objChrg);
+    }
+
+    public static void iniWlt(String uname, Session session) throws findByIdExptn_CantFindData {
+        try{
+            var wlt=findByHerbinate(Wallet.class, uname, session);
+        } catch (findByIdExptn_CantFindData e) {
+            //ini wlt
+            Wallet wlt=new Wallet();
+            wlt.userId= uname;
+            mergeByHbnt(wlt, session);
+          //  transDto.lockAccObj=findByHerbinate(Wallet.class, uname, session);
+        }
     }
 
 
+    //注解告诉 JSON 序列化库跳过该字段。
+    @Lazy
+    @Autowired()
+    // @Inject("addMoneyToWltService")
+    @Qualifier("AddMoneyToWltService")  // 使用类名自动转换
+    public Icall addMoneyToWltService1;   //=new AddMoneyToWltService();
     /**
-     *
      * @param uname
      * @return
      */
     public static String encodeSqlAsLikeMatchParam(String uname) {
-       return   "'% "+ encodeSqlPrm4safe(uname)+" %'";
+        return "'% " + encodeSqlPrm4safe(uname) + " %'";
 
     }
-
 
 
     public static String encodeSqlPrm4safe(String uname) {
-        return  uname.replaceAll("'","''");
+        return uname.replaceAll("'", "''");
     }
 
     public static String encodeSqlPrmAsStr(String uname) {
-        return   "'"+ encodeSqlPrm4safe(uname)+"'";
+        return "'" + encodeSqlPrm4safe(uname) + "'";
     }
 
     public static void main(String[] args) throws Exception {
@@ -106,12 +171,13 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
 //            //json doc ,ini ,redis ,lucene
 //            return qryuserIni(queryParams);
 //        }
-////        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
-////
-////        //todo start tx
-////        session.beginTransaction();
-////        Usr u=  session.find(Usr.class,uname);
-////        session.getTransaction().commit();
+
+    /// /        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
+    /// /
+    /// /        //todo start tx
+    /// /        session.beginTransaction();
+    /// /        Usr u=  session.find(Usr.class,uname);
+    /// /        session.getTransaction().commit();
 //    }
 
 
@@ -129,10 +195,6 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
 //        // 1️⃣ 计算总记录数
 //        return getPageResultByCntsql( sqlNoOrd,sqlprmMap,lst,pageSize);
 //    }
-
-
-
-
     private static List<SortedMap<String, Object>> qryuserIni(Map<String, String> queryParams) {
         String uname = (String) getField2025(queryParams, "uname", "");
         var expression = "";
@@ -146,7 +208,6 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
         var list1 = 0;//findObjs(saveDirUsrs , expression);
         return null;
     }
-
 
 
 }

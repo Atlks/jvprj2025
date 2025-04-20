@@ -67,6 +67,7 @@ public class IocSpringCfg {
                      * bean 将不会有任何初始化或销毁回调。
                      * 适用场景：
                      * 适用于简单的 bean 注册，当你不需要对 bean 的创建和生命周期进行精细控制时。
+                     *   context.registerBean(beanName,clazz);
                      */
                     registerBean(clazz,context);
 

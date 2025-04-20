@@ -1,6 +1,7 @@
 package service.wlt;
 
 import jakarta.validation.constraints.NotNull;
+import model.wlt.Wallet;
 import util.ex.BalanceNotEnghou;
 import entityx.wlt.LogBls;
 import entityx.wlt.TransDto;
@@ -36,11 +37,11 @@ public class RdsFromWltService  implements Icall<TransDto, Object> {
         System.out.println("\n\n\n===========减去钱包余额");
 
         //  放在一起一快存储，解决了十五问题事务。。。
-        Usr objU=  curLockAcc.get();
+        Wallet objU=  curLockAcc.get();
         if(objU==null)
             objU=TransDto88.lockAccObj;
 
-        BigDecimal nowAmt =objU.balance;
+        BigDecimal nowAmt =objU.availableBalance;
         if (TransDto88.getChangeAmount().compareTo(nowAmt) > 0) {
             BalanceNotEnghou ex = new BalanceNotEnghou("余额不足");
             ex.fun =this.getClass().getName()+"." + getCurrentMethodName();
@@ -51,14 +52,14 @@ public class RdsFromWltService  implements Icall<TransDto, Object> {
 
         BigDecimal amt = TransDto88.getChangeAmount();
         BigDecimal newBls = nowAmt.subtract(toBigDecimal(amt));
-        objU.balance = newBls;
+        objU.availableBalance = newBls;
 
         mergeByHbnt(objU, sessionFactory.getCurrentSession());
 
         //------------add balanceLog
         LogBls logBalance = new LogBls();
         logBalance.id = "LogBalance" + getFilenameFrmLocalTimeString();
-        logBalance.uname = objU.uname;
+        logBalance.uname = objU.userId;
 
         logBalance.changeAmount = TransDto88.getChangeAmount();
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);

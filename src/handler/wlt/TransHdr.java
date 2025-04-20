@@ -1,5 +1,6 @@
 package handler.wlt;
 
+import model.wlt.Wallet;
 import util.annos.CookieParam;
 import util.annos.Parameter;
 import util.annos.注入;
@@ -78,7 +79,7 @@ public class TransHdr implements Icall<TransDto, String> {
     @Qualifier("AddMoney2YLWltService")
     public Icall AddMoney2YLWltService1;
 
-    public static ThreadLocal<Usr> curLockAcc = new ThreadLocal<>();
+    public static ThreadLocal<Wallet> curLockAcc = new ThreadLocal<>();
 
     @Transactional
     @Override
@@ -94,12 +95,12 @@ public class TransHdr implements Icall<TransDto, String> {
       //  lgblsDto.uname=decryptDES( lgblsDto.uname,Key_a1235678);
 
         String uname = lgblsDto.uname;
-        Usr objU = findByHbntDep(Usr.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+        Wallet objU = findByHbntDep(Wallet.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
-        if (objU.id == null) {
-            objU.id = uname;
-            objU.uname = uname;
-        }
+//        if (objU.id == null) {
+//            objU.id = uname;
+//            objU.uname = uname;
+//        }
         curLockAcc.set(objU);
 
         RdsFromWltService1.main(lgblsDto);

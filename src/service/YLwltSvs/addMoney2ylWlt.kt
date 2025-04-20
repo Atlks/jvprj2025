@@ -54,7 +54,7 @@ fun main() {
     dto.uname = uname
     dto.changeAmount = BigDecimal("888888888")
     dto.amt=dto.changeAmount;
-    dto.lockAccObj = objU
+  //  dto.lockAccObj = objU
     bean?.main(dto);
 
 

@@ -1,6 +1,7 @@
 package service.wlt;
 import static cfg.AppConfig.sessionFactory;
 
+import model.wlt.Wallet;
 import util.annos.Parameter;
 import entityx.wlt.LogBls;
 import entityx.wlt.TransDto;
@@ -56,8 +57,8 @@ public class AddMoneyToWltService   implements Icall<TransDto, Object> {
         String uname = TransDto88.uname;
         BigDecimal amt = TransDto88.getAmt();
         Session session=sessionFactory.getCurrentSession();
-        Usr    objU=TransDto88.lockAccObj;
-        BigDecimal nowAmt =objU.getBalance();
+        Wallet wlt1=TransDto88.lockAccObj;
+        BigDecimal nowAmt =wlt1.availableBalance;
         BigDecimal newBls = nowAmt.add(amt);
 
 
@@ -79,8 +80,8 @@ public class AddMoneyToWltService   implements Icall<TransDto, Object> {
 
 
         //=================updt
-        objU.balance = toBigDcmTwoDot(newBls);
-        mergeByHbnt(objU, session);
+        wlt1.availableBalance = toBigDcmTwoDot(newBls);
+        mergeByHbnt(wlt1, session);
 
 
         
@@ -89,7 +90,7 @@ public class AddMoneyToWltService   implements Icall<TransDto, Object> {
         System.out.println("1217");
 
         //  System.out.println("✅endfun updtBlsByAddChrg()");
-        return  objU;
+        return  wlt1;
     }
 
     public void mm2() {
