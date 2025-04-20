@@ -92,6 +92,8 @@ paths:
     $ref: './paths/ylwlt/WthdReqHdl.yaml'
   /wthdr/WthdrawReviewQryHdl:
     $ref: './paths/ylwlt/WthdrawReviewQryHdl.yaml'
+  /admin/wlt/ReviewWthdrReqOrdPassHdr:
+    $ref: './paths/wthdr/ReviewWthdrReqOrdPassHdr.yaml'
   /admin/InvstRcd/AddInvstRcdHdl:
     $ref: './paths/InvstRcd/AddInvstRcdHdl.yaml'
   /admin/InvstRcd/QryInvstRcdHdl:

@@ -67,6 +67,14 @@ this.uname=lgblsDto.uname;
     }
 
 
+    public LogBls4YLwlt(String  uname, BigDecimal nowAmt, BigDecimal newBls, String changeMode) {
+        this.uname=uname;
+        this.amtBefore = nowAmt;
+        this.newBalance = newBls;
+        this.changeMode=changeMode;
+    }
+
+
     public LogBls4YLwlt(WithdrawDto lgblsDto, BigDecimal nowAmt, BigDecimal newBls, String changeMode) {
         this.uname=lgblsDto.getUserId();
         this.amtBefore = nowAmt;

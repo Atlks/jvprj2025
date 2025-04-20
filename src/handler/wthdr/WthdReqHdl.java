@@ -49,12 +49,11 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         String uname = getCurrentUser();
         YLwlt YLwlt11;
         String uname1 = dtoWithdrawDto.uname;
-        Session session = sessionFactory.getCurrentSession();
         try{
-              YLwlt11 = findByHerbinateLockForUpdtV2(YLwlt.class, uname, session);
+              YLwlt11 = findByHerbinateLockForUpdtV2(YLwlt.class, uname, sessionFactory.getCurrentSession());
         } catch (findByIdExptn_CantFindData e) {
             iniYlwlt(uname1);
-            YLwlt11 = findByHerbinateLockForUpdtV2(YLwlt.class, uname, session);
+            YLwlt11 = findByHerbinateLockForUpdtV2(YLwlt.class, uname, sessionFactory.getCurrentSession());
         }
 
 
@@ -74,7 +73,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         ord.amt=dtoWithdrawDto.amount;
         ord.endToEndId=ord.id;
         ord.uname= uname1;
-        Object ord1 = persistByHibernate(ord, session);
+        Object ord1 = persistByHibernate(ord, sessionFactory.getCurrentSession());
 
 
 
@@ -89,7 +88,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
 
         BigDecimal nowAmtFreez = toBigDcmTwoDot(YLwlt11.frozenAmount);
         YLwlt11.frozenAmount = toBigDcmTwoDot(nowAmtFreez.add(dtoWithdrawDto.getAmount()));
-        YLwlt usr = mergeByHbnt(YLwlt11, session);
+        YLwlt usr = mergeByHbnt(YLwlt11, sessionFactory.getCurrentSession());
         return new ApiGatewayResponse(
                 ord1);
 

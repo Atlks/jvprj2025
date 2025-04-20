@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import model.wlt.Wallet;
+import model.wlt.YLwlt;
 
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
@@ -56,6 +57,7 @@ public class TransDto {
         public BigDecimal amtBefore;
 
     public Wallet lockAccObj;
+    public YLwlt lockYlwltObj;
     public String refUniqId;
 
     public BigDecimal getChangeAmount() {

@@ -1,15 +1,20 @@
 package handler.wthdr;
 
+import cfg.AppConfig;
 import cfg.MyCfg;
+import entityx.wlt.LogBls4YLwlt;
 import entityx.wlt.TransDto;
 import handler.dto.ReviewChrgPassRqdto;
 import handler.pay.AreadyProcessedEx;
 import jakarta.annotation.security.PermitAll;
+import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import model.constt.RechargeOrderStat;
 import model.pay.RechargeOrder;
+import model.pay.WthdrOrdRcd;
 import model.wlt.Wallet;
+import model.wlt.YLwlt;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,17 +25,19 @@ import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 import util.tx.findByIdExptn_CantFindData;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
 import static cfg.Containr.sessionFactory;
+import static service.CmsBiz.toBigDcmTwoDot;
+import static service.YLwltSvs.AddMoney2YLWltService.addBlsLog4ylwlt;
 import static util.log.ColorLogger.RED_bright;
 import static util.log.ColorLogger.colorStr;
 import static util.misc.util2026.copyProps;
 import static util.misc.util2026.getField2025;
-import static util.tx.HbntUtil.findByHerbinate;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.*;
 
 
 /**
@@ -40,7 +47,7 @@ import static util.tx.HbntUtil.mergeByHbnt;
  * //   http://localhost:8889/ReviewChrgPassHdr?ord_id=
  */
 @RestController
-@Path("/admin/wlt/ReviewChrgPassHdr")
+@Path("/admin/wlt/ReviewWthdrReqOrdPassHdr")
 @PermitAll
 public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRqdto, ApiGatewayResponse> {
 
@@ -60,42 +67,65 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
         String mthBiz = colorStr("设置订单状态=完成", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         Session session = sessionFactory.getCurrentSession();
-        var objChrg = findByHerbinate(RechargeOrder.class, reqdto.endToEndId, session);
+        var objOrd = findByHerbinate(WthdrOrdRcd.class, reqdto.endToEndId, session);
         // System.out.println("\r\n----blk updt chg ord set stat=ok");
         //  is proceed??
-        if (objChrg.status.equals(RechargeOrderStat.ACCP.getCode())
-                || objChrg.status.equals(RechargeOrderStat.RJCT.getCode())) {
-            System.out.println("alread cpmlt ord,id=" + objChrg.id);
+        if (objOrd.status.equals(RechargeOrderStat.ACCP.getCode())
+                || objOrd.status.equals(RechargeOrderStat.RJCT.getCode())) {
+            System.out.println("alread cpmlt ord,id=" + objOrd.id);
             if (ovrtTEst) {
             } else {
                 throw new AreadyProcessedEx("");
             }
         }
         //chk stat is not pndg,,, throw ex
-        if (objChrg.status.equals(RechargeOrderStat.PNDG.getCode()))
-            objChrg.setStatus(String.valueOf(RechargeOrderStat.ACCP));
-        mergeByHbnt(objChrg, session);
+        if (objOrd.status.equals(RechargeOrderStat.PNDG.getCode()))
+            objOrd.setStatus(String.valueOf(RechargeOrderStat.ACCP));
+        mergeByHbnt(objOrd, session);
 
 
 
 
-        //----=============add blance n log  ..blk
-        String mthBiz2=colorStr("主钱包加钱",RED_bright);
+        //----=============rds blance n log  ..blk
+        String mthBiz2=colorStr("yl钱包减去钱",RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun "+mthBiz2);
-        String uname = objChrg.uname;
+        String uname = objOrd.uname;
         TransDto transDto=new TransDto();
-        copyProps(objChrg,transDto);
-        transDto.amt=objChrg.instdAmt;
-        transDto.refUniqId="reqid="+objChrg.id;
-        iniWlt( objChrg.uname, session);
-        transDto.lockAccObj=findByHerbinate(Wallet.class, objChrg.uname, session);
-
-
-        addMoneyToWltService1.main(transDto);
+        copyProps(objOrd,transDto);
+        transDto.amt=objOrd.amt;
+        transDto.refUniqId="reqid="+objOrd.id;
+        iniWlt( objOrd.uname, session);
+        transDto.lockYlwltObj=findByHerbinate(YLwlt.class, objOrd.uname, session);
+      //  addMoneyToWltService1.main(transDto);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
+        //=======================减少盈利钱包的有效余额,增加冻结金额
+        //   //adjst yinliwlt balnce
+        //----------------------sub blsAvld   blsFreez++
+          mthBiz = colorStr("减少盈利钱包的有效余额,增加冻结金额", RED_bright);
+        System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
+        YLwlt objU = findByHbntDep(YLwlt.class, uname, LockModeType.PESSIMISTIC_WRITE, AppConfig.sessionFactory.getCurrentSession());
+        BigDecimal nowAmt2 = objU.availableBalance;
+        BigDecimal newBls2 = nowAmt2.subtract(objOrd.amt);
+        BigDecimal beforeAmt=objU.availableBalance.add(objOrd.amt);
+      //  objU.availableBalance = toBigDcmTwoDot(newBls2);
 
-        return new ApiGatewayResponse(objChrg);
+        BigDecimal nowAmtFreez = toBigDcmTwoDot(objU.frozenAmount);
+        objU.frozenAmount = objU.frozenAmount.subtract(objOrd.amt);
+        YLwlt usr = mergeByHbnt(objU, session);
+
+
+
+        //取款体现后  日志的变化  冻结金额 ，有效金额变化。。。
+        System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("余额变化了流水", RED_bright));
+        //------------add balanceLog
+        LogBls4YLwlt logBlsYinliWlt = new LogBls4YLwlt(objOrd.uname,beforeAmt,  objU.availableBalance,"减去");
+        logBlsYinliWlt.refUniqId=reqdto.endToEndId;
+          logBlsYinliWlt.adjustType="减去";
+        addBlsLog4ylwlt(logBlsYinliWlt, session);
+
+
+        return new ApiGatewayResponse(objOrd);
     }
 
     public static void iniWlt(String uname, Session session) throws findByIdExptn_CantFindData {
