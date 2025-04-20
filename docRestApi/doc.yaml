@@ -11,10 +11,11 @@ info:
     name: dddddomas
     email: support@example.com
 servers:
-  - url: http://18.136.123.232:8889
-    description: 测试环境
   - url: http://localhost:8889
     description: 本地环境
+  - url: http://18.136.123.232:8889
+    description: 测试环境
+
   - url: http://localhost:8888
     description: 生产环境
 
@@ -99,10 +100,14 @@ paths:
     $ref: './paths/cfg/GetCfgDataSummary.yaml'
   /cfg/GetCfg?k=MbrVipCfg:
     $ref: './paths/cfg/GetMbrVipCfg.yaml'
+  /cfg/GetCfg?k=CmsLvCfg:
+    $ref: './paths/cfg/GetCmsLvCfg.yaml'
   /admin/role/ListRolesHdl:
    $ref: './paths/role/ListRolesHdl.yaml'
   /admin/role/SaveRolesHdl:
-   $ref: './paths/role/SaveRolesHdl.yaml'
+     $ref: './paths/role/SaveRolesHdl.yaml'
+  /wlt/QryWltHdl:
+     $ref: './paths/wlt/QryWltHdl.yaml'
   /wlt/MeWlt:
     $ref: './paths/wlt/MeWlt.yaml'
   /wlt/QryFundDetailHdl:
@@ -384,46 +389,7 @@ paths:
           summary: 示例调用
           description: 以 `changeAmount=8` 进行调用
           value: "/Trans?changeAmount=8"
-  /recharge_callback:
-    get:
-      tags:
-        -  Wallet
-      summary: "完成充值订单"
-      description: "根据订单 ID 完成充值操作"
-      parameters:
-        - name: "id"
-          in: "query"
-          required: true
-          schema:
-            type: "string"
-            example: "ORD123456"
-          description: "订单 ID (ordid)"
-        - name : "status"
-          in: "query"
-          schema:
-            type: "string"
-            example: "sucess"
-          description: "status"
-        - name: "sign"
-          in: "query"
-          schema:
-            type: "string"
-            example: "sssss"
 
-
-      responses:
-        "200":
-          description: "充值订单完成"
-          content:
-            application/json:
-              schema:
-                type: "object"
-        "400":
-          description: "请求参数错误"
-        "404":
-          description: "订单未找到"
-        "500":
-          description: "服务器内部错误"
   /ylwlt/withdraw:
     get:
       tags:

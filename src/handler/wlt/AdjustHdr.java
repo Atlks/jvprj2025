@@ -1,5 +1,6 @@
 package handler.wlt;
 
+import handler.wlt.dto.AdjstDto;
 import jakarta.annotation.security.RolesAllowed;
 import model.auth.Role;
 import util.annos.JwtParam;
@@ -38,23 +39,23 @@ import static util.misc.util2026.*;
 @Parameter(name = "changeAmount")
 @RolesAllowed({"admin", "Operator"})
 
-public class AdjustHdr implements Icall<TransDto, Object> {
+public class AdjustHdr implements Icall<AdjstDto, Object> {
 
     @Override
-    public Object main(TransDto TransDto1) throws Throwable {
+    public Object main(AdjstDto TransDto1) throws Throwable {
 
 
-        Usr objU = findByHbntDep(Usr.class, TransDto1.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+        Usr objU = findByHbntDep(Usr.class, TransDto1.memberAccount, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
         BigDecimal nowAmt = objU.getBalance();
         //def is add
         BigDecimal newBls = nowAmt;
         var logTag = "";
         if (TransDto1.adjustType.equals("-")) {
-            newBls = nowAmt.subtract(TransDto1.getChangeAmount());
+            newBls = nowAmt.subtract(BigDecimal.valueOf(TransDto1.adjustAmount));
             logTag = "减少";
         } else if (TransDto1.adjustType.equals("+")) {
-            newBls = nowAmt.add(TransDto1.getChangeAmount());
+            newBls = nowAmt.add(BigDecimal.valueOf(TransDto1.adjustAmount));
             logTag = "增加";
         }
 
@@ -71,7 +72,7 @@ public class AdjustHdr implements Icall<TransDto, Object> {
         logBalance.id = "LogBalance" + getFilenameFrmLocalTimeString();
         logBalance.uname = objU.uname;
 
-        logBalance.changeAmount = TransDto1.getChangeAmount();
+        logBalance.changeAmount = BigDecimal.valueOf(TransDto1.getAdjustAmount());
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
         logBalance.newBalance = toBigDcmTwoDot(newBls);
         logBalance.refUniqId = String.valueOf(System.currentTimeMillis());

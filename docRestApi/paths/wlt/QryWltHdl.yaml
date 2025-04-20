@@ -1,0 +1,16 @@
+get:
+  tags:
+    - Wallet
+  summary: "admin 查询资金"
+
+  parameters:
+    - name: uname
+      in: query
+      description: " "
+      required: true
+      schema:
+        type: string
+
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'

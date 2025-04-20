@@ -1,5 +1,47 @@
 - name: bet
   description: 注单方面接口
+
+
+  /recharge_callback:
+    get:
+      tags:
+        - Wallet
+      summary: "完成充值订单"
+      description: "根据订单 ID 完成充值操作"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+            example: "ORD123456"
+          description: "订单 ID (ordid)"
+        - name: "status"
+          in: "query"
+          schema:
+            type: "string"
+            example: "sucess"
+          description: "status"
+        - name: "sign"
+          in: "query"
+          schema:
+            type: "string"
+            example: "sssss"
+
+
+      responses:
+        "200":
+          description: "充值订单完成"
+          content:
+            application/json:
+              schema:
+                type: "object"
+        "400":
+          description: "请求参数错误"
+        "404":
+          description: "订单未找到"
+        "500":
+          description: "服务器内部错误"
 /list_bets:
   get:
     tags:

@@ -4,6 +4,7 @@ import entityx.usr.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
+import model.agt.CmsLv;
 import model.rpt.DataSummaryToppart;
 import model.cfg.CfgKv;
 import model.cfg.MbrVipCfg;
@@ -51,7 +52,15 @@ public class IniDataHdl implements RequestHandler<NonDto, ApiGatewayResponse> {
 
 
 
-
+        try{//MbrVipCfg
+            findByHerbinate(CfgKv.class,"CmsLvCfg", sessionFactory.getCurrentSession());
+        } catch (findByIdExptn_CantFindData e) {
+            List<CmsLv> li=new ArrayList<>();
+            CmsLv cfg=new CmsLv();
+            li.add(cfg);
+            CfgKv c=new CfgKv("CmsLvCfg",li);
+            persistByHibernate(c, sessionFactory.getCurrentSession());
+        }
 
         return  new ApiGatewayResponse("ok");
     }
