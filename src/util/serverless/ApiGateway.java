@@ -49,9 +49,8 @@ import static util.log.ColorLogger.*;
 
 import static util.proxy.SprUtil.injectAll4spr;
 import static util.serverless.ApiGatewayResponse.createErrResponseWzErrcode;
-import static util.tx.TransactMng.commitTsact;
-import static util.tx.TransactMng.openSessionBgnTransact;
 import static util.misc.Util2025.*;
+import static util.tx.TransactMng.*;
 import static util.tx.dbutil.setField;
 import static util.misc.util2026.*;
 
@@ -178,10 +177,14 @@ public class ApiGateway implements HttpHandler {
             return;
 
         } catch (java.lang.reflect.InvocationTargetException e) {
+           // transactionThreadLocal.get().rollback();
+            rollbackTransaction();
             responseTxt = processInvkExpt(exchange, e);
+          //  Transaction tx = sessionFactory.beginTransaction();
 
         } catch (Throwable e) {
-
+            transactionThreadLocal.get().rollback();
+            rollbackTransaction();
             printLn("---------------------print ex ()");
 
             e.printStackTrace();
@@ -191,9 +194,9 @@ public class ApiGateway implements HttpHandler {
             printLn("---------------------end print ex ()");
             responseTxt = processNmlExptn(exchange, e);
             // throw new RuntimeException(e);
-
+         //   transactionThreadLocal.get().rollback();
         } finally {
-            sessionFactory.getCurrentSession().close();
+            sessionFactory.getCurrentSession().close();// 关闭 session，但不会提交事务
             ThreadLocalSessionContext.unbind(sessionFactory);
         }
         //end catch

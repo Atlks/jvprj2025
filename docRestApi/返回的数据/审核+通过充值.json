@@ -1,31 +1,29 @@
-
-
-
-Response body
-Download
-
 {
   "statusCode": 200,
   "errcode": "",
   "headers": {},
   "body": {
-    "amt": 888,
-    "uname": "777",
+    "endToEndId": "ordChrg2025-04-20T20-49-40",
+    "instdAmt": 888,
+    "currency": "usdt",
+    "createTime": "2025-04-20T20:49:41",
+    "status": "ACCP",
+    "note": "",
+    "id": "ordChrg2025-04-20T20-49-40",
+    "paymentChannel": "usdt",
+    "uname": "666",
     "review_timestamp": 0,
-    "timestamp": 1744963700952,
-    "id": "ordChrg2025-04-18T15-08-20",
-    "stat": "通过",
-    "reviewer": "",
+    "timestamp": 1745156980522,
     "parentProxy": "",
     "vipLev": "",
     "img": "",
-    "crtTimeStmp": 20250418150821,
-    "updtTmstmp": 20250418153800
+    "crtTimeStmpLocalfmt": 0,
+    "updtTmstmpLocalfmt": 20250420224034
   },
   "message_err": "",
   "message": "",
-  "timestamp": 1744965480111,
-  "path": "\"/admin/wlt/ReviewChrgPassHdr?ord_id=ordChrg2025-04-18T15-08-20\"",
-  "requestId": "reqid__e9ce0b7e-d517-4193-924f-5dbc38a4c45f",
+  "timestamp": 1745163634021,
+  "path": "\"/admin/wlt/ReviewChrgPassHdr?endToEndId=ordChrg2025-04-20T20-49-40\"",
+  "requestId": "reqid__20c0b4c4-4a80-430a-9cfd-761290bf0e78",
   "debugInfo": {}
 }

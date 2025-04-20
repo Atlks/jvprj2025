@@ -54,7 +54,8 @@ public class TransactMng {
         System.out.println("openSession=" + session);
         System.out.println("getCurrentSession=" + sessionFactory.getCurrentSession());
         // commitTransactIfActv(session);
-        session.beginTransaction();
+        Transaction tx =  session.beginTransaction();
+        transactionThreadLocal.set(tx);
     }
         public static void commitTransaction(Session session) {
             Transaction transaction = transactionThreadLocal.get();
@@ -75,15 +76,15 @@ public class TransactMng {
 
         }
 
-    public static void commitTransactIfActv(Session session){
-        Transaction transaction1 = session.getTransaction();
-        if(transaction1!=null)
-        {
-            boolean existingTransaction = transaction1.isActive();
-            if(existingTransaction)
-                transaction1.commit();
-        }
-    }
+//    public static void commitTransactIfActv(Session session){
+//        Transaction transaction1 = session.getTransaction();
+//        if(transaction1!=null)
+//        {
+//            boolean existingTransaction = transaction1.isActive();
+//            if(existingTransaction)
+//                transaction1.commit();
+//        }
+//    }
 
     public static void rollbackTransaction() {
             Transaction transaction = transactionThreadLocal.get();
