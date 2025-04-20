@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class ReviewChrgPassRqdto {
-    public  String ord_id="";
+    public  String endToEndId="";
 }

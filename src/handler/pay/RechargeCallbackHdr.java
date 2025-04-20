@@ -1,4 +1,4 @@
-package handler.wlt;
+package handler.pay;
 
 import util.excptn.RechargeFailExptn;
 import com.alibaba.fastjson2.JSONObject;
@@ -81,10 +81,10 @@ public class RechargeCallbackHdr implements  Icall<RechargeOrder,Object> {
 
         //--------------chk ,qry thrd party api
 
-        chkRechgSucessByQryThrd(ordDto.id);
+        chkRechgSucessByQryThrdPlat(ordDto.id);
 
 
-        //------------blk chge regch stat=ok
+        //------------blk chge regch stat=accp
         String mthBiz=colorStr("设置订单状态=完成",RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  "+mthBiz);
         RechargeOrder objChrg = findByHerbinate(RechargeOrder.class, ordDto.id, session);
@@ -117,6 +117,7 @@ public class RechargeCallbackHdr implements  Icall<RechargeOrder,Object> {
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
 
+
         //=====================cals misstn
         String mthBiz23=colorStr("calc cms计算佣金",RED_bright);
         System.out.println("\n\r\n===========⚡⚡bizfun  "+mthBiz23);
@@ -133,7 +134,7 @@ public class RechargeCallbackHdr implements  Icall<RechargeOrder,Object> {
         return "ok";
     }
 
-    private boolean chkRechgSucessByQryThrd(String id) throws Throwable {
+    private boolean chkRechgSucessByQryThrdPlat(String id) throws Throwable {
 
         if("ztest".equals("ztest"))
             return  true;

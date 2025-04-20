@@ -1,13 +1,13 @@
 get:
   tags:
-    - Wallet
+    - pay
   summary: "管理后台 钱包方面接口 拒绝充值"
   description: " 。。。。"
-  operationId: "QueryOrdChrgHdr11"
+
   parameters:
-    - name: ord_id
+    - name: endToEndId
       in: query
-      description: "订单id"
+      description: "充值单id"
       required: true
       schema:
         type: string

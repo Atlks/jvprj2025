@@ -116,11 +116,11 @@ paths:
   /wlt/ListBetWinLogHdl:
     $ref: './paths/wlt/ListBetWinLogHdl.yaml'
   /admin/wlt/QueryOrdChrgHdr:
-    $ref: './paths/adm_wlt/QueryOrdChrgHdr.yaml'
+    $ref: './paths/pay/QueryOrdChrgHdr.yaml'
   /admin/wlt/ReviewChrgPassHdr:
-    $ref: './paths/adm_wlt/ReviewChrgPassHdr.yaml'
+    $ref: './paths/pay/ReviewChrgPassHdr.yaml'
   /admin/wlt/ReviewChrgRefuseHdr:
-    $ref: './paths/adm_wlt/ReviewChrgRefuseHdr.yaml'
+    $ref: './paths/pay/ReviewChrgRefuseHdr.yaml'
   /reg:
     $ref: './paths/usr/reg.yaml'
   /login:

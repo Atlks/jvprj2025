@@ -1,7 +1,7 @@
 package cfg;
 
 import api.bet.ListBetsHdr;
-import handler.wlt.RechargeCallbackHdr;
+import handler.pay.RechargeCallbackHdr;
 
 import api.ylwlt.WithdrawHdr;
 import jakarta.validation.constraints.NotBlank;

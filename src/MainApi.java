@@ -1,4 +1,4 @@
-import handler.wlt.RechargeCallbackHdr;
+import handler.pay.RechargeCallbackHdr;
 import cfg.AppConfig;
 import org.noear.solon.annotation.SolonMain;
 import org.springframework.context.annotation.ComponentScan;

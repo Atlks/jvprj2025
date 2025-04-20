@@ -31,7 +31,7 @@ public class RechargeOrder {
     public String debtorId;      // <Dbtr> 发起方
     public String creditorId;    // <Cdtr> 平台收款账号
     @CreationTimestamp
-    private long createTime;  // <CreDtTm>
+    private LocalDateTime createTime;  // <CreDtTm> fmt "2025-04-20T14:55:00Z"
 
     // <GrpHdr><Sts>  //审核状态   PNDG/WAIT=待审核
     public String status= String.valueOf(RechargeOrderStat.PNDG);
@@ -85,11 +85,11 @@ public class RechargeOrder {
     //截图附件
     public String img="";
 
-    @CreationTimestamp
-    public long crtTimeStmp=System.currentTimeMillis();
+    @CreationTimestamp   //20240505112233
+    public long crtTimeStmpLocalfmt=System.currentTimeMillis();
 
     @UpdateTimestamp
-    public long updtTmstmp=System.currentTimeMillis();
+    public long updtTmstmpLocalfmt=System.currentTimeMillis();
 
    // public long   timestamp=System.currentTimeMillis();
 

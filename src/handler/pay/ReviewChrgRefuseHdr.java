@@ -1,4 +1,4 @@
-package handler.wlt;
+package handler.pay;
 
 import cfg.MyCfg;
 import handler.dto.ReviewChrgPassRqdto;
@@ -19,18 +19,18 @@ import static cfg.Containr.sessionFactory;
 import static util.misc.util2026.getField2025;
 import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.mergeByHbnt;
-
+//   http://localhost:8889/QueryOrdChrgHdr
 
 /**
- * 审核通过充值
+ * 审核充值--拒绝
  *
  *
- //   http://localhost:8889/ReviewChrgPassHdr?ord_id=
+
  */
 @RestController
-@Path("/admin/wlt/ReviewChrgPassHdr")
+@Path("/admin/wlt/ReviewChrgRefuseHdr")
 @PermitAll
-public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, ApiGatewayResponse> {
+public class ReviewChrgRefuseHdr implements RequestHandler<ReviewChrgPassRqdto, ApiGatewayResponse> {
     /**
      * @param reqdto
      * @param context
@@ -41,9 +41,9 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
     public ApiGatewayResponse handleRequest(ReviewChrgPassRqdto reqdto, Context context) throws Throwable {
 
 
-        var o=findByHerbinate(RechargeOrder.class,reqdto.ord_id,sessionFactory.getCurrentSession());
+        var o=findByHerbinate(RechargeOrder.class,reqdto.endToEndId,sessionFactory.getCurrentSession());
 
-         o.setStatus(String.valueOf(RechargeOrderStat.ACCP));
+         o.setStatus(String.valueOf(RechargeOrderStat.RJCT));
          mergeByHbnt(o,sessionFactory.getCurrentSession());
 
         return new ApiGatewayResponse(o);
