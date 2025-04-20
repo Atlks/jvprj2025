@@ -88,6 +88,8 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /ylwlt/WthdReqHdl:
+    $ref: './paths/ylwlt/WthdReqHdl.yaml'
   /admin/InvstRcd/AddInvstRcdHdl:
     $ref: './paths/InvstRcd/AddInvstRcdHdl.yaml'
   /admin/InvstRcd/QryInvstRcdHdl:
@@ -391,43 +393,6 @@ paths:
           summary: 示例调用
           description: 以 `changeAmount=8` 进行调用
           value: "/Trans?changeAmount=8"
-
-  /ylwlt/withdraw:
-    get:
-      tags:
-        - ylWallet
-      summary: 提现
-      description: |
-        该接口用于进行提现操作，提现会导致有效金额变化，冻结金额也会变化，最终导致总金额变化。
-      parameters:
-        - name: amount
-          in: query
-          description: 提现金额
-          required: true
-          schema:
-            type: integer
-            example: 7
-        - name: uname
-          in: cookie
-          description: 用户名
-          required: true
-          schema:
-            type: string
-            example: john_doe
-      responses:
-        '200':
-          description: 操作成功，返回提现后的账户信息。
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: "提现成功，账户余额已更新"
 
 
 

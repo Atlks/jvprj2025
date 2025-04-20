@@ -4,6 +4,7 @@ import model.pay.RechargeOrder;
 import entityx.wlt.LogCms;
 import entityx.usr.Usr;
 import entityx.wlt.LogBls4YLwlt;
+import model.wlt.YLwlt;
 import org.hibernate.Session;
 
 import java.math.BigDecimal;
@@ -103,17 +104,17 @@ public class CmsBiz {
         String methodname="updtBlsYinliwlt";
         System.out.println("\r\n\r\n");
         System.out.println("fun "+methodname+"(uname="+uname+",amt="+amt);
-        Usr objU = session.find(Usr.class,uname);
-        if(objU.id==null)
-        {
-            objU.id= uname;
-            objU.uname= uname;
-        }
+        YLwlt objU = session.find(YLwlt.class,uname);
+//        if(objU.id==null)
+//        {
+//            objU.id= uname;
+//            objU.uname= uname;
+//        }
 
 
         BigDecimal nowAmt= getFieldAsBigDecimal(objU,"balanceYinliwlt",0);
         BigDecimal newBls=nowAmt.add(amt);
-        objU.balanceYinliwlt=toBigDcmTwoDot (newBls);
+        objU.availableBalance=toBigDcmTwoDot (newBls);
         mergeByHbnt(objU,session);  ;
 
 

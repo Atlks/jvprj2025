@@ -3,7 +3,7 @@ package cfg;
 import api.bet.ListBetsHdr;
 import handler.pay.RechargeCallbackHdr;
 
-import api.ylwlt.WithdrawHdr;
+import handler.ylwlt.WithdrawHdr;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import service.CmsBiz;

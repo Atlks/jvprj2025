@@ -3,6 +3,7 @@ package handler.wlt;
 import handler.wlt.dto.AdjstDto;
 import jakarta.annotation.security.RolesAllowed;
 import model.auth.Role;
+import model.wlt.Wallet;
 import util.annos.JwtParam;
 import util.annos.NeedAuth;
 import util.annos.Parameter;
@@ -45,9 +46,9 @@ public class AdjustHdr implements Icall<AdjstDto, Object> {
     public Object main(AdjstDto TransDto1) throws Throwable {
 
 
-        Usr objU = findByHbntDep(Usr.class, TransDto1.memberAccount, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+        Wallet objU = findByHbntDep(Wallet.class, TransDto1.memberAccount, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
-        BigDecimal nowAmt = objU.getBalance();
+        BigDecimal nowAmt = objU.availableBalance;
         //def is add
         BigDecimal newBls = nowAmt;
         var logTag = "";
@@ -63,14 +64,14 @@ public class AdjustHdr implements Icall<AdjstDto, Object> {
         if (newBls.equals(nowAmt) || TransDto1.adjustType.equals(""))
             throw new ErrAdjstTypeEx("");
 
-        objU.setBalance(newBls);
+        objU.setAvailableBalance(newBls);
         mergeByHbnt(objU, sessionFactory.getCurrentSession());
 
         //add balanceLog
 
         LogBls logBalance = new LogBls();
         logBalance.id = "LogBalance" + getFilenameFrmLocalTimeString();
-        logBalance.uname = objU.uname;
+        logBalance.uname = objU.userId;
 
         logBalance.changeAmount = BigDecimal.valueOf(TransDto1.getAdjustAmount());
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);

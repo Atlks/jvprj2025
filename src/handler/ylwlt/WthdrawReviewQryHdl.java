@@ -1,8 +1,44 @@
 package handler.ylwlt;
 
 
+import handler.ylwlt.dto.WthdrawReviewQryDto;
+import jakarta.ws.rs.core.Context;
+import model.pay.RechargeOrder;
+import util.serverless.ApiGatewayResponse;
+import util.serverless.RequestHandler;
+
+import java.util.HashMap;
+
+import static cfg.Containr.sessionFactory;
+import static util.tx.Pagging.getPageResultByHbntV4;
+
 /**
  * 订单号              会员账号                    标签             VIP等级          上级代理               提现金额           到账金额              审核状态            审核人                    提现时间                         审核时间
  */
-public class WthdrawReviewQryHdl {
+public class WthdrawReviewQryHdl  implements RequestHandler<WthdrawReviewQryDto, ApiGatewayResponse> {
+    /**
+
+     * @param context
+     * @return
+     * @throws Throwable
+     */
+    @Override
+    public ApiGatewayResponse handleRequest(WthdrawReviewQryDto reqdto, Context context) throws Throwable {
+        var sqlNoOrd = "select * from Wthdr_ord_Rcd where 1=1 ";//for count    where  uname =:uname
+        HashMap<String, Object> sqlprmMap = new HashMap<>();
+//        if(reqdto.uname!="")
+//        {  sqlNoOrd=sqlNoOrd+ " and  uname like "+ encodeSqlAsLikeMatchParam(reqdto.uname);
+//            //  sqlprmMap.put("uname",)
+//        }
+
+        var sql=sqlNoOrd+" order by timestamp desc ";
+        //  Map<String, Object> sqlprmMap= Map.of( "sql",sql,   "uname",reqdto.uname);
+        //   System.out.println( encodeJson(sqlprmMap));
+
+
+
+        var list1 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), RechargeOrder.class);
+
+        return new ApiGatewayResponse(list1);
+    }
 }

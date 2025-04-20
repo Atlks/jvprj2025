@@ -1,6 +1,7 @@
 package model.agt;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -17,6 +18,7 @@ public class Agent {
     /**
      * 代理账号
      */
+    @Id
     public String agentAccount;
 
     /**
@@ -29,6 +31,7 @@ public class Agent {
      */
     public int registeredMemberCount = 0;
 
+    public long   timestamp=System.currentTimeMillis();
     /**
      * 标签
      */

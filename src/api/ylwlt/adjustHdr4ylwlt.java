@@ -2,6 +2,7 @@ package api.ylwlt;
 
 import jakarta.annotation.security.RolesAllowed;
 import model.auth.Role;
+import model.wlt.YLwlt;
 import util.annos.JwtParam;
 import util.annos.NeedAuth;
 import util.annos.Parameter;
@@ -41,9 +42,9 @@ public class adjustHdr4ylwlt implements Icall<TransDto, Object> {
     public Object main(TransDto TransDto1) throws Throwable {
 
 
-        Usr objU = findByHbntDep(Usr.class, TransDto1.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+        YLwlt objU = findByHbntDep(YLwlt.class, TransDto1.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
-        BigDecimal nowAmt = objU.getBalanceYinliwlt();
+        BigDecimal nowAmt = objU.availableBalance;
         //def is add
         BigDecimal newBls = nowAmt;
         var logTag = "";
@@ -59,7 +60,7 @@ public class adjustHdr4ylwlt implements Icall<TransDto, Object> {
         if (newBls.equals(nowAmt) || TransDto1.adjustType.equals(""))
             throw new ErrAdjstTypeEx("");
 
-        objU.setBalanceYinliwlt(newBls);
+        objU.setAvailableBalance(newBls);
         mergeByHbnt(objU, sessionFactory.getCurrentSession());
 
         //add balanceLog

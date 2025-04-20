@@ -1,7 +1,6 @@
 package handler.usr;
 
-import entityx.wlt.RechargeConfig;
-import handler.ylwlt.QueryDto;
+import handler.ylwlt.dto.QueryDto;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import lombok.Data;
@@ -14,7 +13,6 @@ import util.tx.findByIdExptn_CantFindData;
 
 import static cfg.AppConfig.sessionFactory;
 import static util.tx.HbntUtil.findByHerbinate;
-import static util.tx.HbntUtil.mergeByHbnt;
 
 /**
  * 设置安全问题

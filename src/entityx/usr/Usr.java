@@ -56,10 +56,10 @@ public class Usr {
     public String sub;
 
    //有效余额
-    public BigDecimal balance=new BigDecimal(0);// avdBls
-    public BigDecimal balanceFreez=new BigDecimal(0);;// avdBls
-    public BigDecimal balanceYinliwlt=new BigDecimal(0);;
-    public BigDecimal balanceYinliwltFreez=new BigDecimal(0);;
+//    public BigDecimal balance=new BigDecimal(0);// avdBls
+//    public BigDecimal balanceFreez=new BigDecimal(0);;// avdBls
+//    public BigDecimal balanceYinliwlt=new BigDecimal(0);;
+//    public BigDecimal balanceYinliwltFreez=new BigDecimal(0);;
 
 
 

@@ -1,10 +1,12 @@
-package api.ylwlt;
+package handler.ylwlt;
 
+import api.ylwlt.ApiFun;
+import model.wlt.YLwlt;
 import util.annos.CookieParam;
 import util.annos.Parameter;
 import util.ex.BalanceNotEnghou;
 import entityx.wlt.LogBls4YLwlt;
-import entityx.ylwlt.WthdrRcd;
+import model.pay.WthdrOrdRcd;
 import entityx.usr.Usr;
 import entityx.usr.WithdrawDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -45,6 +47,7 @@ import static util.misc.util2026.*;
 @RestController
 @PreAuthorize("user")
 @Slf4j
+@Deprecated   //cant drktl wdth,need app first
 public class WithdrawHdr implements Icall<WithdrawDto, Object> {
 
 
@@ -61,9 +64,9 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("检测余额", RED_bright));
         dtoWithdrawDto.setUserId(getCurrentUser());
         String uname = getCurrentUser();
-        Usr objU = findByHbntDep(Usr.class, uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+        YLwlt objU = findByHbntDep(YLwlt.class, uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
-        BigDecimal nowAmt2 = objU.balanceYinliwlt;
+        BigDecimal nowAmt2 = objU.availableBalance;
 
         if (dtoWithdrawDto.getAmount().compareTo(nowAmt2) > 0) {
             BalanceNotEnghou ex = new BalanceNotEnghou("余额不足");
@@ -78,7 +81,7 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
 
         //======================add wth log
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("增加提现申请单", RED_bright));
-        WthdrRcd wdthRec = new WthdrRcd();
+        WthdrOrdRcd wdthRec = new WthdrOrdRcd();
         copyProps(dtoWithdrawDto, wdthRec);
         wdthRec.timestamp = (System.currentTimeMillis());
         wdthRec.uname = getCurrentUser();
@@ -96,11 +99,11 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
         String mthBiz = colorStr("减少盈利钱包的有效余额,增加冻结金额", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         BigDecimal newBls2 = nowAmt2.subtract(dtoWithdrawDto.getAmount());
-        objU.balanceYinliwlt = toBigDcmTwoDot(newBls2);
+        objU.availableBalance = toBigDcmTwoDot(newBls2);
 
-        BigDecimal nowAmtFreez = toBigDcmTwoDot(objU.getBalanceYinliwltFreez());
-        objU.balanceYinliwltFreez = toBigDcmTwoDot(nowAmtFreez.add(dtoWithdrawDto.getAmount()));
-        Usr usr = mergeByHbnt(objU, session);
+        BigDecimal nowAmtFreez = toBigDcmTwoDot(objU.frozenAmount);
+        objU.frozenAmount = toBigDcmTwoDot(nowAmtFreez.add(dtoWithdrawDto.getAmount()));
+        YLwlt usr = mergeByHbnt(objU, session);
 
 
 

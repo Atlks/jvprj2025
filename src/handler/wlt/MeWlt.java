@@ -1,7 +1,6 @@
 package handler.wlt;
 
-import entityx.usr.Usr;
-import handler.ylwlt.QueryDto;
+import handler.ylwlt.dto.QueryDto;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import model.wlt.Wallet;
@@ -12,7 +11,6 @@ import util.serverless.RequestHandler;
 
 import static cfg.Containr.sessionFactory;
 import static handler.pay.ReviewChrgPassHdr.iniWlt;
-import static util.auth.AuthUtil.getCurrentUser;
 import static util.tx.HbntUtil.findByHerbinate;
 
 

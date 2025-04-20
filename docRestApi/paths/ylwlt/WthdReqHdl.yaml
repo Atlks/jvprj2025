@@ -1,0 +1,19 @@
+get:
+  tags:
+    - Wallet
+  summary: "提现请求"
+
+  parameters:
+    - name: amount
+      in: query
+      description: "提现金额"
+      required: true
+      schema:
+        type: number
+        format: double
+
+
+
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'

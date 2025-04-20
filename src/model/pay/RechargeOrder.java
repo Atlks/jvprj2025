@@ -23,10 +23,10 @@ import static service.CmsBiz.toBigDcmTwoDot;
 public class RechargeOrder {
 
 
-//  ISO 20022  标准字段
+//  ISO 20022  标准字段 金额 instdAmt
     @Id
     public String endToEndId;     //客户唯一订单号 ISO 20022 <EndToEndId>
-    public BigDecimal instdAmt;  // <InstdAmt> 金额
+    public BigDecimal instdAmt;  // <InstdAmt>
     private String currency="usdt";      // <InstdAmt Ccy="">
     public String debtorId;      // <Dbtr> 发起方
     public String creditorId;    // <Cdtr> 平台收款账号

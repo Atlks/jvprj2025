@@ -11,6 +11,7 @@ import util.serverless.RequestHandler;
 import java.util.HashMap;
 
 import static cfg.Containr.sessionFactory;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static util.algo.EncodeUtil.encodeSqlAsLikeMatchParam;
 import static util.tx.Pagging.getPageResultByHbntV4;
 
@@ -26,7 +27,7 @@ public class QryAgtHdl implements RequestHandler<QryAgtsDto, ApiGatewayResponse>
     public ApiGatewayResponse handleRequest(QryAgtsDto reqdto, Context context) throws Throwable {
         var sqlNoOrd = "select * from agent where 1=1 ";//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
-        if (reqdto.agentAccount != "") {
+        if ( isNotBlank(reqdto.agentAccount)  ) {
             sqlNoOrd = sqlNoOrd + " and  agentAccount like " + encodeSqlAsLikeMatchParam(reqdto.agentAccount);
             //  sqlprmMap.put("uname",)
         }

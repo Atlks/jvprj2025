@@ -1,7 +1,6 @@
 package handler.wlt;
 
-import handler.wlt.qryFdDtl.QryFundDetailRqdto;
-import handler.ylwlt.QueryDto;
+import handler.ylwlt.dto.QueryDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.core.Context;
 import model.wlt.Wallet;

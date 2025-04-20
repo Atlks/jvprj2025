@@ -5,6 +5,7 @@ package handler.ylwlt;
  * BetWinLog
  */
 
+import handler.ylwlt.dto.QueryDto;
 import util.annos.NoDftParam;
 import cfg.AppConfig;
 import entityx.ylwlt.BetWinLog;

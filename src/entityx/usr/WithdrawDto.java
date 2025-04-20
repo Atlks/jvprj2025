@@ -4,12 +4,14 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import util.annos.CurrentUsername;
 
 import java.math.BigDecimal;
 @Data
 public class WithdrawDto {
 
     @NotBlank(message = "uname不能为空")
+    @CurrentUsername
     public String uname;
     public Long timestamp;
 
