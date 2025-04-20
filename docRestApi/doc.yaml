@@ -103,6 +103,8 @@ paths:
    $ref: './paths/role/ListRolesHdl.yaml'
   /admin/role/SaveRolesHdl:
    $ref: './paths/role/SaveRolesHdl.yaml'
+  /wlt/MeWlt:
+    $ref: './paths/wlt/MeWlt.yaml'
   /wlt/QryFundDetailHdl:
    $ref: './paths/wlt/QryFundDetailHdl.yaml'
   /admin/cfg/SetCfgKv:

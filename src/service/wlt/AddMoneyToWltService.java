@@ -69,6 +69,8 @@ public class AddMoneyToWltService   implements Icall<TransDto, Object> {
         logBalance.changeTime = System.currentTimeMillis();
         logBalance.changeType = "充值";  //充值增加
         logBalance.changeMode = "增加";
+
+        logBalance.adjustType = "充值";  //充值增加
         logBalance.changeAmount = amt;
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
         logBalance.newBalance = toBigDcmTwoDot(newBls);

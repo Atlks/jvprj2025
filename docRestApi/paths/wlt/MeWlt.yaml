@@ -1,0 +1,10 @@
+get:
+  tags:
+    - Wallet
+  summary: "我的钱包"
+
+
+
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'

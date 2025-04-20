@@ -86,6 +86,7 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
         String uname = objChrg.uname;
         TransDto transDto=new TransDto();
         copyProps(objChrg,transDto);
+        transDto.amt=objChrg.instdAmt;
         transDto.refUniqId="reqid="+objChrg.id;
         iniWlt( objChrg.uname, session);
         transDto.lockAccObj=findByHerbinate(Wallet.class, objChrg.uname, session);

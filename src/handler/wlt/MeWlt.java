@@ -5,11 +5,13 @@ import handler.ylwlt.QueryDto;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import model.wlt.Wallet;
+import org.hibernate.Session;
 import org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
 import static cfg.Containr.sessionFactory;
+import static handler.pay.ReviewChrgPassHdr.iniWlt;
 import static util.auth.AuthUtil.getCurrentUser;
 import static util.tx.HbntUtil.findByHerbinate;
 
@@ -37,7 +39,10 @@ public class MeWlt implements RequestHandler<QueryDto, ApiGatewayResponse>  {
      */
     @Override
     public ApiGatewayResponse handleRequest(QueryDto param, Context context) throws Throwable {
-        Wallet objU = findByHerbinate(Wallet.class,param.uname, sessionFactory.getCurrentSession());
+        Session session = sessionFactory.getCurrentSession();
+        iniWlt( param.uname, session);
+
+        Wallet objU = findByHerbinate(Wallet.class,param.uname, session);
         return new ApiGatewayResponse(objU);
     }
 }
