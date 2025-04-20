@@ -1,0 +1,8 @@
+get:
+  
+  summary: "ini data"
+
+
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'

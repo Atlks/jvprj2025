@@ -1,7 +1,13 @@
 package model.opmng;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import static util.algo.GetUti.getUuid;
 
 /**
  * 投资记录实体类
@@ -9,9 +15,13 @@ import java.time.LocalDateTime;
  * 添加的时候，只需要投资类型 和amt，资金流转方向是自动计算的
  *
  */
+@Entity
+@Table
 
 public class InvestmentOpRecord {
 
+    @Id
+    public String id=getUuid();
     /**
      * 投资时间（时间戳或格式化字符串）
      */

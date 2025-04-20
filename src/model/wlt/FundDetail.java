@@ -21,9 +21,24 @@ public class FundDetail {
     public String dscrp="";  //备注
     public String img="";  //截图
     public String changeMode="+";     // or  -
+    public String changeType=""; //   充值  //
+
+
+    //收支类型
+    public String IncomeExpendType="";  //收入
+
+
+
     public  long timestamp=System.currentTimeMillis();
     public BigDecimal changeAmount= BigDecimal.valueOf(0);
     public BigDecimal amtBefore= BigDecimal.valueOf(0);
     public BigDecimal amtAfter= BigDecimal.valueOf(0);
+
+    //关联订单号
+    public String  rlt_ord_id;
+
+       //     账变场景(充值成功 兑换  通过资金调整，加额 盈利20%转入 领取佣金 提现成功 投资亏损)
+
+    public String changeReason;
 
 }

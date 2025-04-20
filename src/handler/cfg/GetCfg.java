@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.Context;
 import model.cfg.CfgKv;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
@@ -17,9 +18,13 @@ import static util.tx.HbntUtil.findByHerbinate;
 
 /**  GetCfg kv mode
  *     /admin/cfg/GetCfg?k=rechargeCommissionRates&v={}
+ *
+ * /cfg/GetCfg?k=DataSummary
+ *     DataSummary
  */
 @RestController
 @Path("/cfg/GetCfg")
+//@GetMapping("/admin/cfg/GetCfg")
 @PermitAll
 public class GetCfg implements RequestHandler<CfgKv, ApiGatewayResponse> {
     /**
@@ -66,6 +71,7 @@ public class GetCfg implements RequestHandler<CfgKv, ApiGatewayResponse> {
          * @param vo
          * @return
          */
+        @Deprecated
     private Object toJsonObjectOrArray(String vo) {
         if (vo == null || vo.trim().isEmpty()) {
             return null;

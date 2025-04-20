@@ -86,6 +86,12 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /cfg/IniDataHdl:
+    $ref: './paths/cfg/IniDataHdl.yaml'
+  /cfg/GetCfg?k=DataSummary:
+    $ref: './paths/cfg/GetCfgDataSummary.yaml'
+  /cfg/GetCfg?k=MbrVipCfg:
+    $ref: './paths/cfg/GetMbrVipCfg.yaml'
   /admin/role/ListRolesHdl:
    $ref: './paths/role/ListRolesHdl.yaml'
   /admin/role/SaveRolesHdl:
