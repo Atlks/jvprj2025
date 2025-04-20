@@ -1,4 +1,4 @@
-package handler.wlt;
+package handler.pay;
 
 
 import util.annos.CookieParam;
@@ -6,7 +6,7 @@ import util.annos.CookieParam;
 import static cfg.AppConfig.sessionFactory;
 import static java.time.LocalTime.now;
 
-import entityx.wlt.ReChgOrd;
+import model.pay.RechargeOrder;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
@@ -20,6 +20,7 @@ import jakarta.ws.rs.QueryParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import util.algo.Icall;
+import util.serverless.ApiGatewayResponse;
 
 import static util.auth.AuthUtil.getCurrentUser;
 import static util.tx.HbntUtil.persistByHibernate;
@@ -32,12 +33,12 @@ import static util.misc.util2026.*;
  */
 @Slf4j
 
-@Path("/recharge")
+@Path("/pay/recharge")
 @DeclareRoles({"ADMIN", "USER"})
 @RolesAllowed({"", "USER"})
 @CookieParam(name = "uname",value = "$curuser")
 @Component
-public class RechargeHdr implements Icall<ReChgOrd,Object> {
+public class RechargeHdr implements Icall<RechargeOrder,Object> {
 
 
     /**
@@ -56,7 +57,7 @@ public class RechargeHdr implements Icall<ReChgOrd,Object> {
     //@CookieValue
     @Transactional
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
-    public Object main(@BeanParam ReChgOrd ord) throws Exception {
+    public Object main(@BeanParam RechargeOrder ord) throws Exception {
         System.out.println("handle2.sessfac=" + sessionFactory);
         System.out.println("regchg hrl.hadler3()");
         //blk login ed
@@ -69,9 +70,10 @@ public class RechargeHdr implements Icall<ReChgOrd,Object> {
 //        ord.amt = new BigDecimal(queryParams.get("amt"));
         ord.timestamp = System.currentTimeMillis();
         ord.id = "ordChrg" + getFilenameFrmLocalTimeString();
+        ord.endToEndId=ord.id;
         ord.uname=getCurrentUser();
 
-       return persistByHibernate(ord, sessionFactory.getCurrentSession());
+       return new ApiGatewayResponse( persistByHibernate(ord, sessionFactory.getCurrentSession()));
          //   wrtResp(exchange, encodeJson(r));
 
 

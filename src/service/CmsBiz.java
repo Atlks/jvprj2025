@@ -1,6 +1,6 @@
 package service;
 
-import entityx.wlt.ReChgOrd;
+import model.pay.RechargeOrder;
 import entityx.wlt.LogCms;
 import entityx.usr.Usr;
 import entityx.wlt.LogBls4YLwlt;
@@ -29,9 +29,9 @@ public class CmsBiz {
         u.uname="008";
         u.invtr="007";
 
-        ReChgOrd ord=new ReChgOrd();
+        RechargeOrder ord=new RechargeOrder();
         ord.uname="008";
-       ord.amt=new BigDecimal(100);
+       ord.instdAmt=new BigDecimal(100);
      //   calcCms4FrmOrdChrg(ord);
 
 
@@ -49,14 +49,14 @@ public class CmsBiz {
      * @param objChrg
      * @param session
      */
-    public static void calcCms4FrmOrdChrg(ReChgOrd objChrg, Session session) throws Exception {
+    public static void calcCms4FrmOrdChrg(RechargeOrder objChrg, Session session) throws Exception {
         System.out.println( "fun calcCms4FrmOrdChrg（");
         System.out.println(encodeJson(objChrg));
         System.out.println(")");
 
         Usr u= session.find( Usr.class,objChrg.uname);
         String invtr= toStr( u.invtr);
-        BigDecimal cmsMny=toBigDcmTwoDot(objChrg.getAmt().multiply( new BigDecimal(0.05)) );
+        BigDecimal cmsMny=toBigDcmTwoDot(objChrg.getInstdAmt().multiply( new BigDecimal(0.05)) );
         if(invtr.equals(""))
             return;
 

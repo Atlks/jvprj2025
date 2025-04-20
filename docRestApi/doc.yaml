@@ -32,7 +32,8 @@ tags:
     description: 盈利钱包方面接口
   - name: agt
     description: 代理方面接口
-
+  - name: pay
+    description: 充值支付方面接口
   - name: common
     description: 基础接口
 
@@ -90,8 +91,8 @@ paths:
     $ref: './paths/InvstRcd/AddInvstRcdHdl.yaml'
   /admin/InvstRcd/QryInvstRcdHdl:
     $ref: './paths/InvstRcd/QryInvstRcdHdl.yaml'
-
-
+  /pay/recharge:
+    $ref: './paths/pay/recharge.yml'
   /cfg/IniDataHdl:
     $ref: './paths/cfg/IniDataHdl.yaml'
   /cfg/GetCfg?k=DataSummary:
@@ -457,62 +458,8 @@ paths:
                   message:
                     type: string
                     example: "提现成功，账户余额已更新"
-  /recharge:
-    get:
 
-      components:
-        securitySchemes:
-          cookieAuth:
-            type: apiKey
-            in: cookie
-            name: uname
 
-      security:
-        - cookieAuth: [ ]
-        - JwtAuth88: [ ]  # 指定此接口支持 JWT 认证
-      tags:
-        - Wallet
-      summary:   充值
-      description: This endpoint retrieves recharge header information based on the provided amount and username.
-      parameters:
-        - $ref: "#/components/parameters/ClientIdHeader"
-        - in: query
-          name: amt
-          required: true
-          schema:
-            type: integer
-            example: 888
-          description: The amount to be recharged.
-        - in: cookie
-          name: uname
-          required: true
-          schema:
-            type: string
-            default: "007"
-          description: The username for the request.
-      responses:
-        '200':
-          description: Successful response with recharge details.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: success
-                  data:
-                    type: object
-                    properties:
-                      rechargeId:
-                        type: integer
-                        example: 12345
-                      amount:
-                        type: integer
-                        example: 888
-
-        '500':
-          description: Internal server error.
 
   /admin/wlt/adjust:
     get:

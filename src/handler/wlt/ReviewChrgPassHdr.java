@@ -2,7 +2,8 @@ package handler.wlt;
 
 import cfg.MyCfg;
 import handler.dto.ReviewChrgPassRqdto;
-import entityx.wlt.ReChgOrd;
+import model.constt.RechargeOrderStat;
+import model.pay.RechargeOrder;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
@@ -40,9 +41,9 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
     public ApiGatewayResponse handleRequest(ReviewChrgPassRqdto reqdto, Context context) throws Throwable {
 
 
-        var o=findByHerbinate(ReChgOrd.class,reqdto.ord_id,sessionFactory.getCurrentSession());
+        var o=findByHerbinate(RechargeOrder.class,reqdto.ord_id,sessionFactory.getCurrentSession());
 
-         o.setStat("通过");
+         o.setStatus(String.valueOf(RechargeOrderStat.ACCP));
          mergeByHbnt(o,sessionFactory.getCurrentSession());
 
         return new ApiGatewayResponse(o);

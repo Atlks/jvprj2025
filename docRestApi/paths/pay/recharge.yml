@@ -1,0 +1,43 @@
+get:
+
+
+  security:
+    - cookieAuth: [ ]
+    - JwtAuth88: [ ]  # 指定此接口支持 JWT 认证
+  tags:
+    - pay
+  summary:   充值
+  description: This endpoint retrieves recharge header information based on the provided amount and username.
+  parameters:
+    #- $ref: "#/components/parameters/ClientIdHeader"
+    - in: query
+      name: instdAmt
+      required: true
+      schema:
+        type: integer
+        example: 888
+      description: The amount to be recharged.
+
+  responses:
+    '200':
+      description: Successful response with recharge details.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: object
+                properties:
+                  rechargeId:
+                    type: integer
+                    example: 12345
+                  amount:
+                    type: integer
+                    example: 888
+
+    '500':
+      description: Internal server error.

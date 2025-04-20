@@ -174,6 +174,11 @@ public class WebSvr {
                 System.out.println("pathMap(path=" + path + ",aClass=" + aClass.toString());
                 //   server.createContext(path, (HttpHandler) bean);
                 pathMap.put(path, aClass);
+                if(aClass.getName().contains("RechargeHdr"))
+                    System.out.println("D835");
+                var path_pkgNclsname=getAutoRouterPath(aClass);
+                pathMap.put(path_pkgNclsname, aClass);
+                System.out.println("pathMap(path=" + path_pkgNclsname + ",aClass=" + aClass.toString());
 
             }
         };
@@ -181,6 +186,25 @@ public class WebSvr {
         scanAllClass(fun);
         System.out.println("====end createContext");
     }
+
+    /**
+     * 获取自动化的路由路径，规则: 上一级包名/类名
+     * 例如  /role/SaveRoleHdl
+     * @param aClass 要处理的类
+     * @return 自动生成的路由路径
+     */
+    public static String getAutoRouterPath(Class<?> aClass) {
+        if (aClass == null) {
+            return "";
+        }
+
+        Package pkg = aClass.getPackage();
+        String packageName = pkg != null ? pkg.getName() : "";
+        String[] parts = packageName.split("\\.");
+        String lastPkg = parts.length > 0 ? parts[parts.length - 1] : "";
+        return "/" + lastPkg + "/" + aClass.getSimpleName();
+    }
+
 
     private static void handleAllReq(@NotNull HttpExchange exchange) throws IOException {
         try {

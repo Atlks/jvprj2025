@@ -1,0 +1,57 @@
+
+
+密码实体有什么规范吗
+ChatGPT 说：
+密码相关实体虽然不像 UserInfo 那样有官方协议标准（如 OIDC），但在业界中有一些约定俗成的规范字段和结构设计。以下是一个标准的“密码实体”或“用户认证信息”实体设计参考，用于存储用户凭证相关信息：
+
+
+import java.time.Instant;
+
+public class UserCredential {
+
+    /** 用户唯一标识（可以是 userId、UUID 等） */
+    private String userId;
+
+    /** 密码哈希 */
+    private String passwordHash;
+
+    /** 使用的哈希算法（例如 bcrypt、argon2、scrypt、pbkdf2） */
+    private String hashAlgorithm;
+
+    /** 密码盐值（如果哈希算法使用） */
+    private String salt;
+
+    /** 密码哈希迭代次数（可选） */
+    private Integer iterations;
+
+    /** 密码最近更新时间 */
+    private Instant passwordUpdatedAt;
+
+    /** 是否需要强制修改密码（首次登录、重置后） */
+    private boolean forceChange;
+
+    /** 是否被冻结（如多次错误后锁定） */
+    private boolean locked;
+
+    /** 锁定时间（可选） */
+    private Instant lockedAt;
+
+    /** 最近一次登录失败时间（可用于分析攻击） */
+    private Instant lastFailedLogin;
+
+    /** 连续失败次数（可用于锁定策略） */
+    private int failedAttempts;
+
+    // Getter / Setter 省略，可用 @Data 自动生成
+}
+
+
+✅ 通用规范 & 安全建议   字段 说明   passwordHash 仅存储哈希值，永不保存明文密码  salt 如使用 PBKDF2、scrypt 等，自定义盐值  hashAlgorithm 记录使用的哈希算法，以便未来算法升级  forceChange 可用于管理员重置密码场景  locked 多次登录失败后锁定账户  iterations 可用于记录 PBKDF2 的迭代次数  passwordUpdatedAt 密码到期或提醒用户修改       🔒 哈希算法推荐   算法 建议   bcrypt Java 中推荐，支持自动内置 salt，常用库如 Spring Security  argon2 更先进算法（JDK 本身不支持，但可使用第三方库）  scrypt 适合高安全需求  pbkdf2 如果使用标准 JDK，可选方案
+
+
+✅ 可扩展字段（根据需求）
+passwordHint（不可推荐，安全性低）
+
+otpSecret（配合双因素认证）
+
+passwordHistory（密码历史列表，避免用户重复使用）

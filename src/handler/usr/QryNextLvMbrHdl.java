@@ -1,7 +1,6 @@
 package handler.usr;
 
 import entityx.usr.Usr;
-import entityx.wlt.ReChgOrd;
 import handler.ylwlt.QueryDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;

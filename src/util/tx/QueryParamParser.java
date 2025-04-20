@@ -1,6 +1,6 @@
 package util.tx;
 
-import entityx.wlt.ReChgOrd;
+import model.pay.RechargeOrder;
 import org.jetbrains.annotations.NotNull;
 
 import java.beans.IntrospectionException;
@@ -31,7 +31,7 @@ public class QueryParamParser {
         Map<String, String> paramMap=new HashMap<>();
        // paramMap.put("uname","33");
         paramMap.put("amt","33.23");
-        System.out.println(encodeJsonObj(toDto(paramMap, ReChgOrd.class)));
+        System.out.println(encodeJsonObj(toDto(paramMap, RechargeOrder.class)));
       //  System.out.println(encodeJsonObj(toDto(paramMap, Usr.class)));
     }
     public static <T> @NotNull T toDto(Map<String, String> paramMap, Class<T> usrClass){

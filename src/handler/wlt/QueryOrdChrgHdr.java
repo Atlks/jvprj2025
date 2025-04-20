@@ -3,7 +3,7 @@ package handler.wlt;
 import util.annos.NoDftParam;
 import cfg.MyCfg;
 import entityx.wlt.QryRechgOrdReqDto;
-import entityx.wlt.ReChgOrd;
+import model.pay.RechargeOrder;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
@@ -56,7 +56,7 @@ public class QueryOrdChrgHdr  implements RequestHandler<QryRechgOrdReqDto, ApiGa
 
 
 
-        var list1 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), ReChgOrd.class);
+        var list1 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), RechargeOrder.class);
 
         return new ApiGatewayResponse(list1);
     }

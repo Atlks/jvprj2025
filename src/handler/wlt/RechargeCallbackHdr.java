@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import service.CmsBiz;
-import entityx.wlt.ReChgOrd;
+import model.pay.RechargeOrder;
 import entityx.usr.Usr;
 import org.hibernate.Session;
 import util.algo.Icall;
@@ -45,7 +45,7 @@ import static util.misc.util2026.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class RechargeCallbackHdr implements  Icall<ReChgOrd,Object> {
+public class RechargeCallbackHdr implements  Icall<RechargeOrder,Object> {
     public static String saveUrlLogBalance;
 
     static boolean ovrtTEst = false;
@@ -73,7 +73,7 @@ public class RechargeCallbackHdr implements  Icall<ReChgOrd,Object> {
     //@CookieValue
     @Transactional
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
-    public @NotNull Object main(@BeanParam ReChgOrd ordDto) throws Throwable {
+    public @NotNull Object main(@BeanParam RechargeOrder ordDto) throws Throwable {
      //  iniAllField();
      //   injectAll4spr(this);
      //
@@ -87,10 +87,10 @@ public class RechargeCallbackHdr implements  Icall<ReChgOrd,Object> {
         //------------blk chge regch stat=ok
         String mthBiz=colorStr("设置订单状态=完成",RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  "+mthBiz);
-        ReChgOrd objChrg = findByHerbinate(ReChgOrd.class, ordDto.id, session);
+        RechargeOrder objChrg = findByHerbinate(RechargeOrder.class, ordDto.id, session);
         // System.out.println("\r\n----blk updt chg ord set stat=ok");
         String stat = (String) getField2025(objChrg, "stat", "");
-        BigDecimal amt = objChrg.amt;
+        BigDecimal amt = objChrg.instdAmt;
         if (stat.equals("ok")) {
             System.out.println("alread cpmlt ord,id=" +ordDto. id);
             if (ovrtTEst) {
@@ -98,7 +98,7 @@ public class RechargeCallbackHdr implements  Icall<ReChgOrd,Object> {
                 return objChrg;
         }
         if (stat.equals(""))
-            objChrg.stat = "ok";
+            objChrg.setStatus("ok") ;
         mergeByHbnt(objChrg, session);
 
 

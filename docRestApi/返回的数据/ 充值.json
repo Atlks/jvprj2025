@@ -1,16 +1,29 @@
-
-
 {
-  "amt": 888,
-  "uname": "777",
-  "review_timestamp": 0,
-  "timestamp": 1744963700952,
-  "id": "ordChrg2025-04-18T15-08-20",
-  "stat": "待审核",
-  "reviewer": "",
-  "parentProxy": "",
-  "vipLev": "",
-  "img": "",
-  "crtTimeStmp": 20250418150821,
-  "updtTmstmp": 20250418150821
+  "statusCode": 200,
+  "errcode": "",
+  "headers": {},
+  "body": {
+    "endToEndId": "ordChrg2025-04-20T20-49-40",
+    "instdAmt": 888,
+    "currency": "usdt",
+    "createTime": 20250420204941,
+    "status": "PNDG",
+    "note": "",
+    "id": "ordChrg2025-04-20T20-49-40",
+    "paymentChannel": "usdt",
+    "uname": "666",
+    "review_timestamp": 0,
+    "timestamp": 1745156980522,
+    "parentProxy": "",
+    "vipLev": "",
+    "img": "",
+    "crtTimeStmp": 20250420204941,
+    "updtTmstmp": 20250420204941
+  },
+  "message_err": "",
+  "message": "",
+  "timestamp": 1745156980572,
+  "path": "\"/pay/recharge?instdAmt=888\"",
+  "requestId": "reqid__941a5be4-9c46-41ed-a98a-52ffab8de024",
+  "debugInfo": {}
 }
