@@ -1,0 +1,22 @@
+
+{
+  "statusCode": 200,
+  "errcode": "",
+  "headers": {},
+  "body": {
+    "currentMonthRechargeAmount": 0,
+    "currentMonthRechargeUsers": 0,
+    "totalAdjustment": 0,
+    "totalCommission": 0,
+    "totalExchange": 0,
+    "totalProfit": 0,
+    "totalRecharge": 0,
+    "totalWithdraw": 0
+  },
+  "message_err": "",
+  "message": "",
+  "timestamp": 1745139067187,
+  "path": "\"/cfg/GetCfg?k=DataSummary\"",
+  "requestId": "reqid__4d426606-d08f-484c-a367-dc603e0227aa",
+  "debugInfo": {}
+}

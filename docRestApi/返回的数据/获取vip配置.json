@@ -1,0 +1,19 @@
+
+{
+  "statusCode": 200,
+  "errcode": "",
+  "headers": {},
+  "body": [
+    {
+      "minTotalDeposit": 0,
+      "vipLevel": 0,
+      "vipName": ""
+    }
+  ],
+  "message_err": "",
+  "message": "",
+  "timestamp": 1745138809795,
+  "path": "\"/cfg/GetCfg?k=MbrVipCfg\"",
+  "requestId": "reqid__fd16b596-7225-4770-aca8-843e371b0da7",
+  "debugInfo": {}
+}

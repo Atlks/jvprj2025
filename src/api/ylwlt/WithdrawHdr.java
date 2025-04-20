@@ -4,7 +4,7 @@ import util.annos.CookieParam;
 import util.annos.Parameter;
 import util.ex.BalanceNotEnghou;
 import entityx.wlt.LogBls4YLwlt;
-import entityx.ylwlt.OrdWthdr;
+import entityx.ylwlt.WthdrRcd;
 import entityx.usr.Usr;
 import entityx.usr.WithdrawDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -78,7 +78,7 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
 
         //======================add wth log
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("增加提现申请单", RED_bright));
-        OrdWthdr wdthRec = new OrdWthdr();
+        WthdrRcd wdthRec = new WthdrRcd();
         copyProps(dtoWithdrawDto, wdthRec);
         wdthRec.timestamp = (System.currentTimeMillis());
         wdthRec.uname = getCurrentUser();

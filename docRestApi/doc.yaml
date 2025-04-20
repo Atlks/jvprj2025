@@ -46,8 +46,7 @@ tags:
     description: 管理端接口-会员管理
   - name: admin_rpt
     description: 管理端接口-报表管理
-  - name: admin_cfg
-    description: 管理后台——配置方面接口
+
   - name: adm_wlt
     description: 管理后台——钱包方面接口
   - name: role
