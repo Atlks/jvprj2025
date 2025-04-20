@@ -4,7 +4,7 @@ import entityx.usr.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import model.DataSummary;
+import model.rpt.DataSummaryToppart;
 import model.cfg.CfgKv;
 import model.cfg.MbrVipCfg;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static cfg.AppConfig.sessionFactory;
-import static util.misc.Util2025.encodeJson;
 import static util.tx.HbntUtil.*;
 
 @RestController
@@ -35,7 +34,7 @@ public class IniDataHdl implements RequestHandler<NonDto, ApiGatewayResponse> {
         try{
             findByHerbinate(CfgKv.class,"DataSummary", sessionFactory.getCurrentSession());
         } catch (findByIdExptn_CantFindData e) {
-            CfgKv c=new CfgKv("DataSummary",new DataSummary());
+            CfgKv c=new CfgKv("DataSummary",new DataSummaryToppart());
             persistByHibernate(c, sessionFactory.getCurrentSession());
         }
 

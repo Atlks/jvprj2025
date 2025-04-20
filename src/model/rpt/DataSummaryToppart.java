@@ -1,4 +1,4 @@
-package model;
+package model.rpt;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-public class DataSummary {
+public class DataSummaryToppart {
 
     // 累计相关数据
     private BigDecimal totalRecharge= BigDecimal.valueOf(0);      // 累计充值

@@ -23,8 +23,9 @@ public class Admin {
     private boolean enabled;     // 是否启用
     private long createdAt;      // 创建时间戳
     private long updatedAt;      // 最后修改时间戳
-
-    public Admin() {
+ public String dpt;
+ public String postn;  //岗位
+ public Admin() {
     }
 
 //    public Admin(int id, String username, String password, String nickname, String role, boolean enabled, long createdAt, long updatedAt) {

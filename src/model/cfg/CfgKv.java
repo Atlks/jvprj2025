@@ -6,7 +6,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import model.DataSummary;
 
 import static util.misc.Util2025.encodeJson;
 
