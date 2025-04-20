@@ -19,6 +19,7 @@ import util.serverless.RequestHandler;
 
 import static cfg.Containr.sam4regLgn;
 import static cfg.AppConfig.sessionFactory;
+import static handler.wthdr.WthdReqHdl.iniYlwlt;
 import static util.algo.CopyUti.copyProp;
 import static util.misc.Util2025.encodeJson;
 import static util.proxy.AopUtil.ivk4log;
@@ -59,6 +60,8 @@ public class RegHandler implements RequestHandler<RegDto, ApiGatewayResponse>,IR
         addU(dtoReg);
         //  storekey(dtoReg);
         sam4regLgn.storeKey(dtoReg.uname, dtoReg.pwd);
+
+        iniYlwlt(dtoReg.uname);
         return new ApiGatewayResponse(dtoReg);
     }
 

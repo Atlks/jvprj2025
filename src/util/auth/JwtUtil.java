@@ -40,7 +40,8 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 public class JwtUtil {
 
     public static void main(String[] args) {
-        System.out.println(newToken("666", Role.ADMIN));
+       // System.out.println(newToken("666", Role.ADMIN));
+        System.out.println(newToken("666", Role.USER));
     }
 
     @Value("scrkey")
@@ -48,7 +49,7 @@ public class JwtUtil {
     private static final String SECRET_KEY = "mysecretkey";
 
     // JWT过期时间，单位毫秒  100day
-    private static final long EXPIRATION_TIME = 100 * 24 * 3600 * 1000; // 10 days
+    private static final long EXPIRATION_TIME = 100L * 24 * 3600 * 1000; // 10 days
 
 
     /**
@@ -66,6 +67,10 @@ public class JwtUtil {
     // 生成 JWT   512bit 64byte
     public static @NotBlank String newToken(@NotBlank String username, Role role) {
         SecretKey key = Keys.hmacShaKeyFor(_get64Bytes512bitKey(SECRET_KEY)); // 生成符合 HS512 规范的密钥
+
+        long EXPIRATION_TIME = 100L * 24 * 3600 * 1000; // 100 days
+        long exprtTimeMls = System.currentTimeMillis() + EXPIRATION_TIME;
+        System.out.println("exprtTimeMls="+exprtTimeMls);
         return Jwts.builder()
                 .setSubject(username)   //uid
                 .setIssuedAt(new Date())
@@ -88,7 +93,7 @@ public class JwtUtil {
                 .claim("MRZ", "glb")
 
 
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .setExpiration(new Date(exprtTimeMls))
                 .setId(_getUuid())
                 .signWith(SignatureAlgorithm.HS512, key)
                 .compact();

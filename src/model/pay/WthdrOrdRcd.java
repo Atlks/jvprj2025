@@ -1,6 +1,7 @@
 package model.pay;
 import jakarta.persistence.*;
 import lombok.Data;
+import model.constt.RechargeOrderStat;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
@@ -56,7 +57,9 @@ public class WthdrOrdRcd {
     @Id
     public String id=getUuid();
     public String reviewer;
-    public String revwStat;
+
+    //审核状态
+    public String status= String.valueOf(RechargeOrderStat.PNDG);;
     public long revwTime;
     public String tag;
     public  String vipLev;

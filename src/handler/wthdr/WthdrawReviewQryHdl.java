@@ -1,9 +1,10 @@
-package handler.ylwlt;
+package handler.wthdr;
 
 
 import handler.ylwlt.dto.WthdrawReviewQryDto;
 import jakarta.ws.rs.core.Context;
 import model.pay.RechargeOrder;
+import model.pay.WthdrOrdRcd;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
@@ -35,9 +36,9 @@ public class WthdrawReviewQryHdl  implements RequestHandler<WthdrawReviewQryDto,
         //  Map<String, Object> sqlprmMap= Map.of( "sql",sql,   "uname",reqdto.uname);
         //   System.out.println( encodeJson(sqlprmMap));
 
+        System.out.println(sql);
 
-
-        var list1 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), RechargeOrder.class);
+        var list1 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), WthdrOrdRcd.class);
 
         return new ApiGatewayResponse(list1);
     }

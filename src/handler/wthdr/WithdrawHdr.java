@@ -1,4 +1,4 @@
-package handler.ylwlt;
+package handler.wthdr;
 
 import api.ylwlt.ApiFun;
 import model.wlt.YLwlt;
@@ -7,7 +7,6 @@ import util.annos.Parameter;
 import util.ex.BalanceNotEnghou;
 import entityx.wlt.LogBls4YLwlt;
 import model.pay.WthdrOrdRcd;
-import entityx.usr.Usr;
 import entityx.usr.WithdrawDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.LockModeType;

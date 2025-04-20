@@ -88,8 +88,10 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
-  /ylwlt/WthdReqHdl:
+  /wthdr/WthdReqHdl:
     $ref: './paths/ylwlt/WthdReqHdl.yaml'
+  /wthdr/WthdrawReviewQryHdl:
+    $ref: './paths/ylwlt/WthdrawReviewQryHdl.yaml'
   /admin/InvstRcd/AddInvstRcdHdl:
     $ref: './paths/InvstRcd/AddInvstRcdHdl.yaml'
   /admin/InvstRcd/QryInvstRcdHdl:

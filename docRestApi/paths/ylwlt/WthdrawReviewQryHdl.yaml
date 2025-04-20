@@ -1,13 +1,13 @@
 get:
   tags:
     - wthdr
-  summary: "提现请求"
+  summary: "提现申请查询"
 
   parameters:
     - name: amount
       in: query
       description: "提现金额"
-      required: true
+      required: false
       schema:
         type: number
         format: double
