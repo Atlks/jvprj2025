@@ -14,9 +14,9 @@ import util.ex.PwdErrEx;
 public interface IloginV2<DTO> {
 
 
-      Object main(@NotNull @BeanParam DTO usr_dto) throws Exception, PwdErrEx
-
-    ;
+//      Object main(@NotNull @BeanParam DTO usr_dto) throws Exception, PwdErrEx
+//
+//    ;
 
 
       Object setLoginTicket(@NotNull DTO usr_dto) ;

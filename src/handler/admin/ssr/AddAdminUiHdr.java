@@ -1,6 +1,6 @@
 //RegHandler.java
 
-package api.adm;
+package handler.admin.ssr;
 
 import entityx.admin.Admin;
 import io.swagger.v3.oas.annotations.tags.Tag;

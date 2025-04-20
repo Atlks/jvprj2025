@@ -1,6 +1,6 @@
 //RegHandler.java
 
-package api.adm;
+package handler.admin;
 
 import entityx.admin.Admin;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,7 +29,7 @@ import static util.tx.HbntUtil.persistByHibernate;
 
 //  http://localhost:8889/adm/add?username=000&password=000&key=
 @Controller
-@Path("/adm/add")
+@Path("/admin/AddAdminHdr")
 @RequestMapping("/adm/add")
 @Tag(name = "用户管理", description = "用户相关操作")
 @PermitAll

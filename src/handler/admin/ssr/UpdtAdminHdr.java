@@ -1,6 +1,6 @@
 //RegHandler.java
 
-package api.adm;
+package handler.admin.ssr;
 
 import handler.usr.RegDto;
 import core.IRegHandler;

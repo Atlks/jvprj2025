@@ -38,7 +38,7 @@ AuthenticationMechanism 会调用 SecurityContext嘛
 
 
 AuthenticationMechanism 会调用 SecurityContext嘛
-ChatGPT 说：
+ 
 是的，AuthenticationMechanism 在 Java EE 或 Jakarta EE 中通常与 SecurityContext 配合使用。在 JAX-RS 中，AuthenticationMechanism 负责执行用户身份验证，而 SecurityContext 提供了获取当前认证用户信息的接口。
 SecurityContext：一旦用户通过身份验证，SecurityContext 将提供关于当前用户的信息，包括用户的身份（getUserPrincipal()）和该用户是否在特定角色中（isUserInRole()）。SecurityContext 允许你在 JAX-RS 资源类中访问这些信息。
 如果身份验证成功，AuthenticationMechanism 会将认证信息与用户的角色信息存储到 SecurityContext 中。

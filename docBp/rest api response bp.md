@@ -1,6 +1,6 @@
 
 ResponseEntity  这个使用，我要输出自定义的json对象呢
-ChatGPT 说：
+ 
 ResponseEntity 是 Spring 框架中用于构建 HTTP 响应的一个类，它可以包含响应状态码、响应头以及响应体。你可以使用它来返回自定义的 JSON 对象，通常是通过使用 @RestController 配合 @RequestMapping 或其他 HTTP 请求注解来构建 API。
 
 返回自定义的 JSON 对象

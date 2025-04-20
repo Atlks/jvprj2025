@@ -1,18 +1,23 @@
-package api.adm;
+package handler.admin;
 
 import core.IloginV2;
 import entityx.admin.Admin;
+import handler.admin.dto.AdminLoginDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import model.auth.Role;
 import org.springframework.stereotype.Controller;
 import util.algo.EncryUtil;
-import util.algo.Icall;
-import util.ex.PwdNotEqExceptn;
+import util.auth.JwtUtil;
 import util.misc.util2026;
 import util.serverless.ApiGateway;
-import util.tx.findByIdExptn_CantFindData;
+import util.serverless.ApiGatewayResponse;
+import util.serverless.RequestHandler;
+
+import java.util.Collections;
 
 import static cfg.AppConfig.sessionFactory;
 import static util.algo.EncodeUtil.encodeMd5;
@@ -24,34 +29,26 @@ import static util.tx.HbntUtil.findByHerbinate;
 
 //组合了 @Controller 和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
 @PermitAll
-@Path("/adm/loginSbmt")
+@Path("/admin/login")
 //   http://localhost:8889/adm/loginSbmt
 @NoArgsConstructor
 @Data
-public class LoginSbmtHdr implements   Icall<AdminLoginDto,Object>, IloginV2<AdminLoginDto> {
+public class LoginAdm    implements RequestHandler<AdminLoginDto, ApiGatewayResponse>, IloginV2<AdminLoginDto> {
     /**
      * @param arg
      * @return
      */
-
-    public Object main(AdminLoginDto arg) {
+    @Override
+    public   ApiGatewayResponse handleRequest(AdminLoginDto arg, Context context)  throws Throwable {
 
 
 
      //   String data = "p=" + crdt.getPasswordAsString() + "&slt=" + k.salt;
-     try{
+
          var admin = findByHerbinate(Admin.class, arg.username, sessionFactory.getCurrentSession());
          hopePwdEq(admin.getPassword(), encodeMd5(arg.password));
-         setLoginTicket(arg);
-         return "<script>location='/adm/home'</script>";
-     }catch (findByIdExptn_CantFindData e)
-     {
-         return "<script>alert('无此管理员');location='/adm/login'</script>";
-     }
-     catch (PwdNotEqExceptn e)
-     {
-         return "<script>alert('密码错误');location='/adm/login'</script>";
-     }
+
+         return  new ApiGatewayResponse( setLoginTicket(arg));
 
 
 
@@ -66,6 +63,9 @@ public class LoginSbmtHdr implements   Icall<AdminLoginDto,Object>, IloginV2<Adm
         util2026.setcookie("admHRZ", usr_dto.username, ApiGateway.httpExchangeCurThrd.get());
         util2026.setcookie("adm", EncryUtil.encryptAesToStrBase64(usr_dto.username, EncryUtil.Key4pwd4aeskey), ApiGateway.httpExchangeCurThrd.get());
 
-        return null;
+        var jwtobj= Collections.singletonMap("tokenJwt", JwtUtil.newToken(usr_dto.username, Role.ADMIN));
+        return  (jwtobj);
+
+     //   return null;
     }
 }

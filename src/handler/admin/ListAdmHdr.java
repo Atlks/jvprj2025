@@ -1,4 +1,4 @@
-package api.adm;
+package handler.admin;
 
 import entityx.admin.Admin;
 import entityx.usr.NonDto;
@@ -11,13 +11,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.thymeleaf.context.Context;
 import util.algo.Icall;
+import util.serverless.ApiGatewayResponse;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static cfg.AppConfig.sessionFactory;
-import static ztest.htmlTppltl.rend;
 import static util.tx.dbutil.nativeQueryGetResultList;
+import static ztest.htmlTppltl.rend;
 
 @Controller
 
@@ -42,13 +43,9 @@ public class ListAdmHdr implements Icall<NonDto, Object> {
         Session session = sessionFactory.getCurrentSession();
         var list1 = nativeQueryGetResultList(sql, new HashMap<>(), session, Admin.class);
 
-     //   return createResponse(list1);
-        Context context = new Context();
-        context.setVariable("users", list1);
-        String tmpleFileName = "adm/listAdm";
 
 
-       return  ( rend(tmpleFileName, context ));
+       return  new ApiGatewayResponse(list1);
     }
 
 

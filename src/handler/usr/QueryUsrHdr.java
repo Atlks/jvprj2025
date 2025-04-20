@@ -1,5 +1,6 @@
-package api.adm;
+package handler.usr;
 
+import handler.admin.AuthFun4admin;
 import util.annos.NoDftParam;
 import util.annos.RequireAuth;
 import entityx.usr.ReqDtoQryUsr;

@@ -1,4 +1,4 @@
-package api.adm;
+package handler.admin;
 
 public class DelAdmHdr {
 }

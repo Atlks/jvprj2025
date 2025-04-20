@@ -1,4 +1,4 @@
-package api.adm;
+package handler.admin.ssr;
 
 import handler.usr.RegDto;
 import entityx.usr.NonDto;
@@ -23,7 +23,7 @@ import util.ex.existUserEx;
 import util.misc.util2026;
 import util.serverless.ApiGateway;
 
-import static ztest.htmlTppltl.rend;
+import static ztest.htmlTppltl.renderHtml;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.setcookie;
 import static util.serverless.ApiGateway.httpExchangeCurThrd;
@@ -36,11 +36,11 @@ import static util.serverless.ApiGateway.httpExchangeCurThrd;
 @Controller
 //@Controller 注解来标识处理请求并返回视图（HTML 页面）。
 @PermitAll
-@Path("/adm/login")
-//   http://localhost:8889/adm/login
+@Path("/adm/home")
+//   http://localhost:8889/adm/home
 @NoArgsConstructor
 @Data
-public class LoginHdr4adm implements Icall<NonDto, Object> {
+public class HomeHdr4adm implements Icall<NonDto, Object> {
     /**
      * @return
      * @throws Exception
@@ -52,11 +52,11 @@ public class LoginHdr4adm implements Icall<NonDto, Object> {
 
         org.thymeleaf.context.Context context = new org.thymeleaf.context.Context();
        // context.setVariable("users", users);
-        String tmpleFileName = "adm/login";  // xx.htm
+        String tmpleFileName = "adm/home";
 
 
       //  System.out.println( );
-        return rend(tmpleFileName, context );
+        return renderHtml(tmpleFileName, context );
     }
 
 

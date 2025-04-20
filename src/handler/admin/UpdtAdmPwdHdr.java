@@ -1,4 +1,4 @@
-package api.adm;
+package handler.admin;
 
 import entityx.usr.NonDto;
 import jakarta.annotation.security.PermitAll;

@@ -1,4 +1,4 @@
-package api.adm;
+package handler.admin;
 
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.AuthenticationStatus;

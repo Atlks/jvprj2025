@@ -1,5 +1,5 @@
 package util.annos;
-import api.adm.AuthFun4admin;
+import handler.admin.AuthFun4admin;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
