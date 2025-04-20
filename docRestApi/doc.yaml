@@ -102,6 +102,8 @@ paths:
     $ref: './paths/cfg/GetMbrVipCfg.yaml'
   /cfg/GetCfg?k=CmsLvCfg:
     $ref: './paths/cfg/GetCmsLvCfg.yaml'
+  /agt/QryAgtHdl:
+    $ref: './paths/agt/QryAgtHdl.yaml'
   /admin/role/ListRolesHdl:
    $ref: './paths/role/ListRolesHdl.yaml'
   /admin/role/SaveRolesHdl:

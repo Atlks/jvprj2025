@@ -1,22 +1,30 @@
 get:
   tags:
-    - invstRcd
-  summary: " 查询投资操作记录"
+    - agt
+  summary: " 查询代理"
 
   parameters:
-    - name: investmentType
+    - name: agentAccount
       in: query
-      description: "投资类型"
+      description: ""
       required: false
       schema:
         type: string
-    - name: amount
+    - name: commissionMin
       in: query
-      description: "金额"
+      description: ""
       required: false
       schema:
         type: number
         format: double
+        example: 0
+    - name: tag
+      in: query
+      description: ""
+      required: false
+      schema:
+        type: string
+
 
 
 
