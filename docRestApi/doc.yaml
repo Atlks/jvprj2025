@@ -21,21 +21,25 @@ servers:
 tags:
   - name: user
     description: 用户方面接口
+  - name: secury
+    description: 账户安全方面接口
   - name: Wallet
     description: 钱包方面接口
-  - name: bet
-    description: 注单方面接口
+
   - name: coin
     description: 加密货币外汇贵金属方面接口
   - name: ylWallet
     description: 盈利钱包方面接口
-  - name: proxy
+  - name: agt
     description: 代理方面接口
+
   - name: common
     description: 基础接口
 
   - name: cfg
     description: 获取配置方面接口
+  - name: adm_opmng
+    description: 管理端接口-运营管理
   - name: admin
     description: 管理端接口-管理员管理
   - name: admin_usr
@@ -80,12 +84,7 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
-  /user/GeMyWltAddrHdl:
-    $ref: './paths/usr/GeMyWltAddrHdl.yaml'
-  /user/SeMyWltAddrHdl:
-    $ref: './paths/usr/SeMyWltAddrHdl.yaml'
-  /usr/QryNextLvMbrHdl:
-    $ref: './paths/usr/QryNextLvMbrHdl.yaml'
+
   /wlt/QryFundDetailHdl:
    $ref: './paths/wlt/QryFundDetailHdl.yaml'
   /admin/cfg/SetCfgKv:
@@ -144,39 +143,17 @@ paths:
     $ref: './paths/FgtPwdRstPwdHdr.yaml'
   /FgtPwdGetQuestionByUnameHdr:
     $ref: './paths/FgtPwdGetQuestionByUnameHdr.yaml'
+  /user/SetEmlHdl:
+    $ref: './paths/usr/SetEmlHdl.yaml'
+  /user/GeMyWltAddrHdl:
+    $ref: './paths/usr/GeMyWltAddrHdl.yaml'
+  /user/SeMyWltAddrHdl:
+    $ref: './paths/usr/SeMyWltAddrHdl.yaml'
+  /usr/QryNextLvMbrHdl:
+    $ref: './paths/usr/QryNextLvMbrHdl.yaml'
   /user/setScrQstn:
-    get:
-      tags:
-        - user
-      summary: 设置用户自定义安全问题
-      description: 用于设置用户的安全问题及答案，支持自定义问题文本。
-      parameters:
-        - name: customQuestionText
-          in: query
-          required: true
-          description: 用户自定义的安全问题内容
-          schema:
-            type: string
-        - name: answer
-          in: query
-          required: true
-          description: 对安全问题的回答
-          schema:
-            type: string
-      responses:
-        '200':
-          description: 设置成功
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: 安全问题设置成功
+    $ref: './paths/usrSecury/setScrQstn.yaml'
+
   /admin/qryUsr:
    get:
     tags:
@@ -311,18 +288,7 @@ paths:
             text/plain:
               schema:
                 type: string
-  /list_bets:
-    get:
-      tags:
-        - bet
-      summary: "列出投注记录"
-      responses:
-        "200":
-          description: ""
-          content:
-            text/plain:
-              schema:
-                type: string
+
   /ylwlt/changeLog:
     get:
       tags:
@@ -333,11 +299,7 @@ paths:
       tags:
         - Wallet
       summary: "钱包账变流水"
-  /bet/query:
-    get:
-      tags:
-        - bet
-      summary: "注单记录列表"
+
   /logout:
     get:
       tags:
@@ -534,34 +496,8 @@ paths:
 
         '500':
           description: Internal server error.
-  /bet:
-    get:
-      tags:
-        - bet
-      summary: 投注
-      description: ""
-      operationId: getBet
-      parameters:
-        - name: bettxt
-          in: query
-          required: true
-          description: "投注内容"
-          schema:
-            type: string
-            example: "123"
-        - name: uname
-          in: JwtParam
-          required: true
-          description: 用户名（从 JwtParam 获取）
-          schema:
-            type: string
-            example: "123"
-      responses:
-        '200':
-          description: 成功响应
-        '400':
-          description: 错误请求
-  /wlt/adjust:
+
+  /admin/wlt/adjust:
     get:
       tags:
         - Wallet

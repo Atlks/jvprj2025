@@ -1,7 +1,7 @@
 #issetWthdrPwdHandler.yaml
 get:
   tags:
-    - user
+    - secury
   summary: 是否设置了交易密码
   description:  IsSetWthdrPwdHdr
 

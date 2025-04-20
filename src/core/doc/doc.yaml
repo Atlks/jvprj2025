@@ -88,11 +88,7 @@ paths:
       tags:
         - Wallet
       summary: "钱包账变流水"
-  /bet/query:
-    get:
-      tags:
-        - bet
-      summary: "注单记录列表"
+
   /logout:
     get:
       tags:
@@ -464,7 +460,7 @@ paths:
           description: 成功响应
         '400':
           description: 错误请求
-  /wlt/adjust:
+  /admin/wlt/adjust:
     get:
       tags:
         - Wallet

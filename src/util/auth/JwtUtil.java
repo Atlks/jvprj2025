@@ -40,15 +40,15 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 public class JwtUtil {
 
     public static void main(String[] args) {
-        System.out.println(newToken("777",Role.ADMIN));
+        System.out.println(newToken("666", Role.ADMIN));
     }
+
     @Value("scrkey")
     // 密钥，通常应该从环境变量或配置文件中获取，避免硬编码
     private static final String SECRET_KEY = "mysecretkey";
 
     // JWT过期时间，单位毫秒  100day
-    private static final long EXPIRATION_TIME = 100*24*3600*1000; // 10 days
-
+    private static final long EXPIRATION_TIME = 100 * 24 * 3600 * 1000; // 10 days
 
 
     /**
@@ -86,8 +86,6 @@ public class JwtUtil {
                 .claim(VisaConstants.passportNumber, "glb")
                 .claim("visaNumber", "glb")
                 .claim("MRZ", "glb")
-
-
 
 
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
@@ -145,9 +143,6 @@ public class JwtUtil {
     }
 
 
-
-
-
 //jwt 0.11.5 is ok
     //jwt版本  0.12.6 ，这个函数报错语法错误
     //Cannot resolve method 'parseClaimsJws' in 'JwtParserBuilder'
@@ -161,7 +156,6 @@ public class JwtUtil {
 //    }
 
 
-
     public static Claims parserClaimsObj(@NotBlank String token) {
         byte[] keys = _get64Bytes512bitKey(SECRET_KEY);
         JwtParser jwtParser = Jwts.parserBuilder()
@@ -171,11 +165,10 @@ public class JwtUtil {
     }
 
 
-
-    public static  @jakarta.validation.constraints.NotBlank String getTokenMust(HttpExchange he) throws CantGetTokenJwtEx, validateTokenExcptn {
+    public static @jakarta.validation.constraints.NotBlank String getTokenMust(HttpExchange he) throws CantGetTokenJwtEx, validateTokenExcptn {
 // 从请求头中获取 Authorization 字段
         String authHeader = he.getRequestHeaders().getFirst("Authorization");
-        if(isBlank(authHeader))
+        if (isBlank(authHeader))
             throw new CantGetTokenJwtEx("Authorization token cant get");
         String token = authHeader.substring(7);
         if (isBlank(token))
@@ -208,7 +201,7 @@ public class JwtUtil {
         return parserClaimsObj(token).getSubject();
     }
 
-    public static  @NotNull String getUsernameFrmJwtToken( @NotNull HttpExchange httpExchange) throws CantGetTokenJwtEx, unameIsEmptyExcptn, validateTokenExcptn {
+    public static @NotNull String getUsernameFrmJwtToken(@NotNull HttpExchange httpExchange) throws CantGetTokenJwtEx, unameIsEmptyExcptn, validateTokenExcptn {
         var token = getTokenMust(httpExchange);
         var uname = getUsername(token);
         if (isBlank(uname)) {

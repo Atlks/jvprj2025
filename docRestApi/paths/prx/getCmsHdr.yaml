@@ -1,6 +1,6 @@
 get:
   tags:
-    - proxy
+    - agt
   summary: 获取佣金
   description:
   security:

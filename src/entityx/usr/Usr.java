@@ -43,7 +43,7 @@ public class Usr {
 
     @PrimaryKey
     @Id
-    public String id;
+    public String id;   //uid
     public BigDecimal balance=new BigDecimal(0);// avdBls
     public BigDecimal balanceFreez=new BigDecimal(0);;// avdBls
     public BigDecimal balanceYinliwlt=new BigDecimal(0);;
@@ -79,7 +79,7 @@ public class Usr {
     public Usr() {
 
     }
-
+    public String email = "";
     public  boolean enabled=true;
 
     @CreationTimestamp

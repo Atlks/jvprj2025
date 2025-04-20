@@ -1,6 +1,9 @@
 package handler.wlt;
 
+import jakarta.annotation.security.RolesAllowed;
+import model.auth.Role;
 import util.annos.JwtParam;
+import util.annos.NeedAuth;
 import util.annos.Parameter;
 import util.ex.ErrAdjstTypeEx;
 import entityx.ApiResponse;
@@ -29,11 +32,11 @@ import static util.misc.util2026.*;
 
 @RestController   // 默认返回 JSON，不需要额外加 @ResponseBody。
 @Tag(name = "wlt 钱包")
-@Path("/wlt/adjust")
+@Path("/admin/wlt/adjust")
 @JwtParam(name = "uname")
 @Parameter(name = "adjustType")    //+ -  Increase Decrease
 @Parameter(name = "changeAmount")
-
+@RolesAllowed({"admin", "Operator"})
 
 public class AdjustHdr implements Icall<TransDto, Object> {
 

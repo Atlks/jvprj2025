@@ -1,6 +1,9 @@
 package api.ylwlt;
 
+import jakarta.annotation.security.RolesAllowed;
+import model.auth.Role;
 import util.annos.JwtParam;
+import util.annos.NeedAuth;
 import util.annos.Parameter;
 import util.ex.ErrAdjstTypeEx;
 import entityx.wlt.LogBls4YLwlt;
@@ -26,11 +29,11 @@ import static util.tx.HbntUtil.*;
 
 @RestController   // 默认返回 JSON，不需要额外加 @ResponseBody。
 @Tag(name = "ylwlt")
-@Path("/ylwlt/adjust")
+@Path("/admin/ylwlt/adjust")
 @JwtParam(name = "uname")
 @Parameter(name = "adjustType")    //+ -  Increase Decrease
 @Parameter(name = "changeAmount")
-
+@RolesAllowed({"admin", "Operator"})
 
 public class adjustHdr4ylwlt implements Icall<TransDto, Object> {
 

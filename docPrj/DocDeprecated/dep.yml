@@ -1,0 +1,52 @@
+- name: bet
+  description: 注单方面接口
+/list_bets:
+  get:
+    tags:
+      - bet
+    summary: "列出投注记录"
+    responses:
+      "200":
+        description: ""
+        content:
+          text/plain:
+            schema:
+              type: string
+
+  /bet/query:
+    get:
+      tags:
+        - bet
+      summary: "注单记录列表"
+  /bet/query:
+    get:
+      tags:
+        - bet
+      summary: "注单记录列表"
+  /bet:
+    get:
+      tags:
+        - bet
+      summary: 投注
+      description: ""
+      operationId: getBet
+      parameters:
+        - name: bettxt
+          in: query
+          required: true
+          description: "投注内容"
+          schema:
+            type: string
+            example: "123"
+        - name: uname
+          in: JwtParam
+          required: true
+          description: 用户名（从 JwtParam 获取）
+          schema:
+            type: string
+            example: "123"
+      responses:
+        '200':
+          description: 成功响应
+        '400':
+          description: 错误请求

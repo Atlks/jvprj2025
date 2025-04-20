@@ -1,7 +1,7 @@
 #issetWthdrPwdHandler.yaml
 get:
   tags:
-    - user
+    - secury
   summary: 设置提现密码
   description:
   parameters:

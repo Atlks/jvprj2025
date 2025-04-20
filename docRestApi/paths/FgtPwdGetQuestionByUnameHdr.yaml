@@ -1,6 +1,6 @@
 get:
   tags:
-    - user
+    - secury
   summary: 获取用户问题  in  重设密码
   description:
   parameters:

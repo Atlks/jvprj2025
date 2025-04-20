@@ -1,16 +1,17 @@
 get:
   tags:
-    - agt
-  summary: "查询下一级用户"
-  description: ""
-  operationId: "QryNextLvMbrHdl"
+    - user
+  summary: "设置email"
+  description: "设置email"
+  operationId: "设置我的设置email"
   parameters:
-    - name: uname
+    - name: email
       in: query
-      description: "用户名"
+      description: ""
       required: true
       schema:
         type: string
+
 
   responses:
     "200":

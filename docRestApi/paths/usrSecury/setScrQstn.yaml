@@ -1,0 +1,32 @@
+get:
+  tags:
+    - secury
+  summary: 设置用户自定义安全问题
+  description: 用于设置用户的安全问题及答案，支持自定义问题文本。
+  parameters:
+    - name: customQuestionText
+      in: query
+      required: true
+      description: 用户自定义的安全问题内容
+      schema:
+        type: string
+    - name: answer
+      in: query
+      required: true
+      description: 对安全问题的回答
+      schema:
+        type: string
+  responses:
+    '200':
+      description: 设置成功
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 安全问题设置成功

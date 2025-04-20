@@ -10,6 +10,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.RestController;
 import util.annos.Parameter;
 import util.ex.existUserEx;
@@ -18,6 +19,7 @@ import util.serverless.RequestHandler;
 
 import static cfg.Containr.sam4regLgn;
 import static cfg.AppConfig.sessionFactory;
+import static util.algo.CopyUti.copyProp;
 import static util.misc.Util2025.encodeJson;
 import static util.proxy.AopUtil.ivk4log;
 import static util.tx.HbntUtil.persistByHibernate;
@@ -67,8 +69,11 @@ public class RegHandler implements RequestHandler<RegDto, ApiGatewayResponse>,IR
 
     public   void addU(RegDto dtoReg) {
         Usr u=new Usr(dtoReg.uname);
+        copyProp(dtoReg,u);
         persistByHibernate( u, sessionFactory.getCurrentSession());
     }
+
+
 
 
 //

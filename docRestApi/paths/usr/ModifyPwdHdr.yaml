@@ -1,6 +1,6 @@
 get:
   tags:
-    - user
+    - secury
   summary: "修改密码"
   description: " "
 

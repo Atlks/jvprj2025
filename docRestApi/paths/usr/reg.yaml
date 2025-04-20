@@ -17,6 +17,12 @@ get:
       required: true
       schema:
         type: string
+    - name: email
+      in: query
+      description: ""
+      required: false
+      schema:
+        type: string
     - name: invtr
       in: query
       description: "邀请人"
