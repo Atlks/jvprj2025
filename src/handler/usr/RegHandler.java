@@ -16,9 +16,11 @@ import util.annos.Parameter;
 import util.ex.existUserEx;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
+import util.tx.findByIdExptn_CantFindData;
 
 import static cfg.Containr.sam4regLgn;
 import static cfg.AppConfig.sessionFactory;
+import static handler.pay.ReviewChrgPassHdr.iniWlt;
 import static handler.wthdr.WthdReqHdl.iniYlwlt;
 import static util.algo.CopyUti.copyProp;
 import static util.misc.Util2025.encodeJson;
@@ -60,9 +62,25 @@ public class RegHandler implements RequestHandler<RegDto, ApiGatewayResponse>,IR
         addU(dtoReg);
         //  storekey(dtoReg);
         sam4regLgn.storeKey(dtoReg.uname, dtoReg.pwd);
-
-        iniYlwlt(dtoReg.uname);
+        iniTwoWlt(dtoReg);
         return new ApiGatewayResponse(dtoReg);
+    }
+
+    private static void iniTwoWlt(RegDto dtoReg) throws findByIdExptn_CantFindData {
+        try{
+            iniWlt(dtoReg.uname,sessionFactory.getCurrentSession());
+
+        }catch (Throwable e){
+
+        }
+
+        try{
+
+            iniYlwlt(dtoReg.uname);
+        }catch (Throwable e){
+
+        }
+
     }
 
     public RegHandler(String uname, String pwd) {
