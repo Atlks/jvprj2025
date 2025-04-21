@@ -86,7 +86,7 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
         copyProps(objChrg,transDto);
         transDto.amt=objChrg.amount;
         transDto.refUniqId="reqid="+objChrg.id;
-        iniWlt( objChrg.uname, session);
+        iniWltIfNotExst( objChrg.uname, session);
         transDto.lockAccObj=findByHerbinate(Accounts.class, objChrg.uname, session);
 
 
@@ -97,7 +97,7 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
         return new ApiGatewayResponse(objChrg);
     }
 
-    public static void iniWlt(String uname, Session session) throws findByIdExptn_CantFindData {
+    public static void iniWltIfNotExst(String uname, Session session) throws findByIdExptn_CantFindData {
         try{
             var wlt=findByHerbinate(Accounts.class, uname, session);
         } catch (findByIdExptn_CantFindData e) {

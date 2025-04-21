@@ -4,6 +4,7 @@ import cfg.AppConfig;
 import entityx.usr.WithdrawDto;
 import jakarta.ws.rs.core.Context;
 import model.pay.TransactionsWthdr;
+import model.wlt.Accounts;
 import model.wlt.YLwltAcc;
 import util.ex.BalanceNotEnghou;
 import util.serverless.ApiGatewayResponse;
@@ -86,6 +87,16 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
                 ord1);
 
 
+    }
+
+    public static void iniYlwltIfNotExist(String uname1) {
+
+        try{
+            var wlt=findByHerbinate(YLwltAcc.class, uname1, sessionFactory.getCurrentSession());
+        } catch (findByIdExptn_CantFindData e) {
+
+            iniYlwlt(  uname1);
+        }
     }
 
     public static void iniYlwlt(String uname1) {

@@ -10,10 +10,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
-import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.RestController;
 import util.algo.Tag;
-import util.annos.Parameter;
 import util.ex.existUserEx;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
@@ -21,8 +19,8 @@ import util.tx.findByIdExptn_CantFindData;
 
 import static cfg.Containr.sam4regLgn;
 import static cfg.AppConfig.sessionFactory;
-import static handler.pay.ReviewChrgPassHdr.iniWlt;
-import static handler.wthdr.WthdReqHdl.iniYlwlt;
+import static handler.pay.ReviewChrgPassHdr.iniWltIfNotExst;
+import static handler.wthdr.WthdReqHdl.iniYlwltIfNotExist;
 import static util.algo.CopyUti.copyProp;
 import static util.misc.Util2025.encodeJson;
 import static util.proxy.AopUtil.ivk4log;
@@ -63,13 +61,14 @@ public class RegHandler implements RequestHandler<RegDto, ApiGatewayResponse>,IR
         addU(dtoReg);
         //  storekey(dtoReg);
         sam4regLgn.storeKey(dtoReg.uname, dtoReg.pwd);
-        iniTwoWlt(dtoReg);
+        iniTwoWlt(dtoReg.uname);
         return new ApiGatewayResponse(dtoReg);
     }
 
-    private static void iniTwoWlt(RegDto dtoReg) throws findByIdExptn_CantFindData {
+    public static void iniTwoWlt( String uname) throws findByIdExptn_CantFindData {
+
         try{
-            iniWlt(dtoReg.uname,sessionFactory.getCurrentSession());
+            iniWltIfNotExst(uname,sessionFactory.getCurrentSession());
 
         }catch (Throwable e){
 
@@ -77,7 +76,7 @@ public class RegHandler implements RequestHandler<RegDto, ApiGatewayResponse>,IR
 
         try{
 
-            iniYlwlt(dtoReg.uname);
+            iniYlwltIfNotExist(uname);
         }catch (Throwable e){
 
         }

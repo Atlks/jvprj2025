@@ -25,6 +25,7 @@ import util.serverless.RequestHandler;
 
 
 import static cfg.Containr.sam4regLgn;
+import static handler.usr.RegHandler.iniTwoWlt;
 import static util.serverless.ApiGateway.httpExchangeCurThrd;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.*;
@@ -56,6 +57,7 @@ public class LoginHdlr implements RequestHandler<RegDto, ApiGatewayResponse>,  I
         sam4regLgn.validate(new UsernamePasswordCredential(RegDto1.uname, RegDto1.pwd));
         var rt= setLoginTicket(RegDto1);
         setVisaByCookie(RegDto1);
+        iniTwoWlt(RegDto1.uname);
              return new ApiGatewayResponse(rt);
     }
     /**
