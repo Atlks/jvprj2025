@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * OpenBanking的Transactions实体
+ * this ,not use ,just use transPay   transWdth
  */
 public class Transactions {
 
