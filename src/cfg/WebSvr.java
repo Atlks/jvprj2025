@@ -239,7 +239,7 @@ public class WebSvr {
             @NotNull HttpHandler proxyObj = new ApiGateway(bean);
             proxyObj.handle(exchange);
         } catch (Exception e) {
-            printLn("---------------statt eprint");
+            printLn("---------------statt eprint  ");
             e.printStackTrace();
             printLn("---------------endstatt eprint");
             processNmlExptn(exchange, e);
