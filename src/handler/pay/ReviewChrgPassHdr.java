@@ -62,7 +62,7 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
         // System.out.println("\r\n----blk updt chg ord set stat=ok");
         //  is proceed??
         if (objChrg.transactionStatus.equals(TransactionStatus.COMPLETED.getCode())
-                || objChrg.transactionStatus.equals(TransactionStatus.RJCT.getCode())) {
+                || objChrg.transactionStatus.equals(TransactionStatus.Rejected.getCode())) {
             System.out.println("alread cpmlt ord,id=" + objChrg.id);
             if (ovrtTEst) {
             } else {

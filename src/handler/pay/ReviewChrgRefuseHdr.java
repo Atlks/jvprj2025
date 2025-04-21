@@ -43,7 +43,7 @@ public class ReviewChrgRefuseHdr implements RequestHandler<ReviewChrgPassRqdto, 
 
         var o=findByHerbinate(TransactionsPay.class,reqdto.transactionId,sessionFactory.getCurrentSession());
 
-         o.setTransactionStatus(String.valueOf(TransactionStatus.RJCT));
+         o.setTransactionStatus(String.valueOf(TransactionStatus.Rejected));
          mergeByHbnt(o,sessionFactory.getCurrentSession());
 
         return new ApiGatewayResponse(o);

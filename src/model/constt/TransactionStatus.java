@@ -16,44 +16,20 @@ public enum TransactionStatus {
     /**
      * Rejected - 交易组被拒绝
      */
-    RJCT("RJCT", "Rejected"),
+    Rejected("Rejected", "Rejected"),
 
     /**
      * Pending - 交易组仍在处理中
      */
     PENDING("PENDING", "Pending"),
 
-    /**
-     * Partially Processed - 交易组部分交易已被处理，部分未处理
-     */
-    PART("PART", "Partially Processed"),
-
-    /**
-     * Error - 交易组发生错误
-     */
-    ERROR("ERROR", "Error"),
 
     /**
      * Cancelled - 交易组已被取消
      */
-    CANC("CANC", "Cancelled"),
+    CANC("CANC", "Cancelled");
 
-    /**
-     * Unsent - 交易组尚未发送
-     */
-    USND("USND", "Unsent"),
-
-    /**
-     * Available - 资金或数据已准备好
-     */
-    AVAI("AVAI", "Available"),
-
-    /**
-     * Waiting - 交易组处于等待状态
-     */
-    WAIT("WAIT", "Waiting");
-
-    private final String code;
+      private final String code;
     private final String description;
 
     /**
