@@ -28,8 +28,7 @@ import static util.log.ColorLogger.RED_bright;
 import static util.log.ColorLogger.colorStr;
 import static util.misc.util2026.copyProps;
 import static util.misc.util2026.getField2025;
-import static util.tx.HbntUtil.findByHerbinate;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.*;
 
 
 /**
@@ -104,7 +103,7 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
             //ini wlt
             Accounts wlt=new Accounts();
             wlt.AccountId = uname;
-            mergeByHbnt(wlt, session);
+            persistByHibernate(wlt, session);
           //  transDto.lockAccObj=findByHerbinate(Wallet.class, uname, session);
         }
     }
