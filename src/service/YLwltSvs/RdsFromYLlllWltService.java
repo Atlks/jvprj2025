@@ -1,10 +1,9 @@
 package service.YLwltSvs;
 
-import model.wlt.Wallet;
+import model.wlt.Accounts;
 import util.ex.BalanceNotEnghou;
 import entityx.wlt.LogBls4YLwlt;
 import entityx.wlt.TransDto;
-import entityx.usr.Usr;
 import org.hibernate.Session;
 import util.algo.Icall;
 
@@ -32,7 +31,7 @@ public class RdsFromYLlllWltService implements Icall<TransDto, Object> {
 
         //--------------chk bls
         System.out.println("\n\n\n===========检测余额");
-        Wallet objU=  curLockAcc.get();
+        Accounts objU=  curLockAcc.get();
         if(objU==null)
             objU=TransDto88.lockAccObj;
         BigDecimal nowAmt2 = objU.balanceYinliwlt;

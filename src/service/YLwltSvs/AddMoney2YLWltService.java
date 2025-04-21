@@ -2,11 +2,10 @@
 
 package service.YLwltSvs;
 
-import entityx.usr.Usr;
 import entityx.wlt.LogBls4YLwlt;
 import entityx.wlt.TransDto;
 import lombok.Data;
-import model.wlt.Wallet;
+import model.wlt.Accounts;
 import org.hibernate.Session;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -38,7 +37,7 @@ public class AddMoney2YLWltService implements Icall<TransDto,Object> {
 
         Session session=sessionFactory.getCurrentSession();
 
-       Wallet objU=  curLockAcc.get();
+       Accounts objU=  curLockAcc.get();
        if(objU==null)
            objU=TransDto1.lockAccObj;
 

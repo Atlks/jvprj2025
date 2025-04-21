@@ -1,15 +1,12 @@
 package api.ylwlt;
 
 import jakarta.annotation.security.RolesAllowed;
-import model.auth.Role;
-import model.wlt.YLwlt;
+import model.wlt.YLwltAcc;
 import util.annos.JwtParam;
-import util.annos.NeedAuth;
 import util.annos.Parameter;
 import util.ex.ErrAdjstTypeEx;
 import entityx.wlt.LogBls4YLwlt;
 import entityx.wlt.TransDto;
-import entityx.usr.Usr;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.Path;
@@ -42,7 +39,7 @@ public class adjustHdr4ylwlt implements Icall<TransDto, Object> {
     public Object main(TransDto TransDto1) throws Throwable {
 
 
-        YLwlt objU = findByHbntDep(YLwlt.class, TransDto1.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+        YLwltAcc objU = findByHbntDep(YLwltAcc.class, TransDto1.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
         BigDecimal nowAmt = objU.availableBalance;
         //def is add

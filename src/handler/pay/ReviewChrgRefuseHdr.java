@@ -2,8 +2,8 @@ package handler.pay;
 
 import cfg.MyCfg;
 import handler.dto.ReviewChrgPassRqdto;
-import model.constt.RechargeOrderStat;
-import model.pay.RechargeOrder;
+import model.constt.TransactionStatus;
+import model.pay.TransactionsPay;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
@@ -41,9 +41,9 @@ public class ReviewChrgRefuseHdr implements RequestHandler<ReviewChrgPassRqdto, 
     public ApiGatewayResponse handleRequest(ReviewChrgPassRqdto reqdto, Context context) throws Throwable {
 
 
-        var o=findByHerbinate(RechargeOrder.class,reqdto.endToEndId,sessionFactory.getCurrentSession());
+        var o=findByHerbinate(TransactionsPay.class,reqdto.transactionId,sessionFactory.getCurrentSession());
 
-         o.setStatus(String.valueOf(RechargeOrderStat.RJCT));
+         o.setTransactionStatus(String.valueOf(TransactionStatus.RJCT));
          mergeByHbnt(o,sessionFactory.getCurrentSession());
 
         return new ApiGatewayResponse(o);

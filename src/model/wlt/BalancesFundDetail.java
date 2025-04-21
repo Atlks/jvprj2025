@@ -12,7 +12,7 @@ import static util.algo.GetUti.getUUid;
 @Table(name = "fund_detail")
 
 @Data
-public class FundDetail {
+public class BalancesFundDetail {
     @Id
     public String id=getUUid();
     public String uname="";

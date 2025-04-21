@@ -1,7 +1,7 @@
 package service.wlt;
 import static cfg.AppConfig.sessionFactory;
 
-import model.wlt.Wallet;
+import model.wlt.Accounts;
 import util.annos.Parameter;
 import entityx.wlt.LogBls;
 import entityx.wlt.TransDto;
@@ -57,7 +57,7 @@ public class AddMoneyToWltService   implements Icall<TransDto, Object> {
         String uname = TransDto88.uname;
         BigDecimal amt = TransDto88.getAmt();
         Session session=sessionFactory.getCurrentSession();
-        Wallet wlt1=TransDto88.lockAccObj;
+        Accounts wlt1=TransDto88.lockAccObj;
         BigDecimal nowAmt =wlt1.availableBalance;
         BigDecimal newBls = nowAmt.add(amt);
 

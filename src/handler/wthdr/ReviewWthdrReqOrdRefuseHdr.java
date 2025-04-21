@@ -5,8 +5,8 @@ import handler.dto.ReviewChrgPassRqdto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import model.constt.RechargeOrderStat;
-import model.pay.RechargeOrder;
+import model.constt.TransactionStatus;
+import model.pay.TransactionsPay;
 import org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
@@ -41,9 +41,9 @@ public class ReviewWthdrReqOrdRefuseHdr implements RequestHandler<ReviewChrgPass
     public ApiGatewayResponse handleRequest(ReviewChrgPassRqdto reqdto, Context context) throws Throwable {
 
 
-        var o=findByHerbinate(RechargeOrder.class,reqdto.endToEndId,sessionFactory.getCurrentSession());
+        var o=findByHerbinate(TransactionsPay.class,reqdto.transactionId,sessionFactory.getCurrentSession());
 
-         o.setStatus(String.valueOf(RechargeOrderStat.RJCT));
+         o.setTransactionStatus(String.valueOf(TransactionStatus.RJCT));
          mergeByHbnt(o,sessionFactory.getCurrentSession());
 
         return new ApiGatewayResponse(o);

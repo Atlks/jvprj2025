@@ -4,7 +4,7 @@ import cfg.AppConfig;
 import handler.wlt.qryFdDtl.QryFundDetailRqdto;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import model.wlt.FundDetail;
+import model.wlt.BalancesFundDetail;
 import org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
@@ -38,7 +38,7 @@ public class QryFundDetailHdl implements RequestHandler<QryFundDetailRqdto, ApiG
 
 
         HashMap<String, Object> sqlprmMap = new HashMap<>();
-        var list1 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), FundDetail.class);
+        var list1 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), BalancesFundDetail.class);
 
         return new ApiGatewayResponse(list1);
     }
@@ -52,7 +52,7 @@ public class QryFundDetailHdl implements RequestHandler<QryFundDetailRqdto, ApiG
         //============aop trans begn
         openSessionBgnTransact();
 
-        FundDetail o=new FundDetail();
+        BalancesFundDetail o=new BalancesFundDetail();
         o.changeAmount= BigDecimal.valueOf(666666);
         o.amtBefore= BigDecimal.valueOf(0);
         o.amtAfter=o.amtBefore.add(o.changeAmount);

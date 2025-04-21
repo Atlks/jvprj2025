@@ -10,11 +10,10 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import model.constt.RechargeOrderStat;
-import model.pay.RechargeOrder;
+import model.constt.TransactionStatus;
 import model.pay.WthdrOrdRcd;
-import model.wlt.Wallet;
-import model.wlt.YLwlt;
+import model.wlt.Accounts;
+import model.wlt.YLwltAcc;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -67,11 +66,11 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
         String mthBiz = colorStr("设置订单状态=完成", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         Session session = sessionFactory.getCurrentSession();
-        var objOrd = findByHerbinate(WthdrOrdRcd.class, reqdto.endToEndId, session);
+        var objOrd = findByHerbinate(WthdrOrdRcd.class, reqdto.transactionId, session);
         // System.out.println("\r\n----blk updt chg ord set stat=ok");
         //  is proceed??
-        if (objOrd.status.equals(RechargeOrderStat.ACCP.getCode())
-                || objOrd.status.equals(RechargeOrderStat.RJCT.getCode())) {
+        if (objOrd.status.equals(TransactionStatus.COMPLETED.getCode())
+                || objOrd.status.equals(TransactionStatus.RJCT.getCode())) {
             System.out.println("alread cpmlt ord,id=" + objOrd.id);
             if (ovrtTEst) {
             } else {
@@ -79,8 +78,9 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
             }
         }
         //chk stat is not pndg,,, throw ex
-        if (objOrd.status.equals(RechargeOrderStat.PNDG.getCode()))
-            objOrd.setStatus(String.valueOf(RechargeOrderStat.ACCP));
+        //
+        if (objOrd.status.equals(TransactionStatus.PENDING.getCode()))
+            objOrd.setStatus(String.valueOf(TransactionStatus.COMPLETED));
         mergeByHbnt(objOrd, session);
 
 
@@ -95,7 +95,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
         transDto.amt=objOrd.amt;
         transDto.refUniqId="reqid="+objOrd.id;
         iniWlt( objOrd.uname, session);
-        transDto.lockYlwltObj=findByHerbinate(YLwlt.class, objOrd.uname, session);
+        transDto.lockYlwltObj=findByHerbinate(YLwltAcc.class, objOrd.uname, session);
       //  addMoneyToWltService1.main(transDto);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
@@ -104,7 +104,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
         //----------------------sub blsAvld   blsFreez++
           mthBiz = colorStr("减少盈利钱包的有效余额,增加冻结金额", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
-        YLwlt objU = findByHbntDep(YLwlt.class, uname, LockModeType.PESSIMISTIC_WRITE, AppConfig.sessionFactory.getCurrentSession());
+        YLwltAcc objU = findByHbntDep(YLwltAcc.class, uname, LockModeType.PESSIMISTIC_WRITE, AppConfig.sessionFactory.getCurrentSession());
         BigDecimal nowAmt2 = objU.availableBalance;
         BigDecimal newBls2 = nowAmt2.subtract(objOrd.amt);
         BigDecimal beforeAmt=objU.availableBalance.add(objOrd.amt);
@@ -112,7 +112,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
 
         BigDecimal nowAmtFreez = toBigDcmTwoDot(objU.frozenAmount);
         objU.frozenAmount = objU.frozenAmount.subtract(objOrd.amt);
-        YLwlt usr = mergeByHbnt(objU, session);
+        YLwltAcc usr = mergeByHbnt(objU, session);
 
 
 
@@ -120,7 +120,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("余额变化了流水", RED_bright));
         //------------add balanceLog
         LogBls4YLwlt logBlsYinliWlt = new LogBls4YLwlt(objOrd.uname,beforeAmt,  objU.availableBalance,"减去");
-        logBlsYinliWlt.refUniqId=reqdto.endToEndId;
+        logBlsYinliWlt.refUniqId=reqdto.transactionId;
           logBlsYinliWlt.adjustType="减去";
         addBlsLog4ylwlt(logBlsYinliWlt, session);
 
@@ -130,11 +130,11 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
 
     public static void iniWlt(String uname, Session session) throws findByIdExptn_CantFindData {
         try{
-            var wlt=findByHerbinate(Wallet.class, uname, session);
+            var wlt=findByHerbinate(Accounts.class, uname, session);
         } catch (findByIdExptn_CantFindData e) {
             //ini wlt
-            Wallet wlt=new Wallet();
-            wlt.userId= uname;
+            Accounts wlt=new Accounts();
+            wlt.AccountId = uname;
             mergeByHbnt(wlt, session);
           //  transDto.lockAccObj=findByHerbinate(Wallet.class, uname, session);
         }

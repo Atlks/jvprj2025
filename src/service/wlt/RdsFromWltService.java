@@ -1,11 +1,10 @@
 package service.wlt;
 
 import jakarta.validation.constraints.NotNull;
-import model.wlt.Wallet;
+import model.wlt.Accounts;
 import util.ex.BalanceNotEnghou;
 import entityx.wlt.LogBls;
 import entityx.wlt.TransDto;
-import entityx.usr.Usr;
 import util.algo.Icall;
 
 import java.math.BigDecimal;
@@ -37,7 +36,7 @@ public class RdsFromWltService  implements Icall<TransDto, Object> {
         System.out.println("\n\n\n===========减去钱包余额");
 
         //  放在一起一快存储，解决了十五问题事务。。。
-        Wallet objU=  curLockAcc.get();
+        Accounts objU=  curLockAcc.get();
         if(objU==null)
             objU=TransDto88.lockAccObj;
 
@@ -59,7 +58,7 @@ public class RdsFromWltService  implements Icall<TransDto, Object> {
         //------------add balanceLog
         LogBls logBalance = new LogBls();
         logBalance.id = "LogBalance" + getFilenameFrmLocalTimeString();
-        logBalance.uname = objU.userId;
+        logBalance.uname = objU.AccountId;
 
         logBalance.changeAmount = TransDto88.getChangeAmount();
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);

@@ -2,7 +2,7 @@ package model.wlt;
 
 import java.math.BigDecimal;
 
-public class GlbWlt {
+public class GlbWltAcc {
 
     //已经充值总额
     public BigDecimal alreadyRechgSum=new BigDecimal(0);;

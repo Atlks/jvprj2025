@@ -6,7 +6,7 @@ import util.annos.CookieParam;
 import static cfg.AppConfig.sessionFactory;
 import static java.time.LocalTime.now;
 
-import model.pay.RechargeOrder;
+import model.pay.TransactionsPay;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
@@ -38,7 +38,7 @@ import static util.misc.util2026.*;
 @RolesAllowed({"", "USER"})
 @CookieParam(name = "uname",value = "$curuser")
 @Component
-public class RechargeHdr implements Icall<RechargeOrder,Object> {
+public class RechargeHdr implements Icall<TransactionsPay,Object> {
 
 
     /**
@@ -57,7 +57,7 @@ public class RechargeHdr implements Icall<RechargeOrder,Object> {
     //@CookieValue
     @Transactional
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
-    public Object main(@BeanParam RechargeOrder ord) throws Exception {
+    public Object main(@BeanParam TransactionsPay ord) throws Exception {
         System.out.println("handle2.sessfac=" + sessionFactory);
         System.out.println("regchg hrl.hadler3()");
         //blk login ed
@@ -70,7 +70,7 @@ public class RechargeHdr implements Icall<RechargeOrder,Object> {
 //        ord.amt = new BigDecimal(queryParams.get("amt"));
         ord.timestamp = System.currentTimeMillis();
         ord.id = "ordChrg" + getFilenameFrmLocalTimeString();
-        ord.endToEndId=ord.id;
+        ord.transactionId =ord.id;
         ord.uname=getCurrentUser();
 
        return new ApiGatewayResponse( persistByHibernate(ord, sessionFactory.getCurrentSession()));

@@ -2,14 +2,9 @@ package handler.wthdr;
 
 import cfg.AppConfig;
 import entityx.usr.WithdrawDto;
-import handler.cfg.SetCfg;
-import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.core.Context;
-import model.cfg.CfgKv;
 import model.pay.WthdrOrdRcd;
-import model.rpt.DataSummaryToppart;
-import model.wlt.YLwlt;
-import org.hibernate.Session;
+import model.wlt.YLwltAcc;
 import util.ex.BalanceNotEnghou;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
@@ -23,8 +18,6 @@ import static service.CmsBiz.toBigDcmTwoDot;
 import static util.auth.AuthUtil.getCurrentUser;
 import static util.log.ColorLogger.RED_bright;
 import static util.log.ColorLogger.colorStr;
-import static util.misc.Util2025.encodeJson;
-import static util.misc.Util2025.readTxtFrmFil;
 import static util.misc.util2026.copyProps;
 import static util.misc.util2026.getCurrentMethodName;
 import static util.tx.HbntUtil.*;
@@ -47,13 +40,13 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("检测余额", RED_bright));
         dtoWithdrawDto.setUserId(getCurrentUser());
         String uname = getCurrentUser();
-        YLwlt YLwlt11;
+        YLwltAcc YLwlt11;
         String uname1 = dtoWithdrawDto.uname;
         try{
-              YLwlt11 = findByHerbinateLockForUpdtV2(YLwlt.class, uname, sessionFactory.getCurrentSession());
+              YLwlt11 = findByHerbinateLockForUpdtV2(YLwltAcc.class, uname, sessionFactory.getCurrentSession());
         } catch (findByIdExptn_CantFindData e) {
             iniYlwlt(uname1);
-            YLwlt11 = findByHerbinateLockForUpdtV2(YLwlt.class, uname, sessionFactory.getCurrentSession());
+            YLwlt11 = findByHerbinateLockForUpdtV2(YLwltAcc.class, uname, sessionFactory.getCurrentSession());
         }
 
 
@@ -88,7 +81,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
 
         BigDecimal nowAmtFreez = toBigDcmTwoDot(YLwlt11.frozenAmount);
         YLwlt11.frozenAmount = toBigDcmTwoDot(nowAmtFreez.add(dtoWithdrawDto.getAmount()));
-        YLwlt usr = mergeByHbnt(YLwlt11, sessionFactory.getCurrentSession());
+        YLwltAcc usr = mergeByHbnt(YLwlt11, sessionFactory.getCurrentSession());
         return new ApiGatewayResponse(
                 ord1);
 
@@ -97,7 +90,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
 
     public static void iniYlwlt(String uname1) {
 
-        YLwlt yLwlt=new YLwlt();
+        YLwltAcc yLwlt=new YLwltAcc();
         yLwlt.userId= uname1;
         yLwlt.uname=yLwlt.userId;
         persistByHibernate(yLwlt,sessionFactory.getCurrentSession());

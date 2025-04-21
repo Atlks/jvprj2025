@@ -2,16 +2,12 @@ package handler.wlt;
 
 import handler.wlt.dto.AdjstDto;
 import jakarta.annotation.security.RolesAllowed;
-import model.auth.Role;
-import model.wlt.Wallet;
+import model.wlt.Accounts;
 import util.annos.JwtParam;
-import util.annos.NeedAuth;
 import util.annos.Parameter;
 import util.ex.ErrAdjstTypeEx;
 import entityx.ApiResponse;
 import entityx.wlt.LogBls;
-import entityx.wlt.TransDto;
-import entityx.usr.Usr;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.Path;
@@ -46,7 +42,7 @@ public class AdjustHdr implements Icall<AdjstDto, Object> {
     public Object main(AdjstDto TransDto1) throws Throwable {
 
 
-        Wallet objU = findByHbntDep(Wallet.class, TransDto1.memberAccount, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+        Accounts objU = findByHbntDep(Accounts.class, TransDto1.memberAccount, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
         BigDecimal nowAmt = objU.availableBalance;
         //def is add
@@ -71,7 +67,7 @@ public class AdjustHdr implements Icall<AdjstDto, Object> {
 
         LogBls logBalance = new LogBls();
         logBalance.id = "LogBalance" + getFilenameFrmLocalTimeString();
-        logBalance.uname = objU.userId;
+        logBalance.uname = objU.AccountId;
 
         logBalance.changeAmount = BigDecimal.valueOf(TransDto1.getAdjustAmount());
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);

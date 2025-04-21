@@ -1,12 +1,11 @@
 package handler.wlt;
 
-import model.wlt.Wallet;
+import model.wlt.Accounts;
 import util.annos.CookieParam;
 import util.annos.Parameter;
 import util.annos.注入;
 import cfg.Operation;
 import entityx.wlt.TransDto;
-import entityx.usr.Usr;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.LockModeType;
@@ -79,7 +78,7 @@ public class TransHdr implements Icall<TransDto, String> {
     @Qualifier("AddMoney2YLWltService")
     public Icall AddMoney2YLWltService1;
 
-    public static ThreadLocal<Wallet> curLockAcc = new ThreadLocal<>();
+    public static ThreadLocal<Accounts> curLockAcc = new ThreadLocal<>();
 
     @Transactional
     @Override
@@ -95,7 +94,7 @@ public class TransHdr implements Icall<TransDto, String> {
       //  lgblsDto.uname=decryptDES( lgblsDto.uname,Key_a1235678);
 
         String uname = lgblsDto.uname;
-        Wallet objU = findByHbntDep(Wallet.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+        Accounts objU = findByHbntDep(Accounts.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
 //        if (objU.id == null) {
 //            objU.id = uname;

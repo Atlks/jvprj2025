@@ -2,27 +2,16 @@ package model.constt;
 
 
 /**
- * ISO 20022 订单状态 <GrpHdr><Sts> 的标准化取值
- *
- * 参考状态流：
- * PENDING 或 WAITING：订单已创建，等待后台审核。
- *
- * ACCP（Accepted）：审核通过，订单已确认处理。
- *
- * RJCT（Rejected）：审核未通过，订单被拒绝。
- *
- * CANC（Cancelled）：订单被取消，可能是用户或系统主动取消。
- *
- * ERROR：审核过程中出现错误。
+ *   OpenBanking 的TransactionStatus
  *
  *
  */
-public enum RechargeOrderStat {
+public enum TransactionStatus {
 
     /**
      * Accepted - 交易组已被接受并成功处理
      */
-    ACCP("ACCP", "Accepted"),
+    COMPLETED("COMPLETED", "Accepted"),
 
     /**
      * Rejected - 交易组被拒绝
@@ -32,7 +21,7 @@ public enum RechargeOrderStat {
     /**
      * Pending - 交易组仍在处理中
      */
-    PNDG("PNDG", "Pending"),
+    PENDING("PENDING", "Pending"),
 
     /**
      * Partially Processed - 交易组部分交易已被处理，部分未处理
@@ -72,7 +61,7 @@ public enum RechargeOrderStat {
      * @param code 状态代码
      * @param description 状态描述
      */
-    RechargeOrderStat(String code, String description) {
+    TransactionStatus(String code, String description) {
         this.code = code;
         this.description = description;
     }
@@ -98,8 +87,8 @@ public enum RechargeOrderStat {
      * @param code 状态代码
      * @return 对应的状态枚举
      */
-    public static RechargeOrderStat fromCode(String code) {
-        for (RechargeOrderStat status : values()) {
+    public static TransactionStatus fromCode(String code) {
+        for (TransactionStatus status : values()) {
             if (status.getCode().equals(code)) {
                 return status;
             }

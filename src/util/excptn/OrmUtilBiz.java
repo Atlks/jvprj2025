@@ -1,7 +1,7 @@
 package util.excptn;
 
 import entityx.wlt.LogBls;
-import model.pay.RechargeOrder;
+import model.pay.TransactionsPay;
 import entityx.wlt.LogCms;
 import entityx.bet.BetOrd;
 import entityx.usr.Usr;
@@ -30,7 +30,7 @@ public class OrmUtilBiz {
             li.add(Usr.class);
             li.add(LogBls.class);
             li.add(LogBls4YLwlt.class);
-            li.add(RechargeOrder.class);
+            li.add(TransactionsPay.class);
             li.add(Usr.class);
             li.add(BetOrd.class);
             li.add(LogCms.class);

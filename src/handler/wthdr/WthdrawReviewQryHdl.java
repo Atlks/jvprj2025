@@ -3,7 +3,6 @@ package handler.wthdr;
 
 import handler.ylwlt.dto.WthdrawReviewQryDto;
 import jakarta.ws.rs.core.Context;
-import model.pay.RechargeOrder;
 import model.pay.WthdrOrdRcd;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;

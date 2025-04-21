@@ -1,15 +1,14 @@
 package handler.pay;
 
 import cfg.MyCfg;
-import entityx.usr.Usr;
 import entityx.wlt.TransDto;
 import handler.dto.ReviewChrgPassRqdto;
-import model.constt.RechargeOrderStat;
-import model.pay.RechargeOrder;
+import model.constt.TransactionStatus;
+import model.pay.TransactionsPay;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import model.wlt.Wallet;
+import model.wlt.Accounts;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,7 +19,6 @@ import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 import util.tx.findByIdExptn_CantFindData;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -61,11 +59,11 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
         String mthBiz = colorStr("设置订单状态=完成", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         Session session = sessionFactory.getCurrentSession();
-        var objChrg = findByHerbinate(RechargeOrder.class, reqdto.endToEndId, session);
+        var objChrg = findByHerbinate(TransactionsPay.class, reqdto.transactionId, session);
         // System.out.println("\r\n----blk updt chg ord set stat=ok");
         //  is proceed??
-        if (objChrg.status.equals(RechargeOrderStat.ACCP.getCode())
-                || objChrg.status.equals(RechargeOrderStat.RJCT.getCode())) {
+        if (objChrg.transactionStatus.equals(TransactionStatus.COMPLETED.getCode())
+                || objChrg.transactionStatus.equals(TransactionStatus.RJCT.getCode())) {
             System.out.println("alread cpmlt ord,id=" + objChrg.id);
             if (ovrtTEst) {
             } else {
@@ -73,8 +71,8 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
             }
         }
         //chk stat is not pndg,,, throw ex
-        if (objChrg.status.equals(RechargeOrderStat.PNDG.getCode()))
-            objChrg.setStatus(String.valueOf(RechargeOrderStat.ACCP));
+        if (objChrg.transactionStatus.equals(TransactionStatus.PENDING.getCode()))
+            objChrg.setTransactionStatus(String.valueOf(TransactionStatus.COMPLETED));
         mergeByHbnt(objChrg, session);
 
 
@@ -86,10 +84,10 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
         String uname = objChrg.uname;
         TransDto transDto=new TransDto();
         copyProps(objChrg,transDto);
-        transDto.amt=objChrg.instdAmt;
+        transDto.amt=objChrg.amount;
         transDto.refUniqId="reqid="+objChrg.id;
         iniWlt( objChrg.uname, session);
-        transDto.lockAccObj=findByHerbinate(Wallet.class, objChrg.uname, session);
+        transDto.lockAccObj=findByHerbinate(Accounts.class, objChrg.uname, session);
 
 
         addMoneyToWltService1.main(transDto);
@@ -101,11 +99,11 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
 
     public static void iniWlt(String uname, Session session) throws findByIdExptn_CantFindData {
         try{
-            var wlt=findByHerbinate(Wallet.class, uname, session);
+            var wlt=findByHerbinate(Accounts.class, uname, session);
         } catch (findByIdExptn_CantFindData e) {
             //ini wlt
-            Wallet wlt=new Wallet();
-            wlt.userId= uname;
+            Accounts wlt=new Accounts();
+            wlt.AccountId = uname;
             mergeByHbnt(wlt, session);
           //  transDto.lockAccObj=findByHerbinate(Wallet.class, uname, session);
         }

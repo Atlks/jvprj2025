@@ -5,36 +5,41 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import model.constt.RechargeOrderStat;
+import model.constt.TransactionStatus;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Date;
 
-import static service.CmsBiz.toBigDcmTwoDot;
+/**
+ * 扩展来自 OpenBanking的Transactions实体 ，为支付订单专门实体
+ */
 @Entity
 @DynamicUpdate  // 仅更新被修改的字段
 @DynamicInsert //如果还希望 INSERT 时也只插入非 null 的字段，可以搭配
-@Table(name = "Recharge_Order")
+@Table(name = "Transactions_Pay")  //Transactions_Pay
 @Data
-public class RechargeOrder {
+public class TransactionsPay {
 
 
 //  ISO 20022  标准字段 金额 instdAmt
     @Id
-    public String endToEndId;     //客户唯一订单号 ISO 20022 <EndToEndId>
-    public BigDecimal instdAmt;  // <InstdAmt>
+    public String transactionId;     //客户唯一订单号 ISO 20022 <EndToEndId>
+    public BigDecimal amount;  // <InstdAmt>
     private String currency="usdt";      // <InstdAmt Ccy="">
-    public String debtorId;      // <Dbtr> 发起方
-    public String creditorId;    // <Cdtr> 平台收款账号
+    public String debtorId;      //
+    public String creditorId;    //
     @CreationTimestamp
-    private LocalDateTime createTime;  // <CreDtTm> fmt "2025-04-20T14:55:00Z"
+    public Date bookingDate;  //
 
-    // <GrpHdr><Sts>  //审核状态   PNDG/WAIT=待审核
-    public String status= String.valueOf(RechargeOrderStat.PNDG);
+    // 交易金额有效入账的日期
+    public Date valueDate;
+
+     //审核状态   PNDG/WAIT=待审核
+    public String transactionStatus = String.valueOf(TransactionStatus.PENDING);
 
 
  //   public String stat="待审核";   //待审核  ，通过，拒绝

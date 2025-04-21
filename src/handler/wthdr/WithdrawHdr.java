@@ -1,7 +1,7 @@
 package handler.wthdr;
 
 import api.ylwlt.ApiFun;
-import model.wlt.YLwlt;
+import model.wlt.YLwltAcc;
 import util.annos.CookieParam;
 import util.annos.Parameter;
 import util.ex.BalanceNotEnghou;
@@ -63,7 +63,7 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("检测余额", RED_bright));
         dtoWithdrawDto.setUserId(getCurrentUser());
         String uname = getCurrentUser();
-        YLwlt objU = findByHbntDep(YLwlt.class, uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+        YLwltAcc objU = findByHbntDep(YLwltAcc.class, uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
         BigDecimal nowAmt2 = objU.availableBalance;
 
@@ -102,7 +102,7 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
 
         BigDecimal nowAmtFreez = toBigDcmTwoDot(objU.frozenAmount);
         objU.frozenAmount = toBigDcmTwoDot(nowAmtFreez.add(dtoWithdrawDto.getAmount()));
-        YLwlt usr = mergeByHbnt(objU, session);
+        YLwltAcc usr = mergeByHbnt(objU, session);
 
 
 

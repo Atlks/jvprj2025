@@ -1,15 +1,13 @@
 package entityx.wlt;
 
-import entityx.usr.Usr;
-
 import java.math.BigDecimal;
 //jakarta.persistence.Entity（JPA 3.x, Jakarta EE 9 及以后）
 //javax.persistence.Entity  already dep
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import model.wlt.Wallet;
-import model.wlt.YLwlt;
+import model.wlt.Accounts;
+import model.wlt.YLwltAcc;
 
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
@@ -56,8 +54,8 @@ public class TransDto {
         public String changeMode;
         public BigDecimal amtBefore;
 
-    public Wallet lockAccObj;
-    public YLwlt lockYlwltObj;
+    public Accounts lockAccObj;
+    public YLwltAcc lockYlwltObj;
     public String refUniqId;
 
     public BigDecimal getChangeAmount() {

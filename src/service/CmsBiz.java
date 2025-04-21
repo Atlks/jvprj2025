@@ -1,10 +1,10 @@
 package service;
 
-import model.pay.RechargeOrder;
+import model.pay.TransactionsPay;
 import entityx.wlt.LogCms;
 import entityx.usr.Usr;
 import entityx.wlt.LogBls4YLwlt;
-import model.wlt.YLwlt;
+import model.wlt.YLwltAcc;
 import org.hibernate.Session;
 
 import java.math.BigDecimal;
@@ -30,9 +30,9 @@ public class CmsBiz {
         u.uname="008";
         u.invtr="007";
 
-        RechargeOrder ord=new RechargeOrder();
+        TransactionsPay ord=new TransactionsPay();
         ord.uname="008";
-       ord.instdAmt=new BigDecimal(100);
+       ord.amount =new BigDecimal(100);
      //   calcCms4FrmOrdChrg(ord);
 
 
@@ -50,14 +50,14 @@ public class CmsBiz {
      * @param objChrg
      * @param session
      */
-    public static void calcCms4FrmOrdChrg(RechargeOrder objChrg, Session session) throws Exception {
+    public static void calcCms4FrmOrdChrg(TransactionsPay objChrg, Session session) throws Exception {
         System.out.println( "fun calcCms4FrmOrdChrg（");
         System.out.println(encodeJson(objChrg));
         System.out.println(")");
 
         Usr u= session.find( Usr.class,objChrg.uname);
         String invtr= toStr( u.invtr);
-        BigDecimal cmsMny=toBigDcmTwoDot(objChrg.getInstdAmt().multiply( new BigDecimal(0.05)) );
+        BigDecimal cmsMny=toBigDcmTwoDot(objChrg.getAmount().multiply( new BigDecimal(0.05)) );
         if(invtr.equals(""))
             return;
 
@@ -104,7 +104,7 @@ public class CmsBiz {
         String methodname="updtBlsYinliwlt";
         System.out.println("\r\n\r\n");
         System.out.println("fun "+methodname+"(uname="+uname+",amt="+amt);
-        YLwlt objU = session.find(YLwlt.class,uname);
+        YLwltAcc objU = session.find(YLwltAcc.class,uname);
 //        if(objU.id==null)
 //        {
 //            objU.id= uname;

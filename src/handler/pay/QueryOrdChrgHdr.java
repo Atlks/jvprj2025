@@ -3,7 +3,7 @@ package handler.pay;
 import util.annos.NoDftParam;
 import cfg.MyCfg;
 import entityx.wlt.QryRechgOrdReqDto;
-import model.pay.RechargeOrder;
+import model.pay.TransactionsPay;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
@@ -43,7 +43,7 @@ public class QueryOrdChrgHdr  implements RequestHandler<QryRechgOrdReqDto, ApiGa
     @Override
     public ApiGatewayResponse handleRequest(QryRechgOrdReqDto reqdto, Context context) throws Throwable {
 
-        var sqlNoOrd = "select * from rechg_ord where 1=1 ";//for count    where  uname =:uname
+        var sqlNoOrd = "select * from Transactions_Pay where 1=1 ";//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         if(reqdto.uname!="")
         {  sqlNoOrd=sqlNoOrd+ " and  uname like "+ encodeSqlAsLikeMatchParam(reqdto.uname);
@@ -56,7 +56,7 @@ public class QueryOrdChrgHdr  implements RequestHandler<QryRechgOrdReqDto, ApiGa
 
 
 
-        var list1 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), RechargeOrder.class);
+        var list1 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), TransactionsPay.class);
 
         return new ApiGatewayResponse(list1);
     }
