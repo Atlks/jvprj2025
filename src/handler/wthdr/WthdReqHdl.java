@@ -3,7 +3,7 @@ package handler.wthdr;
 import cfg.AppConfig;
 import entityx.usr.WithdrawDto;
 import jakarta.ws.rs.core.Context;
-import model.pay.WthdrOrdRcd;
+import model.pay.TransactionsWthdr;
 import model.wlt.YLwltAcc;
 import util.ex.BalanceNotEnghou;
 import util.serverless.ApiGatewayResponse;
@@ -61,10 +61,10 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         }
 
 
-        WthdrOrdRcd ord=new WthdrOrdRcd();
+        TransactionsWthdr ord=new TransactionsWthdr();
         copyProps(dtoWithdrawDto,ord);
-        ord.amt=dtoWithdrawDto.amount;
-        ord.endToEndId=ord.id;
+        ord.amount =dtoWithdrawDto.amount;
+        ord.transactionId =ord.id;
         ord.uname= uname1;
         Object ord1 = persistByHibernate(ord, sessionFactory.getCurrentSession());
 

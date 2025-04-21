@@ -37,7 +37,7 @@
 
         <mapping package="apiWltYinli" />
         <!-- 配置实体类扫描路径 -->
-        <mapping class="model.pay.WthdrOrdRcd"/>
+        <mapping class="model.pay.TransactionsWthdr"/>
         <!-- Entity mapping -->
 
     </session-factory>

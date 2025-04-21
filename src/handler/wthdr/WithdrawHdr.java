@@ -1,12 +1,12 @@
 package handler.wthdr;
 
 import api.ylwlt.ApiFun;
+import model.pay.TransactionsWthdr;
 import model.wlt.YLwltAcc;
 import util.annos.CookieParam;
 import util.annos.Parameter;
 import util.ex.BalanceNotEnghou;
 import entityx.wlt.LogBls4YLwlt;
-import model.pay.WthdrOrdRcd;
 import entityx.usr.WithdrawDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.LockModeType;
@@ -80,7 +80,7 @@ public class WithdrawHdr implements Icall<WithdrawDto, Object> {
 
         //======================add wth log
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("增加提现申请单", RED_bright));
-        WthdrOrdRcd wdthRec = new WthdrOrdRcd();
+        TransactionsWthdr wdthRec = new TransactionsWthdr();
         copyProps(dtoWithdrawDto, wdthRec);
         wdthRec.timestamp = (System.currentTimeMillis());
         wdthRec.uname = getCurrentUser();

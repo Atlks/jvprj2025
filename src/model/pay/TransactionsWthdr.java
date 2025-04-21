@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import static service.CmsBiz.toBigDcmTwoDot;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
@@ -17,22 +18,23 @@ import static util.algo.GetUti.getUuid;
  */
 @Entity
 @Data
-@Table(name = "Wthdr_ord_Rcd")
+@Table(name = "Transactions_Wthdr")
 //WithdrawRequest
-public class WthdrOrdRcd {
+public class TransactionsWthdr {
 
     /** 创建时间（ISO8601格式）  2025-04-20T14:30:00Z */
     @CreationTimestamp
-    public LocalDateTime creationDateTime;
+    public LocalDateTime bookingDate;
 
-
+    // 交易金额有效入账的日期
+    public Date valueDate;
     /** 提现流水号（端到端） */
-    public String endToEndId="";
+    public String transactionId ="";
 
 
     //    到账金额
     /** 提现金额   InstdAmt 明确表示“指示支付金额”。 所以这里使用amt*/
-    public BigDecimal amt;
+    public BigDecimal amount;
 
     /** 币种，如：CNY、USD */
     public String currency="";
@@ -68,8 +70,8 @@ public class WthdrOrdRcd {
 
   //  public BigDecimal rcv_amt;
 
-    public BigDecimal getAmt() {
-        return toBigDcmTwoDot(amt) ;
+    public BigDecimal getAmount() {
+        return toBigDcmTwoDot(amount) ;
     }
 
 

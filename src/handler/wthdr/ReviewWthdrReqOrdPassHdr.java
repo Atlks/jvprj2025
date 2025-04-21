@@ -11,7 +11,7 @@ import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import model.constt.TransactionStatus;
-import model.pay.WthdrOrdRcd;
+import model.pay.TransactionsWthdr;
 import model.wlt.Accounts;
 import model.wlt.YLwltAcc;
 import org.hibernate.Session;
@@ -66,7 +66,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
         String mthBiz = colorStr("设置订单状态=完成", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         Session session = sessionFactory.getCurrentSession();
-        var objOrd = findByHerbinate(WthdrOrdRcd.class, reqdto.transactionId, session);
+        var objOrd = findByHerbinate(TransactionsWthdr.class, reqdto.transactionId, session);
         // System.out.println("\r\n----blk updt chg ord set stat=ok");
         //  is proceed??
         if (objOrd.status.equals(TransactionStatus.COMPLETED.getCode())
@@ -92,7 +92,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
         String uname = objOrd.uname;
         TransDto transDto=new TransDto();
         copyProps(objOrd,transDto);
-        transDto.amt=objOrd.amt;
+        transDto.amt=objOrd.amount;
         transDto.refUniqId="reqid="+objOrd.id;
         iniWlt( objOrd.uname, session);
         transDto.lockYlwltObj=findByHerbinate(YLwltAcc.class, objOrd.uname, session);
@@ -106,12 +106,12 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         YLwltAcc objU = findByHbntDep(YLwltAcc.class, uname, LockModeType.PESSIMISTIC_WRITE, AppConfig.sessionFactory.getCurrentSession());
         BigDecimal nowAmt2 = objU.availableBalance;
-        BigDecimal newBls2 = nowAmt2.subtract(objOrd.amt);
-        BigDecimal beforeAmt=objU.availableBalance.add(objOrd.amt);
+        BigDecimal newBls2 = nowAmt2.subtract(objOrd.amount);
+        BigDecimal beforeAmt=objU.availableBalance.add(objOrd.amount);
       //  objU.availableBalance = toBigDcmTwoDot(newBls2);
 
         BigDecimal nowAmtFreez = toBigDcmTwoDot(objU.frozenAmount);
-        objU.frozenAmount = objU.frozenAmount.subtract(objOrd.amt);
+        objU.frozenAmount = objU.frozenAmount.subtract(objOrd.amount);
         YLwltAcc usr = mergeByHbnt(objU, session);
 
 

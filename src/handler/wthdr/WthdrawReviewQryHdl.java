@@ -3,7 +3,7 @@ package handler.wthdr;
 
 import handler.ylwlt.dto.WthdrawReviewQryDto;
 import jakarta.ws.rs.core.Context;
-import model.pay.WthdrOrdRcd;
+import model.pay.TransactionsWthdr;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
@@ -24,7 +24,7 @@ public class WthdrawReviewQryHdl  implements RequestHandler<WthdrawReviewQryDto,
      */
     @Override
     public ApiGatewayResponse handleRequest(WthdrawReviewQryDto reqdto, Context context) throws Throwable {
-        var sqlNoOrd = "select * from Wthdr_ord_Rcd where 1=1 ";//for count    where  uname =:uname
+        var sqlNoOrd = "select * from Transactions_Wthdr where 1=1 ";//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
 //        if(reqdto.uname!="")
 //        {  sqlNoOrd=sqlNoOrd+ " and  uname like "+ encodeSqlAsLikeMatchParam(reqdto.uname);
@@ -37,7 +37,7 @@ public class WthdrawReviewQryHdl  implements RequestHandler<WthdrawReviewQryDto,
 
         System.out.println(sql);
 
-        var list1 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), WthdrOrdRcd.class);
+        var list1 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), TransactionsWthdr.class);
 
         return new ApiGatewayResponse(list1);
     }

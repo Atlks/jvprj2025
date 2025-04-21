@@ -5,7 +5,7 @@ get:
 
 
   parameters:
-    - name: endToEndId
+    - name: transactionId
       in: query
       description: "单子id"
       required: true
