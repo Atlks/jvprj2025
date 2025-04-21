@@ -22,6 +22,7 @@ import util.auth.IsEmptyEx;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,6 +102,11 @@ public class ApiGateway implements HttpHandler {
                 return ((RequestHandler) target).handleRequest(args, null);
             else
                 return ((Icall) target).main(args);
+
+            //todo deflt
+           // Method m=getMethod(target,"RequestHandler");
+          // return m.invoke(target,args);
+
         });
 
 
