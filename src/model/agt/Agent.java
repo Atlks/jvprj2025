@@ -86,7 +86,7 @@ public class Agent {
     /**
      * 佣金比例（如：0.05 表示 5%）
      */
-    public BigDecimal commissionRate = BigDecimal.valueOf(0);
+    public BigDecimal commissionRate = BigDecimal.valueOf(5);
 
     /**
      * 佣金金额

@@ -23,9 +23,8 @@ import java.util.Date;
 @Table(name = "Transactions_Pay")  //Transactions_Pay
 @Data
 public class TransactionsPay {
+    public String  AccountId="";
 
-
-//  ISO 20022  标准字段 金额 instdAmt
     @Id
     public String transactionId;     //客户唯一订单号 ISO 20022 <EndToEndId>
     public BigDecimal amount;  // <InstdAmt>

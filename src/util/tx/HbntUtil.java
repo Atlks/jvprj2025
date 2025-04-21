@@ -273,6 +273,18 @@ public class HbntUtil {
     }
 
 
+    @org.jetbrains.annotations.NotNull
+    public static <T> T addModelIfNotExst(T obj,String id, Session session) {
+
+        try {
+            return (T) findByHerbinate(obj.getClass(), id, session);
+        } catch (findByIdExptn_CantFindData e) {
+
+            return (T) persistByHibernate(obj, session);
+        }
+
+    }
+
     //good bp  throw ex,,,more lubst
     public static <T> T findByHerbinate(Class<T> t, String id, Session session) throws findByIdExptn_CantFindData {
 
