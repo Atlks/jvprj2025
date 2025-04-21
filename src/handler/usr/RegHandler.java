@@ -4,7 +4,7 @@ package handler.usr;
 
 import core.IRegHandler;
 import entityx.usr.Usr;
-import io.swagger.v3.oas.annotations.tags.Tag;
+//import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.RestController;
+import util.algo.Tag;
 import util.annos.Parameter;
 import util.ex.existUserEx;
 import util.serverless.ApiGatewayResponse;
@@ -39,8 +40,8 @@ import static util.tx.HbntUtil.persistByHibernate;
 @RestController
 @Path("/reg")
 @Tag(name = "用户管理", description = "用户相关操作")
-@Parameter(name = "uname")
-@Parameter(name = "pwd")
+//@Parameter(name = "uname")
+//@Parameter(name = "pwd")
 @PermitAll
 @NoArgsConstructor
 // @Produces / @Consumes：指定返回和接收的数据格式（如 application/json）

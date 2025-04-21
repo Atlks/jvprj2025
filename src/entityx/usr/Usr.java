@@ -9,8 +9,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.annotations.*;
 
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.PrimaryKey;
+//import javax.jdo.annotations.PersistenceCapable;
+//import javax.jdo.annotations.PrimaryKey;
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -32,7 +32,7 @@ import static service.CmsBiz.toBigDcmTwoDot;
 @org.hibernate.annotations.Table(appliesTo = "Usr", comment = "用户表")
 @DynamicUpdate  // 仅更新被修改的字段
 @DynamicInsert //如果还希望 INSERT 时也只插入非 null 的字段，可以搭配
-@PersistenceCapable
+//@PersistenceCapable
 @Data
 public class Usr {
 
@@ -43,7 +43,7 @@ public class Usr {
     public String invtr="";
 
 
-    @PrimaryKey
+    //@PrimaryKey
     @Id
     public String id;   //uid
 

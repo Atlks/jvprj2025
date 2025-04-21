@@ -4,7 +4,7 @@ import model.wlt.Accounts;
 import util.excptn.RechargeFailExptn;
 import com.alibaba.fastjson2.JSONObject;
 import entityx.wlt.TransDto;
-import io.swagger.v3.oas.annotations.tags.Tag;
+//import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
@@ -67,7 +67,7 @@ public   String addMoneyToWltService = "AddMoneyToWltService";
 //    public Iservice addMoneyToYLWltService1;
 
     @Override
-    @Tag(name = "wlt")
+   // @Tag(name = "wlt")
     @GET
     @Path("/CompleteChargeHdr")
     @QueryParam("id")  //ordid

@@ -2,12 +2,13 @@ package api.ylwlt;
 
 import jakarta.annotation.security.RolesAllowed;
 import model.wlt.YLwltAcc;
+import util.algo.Tag;
 import util.annos.JwtParam;
 import util.annos.Parameter;
 import util.ex.ErrAdjstTypeEx;
 import entityx.wlt.LogBls4YLwlt;
 import entityx.wlt.TransDto;
-import io.swagger.v3.oas.annotations.tags.Tag;
+//import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,11 +27,11 @@ import static util.tx.HbntUtil.*;
  */
 
 @RestController   // 默认返回 JSON，不需要额外加 @ResponseBody。
-@Tag(name = "ylwlt")
+@Tag(name = "ylwlt", description = "")
 @Path("/admin/ylwlt/adjust")
 @JwtParam(name = "uname")
-@Parameter(name = "adjustType")    //+ -  Increase Decrease
-@Parameter(name = "changeAmount")
+//@Parameter(name = "adjustType", description = "")    //+ -  Increase Decrease
+//@Parameter(name = "changeAmount")
 @RolesAllowed({"admin", "Operator"})
 
 public class adjustHdr4ylwlt implements Icall<TransDto, Object> {

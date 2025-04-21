@@ -11,6 +11,7 @@ import static util.excptn.ExptUtil.requestIdCur;
 
 /**
  * dep ...
+ *  extends  io.swagger.v3.oas.models.responses.ApiResponse
  * now shld use  APIGatewayResponse
  * from swg apirps props
  *  private String description = null;
@@ -19,7 +20,7 @@ import static util.excptn.ExptUtil.requestIdCur;
  */
 @Data
 @Deprecated
-public class ApiResponse extends  io.swagger.v3.oas.models.responses.ApiResponse {
+public class ApiResponse {
 
     /**
      * dep

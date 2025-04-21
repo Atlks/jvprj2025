@@ -1,13 +1,14 @@
 package handler.pay;
 
 
+import util.algo.Tag;
 import util.annos.CookieParam;
 
 import static cfg.AppConfig.sessionFactory;
 import static java.time.LocalTime.now;
 
 import model.pay.TransactionsPay;
-import io.swagger.v3.oas.annotations.tags.Tag;
+//import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;

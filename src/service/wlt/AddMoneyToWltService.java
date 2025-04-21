@@ -38,9 +38,9 @@ import static util.misc.util2026.getFilenameFrmLocalTimeString;
 @Data
 @Component
 @Lazy
-@Parameter(name = "amt", description = "金额")
-@Parameter(name = "uname",value = "$curuser")
-@Parameter(name = "lockAccObj")
+//@Parameter(name = "amt", description = "金额")
+//@Parameter(name = "uname",value = "$curuser")
+//@Parameter(name = "lockAccObj")
 @NoArgsConstructor
 public class AddMoneyToWltService   implements Icall<TransDto, Object> {
     public AddMoneyToWltService(BigDecimal amt,String uname,Usr lockAccObj) {

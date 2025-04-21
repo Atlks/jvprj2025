@@ -1,13 +1,15 @@
 package handler.wlt;
 
 import model.wlt.Accounts;
+import util.algo.Tag;
 import util.annos.CookieParam;
+import util.annos.Operation;
 import util.annos.Parameter;
 import util.annos.注入;
-import cfg.Operation;
+//import cfg.Operation;
 import entityx.wlt.TransDto;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
+//import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
 
@@ -32,9 +34,9 @@ import static util.proxy.SprUtil.injectAll4spr;
 @RestController   // 默认返回 JSON，不需要额外加 @ResponseBody。
 @Tag(name = "wlt 钱包")
 @Path("/Trans")
-@Operation(summary = "转账操作", example = "/Trans?changeAmount=8")
-@Parameter(name = "uname", description = "用户名（in cookie）", required = true)
-@Parameter(name = "changeAmount", description = "转账金额", required = true)
+//@Operation(summary = "转账操作", example = "/Trans?changeAmount=8")
+//@Parameter(name = "uname", description = "用户名（in cookie）", required = true)
+//@Parameter(name = "changeAmount", description = "转账金额", required = true)
 @CookieParam(name = "uname",description = "用户名",decryKey="a1235678")
 @Component
 public class TransHdr implements Icall<TransDto, String> {

@@ -1,12 +1,13 @@
 package api.bet;
 
 import entityx.bet.QryDto4bets;
-import io.swagger.v3.oas.annotations.tags.Tag;
+//import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ws.rs.Path;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
+import util.algo.Tag;
 import util.annos.JwtParam;
 
 //import static api.usr.QueryUsrHdr.qryuserLucene;
@@ -24,7 +25,7 @@ import static util.tx.HbntUtil.getListBySql;
  * http://localhost:8889/list_bets
  */
 @RestController
-@Tag(name = "bet")
+@Tag(name = "bet", description = "")
 @Path("/list_bets")
 @JwtParam(name = "uname")
 @NoArgsConstructor

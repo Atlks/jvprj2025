@@ -2,11 +2,12 @@ package core;
 
 import handler.usr.RegDto;
 import entityx.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
+//import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.BeanParam;
 import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
+import util.algo.Tag;
 import util.annos.Parameter;
 import util.ex.existUserEx;
 
@@ -22,12 +23,12 @@ import static util.proxy.AopUtil.ivk4log;
  */
 @RestController
 //@Path("/reg")
-@Tag(name = "usr")
-@Tag(name = "用户管理", description = "用户相关操作")
-@Parameter(name = "uname")
-@Parameter(name = "pwd")
-@Parameter(name = "invtr", description = "邀请人", required = false)
-@Parameter(name = "email",required = false)
+//@Tag(name = "usr")
+//@Tag(name = "用户管理", description = "用户相关操作")
+//@Parameter(name = "uname")
+//@Parameter(name = "pwd")
+//@Parameter(name = "invtr", description = "邀请人", required = false)
+//@Parameter(name = "email",required = false)
 @PermitAll
 // implements RequestHandler<Map<String,Object>, ApiGatewayResponse> {
 public interface IRegHandler extends Icall<RegDto, Object>  {

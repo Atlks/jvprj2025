@@ -3,13 +3,14 @@
 package handler.admin.ssr;
 
 import entityx.admin.Admin;
-import io.swagger.v3.oas.annotations.tags.Tag;
+//import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import util.algo.Icall;
+import util.algo.Tag;
 
 import static ztest.htmlTppltl.rend;
 

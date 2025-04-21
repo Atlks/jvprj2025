@@ -1,6 +1,6 @@
 import handler.pay.RechargeCallbackHdr;
 import cfg.AppConfig;
-import org.noear.solon.annotation.SolonMain;
+//import org.noear.solon.annotation.SolonMain;
 import org.springframework.context.annotation.ComponentScan;
 import service.wlt.AddMoneyToWltService;
 import util.log.ConsoleInterceptor;
@@ -18,7 +18,7 @@ import static util.tx.dbutil.setField;
 //import static cfg.IocPicoCfg.iniIocContainr;
 //  System.out.flush();  // 刷新输出缓冲区
 //            System.err.flush();  // 刷新输出缓冲区
-@SolonMain
+//@SolonMain
 @ComponentScan("apiUsr")
 public class MainApi {
 

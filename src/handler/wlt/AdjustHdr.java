@@ -3,12 +3,13 @@ package handler.wlt;
 import handler.wlt.dto.AdjstDto;
 import jakarta.annotation.security.RolesAllowed;
 import model.wlt.Accounts;
+import util.algo.Tag;
 import util.annos.JwtParam;
 import util.annos.Parameter;
 import util.ex.ErrAdjstTypeEx;
 import entityx.ApiResponse;
 import entityx.wlt.LogBls;
-import io.swagger.v3.oas.annotations.tags.Tag;
+//import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,8 +33,8 @@ import static util.misc.util2026.*;
 @Tag(name = "wlt 钱包")
 @Path("/admin/wlt/adjust")
 @JwtParam(name = "uname")
-@Parameter(name = "adjustType")    //+ -  Increase Decrease
-@Parameter(name = "changeAmount")
+//@Parameter(name = "adjustType")    //+ -  Increase Decrease
+//@Parameter(name = "changeAmount")
 @RolesAllowed({"admin", "Operator"})
 
 public class AdjustHdr implements Icall<AdjstDto, Object> {

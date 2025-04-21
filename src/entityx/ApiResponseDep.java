@@ -4,9 +4,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-@EqualsAndHashCode(callSuper = true)
+//   extends io.swagger.v3.oas.models.responses.ApiResponse
+//@EqualsAndHashCode(callSuper = true)
 @Data
-public class ApiResponseDep extends io.swagger.v3.oas.models.responses.ApiResponse {
+public class ApiResponseDep {
 
     /** frm swg api respose
      *  private String description = null;

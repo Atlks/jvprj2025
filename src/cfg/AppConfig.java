@@ -3,7 +3,7 @@ package cfg;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.hibernate.SessionFactory;
-import org.springdoc.core.properties.SpringDocConfigProperties;
+//import org.springdoc.core.properties.SpringDocConfigProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.ApplicationEventPublisher;
@@ -55,15 +55,15 @@ public class AppConfig {
         return new ApplicationEventPublisherImplt();
     }
 
-    @Bean
-    public SpringDocConfigProperties springDocConfigProperties() {
-        SpringDocConfigProperties config = new SpringDocConfigProperties();
-      //  config.setApiDocsPath("/v3/api-docs");
-     //   config.setSwaggerUiPath("/swagger-ui.html");
-
-
-        return config;
-    }
+//    @Bean
+//    public SpringDocConfigProperties springDocConfigProperties() {
+//        SpringDocConfigProperties config = new SpringDocConfigProperties();
+//      //  config.setApiDocsPath("/v3/api-docs");
+//     //   config.setSwaggerUiPath("/swagger-ui.html");
+//
+//
+//        return config;
+//    }
 
     //手动注入class
 //    @Bean

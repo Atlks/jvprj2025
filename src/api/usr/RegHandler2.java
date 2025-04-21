@@ -4,9 +4,9 @@ package api.usr;
 
 import entityx.usr.Usr;
 import handler.usr.RegDto;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
+//import io.swagger.v3.oas.annotations.Operation;
+//import io.swagger.v3.oas.annotations.Parameter;
+//import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.BeanParam;
@@ -21,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 import service.auth.ISAM;
 import util.algo.Icall;
+import util.algo.Tag;
 import util.evtdrv.AnotherEvent;
 import util.ex.existUserEx;
 
@@ -44,8 +45,8 @@ import static util.tx.HbntUtil.persistByHibernate;
 @Path("/reg2")
 
 @Tag(name = "用户管理", description = "用户相关操作")
-@util.annos.Parameter(name = "uname")
-@util.annos.Parameter(name = "pwd")
+//@util.annos.Parameter(name = "uname")
+//@util.annos.Parameter(name = "pwd")
 @PermitAll
 @NoArgsConstructor
 public class RegHandler2 implements Icall<RegDto, Object> {
@@ -76,11 +77,11 @@ public class RegHandler2 implements Icall<RegDto, Object> {
 //    }
     @Path("/reg2")
     @Tag(name = "usr")
-    @Operation(summary = "注册用户的方法reg", description = "注册用户的方法dscrp。。。。")
-
-    @Parameter(name = "uname", description = "用户名", required = true)
-    @Parameter(name = "pwd", description = "密码", required = true)
-    @Parameter(name = "uname", description = "邀请人", required = false)
+//    @Operation(summary = "注册用户的方法reg", description = "注册用户的方法dscrp。。。。")
+//
+//    @Parameter(name = "uname", description = "用户名", required = true)
+//    @Parameter(name = "pwd", description = "密码", required = true)
+//    @Parameter(name = "uname", description = "邀请人", required = false)
     @PermitAll
     @Validated
 
