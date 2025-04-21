@@ -3,7 +3,7 @@ package model.OpenBanking;
 import java.util.Date;
 
 /**
- * OpenBanking的Transactions实体
+ * OpenBanking的Transactions实体  交易流水，也就是
  * this ,not use ,just use transPay   transWdth
  */
 public class Transactions {
