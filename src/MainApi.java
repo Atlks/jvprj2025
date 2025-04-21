@@ -1,4 +1,3 @@
-import entityx.usr.Usr;
 import handler.agt.AgtHdl;
 import handler.pay.RechargeCallbackHdr;
 import cfg.AppConfig;
@@ -10,9 +9,6 @@ import util.log.ConsoleInterceptor;
 //import service.AddRchgOrdToWltService;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
 
 import static cfg.Containr.evtlist4reg;
 import static cfg.MyCfg.iniContnr;
@@ -79,7 +75,7 @@ public class MainApi {
         iniContnr();
         iniEvtHdrCtnr();
 
-        evtlist4reg.add(new AgtHdl()::regHdl );
+        evtlist4reg.add(new AgtHdl()::regEvtHdl);
       //  AgtHdl
 
         //================== 创建 HTTP 服务器，监听端口8080
