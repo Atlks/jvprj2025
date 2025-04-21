@@ -1,14 +1,13 @@
 package core;
 
-import handler.usr.RegDto;
+import entityx.usr.Usr;
+import handler.usr.dto.RegDto;
 import entityx.ApiResponse;
 //import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.BeanParam;
 import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
-import util.algo.Tag;
-import util.annos.Parameter;
 import util.ex.existUserEx;
 
 import static cfg.Containr.sam4regLgn;
@@ -52,6 +51,6 @@ public interface IRegHandler extends Icall<RegDto, Object>  {
 //    org.hibernate.Session session;
     boolean chkExistUser(RegDto user) throws existUserEx;
 
-    public void addU(RegDto dtoReg);
+    public Usr addU(RegDto dtoReg);
 
 }

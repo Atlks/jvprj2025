@@ -1,6 +1,6 @@
 package core;
 
-import handler.usr.RegDto;
+import handler.usr.dto.RegDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.validation.constraints.NotNull;
 import util.auth.JwtUtil;

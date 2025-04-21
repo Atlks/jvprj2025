@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 @Entity
 @Table
 @Data
+@NoArgsConstructor
 public class Agent {
 
     /**
@@ -20,6 +22,10 @@ public class Agent {
      */
     @Id
     public String agentAccount;
+
+    public Agent(String agtUname) {
+        agentAccount=agtUname;
+    }
 
     /**
      * 充值会员数
@@ -86,6 +92,8 @@ public class Agent {
      * 佣金金额
      */
     public BigDecimal commissionAmount = BigDecimal.valueOf(0);
+
+
 
     // Getters and Setters
 

@@ -5,6 +5,7 @@ package handler.usr;
 import core.IRegHandler;
 import entityx.usr.Usr;
 //import io.swagger.v3.oas.annotations.tags.Tag;
+import handler.usr.dto.RegDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
@@ -17,11 +18,13 @@ import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 import util.tx.findByIdExptn_CantFindData;
 
+import static cfg.Containr.evtlist4reg;
 import static cfg.Containr.sam4regLgn;
 import static cfg.AppConfig.sessionFactory;
 import static handler.pay.ReviewChrgPassHdr.iniWltIfNotExst;
 import static handler.wthdr.WthdReqHdl.iniYlwltIfNotExist;
 import static util.algo.CopyUti.copyProp;
+import static util.evtdrv.EvtHlpr.publishEvent;
 import static util.misc.Util2025.encodeJson;
 import static util.proxy.AopUtil.ivk4log;
 import static util.tx.HbntUtil.persistByHibernate;
@@ -58,10 +61,12 @@ public class RegHandler implements RequestHandler<RegDto, ApiGatewayResponse>,IR
             return chkExistUser(dtoReg);
         });
         //add u
-        addU(dtoReg);
+      Usr u=  addU(dtoReg);
         //  storekey(dtoReg);
         sam4regLgn.storeKey(dtoReg.uname, dtoReg.pwd);
         iniTwoWlt(dtoReg.uname);
+
+        publishEvent(evtlist4reg,u);
         return new ApiGatewayResponse(dtoReg);
     }
 
@@ -88,10 +93,11 @@ public class RegHandler implements RequestHandler<RegDto, ApiGatewayResponse>,IR
 
 
 
-    public   void addU(RegDto dtoReg) {
+    public Usr addU(RegDto dtoReg) {
         Usr u=new Usr(dtoReg.uname);
         copyProp(dtoReg,u);
         persistByHibernate( u, sessionFactory.getCurrentSession());
+        return u;
     }
 
 

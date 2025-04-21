@@ -1,6 +1,6 @@
 package handler.admin.ssr;
 
-import handler.usr.RegDto;
+import handler.usr.dto.RegDto;
 import entityx.usr.NonDto;
 import entityx.usr.Passport;
 import entityx.usr.Usr;

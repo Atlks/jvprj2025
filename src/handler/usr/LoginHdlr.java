@@ -5,6 +5,7 @@ import core.Ilogin;
 import entityx.usr.Passport;
 import entityx.usr.Usr;
 import entityx.usr.Visa;
+import handler.usr.dto.RegDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.SecurityContext;

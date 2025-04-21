@@ -1,4 +1,4 @@
-package handler.usr;
+package handler.usr.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

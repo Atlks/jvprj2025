@@ -1,5 +1,6 @@
 package cfg;
 
+import entityx.usr.Usr;
 import jakarta.security.enterprise.SecurityContext;
 import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationEventPublisher;
@@ -9,7 +10,23 @@ import service.auth.SAM4reglgn;
 import util.algo.ChooseEvtPublshr;
 import util.evtdrv.ApplicationEventPublisherImplt;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
 public class Containr {
+
+
+    public static List<Consumer<Usr>> evtlist4reg=new ArrayList<>();
+
+    public static List<Consumer<Usr>> evtlist4login=new ArrayList<>();
+
+    public static List<Consumer<Usr>> evtlist4rchg=new ArrayList<>();
+    public static List<Consumer<Usr>> evtlist4wthdr=new ArrayList<>();
+    public static List<Consumer<Usr>> evtlist4transact=new ArrayList<>();
+
+
+
 
     public static ApplicationEventPublisher evtPublisher=new ApplicationEventPublisherImplt();
     public static EvtPublisherPathevtMod evtPublisherPathmd=new EvtPublisherPathevtMod();

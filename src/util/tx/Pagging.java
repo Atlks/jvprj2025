@@ -19,6 +19,10 @@ import static util.oo.ArrUtil.subList2025;
 import static util.tx.dbutil.nativeQueryGetResultList;
 import static util.tx.dbutil.setPrmts4sql;
 
+
+/**
+ *  todo to hbnt uti...
+ */
 public class Pagging {
 
     public static int getstartPosition(int pageNumber, int pageSize) {

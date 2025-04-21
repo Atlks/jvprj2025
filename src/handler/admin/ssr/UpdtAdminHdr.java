@@ -2,7 +2,7 @@
 
 package handler.admin.ssr;
 
-import handler.usr.RegDto;
+import handler.usr.dto.RegDto;
 import core.IRegHandler;
 import entityx.usr.Usr;
 //import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import service.auth.ISAM;
 import util.algo.Tag;
-import util.annos.Parameter;
 import util.ex.existUserEx;
 
 import static cfg.AppConfig.sessionFactory;
@@ -50,6 +49,7 @@ public class UpdtAdminHdr implements IRegHandler {
     public static String saveDirUsrs;
 
     /**
+     * @return
      * @throws Exception
      */
 
@@ -82,9 +82,10 @@ public class UpdtAdminHdr implements IRegHandler {
 
 
 
-    public   void addU(RegDto dtoReg) {
+    public Usr addU(RegDto dtoReg) {
         Usr u=new Usr(dtoReg.uname);
         persistByHibernate( u, sessionFactory.getCurrentSession());
+        return u;
     }
 
 

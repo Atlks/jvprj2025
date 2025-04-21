@@ -1,13 +1,20 @@
+import entityx.usr.Usr;
+import handler.agt.AgtHdl;
 import handler.pay.RechargeCallbackHdr;
 import cfg.AppConfig;
 //import org.noear.solon.annotation.SolonMain;
+import lombok.SneakyThrows;
 import org.springframework.context.annotation.ComponentScan;
 import service.wlt.AddMoneyToWltService;
 import util.log.ConsoleInterceptor;
 //import service.AddRchgOrdToWltService;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
+import static cfg.Containr.evtlist4reg;
 import static cfg.MyCfg.iniContnr;
 import static cfg.MyCfg.iniContnr4cfgfile;
 import static cfg.WebSvr.*;
@@ -22,6 +29,8 @@ import static util.tx.dbutil.setField;
 @ComponentScan("apiUsr")
 public class MainApi {
 
+
+
     /**
      * -Ddbcfg=/cfg/dbcfg.ini
      * @param args
@@ -32,6 +41,9 @@ public class MainApi {
         ConsoleInterceptor.init();// log
         start();
         //cfg auth mode =jwt ,,,in apigateway
+
+
+
 
 //        sleep(3000);
         System.out.println("--------------------\n\n main()");
@@ -58,6 +70,7 @@ public class MainApi {
      *
      * @throws Exception
      */
+    @SneakyThrows
     public static void start() throws Exception {
         //--------ini saveurlFrm Cfg
 
@@ -65,6 +78,9 @@ public class MainApi {
         //ini contnr 4cfg,, svrs
         iniContnr();
         iniEvtHdrCtnr();
+
+        evtlist4reg.add(new AgtHdl()::regHdl );
+      //  AgtHdl
 
         //================== 创建 HTTP 服务器，监听端口8080
         iniRestPathMap();
