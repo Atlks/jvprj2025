@@ -3,8 +3,12 @@ package handler.wthdr;
 import cfg.AppConfig;
 import entityx.usr.WithdrawDto;
 import jakarta.ws.rs.core.Context;
+import model.OpenBankingOBIE.AccountType;
+import model.OpenBankingOBIE.Accounts;
+import model.OpenBankingOBIE.CreditDebitIndicator;
+import model.OpenBankingOBIE.Transactions;
 import model.rechg.TransactionsWthdr;
-import model.wlt.YLwltAcc;
+
 import util.ex.BalanceNotEnghou;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
@@ -40,13 +44,15 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("检测余额", RED_bright));
         dtoWithdrawDto.setUserId(getCurrentUser());
         String uname = getCurrentUser();
-        YLwltAcc YLwlt11;
+        Accounts YLwlt11;
         String uname1 = dtoWithdrawDto.uname;
+        String acc_id = uname + "_" + AccountType.YlWlt;
         try{
-              YLwlt11 = findByHerbinateLockForUpdtV2(YLwltAcc.class, uname, sessionFactory.getCurrentSession());
+
+            YLwlt11 = findByHerbinateLockForUpdtV2(Accounts.class, acc_id, sessionFactory.getCurrentSession());
         } catch (findByIdExptn_CantFindData e) {
             iniYlwlt(uname1);
-            YLwlt11 = findByHerbinateLockForUpdtV2(YLwltAcc.class, uname, sessionFactory.getCurrentSession());
+            YLwlt11 = findByHerbinateLockForUpdtV2(Accounts.class, acc_id, sessionFactory.getCurrentSession());
         }
 
 
@@ -61,11 +67,13 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         }
 
 
-        TransactionsWthdr ord=new TransactionsWthdr();
+        Transactions ord=new Transactions();
         copyProps(dtoWithdrawDto,ord);
         ord.amount =dtoWithdrawDto.amount;
         ord.transactionId =ord.id;
         ord.uname= uname1;
+        ord.accountId=acc_id;
+        ord.creditDebitIndicator= CreditDebitIndicator.DEBIT;
         Object ord1 = persistByHibernate(ord, sessionFactory.getCurrentSession());
 
 
@@ -81,7 +89,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
 
         BigDecimal nowAmtFreez = toBigDcmTwoDot(YLwlt11.frozenAmount);
         YLwlt11.frozenAmount = toBigDcmTwoDot(nowAmtFreez.add(dtoWithdrawDto.getAmount()));
-        YLwltAcc usr = mergeByHbnt(YLwlt11, sessionFactory.getCurrentSession());
+        Accounts usr = mergeByHbnt(YLwlt11, sessionFactory.getCurrentSession());
         return new ApiGatewayResponse(
                 ord1);
 
@@ -91,7 +99,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
     public static void iniYlwltIfNotExist(String uname1) {
 
         try{
-            var wlt=findByHerbinate(YLwltAcc.class, uname1, sessionFactory.getCurrentSession());
+            var wlt=findByHerbinate(Accounts.class, uname1+"_"+AccountType.YlWlt, sessionFactory.getCurrentSession());
         } catch (findByIdExptn_CantFindData e) {
 
             iniYlwlt(  uname1);
@@ -100,9 +108,9 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
 
     public static void iniYlwlt(String uname1) {
 
-        YLwltAcc yLwlt=new YLwltAcc();
-        yLwlt.userId= uname1;
-        yLwlt.uname=yLwlt.userId;
+        Accounts yLwlt=new Accounts(uname1+"_"+AccountType.YlWlt);
+      //  yLwlt.userId= uname1;
+        yLwlt.uname=uname1;
         persistByHibernate(yLwlt,sessionFactory.getCurrentSession());
 
     }

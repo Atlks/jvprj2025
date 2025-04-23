@@ -1,6 +1,7 @@
 package handler.wlt;
 
-import model.wlt.Accounts;
+
+import model.OpenBankingOBIE.Accounts;
 import util.algo.Tag;
 import util.annos.CookieParam;
 import util.annos.Operation;

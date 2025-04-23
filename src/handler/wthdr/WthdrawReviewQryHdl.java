@@ -24,7 +24,7 @@ public class WthdrawReviewQryHdl  implements RequestHandler<WthdrawReviewQryDto,
      */
     @Override
     public ApiGatewayResponse handleRequest(WthdrawReviewQryDto reqdto, Context context) throws Throwable {
-        var sqlNoOrd = "select * from Transactions_Wthdr where 1=1 ";//for count    where  uname =:uname
+        var sqlNoOrd = "select * from Transactions where creditDebitIndicator='debit' ";//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
 //        if(reqdto.uname!="")
 //        {  sqlNoOrd=sqlNoOrd+ " and  uname like "+ encodeSqlAsLikeMatchParam(reqdto.uname);

@@ -32,6 +32,8 @@ tags:
     description: 加密货币外汇贵金属方面接口
   - name: AccountYl
     description: 盈利钱包方面接口
+  - name : wthdr
+    description: 取现方面接口
   - name: agt
     description: 代理方面接口
   - name: trans_recharge
@@ -89,6 +91,8 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /admin/wthdr/ReviewWthdrReqOrdRejectHdr:
+    $ref: './paths/wthdr/ReviewWthdrReqOrdRejectHdr.yaml'
   /api/token:
     $ref: './paths/usr/token.yaml'
   /api/userinfo:

@@ -3,7 +3,8 @@ package handler.wlt;
 import handler.ylwlt.dto.QueryDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.core.Context;
-import model.wlt.Accounts;
+
+import model.OpenBankingOBIE.Accounts;
 import org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;

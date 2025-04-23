@@ -11,10 +11,11 @@ import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 
+import model.OpenBankingOBIE.AccountType;
+import model.OpenBankingOBIE.Accounts;
 import model.OpenBankingOBIE.TransactionStatus;
 import model.rechg.TransactionsWthdr;
-import model.wlt.Accounts;
-import model.wlt.YLwltAcc;
+
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -96,7 +97,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
         transDto.amt=objOrd.amount;
         transDto.refUniqId="reqid="+objOrd.id;
         iniWlt( objOrd.uname, session);
-        transDto.lockYlwltObj=findByHerbinate(YLwltAcc.class, objOrd.uname, session);
+        transDto.lockYlwltObj=findByHerbinate(Accounts.class, getYlAccId(objOrd.uname) , session);
       //  addMoneyToWltService1.main(transDto);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
@@ -105,7 +106,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
         //----------------------sub blsAvld   blsFreez++
           mthBiz = colorStr("减少盈利钱包的有效余额,增加冻结金额", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
-        YLwltAcc objU = findByHbntDep(YLwltAcc.class, uname, LockModeType.PESSIMISTIC_WRITE, AppConfig.sessionFactory.getCurrentSession());
+        Accounts objU = findByHbntDep(Accounts.class, getYlAccId(uname), LockModeType.PESSIMISTIC_WRITE, AppConfig.sessionFactory.getCurrentSession());
         BigDecimal nowAmt2 = objU.availableBalance;
         BigDecimal newBls2 = nowAmt2.subtract(objOrd.amount);
         BigDecimal beforeAmt=objU.availableBalance.add(objOrd.amount);
@@ -113,20 +114,24 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
 
         BigDecimal nowAmtFreez = toBigDcmTwoDot(objU.frozenAmount);
         objU.frozenAmount = objU.frozenAmount.subtract(objOrd.amount);
-        YLwltAcc usr = mergeByHbnt(objU, session);
+        Accounts usr = mergeByHbnt(objU, session);
 
 
 
         //取款体现后  日志的变化  冻结金额 ，有效金额变化。。。
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("余额变化了流水", RED_bright));
         //------------add balanceLog
-        LogBls4YLwlt logBlsYinliWlt = new LogBls4YLwlt(objOrd.uname,beforeAmt,  objU.availableBalance,"减去");
-        logBlsYinliWlt.refUniqId=reqdto.transactionId;
-          logBlsYinliWlt.adjustType="减去";
-        addBlsLog4ylwlt(logBlsYinliWlt, session);
+//        LogBls4YLwlt logBlsYinliWlt = new LogBls4YLwlt(objOrd.uname,beforeAmt,  objU.availableBalance,"减去");
+//        logBlsYinliWlt.refUniqId=reqdto.transactionId;
+//          logBlsYinliWlt.adjustType="减去";
+//        addBlsLog4ylwlt(logBlsYinliWlt, session);
 
 
         return new ApiGatewayResponse(objOrd);
+    }
+
+    public static  String getYlAccId(String uname) {
+    return  uname+"_"+ AccountType.YlWlt;
     }
 
     public static void iniWlt(String uname, Session session) throws findByIdExptn_CantFindData {
@@ -135,7 +140,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
         } catch (findByIdExptn_CantFindData e) {
             //ini wlt
             Accounts wlt=new Accounts();
-            wlt.AccountId = uname;
+            wlt.accountId = uname;
             mergeByHbnt(wlt, session);
           //  transDto.lockAccObj=findByHerbinate(Wallet.class, uname, session);
         }

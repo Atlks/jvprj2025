@@ -1,7 +1,8 @@
 package service.wlt;
 
 import jakarta.validation.constraints.NotNull;
-import model.wlt.Accounts;
+
+import model.OpenBankingOBIE.Accounts;
 import util.ex.BalanceNotEnghou;
 import entityx.wlt.LogBls;
 import entityx.wlt.TransDto;
@@ -58,7 +59,7 @@ public class RdsFromWltService  implements Icall<TransDto, Object> {
         //------------add balanceLog
         LogBls logBalance = new LogBls();
         logBalance.id = "LogBalance" + getFilenameFrmLocalTimeString();
-        logBalance.uname = objU.AccountId;
+        logBalance.uname = objU.accountId;
 
         logBalance.changeAmount = TransDto88.getChangeAmount();
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);

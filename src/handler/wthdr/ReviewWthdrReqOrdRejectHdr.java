@@ -1,25 +1,34 @@
 package handler.wthdr;
 
+import cfg.AppConfig;
 import cfg.MyCfg;
 import handler.dto.ReviewChrgPassRqdto;
 import jakarta.annotation.security.PermitAll;
+import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 
+import model.OpenBankingOBIE.Accounts;
 import model.OpenBankingOBIE.TransactionStatus;
 import model.OpenBankingOBIE.Transactions;
+
+import org.hibernate.Session;
 import org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
 import static cfg.Containr.sessionFactory;
+import static handler.wthdr.ReviewWthdrReqOrdPassHdr.getYlAccId;
+import static service.CmsBiz.toBigDcmTwoDot;
+import static util.log.ColorLogger.RED_bright;
+import static util.log.ColorLogger.colorStr;
 import static util.misc.util2026.getField2025;
-import static util.tx.HbntUtil.findByHerbinate;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.*;
 //   http://localhost:8889/QueryOrdChrgHdr
 
 /**
@@ -29,9 +38,9 @@ import static util.tx.HbntUtil.mergeByHbnt;
 
  */
 @RestController
-@Path("/admin/wlt/ReviewChrgRefuseHdr")
+@Path("/admin/wthdr/ReviewWthdrReqOrdRejectHdr")
 @PermitAll
-public class ReviewWthdrReqOrdRefuseHdr implements RequestHandler<ReviewChrgPassRqdto, ApiGatewayResponse> {
+public class ReviewWthdrReqOrdRejectHdr implements RequestHandler<ReviewChrgPassRqdto, ApiGatewayResponse> {
     /**
      * @param reqdto
      * @param context
@@ -42,12 +51,26 @@ public class ReviewWthdrReqOrdRefuseHdr implements RequestHandler<ReviewChrgPass
     public ApiGatewayResponse handleRequest(ReviewChrgPassRqdto reqdto, Context context) throws Throwable {
 
 
-        var o=findByHerbinate(Transactions.class,reqdto.transactionId,sessionFactory.getCurrentSession());
+        Session session = sessionFactory.getCurrentSession();
+        var tx=findByHerbinate(Transactions.class,reqdto.transactionId, session);
 
-         o.setTransactionStatus((TransactionStatus.REJECTED));
-         mergeByHbnt(o,sessionFactory.getCurrentSession());
+         tx.setTransactionStatus((TransactionStatus.REJECTED));
+         mergeByHbnt(tx, session);
 
-        return new ApiGatewayResponse(o);
+
+
+        var  mthBiz = colorStr("减少盈利钱包的冻结金额,back to 有效余额", RED_bright);
+        System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
+        Accounts objU = findByHbntDep(Accounts.class,( tx.accountId), LockModeType.PESSIMISTIC_WRITE, AppConfig.sessionFactory.getCurrentSession());
+        BigDecimal bls = objU.availableBalance;
+        BigDecimal bls2 = bls.add(tx.amount);
+        BigDecimal beforeAmt=objU.availableBalance.add(tx.amount);
+        //  objU.availableBalance = toBigDcmTwoDot(bls2);
+
+        BigDecimal nowAmtFreez = toBigDcmTwoDot(objU.frozenAmount);
+        objU.frozenAmount = objU.frozenAmount.subtract(tx.amount);
+        Accounts acc = mergeByHbnt(objU, session);
+        return new ApiGatewayResponse(acc);
     }
 
 

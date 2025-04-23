@@ -1,7 +1,8 @@
 package service.wlt;
 import static cfg.AppConfig.sessionFactory;
 
-import model.wlt.Accounts;
+
+import model.OpenBankingOBIE.Accounts;
 import util.annos.Parameter;
 import entityx.wlt.LogBls;
 import entityx.wlt.TransDto;

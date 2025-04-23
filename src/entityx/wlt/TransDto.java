@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import model.wlt.Accounts;
-import model.wlt.YLwltAcc;
+import model.OpenBankingOBIE.Accounts;
+
 
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
@@ -55,7 +55,7 @@ public class TransDto {
         public BigDecimal amtBefore;
 
     public Accounts lockAccObj;
-    public YLwltAcc lockYlwltObj;
+    public Accounts lockYlwltObj;
     public String refUniqId;
 
     public BigDecimal getChangeAmount() {

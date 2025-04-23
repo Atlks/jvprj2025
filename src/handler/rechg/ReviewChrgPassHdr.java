@@ -4,6 +4,7 @@ import cfg.MyCfg;
 import entityx.wlt.TransDto;
 import handler.dto.ReviewChrgPassRqdto;
 import handler.rechg.dto.AreadyProcessedEx;
+import model.OpenBankingOBIE.Accounts;
 import model.OpenBankingOBIE.TransactionStatus;
 import model.OpenBankingOBIE.Transactions;
 
@@ -11,7 +12,7 @@ import model.OpenBankingOBIE.Transactions;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import model.wlt.Accounts;
+
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -105,7 +106,7 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
         } catch (findByIdExptn_CantFindData e) {
             //ini wlt
             Accounts wlt=new Accounts();
-            wlt.AccountId = uname;
+            wlt.accountId = uname;
             persistByHibernate(wlt, session);
           //  transDto.lockAccObj=findByHerbinate(Wallet.class, uname, session);
         }

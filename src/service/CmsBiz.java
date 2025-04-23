@@ -4,8 +4,9 @@ package service;
 import entityx.wlt.LogCms;
 import entityx.usr.Usr;
 import entityx.wlt.LogBls4YLwlt;
+import model.OpenBankingOBIE.Accounts;
 import model.OpenBankingOBIE.Transactions;
-import model.wlt.YLwltAcc;
+
 import org.hibernate.Session;
 
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.util.TreeMap;
 
 import static cfg.MyCfg.iniContnr4cfgfile;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
+import static handler.wthdr.ReviewWthdrReqOrdPassHdr.getYlAccId;
 import static util.tx.HbntUtil.mergeByHbnt;
 import static util.tx.HbntUtil.persistByHibernate;
 import static util.misc.Util2025.encodeJson;
@@ -105,7 +107,7 @@ public class CmsBiz {
         String methodname="updtBlsYinliwlt";
         System.out.println("\r\n\r\n");
         System.out.println("fun "+methodname+"(uname="+uname+",amt="+amt);
-        YLwltAcc objU = session.find(YLwltAcc.class,uname);
+        Accounts objU = session.find(Accounts.class,getYlAccId(uname) );
 //        if(objU.id==null)
 //        {
 //            objU.id= uname;

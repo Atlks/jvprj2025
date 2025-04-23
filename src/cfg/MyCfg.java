@@ -3,7 +3,7 @@ package cfg;
 import api.bet.ListBetsHdr;
 //import handler.rechg.RechargeCallbackHdr;
 
-import handler.wthdr.WithdrawHdr;
+//import handler.wthdr.WithdrawHdr;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import service.CmsBiz;
@@ -44,7 +44,7 @@ public class MyCfg {
         //(String) cfg.get("saveUrlOrdChrg");
         //RechargeCallbackHdr.saveUrlLogBalance = (String) cfg.get("saveUrlLogBalance");
         BaseBiz.saveUrlLogBalanceYinliWlt = (String) cfg.get("saveUrlLogBalanceYinliWlt");
-        WithdrawHdr.saveUrlOrdWthdr = (String) cfg.get("saveUrlOrdWthdr");
+    //    WithdrawHdr.saveUrlOrdWthdr = (String) cfg.get("saveUrlOrdWthdr");
         CmsBiz.saveUrlLogCms = (String) cfg.get("saveUrlLogCms");
         System.out.println("ini cfg finish..");
     }
@@ -98,7 +98,7 @@ public class MyCfg {
         //(String) cfg.get("saveUrlOrdChrg");
         //RechargeCallbackHdr.saveUrlLogBalance = Containr.saveDirUsrs;
         BaseBiz.saveUrlLogBalanceYinliWlt = Containr.saveDirUsrs;
-        WithdrawHdr.saveUrlOrdWthdr = Containr.saveDirUsrs;
+      //  WithdrawHdr.saveUrlOrdWthdr = Containr.saveDirUsrs;
         CmsBiz.saveUrlLogCms = Containr.saveDirUsrs;
         System.out.println("ini cfg finish..");
     }

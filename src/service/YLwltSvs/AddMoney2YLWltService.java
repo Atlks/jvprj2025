@@ -5,7 +5,8 @@ package service.YLwltSvs;
 import entityx.wlt.LogBls4YLwlt;
 import entityx.wlt.TransDto;
 import lombok.Data;
-import model.wlt.Accounts;
+
+import model.OpenBankingOBIE.Accounts;
 import org.hibernate.Session;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;

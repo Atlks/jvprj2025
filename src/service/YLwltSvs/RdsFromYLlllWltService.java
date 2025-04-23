@@ -1,6 +1,7 @@
 package service.YLwltSvs;
 
-import model.wlt.Accounts;
+
+import model.OpenBankingOBIE.Accounts;
 import util.ex.BalanceNotEnghou;
 import entityx.wlt.LogBls4YLwlt;
 import entityx.wlt.TransDto;

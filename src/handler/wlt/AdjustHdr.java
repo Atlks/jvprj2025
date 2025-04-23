@@ -2,10 +2,10 @@ package handler.wlt;
 
 import handler.wlt.dto.AdjstDto;
 import jakarta.annotation.security.RolesAllowed;
-import model.wlt.Accounts;
+
+import model.OpenBankingOBIE.Accounts;
 import util.algo.Tag;
 import util.annos.JwtParam;
-import util.annos.Parameter;
 import util.ex.ErrAdjstTypeEx;
 import entityx.ApiResponse;
 import entityx.wlt.LogBls;
@@ -68,7 +68,7 @@ public class AdjustHdr implements Icall<AdjstDto, Object> {
 
         LogBls logBalance = new LogBls();
         logBalance.id = "LogBalance" + getFilenameFrmLocalTimeString();
-        logBalance.uname = objU.AccountId;
+        logBalance.uname = objU.accountId;
 
         logBalance.changeAmount = BigDecimal.valueOf(TransDto1.getAdjustAmount());
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
