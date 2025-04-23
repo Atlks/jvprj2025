@@ -1,6 +1,6 @@
 package cfg;
 
-import handler.pay.RechargeHdr;
+import handler.rechg.RechargeHdr;
 import net.sf.cglib.proxy.*;
 
 import java.io.IOException;

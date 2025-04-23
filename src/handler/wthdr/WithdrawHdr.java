@@ -1,7 +1,7 @@
 package handler.wthdr;
 
 import api.ylwlt.ApiFun;
-import model.pay.TransactionsWthdr;
+import model.rechg.TransactionsWthdr;
 import model.wlt.YLwltAcc;
 import util.algo.Tag;
 import util.annos.CookieParam;

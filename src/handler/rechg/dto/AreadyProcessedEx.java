@@ -1,6 +1,4 @@
-package handler.pay;
-
-import util.excptn.ExceptionBase;
+package handler.rechg.dto;
 
 public class AreadyProcessedEx  extends Exception {
     public AreadyProcessedEx(String s) {

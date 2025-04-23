@@ -1,7 +1,7 @@
 package cfg;
 
 import api.bet.ListBetsHdr;
-import handler.pay.RechargeCallbackHdr;
+//import handler.rechg.RechargeCallbackHdr;
 
 import handler.wthdr.WithdrawHdr;
 import jakarta.validation.constraints.NotBlank;
@@ -42,7 +42,7 @@ public class MyCfg {
         ListBetsHdr.saveUrlOrdBet = (String) cfg.get("saveUrlOrdBet");
     //    saveUrlOrdChrg = RegHandler.saveDirUsrs;
         //(String) cfg.get("saveUrlOrdChrg");
-        RechargeCallbackHdr.saveUrlLogBalance = (String) cfg.get("saveUrlLogBalance");
+        //RechargeCallbackHdr.saveUrlLogBalance = (String) cfg.get("saveUrlLogBalance");
         BaseBiz.saveUrlLogBalanceYinliWlt = (String) cfg.get("saveUrlLogBalanceYinliWlt");
         WithdrawHdr.saveUrlOrdWthdr = (String) cfg.get("saveUrlOrdWthdr");
         CmsBiz.saveUrlLogCms = (String) cfg.get("saveUrlLogCms");
@@ -96,7 +96,7 @@ public class MyCfg {
         ListBetsHdr.saveUrlOrdBet = Containr.saveDirUsrs;
      //   saveUrlOrdChrg = RegHandler.saveDirUsrs;
         //(String) cfg.get("saveUrlOrdChrg");
-        RechargeCallbackHdr.saveUrlLogBalance = Containr.saveDirUsrs;
+        //RechargeCallbackHdr.saveUrlLogBalance = Containr.saveDirUsrs;
         BaseBiz.saveUrlLogBalanceYinliWlt = Containr.saveDirUsrs;
         WithdrawHdr.saveUrlOrdWthdr = Containr.saveDirUsrs;
         CmsBiz.saveUrlLogCms = Containr.saveDirUsrs;

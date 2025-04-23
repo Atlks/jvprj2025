@@ -1,10 +1,13 @@
-package handler.pay;
+package handler.rechg;
 
 import cfg.MyCfg;
 import entityx.wlt.TransDto;
 import handler.dto.ReviewChrgPassRqdto;
-import model.constt.TransactionStatus;
-import model.pay.TransactionsPay;
+import handler.rechg.dto.AreadyProcessedEx;
+import model.OpenBankingOBIE.TransactionStatus;
+import model.OpenBankingOBIE.Transactions;
+
+
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
@@ -58,11 +61,11 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
         String mthBiz = colorStr("设置订单状态=完成", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         Session session = sessionFactory.getCurrentSession();
-        var objChrg = findByHerbinate(TransactionsPay.class, reqdto.transactionId, session);
+        var objChrg = findByHerbinate(Transactions.class, reqdto.transactionId, session);
         // System.out.println("\r\n----blk updt chg ord set stat=ok");
         //  is proceed??
-        if (objChrg.transactionStatus.equals(TransactionStatus.COMPLETED.getCode())
-                || objChrg.transactionStatus.equals(TransactionStatus.Rejected.getCode())) {
+        if (objChrg.transactionStatus.equals(TransactionStatus.BOOKED)
+                || objChrg.transactionStatus.equals(TransactionStatus.REJECTED)) {
             System.out.println("alread cpmlt ord,id=" + objChrg.id);
             if (ovrtTEst) {
             } else {
@@ -70,8 +73,8 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, Ap
             }
         }
         //chk stat is not pndg,,, throw ex
-        if (objChrg.transactionStatus.equals(TransactionStatus.PENDING.getCode()))
-            objChrg.setTransactionStatus(String.valueOf(TransactionStatus.COMPLETED));
+        if (objChrg.transactionStatus.equals(TransactionStatus.PENDING))
+            objChrg.setTransactionStatus( TransactionStatus.BOOKED);
         mergeByHbnt(objChrg, session);
 
 

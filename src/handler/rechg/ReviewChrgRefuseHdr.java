@@ -1,39 +1,37 @@
-package handler.pay;
+package handler.rechg;
 
-import util.annos.NoDftParam;
 import cfg.MyCfg;
-import entityx.wlt.QryRechgOrdReqDto;
-import model.pay.TransactionsPay;
+import handler.dto.ReviewChrgPassRqdto;
+import model.OpenBankingOBIE.Transactions;
+
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
-
-import java.util.*;
-
+import model.OpenBankingOBIE.TransactionStatus;
+import model.OpenBankingOBIE.Transactions;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
 
 import static cfg.Containr.sessionFactory;
-import static util.algo.EncodeUtil.encodeSqlAsLikeMatchParam;
-import static util.tx.Pagging.getPageResultByHbntV4;
-
+import static util.misc.util2026.getField2025;
+import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.mergeByHbnt;
+//   http://localhost:8889/QueryOrdChrgHdr
 
 /**
+ * 审核充值--拒绝
  *
  *
- * qru cdtn
- *
- * //   http://localhost:8889/admin/wlt/QueryOrdChrgHdr
- *
- 订单号              会员账号          标签                    VIP等级          上级代理             充值金额           截图附件              审核状态            审核人                    充值时间                         审核时间
+
  */
 @RestController
-@Path("/admin/wlt/QueryOrdChrgHdr")
+@Path("/admin/wlt/ReviewChrgRefuseHdr")
 @PermitAll
-@NoDftParam
-//@RolesAllowed({"admin","op"})
-public class QueryOrdChrgHdr  implements RequestHandler<QryRechgOrdReqDto, ApiGatewayResponse> {
+public class ReviewChrgRefuseHdr implements RequestHandler<ReviewChrgPassRqdto, ApiGatewayResponse> {
     /**
      * @param reqdto
      * @param context
@@ -41,28 +39,37 @@ public class QueryOrdChrgHdr  implements RequestHandler<QryRechgOrdReqDto, ApiGa
      * @throws Throwable
      */
     @Override
-    public ApiGatewayResponse handleRequest(QryRechgOrdReqDto reqdto, Context context) throws Throwable {
-
-        var sqlNoOrd = "select * from Transactions_Pay where 1=1 ";//for count    where  uname =:uname
-        HashMap<String, Object> sqlprmMap = new HashMap<>();
-        if(reqdto.uname!="")
-        {  sqlNoOrd=sqlNoOrd+ " and  uname like "+ encodeSqlAsLikeMatchParam(reqdto.uname);
-          //  sqlprmMap.put("uname",)
-        }
-
-        var sql=sqlNoOrd+" order by timestamp desc ";
-      //  Map<String, Object> sqlprmMap= Map.of( "sql",sql,   "uname",reqdto.uname);
-     //   System.out.println( encodeJson(sqlprmMap));
+    public ApiGatewayResponse handleRequest(ReviewChrgPassRqdto reqdto, Context context) throws Throwable {
 
 
+        var o=findByHerbinate(Transactions.class,reqdto.transactionId,sessionFactory.getCurrentSession());
 
-        var list1 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), TransactionsPay.class);
+         o.setTransactionStatus((TransactionStatus.REJECTED));
+         mergeByHbnt(o,sessionFactory.getCurrentSession());
 
-        return new ApiGatewayResponse(list1);
+        return new ApiGatewayResponse(o);
+    }
+
+
+    /**
+     *
+     * @param uname
+     * @return
+     */
+    public static String encodeSqlAsLikeMatchParam(String uname) {
+       return   "'% "+ encodeSqlPrm4safe(uname)+" %'";
+
     }
 
 
 
+    public static String encodeSqlPrm4safe(String uname) {
+        return  uname.replaceAll("'","''");
+    }
+
+    public static String encodeSqlPrmAsStr(String uname) {
+        return   "'"+ encodeSqlPrm4safe(uname)+"'";
+    }
 
     public static void main(String[] args) throws Exception {
         MyCfg.iniContnr4cfgfile();
@@ -127,19 +134,19 @@ public class QueryOrdChrgHdr  implements RequestHandler<QryRechgOrdReqDto, ApiGa
 
 
 
-//    private static List<SortedMap<String, Object>> qryuserIni(Map<String, String> queryParams) {
-//        String uname = (String) getField2025(queryParams, "uname", "");
-//        var expression = "";
-//        if (!uname.equals("")) {
-//            //
-//            // 转义正则表达式特殊字符
-//            String escapedUname = uname.replaceAll("([\\\\+*?\\[\\](){}|.^$])", "\\\\$1");
-//            // 使用转义后的uname变量
-//            expression = "#this['uname'] matches '.*" + escapedUname + ".*'";
-//        }
-//        var list1 = 0;//findObjs(saveDirUsrs , expression);
-//        return null;
-//    }
+    private static List<SortedMap<String, Object>> qryuserIni(Map<String, String> queryParams) {
+        String uname = (String) getField2025(queryParams, "uname", "");
+        var expression = "";
+        if (!uname.equals("")) {
+            //
+            // 转义正则表达式特殊字符
+            String escapedUname = uname.replaceAll("([\\\\+*?\\[\\](){}|.^$])", "\\\\$1");
+            // 使用转义后的uname变量
+            expression = "#this['uname'] matches '.*" + escapedUname + ".*'";
+        }
+        var list1 = 0;//findObjs(saveDirUsrs , expression);
+        return null;
+    }
 
 
 

@@ -4,7 +4,12 @@
 openid有哪些api规范
 
 
-ChatGPT 说：
+
+/userinfo
+通常推荐 GET，大多数 OpenID Provider（如 Google, Auth0, Keycloak）都支持。
+post also ok...
+
+
 OpenID Connect（OIDC）是在 OAuth 2.0 基础上的一个身份认证层，它定义了一组API 规范和端点，用于客户端（RP）与身份提供者（IdP）之间进行认证交互。主要有以下几类 API（端点）规范：
 
 🌐 OpenID Connect 核心 API（端点规范）

@@ -366,7 +366,7 @@ public class ApiGateway implements HttpHandler {
     }
 
     private void validDto(Object dto) {
-
+        System.out.println("fun validdto(cls="+dto.getClass()+")");
         var clazz = dto.getClass();
         // 遍历类的所有字段
         for (Field field : clazz.getDeclaredFields()) {

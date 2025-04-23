@@ -5,8 +5,9 @@ import handler.dto.ReviewChrgPassRqdto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import model.constt.TransactionStatus;
-import model.pay.TransactionsPay;
+
+import model.OpenBankingOBIE.TransactionStatus;
+import model.OpenBankingOBIE.Transactions;
 import org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
@@ -41,9 +42,9 @@ public class ReviewWthdrReqOrdRefuseHdr implements RequestHandler<ReviewChrgPass
     public ApiGatewayResponse handleRequest(ReviewChrgPassRqdto reqdto, Context context) throws Throwable {
 
 
-        var o=findByHerbinate(TransactionsPay.class,reqdto.transactionId,sessionFactory.getCurrentSession());
+        var o=findByHerbinate(Transactions.class,reqdto.transactionId,sessionFactory.getCurrentSession());
 
-         o.setTransactionStatus(String.valueOf(TransactionStatus.Rejected));
+         o.setTransactionStatus((TransactionStatus.REJECTED));
          mergeByHbnt(o,sessionFactory.getCurrentSession());
 
         return new ApiGatewayResponse(o);

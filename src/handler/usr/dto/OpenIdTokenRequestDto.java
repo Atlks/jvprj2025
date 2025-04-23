@@ -15,8 +15,8 @@ public class OpenIdTokenRequestDto {
     private String grant_type = "client_credentials";
     private String code;
     private String redirect_uri;
-    private String client_id;
-    private String client_secret;
+    public String client_id;
+    public String client_secret;
 
     // Getters and Setters
     public String getGrant_type() {

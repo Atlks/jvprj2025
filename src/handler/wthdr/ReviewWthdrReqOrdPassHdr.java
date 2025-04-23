@@ -5,13 +5,14 @@ import cfg.MyCfg;
 import entityx.wlt.LogBls4YLwlt;
 import entityx.wlt.TransDto;
 import handler.dto.ReviewChrgPassRqdto;
-import handler.pay.AreadyProcessedEx;
+import handler.rechg.dto.AreadyProcessedEx;
 import jakarta.annotation.security.PermitAll;
 import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import model.constt.TransactionStatus;
-import model.pay.TransactionsWthdr;
+
+import model.OpenBankingOBIE.TransactionStatus;
+import model.rechg.TransactionsWthdr;
 import model.wlt.Accounts;
 import model.wlt.YLwltAcc;
 import org.hibernate.Session;
@@ -69,8 +70,8 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
         var objOrd = findByHerbinate(TransactionsWthdr.class, reqdto.transactionId, session);
         // System.out.println("\r\n----blk updt chg ord set stat=ok");
         //  is proceed??
-        if (objOrd.status.equals(TransactionStatus.COMPLETED.getCode())
-                || objOrd.status.equals(TransactionStatus.Rejected.getCode())) {
+        if (objOrd.status.equals(TransactionStatus.BOOKED)
+                || objOrd.status.equals(TransactionStatus.REJECTED)) {
             System.out.println("alread cpmlt ord,id=" + objOrd.id);
             if (ovrtTEst) {
             } else {
@@ -79,8 +80,8 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
         }
         //chk stat is not pndg,,, throw ex
         //
-        if (objOrd.status.equals(TransactionStatus.PENDING.getCode()))
-            objOrd.setStatus(String.valueOf(TransactionStatus.COMPLETED));
+        if (objOrd.status.equals(TransactionStatus.PENDING))
+            objOrd.setStatus(String.valueOf(TransactionStatus.BOOKED));
         mergeByHbnt(objOrd, session);
 
 

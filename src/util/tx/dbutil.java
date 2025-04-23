@@ -1,6 +1,6 @@
 package util.tx;
 
-import model.pay.TransactionsPay;
+
 import entityx.baseObj;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
@@ -710,9 +710,25 @@ public class dbutil {
         return lst;
     }
 
+    public static List<?> nativeQueryGetResultList(String sql, Map<String, Object> sqlprmMap, int pageNumber, int pageSize, Session session,Class cls) {
+        // 防止 SQL 注入  // 安全参数绑定
+        NativeQuery<?> nativeQuery = session.createNativeQuery(sql, cls);
+        setPrmts4sql(sqlprmMap, nativeQuery);
+
+        //    nativeQuery.getResultCount();
+        // 设置分页
+        nativeQuery.setFirstResult(getstartPosition(pageNumber, pageSize));
+        nativeQuery.setMaxResults(pageSize);
+        //       .setParameter("age", 18);
+        List<?> lst = nativeQuery.getResultList();
+        return lst;
+    }
+
+
+    @Deprecated
     public static List<?> nativeQueryGetResultList(String sql, Map<String, Object> sqlprmMap, int pageNumber, int pageSize, Session session) {
         // 防止 SQL 注入  // 安全参数绑定
-        NativeQuery<?> nativeQuery = session.createNativeQuery(sql, TransactionsPay.class);
+        NativeQuery<?> nativeQuery = session.createNativeQuery(sql );
         setPrmts4sql(sqlprmMap, nativeQuery);
 
         //    nativeQuery.getResultCount();

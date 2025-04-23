@@ -1,11 +1,12 @@
 package util.excptn;
 
 import entityx.wlt.LogBls;
-import model.pay.TransactionsPay;
+
 import entityx.wlt.LogCms;
 import entityx.bet.BetOrd;
 import entityx.usr.Usr;
 import entityx.wlt.LogBls4YLwlt;
+import model.OpenBankingOBIE.Transactions;
 import org.hibernate.Session;
 import util.tx.HbntUtil;
 import util.tx.SessionImpIni;
@@ -30,7 +31,7 @@ public class OrmUtilBiz {
             li.add(Usr.class);
             li.add(LogBls.class);
             li.add(LogBls4YLwlt.class);
-            li.add(TransactionsPay.class);
+            li.add(Transactions.class);
             li.add(Usr.class);
             li.add(BetOrd.class);
             li.add(LogCms.class);

@@ -2,9 +2,9 @@ package handler.agt;
 
 import entityx.usr.Usr;
 import jakarta.validation.constraints.NotNull;
-import model.OpenBanking.Transactions;
+import model.OpenBankingOBIE.Transactions;
 import model.agt.Agent;
-import model.pay.TransactionsPay;
+
 import org.hibernate.Session;
 import util.tx.findByIdExptn_CantFindData;
 
@@ -17,9 +17,9 @@ import static util.tx.HbntUtil.*;
 public class AgtHdl {
 
 
-    public void rchgEvtHdl(@NotNull TransactionsPay tx) {
+    public void rchgEvtHdl(@NotNull Transactions tx) {
         try {
-            String uid = tx.AccountId;
+            String uid = tx.accountId;
             Session session = sessionFactory.getCurrentSession();
             Usr u = findByHerbinate(Usr.class, uid, session);
             if (isBlank(u.invtr))

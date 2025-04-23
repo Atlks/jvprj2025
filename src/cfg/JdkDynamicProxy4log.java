@@ -1,6 +1,6 @@
 package cfg;
 
-import handler.pay.RechargeHdr;
+import handler.rechg.RechargeHdr;
 import com.sun.net.httpserver.HttpExchange;
 import org.hibernate.SessionFactory;
 

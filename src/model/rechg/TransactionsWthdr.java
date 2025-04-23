@@ -1,7 +1,8 @@
-package model.pay;
+package model.rechg;
 import jakarta.persistence.*;
 import lombok.Data;
-import model.constt.TransactionStatus;
+import model.OpenBankingOBIE.TransactionStatus;
+
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;

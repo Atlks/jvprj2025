@@ -408,7 +408,7 @@ paths:
   /admin/wlt/adjust:
     get:
       tags:
-        - Wallet
+        - Account
       summary: "资金调整 中心钱包"
       parameters:
         - name: adjustType

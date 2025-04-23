@@ -1,13 +1,15 @@
-package handler.pay;
+package handler.rechg;
 
 
+import model.OpenBankingOBIE.CreditDebitIndicator;
+import model.OpenBankingOBIE.Transactions;
 import util.algo.Tag;
 import util.annos.CookieParam;
 
 import static cfg.AppConfig.sessionFactory;
 import static java.time.LocalTime.now;
 
-import model.pay.TransactionsPay;
+
 //import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
@@ -39,7 +41,7 @@ import static util.misc.util2026.*;
 @RolesAllowed({"", "USER"})
 @CookieParam(name = "uname",value = "$curuser")
 @Component
-public class RechargeHdr implements Icall<TransactionsPay,Object> {
+public class RechargeHdr implements Icall<Transactions,Object> {
 
 
     /**
@@ -58,23 +60,19 @@ public class RechargeHdr implements Icall<TransactionsPay,Object> {
     //@CookieValue
     @Transactional
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
-    public Object main(@BeanParam TransactionsPay ord) throws Exception {
+    public Object main(@BeanParam Transactions ts) throws Exception {
         System.out.println("handle2.sessfac=" + sessionFactory);
         System.out.println("regchg hrl.hadler3()");
         //blk login ed
 
-//        Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
-//
-//
-//        ChgOrd ord = new ChgOrd();
-//        ord.uname = uname;
-//        ord.amt = new BigDecimal(queryParams.get("amt"));
-        ord.timestamp = System.currentTimeMillis();
-        ord.id = "ordChrg" + getFilenameFrmLocalTimeString();
-        ord.transactionId =ord.id;
-        ord.uname=getCurrentUser();
+         ts.creditDebitIndicator= CreditDebitIndicator.CREDIT;
+        ts.timestamp = System.currentTimeMillis();
+        ts.id = "ordChrg" + getFilenameFrmLocalTimeString();
+        ts.transactionId =ts.id;
+        ts.uname=getCurrentUser();
+        ts.accountId =ts.uname;
 
-       return new ApiGatewayResponse( persistByHibernate(ord, sessionFactory.getCurrentSession()));
+       return new ApiGatewayResponse( persistByHibernate(ts, sessionFactory.getCurrentSession()));
          //   wrtResp(exchange, encodeJson(r));
 
 

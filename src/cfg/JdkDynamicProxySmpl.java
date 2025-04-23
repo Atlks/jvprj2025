@@ -1,6 +1,6 @@
 package cfg;
 
-import handler.pay.RechargeHdr;
+import handler.rechg.RechargeHdr;
 import org.hibernate.SessionFactory;
 
 import java.lang.reflect.InvocationHandler;

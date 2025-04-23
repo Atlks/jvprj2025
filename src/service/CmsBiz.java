@@ -1,9 +1,10 @@
 package service;
 
-import model.pay.TransactionsPay;
+
 import entityx.wlt.LogCms;
 import entityx.usr.Usr;
 import entityx.wlt.LogBls4YLwlt;
+import model.OpenBankingOBIE.Transactions;
 import model.wlt.YLwltAcc;
 import org.hibernate.Session;
 
@@ -30,7 +31,7 @@ public class CmsBiz {
         u.uname="008";
         u.invtr="007";
 
-        TransactionsPay ord=new TransactionsPay();
+        Transactions ord=new Transactions();
         ord.uname="008";
        ord.amount =new BigDecimal(100);
      //   calcCms4FrmOrdChrg(ord);
@@ -50,7 +51,7 @@ public class CmsBiz {
      * @param objChrg
      * @param session
      */
-    public static void calcCms4FrmOrdChrg(TransactionsPay objChrg, Session session) throws Exception {
+    public static void calcCms4FrmOrdChrg(Transactions objChrg, Session session) throws Exception {
         System.out.println( "fun calcCms4FrmOrdChrg（");
         System.out.println(encodeJson(objChrg));
         System.out.println(")");
