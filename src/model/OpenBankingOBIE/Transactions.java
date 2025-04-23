@@ -79,6 +79,7 @@ public class Transactions {
     public String creditorAccount;
 
     // 交易状态（如：BOOKED、PENDING等）
+    @Enumerated(EnumType.STRING)
     public TransactionStatus transactionStatus=TransactionStatus.PENDING;
 
 
