@@ -18,7 +18,7 @@ import static service.CmsBiz.toBigDcmTwoDot;
 
 /**
  *   Usr实体
- * . OpenID Connect / OAuth2 的 UserInfo 标准
+ * . OpenID Connect / OAuth2 的 UserInfo 标准fg
  * OpenID Connect 规定了一组用户字段，用于 OAuth 登录完成后的 userinfo 接口返回：
  *
  * @PersistenceCapable 是 DataNucleus（JDO） 中的一个注解，用于标记一个 Java 类是可持久化的（Persistent），也就是说，这个类的对象可以被保存到数据库中。
