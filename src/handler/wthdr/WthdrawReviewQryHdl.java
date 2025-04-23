@@ -3,14 +3,14 @@ package handler.wthdr;
 
 import handler.ylwlt.dto.WthdrawReviewQryDto;
 import jakarta.ws.rs.core.Context;
-import model.rechg.TransactionsWthdr;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
 import java.util.HashMap;
 
 import static cfg.Containr.sessionFactory;
-import static util.tx.Pagging.getPageResultByHbntV4;
+import static util.tx.Pagging.*;
 
 /**
  * 订单号              会员账号                    标签             VIP等级          上级代理               提现金额           到账金额              审核状态            审核人                    提现时间                         审核时间
@@ -37,7 +37,7 @@ public class WthdrawReviewQryHdl  implements RequestHandler<WthdrawReviewQryDto,
 
         System.out.println(sql);
 
-        var list1 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), TransactionsWthdr.class);
+        var list1 = getPageResultByHbntRtLstmap(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession());
 
         return new ApiGatewayResponse(list1);
     }

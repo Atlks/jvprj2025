@@ -55,7 +55,7 @@ public class Pagging {
     public static @NotNull PageResult<?> getPageResultByHbntRtLstmap(@NotBlank  String sql, Map<String, Object> sqlprmMap, PageDto pageobj, Session session) throws SQLException {
 
         System.out.println("fun getPageResultByHbntV3(sql= "+sql);
-        NativeQuery<?> nativeQuery = session.createNativeQuery(sql );
+        NativeQuery<?> nativeQuery = session.createNativeQuery(sql, Map.class );
         setPrmts4sql(sqlprmMap, nativeQuery);
         // 设置分页
         nativeQuery.setFirstResult(getstartPosition(pageobj.page, pageobj.pagesize));

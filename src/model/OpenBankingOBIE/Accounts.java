@@ -1,8 +1,6 @@
 package model.OpenBankingOBIE;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.OpenBankingOBIE.AccountType;
@@ -21,7 +19,10 @@ import java.util.Date;
 public class Accounts {
 
     @Id
-    public String accountId;                // 用户ID
+    public String accountId;// 用户ID
+
+
+    @Enumerated(EnumType.STRING)
     public AccountType accountType= AccountType.nml;         // 账户类型
     public BigDecimal availableBalance= BigDecimal.valueOf(0); // 有效余额
     public BigDecimal frozenAmount= BigDecimal.valueOf(0);    // 冻结金额

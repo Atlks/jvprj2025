@@ -1,8 +1,6 @@
 package model.OpenBankingOBIE;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -56,6 +54,7 @@ public class Transactions {
      * Credit	入账（Incoming）	表示这笔钱是进到账户里的，比如：充值、工资、退款等
      * Debit	出账（Outgoing）	表示这笔钱是从账户转出的，比如：消费、提现、支付等
      */
+    @Enumerated(EnumType.STRING)
     public CreditDebitIndicator  creditDebitIndicator;
 
 
@@ -75,7 +74,7 @@ public class Transactions {
     private String debtorAccount;
 
     // 收款方账户信息
-    private String creditorAccount;
+    public String creditorAccount;
 
     // 交易状态（如：BOOKED、PENDING等）
     public TransactionStatus transactionStatus=TransactionStatus.PENDING;

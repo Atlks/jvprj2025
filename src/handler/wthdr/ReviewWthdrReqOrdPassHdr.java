@@ -14,8 +14,9 @@ import jakarta.ws.rs.core.Context;
 import model.OpenBankingOBIE.AccountType;
 import model.OpenBankingOBIE.Accounts;
 import model.OpenBankingOBIE.TransactionStatus;
-import model.rechg.TransactionsWthdr;
 
+
+import model.OpenBankingOBIE.Transactions;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -68,11 +69,11 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
         String mthBiz = colorStr("设置订单状态=完成", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         Session session = sessionFactory.getCurrentSession();
-        var objOrd = findByHerbinate(TransactionsWthdr.class, reqdto.transactionId, session);
+        var objOrd = findByHerbinate(Transactions.class, reqdto.transactionId, session);
         // System.out.println("\r\n----blk updt chg ord set stat=ok");
         //  is proceed??
-        if (objOrd.status.equals(TransactionStatus.BOOKED)
-                || objOrd.status.equals(TransactionStatus.REJECTED)) {
+        if (objOrd.transactionStatus.equals(TransactionStatus.BOOKED)
+                || objOrd.transactionStatus.equals(TransactionStatus.REJECTED)) {
             System.out.println("alread cpmlt ord,id=" + objOrd.id);
             if (ovrtTEst) {
             } else {
@@ -81,8 +82,8 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
         }
         //chk stat is not pndg,,, throw ex
         //
-        if (objOrd.status.equals(TransactionStatus.PENDING))
-            objOrd.setStatus(String.valueOf(TransactionStatus.BOOKED));
+        if (objOrd.transactionStatus.equals(TransactionStatus.PENDING))
+            objOrd.setTransactionStatus((TransactionStatus.BOOKED));
         mergeByHbnt(objOrd, session);
 
 

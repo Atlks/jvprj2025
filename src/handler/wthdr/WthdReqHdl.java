@@ -7,7 +7,7 @@ import model.OpenBankingOBIE.AccountType;
 import model.OpenBankingOBIE.Accounts;
 import model.OpenBankingOBIE.CreditDebitIndicator;
 import model.OpenBankingOBIE.Transactions;
-import model.rechg.TransactionsWthdr;
+
 
 import util.ex.BalanceNotEnghou;
 import util.serverless.ApiGatewayResponse;
@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import static cfg.AppConfig.sessionFactory;
 import static cfg.MyCfg.iniContnr;
 import static service.CmsBiz.toBigDcmTwoDot;
+import static util.algo.GetUti.getUuid;
 import static util.auth.AuthUtil.getCurrentUser;
 import static util.log.ColorLogger.RED_bright;
 import static util.log.ColorLogger.colorStr;
@@ -69,11 +70,14 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
 
         Transactions ord=new Transactions();
         copyProps(dtoWithdrawDto,ord);
+        ord.transactionId="wthdr_"+getUuid();
+        ord.creditDebitIndicator= CreditDebitIndicator.DEBIT;
+
         ord.amount =dtoWithdrawDto.amount;
-        ord.transactionId =ord.id;
+
+        ord.id =ord.transactionId;
         ord.uname= uname1;
         ord.accountId=acc_id;
-        ord.creditDebitIndicator= CreditDebitIndicator.DEBIT;
         Object ord1 = persistByHibernate(ord, sessionFactory.getCurrentSession());
 
 
