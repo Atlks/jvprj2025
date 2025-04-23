@@ -77,8 +77,8 @@ public class Transactions {
     // 收款方账户信息
     private String creditorAccount;
 
-    // 交易状态（如：COMPLETED、PENDING等）
-    public TransactionStatus transactionStatus;
+    // 交易状态（如：BOOKED、PENDING等）
+    public TransactionStatus transactionStatus=TransactionStatus.PENDING;
 
 
 
