@@ -20,6 +20,7 @@ servers:
     description: 生产环境
 
 tags:
+
   - name: user
     description: 用户方面接口
   - name: secury
@@ -88,6 +89,8 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /api/userinfo:
+    $ref: './paths/usr/me.yaml'
   /wthdr/WthdReqHdl:
     $ref: './paths/ylwlt/WthdReqHdl.yaml'
   /wthdr/WthdrawReviewQryHdl:

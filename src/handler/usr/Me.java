@@ -3,6 +3,7 @@ package handler.usr;
 import entityx.usr.Usr;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
+import util.annos.Paths;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
@@ -16,6 +17,7 @@ import static util.tx.HbntUtil.findByHerbinate;
  */
 @jakarta.annotation.security.RolesAllowed("user")
 @Path("/users/me")
+@Paths({"/api/userinfo"})
 public class Me   implements RequestHandler<Usr, ApiGatewayResponse>  {
 //    @Override
 //    public Object main(Usr dto) throws  Throwable {

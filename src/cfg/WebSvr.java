@@ -8,6 +8,7 @@ import jakarta.ws.rs.Path;
 import org.springframework.web.bind.annotation.*;
 //import org.thymeleaf.context.Context;
 import org.thymeleaf.context.Context;
+import util.annos.Paths;
 import util.serverless.ApiGateway;
 
 import java.io.*;
@@ -181,6 +182,13 @@ public class WebSvr {
                 pathMap.put(path_pkgNclsname, aClass);
                 System.out.println("pathMap(path=" + path_pkgNclsname + ",aClass=" + aClass.toString());
 
+                String[] getPathsFromBeanRzt=getPathsFromBean(aClass);
+    for (String p : getPathsFromBeanRzt) {
+
+        pathMap.put(p, aClass);
+        System.out.println("pathMap(path=" + p + ",aClass=" + aClass.toString());
+
+    }
             }
         };
         System.out.println("====start createContext");
@@ -297,6 +305,20 @@ public class WebSvr {
         }
         // 兼容 @GetMapping、@PostMapping 等（可选）
         return getPathFromAnnotations(aClass);
+    }
+
+    public static String[] getPathsFromBean(Class<?> aClass) {
+
+
+        if (aClass.isAnnotationPresent(Paths.class)) {
+            Paths mapping = aClass.getAnnotation(Paths.class);
+            assert mapping != null;
+            return mapping.value();  // 可能有多个路径
+        }
+
+        return  new String[]{};
+
+
     }
 
     // 处理其他 Spring Mapping 注解
