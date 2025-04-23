@@ -70,6 +70,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
 
         Transactions ord=new Transactions();
         copyProps(dtoWithdrawDto,ord);
+        ord=new Transactions("wthdr_"+getUuid(), CreditDebitIndicator.DEBIT,dtoWithdrawDto.amount);
         ord.transactionId="wthdr_"+getUuid();
         ord.creditDebitIndicator= CreditDebitIndicator.DEBIT;
 
