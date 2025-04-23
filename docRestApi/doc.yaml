@@ -89,6 +89,8 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /api/token:
+    $ref: './paths/usr/token.yaml'
   /api/userinfo:
     $ref: './paths/usr/me.yaml'
   /wthdr/WthdReqHdl:

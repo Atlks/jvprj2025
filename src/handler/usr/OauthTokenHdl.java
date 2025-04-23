@@ -5,32 +5,36 @@ import core.Ilogin;
 import entityx.usr.Passport;
 import entityx.usr.Usr;
 import entityx.usr.Visa;
+import handler.usr.dto.OpenIdTokenRequestDto;
+import handler.usr.dto.OpenIdTokenResponseDto;
 import handler.usr.dto.RegDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.SecurityContext;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
 import util.algo.EncryUtil;
 import util.annos.Paths;
-import util.ex.*;
+import util.auth.JwtUtil;
+import util.ex.existUserEx;
 import util.misc.util2026;
 import util.serverless.ApiGateway;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
+import java.util.Collections;
 
 import static cfg.Containr.sam4regLgn;
 import static handler.usr.RegHandler.iniTwoWlt;
-import static util.serverless.ApiGateway.httpExchangeCurThrd;
 import static util.misc.Util2025.encodeJson;
-import static util.misc.util2026.*;
+import static util.misc.util2026.setcookie;
+import static util.serverless.ApiGateway.httpExchangeCurThrd;
 
 /**
  * login
@@ -42,12 +46,12 @@ import static util.misc.util2026.*;
 
 //组合了 @Controller 和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
 @PermitAll
-@Path("/login")
 
+@Paths({"/api/token"})
 //   http://localhost:8889/login?uname=008&pwd=000
 @NoArgsConstructor
 @Data
-public class LoginHdlr implements RequestHandler<RegDto, ApiGatewayResponse>,  Ilogin {
+public class OauthTokenHdl implements RequestHandler<OpenIdTokenRequestDto, OpenIdTokenResponseDto>, Ilogin {
 
     /**
      * @param RegDto1
@@ -56,13 +60,26 @@ public class LoginHdlr implements RequestHandler<RegDto, ApiGatewayResponse>,  I
      * @throws Throwable
      */
     @Override
-    public ApiGatewayResponse handleRequest(RegDto RegDto1, Context context) throws Throwable {
-        sam4regLgn.validate(new UsernamePasswordCredential(RegDto1.uname, RegDto1.pwd));
-        var rt= setLoginTicket(RegDto1);
-        setVisaByCookie(RegDto1);
-        iniTwoWlt(RegDto1.uname);
-             return new ApiGatewayResponse(rt);
+    public OpenIdTokenResponseDto handleRequest(OpenIdTokenRequestDto RegDto1, Context context) throws Throwable {
+        sam4regLgn.validate(new UsernamePasswordCredential(RegDto1.getClient_id(), RegDto1.getClient_secret()));
+        var rt = setLoginTicketx(RegDto1);
+        // setVisaByCookie(RegDto1);
+        iniTwoWlt(RegDto1.getClient_id());
+        return (OpenIdTokenResponseDto) rt;
     }
+
+
+    public Object setLoginTicketx(@NotNull OpenIdTokenRequestDto usr_dto) {
+
+        OpenIdTokenResponseDto rsps = new OpenIdTokenResponseDto();
+        String idToken = JwtUtil.newToken(usr_dto.getClient_id());
+        rsps.setId_token(idToken);
+        rsps.setAccess_token(idToken);
+        return (rsps);
+    }
+
+    ;
+
     /**
      * @return
      * @throws Exception
@@ -76,11 +93,7 @@ public class LoginHdlr implements RequestHandler<RegDto, ApiGatewayResponse>,  I
 ////======ret token jwt
 //        return retObj;
 //    }
-
-
-    private final api.usr.lgnDlgt lgnDlgt = new lgnDlgt(this);
-
-    public LoginHdlr(String uname, String pwd) {
+    public OauthTokenHdl(String uname, String pwd) {
     }
 
     public static ThreadLocal<Usr> usrdto = new ThreadLocal<>();
@@ -181,7 +194,6 @@ public class LoginHdlr implements RequestHandler<RegDto, ApiGatewayResponse>,  I
         setcookie("visa", val, httpExchangeCurThrd.get());
         return uname;
     }
-
 
 
 // if (!u.pwd.equals(encryPwdInCrdt)) {
