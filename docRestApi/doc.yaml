@@ -25,16 +25,16 @@ tags:
     description: 用户方面接口
   - name: secury
     description: 账户安全方面接口
-  - name: Wallet
+  - name: Account
     description: 钱包方面接口
 
   - name: coin
     description: 加密货币外汇贵金属方面接口
-  - name: ylWallet
+  - name: AccountYl
     description: 盈利钱包方面接口
   - name: agt
     description: 代理方面接口
-  - name: pay
+  - name: trans_recharge
     description: 充值支付方面接口
   - name: common
     description: 基础接口

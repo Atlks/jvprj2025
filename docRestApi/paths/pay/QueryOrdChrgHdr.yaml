@@ -1,6 +1,6 @@
 get:
   tags:
-    - pay
+    - trans_recharge
   summary: "管理后台 钱包方面接口 查询充值订单"
   description: " 。。。。"
   operationId: "QueryOrdChrgHdr"

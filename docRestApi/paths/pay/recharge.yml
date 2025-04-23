@@ -5,7 +5,7 @@ get:
     - cookieAuth: [ ]
     - JwtAuth88: [ ]  # 指定此接口支持 JWT 认证
   tags:
-    - pay
+    - trans_recharge
   summary:   充值
   description: This endpoint retrieves recharge header information based on the provided amount and username.
   parameters:

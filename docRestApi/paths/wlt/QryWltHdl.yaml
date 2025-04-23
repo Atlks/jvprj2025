@@ -1,6 +1,6 @@
 get:
   tags:
-    - Wallet
+    - Account
   summary: "admin 查询资金"
 
   parameters:

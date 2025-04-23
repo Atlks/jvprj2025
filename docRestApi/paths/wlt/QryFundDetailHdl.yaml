@@ -1,9 +1,9 @@
 get:
   tags:
-    - Wallet
+    - Account
   summary: "查询资金明细"
   description: ""
-  operationId: "查询资金明细"
+
   parameters:
     - name: day
       in: query

@@ -1,6 +1,6 @@
 get:
   tags:
-    - Wallet
+    - Account
   summary: "我的钱包"
 
 
