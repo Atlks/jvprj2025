@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -12,6 +13,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
+import static util.algo.GetUti.getUuid;
 
 /**
  * OpenBanking OBIE 的Transactions实体  交易流水，也就是
@@ -22,7 +25,7 @@ import java.util.Date;
 @DynamicUpdate  // 仅更新被修改的字段
 @DynamicInsert //如果还希望 INSERT 时也只插入非 null 的字段，可以搭配
 @Table( )  //Transactions_Pay
-
+@NoArgsConstructor
 @Data
 public class Transactions {
 
@@ -34,19 +37,7 @@ public class Transactions {
     public String accountId;
 
 
-    /**
-     * OBIE 标准并不直接提供一个 transactionType 字段，但提供了：
-     *
-     * creditDebitIndicator（入账/出账）
-     *
-     * bankTransactionCode.code + subCode（标准化交易分类）
-     *
-     * transactionInformation（自然语言提示）
-     *
-     * 若你在构建平台，可以自定义一个 transactionType 字段来标注 "DEPOSIT"、"WITHDRAWAL"、"FEE"、"TRANSFER" 等类型。
-     */
-    // 交易类型：借记、贷记等
-    private String transactionType;
+
 
 
     /**
@@ -91,7 +82,19 @@ public class Transactions {
     private String channelOrderNo;     // 第三方返回单号
 
 
-
+    /**
+     * OBIE 标准并不直接提供一个 transactionType 字段，但提供了：
+     *
+     * creditDebitIndicator（入账/出账）
+     *
+     * bankTransactionCode.code + subCode（标准化交易分类）
+     *
+     * transactionInformation（自然语言提示）
+     *
+     * 若你在构建平台，可以自定义一个 transactionType 字段来标注 "DEPOSIT"、"WITHDRAWAL"、"FEE"、"TRANSFER" 等类型。
+     */
+    // 交易类型：借记、贷记等
+    private String transactionType;
 
     @NotBlank
     public String uname="";
@@ -105,6 +108,12 @@ public class Transactions {
     this.transactionId = txId;
     this.creditDebitIndicator = creditDebitIndicator;
     this.amount = amount;
+    }
+
+    public Transactions( CreditDebitIndicator creditDebitIndicator, @NotNull(message = "提现金额不能为空") @Min(value = 1, message = "提现金额必须大于0") BigDecimal amount) {
+        this.transactionId =getUuid();
+        this.creditDebitIndicator = creditDebitIndicator;
+        this.amount = amount;
     }
 
 

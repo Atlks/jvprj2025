@@ -25,6 +25,42 @@ import static util.algo.IndexOfUti.indexOfFirst;
 
 public class GetUti {
 
+
+
+    /**
+     * 获取指定对象中名称为 methodName 的无参方法（支持 private、protected、public）
+     *
+     * @param obj        要查找方法的对象
+     * @param methodName 方法名称
+     * @return           反射得到的方法对象，找不到返回 null
+     */
+    public static Method getMethod(Object obj, String methodName) {
+        if (obj == null || methodName == null || methodName.isEmpty()) return null;
+        Class<?> clazz = obj.getClass();
+
+        //   while (clazz != null) {
+        //      try {
+        Method[] ms=obj.getClass().getMethods();
+        for(  Method method :ms)
+        {
+            if(method.getName().equals(methodName))
+            {
+                method.setAccessible(true); // 支持 private/protected 方法
+                return method;
+            }
+
+        }
+
+//            } catch (NoSuchMethodException e) {
+//                // 向上查找父类
+//                clazz = clazz.getSuperclass();
+//            }
+//        }
+
+        return null; // 未找到
+    }
+
+
     public static String  getUuid() {
         return java.util.UUID.randomUUID().toString();
     }

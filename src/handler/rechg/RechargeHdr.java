@@ -39,9 +39,9 @@ import static util.misc.util2026.*;
 @Path("/pay/recharge")
 @DeclareRoles({"ADMIN", "USER"})
 @RolesAllowed({"", "USER"})
-@CookieParam(name = "uname",value = "$curuser")
+@CookieParam(name = "uname", value = "$curuser")
 @Component
-public class RechargeHdr implements Icall<Transactions,Object> {
+public class RechargeHdr implements Icall<Transactions, Object> {
 
 
     /**
@@ -64,21 +64,22 @@ public class RechargeHdr implements Icall<Transactions,Object> {
         System.out.println("handle2.sessfac=" + sessionFactory);
         System.out.println("regchg hrl.hadler3()");
         //blk login ed
-
-         ts.creditDebitIndicator= CreditDebitIndicator.CREDIT;
-        ts.timestamp = System.currentTimeMillis();
         ts.id = "ordChrg" + getFilenameFrmLocalTimeString();
-        ts.transactionId =ts.id;
-        ts.uname=getCurrentUser();
-        ts.accountId =ts.uname;
+        ts.transactionId = ts.id;
+        ts.creditDebitIndicator = CreditDebitIndicator.CREDIT;
+        //amt alreay have in dto
+        ts.accountId = ts.uname;
 
-       return new ApiGatewayResponse( persistByHibernate(ts, sessionFactory.getCurrentSession()));
-         //   wrtResp(exchange, encodeJson(r));
+        ts.timestamp = System.currentTimeMillis();
+
+        ts.uname = getCurrentUser();
+
+
+        return new ApiGatewayResponse(persistByHibernate(ts, sessionFactory.getCurrentSession()));
+        //   wrtResp(exchange, encodeJson(r));
 
 
     }
-
-
 
 
 //    @Override
@@ -118,11 +119,8 @@ public class RechargeHdr implements Icall<Transactions,Object> {
      */
 
 
-
     //    public AddOrdChargeHdr() {
 //    }
-
-
 
 
 //    @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问

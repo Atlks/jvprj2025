@@ -39,6 +39,7 @@ import static cfg.Containr.sam4chkLgnStat;
 import static cfg.AppConfig.sessionFactory;
 import static util.algo.AnnotationUtils.getCookieParamsV2;
 import static util.algo.AnnotationUtils.getParams;
+import static util.algo.GetUti.getMethod;
 import static util.algo.GetUti.getUUid;
 import static util.algo.ToXX.toDtoFrmQrystr;
 import static util.auth.AuthUtil.request_getHeaders_get;
@@ -85,27 +86,34 @@ public class ApiGateway implements HttpHandler {
     /**
      * ivk  here,,,aop log,maybe need decra mode,,not pxy mod
      *
-     * @param args
+     * @param dto
      * @return
      * @throws Exception
      */
-    public Object invoke_callNlogWarp(Object args) throws Throwable {
+    public Object invoke_callNlogWarp(Object dto) throws Throwable {
 
         //funName jst 4 lg
         String mthFullname = target.getClass().getName() + ".call/hdlrRq";
 
 
         //---------blk chk auth
-        Object result = ivk4log(mthFullname, args, () -> {
+        Object result = ivk4log(mthFullname, dto, () -> {
             injectAll4spr(target);
             if (isImpltInterface(target, RequestHandler.class))
-                return ((RequestHandler) target).handleRequest(args, null);
-            else
-                return ((Icall) target).main(args);
+                return ((RequestHandler) target).handleRequest(dto, null);
+            else if (isImpltInterface(target, Icall.class)) {
+                return ((Icall) target).main(dto);
+            } else {
+                Method m = getMethod(target, "handleRequest");
+                var retobj = m.invoke(target, dto);
+
+                var apigtwy = new ApiGatewayResponse(retobj);
+                return apigtwy;
+            }
 
             //todo deflt
-           // Method m=getMethod(target,"RequestHandler");
-          // return m.invoke(target,args);
+            // Method m=getMethod(target,"RequestHandler");
+            // return m.invoke(target,dto);
 
         });
 
@@ -183,10 +191,10 @@ public class ApiGateway implements HttpHandler {
             return;
 
         } catch (java.lang.reflect.InvocationTargetException e) {
-           // transactionThreadLocal.get().rollback();
+            // transactionThreadLocal.get().rollback();
             rollbackTransaction();
             responseTxt = processInvkExpt(exchange, e);
-          //  Transaction tx = sessionFactory.beginTransaction();
+            //  Transaction tx = sessionFactory.beginTransaction();
 
         } catch (Throwable e) {
             transactionThreadLocal.get().rollback();
@@ -200,7 +208,7 @@ public class ApiGateway implements HttpHandler {
             printLn("---------------------end print ex ()");
             responseTxt = processNmlExptn(exchange, e);
             // throw new RuntimeException(e);
-         //   transactionThreadLocal.get().rollback();
+            //   transactionThreadLocal.get().rollback();
         } finally {
             sessionFactory.getCurrentSession().close();// 关闭 session，但不会提交事务
             ThreadLocalSessionContext.unbind(sessionFactory);
@@ -366,7 +374,7 @@ public class ApiGateway implements HttpHandler {
     }
 
     private void validDto(Object dto) {
-        System.out.println("fun validdto(cls="+dto.getClass()+")");
+        System.out.println("fun validdto(cls=" + dto.getClass() + ")");
         var clazz = dto.getClass();
         // 遍历类的所有字段
         for (Field field : clazz.getDeclaredFields()) {

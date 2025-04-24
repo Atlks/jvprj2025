@@ -68,18 +68,18 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         }
 
 
-        Transactions ord=new Transactions();
-        copyProps(dtoWithdrawDto,ord);
-        ord=new Transactions("wthdr_"+getUuid(), CreditDebitIndicator.DEBIT,dtoWithdrawDto.amount);
-        ord.transactionId="wthdr_"+getUuid();
-        ord.creditDebitIndicator= CreditDebitIndicator.DEBIT;
+        Transactions tx1=new Transactions();
+        copyProps(dtoWithdrawDto,tx1);
+        tx1=new Transactions("wthdr_"+getUuid(), CreditDebitIndicator.DEBIT,dtoWithdrawDto.amount);
+        tx1.transactionId="wthdr_"+getUuid();
+        tx1.creditDebitIndicator= CreditDebitIndicator.DEBIT;
 
-        ord.amount =dtoWithdrawDto.amount;
+        tx1.amount =dtoWithdrawDto.amount;
 
-        ord.id =ord.transactionId;
-        ord.uname= uname1;
-        ord.accountId=acc_id;
-        Object ord1 = persistByHibernate(ord, sessionFactory.getCurrentSession());
+        tx1.id =tx1.transactionId;
+        tx1.uname= uname1;
+        tx1.accountId=acc_id;
+        Object ord1 = persistByHibernate(tx1, sessionFactory.getCurrentSession());
 
 
 
