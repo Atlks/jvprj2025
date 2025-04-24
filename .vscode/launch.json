@@ -1,0 +1,377 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Java Mainx",
+            "request": "launch",
+            "mainClass": "MainApi"
+        },
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "ApplicationSpr",
+            "request": "launch",
+            "mainClass": "ApplicationSpr",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "AutoRestartApp",
+            "request": "launch",
+            "mainClass": "AutoRestartApp",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "MainApi",
+            "request": "launch",
+            "mainClass": "MainApi",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "QryLogCmsHdr",
+            "request": "launch",
+            "mainClass": "api.cms.QryLogCmsHdr",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "ForexRateFetcher",
+            "request": "launch",
+            "mainClass": "api.coin.ForexRateFetcher",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "GoldSilverPriceFetcher",
+            "request": "launch",
+            "mainClass": "api.coin.GoldSilverPriceFetcher",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "UserCentrHdr",
+            "request": "launch",
+            "mainClass": "api.usr.UserCentrHdr",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "ttt",
+            "request": "launch",
+            "mainClass": "api.ylwlt.ttt",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "AopLogJavassist",
+            "request": "launch",
+            "mainClass": "cfg.AopLogJavassist",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "CglibProxy",
+            "request": "launch",
+            "mainClass": "cfg.CglibProxy",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "JdkDynamicProxy4log",
+            "request": "launch",
+            "mainClass": "cfg.JdkDynamicProxy4log",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "JdkDynamicProxySmpl",
+            "request": "launch",
+            "mainClass": "cfg.JdkDynamicProxySmpl",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "MRZ",
+            "request": "launch",
+            "mainClass": "entityx.usr.MRZ",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "apigtwy",
+            "request": "launch",
+            "mainClass": "handler.apigtwy",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "SetCfg",
+            "request": "launch",
+            "mainClass": "handler.cfg.SetCfg",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "QueryOrdChrgHdr",
+            "request": "launch",
+            "mainClass": "handler.rechg.QueryOrdChrgHdr",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "ReviewChrgPassHdr",
+            "request": "launch",
+            "mainClass": "handler.rechg.ReviewChrgPassHdr",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "ReviewChrgRefuseHdr",
+            "request": "launch",
+            "mainClass": "handler.rechg.ReviewChrgRefuseHdr",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "QryFundDetailHdl",
+            "request": "launch",
+            "mainClass": "handler.wlt.QryFundDetailHdl",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "ReviewWthdrReqOrdPassHdr",
+            "request": "launch",
+            "mainClass": "handler.wthdr.ReviewWthdrReqOrdPassHdr",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "ReviewWthdrReqOrdRejectHdr",
+            "request": "launch",
+            "mainClass": "handler.wthdr.ReviewWthdrReqOrdRejectHdr",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "WthdReqHdl",
+            "request": "launch",
+            "mainClass": "handler.wthdr.WthdReqHdl",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "ListBetWinLogHdl",
+            "request": "launch",
+            "mainClass": "handler.ylwlt.ListBetWinLogHdl",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "ListInsFdPoolLogHdl",
+            "request": "launch",
+            "mainClass": "handler.ylwlt.ListInsFdPoolLogHdl",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "ListInvtCmsLogHdl",
+            "request": "launch",
+            "mainClass": "handler.ylwlt.ListInvtCmsLogHdl",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "DataSummaryToppart",
+            "request": "launch",
+            "mainClass": "model.rpt.DataSummaryToppart",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "CmsBiz",
+            "request": "launch",
+            "mainClass": "service.CmsBiz",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "EncryUtil",
+            "request": "launch",
+            "mainClass": "util.algo.EncryUtil",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "FunFaasTst",
+            "request": "launch",
+            "mainClass": "util.algo.FunFaasTst",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "JarClassScanner",
+            "request": "launch",
+            "mainClass": "util.algo.JarClassScanner",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "JwtUtil",
+            "request": "launch",
+            "mainClass": "util.auth.JwtUtil",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "MyEventPublisher",
+            "request": "launch",
+            "mainClass": "util.evtdrv.MyEventPublisher",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "ColorLogger",
+            "request": "launch",
+            "mainClass": "util.log.ColorLogger",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "PathUtil",
+            "request": "launch",
+            "mainClass": "util.misc.PathUtil",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "ReflectionUtils",
+            "request": "launch",
+            "mainClass": "util.misc.ReflectionUtils",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "Util2025",
+            "request": "launch",
+            "mainClass": "util.misc.Util2025",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "util2026",
+            "request": "launch",
+            "mainClass": "util.misc.util2026",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "JsonUtil",
+            "request": "launch",
+            "mainClass": "util.oo.JsonUtil",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "UserBiz",
+            "request": "launch",
+            "mainClass": "util.oo.UserBiz",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "QryLstByHbntTest",
+            "request": "launch",
+            "mainClass": "util.tx.QryLstByHbntTest",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "QueryParamParser",
+            "request": "launch",
+            "mainClass": "util.tx.QueryParamParser",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "dbutil",
+            "request": "launch",
+            "mainClass": "util.tx.dbutil",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "StellarHelper",
+            "request": "launch",
+            "mainClass": "util.web3.StellarHelper",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "xlmQry",
+            "request": "launch",
+            "mainClass": "util.web3.xlmQry",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "Evttest",
+            "request": "launch",
+            "mainClass": "ztest.Evttest",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "htmlTppltl",
+            "request": "launch",
+            "mainClass": "ztest.htmlTppltl",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "ResponseEntityT",
+            "request": "launch",
+            "mainClass": "ztools.ResponseEntityT",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "RptEvtT",
+            "request": "launch",
+            "mainClass": "ztools.RptEvtT",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "condtEvtTst",
+            "request": "launch",
+            "mainClass": "ztools.condtEvtTst",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "grpbyMth",
+            "request": "launch",
+            "mainClass": "ztools.grpbyMth",
+            "projectName": "jvprj2025api"
+        },
+        {
+            "type": "java",
+            "name": "ifelseUtil",
+            "request": "launch",
+            "mainClass": "ztools.ifelseUtil",
+            "projectName": "jvprj2025api"
+        }
+    ]
+}

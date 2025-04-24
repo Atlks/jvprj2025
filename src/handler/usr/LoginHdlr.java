@@ -15,6 +15,8 @@ import jakarta.ws.rs.core.Context;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import model.oauthOpenid.LoginResponse;
+
 import org.springframework.web.bind.annotation.RestController;
 import service.VisaService;
 import util.algo.EncryUtil;
@@ -61,7 +63,9 @@ public class LoginHdlr implements RequestHandler<RegDto, ApiGatewayResponse>,  I
         var rt= setLoginTicket(RegDto1);
         setVisaByCookie(RegDto1);
         iniTwoWlt(RegDto1.uname);
-             return new ApiGatewayResponse(rt);
+
+        LoginResponse lr=new LoginResponse().setAccessToken(rt.toString()).setExpiresIn(999999);
+             return new ApiGatewayResponse(lr);
     }
     /**
      * @return
