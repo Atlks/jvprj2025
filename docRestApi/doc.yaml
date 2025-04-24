@@ -390,20 +390,16 @@ paths:
           description: 成功响应
 
   /api/password/reset/request:
-    post:
+    get:
       summary: Get security question by username
       description: Returns the user's predefined security question (no answer)
-      requestBody:
+      parameters:
+      - name: username
+        in: query
         required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                username:
-                  type: string
-              required:
-                - username
+        description: Username of the user requesting the security question
+        schema:
+          type: string
       responses:
         '200':
           description: Security question returned
@@ -425,7 +421,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
               type: object
               properties:
@@ -441,7 +437,7 @@ paths:
                 - username
                 - answer
                 - newPassword
-                - confirmPassword
+                - confirmPassword    
       responses:
         '200':
           description: Password successfully reset
@@ -465,7 +461,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
               type: object
               properties:
