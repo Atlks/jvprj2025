@@ -35,7 +35,7 @@ public class RdsFromYLlllWltService implements Icall<TransDto, Object> {
         Accounts objU=  curLockAcc.get();
         if(objU==null)
             objU=TransDto88.lockAccObj;
-        BigDecimal nowAmt2 = objU.balanceYinliwlt;
+        BigDecimal nowAmt2 = objU.availableBalance;
 
         if (TransDto88.getChangeAmount().compareTo(nowAmt2) > 0) {
             BalanceNotEnghou ex = new BalanceNotEnghou("余额不足");
@@ -49,7 +49,7 @@ public class RdsFromYLlllWltService implements Icall<TransDto, Object> {
         System.out.println("\n\n\n===========减去盈利钱包余额");
         //  放在一起一快存储，解决了十五问题事务。。。
         BigDecimal amt = TransDto88.getChangeAmount();
-        BigDecimal nowAmt=objU.getBalanceYinliwlt();
+        BigDecimal nowAmt=objU.getAvailableBalance();
         BigDecimal newBls = nowAmt.subtract(toBigDecimal(amt));
         objU.availableBalance = newBls;
         Session currentSession = sessionFactory.getCurrentSession();

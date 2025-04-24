@@ -91,6 +91,8 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /wlt/Trans:
+    $ref: './paths/acc/trans.yml'
   /admin/wthdr/ReviewWthdrReqOrdRejectHdr:
     $ref: './paths/wthdr/ReviewWthdrReqOrdRejectHdr.yaml'
   /api/token:
@@ -355,57 +357,8 @@ paths:
 
 
 
-  /wlt/trans:
-    get:
-      summary: 转账操作
-      description: 进行转账操作
-      tags:
-        - Wallet
-      parameters:
-        - name: uname
-          in: cookie
-          required: true
-          description: 用户名（存储于 Cookie 中）
-          schema:
-            type: string
-        - name: changeAmount
-          in: query
-          required: true
-          description: 转账金额
-          schema:
-            type: number
-      responses:
-        "200":
-          description: 转账成功
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: success
-                  message:
-                    type: string
-                    example: 转账成功
-        "400":
-          description: 参数错误
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: error
-                  message:
-                    type: string
-                    example: 无效的转账金额
-      examples:
-        example-1:
-          summary: 示例调用
-          description: 以 `changeAmount=8` 进行调用
-          value: "/Trans?changeAmount=8"
+
+
 
 
 

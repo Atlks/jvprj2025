@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import model.OpenBankingOBIE.Accounts;
+import util.annos.CurrentUsername;
 
 
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
@@ -46,8 +47,9 @@ public class TransDto {
 
         public String id;
         @NotBlank
+        @CurrentUsername
         public String uname="";
-    @NotBlank
+   // @NotBlank   not val for trans acc 2 ylwlt
     public String adjustType="";  //incrs   decrs  + -
         public long changeTime;
         public String changeType;

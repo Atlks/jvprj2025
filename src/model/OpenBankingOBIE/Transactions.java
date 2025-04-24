@@ -54,6 +54,7 @@ public class Transactions {
     // 交易金额
     public BigDecimal amount;
 
+
     // 商户名称（适用于消费交易）
     private String merchantName;
 
@@ -76,6 +77,7 @@ public class Transactions {
 
 
    // ---------本地自定义扩展字段
+   public String refUniqId;
     public String id;
 
     private String paymentChannel="usdt";     // usdt/微信/支付宝等

@@ -7,16 +7,22 @@ import entityx.wlt.TransDto;
 import lombok.Data;
 
 import model.OpenBankingOBIE.Accounts;
+import model.OpenBankingOBIE.CreditDebitIndicator;
+import model.OpenBankingOBIE.TransactionStatus;
+import model.OpenBankingOBIE.Transactions;
 import org.hibernate.Session;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import util.algo.Icall;
+import util.tx.findByIdExptn_CantFindData;
 
 import java.math.BigDecimal;
 
 import static handler.wlt.TransHdr.curLockAcc;
 import static cfg.AppConfig.sessionFactory;
 import static service.CmsBiz.toBigDcmTwoDot;
+import static util.acc.AccUti.getYlAccId;
+import static util.algo.GetUti.getUuid;
 import static util.tx.HbntUtil.*;
 import static util.misc.util2026.getFilenameFrmLocalTimeString;
 @Data
@@ -24,7 +30,7 @@ import static util.misc.util2026.getFilenameFrmLocalTimeString;
 @Lazy
 public class AddMoney2YLWltService implements Icall<TransDto,Object> {
 
-    public Object main(TransDto TransDto1 ) throws Exception {
+    public Object main(TransDto TransDto1 ) throws Exception, findByIdExptn_CantFindData {
 
 
 
@@ -38,19 +44,36 @@ public class AddMoney2YLWltService implements Icall<TransDto,Object> {
 
         Session session=sessionFactory.getCurrentSession();
 
-       Accounts objU=  curLockAcc.get();
-       if(objU==null)
-           objU=TransDto1.lockAccObj;
+       Accounts acc=  curLockAcc.get();//nml wlt
+       if(acc==null)
+           acc=TransDto1.lockAccObj;
 
-        BigDecimal nowAmt =objU.getBalanceYinliwlt();
-              //  getFieldAsBigDecimal(objU, "balance", 0);
+       var ylwltAccId=getYlAccId(uname);
+       acc=findByHerbinate(Accounts.class,ylwltAccId,session);
+
+        BigDecimal nowAmt =acc.getAvailableBalance();
+              //  getFieldAsBigDecimal(acc, "balance", 0);
 
         BigDecimal newBls = nowAmt.add(amt);
-        objU.balanceYinliwlt = toBigDcmTwoDot(newBls);
-        mergeByHbnt(objU, session);
+        acc.availableBalance = toBigDcmTwoDot(newBls);
+        mergeByHbnt(acc, session);
 
-        LogBls4YLwlt logBlsYinliWlt = new LogBls4YLwlt(TransDto1,nowAmt, newBls,"增加");
-        addBlsLog4ylwlt(logBlsYinliWlt, session);
+
+
+        //-----------add tx lg
+        Transactions txx=new Transactions();
+        txx.transactionId="add2ylwlt"+getUuid();
+        txx.creditDebitIndicator= CreditDebitIndicator.CREDIT;
+        txx.accountId=  acc.accountId;
+        txx.uname= TransDto1.uname;
+        txx.amount= TransDto1.getChangeAmount();
+        txx.refUniqId= String.valueOf(System.currentTimeMillis());
+        txx.transactionStatus= TransactionStatus.BOOKED;
+        persistByHibernate(txx, sessionFactory.getCurrentSession());
+
+
+      //  LogBls4YLwlt logBlsYinliWlt = new LogBls4YLwlt(TransDto1,nowAmt, newBls,"增加");
+     //   addBlsLog4ylwlt(logBlsYinliWlt, session);
         //  System.out.println("✅endfun updtBlsByAddChrg()");
         return null;
     }

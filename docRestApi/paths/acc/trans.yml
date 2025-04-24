@@ -1,0 +1,21 @@
+get:
+  summary: 转账操作
+  description: 进行转账操作
+  tags:
+    - Account
+  parameters:
+
+    - name: changeAmount
+      in: query
+      required: true
+      description: 转账金额
+      schema:
+        type: number
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'
+  examples:
+    example-1:
+      summary: 示例调用
+      description: 以 `changeAmount=8` 进行调用
+      value: "/Trans?changeAmount=8"
