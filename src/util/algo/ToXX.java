@@ -3,6 +3,8 @@ package util.algo;
 import com.alibaba.fastjson2.JSON;
 import com.sun.net.httpserver.HttpExchange;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -21,18 +23,39 @@ public class ToXX {
         
         
         
-            // 获取查询参数 ?name=John&age=30
-        String query = exchange.getRequestURI().getQuery();
-        if (query == null || query.isEmpty()) {
-            return usrClass.getConstructor().newInstance();
-        }
+       
 
         // 解析查询参数到 Map
-        Map<String, String> paramMap = parseQueryParams(exchange.getRequestURI());
+        Map<String, String> paramMap = toParamMapFromGetMthd(exchange);
+     
+        if(exchange.getRequestMethod().equalsIgnoreCase("POST"))
+           paramMap=toMapFrmPostBody(exchange);
         System.out.println("parmmap="+encodeJson(paramMap));
 
         return toDto( paramMap,usrClass);
     }
+
+
+    /**
+ * 从 HTTP GET 请求中提取查询参数并构造成实例或参数 Map
+ *
+ * @param exchange HttpExchange 对象
+ * @param usrClass 目标用户类（带无参构造）
+ * @param <T> 泛型类型
+ * @return 如果无参数，则返回新实例；否则返回参数 Map
+ */
+public static  Map<String, String> toParamMapFromGetMthd(HttpExchange exchange)
+throws Exception {
+        String query = exchange.getRequestURI().getQuery();
+
+        // 如果没有参数，返回默认实例
+        if (query == null || query.isEmpty()) {
+        return  new HashMap();
+        }
+
+        // 有参数，解析为 Map<String, String>
+        return parseQueryParams(exchange.getRequestURI());
+}
 
     public static <T> T toObjFrmQrystr(HttpExchange exchange, Class<?> class1) {
         Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
@@ -41,7 +64,22 @@ public class ToXX {
         return  queryParamsDto;
     }
 
-    public static <T> T toObjFrmPostBody(HttpExchange exchange, Class<?> class1) {
+
+    public static Map<String, String>  toMapFrmPostBody(HttpExchange exchange) throws Exception {
+       
+       
+        // 读取请求体
+        InputStream inputStream = exchange.getRequestBody();
+        String body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+
+        Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
+        //    Class<?> class1 = OrdBet.class;
+       // T queryParamsDto= (T) toObjFrmMap(queryParams, class1);
+        return  queryParams;
+    }
+
+
+    public static <T> T toObjFrmPostBody(HttpExchange exchange, Class<?> class1) throws Exception {
        
        
         // 读取请求体

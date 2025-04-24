@@ -89,6 +89,12 @@ public class WebSvr {
         if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
         
             // body:::     a=1&b=2
+
+ // 读取请求体
+ InputStream inputStream = exchange.getRequestBody();
+ String body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+
+
             // 解析 form 数据
             Map<String, String> params = parseFormData(body);
             String response = "Received: a=" + params.get("a") + ", b=" + params.get("b");
