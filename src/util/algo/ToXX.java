@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,11 +14,14 @@ import static util.tx.QueryParamParser.toDto;
 
 public class ToXX {
 
-    public static @jakarta.validation.constraints.NotNull <T> T toDtoFrmQrystr(HttpExchange exchange, Class<T> usrClass) throws Exception {
+    public static @jakarta.validation.constraints.NotNull <T> T toDtoFrmHttp(HttpExchange exchange, Class<T> usrClass) throws Exception {
 
         if(exchange.getClass()==usrClass)
             return (T) exchange;
-        // 获取查询参数 ?name=John&age=30
+        
+        
+        
+            // 获取查询参数 ?name=John&age=30
         String query = exchange.getRequestURI().getQuery();
         if (query == null || query.isEmpty()) {
             return usrClass.getConstructor().newInstance();
@@ -36,6 +40,21 @@ public class ToXX {
         T queryParamsDto= (T) toObjFrmMap(queryParams, class1);
         return  queryParamsDto;
     }
+
+    public static <T> T toObjFrmPostBody(HttpExchange exchange, Class<?> class1) {
+       
+       
+        // 读取请求体
+        InputStream inputStream = exchange.getRequestBody();
+        String body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+
+        Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
+        //    Class<?> class1 = OrdBet.class;
+        T queryParamsDto= (T) toObjFrmMap(queryParams, class1);
+        return  queryParamsDto;
+    }
+
+
 
     // 解析查询参数的方法
     public static Map<String, String> getRequestParameters(URI uri) {

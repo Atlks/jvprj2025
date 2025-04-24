@@ -389,7 +389,107 @@ paths:
         '200':
           description: 成功响应
 
+  /api/password/reset/request:
+    post:
+      summary: Get security question by username
+      description: Returns the user's predefined security question (no answer)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+              required:
+                - username
+      responses:
+        '200':
+          description: Security question returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  question:
+                    type: string
+                    example: What is your first pet's name?
+        '404':
+          description: User not found
 
+  /api/password/reset/confirm:
+    post:
+      summary: Reset password using security question
+      description: Submit answer to security question and new password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                answer:
+                  type: string
+                newPassword:
+                  type: string
+                confirmPassword:
+                  type: string
+              required:
+                - username
+                - answer
+                - newPassword
+                - confirmPassword
+      responses:
+        '200':
+          description: Password successfully reset
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Password has been reset successfully
+        '400':
+          description: Invalid answer or password mismatch
+        '404':
+          description: User not found
+
+  /api/security-question/setup:
+    post:
+      summary: Setup security question
+      description: Allow users to set up a security question and answer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                question:
+                  type: string
+                answer:
+                  type: string
+              required:
+                - userId
+                - question
+                - answer
+      responses:
+        '200':
+          description: Question setup successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Security question saved
   /ylwlt/adjust:
     get:
       tags:

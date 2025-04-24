@@ -41,7 +41,7 @@ import static util.algo.AnnotationUtils.getCookieParamsV2;
 import static util.algo.AnnotationUtils.getParams;
 import static util.algo.GetUti.getMethod;
 import static util.algo.GetUti.getUUid;
-import static util.algo.ToXX.toDtoFrmQrystr;
+import static util.algo.ToXX.toDtoFrmHttp;
 import static util.auth.AuthUtil.request_getHeaders_get;
 import static util.excptn.ExptUtil.*;
 import static util.oo.WebsrvUtil.processNmlExptn;
@@ -333,7 +333,7 @@ public class ApiGateway implements HttpHandler {
             addDeftParam(dto);
         }
 
-        var dtoQrystr = toDtoFrmQrystr(exchange, Dtocls);
+        var dtoQrystr = toDtoFrmHttp(exchange, Dtocls);
         copyProps(dtoQrystr, dto);
 
         //--------set cook to dto

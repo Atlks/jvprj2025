@@ -21,7 +21,7 @@ import java.util.List;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 
 import static util.algo.AnnotationUtils.getCookieParams;
-import static util.algo.ToXX.toDtoFrmQrystr;
+import static util.algo.ToXX.toDtoFrmHttp;
 import static util.log.ColorLogger.*;
 import static util.excptn.ExptUtil.curUrl;
 
@@ -127,7 +127,7 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
             System.out.println("▶\uFE0Ffun " + mth + "(）");
             rzt = handle3();
         } else {
-            T dto = (T) toDtoFrmQrystr(exchange, cls);
+            T dto = (T) toDtoFrmHttp(exchange, cls);
             copyCookieToDto(getCookieParams(this.getClass(), handlex), dto);
             prmurl = colorStr(encodeJson((dto)), GREEN);
             System.out.println("▶\uFE0Ffun " + mth + "(dto=" + prmurl);

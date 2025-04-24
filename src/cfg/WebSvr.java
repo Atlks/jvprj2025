@@ -87,10 +87,7 @@ public class WebSvr {
 
     private static void handlePost2(HttpExchange exchange) throws Exception {
         if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
-            // 读取请求体
-            InputStream inputStream = exchange.getRequestBody();
-            String body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-
+        
             // body:::     a=1&b=2
             // 解析 form 数据
             Map<String, String> params = parseFormData(body);
