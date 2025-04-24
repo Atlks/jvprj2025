@@ -24,7 +24,10 @@ import static util.algo.GetUti.getUuid;
 @Entity
 @DynamicUpdate  // 仅更新被修改的字段
 @DynamicInsert //如果还希望 INSERT 时也只插入非 null 的字段，可以搭配
-@Table( )  //Transactions_Pay
+@Table(indexes = {
+        @Index(name = "idx_transaction_code", columnList = "transactionCode"),
+        @Index(name = "idx_uname", columnList = "uname")
+} )  //Transactions_Pay
 @NoArgsConstructor
 @Data
 public class Transactions {
@@ -75,6 +78,9 @@ public class Transactions {
     public TransactionStatus transactionStatus=TransactionStatus.PENDING;
 
 
+  //obie没有表示，交易类型，iso 20022  有表示
+  @Enumerated(EnumType.STRING)
+    public TransactionCodes transactionCode=TransactionCodes.OTH;
 
    // ---------本地自定义扩展字段
    public String refUniqId;
@@ -112,10 +118,18 @@ public class Transactions {
     this.amount = amount;
     }
 
-    public Transactions( CreditDebitIndicator creditDebitIndicator, @NotNull(message = "提现金额不能为空") @Min(value = 1, message = "提现金额必须大于0") BigDecimal amount) {
-        this.transactionId =getUuid();
+//    public Transactions( CreditDebitIndicator creditDebitIndicator, @NotNull(message = "提现金额不能为空") @Min(value = 1, message = "提现金额必须大于0") BigDecimal amount) {
+//        this.transactionId =getUuid();
+//        this.creditDebitIndicator = creditDebitIndicator;
+//        this.amount = amount;
+//    }
+
+    public Transactions(String accountId,String uname, CreditDebitIndicator creditDebitIndicator, @NotNull(message = "提现金额不能为空") @Min(value = 1, message = "提现金额必须大于0") BigDecimal amount) {
+        this.transactionId ="div_"+getUuid();
         this.creditDebitIndicator = creditDebitIndicator;
         this.amount = amount;
+        this.uname=uname;
+        this.accountId=accountId;
     }
 
 

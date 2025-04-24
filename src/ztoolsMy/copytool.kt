@@ -14,7 +14,7 @@ fun main() {
 }
 
 
-fun getUuid(): Any? {
+fun getUuid(): String {
     return java.util.UUID.randomUUID().toString()
 }
 

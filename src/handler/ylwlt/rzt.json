@@ -1,0 +1,8 @@
+ApiGatewayResponse(statusCode=200, errcode=, headers={}, body=PageResult(records=
+
+[{transactionstatus=PENDING, amount=1.00, channelorderno=null, crttimestmplocalfmt=20250424172902, img=, review_timestamp=0, creditdebitindicator=CREDIT, uname=666, transactioncode=DIV, paymentchannel=usdt, debtoraccount=null, bookingdate=null, transactionid=div_54684655-9476-4e47-8e72-d554ef5bca60, transactiontype=null, accountid=666_YlWlt, parentproxy=, updttmstmplocalfmt=20250424172902, merchantname=null, viplev=, id=null, valuedate=null, refuniqid=null, creditoraccount=null, timestamp=1745490541864},
+
+{transactionstatus=PENDING, amount=1.00, channelorderno=null, crttimestmplocalfmt=20250424171650, img=, review_timestamp=0, creditdebitindicator=CREDIT, uname=666, transactioncode=DIV, paymentchannel=usdt, debtoraccount=null, bookingdate=null, transactionid=666_YlWlt, transactiontype=null, accountid=null, parentproxy=, updttmstmplocalfmt=20250424171650, merchantname=null, viplev=, id=null, valuedate=null, refuniqid=null, creditoraccount=null, timestamp=1745489809590}, {transactionstatus=PENDING, amount=1.00, channelorderno=null, crttimestmplocalfmt=20250424171340, img=, review_timestamp=0, creditdebitindicator=CREDIT, uname=666, transactioncode=DIV, paymentchannel=usdt, debtoraccount=null, bookingdate=null, transactionid=div_d7a99f2a-dc9d-4450-a6fd-b7c3b7511f45, transactiontype=null, accountid=null, parentproxy=, updttmstmplocalfmt=20250424171340, merchantname=null, viplev=, id=null, valuedate=null, refuniqid=null, creditoraccount=null, timestamp=1745489619825}],
+
+
+sum=3.00, sumInfo={}, totalRecords=3, totalPages=1, page=1, pagesize=100), message_err=, message=, timestamp=1745490930418, path=null, requestId=reqid__null, debugInfo={})

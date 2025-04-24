@@ -6,6 +6,8 @@ package handler.ylwlt;
  */
 
 import handler.ylwlt.dto.QueryDto;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import util.annos.NoDftParam;
 import cfg.AppConfig;
 import entityx.ylwlt.BetWinLog;
@@ -45,7 +47,7 @@ public class ListBetWinLogHdl implements RequestHandler<QueryDto, ApiGatewayResp
      */
     @Override
     public ApiGatewayResponse handleRequest(QueryDto reqdto, Context context) throws Throwable {
-        var sqlNoOrd = "select * from betwin_log where 1=1 ";//for count    where  uname =:uname
+        var sqlNoOrd = "select * from Transactions where transactionCode='DIV' ";//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         if(reqdto.uname!="")
         {  sqlNoOrd=sqlNoOrd+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
@@ -57,8 +59,23 @@ public class ListBetWinLogHdl implements RequestHandler<QueryDto, ApiGatewayResp
         //   System.out.println( encodeJson(sqlprmMap));
 
         var list1 = getPageResultByHbntRtLstmap(sql, sqlprmMap,reqdto, sessionFactory.getCurrentSession());
-
+        list1.sum=getSum4div(reqdto);
         return new ApiGatewayResponse(list1);
+    }
+
+    private BigDecimal getSum4div(QueryDto reqdto) {
+        var sql = "select sum(amount) from Transactions where transactionCode='DIV' ";//for count    where  uname =:uname
+        if(reqdto.uname!="")
+        {  sql=sql+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
+            //   sqlprmMap.put("uname",)
+        }
+
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery(sql);
+      var  result = (BigDecimal) query.getSingleResult();
+      return  result;
+
+
     }
 
 
