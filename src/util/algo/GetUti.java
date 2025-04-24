@@ -25,7 +25,9 @@ import static util.algo.IndexOfUti.indexOfFirst;
 
 public class GetUti {
 
-
+    public static String getUuid2() {
+        return java.util.UUID.randomUUID().toString();
+    }
 
     /**
      * 获取指定对象中名称为 methodName 的无参方法（支持 private、protected、public）

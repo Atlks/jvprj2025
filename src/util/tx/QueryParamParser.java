@@ -34,7 +34,10 @@ public class QueryParamParser {
         // System.out.println(encodeJsonObj(toDto(paramMap, TransactionsPay.class)));
       //  System.out.println(encodeJsonObj(toDto(paramMap, Usr.class)));
     }
-    public static <T> @NotNull T toDto(Map<String, String> paramMap, Class<T> usrClass){
+
+
+    @NotNull
+    public static <T> T toDto(Map<String, String> paramMap, Class<T> usrClass){
         try {
             // 反射创建 DTO 实例
             T dto = usrClass.getDeclaredConstructor().newInstance();

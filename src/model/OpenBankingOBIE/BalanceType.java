@@ -1,3 +1,5 @@
+package model.OpenBankingOBIE;
+
 public enum BalanceType {
 
     /**
