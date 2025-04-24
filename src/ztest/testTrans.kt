@@ -19,14 +19,7 @@ import java.util.function.Consumer
 fun main() {
 
 
-    //--------ini saveurlFrm Cfg
-    AppConfig().sessionFactory() //ini sessFctr
-
-    //ini contnr 4cfg,, svrs
-    MyCfg.iniContnr()
-    EvtUtil.iniEvtHdrCtnr()
-
-    Containr.evtlist4reg.add(Consumer { u: Usr? -> AgtHdl().regEvtHdl(u) })
+    befTest()
 
 
     var jwt="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NjYiLCJpYXQiOjE3NDU0MTUwNzgsImlzcyI6ImF0aSIsInVwbiI6IjY2NiIsInByZWZlcnJlZF91c2VybmFtZSI6IjY2NiIsImVtYWlsIjoiYXRAdWtlLmNvbSIsInVuYW1lIjoiNjY2IiwiYXVkIjoiVVNFUiIsInJvbGUiOiJVU0VSIiwiZXhwIjoxNzU0MDU1MDc4LCJqdGkiOiJlMWIzODM4ZGQyOTk0ZWRlYjNmNTNjMzg1NzY2YzVkMSJ9.MEbTr22IB4IZdShdnUPFZoxr92StP8rBHR8Vd-hL65vU5DuXgcl-2-weO6cB5C6tB6KW14-F8zdRiqF1l9wtKQ"
@@ -40,8 +33,7 @@ fun main() {
 
     //   setcookie("uname", "007", exchange);//for test
 
-    //============aop trans begn
-    TransactMng.openSessionBgnTransact()
+
 
 
     val dto:TransDto = TransDto()  // 可以省略类型，Kotlin 自动推断类型
@@ -50,6 +42,20 @@ fun main() {
     TransHdr().main(dto);
 
     TransactMng.commitTsact()
+}
+
+private fun befTest() {
+    //--------ini saveurlFrm Cfg
+    AppConfig().sessionFactory() //ini sessFctr
+
+    //ini contnr 4cfg,, svrs
+    MyCfg.iniContnr()
+    EvtUtil.iniEvtHdrCtnr()
+
+    Containr.evtlist4reg.add(Consumer { u: Usr? -> AgtHdl().regEvtHdl(u) })
+    //============aop trans begn
+    TransactMng.openSessionBgnTransact()
+
 }
 
 

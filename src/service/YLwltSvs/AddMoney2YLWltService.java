@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 import static handler.wlt.TransHdr.curLockAcc;
 import static cfg.AppConfig.sessionFactory;
 import static service.CmsBiz.toBigDcmTwoDot;
-import static util.acc.AccUti.getYlAccId;
+import static util.acc.AccUti.getAccId4ylwlt;
 import static util.algo.GetUti.getUuid;
 import static util.tx.HbntUtil.*;
 import static util.misc.util2026.getFilenameFrmLocalTimeString;
@@ -48,7 +48,7 @@ public class AddMoney2YLWltService implements Icall<TransDto,Object> {
        if(acc==null)
            acc=TransDto1.lockAccObj;
 
-       var ylwltAccId=getYlAccId(uname);
+       var ylwltAccId= getAccId4ylwlt(uname);
        acc=findByHerbinate(Accounts.class,ylwltAccId,session);
 
         BigDecimal nowAmt =acc.getAvailableBalance();

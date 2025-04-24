@@ -1,0 +1,10 @@
+get:
+  tags:
+    - Wallet
+  summary: " 钱包方面接口 余额概览列表"
+
+
+
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'

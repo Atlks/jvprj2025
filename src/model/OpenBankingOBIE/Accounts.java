@@ -33,8 +33,8 @@ public class Accounts {
     public BigDecimal penddingBalance;
 
     //  private List<Transaction> transactions; // 交易记录
-
-    public String accountStatus="";       // 账户状态（例如：有效、冻结、关闭）
+    @Enumerated(EnumType.STRING)
+    public AccountStatus accountStatus=AccountStatus.Enabled;       // 账户状态（例如：有效、冻结、关闭）
     public Date accountCreationTime;   // 账户创建时间
     public Date lastUpdatedTime;       // 上次更新时间
 
@@ -46,5 +46,6 @@ public class Accounts {
 
     public Accounts(String accountId) {
     this.accountId=accountId;
+   // this.id=accountId;
     }
 }

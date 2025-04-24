@@ -3,13 +3,17 @@ import handler.agt.AgtHdl;
 import cfg.AppConfig;
 //import org.noear.solon.annotation.SolonMain;
 import lombok.SneakyThrows;
+import model.OpenBankingOBIE.AccountType;
+import model.OpenBankingOBIE.Accounts;
 import org.springframework.context.annotation.ComponentScan;
 import service.wlt.AddMoneyToWltService;
 import util.log.ConsoleInterceptor;
+import util.tx.findByIdExptn_CantFindData;
 //import service.AddRchgOrdToWltService;
 
 import java.io.FileNotFoundException;
 
+import static cfg.AppConfig.sessionFactory;
 import static cfg.Containr.evtlist4reg;
 import static cfg.MyCfg.iniContnr;
 import static cfg.MyCfg.iniContnr4cfgfile;
@@ -17,6 +21,8 @@ import static cfg.WebSvr.*;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 
 import static util.proxy.SprUtil.getBeanFrmSpr;
+import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.persistByHibernate;
 import static util.tx.dbutil.setField;
 //import static cfg.IocPicoCfg.iniIocContainr;
 //  System.out.flush();  // 刷新输出缓冲区
@@ -80,8 +86,28 @@ public class MainApi {
 
         //================== 创建 HTTP 服务器，监听端口8080
         iniRestPathMap();
+
+        iniAccInsFdPool_IfNotExist("");
+
         startWebSrv();
         System.out.println(11);
+    }
+
+
+    public static void iniAccInsFdPool_IfNotExist(String uname1) {
+
+        try{
+            var wlt=findByHerbinate(Accounts.class,  AccountType.ins_fd_pool.name(), sessionFactory.getCurrentSession());
+        } catch (findByIdExptn_CantFindData e) {
+
+            Accounts yLwlt=new Accounts(AccountType.ins_fd_pool.name());
+            //  yLwlt.userId= uname1;
+         //   yLwlt.accountId=
+            yLwlt.uname= String.valueOf(AccountType.ins_fd_pool);
+            yLwlt.accountType=AccountType.ins_fd_pool;
+            persistByHibernate(yLwlt,sessionFactory.getCurrentSession());
+
+        }
     }
 
 
