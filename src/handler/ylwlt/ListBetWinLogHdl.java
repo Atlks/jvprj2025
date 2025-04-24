@@ -67,7 +67,7 @@ public class ListBetWinLogHdl implements RequestHandler<QueryDto, ApiGatewayResp
         var sql = "select sum(amount) from Transactions where transactionCode='DIV' ";//for count    where  uname =:uname
         if(reqdto.uname!="")
         {  sql=sql+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
-            //   sqlprmMap.put("uname",)
+            // sqlprmMap.put("uname",)
         }
 
         Session session = sessionFactory.getCurrentSession();
