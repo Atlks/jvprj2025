@@ -1,0 +1,87 @@
+
+
+
+"workbench.colorTheme": "One Dark Pro",
+"editor.semanticHighlighting.enabled": false,
+
+"editor.tokenColorCustomizations": {
+"textMateRules": [
+{
+  "scope": "entity.name.function.java", // 方法名
+  "settings": {
+    "foreground": "#00BFCF" // 青色
+  }
+}
+,
+{
+  //throw new  if ret
+  "scope": [
+   
+    "keyword.operator",  "keyword.control"
+    
+  ],
+  "settings": {
+    "foreground": "#278891"  // 青色
+  }
+}
+,
+{
+  //public class 
+  "scope": [
+    "keyword",
+   
+  
+"keyword.other.class.java",
+    "keyword.other"
+    
+  ],
+  "settings": {
+    "foreground": "#808080"  // 灰色
+  }
+}
+
+,
+{
+  "scope": "variable.parameter.java", // 参数
+  "settings": {
+    "foreground": "#D19A66" // 橙色
+  }
+},
+{
+  "scope": "variable.other.java", // 普通变量
+  "settings": {
+    "foreground": "#D19A66" // 橙色
+  }
+},
+{
+  "scope": "string.quoted.double.java", // 字符串
+  "settings": {
+    "foreground": "#D19A66" // 橙色
+  }
+},
+{
+
+  // 类名（包括声明、普通导入、静态导入）
+  "scope": [
+    "meta.import.java",
+    "meta.import.static.java",
+     "entity.name.type.class.java",
+     "meta.class.java",
+     "meta.class.body.java",
+     "entity.name.type.enum.java"
+  ],
+  
+  "settings": {
+    "foreground": "#cccccc" // 灰色
+  }
+},
+{
+  "scope": "entity.name.type.interface.java", // 接口名
+  "settings": {
+    "foreground": "#CCCCCC" // 灰色
+  }
+}
+
+
+]
+}

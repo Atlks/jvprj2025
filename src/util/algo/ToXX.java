@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import static util.algo.EncodeUtil.decodeUrl;
 import static util.misc.Util2025.encodeJson;
 import static util.tx.QueryParamParser.toDto;
 
@@ -72,7 +73,7 @@ throws Exception {
         InputStream inputStream = exchange.getRequestBody();
         String body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
 
-        Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
+        Map<String, String> queryParams = parseQryStr(body);
         //    Class<?> class1 = OrdBet.class;
        // T queryParamsDto= (T) toObjFrmMap(queryParams, class1);
         return  queryParams;
@@ -86,7 +87,7 @@ throws Exception {
         InputStream inputStream = exchange.getRequestBody();
         String body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
 
-        Map<String, String> queryParams = parseQueryParams(exchange.getRequestURI());
+        Map<String, String> queryParams = parseQryStr(body);
         //    Class<?> class1 = OrdBet.class;
         T queryParamsDto= (T) toObjFrmMap(queryParams, class1);
         return  queryParamsDto;
@@ -104,6 +105,32 @@ throws Exception {
                 String[] keyValue = pair.split("=", 2); // 按 = 分割键值对
                 if (keyValue.length == 2) {
                     queryParams.put(keyValue[0], keyValue[1]);
+                } else {
+                    queryParams.put(keyValue[0], ""); // 没有值时设为空字符串
+                }
+            }
+        }
+        return queryParams;
+    }
+
+
+     // 解析查询参数的方法
+     /**
+      * 
+      * @param qrystr   a=1&b=2
+      * @return
+      */
+     public static Map<String, String> parseQryStr(String qrystr) {
+        Map<String, String> queryParams = new HashMap<>();
+        String query = qrystr; // 获取查询字符串（例如 ?id=123）
+        if (query != null) {
+            String[] pairs = query.split("&"); // 按 & 分割多个参数
+            for (String pair : pairs) {
+                String[] keyValue = pair.split("=", 2); // 按 = 分割键值对
+                if (keyValue.length == 2) {
+                    String value = keyValue[1];
+                    value=decodeUrl(value);
+                    queryParams.put(keyValue[0], value);
                 } else {
                     queryParams.put(keyValue[0], ""); // 没有值时设为空字符串
                 }

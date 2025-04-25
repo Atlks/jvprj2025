@@ -326,15 +326,11 @@ public class ApiGateway implements HttpHandler {
         // 反射创建 DTO 实例
         Object dto = Dtocls.getDeclaredConstructor().newInstance();
 
-        Class c = this.target.getClass();
-        if (c.isAnnotationPresent(NoDftParam.class)) {
+       
 
-        } else {
-            addDeftParam(dto);
-        }
-
-        var dtoQrystr = toDtoFrmHttp(exchange, Dtocls);
-        copyProps(dtoQrystr, dto);
+        var dtoFrmHttp = toDtoFrmHttp(exchange, Dtocls);
+       // copyProps(dtoFrmHttp, dto);
+       dto=dtoFrmHttp;
 
         //--------set cook to dto
         List<CookieParam> cookieParams = getCookieParamsV2(target.getClass(), "call");

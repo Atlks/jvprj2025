@@ -1,13 +1,13 @@
-package model.resetpwd;
+package handler.secury;
 
 //package com.example.dto;
 
-public class SecurityQuestionResponseDTO {
+public class RstRqResponseDTO {
     private String question;
 
-    public SecurityQuestionResponseDTO() {}
+    public RstRqResponseDTO() {}
 
-    public SecurityQuestionResponseDTO(String question) {
+    public RstRqResponseDTO(String question) {
         this.question = question;
     }
 

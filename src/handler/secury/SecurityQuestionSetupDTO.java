@@ -1,18 +1,18 @@
-package model.resetpwd;
+package handler.secury;
 
 //package com.example.dto;
 
 public class SecurityQuestionSetupDTO {
-    private Long userId;
+    private String userId;
     private String question;
     private String answer;
 
     // getters and setters
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

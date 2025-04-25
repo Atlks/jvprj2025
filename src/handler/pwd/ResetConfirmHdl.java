@@ -1,0 +1,42 @@
+package handler.pwd;
+
+import api.usr.AnswerErr;
+import entityx.usr.SecurityQuestion;
+import handler.secury.RstRqResponseDTO;
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.Path;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import model.resetpwd.PasswordResetConfirmDTO;
+import model.resetpwd.PasswordResetRequestDTO;
+import util.ex.PwdNotEqExceptn;
+import util.serverless.ApiGatewayResponse;
+import static cfg.AppConfig.sessionFactory;
+import static util.tx.HbntUtil.findByHerbinate;
+import static cfg.Containr.sam4regLgn;
+@Path("/password/reset/confirm")
+
+@PermitAll
+ 
+//   http://localhost:8889/FgtPwdIptUname?uname=007
+@NoArgsConstructor
+@Data
+public class ResetConfirmHdl {
+
+     public Object handleRequest(PasswordResetConfirmDTO reqdto) throws Throwable {
+      
+   
+           SecurityQuestion sq=    findByHerbinate(SecurityQuestion.class,reqdto.getUsername(),sessionFactory.getCurrentSession());
+        if(! (reqdto.getAnswer()) .equals(sq.answer))
+            throw  new  AnswerErr("");
+
+            if(!reqdto.getNewPassword().equals(reqdto.getConfirmPassword()))
+            throw  new  PwdNotEqExceptn("");
+
+//        Usr u=findByHerbinate(Usr.class,reqdto.uname,sessionFactory.getCurrentSession());
+        sam4regLgn.storeKey(reqdto.getAnswer(), reqdto.getNewPassword());
+        
+        return "ok" ;
+        }
+
+}
