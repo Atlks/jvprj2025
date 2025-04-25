@@ -24,9 +24,23 @@ import util.serverless.RequestHandler;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.UUID;
-
+import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
+import static util.misc.Util2025.encodeJson;
+import static util.tx.Pagging.getPageResultByHbntRtLstmap;
+import static util.tx.TransactMng.commitTsact;
+import static util.tx.TransactMng.openSessionBgnTransact;
 import static cfg.Containr.sessionFactory;
 import static cfg.MyCfg.iniContnr;
+import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
+import static util.misc.Util2025.encodeJson;
+import static util.tx.Pagging.getPageResultByHbntRtLstmap;
+import static util.tx.TransactMng.commitTsact;
+import static util.tx.TransactMng.openSessionBgnTransact;
+import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
+import static util.misc.Util2025.encodeJson;
+import static util.tx.Pagging.getPageResultByHbntRtLstmap;
+import static util.tx.TransactMng.commitTsact;
+import static util.tx.TransactMng.openSessionBgnTransact;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
 import static util.misc.Util2025.encodeJson;
 import static util.tx.Pagging.getPageResultByHbntRtLstmap;
@@ -49,7 +63,7 @@ public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayRes
      */
     @Override
     public ApiGatewayResponse handleRequest(QueryDto reqdto, Context context) throws Throwable {
-        var sqlNoOrd = "select * from Transactions where transactionCode= "+encodeSqlPrmAsStr( TransactionCodes.COM);//for count    where  uname =:uname
+        var sqlNoOrd = "select * from Transactions where transactionCode= "+encodeSqlPrmAsStr( TransactionCodes.COM.name());//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         if(reqdto.uname!="")
         {  sqlNoOrd=sqlNoOrd+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
@@ -66,8 +80,7 @@ public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayRes
     }
 
     private BigDecimal getSum4cms(QueryDto reqdto) {
-        var sql = "select sum(amount) from Transactions
-         where  transactionCode= "  +encodeSqlPrmAsStr( TransactionCodes.COM);//for count    where  uname =:uname
+        var sql = "select sum(amount) from Transactions     where  transactionCode= "  +encodeSqlPrmAsStr( TransactionCodes.COM.name());//for count    where  uname =:uname
         if(reqdto.uname!="")
         {  sql=sql+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
             // sqlprmMap.put("uname",)

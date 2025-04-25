@@ -49,7 +49,7 @@ public class ListTrsxBnsHdl implements RequestHandler<QueryDto, ApiGatewayRespon
      */
     @Override
     public ApiGatewayResponse handleRequest(QueryDto reqdto, Context context) throws Throwable {
-        var sqlNoOrd = "select * from Transactions where transactionCode= " +encodeSqlPrmAsStr( TransactionCodes.BON);//for count    where  uname =:uname
+        var sqlNoOrd = "select * from Transactions where transactionCode= " +encodeSqlPrmAsStr( TransactionCodes.BON.name());//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         if(reqdto.uname!="")
         {  sqlNoOrd=sqlNoOrd+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
@@ -66,7 +66,7 @@ public class ListTrsxBnsHdl implements RequestHandler<QueryDto, ApiGatewayRespon
     }
 
     private BigDecimal getSum4bns(QueryDto reqdto) {
-        var sql = "select sum(amount) from Transactions where transactionCode="+encodeSqlPrmAsStr( TransactionCodes.BON);//for count    where  uname =:uname
+        var sql = "select sum(amount) from Transactions where transactionCode="+encodeSqlPrmAsStr( TransactionCodes.BON.name());//for count    where  uname =:uname
         if(reqdto.uname!="")
         {  sql=sql+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
             // sqlprmMap.put("uname",)

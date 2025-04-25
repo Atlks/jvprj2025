@@ -44,8 +44,7 @@ public class ListInsFdPoolLogHdl implements RequestHandler<QueryDto, ApiGatewayR
      */
     @Override
     public ApiGatewayResponse handleRequest(QueryDto reqdto, Context context) throws Throwable {
-        var sqlNoOrd = "select * from Transactions
-        where  accountid= "  +encodeSqlPrmAsStr('invd_fd_pool');
+        var sqlNoOrd = "select * from Transactions    where  accountid= "  +encodeSqlPrmAsStr(AccountIdSpec.invd_fd_pool.name());
         //for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         if(reqdto.uname!="")
