@@ -1,0 +1,11 @@
+
+get:
+  tags:
+    - AccountYl
+  summary: " 盈利钱包方面接口 奖励收入列表"
+ 
+
+
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'

@@ -91,6 +91,8 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /wlt/ListTrsxBnsHdl:
+     $ref: './paths/wlt/ListTrsxBnsHdl.yml'
   /wlt/findBalanceOverviewHdl:
     $ref: './paths/wlt/findBalanceOverviewHdl.yml'
   /wlt/Trans:

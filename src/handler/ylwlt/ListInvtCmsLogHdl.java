@@ -12,6 +12,11 @@ import entityx.ylwlt.BetWinLog;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
+import model.OpenBankingOBIE.TransactionCodes;
+
+import org.bitcoinj.core.Transaction;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
@@ -44,7 +49,7 @@ public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayRes
      */
     @Override
     public ApiGatewayResponse handleRequest(QueryDto reqdto, Context context) throws Throwable {
-        var sqlNoOrd = "select * from invt_cms_log where 1=1 ";//for count    where  uname =:uname
+        var sqlNoOrd = "select * from Transactions where transactionCode= "+encodeSqlPrmAsStr( TransactionCodes.COM);//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         if(reqdto.uname!="")
         {  sqlNoOrd=sqlNoOrd+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
@@ -56,9 +61,27 @@ public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayRes
         //   System.out.println( encodeJson(sqlprmMap));
 
         var list1 = getPageResultByHbntRtLstmap(sql, sqlprmMap,reqdto, sessionFactory.getCurrentSession());
-
+        list1.sum=getSum4cms(reqdto);
         return new ApiGatewayResponse(list1);
     }
+
+    private BigDecimal getSum4cms(QueryDto reqdto) {
+        var sql = "select sum(amount) from Transactions
+         where  transactionCode= "  +encodeSqlPrmAsStr( TransactionCodes.COM);//for count    where  uname =:uname
+        if(reqdto.uname!="")
+        {  sql=sql+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
+            // sqlprmMap.put("uname",)
+        }
+
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery(sql);
+      var  result = (BigDecimal) query.getSingleResult();
+      return  result;
+
+
+    }
+
+
 
 
     public static void main(String[] args) throws Throwable {
