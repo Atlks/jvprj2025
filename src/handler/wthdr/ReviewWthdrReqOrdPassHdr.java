@@ -4,8 +4,7 @@ import cfg.AppConfig;
 import cfg.MyCfg;
 import entityx.wlt.LogBls4YLwlt;
 import entityx.wlt.TransDto;
-import handler.dto.ReviewChrgPassRqdto;
-import handler.rechg.dto.AreadyProcessedEx;
+import handler.rechg.dto.ReviewChrgRqdto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.Path;
@@ -23,6 +22,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
+import util.excptn.AreadyProcessedEx;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 import util.tx.findByIdExptn_CantFindData;
@@ -51,7 +51,7 @@ import static util.tx.HbntUtil.*;
 @RestController
 @Path("/admin/wlt/ReviewWthdrReqOrdPassHdr")
 @PermitAll
-public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRqdto, ApiGatewayResponse> {
+public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto, ApiGatewayResponse> {
 
     static boolean ovrtTEst = false;
 
@@ -62,7 +62,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgPassRq
      * @throws Throwable
      */
     @Override
-    public ApiGatewayResponse handleRequest(ReviewChrgPassRqdto reqdto, Context context) throws Throwable {
+    public ApiGatewayResponse handleRequest(ReviewChrgRqdto reqdto, Context context) throws Throwable {
 
 
         //------------blk chge regch stat=accp

@@ -21,7 +21,7 @@ import util.tx.findByIdExptn_CantFindData;
 import static cfg.Containr.evtlist4reg;
 import static cfg.Containr.sam4regLgn;
 import static cfg.AppConfig.sessionFactory;
-import static handler.rechg.ReviewChrgPassHdr.iniWltIfNotExst;
+import static handler.rechg.ReviewChrgPassHdr.addWltIfNotExst;
 import static handler.wthdr.WthdReqHdl.iniYlwltIfNotExist;
 import static util.algo.CopyUti.copyProp;
 import static util.evtdrv.EvtHlpr.publishEvent;
@@ -73,7 +73,7 @@ public class RegHandler implements RequestHandler<RegDto, ApiGatewayResponse>,IR
     public static void iniTwoWlt( String uname) throws findByIdExptn_CantFindData {
 
         try{
-            iniWltIfNotExst(uname,sessionFactory.getCurrentSession());
+            addWltIfNotExst(uname,sessionFactory.getCurrentSession());
 
         }catch (Throwable e){
 

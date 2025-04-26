@@ -1,7 +1,7 @@
 package handler.rechg;
 
 import cfg.MyCfg;
-import handler.dto.ReviewChrgPassRqdto;
+import handler.rechg.dto.ReviewChrgRqdto;
 import model.OpenBankingOBIE.Transactions;
 
 import jakarta.annotation.security.PermitAll;
@@ -31,7 +31,7 @@ import static util.tx.HbntUtil.mergeByHbnt;
 @RestController
 @Path("/admin/wlt/ReviewChrgRefuseHdr")
 @PermitAll
-public class ReviewChrgRefuseHdr implements RequestHandler<ReviewChrgPassRqdto, ApiGatewayResponse> {
+public class ReviewChrgRefuseHdr implements RequestHandler<ReviewChrgRqdto, ApiGatewayResponse> {
     /**
      * @param reqdto
      * @param context
@@ -39,7 +39,7 @@ public class ReviewChrgRefuseHdr implements RequestHandler<ReviewChrgPassRqdto, 
      * @throws Throwable
      */
     @Override
-    public ApiGatewayResponse handleRequest(ReviewChrgPassRqdto reqdto, Context context) throws Throwable {
+    public ApiGatewayResponse handleRequest(ReviewChrgRqdto reqdto, Context context) throws Throwable {
 
 
         var o=findByHerbinate(Transactions.class,reqdto.transactionId,sessionFactory.getCurrentSession());

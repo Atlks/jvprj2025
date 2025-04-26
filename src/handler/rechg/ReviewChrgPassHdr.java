@@ -2,8 +2,7 @@ package handler.rechg;
 
 import cfg.MyCfg;
 import entityx.wlt.TransDto;
-import handler.dto.ReviewChrgPassRqdto;
-import handler.rechg.dto.AreadyProcessedEx;
+import handler.rechg.dto.ReviewChrgRqdto;
 import model.OpenBankingOBIE.Accounts;
 import model.OpenBankingOBIE.TransactionStatus;
 import model.OpenBankingOBIE.Transactions;
@@ -19,6 +18,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
+import util.excptn.AreadyProcessedEx;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 import util.tx.findByIdExptn_CantFindData;
@@ -36,7 +36,15 @@ import static util.tx.HbntUtil.*;
 
 
 /**
- * 审核通过充值
+ * 审核通过充值。。处理规范
+ * 基本的事务控制
+ * 使用 SELECT ... FOR UPDATE 方式锁住这笔订单记录
+ * 推荐前端传入 idempotencyKey  ,幂等控制   接口加全局幂等锁（可选）
+ * 把“设置状态为 BOOKED”放在加钱后面，或者加钱成功之后再设置状态。
+ * addMoneyToWltService1 也要幂等
+ * 枚举合法转移状态，确保  PENDING → BOOKED ✅
+ * 
+ * 
  * <p>
  * <p>
  * //   http://localhost:8889/ReviewChrgPassHdr?ord_id=
@@ -44,63 +52,67 @@ import static util.tx.HbntUtil.*;
 @RestController
 @Path("/admin/wlt/ReviewChrgPassHdr")
 @PermitAll
-public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgPassRqdto, ApiGatewayResponse> {
+public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgRqdto, ApiGatewayResponse> {
 
     static boolean ovrtTEst = false;
 
     /**
+     * 
      * @param reqdto
      * @param context
      * @return
      * @throws Throwable
      */
     @Override
-    public ApiGatewayResponse handleRequest(ReviewChrgPassRqdto reqdto, Context context) throws Throwable {
+    public ApiGatewayResponse handleRequest(ReviewChrgRqdto reqdto, Context context) throws Throwable {
 
 
         //------------blk chge regch stat=accp
         String mthBiz = colorStr("设置订单状态=完成", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         Session session = sessionFactory.getCurrentSession();
-        var objChrg = findByHerbinate(Transactions.class, reqdto.transactionId, session);
+          // 加悲观锁，锁定这一笔记录（确保幂等 + 并发安全）
+        var trx1 = findByHerbinateLockForUpdtV2(Transactions.class, reqdto.transactionId, session);
         // System.out.println("\r\n----blk updt chg ord set stat=ok");
-        //  is proceed??
-        if (objChrg.transactionStatus.equals(TransactionStatus.BOOKED)
-                || objChrg.transactionStatus.equals(TransactionStatus.REJECTED)) {
-            System.out.println("alread cpmlt ord,id=" + objChrg.id);
+        //  is proceed??幂等判断在操作最前面
+        if (trx1.transactionStatus.equals(TransactionStatus.BOOKED)
+                || trx1.transactionStatus.equals(TransactionStatus.REJECTED)) {
+            System.out.println("alread cpmlt ord,id=" + trx1.id);
             if (ovrtTEst) {
             } else {
-                throw new AreadyProcessedEx("");
+                throw new AreadyProcessedEx("该充值已审核");
             }
         }
-        //chk stat is not pndg,,, throw ex
-        if (objChrg.transactionStatus.equals(TransactionStatus.PENDING))
-            objChrg.setTransactionStatus( TransactionStatus.BOOKED);
-        mergeByHbnt(objChrg, session);
+       
 
 
 
 
         //----=============add blance n log  ..blk
+        // 注意，这一步必须是幂等或可重试
         String mthBiz2=colorStr("主钱包加钱",RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun "+mthBiz2);
-        String uname = objChrg.uname;
+        String uname = trx1.uname;
         TransDto transDto=new TransDto();
-        copyProps(objChrg,transDto);
-        transDto.amt=objChrg.amount;
-        transDto.refUniqId="reqid="+objChrg.id;
-        iniWltIfNotExst( objChrg.uname, session);
-        transDto.lockAccObj=findByHerbinate(Accounts.class, objChrg.uname, session);
-
-
+        copyProps(trx1,transDto);
+        transDto.amt=trx1.amount;
+        transDto.refUniqId="reqid="+trx1.id;
+        addWltIfNotExst( trx1.uname, session);
+        transDto.lockAccObj= findByHerbinateLockForUpdtV2(Accounts.class, trx1.uname, session);
         addMoneyToWltService1.main(transDto);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
 
-        return new ApiGatewayResponse(objChrg);
+
+        //==============stp2...chg tx stat
+         //chk stat is not pndg,,, throw ex
+         if (trx1.transactionStatus.equals(TransactionStatus.PENDING))
+         trx1.setTransactionStatus( TransactionStatus.BOOKED);
+     mergeByHbnt(trx1, session);
+        return new ApiGatewayResponse(trx1);
     }
 
-    public static void iniWltIfNotExst(String uname, Session session) throws findByIdExptn_CantFindData {
+    public static void addWltIfNotExst(String uname, Session session) throws findByIdExptn_CantFindData {
         try{
             var wlt=findByHerbinate(Accounts.class, uname, session);
         } catch (findByIdExptn_CantFindData e) {

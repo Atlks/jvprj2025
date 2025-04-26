@@ -2,7 +2,7 @@ package handler.wthdr;
 
 import cfg.AppConfig;
 import cfg.MyCfg;
-import handler.dto.ReviewChrgPassRqdto;
+import handler.rechg.dto.ReviewChrgRqdto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.Path;
@@ -40,7 +40,7 @@ import static util.tx.HbntUtil.*;
 @RestController
 @Path("/admin/wthdr/ReviewWthdrReqOrdRejectHdr")
 @PermitAll
-public class ReviewWthdrReqOrdRejectHdr implements RequestHandler<ReviewChrgPassRqdto, ApiGatewayResponse> {
+public class ReviewWthdrReqOrdRejectHdr implements RequestHandler<ReviewChrgRqdto, ApiGatewayResponse> {
     /**
      * @param reqdto
      * @param context
@@ -48,7 +48,7 @@ public class ReviewWthdrReqOrdRejectHdr implements RequestHandler<ReviewChrgPass
      * @throws Throwable
      */
     @Override
-    public ApiGatewayResponse handleRequest(ReviewChrgPassRqdto reqdto, Context context) throws Throwable {
+    public ApiGatewayResponse handleRequest(ReviewChrgRqdto reqdto, Context context) throws Throwable {
 
 
         Session session = sessionFactory.getCurrentSession();

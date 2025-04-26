@@ -11,7 +11,7 @@ import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
 import static cfg.Containr.sessionFactory;
-import static handler.rechg.ReviewChrgPassHdr.iniWltIfNotExst;
+import static handler.rechg.ReviewChrgPassHdr.addWltIfNotExst;
 import static util.tx.HbntUtil.findByHerbinate;
 
 
@@ -39,7 +39,7 @@ public class MeWlt implements RequestHandler<QueryDto, ApiGatewayResponse>  {
     @Override
     public ApiGatewayResponse handleRequest(QueryDto param, Context context) throws Throwable {
         Session session = sessionFactory.getCurrentSession();
-        iniWltIfNotExst( param.uname, session);
+        addWltIfNotExst( param.uname, session);
 
         Accounts objU = findByHerbinate(Accounts.class,param.uname, session);
         return new ApiGatewayResponse(objU);

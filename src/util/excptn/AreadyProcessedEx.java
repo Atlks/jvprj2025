@@ -1,4 +1,4 @@
-package handler.rechg.dto;
+package util.excptn;
 
 public class AreadyProcessedEx  extends Exception {
     public AreadyProcessedEx(String s) {
