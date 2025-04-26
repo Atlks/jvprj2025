@@ -4,6 +4,7 @@ import entityx.usr.Usr;
 import jakarta.validation.constraints.NotNull;
 import model.OpenBankingOBIE.Transactions;
 import model.agt.Agent;
+import model.agt.ChgSubStt;
 
 import org.hibernate.Session;
 import util.tx.findByIdExptn_CantFindData;
@@ -11,7 +12,10 @@ import util.tx.findByIdExptn_CantFindData;
 import java.math.BigDecimal;
 
 import static cfg.AppConfig.sessionFactory;
+import static org.apache.commons.lang3.math.NumberUtils.toInt;
+import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
 import static util.algo.NullUtil.isBlank;
+import static util.misc.Util2025.ret2025;
 import static util.tx.HbntUtil.*;
 
 public class AgtHdl {
@@ -28,8 +32,20 @@ public class AgtHdl {
 
             agt = addAgtIfNotExst(u.invtr, session);
 
-            agt.rechargeMemberCount = agt.rechargeMemberCount + 1;
-            mergeByHbnt(agt, session);
+
+            try{
+                ChgSubStt css=new ChgSubStt();
+                css.agtName=u.invtr;
+                css.uname=u.uname;
+                persistByHibernate(css, session);
+    
+            }catch(Throwable e)
+            {
+
+            }
+           
+             agt.rechargeMemberCount =toInt((String) getSingleResult("select count(*) from ChgSubStt where agtName= "+encodeSqlPrmAsStr(u.invtr),0,session )) ;
+
 
             //这个要算所有级别的
             agt.rechargeAmount=agt.rechargeAmount.add(tx.getAmount());
@@ -43,7 +59,7 @@ public class AgtHdl {
             BigDecimal thisCms=agt.commissionRate.multiply(tx.getAmount()) ;
             agt.commissionAmount=agt.commissionAmount.add(thisCms);
 
-
+            mergeByHbnt(agt, session);
 
 
 
@@ -55,7 +71,10 @@ public class AgtHdl {
 
     }
 
-    
+       
+        
+
+
     public void regEvtHdl(@NotNull Usr u) {
 
         if (isBlank(u.invtr))

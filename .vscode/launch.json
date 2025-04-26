@@ -27,7 +27,7 @@
         },
         {
             "type": "java",
-            "name": "Current File",
+            "name": "java Current File",
             "request": "launch",
             "mainClass": "${file}"
         },

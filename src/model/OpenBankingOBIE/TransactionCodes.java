@@ -4,76 +4,72 @@ package model.OpenBankingOBIE;
 
 //交易类型，iso 20022  有表示
 public enum TransactionCodes {
-
+    ADJT,//	Adjustment	调账
+    CRED,  // Credit Transfer - 充值、存款、转账入账
+    DEBT,  // Direct Debit - 支出、扣款
     /**
      * COM - Commission (佣金)
      */
-    COM("Commission"),
-
+    COM,
+    REFD,  // 退款
     /**
      * BON - Bonus / Reward (奖励、奖金)
      */
-    BON("Bonus / Reward"),
+    BON,
 
     /**
      * INT - Interest (利息)
      */
-    INT("Interest"),
+    INT,
 
     /**
      * DIV - Dividend (股息、分红  收益)
      */
-    DIV("Dividend"),
+    DIV,
 
     /**
      * SAL - Salary / Payroll (工资)
      */
-    SAL("Salary / Payroll"),
+    SAL,
 
     /**
      * FEE - Fees (费用)
      */
-    FEE("Fees"),
+    FEE,
 
     /**
      * CHG - Charges (服务费、杂费)
      */
-    CHG("Charges"),
+    CHG,
 
     /**
      * LON - Loan (贷款相关)
      */
-    LON("Loan"),
+    LON,
 
     /**
      * TAX - Tax (税收)
      */
-    TAX("Tax"),
+    TAX,
 
     /**
      * TRF - Transfer (转账)
      */
-    TRF("Transfer"),
+    TRF,
 
     /**
      * GOV - Government Payment (政府转账)
      */
-    GOV("Government Payment"),
+    GOV,
 
     /**
      * OTH - Other (其他)
      */
-    OTH("Other");
+    OTH;
 
-    private final String description;
 
-    TransactionCodes(String description) {
-        this.description = description;
-    }
 
-    public String getDescription() {
-        return description;
-    }
+    
 
     /**
      * 根据字符串 code 获取对应枚举，默认返回 OTH（其他）

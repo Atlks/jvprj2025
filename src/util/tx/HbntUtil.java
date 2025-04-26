@@ -2,6 +2,7 @@ package util.tx;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.LockModeType;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.Session;
@@ -10,6 +11,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
 
 import java.sql.SQLException;
@@ -236,6 +238,23 @@ public class HbntUtil {
         return rzt;
 
     }
+
+    
+    /**
+     * no uniRzt, dep...bcz no rzt ret null,,gsr no rzt ex,and gsr is jpa stdd,unirzt only hbnt api
+     *  使用hibernate执行sql，返回一个字段值
+     * @param
+     * @return
+     */
+    public static Object getSingleResult(String sql, Object dft, Session session) {
+  
+    // Session   session = sessionFactory.getCurrentSession(); // 使用 SessionFactory 打开一个新的 Session
+        Query<?> query = session.createNativeQuery(sql); // 创建原生 SQL 查询
+        Object result = query.getSingleResult(); // 执行查询并获取唯一结果
+
+       return result;
+    }
+
 
     public static <T> T findByHbntDep(Class<T> t, String id, LockModeType lockModeType, Session session) {
         String mthClr = colorStr("findByHbnt", YELLOW_bright);
