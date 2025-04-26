@@ -40,6 +40,7 @@ import static handler.secury.SecUti.*;
 /**
  * 审核通过充值。。处理规范
  * 
+ * 所有资金相关接口，加上幂等控制（避免重复扣款
  *  推荐前端传入 idempotencyKey  ,幂等控制   接口加全局幂等锁（可选）
  * 基本的事务控制
  * 使用 SELECT ... FOR UPDATE 方式锁住这笔订单记录
