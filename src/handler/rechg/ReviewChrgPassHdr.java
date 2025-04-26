@@ -33,7 +33,7 @@ import static util.log.ColorLogger.colorStr;
 import static util.misc.util2026.copyProps;
 import static util.misc.util2026.getField2025;
 import static util.tx.HbntUtil.*;
-
+import static handler.secury.SecUti.*;
 
 /**
  * 审核通过充值。。处理规范
@@ -65,6 +65,10 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgRqdto, ApiGat
      */
     @Override
     public ApiGatewayResponse handleRequest(ReviewChrgRqdto reqdto, Context context) throws Throwable {
+
+        if (isExistIdptKey(reqdto.IdempotencyKey)) 
+            throw new AreadyProcessedEx("");;
+
 
 
         //------------blk chge regch stat=accp
