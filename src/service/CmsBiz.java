@@ -6,6 +6,7 @@ import entityx.usr.Usr;
 import entityx.wlt.LogBls4YLwlt;
 import model.OpenBankingOBIE.Accounts;
 import model.OpenBankingOBIE.Transactions;
+import model.agt.Agent;
 
 import org.hibernate.Session;
 
@@ -17,6 +18,7 @@ import java.util.TreeMap;
 import static cfg.MyCfg.iniContnr4cfgfile;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 import static handler.wthdr.ReviewWthdrReqOrdPassHdr.getYlAccId;
+import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.mergeByHbnt;
 import static util.tx.HbntUtil.persistByHibernate;
 import static util.misc.Util2025.encodeJson;
@@ -53,7 +55,7 @@ public class CmsBiz {
      * @param objChrg
      * @param session
      */
-    public static void calcCms4FrmOrdChrg(Transactions objChrg, Session session) throws Exception {
+    public static void calcCms4FrmOrdChrg(Transactions objChrg, Session session) throws Throwable {
         System.out.println( "fun calcCms4FrmOrdChrg（");
         System.out.println(encodeJson(objChrg));
         System.out.println(")");
@@ -136,7 +138,7 @@ public class CmsBiz {
     }
 
 
-    private static void updtTotalCmsAddamt4invtr(String uname_invtr, BigDecimal cmsMny, Session session) throws Exception {
+    private static void updtTotalCmsAddamt4invtr(String uname_invtr, BigDecimal cmsMny, Session session) throws Throwable {
 
         System.out.println("\r\n");
         System.out.println("fun updtTotalCmsAddamt4invtr(uname="+uname_invtr+",cms money="+cmsMny+")");
@@ -150,10 +152,12 @@ public class CmsBiz {
             objU.id= uname_invtr;
             objU.uname= uname_invtr;
         }
-        BigDecimal nowAmt=  (objU.getTotalCommssionAmt());
+
+        Agent agt=findByHerbinate(Agent.class, objU.id, session);
+        BigDecimal nowAmt=  (agt.getTotalCommssionAmt());
         BigDecimal newBls=nowAmt.add(cmsMny);
-        objU.totalCommssionAmt =toBigDcmTwoDot (newBls);
-        mergeByHbnt(objU,session);
+        agt.totalCommssionAmt =toBigDcmTwoDot (newBls);
+        mergeByHbnt(agt,session);
 
 
 

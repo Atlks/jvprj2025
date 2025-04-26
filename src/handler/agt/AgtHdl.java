@@ -55,6 +55,7 @@ public class AgtHdl {
 
     }
 
+    
     public void regEvtHdl(@NotNull Usr u) {
 
         if (isBlank(u.invtr))

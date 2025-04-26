@@ -45,42 +45,35 @@ public class Usr {
 
     //@PrimaryKey
     @Id
-    public String id;   //uid
+    public String id;   //uid，， 和uname相同
 
     @NotBlank
 
     @Valid
-    public String uname = "";
+    public String uname = "";  //和uid相同
 
     /** 主体标识符（必须） */
-    public String sub;
+    public String sub;   //和uid相同  相当于uid别名
 
-   //有效余额
-//    public BigDecimal balance=new BigDecimal(0);// avdBls
-//    public BigDecimal balanceFreez=new BigDecimal(0);;// avdBls
-//    public BigDecimal balanceYinliwlt=new BigDecimal(0);;
-//    public BigDecimal balanceYinliwltFreez=new BigDecimal(0);;
-
-
+ 
 
     //已经充值总额
     public BigDecimal alreadyRechgSum=new BigDecimal(0);;
 
-    //待领取佣金
-    public BigDecimal waitApplyCms=new BigDecimal(0);;
+ 
 
     public Usr(String uname) {
         this.uname = uname;
         this.id=uname;
     }
 
-    public BigDecimal getTotalCommssionAmt() {
-        if (totalCommssionAmt == null)
-            return BigDecimal.valueOf(0);
-        return toBigDcmTwoDot(totalCommssionAmt);
-    }
+    // public BigDecimal getTotalCommssionAmt() {
+    //     if (totalCommssionAmt == null)
+    //         return BigDecimal.valueOf(0);
+    //     return toBigDcmTwoDot(totalCommssionAmt);
+    // }
 
-    public BigDecimal totalCommssionAmt;
+  
 
     public Usr(String uname, String pwd) {
         this.uname = uname;

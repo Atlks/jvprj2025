@@ -38,8 +38,20 @@ public class Agent {
     public int registeredMemberCount = 0;
     public int allMmbrCnt=0;  //总下级人数（直属 + 非直属）
 
+
+     
+//  @Column(name = "indirect_subordinate_count", columnDefinition = "INT DEFAULT 0 COMMENT '间接下属数'")
+//  public int indirectSubordinateCount = 0;
+
+
+  
+  //间接下属总数
     public int indirectSubCount=0;
 //indirectSubCount	非直属下级人数（间接推荐的人数
+
+
+
+
 public int level=1;  //非直属下级人数：所有二级、三级、四级...但不是自己直接推荐的，都叫非直属。
 
 
@@ -105,7 +117,10 @@ public int otherLevelCount;
      */
     public BigDecimal commissionAmount = BigDecimal.valueOf(0);
 
+   //待领取佣金
+   public BigDecimal waitApplyCms=new BigDecimal(0);;
 
+   public BigDecimal totalCommssionAmt;
 
     // Getters and Setters
 
