@@ -28,8 +28,10 @@ import java.util.Map;
 import java.util.SortedMap;
 
 import static cfg.Containr.sessionFactory;
+import static util.algo.EncodeUtil.encodeUrl;
 import static util.log.ColorLogger.RED_bright;
 import static util.log.ColorLogger.colorStr;
+import static util.misc.Util2025.writeFile2501;
 import static util.misc.util2026.copyProps;
 import static util.misc.util2026.getField2025;
 import static util.tx.HbntUtil.*;
@@ -37,9 +39,11 @@ import static handler.secury.SecUti.*;
 
 /**
  * 审核通过充值。。处理规范
+ * 
+ *  推荐前端传入 idempotencyKey  ,幂等控制   接口加全局幂等锁（可选）
  * 基本的事务控制
  * 使用 SELECT ... FOR UPDATE 方式锁住这笔订单记录
- * 推荐前端传入 idempotencyKey  ,幂等控制   接口加全局幂等锁（可选）
+
  * 把“设置状态为 BOOKED”放在加钱后面，或者加钱成功之后再设置状态。
  * addMoneyToWltService1 也要幂等
  * 枚举合法转移状态，确保  PENDING → BOOKED ✅
@@ -113,8 +117,15 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgRqdto, ApiGat
          if (trx1.transactionStatus.equals(TransactionStatus.PENDING))
          trx1.setTransactionStatus( TransactionStatus.BOOKED);
      mergeByHbnt(trx1, session);
+
+
+     //===============add  idptkey
+     addIdptKey(reqdto.IdempotencyKey);
         return new ApiGatewayResponse(trx1);
     }
+
+   
+       
 
     public static void addWltIfNotExst(String uname, Session session) throws findByIdExptn_CantFindData {
         try{
