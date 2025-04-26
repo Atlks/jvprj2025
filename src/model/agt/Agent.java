@@ -33,9 +33,21 @@ public class Agent {
     public int rechargeMemberCount = 0;
 
     /**
-     * 注册会员数
+     * 注册会员数   //直属下级人数   directSubCount
      */
     public int registeredMemberCount = 0;
+    public int allMmbrCnt=0;  //总下级人数（直属 + 非直属）
+
+    public int indirectSubCount=0;
+//indirectSubCount	非直属下级人数（间接推荐的人数
+public int level=1;  //非直属下级人数：所有二级、三级、四级...但不是自己直接推荐的，都叫非直属。
+
+
+//
+public int secondLevelCount=0;
+public int thirdLevelCount;
+//这种设计适合复杂返佣比例，比如一级返10%，二级返5%，三级返3% 等。
+public int otherLevelCount;
 
     public long   timestamp=System.currentTimeMillis();
     /**

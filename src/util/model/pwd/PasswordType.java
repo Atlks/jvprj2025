@@ -1,6 +1,5 @@
 package util.model.pwd;
-
-package com.example.model;
+  
 
 /**
  * 密码类型枚举
