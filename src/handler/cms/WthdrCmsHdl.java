@@ -25,7 +25,7 @@ public class WthdrCmsHdl {
 
 
         String accId4ylwlt = getAccId4ylwlt(dto.uname);
-        Accounts agtAccYlwlt=  findByHerbinate(Accounts.class, ,dto.accId4ylwlt, session);
+        Accounts agtAccYlwlt=  findByHerbinate(Accounts.class ,accId4ylwlt, session);
 
         agtAcc.availableBalance= agtAcc.availableBalance.subtract(dto.amt);
         agtAccYlwlt.availableBalance= agtAccYlwlt.availableBalance.add(dto.amt);
@@ -33,6 +33,7 @@ public class WthdrCmsHdl {
 
         Transactions tx=new Transactions(accId4ylwlt,dto.uname, CreditDebitIndicator.CREDIT,dto.amt);
         persistByHibernate(tx,session);
+        return  "ok";
 
     }
 

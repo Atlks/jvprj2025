@@ -7,6 +7,7 @@ import handler.ylwlt.dto.QueryDto;
 import jakarta.validation.constraints.NotNull;
 import model.OpenBankingOBIE.Transactions;
 import model.agt.Agent;
+import org.hibernate.Session;
 import org.springframework.context.event.EventListener;
 import util.tx.findByIdExptn_CantFindData;
 
@@ -16,6 +17,7 @@ import java.util.List;
 import static cfg.AppConfig.sessionFactory;
 import static util.algo.CallUtil.lambdaInvoke;
 import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.mergeByHbnt;
 
 
 public class CalcCms {
@@ -24,12 +26,15 @@ public class CalcCms {
     public Object handleRequest(@NotNull Transactions tx) throws Throwable {
 
         List<Usr> sups=lambdaInvoke(getSuperiors.class,new QueryDto(tx.uname));
-
+        Session session = sessionFactory.getCurrentSession();
        for(Usr u:sups)
        {
-           Agent agt=findByHerbinate(Agent.class, u.uname, sessionFactory.getCurrentSession());
+
+           Agent agt=findByHerbinate(Agent.class, u.uname, session);
            BigDecimal cms=agt.commissionRate.multiply(tx.amount) ;
            agt.balanceCms= agt.balanceCms.add(cms);
+           mergeByHbnt(agt,session);
+
        }
        // new AgtRegSubSttSvs().updateIndirectSubordinatesOnNewUser(u.id);
         return "ok";
