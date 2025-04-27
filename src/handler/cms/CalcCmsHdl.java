@@ -16,6 +16,7 @@ import static cfg.AppConfig.sessionFactory;
 import static handler.cms.AftrCalcRchgAmtSumEvt.evtlist4aftCalcRchgAmtSum;
 import static util.algo.CallUtil.lambdaInvoke;
 import static util.evtdrv.EvtHlpr.publishEventV2;
+import static util.evtdrv.EvtHlpr.publishEventV3;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.mergeByHbnt;
@@ -28,7 +29,8 @@ public class CalcCmsHdl {
         iniEvtHdrCtnr();
 
         Transactions tx=new Transactions();
-        publishEventV2(evtlist4aftCalcRchgAmtSum,tx);
+        publishEventV3(AftrCalcRchgAmtSumEvt.class,tx);
+    //    publishEventV2(evtlist4aftCalcRchgAmtSum,tx);
     }
 
 
