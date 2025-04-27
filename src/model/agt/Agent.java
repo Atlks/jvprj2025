@@ -82,7 +82,7 @@ public int otherLevelCount;
     public int withdrawalMemberCount = 0;
 
     /**
-     * 充值金额
+     * 充值金额   shud all sub
      */
     public BigDecimal rechargeAmount = BigDecimal.valueOf(0);
 
