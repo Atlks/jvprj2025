@@ -1,5 +1,7 @@
 package model.OpenBankingOBIE;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -7,7 +9,7 @@ import java.time.ZonedDateTime;
 @Data
 public class Balances {
 
-
+public String accountId;
         private BigDecimal amount;
         private String currency;
      //   private BalanceAmount balanceAmount;
@@ -17,5 +19,8 @@ public class Balances {
       //  dateTime: 余额记录的时间戳，格式为 ISO 8601。
         private String balanceType;
         private ZonedDateTime dateTime;
+
+    @Enumerated(EnumType.STRING)
+    private CreditDebitIndicator  creditDebitIndicator; // Credit or Debit
        // private CreditLine creditLine;  crdt card bls
 }

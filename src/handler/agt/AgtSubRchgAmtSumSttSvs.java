@@ -5,13 +5,17 @@ import handler.ylwlt.dto.QueryDto;
 import model.OpenBankingOBIE.Transactions;
 import model.agt.Agent;
 import org.hibernate.Session;
+import org.springframework.context.ApplicationEventPublisher;
 import util.tx.findByIdExptn_CantFindData;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.evtlist4aftCalcRchgAmtSum;
+import static cfg.Containr.evtlist4reg;
 import static util.algo.CallUtil.lambdaInvoke;
+import static util.evtdrv.EvtHlpr.publishEvent;
 import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.mergeByHbnt;
 
@@ -39,6 +43,11 @@ public class AgtSubRchgAmtSumSttSvs {
 
         //updt all agt totalRechargeAmount
         updateAllSupRchgAmt(tx, u, session);
+
+
+        ApplicationEventPublisher eventPublisher;
+        // 发布事件publishEvent(Object event)
+        publishEvent(evtlist4aftCalcRchgAmtSum,tx);
     }
 
 

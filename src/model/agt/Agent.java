@@ -123,8 +123,8 @@ public int otherLevelCount;
      */
     public BigDecimal commissionAmount = BigDecimal.valueOf(0);
 
-   //待领取佣金   代理余额（可提佣金
-   public BigDecimal waitApplyCms=new BigDecimal(0);;
+   //待领取佣金   代理余额（可提佣金>>drktl   acc_agt.bals
+   public BigDecimal balanceCms =new BigDecimal(0);;
 
    public BigDecimal totalCommssionAmt=new BigDecimal(0);
 

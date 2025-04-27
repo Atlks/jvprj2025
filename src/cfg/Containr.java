@@ -2,6 +2,7 @@ package cfg;
 
 import entityx.usr.Usr;
 import jakarta.security.enterprise.SecurityContext;
+import model.OpenBankingOBIE.Transactions;
 import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import service.auth.ISAM;
@@ -20,6 +21,9 @@ public class Containr {
     public static List<Consumer<Usr>> evtlist4reg=new ArrayList<>();
 
     public static List<Consumer<Usr>> evtlist4login=new ArrayList<>();
+    public static List<Consumer<Transactions>> evtlist4aftCalcRchgAmtSum=new ArrayList<>();
+
+
 
     public static List<Consumer<Usr>> evtlist4rchg=new ArrayList<>();
     public static List<Consumer<Usr>> evtlist4wthdr=new ArrayList<>();

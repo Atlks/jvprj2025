@@ -14,6 +14,7 @@ public class EvtHlpr {
 //    private static void addEvtHdlr4regevt(Consumer f ) {
 //
 //    }
+    //发布事件publishEvent(Object event)
 
     public static <T> void  publishEvent(List<Consumer<T>> evtlist, T evtObj) {
         //  List<Consumer<Usr>> li=evtlist.get(evt);

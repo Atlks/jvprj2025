@@ -1,5 +1,8 @@
 package model.OpenBankingOBIE;
 
+/**
+ * 这个是简化版本，方便理解，不是obie原版
+ */
 public enum BalanceType {
 
     /**
