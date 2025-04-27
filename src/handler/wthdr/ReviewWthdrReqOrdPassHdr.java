@@ -35,6 +35,7 @@ import java.util.SortedMap;
 import static cfg.Containr.sessionFactory;
 import static service.CmsBiz.toBigDcmTwoDot;
 import static service.YLwltSvs.AddMoney2YLWltService.addBlsLog4ylwlt;
+import static util.acc.AccUti.getAccId4ylwlt;
 import static util.log.ColorLogger.RED_bright;
 import static util.log.ColorLogger.colorStr;
 import static util.misc.util2026.copyProps;
@@ -102,7 +103,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
         transDto.amt=objOrd.amount;
         transDto.refUniqId="reqid="+objOrd.id;
         iniWlt( objOrd.uname, session);
-        transDto.lockYlwltObj=findByHerbinate(Accounts.class, getYlAccId(objOrd.uname) , session);
+        transDto.lockYlwltObj=findByHerbinate(Accounts.class, getAccId4ylwlt(objOrd.uname) , session);
       //  addMoneyToWltService1.main(transDto);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
@@ -111,7 +112,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
         //----------------------sub blsAvld   blsFreez++
           mthBiz = colorStr("减少盈利钱包的有效余额,增加冻结金额", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
-        Accounts objU = findByHbntDep(Accounts.class, getYlAccId(uname), LockModeType.PESSIMISTIC_WRITE, AppConfig.sessionFactory.getCurrentSession());
+        Accounts objU = findByHbntDep(Accounts.class, getAccId4ylwlt(uname), LockModeType.PESSIMISTIC_WRITE, AppConfig.sessionFactory.getCurrentSession());
         BigDecimal nowAmt2 = objU.availableBalance;
         BigDecimal newBls2 = nowAmt2.subtract(objOrd.amount);
         BigDecimal beforeAmt=objU.availableBalance.add(objOrd.amount);
@@ -135,9 +136,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
         return new ApiGatewayResponse(objOrd);
     }
 
-    public static  String getYlAccId(String uname) {
-    return  uname+"_"+ AccountType.YlWlt;
-    }
+
 
     public static void iniWlt(String uname, Session session) throws findByIdExptn_CantFindData {
         try{

@@ -3,6 +3,7 @@ package handler.wlt;
 
 import handler.ylwlt.dto.QueryDto;
 import lombok.NoArgsConstructor;
+import model.OpenBankingOBIE.AccountSubType;
 import model.OpenBankingOBIE.AccountType;
 import model.OpenBankingOBIE.Accounts;
 import model.wlt.BalanceOverview;
@@ -28,7 +29,7 @@ public class findBalanceOverviewHdl {
         public Object handleRequest(QueryDto reqdto) throws findByIdExptn_CantFindData {
             Accounts account = findByHerbinate(Accounts.class,reqdto.uname,sessionFactory.getCurrentSession());
 var accYl=findByHerbinate(Accounts.class, getAccId4ylwlt(reqdto.uname) ,sessionFactory.getCurrentSession());
-    var acc_insFdpool=findByHerbinate (Accounts.class, AccountType.ins_fd_pool.name() ,sessionFactory.getCurrentSession());
+    var acc_insFdpool=findByHerbinate (Accounts.class, AccountSubType.uke_ins_fd_pool.name() ,sessionFactory.getCurrentSession());
             BalanceOverview balanceOverview = new BalanceOverview();
             balanceOverview.balance=account.availableBalance;
             balanceOverview.accYlwlt_balance=accYl.availableBalance;

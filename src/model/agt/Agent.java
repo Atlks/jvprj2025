@@ -50,11 +50,11 @@ public class Agent {
 //indirectSubCount	非直属下级人数（间接推荐的人数
 
 
-
+public  String parent_agent_id="";
 
 public int level=1;  //非直属下级人数：所有二级、三级、四级...但不是自己直接推荐的，都叫非直属。
 
-
+  public  BigDecimal  lifetime_earnings;//  累计佣金收入（lifetime_earnings）
 //
 public int secondLevelCount=0;
 public int thirdLevelCount;
@@ -117,7 +117,7 @@ public int otherLevelCount;
      */
     public BigDecimal commissionAmount = BigDecimal.valueOf(0);
 
-   //待领取佣金
+   //待领取佣金   代理余额（可提佣金
    public BigDecimal waitApplyCms=new BigDecimal(0);;
 
    public BigDecimal totalCommssionAmt=new BigDecimal(0);

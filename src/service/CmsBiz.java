@@ -17,7 +17,8 @@ import java.util.TreeMap;
 
 import static cfg.MyCfg.iniContnr4cfgfile;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
-import static handler.wthdr.ReviewWthdrReqOrdPassHdr.getYlAccId;
+
+import static util.acc.AccUti.getAccId4ylwlt;
 import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.mergeByHbnt;
 import static util.tx.HbntUtil.persistByHibernate;
@@ -109,7 +110,7 @@ public class CmsBiz {
         String methodname="updtBlsYinliwlt";
         System.out.println("\r\n\r\n");
         System.out.println("fun "+methodname+"(uname="+uname+",amt="+amt);
-        Accounts objU = session.find(Accounts.class,getYlAccId(uname) );
+        Accounts objU = session.find(Accounts.class,getAccId4ylwlt(uname) );
 //        if(objU.id==null)
 //        {
 //            objU.id= uname;

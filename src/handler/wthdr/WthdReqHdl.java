@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import static cfg.AppConfig.sessionFactory;
 import static cfg.MyCfg.iniContnr;
 import static service.CmsBiz.toBigDcmTwoDot;
+import static util.acc.AccUti.getAccId4ylwlt;
 import static util.algo.GetUti.getUuid;
 import static util.auth.AuthUtil.getCurrentUser;
 import static util.log.ColorLogger.RED_bright;
@@ -47,7 +48,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         String uname = getCurrentUser();
         Accounts YLwlt11;
         String uname1 = dtoWithdrawDto.uname;
-        String acc_id = uname + "_" + AccountType.YlWlt;
+        String acc_id = getAccId4ylwlt(uname1);
         try{
 
             YLwlt11 = findByHerbinateLockForUpdtV2(Accounts.class, acc_id, sessionFactory.getCurrentSession());
@@ -104,7 +105,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
     public static void iniYlwltIfNotExist(String uname1) {
 
         try{
-            var wlt=findByHerbinate(Accounts.class, uname1+"_"+AccountType.YlWlt, sessionFactory.getCurrentSession());
+            var wlt=findByHerbinate(Accounts.class, getAccId4ylwlt(uname1) , sessionFactory.getCurrentSession());
         } catch (findByIdExptn_CantFindData e) {
 
             iniYlwlt(  uname1);
@@ -113,7 +114,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
 
     public static void iniYlwlt(String uname1) {
 
-        Accounts yLwlt=new Accounts(uname1+"_"+AccountType.YlWlt);
+        Accounts yLwlt=new Accounts(getAccId4ylwlt(uname1)  );
       //  yLwlt.userId= uname1;
         yLwlt.uname=uname1;
         persistByHibernate(yLwlt,sessionFactory.getCurrentSession());

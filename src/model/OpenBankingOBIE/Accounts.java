@@ -23,7 +23,13 @@ public class Accounts {
 
 
     @Enumerated(EnumType.STRING)
-    public AccountType accountType= AccountType.nml;         // 账户类型
+    public AccountType accountType= AccountType.PERSONAL;         // 账户类型
+
+    @Enumerated(EnumType.STRING)
+    public AccountSubType accountSubType= AccountSubType.EMoney;         // 账户类型
+
+
+
     public BigDecimal availableBalance= BigDecimal.valueOf(0); // 有效余额
     public BigDecimal frozenAmount= BigDecimal.valueOf(0);    // 冻结金额
     public BigDecimal totalBalance;    // 总余额

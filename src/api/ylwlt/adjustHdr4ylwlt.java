@@ -18,8 +18,9 @@ import util.algo.Icall;
 import java.math.BigDecimal;
 
 import static cfg.AppConfig.sessionFactory;
-import static handler.wthdr.ReviewWthdrReqOrdPassHdr.getYlAccId;
+
 import static service.CmsBiz.toBigDcmTwoDot;
+import static util.acc.AccUti.getAccId4ylwlt;
 import static util.misc.util2026.getFilenameFrmLocalTimeString;
 import static util.tx.HbntUtil.*;
 
@@ -42,7 +43,7 @@ public class adjustHdr4ylwlt implements Icall<TransDto, Object> {
     public Object main(TransDto TransDto1) throws Throwable {
 
 
-        Accounts objU = findByHbntDep(Accounts.class, getYlAccId(TransDto1.uname) , LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+        Accounts objU = findByHbntDep(Accounts.class, getAccId4ylwlt(TransDto1.uname) , LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
         BigDecimal nowAmt = objU.availableBalance;
         //def is add
