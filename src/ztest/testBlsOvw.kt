@@ -48,7 +48,7 @@ private fun befTest() {
     MyCfg.iniContnr()
     EvtUtil.iniEvtHdrCtnr()
 
-    Containr.evtlist4reg.add(Consumer { u: Usr? -> AgtHdl().regEvtHdl(u) })
+   // Containr.evtlist4reg.add(Consumer { u: Usr? -> AgtHdl().regEvtHdl(u) })
     //============aop trans begn
     TransactMng.openSessionBgnTransact()
 

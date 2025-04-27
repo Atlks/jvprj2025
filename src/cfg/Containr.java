@@ -18,14 +18,10 @@ import java.util.function.Consumer;
 public class Containr {
 
 
-    public static List<Consumer<Usr>> evtlist4reg=new ArrayList<>();
-
-    public static List<Consumer<Usr>> evtlist4login=new ArrayList<>();
 
 
 
-    public static List<Consumer<Usr>> evtlist4rchg=new ArrayList<>();
-    public static List<Consumer<Usr>> evtlist4wthdr=new ArrayList<>();
+   public static List<Consumer<Usr>> evtlist4wthdr=new ArrayList<>();
     public static List<Consumer<Usr>> evtlist4transact=new ArrayList<>();
 
 

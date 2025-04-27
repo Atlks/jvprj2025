@@ -15,7 +15,7 @@ import util.acc.AccUti.getAccId4ylwlt
 import util.evtdrv.EvtUtil
 import util.tx.HbntUtil
 import util.tx.TransactMng
-import ztoolsMy.getUuid
+//import ztoolsMy.getUuid
 import java.math.BigDecimal
 import java.util.function.Consumer
 
@@ -54,7 +54,7 @@ private fun befTest() {
     MyCfg.iniContnr()
     EvtUtil.iniEvtHdrCtnr()
 
-    Containr.evtlist4reg.add(Consumer { u: Usr? -> AgtHdl().regEvtHdl(u) })
+ //   Containr.evtlist4reg.add(Consumer { u: Usr? -> AgtHdl().regEvtHdl(u) })
     //============aop trans begn
     TransactMng.openSessionBgnTransact()
 
