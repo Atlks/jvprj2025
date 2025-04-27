@@ -157,6 +157,35 @@ paths:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
 
+  /db/QryHdl:
+    get:
+
+      summary: " "
+      parameters:
+        - name: sql
+          in: query
+          description: ""
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
+  /db/UpdtHdl:
+    get:
+
+      summary: " "
+      parameters:
+        - name: sql
+          in: query
+          description: ""
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
+
   /admin/role/ListRolesHdl:
    $ref: './paths/role/ListRolesHdl.yaml'
   /admin/role/SaveRolesHdl:

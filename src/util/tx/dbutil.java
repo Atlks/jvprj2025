@@ -694,6 +694,18 @@ public class dbutil {
         }
 
     }
+    public static int executeUpdate(String sql, Map<String, Object> sqlprmMap, Session session) {
+        // 使用原生 SQL 执行 UPDATE 操作
+        //String sql = "UPDATE my_entity SET name = :name WHERE id = :id";
+        int updatedEntities = session.createNativeQuery(sql)
+               // .setParameter("name", "New Name")
+              //  .setParameter("id", 1L) // 假设更新 ID 为 1 的实体
+                .executeUpdate();
+
+        System.out.println("Number of entities updated: " + updatedEntities);
+        return  updatedEntities;
+    }
+
 
     public static <T> List<T> nativeQueryGetResultList(String sql, Map<String, Object> sqlprmMap, Session session, Class<T> cls) {
         // 防止 SQL 注入  // 安全参数绑定
