@@ -89,6 +89,8 @@ public class AgtHdl {
         } catch (Exception e) {
             e.printStackTrace();
             //  throw  e;  //for test
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
         }
 
 
