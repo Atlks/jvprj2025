@@ -1,6 +1,7 @@
 package util.tx;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
 
 import jakarta.validation.constraints.NotBlank;
@@ -215,7 +216,17 @@ public class HbntUtil {
         System.out.println("✅endfun getListBySqlLmt200.ret=list,listsize=" + list1.size());
         return list1;
     }
+    /**
+     * 可以通过 Session 来获取 EntityManager，因为 Session 实现了 EntityManager 接口。以下是如何通过 SessionFactory
+     * @param session
+     * @return
+     */
+    public static @NotNull EntityManager toEttMngr(@NotNull Session session) {
+        // 将 Session 转换为 EntityManager
+        EntityManager entityManager = session.getEntityManagerFactory().createEntityManager();
 
+        return  entityManager;
+    }
 
     public static @NotNull @org.jetbrains.annotations.NotNull <T> T mergeByHbnt(@NotNull T t, @NotNull Session session) {
         String mthClr = colorStr("mergeByHbnt", YELLOW_bright);
