@@ -1,18 +1,22 @@
 package util.evtdrv;
 
+import model.OpenBankingOBIE.Transactions;
 import util.annos.Observes;
 import org.springframework.context.event.EventListener;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Consumer;
 
 import static util.algo.ChooseEvtPublshr.iniCondtEvtMap4sngClz;
+import static util.algo.GetUti.getMethod;
 import static util.evtdrv.ChooseContionEvtPublshr.addCondtEvt2evtList4sngClz;
 import static util.misc.ReflectionUtils.getFirstParamClassFromMethod;
 import static util.misc.util2026.printLn;
 import static util.misc.util2026.scanAllClass;
 import static util.oo.ArrUtil.pushSet;
+import static util.proxy.AopUtil.ivk4log;
 
 public class EvtUtil {
 
@@ -25,26 +29,32 @@ public class EvtUtil {
         //  Class clz = MyEventListener.class;
         Consumer<Class> csmr4log = clazz -> {
 
-            if (!clazz.getName().startsWith("api") && !clazz.getName().startsWith("service")) {
-                System.out.println("iniEvtHdrCtnr（）。contine clz=" + clazz.getName());
+            if (!clazz.getName().startsWith("handler") && !clazz.getName().startsWith("api") && !clazz.getName().startsWith("service")) {
+                System.out.println("iniEvtHdrCtnr（）。not contine clz=" + clazz.getName());
                 return;
             }
-            printLn("\n开始注册evt" + clazz.getName());
+            printLn("\n开始scan evt in clz=" + clazz.getName());
 
-            iniEvtHdrCtnr(clazz);
+            try {
+                addEvtList4EventListener(clazz);
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
+            // iniEvtHdrCtnr(clazz);
 
-            iniEvtHdrCtnr4strEVt(clazz);
-            iniEvtHdrCtnr4pathEVt(clazz);
-            iniCondtEvtMap4sngClz(clazz);
-            addCondtEvt2evtList4sngClz(clazz);
+//            iniEvtHdrCtnr4strEVt(clazz);
+//            iniEvtHdrCtnr4pathEVt(clazz);
+//            iniCondtEvtMap4sngClz(clazz);
+//            addCondtEvt2evtList4sngClz(clazz);
 
         };
         scanAllClass(csmr4log);//  all add class  ...  mdfyed class btr
 
 
     }
+
     private static void iniEvtHdrCtnr4pathEVt(Class clazz) {
-        Method[] mthds = clazz .getDeclaredMethods();
+        Method[] mthds = clazz.getDeclaredMethods();
         for (Method mth : mthds) {
             if (mth.isAnnotationPresent(Observes.class)) {
                 Observes ano = mth.getAnnotation(Observes.class);
@@ -52,7 +62,7 @@ public class EvtUtil {
                 //set evt map by cls lsit
                 String[] lstEvts = ano.value();
                 for (String path : lstEvts) {
-                    pushSet(evtHdrMap4pathEvtMod,path,mth);
+                    pushSet(evtHdrMap4pathEvtMod, path, mth);
 
                 }
             }
@@ -61,7 +71,7 @@ public class EvtUtil {
     }
 
     private static void iniEvtHdrCtnr4strEVt(Class clazz) {
-        Method[] mthds = clazz .getDeclaredMethods();
+        Method[] mthds = clazz.getDeclaredMethods();
         for (Method mth : mthds) {
             if (mth.isAnnotationPresent(Observes.class)) {
                 Observes ano = mth.getAnnotation(Observes.class);
@@ -79,11 +89,58 @@ public class EvtUtil {
                 }
 
 
-
             }
 
         }
     }
+
+    private static void addEvtList4EventListener(Class clz) throws Throwable {
+
+        if (clz.getName().contains("CalcCmsHdl"))
+            System.out.println("d1246");
+        if (clz.isAnnotationPresent(handler.cms.EventListener.class)) {
+            handler.cms.EventListener listener = (handler.cms.EventListener) clz.getAnnotation(handler.cms.EventListener.class);
+            Class<?>[] eventTypes = listener.value(); // 这里拿到你监听的事件类型
+            for (Class<?> eventType : eventTypes) {
+                System.out.println("监听了事件类型：" + eventType.getName());
+
+                var obj = eventType.getConstructor().newInstance();
+                Method m = eventType.getMethod("getEvtSt");
+                Set<Consumer<Transactions>> evtSt = (Set<Consumer<Transactions>>) m.invoke(obj);
+                //set evt map by cls lsit
+
+                Consumer<Transactions> handleRequest = (Consumer<Transactions>) (arg) -> {
+
+                    String mthFullname = clz.getName() + ".hdlrRq";
+
+
+                    try {
+                        Object result = ivk4log(mthFullname, arg, () -> {
+
+
+                            Method lmdaFun = getMethod(clz, "handleRequest");
+                            var objScanClz = clz.getConstructor().newInstance();
+                            assert lmdaFun != null;
+                            return lmdaFun.invoke(objScanClz, arg);
+
+
+                        });
+                    } catch (Throwable e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    return;
+
+                };
+                evtSt.add(handleRequest);
+
+            }
+
+
+        }
+
+    }
+
 
     private static void iniEvtHdrCtnr(Class clz) {
         Method[] mthds = clz.getDeclaredMethods();
@@ -112,8 +169,8 @@ public class EvtUtil {
     }
 
     private static void setEVtMapByParam(Method mth) {
-        Class firstParamClass=getFirstParamClassFromMethod(mth);
-        Class evtClz=firstParamClass;
+        Class firstParamClass = getFirstParamClassFromMethod(mth);
+        Class evtClz = firstParamClass;
         Set<Method> li_meth = evtHdrMap.get(evtClz);
         if (li_meth == null) {
             li_meth = new HashSet<>();

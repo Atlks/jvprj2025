@@ -21,7 +21,6 @@ public class Containr {
     public static List<Consumer<Usr>> evtlist4reg=new ArrayList<>();
 
     public static List<Consumer<Usr>> evtlist4login=new ArrayList<>();
-    public static List<Consumer<Transactions>> evtlist4aftCalcRchgAmtSum=new ArrayList<>();
 
 
 

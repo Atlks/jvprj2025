@@ -12,8 +12,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static cfg.AppConfig.sessionFactory;
-import static cfg.Containr.evtlist4aftCalcRchgAmtSum;
+//import static cfg.Containr.evtlist4aftCalcRchgAmtSum;
 import static cfg.Containr.evtlist4reg;
+import static handler.cms.AftrCalcRchgAmtSumEvt.evtlist4aftCalcRchgAmtSum;
 import static util.algo.CallUtil.lambdaInvoke;
 import static util.evtdrv.EvtHlpr.publishEvent;
 import static util.tx.HbntUtil.findByHerbinate;
@@ -47,7 +48,7 @@ public class AgtSubRchgAmtSumSttSvs {
 
         ApplicationEventPublisher eventPublisher;
         // 发布事件publishEvent(Object event)
-        publishEvent(evtlist4aftCalcRchgAmtSum,tx);
+        //   publishEvent(evtlist4aftCalcRchgAmtSum,tx);
     }
 
 

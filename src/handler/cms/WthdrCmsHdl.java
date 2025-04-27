@@ -6,13 +6,14 @@ import model.OpenBankingOBIE.CreditDebitIndicator;
 import model.OpenBankingOBIE.Transactions;
 import model.agt.Agent;
 import org.hibernate.Session;
+import org.springframework.context.event.EventListener;
 
 import static cfg.AppConfig.sessionFactory;
 import static util.acc.AccUti.getAccId4ylwlt;
 import static util.tx.HbntUtil.*;
 
 public class WthdrCmsHdl {
-
+@EventListener
     public Object handleRequest(@NotNull WthdCmsRqdto dto) throws Throwable {
 
 

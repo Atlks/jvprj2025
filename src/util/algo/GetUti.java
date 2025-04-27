@@ -1,6 +1,7 @@
 package util.algo;
 
 import com.sun.net.httpserver.HttpExchange;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.retry.annotation.CircuitBreaker;
@@ -24,6 +25,25 @@ import static util.algo.IndexOfUti.indexOfFirst;
 
 
 public class GetUti {
+
+    public static @Nullable Method getMethod(@jakarta.validation.constraints.NotNull  Class clz, @NotBlank String methodName) {
+
+        Method[] ms=clz.getMethods();
+        for(  Method method :ms)
+        {
+            if(method.getName().equals(methodName))
+            {
+                method.setAccessible(true); // 支持 private/protected 方法
+                return method;
+            }
+
+        }
+
+
+
+        return null; // 未找到
+    }
+
 
     public static String getUuid2() {
         return java.util.UUID.randomUUID().toString();
