@@ -1,0 +1,21 @@
+get:
+  tags:
+    - agt
+  summary: " 查询代理下级"
+
+  parameters:
+    - name: agentAccount
+      in: query
+      description: ""
+      required: false
+      schema:
+        type: string
+
+
+
+
+
+
+  responses:
+    "200":
+      $ref: '../../components/responses/CommonResponse.yaml'

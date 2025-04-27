@@ -3,6 +3,7 @@ package handler.agt;
 import entityx.usr.Usr;
 import handler.ylwlt.dto.QueryDto;
 import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.Path;
 import org.hibernate.HibernateException;
 import util.tx.findByIdExptn_CantFindData;
 
@@ -12,7 +13,7 @@ import java.util.List;
 import static cfg.AppConfig.sessionFactory;
 import static util.tx.HbntUtil.findByHerbinate;
 
-
+@Path("/agt/listSupHdl")
 // 获取非直属上级的 Usr 列表
 @PermitAll
 public class getSuperiors {

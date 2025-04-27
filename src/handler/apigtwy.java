@@ -1,7 +1,6 @@
 package handler;
 
-import handler.agt.QryAgtsDto;
-import util.algo.FunFaas;
+import handler.agt.dto.QryAgtsDto;
 import util.serverless.ApiGatewayResponse;
 
 import java.lang.reflect.Method;

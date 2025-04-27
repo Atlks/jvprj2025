@@ -6,7 +6,10 @@ info:
   version: 9.0.1
   description: |
     这是一个用于用户端的 API。通过该 API，可以作为开发。
-    该文档提供了所有可用接口的详细说明。v420
+    该文档提供了所有可用接口的详细说明。
+    用户规范参照了oauth/openid，密码方面规参照 OWASP ，金融账户与交易规范参照open banking/obie v3标准，代理方面为自定模式
+    v420
+
   contact:
     name: dddddomas
     email: support@example.com
@@ -125,6 +128,13 @@ paths:
     $ref: './paths/cfg/GetCmsLvCfg.yaml'
   /agt/QryAgtHdl:
     $ref: './paths/agt/QryAgtHdl.yaml'
+  /agt/listSubHdl:
+    $ref: './paths/agt/listSubHdl.yaml'
+  /agt/listSupHdl:
+    get:
+      tags:
+        - agt
+      summary: " 查询代理上级"
   /admin/role/ListRolesHdl:
    $ref: './paths/role/ListRolesHdl.yaml'
   /admin/role/SaveRolesHdl:

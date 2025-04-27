@@ -1,4 +1,4 @@
-package handler.agt;
+package handler.agt.dto;
 
 import lombok.Data;
 import util.entty.PageDto;

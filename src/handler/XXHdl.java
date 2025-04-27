@@ -1,11 +1,8 @@
 package handler;
 
-import handler.agt.QryAgtsDto;
+import handler.agt.dto.QryAgtsDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
-import util.algo.FunFaas;
-import util.serverless.ApiGatewayResponse;
 
 @Path("/mdl/xxhdl")
 //@path is auto

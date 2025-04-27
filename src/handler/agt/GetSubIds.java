@@ -6,6 +6,7 @@ import static util.tx.HbntUtil.findByHerbinate;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.ws.rs.Path;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
@@ -16,8 +17,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import util.tx.findByIdExptn_CantFindData;
 
-
- // 获取非直属上级的 Usr 列表
+@Path("/agt/listSubHdl")
+ // 获取下级
  @PermitAll
 public class GetSubIds {
 

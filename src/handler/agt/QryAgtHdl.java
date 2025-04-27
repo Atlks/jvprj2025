@@ -1,5 +1,6 @@
 package handler.agt;
 
+import handler.agt.dto.QryAgtsDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.core.Context;
 import model.agt.Agent;
