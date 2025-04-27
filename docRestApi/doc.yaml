@@ -403,6 +403,8 @@ paths:
 
   /password/reset/request:
     get:
+      tags:
+        - secury
       summary: 请求充值密码-获取问题 security question by username
       description: 
       parameters:
@@ -428,6 +430,8 @@ paths:
 
   /password/reset/confirm:
     post:
+      tags:
+        - secury
       summary: 重置密码by安全问题
       description: 
       requestBody:
@@ -468,6 +472,8 @@ paths:
 
   /api/security-question/setup:
     post:
+      tags:
+        - secury
       summary: 设置安全问题与答案
       description:  
       requestBody:
