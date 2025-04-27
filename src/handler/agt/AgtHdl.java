@@ -10,7 +10,6 @@ import model.agt.ChgSubStt;
 import org.hibernate.Session;
 import util.tx.findByIdExptn_CantFindData;
 
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -18,7 +17,6 @@ import static cfg.AppConfig.sessionFactory;
 import static org.apache.commons.lang3.math.NumberUtils.toInt;
 import static util.algo.CallUtil.lambdaInvoke;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
-import static util.algo.GetUti.getMethod;
 import static util.algo.NullUtil.isBlank;
 import static util.misc.Util2025.ret2025;
 import static util.tx.HbntUtil.*;
@@ -52,21 +50,7 @@ public class AgtHdl {
              agt.rechargeMemberCount =toInt((String) getSingleResult("select count(*) from ChgSubStt where agtName= "+encodeSqlPrmAsStr(u.invtr),0,session )) ;
 
 
-            //这个要算所有级别的   直属下级充值总额
-            agt.rechargeAmount=agt.rechargeAmount.add(tx.getAmount());
-            agt.levelOneRechargeAmount=agt.levelOneRechargeAmount.add(tx.getAmount());
-
-
-
-            //更新直属下级充值总额
-            agt.subLevelRechargeAmount=agt.subLevelRechargeAmount.add(tx.getAmount());
-
-
-            //更新非直属下级充值总额
-             new AgtSvs().   updateIndirectSubdntRchgAmtOnNewUser(u.uname);
-
-            //updt all agt totalRechargeAmount
-            updateAllSupRchgAmt(tx, u, session);
+           new AgtSubRchgAmtSumSttSvs().    updtRchgAmtSumForeachLev(tx, agt, u, session);
 
 
             BigDecimal thisCms=agt.commissionRate.multiply(tx.getAmount()) ;
@@ -84,14 +68,6 @@ public class AgtHdl {
 
     }
 
-    private static void updateAllSupRchgAmt(Transactions tx, Usr u, Session session) throws Throwable {
-        List<Usr> agtIds=lambdaInvoke(getSuperiors.class,new QueryDto(u.uname));
-        for(Usr uTmp:agtIds){
-            Agent agtTmp=findByHerbinate(Agent.class,uTmp.uname, session);
-            agtTmp.totalRechargeAmount=agtTmp.totalRechargeAmount.add(tx.getAmount());
-        }
-    }
-
 
     public void regEvtHdl(@NotNull Usr u) {
 
@@ -103,8 +79,13 @@ public class AgtHdl {
             Session session = sessionFactory.getCurrentSession();
             agt = addAgtIfNotExst(u.invtr, session);
 
+
+            //直属下级数
             agt.registeredMemberCount = agt.registeredMemberCount + 1;
             mergeByHbnt(agt, session);
+
+
+   new AgtRegSubSttSvs().updtSubCnt(u,session);
         } catch (Exception e) {
             e.printStackTrace();
             //  throw  e;  //for test

@@ -36,6 +36,12 @@ public class Agent {
      * 注册会员数   //直属下级人数   directSubCount
      */
     public int registeredMemberCount = 0;
+
+    //间接下属总数
+    public int indirectSubCount=0;
+    //indirectSubCount	非直属下级人数（间接推荐的人数
+
+
     public int allMmbrCnt=0;  //总下级人数（直属 + 非直属）
 
 
@@ -45,9 +51,7 @@ public class Agent {
 
 
   
-  //间接下属总数
-    public int indirectSubCount=0;
-//indirectSubCount	非直属下级人数（间接推荐的人数
+
 
 
 public  String parent_agent_id="";
@@ -101,6 +105,8 @@ public int otherLevelCount;
      * 下级充值金额
      */
     public BigDecimal subLevelRechargeAmount = BigDecimal.valueOf(0);
+    public BigDecimal drctlSubRchgAmtSum = BigDecimal.valueOf(0);
+    public BigDecimal indrctlSubRchgAmtSum = BigDecimal.valueOf(0);
 
     /**
      * 总充值金额（本级 + 下级）
