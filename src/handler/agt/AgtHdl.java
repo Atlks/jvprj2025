@@ -52,19 +52,21 @@ public class AgtHdl {
              agt.rechargeMemberCount =toInt((String) getSingleResult("select count(*) from ChgSubStt where agtName= "+encodeSqlPrmAsStr(u.invtr),0,session )) ;
 
 
-            //这个要算所有级别的
+            //这个要算所有级别的   直属下级充值总额
             agt.rechargeAmount=agt.rechargeAmount.add(tx.getAmount());
             agt.levelOneRechargeAmount=agt.levelOneRechargeAmount.add(tx.getAmount());
 
+
+
+            //更新直属下级充值总额
             agt.subLevelRechargeAmount=agt.subLevelRechargeAmount.add(tx.getAmount());
 
-            //updt all agt totalRechargeAmount
-            List<Usr> agtIds= (List<Usr>) lambdaInvoke(getSuperiors.class,new QueryDto(u.uname));
-            for(Usr uTmp:agtIds){
-                Agent agtTmp=findByHerbinate(Agent.class,uTmp.uname,session);
-                agtTmp.totalRechargeAmount=agtTmp.totalRechargeAmount.add(tx.getAmount());
-            }
 
+            //更新非直属下级充值总额
+             new AgtSvs().   updateIndirectSubdntRchgAmtOnNewUser(u.uname);
+
+            //updt all agt totalRechargeAmount
+            updateAllSupRchgAmt(tx, u, session);
 
 
             BigDecimal thisCms=agt.commissionRate.multiply(tx.getAmount()) ;
@@ -82,6 +84,13 @@ public class AgtHdl {
 
     }
 
+    private static void updateAllSupRchgAmt(Transactions tx, Usr u, Session session) throws Throwable {
+        List<Usr> agtIds=lambdaInvoke(getSuperiors.class,new QueryDto(u.uname));
+        for(Usr uTmp:agtIds){
+            Agent agtTmp=findByHerbinate(Agent.class,uTmp.uname, session);
+            agtTmp.totalRechargeAmount=agtTmp.totalRechargeAmount.add(tx.getAmount());
+        }
+    }
 
 
     public void regEvtHdl(@NotNull Usr u) {

@@ -93,7 +93,7 @@ public int otherLevelCount;
     public BigDecimal withdrawalAmount = BigDecimal.valueOf(0);
 
     /**
-     * 本级充值金额
+     * 本级充值金额  间间下属充值总额
      */
     public BigDecimal levelOneRechargeAmount = BigDecimal.valueOf(0);
 
@@ -120,7 +120,7 @@ public int otherLevelCount;
    //待领取佣金
    public BigDecimal waitApplyCms=new BigDecimal(0);;
 
-   public BigDecimal totalCommssionAmt;
+   public BigDecimal totalCommssionAmt=new BigDecimal(0);
 
     // Getters and Setters
 
