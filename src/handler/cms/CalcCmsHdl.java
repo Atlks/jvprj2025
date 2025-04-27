@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import model.OpenBankingOBIE.Transactions;
 import model.agt.Agent;
 import org.hibernate.Session;
+import util.annos.EventListener;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,7 +24,7 @@ import static util.tx.HbntUtil.mergeByHbnt;
 public class CalcCmsHdl {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Throwable {
         iniEvtHdrCtnr();
 
         Transactions tx=new Transactions();

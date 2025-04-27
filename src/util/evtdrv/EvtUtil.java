@@ -1,17 +1,15 @@
 package util.evtdrv;
 
-import model.OpenBankingOBIE.Transactions;
+import util.algo.ConsumerX;
+import util.algo.SupplierX;
 import util.annos.Observes;
 import org.springframework.context.event.EventListener;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Consumer;
 
-import static util.algo.ChooseEvtPublshr.iniCondtEvtMap4sngClz;
 import static util.algo.GetUti.getMethod;
-import static util.evtdrv.ChooseContionEvtPublshr.addCondtEvt2evtList4sngClz;
 import static util.misc.ReflectionUtils.getFirstParamClassFromMethod;
 import static util.misc.util2026.printLn;
 import static util.misc.util2026.scanAllClass;
@@ -94,45 +92,41 @@ public class EvtUtil {
         }
     }
 
-    private static void addEvtList4EventListener(Class clz) throws Throwable {
+    private static void addEvtList4EventListener(Class clzScaned) throws Throwable {
 
-        if (clz.getName().contains("CalcCmsHdl"))
+        if (clzScaned.getName().contains("CalcCmsHdl"))
             System.out.println("d1246");
-        if (clz.isAnnotationPresent(handler.cms.EventListener.class)) {
-            handler.cms.EventListener listener = (handler.cms.EventListener) clz.getAnnotation(handler.cms.EventListener.class);
+        if (clzScaned.isAnnotationPresent(util.annos.EventListener.class)) {
+            util.annos.EventListener listener = (util.annos.EventListener) clzScaned.getAnnotation(util.annos.EventListener.class);
             Class<?>[] eventTypes = listener.value(); // 这里拿到你监听的事件类型
             for (Class<?> eventType : eventTypes) {
                 System.out.println("监听了事件类型：" + eventType.getName());
 
                 var obj = eventType.getConstructor().newInstance();
                 Method m = eventType.getMethod("getEvtSt");
-                Set<Consumer<Transactions>> evtSt = (Set<Consumer<Transactions>>) m.invoke(obj);
+                Set<ConsumerX<?>> evtSt = (Set<ConsumerX<?>>) m.invoke(obj);
                 //set evt map by cls lsit
 
-                Consumer<Transactions> handleRequest = (Consumer<Transactions>) (arg) -> {
+                ConsumerX<?> handleRequestRf = (ConsumerX<?>) (arg) -> {
 
-                    String mthFullname = clz.getName() + ".hdlrRq";
-
-
-                    try {
-                        Object result = ivk4log(mthFullname, arg, () -> {
+                    String mthFullname = clzScaned.getName() + ".hdlrRq";
 
 
-                            Method lmdaFun = getMethod(clz, "handleRequest");
-                            var objScanClz = clz.getConstructor().newInstance();
-                            assert lmdaFun != null;
-                            return lmdaFun.invoke(objScanClz, arg);
+                    SupplierX<Object> handleRequest1 = () -> {
 
+                        Method lmdaFun = getMethod(clzScaned, "handleRequest");
+                        var objScanClz = clzScaned.getConstructor().newInstance();
+                        assert lmdaFun != null;
+                        return lmdaFun.invoke(objScanClz, arg);
 
-                        });
-                    } catch (Throwable e) {
-                        throw new RuntimeException(e);
-                    }
+                    };
+                    Object result = ivk4log(mthFullname, arg, handleRequest1);
+
 
                     return;
 
                 };
-                evtSt.add(handleRequest);
+                evtSt.add(handleRequestRf);
 
             }
 

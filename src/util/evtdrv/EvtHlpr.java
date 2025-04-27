@@ -1,6 +1,7 @@
 package util.evtdrv;
 
 import entityx.usr.Usr;
+import util.algo.ConsumerX;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +26,11 @@ public class EvtHlpr {
         }
     }
 
-    public static <T> void  publishEventV2(Set<Consumer<T>> evtlist, T evtObj) {
+    public static <T> void  publishEventV2(Set<ConsumerX<T>> evtlist, T evtObj) throws Throwable {
         //  List<Consumer<Usr>> li=evtlist.get(evt);
-        for(Consumer<T> spl: evtlist)
+        for(ConsumerX<T> spl: evtlist)
         {
+            //here cant invoklog..bcs cant get fullclass name
             spl.accept(evtObj);
         }
     }

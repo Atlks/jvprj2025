@@ -1,4 +1,4 @@
-package handler.cms;
+package util.annos;
 
 import org.springframework.core.annotation.AliasFor;
 
