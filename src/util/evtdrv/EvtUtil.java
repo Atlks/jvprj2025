@@ -97,36 +97,18 @@ public class EvtUtil {
         if (clzScaned.getName().contains("CalcCmsHdl"))
             System.out.println("d1246");
         if (clzScaned.isAnnotationPresent(util.annos.EventListener.class)) {
-            util.annos.EventListener listener = (util.annos.EventListener) clzScaned.getAnnotation(util.annos.EventListener.class);
-            Class<?>[] eventTypes = listener.value(); // 这里拿到你监听的事件类型
+            util.annos.EventListener listenerAnno = (util.annos.EventListener) clzScaned.getAnnotation(util.annos.EventListener.class);
+            Class<?>[] eventTypes = listenerAnno.value(); // 这里拿到你监听的事件类型
             for (Class<?> eventType : eventTypes) {
                 System.out.println("监听了事件类型：" + eventType.getName());
 
-                var obj = eventType.getConstructor().newInstance();
-                Method m = eventType.getMethod("getEvtSt");
-                Set<ConsumerX<?>> evtSt = (Set<ConsumerX<?>>) m.invoke(obj);
-                //set evt map by cls lsit
+                String mthFullname = clzScaned.getName() + ".hdlrRq";
+                Method lmdaFun = getMethod(clzScaned, "handleRequest");
 
-                ConsumerX<?> handleRequestRf = (ConsumerX<?>) (arg) -> {
+                EventListenerHdlr hdl=new EventListenerHdlr().setFunFullName(mthFullname).setHandleRequestMthd(lmdaFun);
+                EventDispatcher.registerListener(eventType,hdl);
 
-                    String mthFullname = clzScaned.getName() + ".hdlrRq";
-
-
-                    SupplierX<Object> handleRequest1 = () -> {
-
-                        Method lmdaFun = getMethod(clzScaned, "handleRequest");
-                        var objScanClz = clzScaned.getConstructor().newInstance();
-                        assert lmdaFun != null;
-                        return lmdaFun.invoke(objScanClz, arg);
-
-                    };
-                    Object result = ivk4log(mthFullname, arg, handleRequest1);
-
-
-                    return;
-
-                };
-                evtSt.add(handleRequestRf);
+                  //set evt map by cls lsit
 
             }
 

@@ -15,6 +15,7 @@ import java.util.List;
 
 import static cfg.AppConfig.sessionFactory;
 import static util.algo.CallUtil.lambdaInvoke;
+import static util.evtdrv.EventDispatcher.publishEvent;
 import static util.evtdrv.EvtHlpr.publishEventV3;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 import static util.tx.HbntUtil.findByHerbinate;
@@ -28,7 +29,7 @@ public class CalcCmsHdl {
         iniEvtHdrCtnr();
 
         Transactions tx=new Transactions();
-        publishEventV3(AftrCalcRchgAmtSumEvt.class,tx);
+        publishEvent(AftrCalcRchgAmtSumEvt.class,tx);
     //    publishEventV2(evtlist4aftCalcRchgAmtSum,tx);
     }
 
