@@ -1,6 +1,7 @@
 package handler.agt;
 
 import entityx.usr.Usr;
+import handler.cms.CalcCmsHdl;
 import handler.ylwlt.dto.QueryDto;
 import jakarta.validation.constraints.NotNull;
 import model.OpenBankingOBIE.Transactions;
@@ -21,6 +22,7 @@ import static cfg.AppConfig.sessionFactory;
 import static handler.agt.RegEvtHdl.addAgtIfNotExst;
 import static org.apache.commons.lang3.math.NumberUtils.toInt;
 import static util.algo.CallUtil.lambdaInvoke;
+import static util.algo.CallUtil.lmdIvk;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
 import static util.algo.NullUtil.isBlank;
 import static util.evtdrv.EventDispatcher.publishEvent;
@@ -57,21 +59,26 @@ public class RchgEvtHdl {
 
             agt.rechargeMemberCount = toInt((String) getSingleResult("select count(*) from ChgSubStt where agtName= " + encodeSqlPrmAsStr(u.invtr), 0, session));
 
-
-             lambdaInvoke(UpdtChainRchgAmtSumSttHdl.class,tx);
-
             BigDecimal thisCms = agt.commissionRate.multiply(tx.getAmount());
             agt.commissionAmount = agt.commissionAmount.add(thisCms);
 
             mergeByHbnt(agt, session);
 
 
+
+             lambdaInvoke(UpdtChainRchgAmtSumSttHdl.class,tx);
+
+
+             lmdIvk(CalcCmsHdl.class,tx);
+             //calc cms
+           // publishEvent(AftrCalcRchgAmtSumEvt, tx);
+
+
         } catch (Throwable e) {
             e.printStackTrace();
             //  throw  e;  //for test
         }
-       // updtRchgAmtSumForeachLev(tx);
-        publishEvent(AftrCalcRchgAmtSumEvt,tx);
+
         return 0;
     }
 
