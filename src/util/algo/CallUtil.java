@@ -11,22 +11,26 @@ import static util.proxy.AopUtil.ivk4log;
 //run invoke process invk call run start
 public class CallUtil {
 
+    public static < RetType> RetType lmdIvk
+            (Class<?> cls1, Object dto) throws Throwable {
+        return  lambdaInvoke(cls1,dto);
+    }
 
-    public static < RetType> RetType lambdaInvoke(Class<?> cls1, Object queryDto) throws Throwable {
+    public static < RetType> RetType lambdaInvoke(Class<?> cls1, Object dto) throws Throwable {
 
 //        var target=cls1.getConstructor().newInstance();
 //        Method m = getMethod(target, "handleRequest");
-//        var retobj = m.invoke(target, queryDto);
+//        var retobj = m.invoke(target, dto);
 
 
         //funName jst 4 lg
         String mthFullname = cls1.getName() + ".handleRequest";
 
 
-        return (RetType)  ivk4log(mthFullname, queryDto, () -> {
+        return (RetType)  ivk4log(mthFullname, dto, () -> {
             var target = cls1.getConstructor().newInstance();
             Method m = getMethod(target, "handleRequest");
-            var retobj = m.invoke(target, queryDto);
+            var retobj = m.invoke(target, dto);
             return retobj;
         });
 
