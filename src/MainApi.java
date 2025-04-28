@@ -1,4 +1,4 @@
-import handler.agt.AgtHdl;
+//import handler.agt.AgtHdl;
 //import handler.rechg.RechargeCallbackHdr;
 import cfg.AppConfig;
 //import org.noear.solon.annotation.SolonMain;
@@ -84,7 +84,7 @@ public class MainApi {
         iniContnr();
         iniEvtHdrCtnr();
 
-        evtlist4reg.add(new AgtHdl()::regEvtHdl);
+     //   evtlist4reg.add(new AgtHdl()::regEvtHdl);
       //  AgtHdl
 
         //================== 创建 HTTP 服务器，监听端口8080

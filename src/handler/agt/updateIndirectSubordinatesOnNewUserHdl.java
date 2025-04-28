@@ -9,7 +9,7 @@ public class updateIndirectSubordinatesOnNewUserHdl {
 
 public Object handleRequest(@NotNull Usr u) throws Exception, findByIdExptn_CantFindData {
       
-      new AgtRegSubSttSvs().updateIndirectSubordinatesOnNewUser(u.id);
+     // new AgtRegSubSttSvs().updateIndirectSubordinatesOnNewUser(u.id);
 return 0;
     }
 

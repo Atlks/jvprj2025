@@ -35,7 +35,7 @@ public class Agent {
     /**
      * 注册会员数   //直属下级人数   directSubCount
      */
-    public int registeredMemberCount = 0;
+    public int drctSub_registeredMemberCount = 0;
 
     //间接下属总数
     public int indirectSubCount=0;
@@ -146,12 +146,12 @@ public int otherLevelCount;
         this.rechargeMemberCount = rechargeMemberCount;
     }
 
-    public int getRegisteredMemberCount() {
-        return registeredMemberCount;
+    public int getDrctSub_registeredMemberCount() {
+        return drctSub_registeredMemberCount;
     }
 
-    public void setRegisteredMemberCount(int registeredMemberCount) {
-        this.registeredMemberCount = registeredMemberCount;
+    public void setDrctSub_registeredMemberCount(int drctSub_registeredMemberCount) {
+        this.drctSub_registeredMemberCount = drctSub_registeredMemberCount;
     }
 
 }

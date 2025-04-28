@@ -12,7 +12,7 @@ import static util.proxy.AopUtil.ivk4log;
 public class CallUtil {
 
 
-    public static < RetType> RetType lambdaInvoke(Class<?> cls1, QueryDto queryDto) throws Throwable {
+    public static < RetType> RetType lambdaInvoke(Class<?> cls1, Object queryDto) throws Throwable {
 
 //        var target=cls1.getConstructor().newInstance();
 //        Method m = getMethod(target, "handleRequest");

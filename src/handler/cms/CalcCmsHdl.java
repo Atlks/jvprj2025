@@ -38,17 +38,23 @@ public class CalcCmsHdl {
 
     public Object handleRequest(@NotNull Transactions tx) throws Throwable {
 
-        List<Usr> sups = lambdaInvoke(getSuperiors.class, new QueryDto(tx.uname));
-        Session session = sessionFactory.getCurrentSession();
-        for (Usr u : sups) {
+        try{
+            List<Usr> sups = lambdaInvoke(getSuperiors.class, new QueryDto(tx.uname));
+            Session session = sessionFactory.getCurrentSession();
+            for (Usr u : sups) {
 
-            Agent agt = findByHerbinate(Agent.class, u.uname, session);
-            BigDecimal cms = agt.commissionRate.multiply(tx.amount);
-            agt.balanceCms = agt.balanceCms.add(cms);
-            mergeByHbnt(agt, session);
+                Agent agt = findByHerbinate(Agent.class, u.uname, session);
+                BigDecimal cms = agt.commissionRate.multiply(tx.amount);
+                agt.balanceCms = agt.balanceCms.add(cms);
+                mergeByHbnt(agt, session);
 
+            }
+            // new AgtRegSubSttSvs().updateIndirectSubordinatesOnNewUser(u.id);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+           // throw new RuntimeException(e);
         }
-        // new AgtRegSubSttSvs().updateIndirectSubordinatesOnNewUser(u.id);
-        return "ok";
+        return "";
     }
 }
