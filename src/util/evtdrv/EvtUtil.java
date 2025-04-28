@@ -31,7 +31,6 @@ public class EvtUtil {
                 System.out.println("iniEvtHdrCtnr（）。not contine clz=" + clazz.getName());
                 return;
             }
-            printLn("\n开始scan evt in clz=" + clazz.getName());
 
             try {
                 addEvtList4EventListener(clazz);
@@ -100,7 +99,7 @@ public class EvtUtil {
             util.annos.EventListener listenerAnno = (util.annos.EventListener) clzScaned.getAnnotation(util.annos.EventListener.class);
             String[] eventTypes = listenerAnno.value(); // 这里拿到你监听的事件类型
             for (String eventType : eventTypes) {
-                System.out.println("监听了事件类型：" + eventType);
+                System.out.println("id930 lsn evt：" + eventType);
 
                 String mthFullname = clzScaned.getName() + ".hdlrRq";
                 Method lmdaFun = getMethod(clzScaned, "handleRequest");
