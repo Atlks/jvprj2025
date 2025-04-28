@@ -98,9 +98,9 @@ public class EvtUtil {
             System.out.println("d1246");
         if (clzScaned.isAnnotationPresent(util.annos.EventListener.class)) {
             util.annos.EventListener listenerAnno = (util.annos.EventListener) clzScaned.getAnnotation(util.annos.EventListener.class);
-            Class<?>[] eventTypes = listenerAnno.value(); // 这里拿到你监听的事件类型
-            for (Class<?> eventType : eventTypes) {
-                System.out.println("监听了事件类型：" + eventType.getName());
+            String[] eventTypes = listenerAnno.value(); // 这里拿到你监听的事件类型
+            for (String eventType : eventTypes) {
+                System.out.println("监听了事件类型：" + eventType);
 
                 String mthFullname = clzScaned.getName() + ".hdlrRq";
                 Method lmdaFun = getMethod(clzScaned, "handleRequest");

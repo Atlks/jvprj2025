@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface EventListener {
     @AliasFor("classes")
-    Class<?>[] value() default {};
+    String[] value()  ;
 
     /**
      * The event classes that this listener handles.
