@@ -25,7 +25,7 @@ public class UpdtChainRchgAmtSumSttHdl {
 
      * @throws Throwable
      */
-    public   void handleRequest(Transactions tx, ) throws Throwable {
+    public   void handleRequest(Transactions tx ) throws Throwable {
 
         Session session=sessionFactory.getCurrentSession();
         Usr u=findByHerbinate(Usr.class,tx.uname,session);
