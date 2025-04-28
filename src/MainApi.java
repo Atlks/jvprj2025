@@ -15,7 +15,6 @@ import util.tx.findByIdExptn_CantFindData;
 
 import java.io.FileNotFoundException;
 
-import static Evt.RegEvt.evtlist4reg;
 import static cfg.AppConfig.sessionFactory;
 //import static cfg.Containr.evtlist4reg;
 import static cfg.MyCfg.iniContnr;

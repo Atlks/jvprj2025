@@ -1,6 +1,6 @@
 package handler.admin.ssr;
 
-import entityx.admin.Admin;
+import model.admin.Admin;
 import entityx.usr.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;

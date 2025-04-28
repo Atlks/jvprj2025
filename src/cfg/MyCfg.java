@@ -1,6 +1,6 @@
 package cfg;
 
-import api.bet.ListBetsHdr;
+import util.bet.ListBetsHdr;
 //import handler.rechg.RechargeCallbackHdr;
 
 //import handler.wthdr.WithdrawHdr;

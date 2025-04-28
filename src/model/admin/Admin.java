@@ -1,4 +1,4 @@
-package entityx.admin;
+package model.admin;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

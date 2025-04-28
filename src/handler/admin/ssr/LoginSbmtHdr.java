@@ -1,7 +1,7 @@
 package handler.admin.ssr;
 
 import core.IloginV2;
-import entityx.admin.Admin;
+import model.admin.Admin;
 import handler.admin.dto.AdminLoginDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;

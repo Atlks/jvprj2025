@@ -3,7 +3,7 @@ package util.excptn;
 import entityx.wlt.LogBls;
 
 import entityx.wlt.LogCms;
-import entityx.bet.BetOrd;
+import util.model.bet.BetOrd;
 import entityx.usr.Usr;
 import entityx.wlt.LogBls4YLwlt;
 import model.OpenBankingOBIE.Transactions;

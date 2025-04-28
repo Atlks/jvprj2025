@@ -1,4 +1,4 @@
-package entityx.secury;
+package util.model.secury;
 
 import java.time.LocalDateTime;
 

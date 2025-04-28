@@ -1,6 +1,6 @@
 package util.tx;
 
-import entityx.bet.BetOrd;
+import util.model.bet.BetOrd;
 import org.hibernate.Session;
 import util.misc.HttpExchangeImp;
 import util.excptn.OrmUtilBiz;

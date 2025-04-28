@@ -19,7 +19,7 @@ import util.serverless.RequestHandler;
 import util.tx.findByIdExptn_CantFindData;
 
 //import static cfg.Containr.evtlist4reg;
-import static Evt.RegEvt.evtlist4reg;
+import static util.evt.RegEvt.evtlist4reg;
 import static cfg.Containr.sam4regLgn;
 import static cfg.AppConfig.sessionFactory;
 import static handler.rechg.ReviewChrgPassHdr.addWltIfNotExst;

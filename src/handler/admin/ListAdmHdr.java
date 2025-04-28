@@ -1,6 +1,6 @@
 package handler.admin;
 
-import entityx.admin.Admin;
+import model.admin.Admin;
 import entityx.usr.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.thymeleaf.context.Context;
 import util.algo.Icall;
 import util.serverless.ApiGatewayResponse;
 
@@ -18,7 +17,6 @@ import java.util.Map;
 
 import static cfg.AppConfig.sessionFactory;
 import static util.tx.dbutil.nativeQueryGetResultList;
-import static ztest.htmlTppltl.rend;
 
 @Controller
 

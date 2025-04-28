@@ -1,7 +1,5 @@
 package handler.db;
 
-import entityx.admin.Admin;
-import entityx.usr.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.core.Context;
 import lombok.Data;

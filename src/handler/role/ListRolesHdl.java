@@ -1,13 +1,12 @@
 package handler.role;
 
-import entityx.admin.Admin;
+import model.admin.Admin;
 import entityx.usr.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import model.role.CustomRole;
 import org.hibernate.Session;
 import org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;

@@ -2,10 +2,7 @@ package ztest;
 
 import entityx.usr.Usr;
 
-import java.util.*;
-import java.util.function.Consumer;
-
-import static Evt.RegEvt.evtlist4reg;
+import static util.evt.RegEvt.evtlist4reg;
 //import static cfg.Containr.evtlist4reg;
 import static util.evtdrv.EvtHlpr.publishEvent;
 

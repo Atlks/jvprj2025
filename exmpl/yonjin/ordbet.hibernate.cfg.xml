@@ -37,7 +37,7 @@
 
         <mapping package="apiOrdBet" />
         <!-- 配置实体类扫描路径 -->
-        <mapping class="entityx.bet.BetOrd"/>
+        <mapping class="util.model.bet.BetOrd"/>
         <!-- Entity mapping -->
 
     </session-factory>

@@ -1,4 +1,4 @@
-package entityx.bet;
+package util.model.bet;
 
 //import javax.persistence.*;
 //import javax.persistence.Column;
