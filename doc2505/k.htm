@@ -1,0 +1,87 @@
+<body>
+
+<div id="svg2">
+
+</div>
+
+</body>
+
+<script>
+
+
+
+    const data = [
+    { open: 100, close: 105, high: 110, low: 95 },
+    { open: 105, close: 100, high: 106, low: 98 },
+    { open: 100, close: 110, high: 115, low: 99 },
+    { open: 110, close: 115, high: 120, low: 105 },
+    { open: 115, close: 112, high: 116, low: 110 }
+];
+
+drawCandlestickChart(data,500,300,15)
+
+
+    function drawCandlestickChart(data, width, height, margin) {
+    const svgNS = "http://www.w3.org/2000/svg";  // SVG命名空间
+
+    // 创建SVG容器
+    const svg = document.createElementNS(svgNS, "svg");
+    svg.setAttribute("width", width);
+    svg.setAttribute("height", height);
+
+
+    // 定义每根K线的宽度
+    //const candlestickWidth = (width - margin * 2) / data.length;
+   const candlestickWidth = Math.max(1, (width - margin * 2) / data.length);
+    const maxPrice = Math.max(...data.map(d => d.high));
+    const minPrice = Math.min(...data.map(d => d.low));
+
+    // 绘制每根K线
+    data.forEach((entry, index) => {
+        const open = entry.open;
+        const close = entry.close;
+        const high = entry.high;
+        const low = entry.low;
+
+        // 计算K线的X坐标
+        const x = margin + index * candlestickWidth;
+
+        // 计算Y坐标（这里要转换价格到画布坐标系）
+        const openY = height - (open - minPrice) / (maxPrice - minPrice) * (height - margin * 2);
+        const closeY = height - (close - minPrice) / (maxPrice - minPrice) * (height - margin * 2);
+        const highY = height - (high - minPrice) / (maxPrice - minPrice) * (height - margin * 2);
+        const lowY = height - (low - minPrice) / (maxPrice - minPrice) * (height - margin * 2);
+
+        // 绘制K线的上下影线
+        const line = document.createElementNS(svgNS, "line");
+        line.setAttribute("x1", x + candlestickWidth / 2);
+        line.setAttribute("y1", lowY);
+        line.setAttribute("x2", x + candlestickWidth / 2);
+        line.setAttribute("y2", highY);
+        line.setAttribute("stroke", "black");
+        line.setAttribute("stroke-width", 1);
+        svg.appendChild(line);
+
+        // 绘制K线的矩形部分（蜡烛体）
+        const rect = document.createElementNS(svgNS, "rect");
+        rect.setAttribute("x", x);
+        rect.setAttribute("y", Math.min(openY, closeY));
+        rect.setAttribute("width", candlestickWidth-20);
+        rect.setAttribute("height", Math.abs(openY - closeY));
+
+        // 设置颜色：如果收盘价高于开盘价，表示上涨，蜡烛为绿色，否则为红色
+        if (close > open) {
+            rect.setAttribute("fill", "green");
+        } else {
+            rect.setAttribute("fill", "red");
+        }
+        svg.appendChild(rect);
+    });
+
+    // 将生成的SVG插入到页面中
+    document.body.appendChild(svg);
+}
+
+
+
+</script>
