@@ -36,11 +36,15 @@ public class SendHdl {
         Usr toU=findByHerbinate(Usr.class, reqdto.toChatTargetId, session);
         ToChat to = toChatTgt(toU);
         msg.setFrom(toTgUser(fromU));
+        msg.setFromUid(reqdto.uid);
+
         msg.setChat(to);
-        msg.setToChatTgtId( reqdto.toChatTargetId);
+        msg.setToChatTgtId(reqdto.toChatTargetId);
+
+
         msg.setText(reqdto.text);
 
-        persistByHibernate(Message.class, session);
+        persistByHibernate(msg, session);
         return "ok";
     }
 

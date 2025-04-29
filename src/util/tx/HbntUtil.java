@@ -17,6 +17,7 @@ import org.hibernate.service.ServiceRegistry;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import static util.algo.IsXXX.ifIsBlank;
@@ -190,6 +191,23 @@ public class HbntUtil {
         String mthClr = colorStr("getListBySql", YELLOW_bright);
         System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(" + (sql));
         NativeQuery nativeQuery = session.createNativeQuery(sql);
+        // setPrmts4sql(sqlprmMap, nativeQuery);
+
+        //       .setParameter("age", 18);
+        @NotNull
+        List<?> list1 = nativeQuery.getResultList();
+        System.out.println("✅endfun getListBySql.ret=list,listsize=" + list1.size());
+        return list1;
+    }
+
+
+
+    public static @NotNull List<?>  getResultList(@NotBlank String sql, @NotNull Session session) throws Throwable {
+
+        ifIsBlank(sql);
+        String mthClr = colorStr("getListBySql", YELLOW_bright);
+        System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(" + (sql));
+        NativeQuery nativeQuery = session.createNativeQuery(sql, Map.class);
         // setPrmts4sql(sqlprmMap, nativeQuery);
 
         //       .setParameter("age", 18);
