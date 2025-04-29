@@ -2,6 +2,7 @@ package util.dbuke;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transaction;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,13 +15,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 文本数据库，一个集合就是一个文件夹，一个数据记录就是一个文件，文件名就是数据id
+ *
+ * 文本数据库，存储和事务规范实现使用jpa 规范api接口
+ * 一个集合就是一个文件夹，一个数据记录就是一个文件，文件名就是数据id
  * 文件内容是json序列化的对象实体
  * implt  trx mng api
  * also a conn sesson
+ *   implements EntityManager
  */
-public class DbMng {
-    TrsctImp tx;
+public class DbMng  {
+    TrsctImp tx;  //事务实现
     public String saveDir = "/0db"; // 数据库的根目录
     private ObjectMapper objectMapper = new ObjectMapper(); // 用于对象与JSON的转换
 
@@ -31,10 +35,11 @@ public class DbMng {
     /**
      * 保存数据，数据必定包含字段id，使用反射读取，作为文件名
      *
-     * @param obj * @param collName 集合名
+     * @param obj
+
      * @return
      */
-    public @NotNull Object persist(@NotNull Object obj) throws Exception {
+    public @NotNull Object merge(@NotNull Object obj) throws Exception {
 
         @NotBlank String collName = obj.getClass().getName();
         // 通过反射获取对象的 id 字段
@@ -61,8 +66,21 @@ public class DbMng {
         return obj; // 返回保存的数据对象
     }
 
+    /**
+     * 事务启动
+     * @return
+     */
+    public Transaction beginTx() {
 
-    public @NotNull Object find(@NotBlank String key, @NotBlank Class clz) throws Exception {
+        TrsctImp ti=new TrsctImp();
+        tx=ti;
+        return ti;
+
+    }
+
+
+
+    public @NotNull Object find( @NotNull Class clz,@NotBlank String key) throws Exception {
         // 获取集合对应的文件夹路径
         File dir = new File(saveDir, clz.getName());
         if (!dir.exists()) {
@@ -116,11 +134,5 @@ public class DbMng {
         return resultList; // 返回所有读取到的数据
     }
 
-    public Transaction beginTx() {
 
-         TrsctImp ti=new TrsctImp();
-         tx=ti;
-        return ti;
-
-    }
 }

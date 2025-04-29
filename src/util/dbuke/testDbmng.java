@@ -20,7 +20,7 @@ public class testDbmng {
             Usr u=new Usr("123");
             u.email="111@uke";
 
-            dbMng.persist(u);
+            dbMng.merge(u);
 
             System.out.println("..");
             if("1"!="2")
@@ -28,7 +28,7 @@ public class testDbmng {
 
             Usr u2=new Usr("345");
             u2.email="345@uke";
-            dbMng.persist(u2);
+            dbMng.merge(u2);
             tm.commit();
         } catch (Exception e) {
             e.printStackTrace();
