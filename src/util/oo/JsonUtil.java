@@ -5,7 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 // JSON 序列化
 public class JsonUtil {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    public static final ObjectMapper objectMapper = new ObjectMapper();
 
     // 对象 → JSON 字符串
     public static String serializeToJson(Object obj) throws Exception {
