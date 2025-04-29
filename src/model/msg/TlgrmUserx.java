@@ -1,7 +1,16 @@
 package model.msg;
 
-public class TelegramUser {
-    private Long id;                // 用户唯一 ID
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Data
+@NoArgsConstructor
+public class TlgrmUserx {
+    @Id
+    private String id;                // 用户唯一 ID
     private boolean isBot;          // 是否是机器人
     private String firstName;       // 必填字段
     private String lastName;        // 可选字段
@@ -13,14 +22,12 @@ public class TelegramUser {
     private Boolean canReadAllGroupMessages; // 可选
     private Boolean supportsInlineQueries;   // 可选
 
-    // Getters and setters
-    public Long getId() {
-        return id;
+    public TlgrmUserx(String uid) {
+      this.id=uid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    // Getters and setters
+
 
     public boolean isBot() {
         return isBot;

@@ -1,33 +1,39 @@
 package model.msg;
 
-public class TelegramMessage {
-    private Long messageId;
-    private TelegramUser from;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Data
+@NoArgsConstructor
+public class Message {
+    @Id
+    private String messageId;
+    private TlgrmUserx from;
     private Long date=System.currentTimeMillis();
 
     //chat 表示接收方（可能是用户、群、频道）——它实际上就扮演了“to”的角色。
-    private TelegramChat chat;
+    private ToChat chat;
+    public  String toChatTgtId;
     private String text;
 
     // 可选字段
-    private TelegramMessage replyToMessage;
+    private Message replyToMessage;
     private String forwardFrom;
     private String caption;
 
-    // Getters and setters
-    public Long getMessageId() {
-        return messageId;
+    public Message(String toChatId, String text) {
+
     }
 
-    public void setMessageId(Long messageId) {
-        this.messageId = messageId;
-    }
 
-    public TelegramUser getFrom() {
+    public TlgrmUserx getFrom() {
         return from;
     }
 
-    public void setFrom(TelegramUser from) {
+    public void setFrom(TlgrmUserx from) {
         this.from = from;
     }
 
@@ -39,11 +45,11 @@ public class TelegramMessage {
         this.date = date;
     }
 
-    public TelegramChat getChat() {
+    public ToChat getChat() {
         return chat;
     }
 
-    public void setChat(TelegramChat chat) {
+    public void setChat(ToChat chat) {
         this.chat = chat;
     }
 

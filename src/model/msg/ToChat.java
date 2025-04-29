@@ -1,7 +1,14 @@
 package model.msg;
 
-public class TelegramChat {
-    private Long id;
+import lombok.Data;
+
+/**
+ * toChatTarget  model
+ * 普通用户、群组（group）、超级群组（supergroup）、频道（channel） 虽然都使用同一个实体类 Chat（如 TelegramChat），但它们的行为和字段根据类型有所不同，通常通过 type 字段来区分：
+ */
+@Data
+public class ToChat {
+    private String id;
     private TelegramChatType type; // "private", "group", "supergroup", "channel"
 
     // Optional fields
@@ -10,14 +17,6 @@ public class TelegramChat {
     private String firstName;    // for private chats
     private String lastName;     // for private chats
 
-    // Getters and setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
 
     public String getTitle() {
