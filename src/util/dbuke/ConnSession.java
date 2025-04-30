@@ -56,7 +56,8 @@ public class ConnSession {
 
         // 文件路径（文件名是 id）
         String data_id = id + ".json";
-        setTxRollback( data_id, collName );
+        if(autoCommit==false)
+            tx.setTxRollback( data_id, collName );
 
         // 将对象序列化为 JSON 写入文件
         File file=new File(saveDir+"/"+collName+"/"+data_id);
@@ -69,54 +70,6 @@ public class ConnSession {
 
 
 
-    private void setTxRollback(String data_id, String collName) throws Exception {
-
-        String data_loc=collName+"/"+data_id;
-        if (existDataInDB(data_loc)) {
-             backOlddata(data_loc);
-        }
-        tx.setRollbackAct(() -> {
-            delNewData(data_loc);
-
-            if (existOlddataInTxbekArea(data_loc)) {
-                restoreOlddata(data_loc);
-            }
-        });
-    }
-
-    private void delNewData(String data_loc) {
-        System.out.println( "fun delNewData(dtlc="+data_loc);
-        String delf=saveDir+"/"+data_loc ;
-        delFile(delf);
-
-    }
-
-
-    private boolean existDataInDB(String data_loc) {
-
-        System.out.println( "fun existDataInDB(dtlc="+data_loc);
-        File file = new File(saveDir+"/"+ data_loc);
-        return (file.exists());
-    }
-
-    private void backOlddata(String data_loc) throws Exception {
-        System.out.println( "fun backOlddata(dtlc="+data_loc);
-        copyFile(saveDir+"/"+ data_loc, saveDir1bkTx+"/"+ data_loc);
-    }
-
-    private void restoreOlddata(String data_loc) throws IOException {
-        System.out.println( "fun restoreOlddata(dtlc="+data_loc);
-        String old=saveDir1bkTx+"/"+data_loc;
-        String newf=saveDir+"/"+data_loc;
-        moveFile(old, newf);
-    }
-
-
-    private boolean existOlddataInTxbekArea(String data_loc) {
-        System.out.println( "fun existOlddataInTxbekArea(dtlc="+data_loc);
-        String collDir=saveDir1bkTx+"/"+data_loc;
-        return new File(collDir ).exists();
-    }
 
 
     /**
@@ -127,7 +80,7 @@ public class ConnSession {
     public Transaction beginTx() {
 
         this.autoCommit = false;
-        TrsctImp ti = new TrsctImp();
+        TrsctImp ti = new TrsctImp(this);
         tx = ti;
         return ti;
 
