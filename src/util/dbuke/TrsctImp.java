@@ -1,6 +1,7 @@
 package util.dbuke;
 
 import jakarta.transaction.*;
+import util.algo.Runnablex;
 
 import javax.transaction.xa.XAResource;
 import java.util.ArrayList;
@@ -8,9 +9,9 @@ import java.util.List;
 
 public class TrsctImp implements Transaction {
 
-    public List<Runnable> rollback_list=new ArrayList<>();
+    public List<Runnablex> rollback_list=new ArrayList<>();
 
-    public void setRollbackAct(Runnable act) {this.rollback_list.add(act);
+    public void setRollbackAct(Runnablex act) {this.rollback_list.add(act);
     }
 
     @Override
@@ -19,10 +20,14 @@ public class TrsctImp implements Transaction {
     }
 
     @Override
-    public void rollback() throws IllegalStateException, SystemException {
-        for(Runnable r:rollback_list)
+    public void rollback()  {
+        for(Runnablex r:rollback_list)
         {
-            r.run();
+            try {
+                r.run();
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

@@ -5,7 +5,7 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.transaction.Transaction;
 import jakarta.transaction.TransactionManager;
 
-public class testConn {
+public class testConnFst {
 
     public static void main(String[] args) throws Exception {
         System.out.println(Transaction.class);
@@ -18,17 +18,12 @@ public class testConn {
             System.out.println(TransactionManager.class);
 
             Usr u=new Usr("123");
-            u.email="111new@uke";
+            u.email="111@uke";
 
             conn1.merge(u);
 
             System.out.println("..");
-            if("1"!="2")
-                throw new RuntimeException("not eq");
 
-            Usr u2=new Usr("345");
-            u2.email="345@uke";
-            conn1.merge(u2);
 
             tx.commit();
         } catch (Exception e) {

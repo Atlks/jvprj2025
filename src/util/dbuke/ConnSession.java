@@ -69,7 +69,7 @@ public class ConnSession {
 
 
 
-    private void setTxRollback(String data_id, String collName) {
+    private void setTxRollback(String data_id, String collName) throws Exception {
 
         String data_loc=collName+"/"+data_id;
         if (existDataInDB(data_loc)) {
@@ -85,7 +85,7 @@ public class ConnSession {
     }
 
     private void delNewData(String data_loc) {
-
+        System.out.println( "fun delNewData(dtlc="+data_loc);
         String delf=saveDir+"/"+data_loc ;
         delFile(delf);
 
@@ -94,22 +94,26 @@ public class ConnSession {
 
     private boolean existDataInDB(String data_loc) {
 
+        System.out.println( "fun existDataInDB(dtlc="+data_loc);
         File file = new File(saveDir+"/"+ data_loc);
         return (file.exists());
     }
 
-    private void backOlddata(String data_loc) {
-
-        copyFile(saveDir+"/"+ data_loc, saveDir1bkTx);
+    private void backOlddata(String data_loc) throws Exception {
+        System.out.println( "fun backOlddata(dtlc="+data_loc);
+        copyFile(saveDir+"/"+ data_loc, saveDir1bkTx+"/"+ data_loc);
     }
 
-    private void restoreOlddata(String data_loc) {
-        String collDir=saveDir1bkTx+"/"+data_loc;
-        moveFile(new File(collDir), saveDir);
+    private void restoreOlddata(String data_loc) throws IOException {
+        System.out.println( "fun restoreOlddata(dtlc="+data_loc);
+        String old=saveDir1bkTx+"/"+data_loc;
+        String newf=saveDir+"/"+data_loc;
+        moveFile(old, newf);
     }
 
 
     private boolean existOlddataInTxbekArea(String data_loc) {
+        System.out.println( "fun existOlddataInTxbekArea(dtlc="+data_loc);
         String collDir=saveDir1bkTx+"/"+data_loc;
         return new File(collDir ).exists();
     }
