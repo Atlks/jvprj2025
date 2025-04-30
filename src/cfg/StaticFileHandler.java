@@ -26,39 +26,45 @@ public class StaticFileHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        String requestPath = exchange.getRequestURI().getPath().replaceFirst("^" + rmvUrlPathPrefix, "");
-        File file = new File(rootDir, requestPath);
+
+        try {
+            String requestPath = exchange.getRequestURI().getPath().replaceFirst("^" + rmvUrlPathPrefix, "");
+            File file = new File(rootDir, requestPath);
 
 
+            if (!file.exists() || file.isDirectory()) {
+                exchange.sendResponseHeaders(404, 0);
+                exchange.getResponseBody().write("404 Not Found".getBytes());
+                exchange.getResponseBody().close();
+                return;
+            }
 
-        if (!file.exists() || file.isDirectory()) {
-            exchange.sendResponseHeaders(404, 0);
-            exchange.getResponseBody().write("404 Not Found".getBytes());
-            exchange.getResponseBody().close();
-            return;
+            byte[] fileBytes = Files.readAllBytes(file.toPath());
+            if (isImp(file)) {
+                String contentType = getImageMimeType(file);
+                System.out.println("contentType=" + contentType);
+                //   exchange.set
+                exchange.getResponseHeaders().set("Content-Type", contentType);
+            } else if (isHtml(file)) {  //is json html,txt
+                exchange.getResponseHeaders().set("Content-Type", "text/html");
+            } else if (isJson(file)) {  //is json html,txt
+                exchange.getResponseHeaders().set("Content-Type", "application/json");
+            } else {
+                exchange.getResponseHeaders().set("Content-Type", "application/octet-stream");
+            }
+            //  exchange.getResponseHeaders().set("Content-Type", "img/mpeg");
+            // 发送 200 OK 状态，并写入文件内容
+            exchange.sendResponseHeaders(200, fileBytes.length);
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(fileBytes);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            exchange.close(); // ⚠️ 必须调用，否则会卡住
         }
 
-        byte[] fileBytes = Files.readAllBytes(file.toPath());
-        if (isImp(file)) {
-            String contentType = getImageMimeType(file);
-            System.out.println("contentType="+contentType);
-         //   exchange.set
-            exchange.getResponseHeaders().set("Content-Type", contentType);
-        } else if (isHtml(file)) {  //is json html,txt
-            exchange.getResponseHeaders().set("Content-Type", "text/html");
-        }
-        else if (isJson(file)) {  //is json html,txt
-            exchange.getResponseHeaders().set("Content-Type", "application/json");
-        }
-        else {
-            exchange.getResponseHeaders().set("Content-Type", "application/octet-stream");
-        }
-        //  exchange.getResponseHeaders().set("Content-Type", "img/mpeg");
-        // 发送 200 OK 状态，并写入文件内容
-        exchange.sendResponseHeaders(200, fileBytes.length);
-        try (OutputStream os = exchange.getResponseBody()) {
-            os.write(fileBytes);
-        }
+
     }
 
     private boolean isJson(File file) {
@@ -66,7 +72,8 @@ public class StaticFileHandler implements HttpHandler {
             return false;
         }
         String fileName = file.getName().toLowerCase();
-        return fileName.endsWith(".json")  ; }
+        return fileName.endsWith(".json");
+    }
 
     private boolean isHtml(File file) {
 

@@ -77,7 +77,7 @@ public class WebSvr {
         // 启动服务器
         //   server.setExecutor(null); // 默认的线程池  单线程
         // 设置 10 线程并发执行
-        server.setExecutor(Executors.newFixedThreadPool(5));
+        server.setExecutor(Executors.newFixedThreadPool(20));
         //  server.setExecutor(Executors.newSingleThreadExecutor());//每次新线程
 
         server.start();
@@ -254,7 +254,9 @@ public class WebSvr {
             e.printStackTrace();
             printLn("---------------endstatt eprint");
             processNmlExptn(exchange, e);
-        }
+        } finally {
+            exchange.close(); // ⚠️ 必须调用，否则会卡住
+    }
 
 
     }

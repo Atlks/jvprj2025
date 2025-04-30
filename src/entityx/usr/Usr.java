@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.annotations.*;
+import util.annos.CurrentUsername;
 
 //import javax.jdo.annotations.PersistenceCapable;
 //import javax.jdo.annotations.PrimaryKey;
@@ -50,6 +51,7 @@ public class Usr {
     @NotBlank
 
     @Valid
+    @CurrentUsername
     public String uname = "";  //和uid相同
 
     /** 主体标识符（必须） */

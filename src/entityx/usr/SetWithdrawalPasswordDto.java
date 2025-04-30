@@ -3,6 +3,7 @@ package entityx.usr;
 
 import jakarta.persistence.Id;
 import lombok.Data;
+import util.annos.CurrentUsername;
 
 import java.time.LocalDateTime;
 
@@ -16,7 +17,7 @@ public class SetWithdrawalPasswordDto {
     @Id
 
 
-
+    @CurrentUsername
     public String uname;
 
     public  String pwd;

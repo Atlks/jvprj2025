@@ -83,8 +83,9 @@ public class TrsctImp implements Transaction {
         String data_loc = collName + "/" + dataId;
         addRollbackAct(() -> {
             delNewData(data_loc);
+        });
 
-        }
+
     }
 
     private void delNewData(String data_loc) {
