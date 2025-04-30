@@ -5,13 +5,13 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.transaction.Transaction;
 import jakarta.transaction.TransactionManager;
 
-public class testDbmng {
+public class testConn {
 
     public static void main(String[] args) throws Exception {
         System.out.println(Transaction.class);
-
-        DbMng dbMng = new DbMng("/0dbx2");
-        Transaction tm=  dbMng.beginTx();
+        //dont need ssnFctry
+        ConnSession conn1 = new ConnSession("/0dbx2");
+        Transaction tx=  conn1.beginTx();
 
         try{
             System.out.println(EntityTransaction.class);
@@ -20,7 +20,7 @@ public class testDbmng {
             Usr u=new Usr("123");
             u.email="111@uke";
 
-            dbMng.merge(u);
+            conn1.merge(u);
 
             System.out.println("..");
             if("1"!="2")
@@ -28,11 +28,12 @@ public class testDbmng {
 
             Usr u2=new Usr("345");
             u2.email="345@uke";
-            dbMng.merge(u2);
-            tm.commit();
+            conn1.merge(u2);
+
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
-            tm.rollback();
+            tx.rollback();
         }finally {
             //close
         }

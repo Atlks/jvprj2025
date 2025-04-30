@@ -2,7 +2,6 @@ package util.dbuke;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transaction;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -23,12 +22,13 @@ import java.util.Map;
  * also a conn sesson
  *   implements EntityManager
  */
-public class DbMng  {
+public class ConnSession {
     TrsctImp tx;  //事务实现
+    public  boolean autoCommit=true;//自动提交事务
     public String saveDir = "/0db"; // 数据库的根目录
     private ObjectMapper objectMapper = new ObjectMapper(); // 用于对象与JSON的转换
 
-    public DbMng(String dbSaveDir) {
+    public ConnSession(String dbSaveDir) {
         this.saveDir = dbSaveDir;
     }
 
@@ -46,6 +46,8 @@ public class DbMng  {
         Field idField = obj.getClass().getDeclaredField("id");
         idField.setAccessible(true);
         String id = (String) idField.get(obj);
+        if(id==null)
+            throw new RuntimeException("id cantbe null");
 
         // 获取集合对应的文件夹路径
         File dir = new File(saveDir, collName);
@@ -72,6 +74,7 @@ public class DbMng  {
      */
     public Transaction beginTx() {
 
+        this.autoCommit=false;
         TrsctImp ti=new TrsctImp();
         tx=ti;
         return ti;
