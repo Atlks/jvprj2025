@@ -56,7 +56,7 @@ public class ConnSession {
 
         // 文件路径（文件名是 id）
         String data_id = id + ".json";
-        if(autoCommit==false)
+
             tx.setTxRollback( data_id, collName );
 
         // 将对象序列化为 JSON 写入文件

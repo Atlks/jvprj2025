@@ -48,6 +48,8 @@ public class TrsctImp implements Transaction {
 
     public void setTxRollback(String data_id, String collName) throws Exception {
 
+        if(conn.autoCommit==false)
+            return;
         String data_loc=collName+"/"+data_id;
         if (existDataInDB(data_loc)) {
             backOlddata(data_loc);
