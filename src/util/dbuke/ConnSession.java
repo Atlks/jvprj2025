@@ -8,15 +8,12 @@ import jakarta.validation.constraints.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static util.algo.CopyUti.copyFile;
 import static util.algo.CopyUti.moveFile;
 import static util.algo.GetUti.getId;
-import static util.oo.FileUti.delFile;
 import static util.oo.FileUti.mkdir;
 
 
@@ -57,7 +54,28 @@ public class ConnSession {
         // 文件路径（文件名是 id）
         String data_id = id + ".json";
 
-            tx.setTxRollback( data_id, collName );
+        String data_loc=collName+"/"+data_id;
+        if (tx.existDataInDB(data_loc)) {
+            return updt(obj);}
+        else
+            return  persist(obj);
+    }
+
+
+
+    public @NotNull Object persist(@NotNull Object obj) throws Exception {
+
+        @NotBlank String collName = obj.getClass().getName();
+        // 通过反射获取对象的 id 字段
+        String id = getId(obj);
+
+        // 获取集合对应的文件夹路径
+        mkdir(saveDir+"/"+collName);
+
+        // 文件路径（文件名是 id）
+        String data_id = id + ".json";
+
+        tx.setTxRollback4persist( data_id, collName );
 
         // 将对象序列化为 JSON 写入文件
         File file=new File(saveDir+"/"+collName+"/"+data_id);
@@ -69,7 +87,27 @@ public class ConnSession {
 
 
 
+    public @NotNull Object updt(@NotNull Object obj) throws Exception {
 
+        @NotBlank String collName = obj.getClass().getName();
+        // 通过反射获取对象的 id 字段
+        String id = getId(obj);
+
+        // 获取集合对应的文件夹路径
+        mkdir(saveDir+"/"+collName);
+
+        // 文件路径（文件名是 id）
+        String data_id = id + ".json";
+
+        tx.setTxRollback4updt( data_id, collName );
+
+        // 将对象序列化为 JSON 写入文件
+        File file=new File(saveDir+"/"+collName+"/"+data_id);
+        objectMapper.writeValue(file, obj);
+
+
+        return obj; // 返回保存的数据对象
+    }
 
 
     /**
