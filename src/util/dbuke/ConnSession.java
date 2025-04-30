@@ -13,19 +13,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static util.algo.CopyUti.copyFile;
+import static util.algo.CopyUti.moveFile;
+import static util.algo.GetUti.getId;
+import static util.oo.FileUti.delFile;
+import static util.oo.FileUti.mkdir;
+
+
 /**
- *
  * 文本数据库，存储和事务规范实现使用jpa 规范api接口
  * 一个集合就是一个文件夹，一个数据记录就是一个文件，文件名就是数据id
  * 文件内容是json序列化的对象实体
  * implt  trx mng api
  * also a conn sesson
- *   implements EntityManager
+ * implements EntityManager
  */
 public class ConnSession {
     TrsctImp tx;  //事务实现
-    public  boolean autoCommit=true;//自动提交事务
+    public boolean autoCommit = true;//自动提交事务
     public String saveDir = "/0db"; // 数据库的根目录
+    String saveDir1bkTx = "/0dbBk4tx";
     private ObjectMapper objectMapper = new ObjectMapper(); // 用于对象与JSON的转换
 
     public ConnSession(String dbSaveDir) {
@@ -36,54 +43,94 @@ public class ConnSession {
      * 保存数据，数据必定包含字段id，使用反射读取，作为文件名
      *
      * @param obj
-
      * @return
      */
     public @NotNull Object merge(@NotNull Object obj) throws Exception {
 
         @NotBlank String collName = obj.getClass().getName();
         // 通过反射获取对象的 id 字段
-        Field idField = obj.getClass().getDeclaredField("id");
-        idField.setAccessible(true);
-        String id = (String) idField.get(obj);
-        if(id==null)
-            throw new RuntimeException("id cantbe null");
+        String id = getId(obj);
 
         // 获取集合对应的文件夹路径
-        File dir = new File(saveDir, collName);
-        if (!dir.exists()) {
-            dir.mkdirs(); // 创建文件夹（如果不存在）
-        }
+        mkdir(saveDir+"/"+collName);
 
         // 文件路径（文件名是 id）
-        File file = new File(dir, id + ".json");
+        String data_id = id + ".json";
+        setTxRollback( data_id, collName );
 
         // 将对象序列化为 JSON 写入文件
+        File file=new File(saveDir+"/"+collName+"/"+data_id);
         objectMapper.writeValue(file, obj);
-        String fname = file.getAbsolutePath();
-        tx.setRollbackAct(() -> {
-            new File(fname).delete();
-        });
+
 
         return obj; // 返回保存的数据对象
     }
 
+
+
+
+    private void setTxRollback(String data_id, String collName) {
+
+        String data_loc=collName+"/"+data_id;
+        if (existDataInDB(data_loc)) {
+             backOlddata(data_loc);
+        }
+        tx.setRollbackAct(() -> {
+            delNewData(data_loc);
+
+            if (existOlddataInTxbekArea(data_loc)) {
+                restoreOlddata(data_loc);
+            }
+        });
+    }
+
+    private void delNewData(String data_loc) {
+
+        String delf=saveDir+"/"+data_loc ;
+        delFile(delf);
+
+    }
+
+
+    private boolean existDataInDB(String data_loc) {
+
+        File file = new File(saveDir+"/"+ data_loc);
+        return (file.exists());
+    }
+
+    private void backOlddata(String data_loc) {
+
+        copyFile(saveDir+"/"+ data_loc, saveDir1bkTx);
+    }
+
+    private void restoreOlddata(String data_loc) {
+        String collDir=saveDir1bkTx+"/"+data_loc;
+        moveFile(new File(collDir), saveDir);
+    }
+
+
+    private boolean existOlddataInTxbekArea(String data_loc) {
+        String collDir=saveDir1bkTx+"/"+data_loc;
+        return new File(collDir ).exists();
+    }
+
+
     /**
      * 事务启动
+     *
      * @return
      */
     public Transaction beginTx() {
 
-        this.autoCommit=false;
-        TrsctImp ti=new TrsctImp();
-        tx=ti;
+        this.autoCommit = false;
+        TrsctImp ti = new TrsctImp();
+        tx = ti;
         return ti;
 
     }
 
 
-
-    public @NotNull Object find( @NotNull Class clz,@NotBlank String key) throws Exception {
+    public @NotNull Object find(@NotNull Class clz, @NotBlank String key) throws Exception {
         // 获取集合对应的文件夹路径
         File dir = new File(saveDir, clz.getName());
         if (!dir.exists()) {

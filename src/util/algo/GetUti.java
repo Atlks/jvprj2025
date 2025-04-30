@@ -10,6 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
@@ -25,6 +26,18 @@ import static util.algo.IndexOfUti.indexOfFirst;
 
 
 public class GetUti {
+
+
+    @org.jetbrains.annotations.NotNull
+    public static String getId(Object obj) throws NoSuchFieldException, IllegalAccessException {
+        Field idField = obj.getClass().getDeclaredField("id");
+        idField.setAccessible(true);
+        String id = (String) idField.get(obj);
+        if (id == null)
+            throw new RuntimeException("id cantbe null");
+        return id;
+    }
+
 
     public static @Nullable Method getMethod(@jakarta.validation.constraints.NotNull  Class clz, @NotBlank String methodName) {
 
