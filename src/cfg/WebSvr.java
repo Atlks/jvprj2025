@@ -76,7 +76,7 @@ public class WebSvr {
         //  http://localhost:8889/
         // 启动服务器
         //   server.setExecutor(null); // 默认的线程池  单线程
-        // 设置 10 线程并发执行
+        // 设置 10 线程并发执行.
         server.setExecutor(Executors.newFixedThreadPool(20));
         //  server.setExecutor(Executors.newSingleThreadExecutor());//每次新线程
 
