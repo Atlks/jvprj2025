@@ -11,7 +11,6 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import util.algo.Icall;
 import util.algo.Tag;
 import util.ex.existUserEx;
 
@@ -36,7 +35,23 @@ import static util.tx.HbntUtil.persistByHibernate;
 @PermitAll
 @NoArgsConstructor
 // @Produces / @Consumes：指定返回和接收的数据格式（如 application/json）
-public class AddAdminHdr implements Icall<Admin, Object> {
+public class AddAdminHdr {
+    /**
+     * @param arg
+     * @return
+     * @throws Throwable
+     */
+
+    public Object handleRequest(Admin arg) throws Throwable {
+        chkExistUser(arg);
+        Admin u=new Admin();
+        u.username =arg.username;
+        u.setPassword(encodeMd5(arg.getPassword()));
+        persistByHibernate( u, sessionFactory.getCurrentSession());
+        return "ok";
+    }
+
+
 
     public AddAdminHdr(String uname, String pwd) {
     }
@@ -61,23 +76,9 @@ public class AddAdminHdr implements Icall<Admin, Object> {
             // 空安全处理，直接操作结果
 
         else
-           throw new existUserEx("uname("+user.username+")");
+           throw new existUserEx("uname("+user.username +")");
     }
 
-    /**
-     * @param arg
-     * @return
-     * @throws Throwable
-     */
-    @Override
-    public Object main(Admin arg) throws Throwable {
-        chkExistUser(arg);
-        Admin u=new Admin();
-        u.username=arg.username;
-        u.setPassword(encodeMd5(arg.getPassword()));
-        persistByHibernate( u, sessionFactory.getCurrentSession());
-        return "ok";
-    }
 
 
 

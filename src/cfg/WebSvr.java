@@ -246,7 +246,9 @@ public class WebSvr {
             @NotNull Class<?> hdrclas = pathMap.get(path1);
             if (hdrclas == null)
                 throw new RuntimeException("key is null,key=" + requestURI);
-            var bean = getBeanByClzFrmSpr(hdrclas);
+            Object obj=hdrclas.getConstructor().newInstance();
+            var bean = obj;
+                    //getBeanByClzFrmSpr(hdrclas);
             @NotNull HttpHandler proxyObj = new ApiGateway(bean);
             proxyObj.handle(exchange);
         } catch (Exception e) {

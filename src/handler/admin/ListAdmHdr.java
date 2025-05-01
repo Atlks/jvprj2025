@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import util.algo.Icall;
+import util.annos.Paths;
 import util.serverless.ApiGatewayResponse;
 
 import java.util.HashMap;
@@ -18,19 +19,18 @@ import java.util.Map;
 import static cfg.AppConfig.sessionFactory;
 import static util.tx.dbutil.nativeQueryGetResultList;
 
-@Controller
-
 
 //组合了 @Controller 和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
 @PermitAll
-@Path("/admin/listAdm")
+@Paths({"/admin/listAdm","admin/ListAdmHdr"})
+///admin/ListAdmHdr
 //   http://localhost:8889/admin/listAdm
 @NoArgsConstructor
 @Data
-@Component
-public class ListAdmHdr implements Icall<NonDto, Object> {
 
-    public Object main(NonDto reqdto) throws Exception {
+public class ListAdmHdr  {
+
+    public Object handleRequest(NonDto reqdto) throws Exception {
 
 //        var uNameLikeConditon = "";
 //        if (!isBlank(reqdto.unameKeyword))
@@ -43,7 +43,7 @@ public class ListAdmHdr implements Icall<NonDto, Object> {
 
 
 
-       return  new ApiGatewayResponse(list1);
+       return  (list1);
     }
 
 

@@ -1,9 +1,9 @@
 get:
   tags:
     - admin
-  summary: "add管理员用户的方法"
+  summary: ""
   description: " 。。。。"
-  operationId: " "
+
   parameters:
     - name: uname
       in: query
@@ -11,12 +11,7 @@ get:
       required: true
       schema:
         type: string
-    - name: pwd
-      in: query
-      description: "密码"
-      required: true
-      schema:
-        type: string
+
 
   responses:
     "200":

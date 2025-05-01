@@ -1,17 +1,17 @@
 get:
   tags:
     - admin
-  summary: "add管理员用户的方法"
-  description: " 。。。。"
-  operationId: " "
+  summary: ""
+
+
   parameters:
-    - name: uname
+    - name: username
       in: query
       description: "用户名"
       required: true
       schema:
         type: string
-    - name: pwd
+    - name: password
       in: query
       description: "密码"
       required: true
