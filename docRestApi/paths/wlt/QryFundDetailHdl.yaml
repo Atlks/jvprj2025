@@ -8,7 +8,7 @@ get:
     - name: day
       in: query
       description: " "
-      required: true
+      required: false
       schema:
         type: string
 

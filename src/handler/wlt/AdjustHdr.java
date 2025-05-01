@@ -92,6 +92,7 @@ String accid=getAccId(adjstDto.accountSubType,adjstDto.uname);
         tx.accountId= accid.toString();
         tx.transactionCode=TransactionCodes.fromCode( adjstDto.transactionCode);
         tx.amount=toBigDecimal( adjstDto.adjustAmount);
+        tx.transactionStatus=TransactionStatus.BOOKED;
         persistByHibernate(tx,session);
 
 
