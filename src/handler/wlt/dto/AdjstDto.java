@@ -1,13 +1,15 @@
 package handler.wlt.dto;
 
 
+import lombok.Data;
+
 /**
  *
  * 实体类名称：资金调整dto
  * 包含以下字段 ：：
- * 额度类型
+ * 额度类型    acc sub type
  *
- * 调整类型
+ * 调整类型   tx code
  *
  * 会员账号
  *
@@ -19,22 +21,23 @@ package handler.wlt.dto;
  *
  * *调整备注
  */
+@Data
 public class AdjstDto {
 
     /**
-     * 额度类型（如：本金、奖励金等）
+     * 额度类型账户（如：本金、奖励金等）
      */
-    public String quotaType;
+    public String AccountSubType;
 
     /**
      * 调整类型（如：增加、减少、冻结、解冻）
      */
-    public String adjustType;
+    public String TransactionCode;
 
     /**
      * 会员账号（用户唯一标识）
      */
-    public String memberAccount;
+    public String uname;
 
     /**
      * 调整金额（单位：元）
@@ -51,30 +54,8 @@ public class AdjstDto {
      */
     public String remark;
 
-    // Getter & Setter 省略可用 lombok 代替，如 @Data
-    public String getQuotaType() {
-        return quotaType;
-    }
 
-    public void setQuotaType(String quotaType) {
-        this.quotaType = quotaType;
-    }
 
-    public String getAdjustType() {
-        return adjustType;
-    }
-
-    public void setAdjustType(String adjustType) {
-        this.adjustType = adjustType;
-    }
-
-    public String getMemberAccount() {
-        return memberAccount;
-    }
-
-    public void setMemberAccount(String memberAccount) {
-        this.memberAccount = memberAccount;
-    }
 
     public Double getAdjustAmount() {
         return adjustAmount;

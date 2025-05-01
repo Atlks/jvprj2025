@@ -1,7 +1,14 @@
 package model.OpenBankingOBIE;
 
-
-
+/**
+ * ✅ OBIE 的 Transaction Codes 源自 ISO 20022
+ * OBIE 使用以下两个字段来描述交易类型：
+ *
+ * BankTransactionCode
+ *
+ * ProprietaryBankTransactionCode
+ */
+//BankTransactionCode
 //交易类型，iso 20022  有表示
 public enum TransactionCodes {
     ADJT,//	Adjustment	调账
@@ -65,7 +72,11 @@ public enum TransactionCodes {
     /**
      * OTH - Other (其他)
      */
-    OTH;
+    OTH,
+    frz,
+    unfrz
+
+    ;
 
 
 
