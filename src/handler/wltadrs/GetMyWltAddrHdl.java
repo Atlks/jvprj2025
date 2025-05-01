@@ -36,7 +36,7 @@ public class GetMyWltAddrHdl {
      * @throws Throwable
      */
 
-    public ApiGatewayResponse handleRequest(QueryDto reqdto) throws Throwable {
+    public Object handleRequest(QueryDto reqdto) throws Throwable {
 
 
         try {

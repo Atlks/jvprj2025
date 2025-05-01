@@ -35,7 +35,7 @@ public class SetMyWltAddrHdl {
      * @throws Throwable
      */
 
-    public ApiGatewayResponse handleRequest(MyWltAddr reqdto ) throws Throwable {
+    public Object handleRequest(MyWltAddr reqdto ) throws Throwable {
 
 
         var wp = mergeByHbnt(reqdto , sessionFactory.getCurrentSession());

@@ -1,5 +1,6 @@
 package handler.wltadrs;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ import static util.tx.HbntUtil.findByHerbinate;
  */
 @RestController
 
-//@PermitAll
+@PermitAll
 @Path("/myWltAdrs/ReviewWltAdrsHdl")
 //   http://localhost:8889/user/SetWthdrPwd?pwd=000
 @NoArgsConstructor
@@ -35,16 +36,14 @@ public class ReviewWltAdrsHdl {
      * @throws Throwable
      */
 
-    public ApiGatewayResponse handleRequest(ReviewRqdto reqdto ) throws Throwable {
+    public Object handleRequest(ReviewRqdto reqdto ) throws Throwable {
 
 
-        try {
+
             MyWltAddr wp = findByHerbinate(MyWltAddr.class, reqdto.getId(), sessionFactory.getCurrentSession());
             wp.stat=fromCodeStr_ReviewStat(reqdto.stat) ;
             return new ApiGatewayResponse(wp);
-        } catch (findByIdExptn_CantFindData e) {
-            return new ApiGatewayResponse(new MyWltAddr());
-        }
+
 
     }
 

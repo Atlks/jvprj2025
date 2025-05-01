@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class ReviewRqdto {
     @NotBlank
-    public  String Id="";
+    public  String id="";
 
     public String stat;  //ReviewStat
     //@NotBlank

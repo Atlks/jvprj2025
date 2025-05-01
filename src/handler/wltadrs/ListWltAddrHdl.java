@@ -40,16 +40,14 @@ public class ListWltAddrHdl {
      * @throws Throwable
      */
 
-    public ApiGatewayResponse handleRequest(NonDto reqdto ) throws Throwable {
+    public Object handleRequest(NonDto reqdto ) throws Throwable {
 
 
 
-        try {
+
             List wp = getListBySql("select * from "+MY_WLT_ADDR+" order by timestamp desc", sessionFactory.getCurrentSession());
-            return new ApiGatewayResponse(wp);
-        } catch (findByIdExptn_CantFindData e) {
-            return new ApiGatewayResponse(new MyWltAddr());
-        }
+            return  (wp);
+
 
     }
 

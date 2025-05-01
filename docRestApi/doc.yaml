@@ -272,6 +272,22 @@ paths:
         - user
       summary: "审核钱包地址 通过或拒绝"
       description: ""
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: ID，不能为空
+          example: "666"
+
+        - name: stat
+          in: query
+          required: true
+          schema:
+            type: string
+          description: 状态字段，
+          example: "Completed"
 
 
       responses:
