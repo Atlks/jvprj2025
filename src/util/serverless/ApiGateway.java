@@ -193,6 +193,13 @@ public class ApiGateway implements HttpHandler {
         } catch (java.lang.reflect.InvocationTargetException e) {
             // transactionThreadLocal.get().rollback();
             rollbackTransaction();
+            printLn("---------------------print1134 ex ()");
+
+            e.printStackTrace();
+            System.out.flush();  // 立即刷新缓冲区
+            System.err.flush();  // 立即刷新缓冲区
+            sleepx(500);
+            printLn("---------------------end print ex ()");
             responseTxt = processInvkExpt(exchange, e);
             //  Transaction tx = sessionFactory.beginTransaction();
 

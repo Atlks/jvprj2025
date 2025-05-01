@@ -254,9 +254,32 @@ paths:
     $ref: './paths/FgtPwdGetQuestionByUnameHdr.yaml'
   /user/SetEmlHdl:
     $ref: './paths/usr/SetEmlHdl.yaml'
-  /user/GeMyWltAddrHdl:
+
+  /myWltAdrs/ListWltAddrHdl:
+    get:
+      tags:
+        - user
+      summary: "审核读取钱包地址"
+      description: ""
+
+
+      responses:
+        "200":
+          $ref: '../../components/responses/CommonResponse.yaml'
+  /myWltAdrs/ReviewWltAdrsHdl:
+    get:
+      tags:
+        - user
+      summary: "审核钱包地址 通过或拒绝"
+      description: ""
+
+
+      responses:
+        "200":
+          $ref: '../../components/responses/CommonResponse.yaml'
+  /myWltAdrs/GetMyWltAddrHdl:
     $ref: './paths/usr/GeMyWltAddrHdl.yaml'
-  /user/SeMyWltAddrHdl:
+  /myWltAdrs/SetMyWltAddrHdl:
     $ref: './paths/usr/SeMyWltAddrHdl.yaml'
   /usr/QryNextLvMbrHdl:
     $ref: './paths/usr/QryNextLvMbrHdl.yaml'

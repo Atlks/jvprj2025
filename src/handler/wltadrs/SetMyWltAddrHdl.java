@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
 
 import static cfg.AppConfig.sessionFactory;
+import static util.tx.HbntUtil.mergeByHbnt;
 import static util.tx.HbntUtil.persistByHibernate;
 
 /**
@@ -29,16 +30,16 @@ public class SetMyWltAddrHdl {
 
     /**
      * @param reqdto
-     * @param context
+
      * @return
      * @throws Throwable
      */
 
-    public ApiGatewayResponse handleRequest(QueryDto reqdto, Context context) throws Throwable {
+    public ApiGatewayResponse handleRequest(MyWltAddr reqdto ) throws Throwable {
 
 
-        MyWltAddr wp = (MyWltAddr) persistByHibernate(MyWltAddr.class , sessionFactory.getCurrentSession());
-        return new ApiGatewayResponse(wp);
+        var wp = mergeByHbnt(reqdto , sessionFactory.getCurrentSession());
+        return (wp);
     }
 
 }

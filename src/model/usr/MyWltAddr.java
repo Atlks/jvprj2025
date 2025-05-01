@@ -6,6 +6,7 @@ package model.usr;
 import jakarta.persistence.*;
 import lombok.Data;
 import model.review.ReviewStat;
+import util.annos.CurrentUsername;
 
 @Entity
 @Table(name = MyWltAddr.MY_WLT_ADDR)
@@ -16,6 +17,7 @@ public class MyWltAddr {
 
     public static final String MY_WLT_ADDR = "My_Wlt_Addr";
     @Id
+    @CurrentUsername
     public  String uname="";
     public long timestamp=System.currentTimeMillis();
     // 币种，如 USDT、BTC 等
