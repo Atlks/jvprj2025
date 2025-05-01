@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpExchange;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
+import org.jooq.Table;
 import org.springframework.retry.annotation.CircuitBreaker;
 
 import java.io.ByteArrayOutputStream;
@@ -27,7 +28,18 @@ import static util.algo.IndexOfUti.indexOfFirst;
 
 public class GetUti {
 
-
+    /**
+     * 获取实体类 立马的 @table 表格名称。如果没有@table或者为空，则使用实体类名
+     * @param jpaModelClass
+     * @return
+     */
+    public static String getTableName(Class<?> jpaModelClass) {
+        jakarta.persistence.Table tableAnnotation = jpaModelClass.getAnnotation(jakarta.persistence.Table.class);
+        if (tableAnnotation != null && tableAnnotation.name() != null && !tableAnnotation.name().isEmpty()) {
+            return tableAnnotation.name();
+        }
+        return jpaModelClass.getSimpleName();
+    }
     @org.jetbrains.annotations.NotNull
     public static String getId(Object obj) throws NoSuchFieldException, IllegalAccessException {
         Field idField = obj.getClass().getDeclaredField("id");
