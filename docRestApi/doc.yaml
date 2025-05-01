@@ -453,7 +453,9 @@ paths:
       tags:
         - user
       summary: "退出"
-
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
 
 
 

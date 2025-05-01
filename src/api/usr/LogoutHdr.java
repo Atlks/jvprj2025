@@ -1,11 +1,12 @@
 package api.usr;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import util.algo.Icall;
 
 import static util.misc.util2026.setcookie;
 import static util.serverless.ApiGateway.httpExchangeCurThrd;
-
+@PermitAll
 @jakarta.annotation.security.RolesAllowed("user")
 @Path("/logout")
 public class LogoutHdr implements Icall<Object, Object> {
