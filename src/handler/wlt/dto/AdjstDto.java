@@ -26,16 +26,18 @@ public class AdjstDto {
 
     /**
      * 额度类型账户（如：本金、奖励金等）
+     * EMoney:本金钱包 ，GeneralInvestment 投资账户盈利钱包 ，
      */
-    public String AccountSubType;
+    public String accountSubType;
 
     /**
      * 调整类型（如：增加、减少、冻结、解冻）
+     * CRED 加款，DEBT 扣款，frz冻结，unfrz 解冻
      */
-    public String TransactionCode;
+    public String transactionCode;
 
     /**
-     * 会员账号（用户唯一标识）
+     * 会员账号（用户唯一标识）  accOwner
      */
     public String uname;
 

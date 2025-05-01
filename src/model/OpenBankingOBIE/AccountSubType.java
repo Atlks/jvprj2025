@@ -12,6 +12,8 @@ package model.OpenBankingOBIE;
 public enum AccountSubType
 {
 
+    //EMoney:本金钱包 ，GeneralInvestment 投资账户盈利钱包 ，
+
     // 电子钱包账户  主账户
     EMoney,
     // 投资账户（ 就是盈利账户 一般证券）

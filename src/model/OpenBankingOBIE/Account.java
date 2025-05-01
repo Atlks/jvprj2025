@@ -39,11 +39,23 @@ public class Account {
     public BigDecimal InterimAvailableBalance = BigDecimal.valueOf(0); // 有效余额
     public BigDecimal frozenAmount= BigDecimal.valueOf(0);    // 冻结金额
 
+
+    @PostLoad
+    private void initDefaults() {
+        if (InterimAvailableBalance == null) {
+            InterimAvailableBalance = BigDecimal.valueOf(0.0);
+        }
+        if( InterimBookedBalance==null)
+        {
+            InterimBookedBalance= BigDecimal.valueOf(0);
+        }
+    }
+
     //总余额,每日帐点后的余额，一般是Pm10以后，扎帐
     public BigDecimal ClosingBookedBalance;
 
     // 总余额  tmp ttl bls
-    public BigDecimal InterimBookedBalance;  //totalBalance
+    public BigDecimal InterimBookedBalance = BigDecimal.valueOf(0);  //totalBalance
 
     // totalBalance=availableBalance+frozenAmount+penddingBalance
     public BigDecimal penddingBalance;

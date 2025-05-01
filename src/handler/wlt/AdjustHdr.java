@@ -1,6 +1,7 @@
 package handler.wlt;
 
 import handler.wlt.dto.AdjstDto;
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 
 import model.OpenBankingOBIE.*;
@@ -32,38 +33,41 @@ import static util.misc.util2026.*;
 //@Parameter(name = "adjustType")    //+ -  Increase Decrease
 //@Parameter(name = "changeAmount")
 @RolesAllowed({"admin", "Operator"})
-
+@PermitAll
 public class AdjustHdr{
 
 
     public Object handleRequest(AdjstDto adjstDto) throws Throwable {
 
-String accid=getAccId(adjstDto.AccountSubType,adjstDto.uname);
+String accid=getAccId(adjstDto.accountSubType,adjstDto.uname);
         Session session = sessionFactory.getCurrentSession();
         Account acc1 = findByHerbinateLockForUpdtV2(Account.class, accid ,session);
         Transaction tx=new Transaction();
 
         BigDecimal nowAmt = acc1.InterimAvailableBalance;
+        if(nowAmt==null)
+            nowAmt= BigDecimal.valueOf(0);
+
         //def is add
         BigDecimal newBls = nowAmt;
         var logTag = "";
         BigDecimal subAmt = BigDecimal.valueOf(adjstDto.adjustAmount);
-        if (adjstDto.TransactionCode.toUpperCase().equals(TransactionCodes.DEBT.name())) {
+        if (adjstDto.transactionCode.toUpperCase().equals(TransactionCodes.DEBT.name())) {
             newBls = nowAmt.subtract(subAmt);
             logTag = "减少";
             acc1.InterimBookedBalance = acc1.InterimBookedBalance.subtract(subAmt);
             tx.creditDebitIndicator= CreditDebitIndicator.DEBIT;
-        } else if (adjstDto.TransactionCode.toUpperCase().equals(TransactionCodes.CRED.name())) {
+        } else if (adjstDto.transactionCode.toUpperCase().equals(TransactionCodes.CRED.name())) {
             newBls = nowAmt.add(subAmt);
             logTag = "增加";
             acc1.InterimBookedBalance = acc1.InterimBookedBalance.add(subAmt);
             tx.creditDebitIndicator= CreditDebitIndicator.CREDIT;
-        } else if (adjstDto.TransactionCode.toLowerCase().equals(TransactionCodes.frz.name())){
+        } else if (adjstDto.transactionCode.toLowerCase().equals(TransactionCodes.frz.name())){
             acc1.frozenAmount= acc1.frozenAmount.add(subAmt);
             acc1.InterimBookedBalance = acc1.InterimBookedBalance.subtract(subAmt);
             tx.creditDebitIndicator= CreditDebitIndicator.DEBIT;
 
-        } else if (adjstDto.TransactionCode.toLowerCase().equals(TransactionCodes.unfrz.name())){
+        } else if (adjstDto.transactionCode.toLowerCase().equals(TransactionCodes.unfrz.name())){
             acc1.frozenAmount= acc1.frozenAmount.subtract(subAmt);
             acc1.InterimBookedBalance = acc1.InterimBookedBalance.add(subAmt);
             tx.creditDebitIndicator= CreditDebitIndicator.CREDIT;
@@ -83,7 +87,7 @@ String accid=getAccId(adjstDto.AccountSubType,adjstDto.uname);
         tx.transactionId=getUuid();
         tx.accountOwner =adjstDto.uname;
         tx.accountId= accid.toString();
-        tx.transactionCode=TransactionCodes.fromCode( adjstDto.TransactionCode);
+        tx.transactionCode=TransactionCodes.fromCode( adjstDto.transactionCode);
         tx.amount=toBigDecimal( adjstDto.adjustAmount);
         persistByHibernate(tx,session);
 
@@ -98,7 +102,7 @@ String accid=getAccId(adjstDto.AccountSubType,adjstDto.uname);
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
         logBalance.newBalance = toBigDcmTwoDot(newBls);
         logBalance.refUniqId = String.valueOf(System.currentTimeMillis());
-        logBalance.adjustType = adjstDto.TransactionCode;
+        logBalance.adjustType = adjstDto.transactionCode;
         logBalance.changeMode = logTag;
        persistByHibernate(logBalance, session);
 
