@@ -42,7 +42,7 @@ public class ReviewWltAdrsHdl {
 
             MyWltAddr wp = findByHerbinate(MyWltAddr.class, reqdto.getId(), sessionFactory.getCurrentSession());
             wp.stat=fromCodeStr_ReviewStat(reqdto.stat) ;
-            return new ApiGatewayResponse(wp);
+            return (wp);
 
 
     }
