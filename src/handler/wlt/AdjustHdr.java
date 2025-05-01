@@ -10,6 +10,7 @@ import entityx.ApiResponse;
 import entityx.wlt.LogBls;
 //import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ws.rs.Path;
+import util.excptn.BalanceNegativeException;
 
 import java.math.BigDecimal;
 
@@ -44,21 +45,23 @@ String accid=getAccId(adjstDto.accountSubType,adjstDto.uname);
         Account acc1 = findByHerbinateLockForUpdtV2(Account.class, accid ,session);
         Transaction tx=new Transaction();
 
-        BigDecimal nowAmt = acc1.InterimAvailableBalance;
-        if(nowAmt==null)
-            nowAmt= BigDecimal.valueOf(0);
+        BigDecimal avdBls = acc1.InterimAvailableBalance;
+
 
         //def is add
-        BigDecimal newBls = nowAmt;
+        BigDecimal newBls = avdBls;
         var logTag = "";
         BigDecimal subAmt = BigDecimal.valueOf(adjstDto.adjustAmount);
         if (adjstDto.transactionCode.toUpperCase().equals(TransactionCodes.DEBT.name())) {
-            newBls = nowAmt.subtract(subAmt);
+            newBls = avdBls.subtract(subAmt);
+            if (newBls.compareTo(BigDecimal.ZERO) < 0) {
+                throw new BalanceNegativeException("余额不能为负数");
+            }
             logTag = "减少";
             acc1.InterimBookedBalance = acc1.InterimBookedBalance.subtract(subAmt);
             tx.creditDebitIndicator= CreditDebitIndicator.DEBIT;
         } else if (adjstDto.transactionCode.toUpperCase().equals(TransactionCodes.CRED.name())) {
-            newBls = nowAmt.add(subAmt);
+            newBls = avdBls.add(subAmt);
             logTag = "增加";
             acc1.InterimBookedBalance = acc1.InterimBookedBalance.add(subAmt);
             tx.creditDebitIndicator= CreditDebitIndicator.CREDIT;
@@ -74,7 +77,7 @@ String accid=getAccId(adjstDto.accountSubType,adjstDto.uname);
         }
 
 
-//        if (newBls.equals(nowAmt) || adjstDto.adjustType.equals(""))
+//        if (newBls.equals(avdBls) || adjstDto.adjustType.equals(""))
 //            throw new ErrAdjstTypeEx("");
 
         acc1.setInterimAvailableBalance(newBls);
@@ -99,7 +102,7 @@ String accid=getAccId(adjstDto.accountSubType,adjstDto.uname);
         logBalance.uname = acc1.accountId;
 
         logBalance.changeAmount = BigDecimal.valueOf(adjstDto.getAdjustAmount());
-        logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
+        logBalance.amtBefore = toBigDcmTwoDot(avdBls);
         logBalance.newBalance = toBigDcmTwoDot(newBls);
         logBalance.refUniqId = String.valueOf(System.currentTimeMillis());
         logBalance.adjustType = adjstDto.transactionCode;
