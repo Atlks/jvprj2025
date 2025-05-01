@@ -24,6 +24,10 @@ import lombok.Data;
 @Data
 public class AdjstDto {
 
+    public String IdempotencyKey="";
+
+   // public String accountSubType;
+
     /**
      * 额度类型账户（如：本金、奖励金等）
      * EMoney:本金钱包 ，GeneralInvestment 投资账户盈利钱包 ，
