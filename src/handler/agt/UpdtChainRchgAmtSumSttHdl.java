@@ -2,7 +2,7 @@ package handler.agt;
 
 import entityx.usr.Usr;
 import handler.ylwlt.dto.QueryDto;
-import model.OpenBankingOBIE.Transactions;
+import model.OpenBankingOBIE.Transaction;
 import model.agt.Agent;
 import org.hibernate.Session;
 import org.springframework.context.ApplicationEventPublisher;
@@ -25,10 +25,10 @@ public class UpdtChainRchgAmtSumSttHdl {
 
      * @throws Throwable
      */
-    public   void handleRequest(Transactions tx ) throws Throwable {
+    public   void handleRequest(Transaction tx ) throws Throwable {
 
         Session session=sessionFactory.getCurrentSession();
-        Usr u=findByHerbinate(Usr.class,tx.uname,session);
+        Usr u=findByHerbinate(Usr.class,tx.accountOwner,session);
         updtChainDrktlSubRchgAmtSum(tx, u, session);
 
 
@@ -44,7 +44,7 @@ public class UpdtChainRchgAmtSumSttHdl {
         //   publishEvent(evtlist4aftCalcRchgAmtSum,tx);
     }
 
-    private static void updtChainDrktlSubRchgAmtSum(Transactions tx, Usr u, Session session) throws findByIdExptn_CantFindData {
+    private static void updtChainDrktlSubRchgAmtSum(Transaction tx, Usr u, Session session) throws findByIdExptn_CantFindData {
         Agent agt=findByHerbinate(Agent.class, u.invtr, session);
 
         //更新直属下级充值总额
@@ -58,7 +58,7 @@ public class UpdtChainRchgAmtSumSttHdl {
 
 
     //更新所有下级充值总额
-    private   void updateChainAllSubRchgAmtSum(Transactions tx, Usr u, Session session) throws Throwable {
+    private   void updateChainAllSubRchgAmtSum(Transaction tx, Usr u, Session session) throws Throwable {
         List<Usr> agtIds=lambdaInvoke(getSuperiors.class,new QueryDto(u.uname));
         for(Usr uTmp:agtIds){
             Agent agtTmp=findByHerbinate(Agent.class,uTmp.uname, session);

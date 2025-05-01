@@ -2,8 +2,7 @@ package service.wlt;
 import static cfg.AppConfig.sessionFactory;
 
 
-import model.OpenBankingOBIE.Accounts;
-import util.annos.Parameter;
+import model.OpenBankingOBIE.Account;
 import entityx.wlt.LogBls;
 import entityx.wlt.TransDto;
 import entityx.usr.Usr;
@@ -58,8 +57,8 @@ public class AddMoneyToWltService   implements Icall<TransDto, Object> {
         String uname = TransDto88.uname;
         BigDecimal amt = TransDto88.getAmt();
         Session session=sessionFactory.getCurrentSession();
-        Accounts wlt1=TransDto88.lockAccObj;
-        BigDecimal nowAmt =wlt1.availableBalance;
+        Account wlt1=TransDto88.lockAccObj;
+        BigDecimal nowAmt =wlt1.InterimAvailableBalance;
         BigDecimal newBls = nowAmt.add(amt);
 
 
@@ -83,7 +82,7 @@ public class AddMoneyToWltService   implements Icall<TransDto, Object> {
 
 
         //=================updt
-        wlt1.availableBalance = toBigDcmTwoDot(newBls);
+        wlt1.InterimAvailableBalance = toBigDcmTwoDot(newBls);
         mergeByHbnt(wlt1, session);
 
 

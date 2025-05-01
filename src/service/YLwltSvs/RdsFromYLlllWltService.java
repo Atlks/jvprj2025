@@ -1,7 +1,7 @@
 package service.YLwltSvs;
 
 
-import model.OpenBankingOBIE.Accounts;
+import model.OpenBankingOBIE.Account;
 import util.ex.BalanceNotEnghou;
 import entityx.wlt.LogBls4YLwlt;
 import entityx.wlt.TransDto;
@@ -32,10 +32,10 @@ public class RdsFromYLlllWltService implements Icall<TransDto, Object> {
 
         //--------------chk bls
         System.out.println("\n\n\n===========检测余额");
-        Accounts objU=  curLockAcc.get();
+        Account objU=  curLockAcc.get();
         if(objU==null)
             objU=TransDto88.lockAccObj;
-        BigDecimal nowAmt2 = objU.availableBalance;
+        BigDecimal nowAmt2 = objU.InterimAvailableBalance;
 
         if (TransDto88.getChangeAmount().compareTo(nowAmt2) > 0) {
             BalanceNotEnghou ex = new BalanceNotEnghou("余额不足");
@@ -49,9 +49,9 @@ public class RdsFromYLlllWltService implements Icall<TransDto, Object> {
         System.out.println("\n\n\n===========减去盈利钱包余额");
         //  放在一起一快存储，解决了十五问题事务。。。
         BigDecimal amt = TransDto88.getChangeAmount();
-        BigDecimal nowAmt=objU.getAvailableBalance();
+        BigDecimal nowAmt=objU.getInterimAvailableBalance();
         BigDecimal newBls = nowAmt.subtract(toBigDecimal(amt));
-        objU.availableBalance = newBls;
+        objU.InterimAvailableBalance = newBls;
         Session currentSession = sessionFactory.getCurrentSession();
         mergeByHbnt(objU, currentSession);
 

@@ -4,7 +4,7 @@ import handler.ylwlt.dto.QueryDto;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 
-import model.OpenBankingOBIE.Accounts;
+import model.OpenBankingOBIE.Account;
 import org.hibernate.Session;
 import org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
@@ -41,7 +41,7 @@ public class MeWlt implements RequestHandler<QueryDto, ApiGatewayResponse>  {
         Session session = sessionFactory.getCurrentSession();
         addWltIfNotExst( param.uname, session);
 
-        Accounts objU = findByHerbinate(Accounts.class,param.uname, session);
+        Account objU = findByHerbinate(Account.class,param.uname, session);
         return new ApiGatewayResponse(objU);
     }
 }

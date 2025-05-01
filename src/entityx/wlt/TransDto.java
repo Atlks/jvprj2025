@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import model.OpenBankingOBIE.Accounts;
+import model.OpenBankingOBIE.Account;
 import util.annos.CurrentUsername;
 
 
@@ -56,8 +56,8 @@ public class TransDto {
         public String changeMode;
         public BigDecimal amtBefore;
 
-    public Accounts lockAccObj;
-    public Accounts lockYlwltObj;
+    public Account lockAccObj;
+    public Account lockYlwltObj;
     public String refUniqId;
 
     public BigDecimal getChangeAmount() {

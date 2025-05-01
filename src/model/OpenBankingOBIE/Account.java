@@ -3,7 +3,6 @@ package model.OpenBankingOBIE;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import model.OpenBankingOBIE.AccountType;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -16,7 +15,7 @@ import java.util.Date;
 @Table
 @Data
 @NoArgsConstructor
-public class Accounts {
+public class Account {
 
     @Id
     public String accountId;// 用户ID
@@ -29,11 +28,22 @@ public class Accounts {
     public AccountSubType accountSubType= AccountSubType.EMoney;         // 账户类型
 
 
-
-    public BigDecimal availableBalance= BigDecimal.valueOf(0); // 有效余额
+//avd bls
+    /**
+     * 🧾 拆解 InterimAvailableBalance 的含义：
+     * Interim：临时的（即非结算时点）。
+     *
+     * ：可用余额，即客户此刻能支配的金额（扣除了冻结/挂账等
+     * iso 20022和obie都没有avlbbls fld...only itrAvBls
+     */
+    public BigDecimal InterimAvailableBalance = BigDecimal.valueOf(0); // 有效余额
     public BigDecimal frozenAmount= BigDecimal.valueOf(0);    // 冻结金额
-    public BigDecimal totalBalance;    // 总余额
-    public BigDecimal currentBalance;  //totalBalance
+
+    //总余额,每日帐点后的余额，一般是Pm10以后，扎帐
+    public BigDecimal ClosingBookedBalance;
+
+    // 总余额  tmp ttl bls
+    public BigDecimal InterimBookedBalance;  //totalBalance
 
     // totalBalance=availableBalance+frozenAmount+penddingBalance
     public BigDecimal penddingBalance;
@@ -48,9 +58,9 @@ public class Accounts {
     public String currency;            // 币种（如 CNY、USD）
 
 
-    public String uname;
+    public String accountOwner;
 
-    public Accounts(String accountId) {
+    public Account(String accountId) {
     this.accountId=accountId;
    // this.id=accountId;
     }

@@ -6,10 +6,10 @@ import entityx.wlt.LogBls4YLwlt;
 import entityx.wlt.TransDto;
 import lombok.Data;
 
-import model.OpenBankingOBIE.Accounts;
+import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.CreditDebitIndicator;
+import model.OpenBankingOBIE.Transaction;
 import model.OpenBankingOBIE.TransactionStatus;
-import model.OpenBankingOBIE.Transactions;
 import org.hibernate.Session;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -44,28 +44,28 @@ public class AddMoney2YLWltService implements Icall<TransDto,Object> {
 
         Session session=sessionFactory.getCurrentSession();
 
-       Accounts acc=  curLockAcc.get();//nml wlt
+       Account acc=  curLockAcc.get();//nml wlt
        if(acc==null)
            acc=TransDto1.lockAccObj;
 
        var ylwltAccId= getAccId4ylwlt(uname);
-       acc=findByHerbinate(Accounts.class,ylwltAccId,session);
+       acc=findByHerbinate(Account.class,ylwltAccId,session);
 
-        BigDecimal nowAmt =acc.getAvailableBalance();
+        BigDecimal nowAmt =acc.getInterimAvailableBalance();
               //  getFieldAsBigDecimal(acc, "balance", 0);
 
         BigDecimal newBls = nowAmt.add(amt);
-        acc.availableBalance = toBigDcmTwoDot(newBls);
+        acc.InterimAvailableBalance = toBigDcmTwoDot(newBls);
         mergeByHbnt(acc, session);
 
 
 
         //-----------add tx lg
-        Transactions txx=new Transactions();
+        Transaction txx=new Transaction();
         txx.transactionId="add2ylwlt"+getUuid();
         txx.creditDebitIndicator= CreditDebitIndicator.CREDIT;
         txx.accountId=  acc.accountId;
-        txx.uname= TransDto1.uname;
+        txx.accountOwner = TransDto1.uname;
         txx.amount= TransDto1.getChangeAmount();
         txx.refUniqId= String.valueOf(System.currentTimeMillis());
         txx.transactionStatus= TransactionStatus.BOOKED;

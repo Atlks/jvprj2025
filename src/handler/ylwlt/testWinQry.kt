@@ -10,7 +10,7 @@ import handler.ylwlt.dto.QueryDto
 import model.OpenBankingOBIE.CreditDebitIndicator
 import model.OpenBankingOBIE.TransactionCodes
 import model.OpenBankingOBIE.TransactionStatus
-import model.OpenBankingOBIE.Transactions
+import model.OpenBankingOBIE.Transaction
 import util.acc.AccUti.getAccId4ylwlt
 import util.evtdrv.EvtUtil
 import util.tx.HbntUtil

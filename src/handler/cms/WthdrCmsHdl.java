@@ -1,10 +1,9 @@
 package handler.cms;
 
 import jakarta.validation.constraints.NotNull;
-import model.OpenBankingOBIE.Accounts;
+import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.CreditDebitIndicator;
-import model.OpenBankingOBIE.Transactions;
-import model.agt.Agent;
+import model.OpenBankingOBIE.Transaction;
 import org.hibernate.Session;
 import org.springframework.context.event.EventListener;
 
@@ -19,20 +18,20 @@ public class WthdrCmsHdl {
 
         String agtAccId=dto.uname+"_agt";
         Session session = sessionFactory.getCurrentSession();
-        Accounts agtAcc=
-                findByHerbinate(Accounts.class, agtAccId, session);
+        Account agtAcc=
+                findByHerbinate(Account.class, agtAccId, session);
         mergeByHbnt(agtAcc,session);
 
 
 
         String accId4ylwlt = getAccId4ylwlt(dto.uname);
-        Accounts agtAccYlwlt=  findByHerbinate(Accounts.class ,accId4ylwlt, session);
+        Account agtAccYlwlt=  findByHerbinate(Account.class ,accId4ylwlt, session);
 
-        agtAcc.availableBalance= agtAcc.availableBalance.subtract(dto.amt);
-        agtAccYlwlt.availableBalance= agtAccYlwlt.availableBalance.add(dto.amt);
+        agtAcc.InterimAvailableBalance = agtAcc.InterimAvailableBalance.subtract(dto.amt);
+        agtAccYlwlt.InterimAvailableBalance = agtAccYlwlt.InterimAvailableBalance.add(dto.amt);
         mergeByHbnt(agtAccYlwlt,session);
 
-        Transactions tx=new Transactions(accId4ylwlt,dto.uname, CreditDebitIndicator.CREDIT,dto.amt);
+        Transaction tx=new Transaction(accId4ylwlt,dto.uname, CreditDebitIndicator.CREDIT,dto.amt);
         persistByHibernate(tx,session);
         return  "ok";
 

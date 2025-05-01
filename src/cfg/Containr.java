@@ -2,7 +2,6 @@ package cfg;
 
 import entityx.usr.Usr;
 import jakarta.security.enterprise.SecurityContext;
-import model.OpenBankingOBIE.Transactions;
 import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import service.auth.ISAM;

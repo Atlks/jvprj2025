@@ -2,7 +2,7 @@ package handler.rechg;
 
 
 import model.OpenBankingOBIE.CreditDebitIndicator;
-import model.OpenBankingOBIE.Transactions;
+import model.OpenBankingOBIE.Transaction;
 import util.algo.Tag;
 import util.annos.CookieParam;
 
@@ -41,7 +41,7 @@ import static util.misc.util2026.*;
 @RolesAllowed({"", "USER"})
 @CookieParam(name = "uname", value = "$curuser")
 @Component
-public class RechargeHdr implements Icall<Transactions, Object> {
+public class RechargeHdr implements Icall<Transaction, Object> {
 
 
     /**
@@ -60,7 +60,7 @@ public class RechargeHdr implements Icall<Transactions, Object> {
     //@CookieValue
     @Transactional
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
-    public Object main(@BeanParam Transactions ts) throws Exception {
+    public Object main(@BeanParam Transaction ts) throws Exception {
         System.out.println("handle2.sessfac=" + sessionFactory);
         System.out.println("regchg hrl.hadler3()");
         //blk login ed
@@ -68,11 +68,11 @@ public class RechargeHdr implements Icall<Transactions, Object> {
         ts.transactionId = ts.id;
         ts.creditDebitIndicator = CreditDebitIndicator.CREDIT;
         //amt alreay have in dto
-        ts.accountId = ts.uname;
+        ts.accountId = ts.accountOwner;
 
         ts.timestamp = System.currentTimeMillis();
 
-        ts.uname = getCurrentUser();
+        ts.accountOwner = getCurrentUser();
 
 
         return new ApiGatewayResponse(persistByHibernate(ts, sessionFactory.getCurrentSession()));

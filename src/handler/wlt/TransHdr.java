@@ -1,11 +1,9 @@
 package handler.wlt;
 
 
-import model.OpenBankingOBIE.Accounts;
+import model.OpenBankingOBIE.Account;
 import util.algo.Tag;
 import util.annos.CookieParam;
-import util.annos.Operation;
-import util.annos.Parameter;
 import util.annos.注入;
 //import cfg.Operation;
 import entityx.wlt.TransDto;
@@ -81,7 +79,7 @@ public class TransHdr implements Icall<TransDto, String> {
     @Qualifier("AddMoney2YLWltService")
     public Icall AddMoney2YLWltService1;
 
-    public static ThreadLocal<Accounts> curLockAcc = new ThreadLocal<>();
+    public static ThreadLocal<Account> curLockAcc = new ThreadLocal<>();
 
     @Transactional
     @Override
@@ -97,7 +95,7 @@ public class TransHdr implements Icall<TransDto, String> {
       //  lgblsDto.uname=decryptDES( lgblsDto.uname,Key_a1235678);
 
         String uname = lgblsDto.uname;
-        Accounts objU = findByHbntDep(Accounts.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+        Account objU = findByHbntDep(Account.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
 //        if (objU.id == null) {
 //            objU.id = uname;

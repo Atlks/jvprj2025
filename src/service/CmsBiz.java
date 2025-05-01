@@ -4,8 +4,8 @@ package service;
 import entityx.wlt.LogCms;
 import entityx.usr.Usr;
 import entityx.wlt.LogBls4YLwlt;
-import model.OpenBankingOBIE.Accounts;
-import model.OpenBankingOBIE.Transactions;
+import model.OpenBankingOBIE.Account;
+import model.OpenBankingOBIE.Transaction;
 import model.agt.Agent;
 
 import org.hibernate.Session;
@@ -36,8 +36,8 @@ public class CmsBiz {
         u.uname="008";
         u.invtr="007";
 
-        Transactions ord=new Transactions();
-        ord.uname="008";
+        Transaction ord=new Transaction();
+        ord.accountOwner ="008";
        ord.amount =new BigDecimal(100);
      //   calcCms4FrmOrdChrg(ord);
 
@@ -56,12 +56,12 @@ public class CmsBiz {
      * @param objChrg
      * @param session
      */
-    public static void calcCms4FrmOrdChrg(Transactions objChrg, Session session) throws Throwable {
+    public static void calcCms4FrmOrdChrg(Transaction objChrg, Session session) throws Throwable {
         System.out.println( "fun calcCms4FrmOrdChrg（");
         System.out.println(encodeJson(objChrg));
         System.out.println(")");
 
-        Usr u= session.find( Usr.class,objChrg.uname);
+        Usr u= session.find( Usr.class,objChrg.accountOwner);
         String invtr= toStr( u.invtr);
         BigDecimal cmsMny=toBigDcmTwoDot(objChrg.getAmount().multiply( new BigDecimal(0.05)) );
         if(invtr.equals(""))
@@ -110,7 +110,7 @@ public class CmsBiz {
         String methodname="updtBlsYinliwlt";
         System.out.println("\r\n\r\n");
         System.out.println("fun "+methodname+"(uname="+uname+",amt="+amt);
-        Accounts objU = session.find(Accounts.class,getAccId4ylwlt(uname) );
+        Account objU = session.find(Account.class,getAccId4ylwlt(uname) );
 //        if(objU.id==null)
 //        {
 //            objU.id= uname;
@@ -120,7 +120,7 @@ public class CmsBiz {
 
         BigDecimal nowAmt= getFieldAsBigDecimal(objU,"balanceYinliwlt",0);
         BigDecimal newBls=nowAmt.add(amt);
-        objU.availableBalance=toBigDcmTwoDot (newBls);
+        objU.InterimAvailableBalance =toBigDcmTwoDot (newBls);
         mergeByHbnt(objU,session);  ;
 
 

@@ -3,10 +3,9 @@ package handler.wthdr;
 import cfg.AppConfig;
 import entityx.usr.WithdrawDto;
 import jakarta.ws.rs.core.Context;
-import model.OpenBankingOBIE.AccountType;
-import model.OpenBankingOBIE.Accounts;
+import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.CreditDebitIndicator;
-import model.OpenBankingOBIE.Transactions;
+import model.OpenBankingOBIE.Transaction;
 
 
 import util.ex.BalanceNotEnghou;
@@ -46,19 +45,19 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("检测余额", RED_bright));
         dtoWithdrawDto.setUserId(getCurrentUser());
         String uname = getCurrentUser();
-        Accounts YLwlt11;
+        Account YLwlt11;
         String uname1 = dtoWithdrawDto.uname;
         String acc_id = getAccId4ylwlt(uname1);
         try{
 
-            YLwlt11 = findByHerbinateLockForUpdtV2(Accounts.class, acc_id, sessionFactory.getCurrentSession());
+            YLwlt11 = findByHerbinateLockForUpdtV2(Account.class, acc_id, sessionFactory.getCurrentSession());
         } catch (findByIdExptn_CantFindData e) {
             iniYlwlt(uname1);
-            YLwlt11 = findByHerbinateLockForUpdtV2(Accounts.class, acc_id, sessionFactory.getCurrentSession());
+            YLwlt11 = findByHerbinateLockForUpdtV2(Account.class, acc_id, sessionFactory.getCurrentSession());
         }
 
 
-        BigDecimal nowAmt2 = YLwlt11.availableBalance;
+        BigDecimal nowAmt2 = YLwlt11.InterimAvailableBalance;
 
         if (dtoWithdrawDto.getAmount().compareTo(nowAmt2) > 0) {
             BalanceNotEnghou ex = new BalanceNotEnghou("余额不足");
@@ -69,16 +68,16 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         }
 
 
-        Transactions tx1=new Transactions();
+        Transaction tx1=new Transaction();
         copyProps(dtoWithdrawDto,tx1);
-        tx1=new Transactions("wthdr_"+getUuid(), CreditDebitIndicator.DEBIT,dtoWithdrawDto.amount);
+        tx1=new Transaction("wthdr_"+getUuid(), CreditDebitIndicator.DEBIT,dtoWithdrawDto.amount);
         tx1.transactionId="wthdr_"+getUuid();
         tx1.creditDebitIndicator= CreditDebitIndicator.DEBIT;
 
         tx1.amount =dtoWithdrawDto.amount;
 
         tx1.id =tx1.transactionId;
-        tx1.uname= uname1;
+        tx1.accountOwner = uname1;
         tx1.accountId=acc_id;
         Object ord1 = persistByHibernate(tx1, sessionFactory.getCurrentSession());
 
@@ -91,11 +90,11 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         String mthBiz = colorStr("减少盈利钱包的有效余额,增加冻结金额", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         BigDecimal newBls2 = nowAmt2.subtract(dtoWithdrawDto.getAmount());
-        YLwlt11.availableBalance = toBigDcmTwoDot(newBls2);
+        YLwlt11.InterimAvailableBalance = toBigDcmTwoDot(newBls2);
 
         BigDecimal nowAmtFreez = toBigDcmTwoDot(YLwlt11.frozenAmount);
         YLwlt11.frozenAmount = toBigDcmTwoDot(nowAmtFreez.add(dtoWithdrawDto.getAmount()));
-        Accounts usr = mergeByHbnt(YLwlt11, sessionFactory.getCurrentSession());
+        Account usr = mergeByHbnt(YLwlt11, sessionFactory.getCurrentSession());
         return new ApiGatewayResponse(
                 ord1);
 
@@ -105,7 +104,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
     public static void iniYlwltIfNotExist(String uname1) {
 
         try{
-            var wlt=findByHerbinate(Accounts.class, getAccId4ylwlt(uname1) , sessionFactory.getCurrentSession());
+            var wlt=findByHerbinate(Account.class, getAccId4ylwlt(uname1) , sessionFactory.getCurrentSession());
         } catch (findByIdExptn_CantFindData e) {
 
             iniYlwlt(  uname1);
@@ -114,9 +113,9 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
 
     public static void iniYlwlt(String uname1) {
 
-        Accounts yLwlt=new Accounts(getAccId4ylwlt(uname1)  );
+        Account yLwlt=new Account(getAccId4ylwlt(uname1)  );
       //  yLwlt.userId= uname1;
-        yLwlt.uname=uname1;
+        yLwlt.accountOwner =uname1;
         persistByHibernate(yLwlt,sessionFactory.getCurrentSession());
 
     }

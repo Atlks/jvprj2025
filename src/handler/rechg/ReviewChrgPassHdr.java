@@ -3,9 +3,9 @@ package handler.rechg;
 import cfg.MyCfg;
 import entityx.wlt.TransDto;
 import handler.rechg.dto.ReviewChrgRqdto;
-import model.OpenBankingOBIE.Accounts;
+import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.TransactionStatus;
-import model.OpenBankingOBIE.Transactions;
+import model.OpenBankingOBIE.Transaction;
 
 
 import jakarta.annotation.security.PermitAll;
@@ -28,10 +28,8 @@ import java.util.Map;
 import java.util.SortedMap;
 
 import static cfg.Containr.sessionFactory;
-import static util.algo.EncodeUtil.encodeUrl;
 import static util.log.ColorLogger.RED_bright;
 import static util.log.ColorLogger.colorStr;
-import static util.misc.Util2025.writeFile2501;
 import static util.misc.util2026.copyProps;
 import static util.misc.util2026.getField2025;
 import static util.tx.HbntUtil.*;
@@ -81,7 +79,7 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgRqdto, ApiGat
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         Session session = sessionFactory.getCurrentSession();
           // 加悲观锁，锁定这一笔记录（确保幂等 + 并发安全）
-        var trx1 = findByHerbinateLockForUpdtV2(Transactions.class, reqdto.transactionId, session);
+        var trx1 = findByHerbinateLockForUpdtV2(Transaction.class, reqdto.transactionId, session);
         // System.out.println("\r\n----blk updt chg ord set stat=ok");
         //  is proceed??幂等判断在操作最前面
         if (trx1.transactionStatus.equals(TransactionStatus.BOOKED)
@@ -101,13 +99,13 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgRqdto, ApiGat
         // 注意，这一步必须是幂等或可重试
         String mthBiz2=colorStr("主钱包加钱",RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun "+mthBiz2);
-        String uname = trx1.uname;
+        String uname = trx1.accountOwner;
         TransDto transDto=new TransDto();
         copyProps(trx1,transDto);
         transDto.amt=trx1.amount;
         transDto.refUniqId="reqid="+trx1.id;
-        addWltIfNotExst( trx1.uname, session);
-        transDto.lockAccObj= findByHerbinateLockForUpdtV2(Accounts.class, trx1.uname, session);
+        addWltIfNotExst( trx1.accountOwner, session);
+        transDto.lockAccObj= findByHerbinateLockForUpdtV2(Account.class, trx1.accountOwner, session);
         addMoneyToWltService1.main(transDto);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
@@ -130,10 +128,10 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgRqdto, ApiGat
 
     public static void addWltIfNotExst(String uname, Session session) throws findByIdExptn_CantFindData {
         try{
-            var wlt=findByHerbinate(Accounts.class, uname, session);
+            var wlt=findByHerbinate(Account.class, uname, session);
         } catch (findByIdExptn_CantFindData e) {
             //ini wlt
-            Accounts wlt=new Accounts();
+            Account wlt=new Account();
             wlt.accountId = uname;
             persistByHibernate(wlt, session);
           //  transDto.lockAccObj=findByHerbinate(Wallet.class, uname, session);

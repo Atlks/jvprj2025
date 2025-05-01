@@ -1,6 +1,6 @@
 package handler.rechg;
 
-import model.OpenBankingOBIE.Transactions;
+import model.OpenBankingOBIE.Transaction;
 import util.annos.NoDftParam;
 import cfg.MyCfg;
 import entityx.wlt.QryRechgOrdReqDto;
@@ -57,7 +57,7 @@ public class QueryOrdChrgHdr  implements RequestHandler<QryRechgOrdReqDto, ApiGa
 
 
 
-        var list1 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), Transactions.class);
+        var list1 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), Transaction.class);
 
         return new ApiGatewayResponse(list1);
     }

@@ -2,7 +2,7 @@ package handler.rechg;
 
 import cfg.MyCfg;
 import handler.rechg.dto.ReviewChrgRqdto;
-import model.OpenBankingOBIE.Transactions;
+import model.OpenBankingOBIE.Transaction;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 import model.OpenBankingOBIE.TransactionStatus;
-import model.OpenBankingOBIE.Transactions;
+
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -43,7 +43,7 @@ public class ReviewChrgRefuseHdr implements RequestHandler<ReviewChrgRqdto, ApiG
     public ApiGatewayResponse handleRequest(ReviewChrgRqdto reqdto, Context context) throws Throwable {
 
 
-        var o=findByHerbinate(Transactions.class,reqdto.transactionId,sessionFactory.getCurrentSession());
+        var o=findByHerbinate(Transaction.class,reqdto.transactionId,sessionFactory.getCurrentSession());
 
         //mideng chk
         if(o.transactionStatus.equals(TransactionStatus.REJECTED)){

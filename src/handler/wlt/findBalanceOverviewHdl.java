@@ -4,8 +4,7 @@ package handler.wlt;
 import handler.ylwlt.dto.QueryDto;
 import lombok.NoArgsConstructor;
 import model.OpenBankingOBIE.AccountSubType;
-import model.OpenBankingOBIE.AccountType;
-import model.OpenBankingOBIE.Accounts;
+import model.OpenBankingOBIE.Account;
 import model.wlt.BalanceOverview;
 import util.tx.findByIdExptn_CantFindData;
 
@@ -27,13 +26,13 @@ public class findBalanceOverviewHdl {
          * @return Object apigateWayWarp obj
          */
         public Object handleRequest(QueryDto reqdto) throws findByIdExptn_CantFindData {
-            Accounts account = findByHerbinate(Accounts.class,reqdto.uname,sessionFactory.getCurrentSession());
-var accYl=findByHerbinate(Accounts.class, getAccId4ylwlt(reqdto.uname) ,sessionFactory.getCurrentSession());
-    var acc_insFdpool=findByHerbinate (Accounts.class, AccountSubType.uke_ins_fd_pool.name() ,sessionFactory.getCurrentSession());
+            Account account = findByHerbinate(Account.class,reqdto.uname,sessionFactory.getCurrentSession());
+var accYl=findByHerbinate(Account.class, getAccId4ylwlt(reqdto.uname) ,sessionFactory.getCurrentSession());
+    var acc_insFdpool=findByHerbinate (Account.class, AccountSubType.uke_ins_fd_pool.name() ,sessionFactory.getCurrentSession());
             BalanceOverview balanceOverview = new BalanceOverview();
-            balanceOverview.balance=account.availableBalance;
-            balanceOverview.accYlwlt_balance=accYl.availableBalance;
-            balanceOverview.InsFdPool_balance=acc_insFdpool.availableBalance;
+            balanceOverview.balance=account.InterimAvailableBalance;
+            balanceOverview.accYlwlt_balance=accYl.InterimAvailableBalance;
+            balanceOverview.InsFdPool_balance=acc_insFdpool.InterimAvailableBalance;
             return balanceOverview;
         }
 

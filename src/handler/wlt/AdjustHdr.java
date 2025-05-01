@@ -5,22 +5,17 @@ import jakarta.annotation.security.RolesAllowed;
 
 import model.OpenBankingOBIE.*;
 import org.hibernate.Session;
-import util.algo.Tag;
-import util.annos.JwtParam;
-import util.ex.ErrAdjstTypeEx;
 import entityx.ApiResponse;
 import entityx.wlt.LogBls;
 //import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.Path;
-import org.springframework.web.bind.annotation.RestController;
-import util.algo.Icall;
 
 import java.math.BigDecimal;
 
 import static cfg.AppConfig.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static service.CmsBiz.toBigDcmTwoDot;
+import static util.acc.AccUti.getAccId;
 import static util.algo.GetUti.getUuid;
 import static util.tx.HbntUtil.*;
 import static util.tx.dbutil.addObj;
@@ -43,36 +38,51 @@ public class AdjustHdr{
 
     public Object handleRequest(AdjstDto adjstDto) throws Throwable {
 
-var accid=getAccId(adjstDto.AccountSubType,adjstDto.uname);
+String accid=getAccId(adjstDto.AccountSubType,adjstDto.uname);
         Session session = sessionFactory.getCurrentSession();
-        Accounts objU = findByHbntDep(Accounts.class, accid, LockModeType.PESSIMISTIC_WRITE, session);
+        Account acc1 = findByHerbinateLockForUpdtV2(Account.class, accid ,session);
+        Transaction tx=new Transaction();
 
-        BigDecimal nowAmt = objU.availableBalance;
+        BigDecimal nowAmt = acc1.InterimAvailableBalance;
         //def is add
         BigDecimal newBls = nowAmt;
         var logTag = "";
+        BigDecimal subAmt = BigDecimal.valueOf(adjstDto.adjustAmount);
         if (adjstDto.TransactionCode.toUpperCase().equals(TransactionCodes.DEBT.name())) {
-            newBls = nowAmt.subtract(BigDecimal.valueOf(adjstDto.adjustAmount));
+            newBls = nowAmt.subtract(subAmt);
             logTag = "减少";
+            acc1.InterimBookedBalance = acc1.InterimBookedBalance.subtract(subAmt);
+            tx.creditDebitIndicator= CreditDebitIndicator.DEBIT;
         } else if (adjstDto.TransactionCode.toUpperCase().equals(TransactionCodes.CRED.name())) {
-            newBls = nowAmt.add(BigDecimal.valueOf(adjstDto.adjustAmount));
+            newBls = nowAmt.add(subAmt);
             logTag = "增加";
+            acc1.InterimBookedBalance = acc1.InterimBookedBalance.add(subAmt);
+            tx.creditDebitIndicator= CreditDebitIndicator.CREDIT;
+        } else if (adjstDto.TransactionCode.toLowerCase().equals(TransactionCodes.frz.name())){
+            acc1.frozenAmount= acc1.frozenAmount.add(subAmt);
+            acc1.InterimBookedBalance = acc1.InterimBookedBalance.subtract(subAmt);
+            tx.creditDebitIndicator= CreditDebitIndicator.DEBIT;
+
+        } else if (adjstDto.TransactionCode.toLowerCase().equals(TransactionCodes.unfrz.name())){
+            acc1.frozenAmount= acc1.frozenAmount.subtract(subAmt);
+            acc1.InterimBookedBalance = acc1.InterimBookedBalance.add(subAmt);
+            tx.creditDebitIndicator= CreditDebitIndicator.CREDIT;
         }
 
 
 //        if (newBls.equals(nowAmt) || adjstDto.adjustType.equals(""))
 //            throw new ErrAdjstTypeEx("");
 
-        objU.setAvailableBalance(newBls);
-        mergeByHbnt(objU, session);
+        acc1.setInterimAvailableBalance(newBls);
+        mergeByHbnt(acc1, session);
 
 
 
         //addTx
-        Transactions tx=new Transactions();
+
         tx.transactionId=getUuid();
+        tx.accountOwner =adjstDto.uname;
         tx.accountId= accid.toString();
-        tx.creditDebitIndicator= CreditDebitIndicator.CREDIT;
         tx.transactionCode=TransactionCodes.fromCode( adjstDto.TransactionCode);
         tx.amount=toBigDecimal( adjstDto.adjustAmount);
         persistByHibernate(tx,session);
@@ -82,7 +92,7 @@ var accid=getAccId(adjstDto.AccountSubType,adjstDto.uname);
 
         LogBls logBalance = new LogBls();
         logBalance.id = "LogBalance" + getFilenameFrmLocalTimeString();
-        logBalance.uname = objU.accountId;
+        logBalance.uname = acc1.accountId;
 
         logBalance.changeAmount = BigDecimal.valueOf(adjstDto.getAdjustAmount());
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
@@ -93,16 +103,10 @@ var accid=getAccId(adjstDto.AccountSubType,adjstDto.uname);
        persistByHibernate(logBalance, session);
 
 
-        return new ApiResponse(objU);
+        return new ApiResponse(acc1);
     }
 
-    private Object getAccId(String accountSubType, String uname) {
-        if(accountSubType== AccountSubType.EMoney.name())
-            return  uname;
-        else
-            return uname+"_"+accountSubType;
 
-    }
 //    public static void main(String[] args) throws Exception {
 //      MyCfg.iniCfgFrmCfgfile();
 //        Map<String, String> queryParams=new HashMap<>();

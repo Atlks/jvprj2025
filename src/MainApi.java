@@ -5,7 +5,7 @@ import cfg.AppConfig;
 import lombok.SneakyThrows;
 import model.OpenBankingOBIE.AccountSubType;
 import model.OpenBankingOBIE.AccountType;
-import model.OpenBankingOBIE.Accounts;
+import model.OpenBankingOBIE.Account;
 import org.hibernate.Session;
 import org.springframework.context.annotation.ComponentScan;
 import service.wlt.AddMoneyToWltService;
@@ -101,13 +101,13 @@ public class MainApi {
         Session session = sessionFactory.getCurrentSession();
        session.getTransaction().begin();
         try{
-            var wlt=findByHerbinate(Accounts.class, AccountSubType.uke_ins_fd_pool.name(), session);
+            var wlt=findByHerbinate(Account.class, AccountSubType.uke_ins_fd_pool.name(), session);
         } catch (findByIdExptn_CantFindData e) {
 
-            Accounts acc1=new Accounts(AccountSubType.uke_ins_fd_pool.name());
+            Account acc1=new Account(AccountSubType.uke_ins_fd_pool.name());
             // .. acc1.userId= uname1;
          //   acc1.accountId=
-            acc1.uname= String.valueOf(AccountSubType.uke_ins_fd_pool);
+            acc1.accountOwner = String.valueOf(AccountSubType.uke_ins_fd_pool);
             acc1.accountType=AccountType.BUSINESS;
             acc1.accountSubType=AccountSubType.uke_ins_fd_pool;
             persistByHibernate(acc1, session);

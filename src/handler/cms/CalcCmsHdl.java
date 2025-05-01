@@ -5,11 +5,10 @@ import entityx.usr.Usr;
 import handler.agt.getSuperiors;
 import handler.ylwlt.dto.QueryDto;
 import jakarta.validation.constraints.NotNull;
-import model.OpenBankingOBIE.Transactions;
+import model.OpenBankingOBIE.Transaction;
 import model.agt.Agent;
 import org.hibernate.Session;
 import util.annos.EventListener;
-import util.model.EvtType;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,7 +16,6 @@ import java.util.List;
 import static cfg.AppConfig.sessionFactory;
 import static util.algo.CallUtil.lambdaInvoke;
 import static util.evtdrv.EventDispatcher.publishEvent;
-import static util.evtdrv.EvtHlpr.publishEventV3;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 import static util.model.EvtType.AftrCalcRchgAmtSumEvt;
 import static util.tx.HbntUtil.findByHerbinate;
@@ -30,16 +28,16 @@ public class CalcCmsHdl {
     public static void main(String[] args) throws Throwable {
         iniEvtHdrCtnr();
 
-        Transactions tx = new Transactions();
+        Transaction tx = new Transaction();
         publishEvent(AftrCalcRchgAmtSumEvt, tx);
 
     }
 
 
-    public Object handleRequest(@NotNull Transactions tx) throws Throwable {
+    public Object handleRequest(@NotNull Transaction tx) throws Throwable {
 
         try{
-            List<Usr> sups = lambdaInvoke(getSuperiors.class, new QueryDto(tx.uname));
+            List<Usr> sups = lambdaInvoke(getSuperiors.class, new QueryDto(tx.accountOwner));
             Session session = sessionFactory.getCurrentSession();
             for (Usr u : sups) {
 

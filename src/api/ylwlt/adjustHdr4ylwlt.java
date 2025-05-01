@@ -2,10 +2,9 @@ package api.ylwlt;
 
 import jakarta.annotation.security.RolesAllowed;
 
-import model.OpenBankingOBIE.Accounts;
+import model.OpenBankingOBIE.Account;
 import util.algo.Tag;
 import util.annos.JwtParam;
-import util.annos.Parameter;
 import util.ex.ErrAdjstTypeEx;
 import entityx.wlt.LogBls4YLwlt;
 import entityx.wlt.TransDto;
@@ -43,9 +42,9 @@ public class adjustHdr4ylwlt implements Icall<TransDto, Object> {
     public Object main(TransDto TransDto1) throws Throwable {
 
 
-        Accounts objU = findByHbntDep(Accounts.class, getAccId4ylwlt(TransDto1.uname) , LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+        Account objU = findByHbntDep(Account.class, getAccId4ylwlt(TransDto1.uname) , LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
-        BigDecimal nowAmt = objU.availableBalance;
+        BigDecimal nowAmt = objU.InterimAvailableBalance;
         //def is add
         BigDecimal newBls = nowAmt;
         var logTag = "";
@@ -61,14 +60,14 @@ public class adjustHdr4ylwlt implements Icall<TransDto, Object> {
         if (newBls.equals(nowAmt) || TransDto1.adjustType.equals(""))
             throw new ErrAdjstTypeEx("");
 
-        objU.setAvailableBalance(newBls);
+        objU.setInterimAvailableBalance(newBls);
         mergeByHbnt(objU, sessionFactory.getCurrentSession());
 
         //add balanceLog
 
         LogBls4YLwlt logBalance = new LogBls4YLwlt();
         logBalance.id = "LogBalance4ylwlt_" + getFilenameFrmLocalTimeString();
-        logBalance.uname = objU.uname;
+        logBalance.uname = objU.accountOwner;
 
         logBalance.changeAmount = TransDto1.getChangeAmount();
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);

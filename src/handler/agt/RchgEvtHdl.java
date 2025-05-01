@@ -2,19 +2,15 @@ package handler.agt;
 
 import entityx.usr.Usr;
 import handler.cms.CalcCmsHdl;
-import handler.ylwlt.dto.QueryDto;
 import jakarta.validation.constraints.NotNull;
-import model.OpenBankingOBIE.Transactions;
+import model.OpenBankingOBIE.Transaction;
 import model.agt.Agent;
 import model.agt.ChgSubStt;
 import org.hibernate.Session;
-import org.springframework.context.ApplicationEventPublisher;
 import util.annos.EventListener;
 import util.model.EvtType;
-import util.tx.findByIdExptn_CantFindData;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import static cfg.AppConfig.sessionFactory;
 //import static cfg.Containr.evtlist4aftCalcRchgAmtSum;
@@ -25,19 +21,17 @@ import static util.algo.CallUtil.lambdaInvoke;
 import static util.algo.CallUtil.lmdIvk;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
 import static util.algo.NullUtil.isBlank;
-import static util.evtdrv.EventDispatcher.publishEvent;
-import static util.model.EvtType.AftrCalcRchgAmtSumEvt;
 import static util.tx.HbntUtil.*;
 import static util.tx.HbntUtil.getSingleResult;
 
 @EventListener({EvtType.RchgEvt})
 public class RchgEvtHdl {
 
-    public Object handleRequest(@NotNull Transactions tx) throws Throwable {
+    public Object handleRequest(@NotNull Transaction tx) throws Throwable {
 
 
         try {
-            String uid = tx.uname;
+            String uid = tx.accountOwner;
             Session session = sessionFactory.getCurrentSession();
             Usr u = findByHerbinate(Usr.class, uid, session);
             if (isBlank(u.invtr))

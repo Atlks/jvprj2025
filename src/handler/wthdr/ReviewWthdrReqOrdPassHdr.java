@@ -2,7 +2,6 @@ package handler.wthdr;
 
 import cfg.AppConfig;
 import cfg.MyCfg;
-import entityx.wlt.LogBls4YLwlt;
 import entityx.wlt.TransDto;
 import handler.rechg.dto.ReviewChrgRqdto;
 import jakarta.annotation.security.PermitAll;
@@ -10,12 +9,11 @@ import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 
-import model.OpenBankingOBIE.AccountType;
-import model.OpenBankingOBIE.Accounts;
+import model.OpenBankingOBIE.Account;
+import model.OpenBankingOBIE.Transaction;
 import model.OpenBankingOBIE.TransactionStatus;
 
 
-import model.OpenBankingOBIE.Transactions;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,7 +32,6 @@ import java.util.SortedMap;
 
 import static cfg.Containr.sessionFactory;
 import static service.CmsBiz.toBigDcmTwoDot;
-import static service.YLwltSvs.AddMoney2YLWltService.addBlsLog4ylwlt;
 import static util.acc.AccUti.getAccId4ylwlt;
 import static util.log.ColorLogger.RED_bright;
 import static util.log.ColorLogger.colorStr;
@@ -74,7 +71,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
         String mthBiz = colorStr("设置订单状态=完成", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         Session session = sessionFactory.getCurrentSession();
-        var objOrd = findByHerbinate(Transactions.class, reqdto.transactionId, session);
+        var objOrd = findByHerbinate(Transaction.class, reqdto.transactionId, session);
         // System.out.println("\r\n----blk updt chg ord set stat=ok");
         //  is proceed??
         if (objOrd.transactionStatus.equals(TransactionStatus.BOOKED)
@@ -97,13 +94,13 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
         //----=============rds blance n log  ..blk
         String mthBiz2=colorStr("yl钱包减去钱",RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun "+mthBiz2);
-        String uname = objOrd.uname;
+        String uname = objOrd.accountOwner;
         TransDto transDto=new TransDto();
         copyProps(objOrd,transDto);
         transDto.amt=objOrd.amount;
         transDto.refUniqId="reqid="+objOrd.id;
-        iniWlt( objOrd.uname, session);
-        transDto.lockYlwltObj=findByHerbinate(Accounts.class, getAccId4ylwlt(objOrd.uname) , session);
+        iniWlt( objOrd.accountOwner, session);
+        transDto.lockYlwltObj=findByHerbinate(Account.class, getAccId4ylwlt(objOrd.accountOwner) , session);
       //  addMoneyToWltService1.main(transDto);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
@@ -112,15 +109,15 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
         //----------------------sub blsAvld   blsFreez++
           mthBiz = colorStr("减少盈利钱包的有效余额,增加冻结金额", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
-        Accounts objU = findByHbntDep(Accounts.class, getAccId4ylwlt(uname), LockModeType.PESSIMISTIC_WRITE, AppConfig.sessionFactory.getCurrentSession());
-        BigDecimal nowAmt2 = objU.availableBalance;
+        Account objU = findByHbntDep(Account.class, getAccId4ylwlt(uname), LockModeType.PESSIMISTIC_WRITE, AppConfig.sessionFactory.getCurrentSession());
+        BigDecimal nowAmt2 = objU.InterimAvailableBalance;
         BigDecimal newBls2 = nowAmt2.subtract(objOrd.amount);
-        BigDecimal beforeAmt=objU.availableBalance.add(objOrd.amount);
+        BigDecimal beforeAmt=objU.InterimAvailableBalance.add(objOrd.amount);
       //  objU.availableBalance = toBigDcmTwoDot(newBls2);
 
         BigDecimal nowAmtFreez = toBigDcmTwoDot(objU.frozenAmount);
         objU.frozenAmount = objU.frozenAmount.subtract(objOrd.amount);
-        Accounts usr = mergeByHbnt(objU, session);
+        Account usr = mergeByHbnt(objU, session);
 
 
 
@@ -140,10 +137,10 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
 
     public static void iniWlt(String uname, Session session) throws findByIdExptn_CantFindData {
         try{
-            var wlt=findByHerbinate(Accounts.class, uname, session);
+            var wlt=findByHerbinate(Account.class, uname, session);
         } catch (findByIdExptn_CantFindData e) {
             //ini wlt
-            Accounts wlt=new Accounts();
+            Account wlt=new Account();
             wlt.accountId = uname;
             mergeByHbnt(wlt, session);
           //  transDto.lockAccObj=findByHerbinate(Wallet.class, uname, session);
