@@ -3,20 +3,21 @@ package model.usr;
 
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+import model.review.ReviewStat;
 
 @Entity
-@Table(name = "My_Wlt_Addr")
+@Table(name = MyWltAddr.MY_WLT_ADDR)
 @Data
 //@NoArgsConstructor
 public class MyWltAddr {
 
 
+    public static final String MY_WLT_ADDR = "My_Wlt_Addr";
     @Id
     public  String uname="";
+    public long timestamp=System.currentTimeMillis();
     // 币种，如 USDT、BTC 等
     public String currency="USDT";
 
@@ -28,6 +29,9 @@ public class MyWltAddr {
 
     // 二维码图片 URL（可用于前端展示）
     public String qrCodeUrl="";
+
+    @Enumerated(EnumType.STRING)
+    public ReviewStat stat=ReviewStat.Pending;
 
     public MyWltAddr() {
     }

@@ -1,6 +1,7 @@
-package handler.usr;
+package handler.wltadrs;
 
-import handler.ylwlt.dto.QueryDto;
+import entityx.usr.NonDto;
+import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import lombok.Data;
@@ -8,11 +9,14 @@ import lombok.NoArgsConstructor;
 import model.usr.MyWltAddr;
 import org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
-import util.serverless.RequestHandler;
 import util.tx.findByIdExptn_CantFindData;
 
+import java.util.List;
+
 import static cfg.AppConfig.sessionFactory;
+import static model.usr.MyWltAddr.MY_WLT_ADDR;
 import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.getListBySql;
 
 /**
  * 设置安全问题
@@ -21,31 +25,32 @@ import static util.tx.HbntUtil.findByHerbinate;
  */
 @RestController
 
-//@PermitAll
-@Path("/user/GeMyWltAddrHdl")
+@PermitAll
+@Path("/myWltAdrs/ListWltAddrHdl")
 //   http://localhost:8889/user/SetWthdrPwd?pwd=000
 @NoArgsConstructor
 @Data
-public class GeMyWltAddrHdl implements RequestHandler<QueryDto, ApiGatewayResponse> {
+public class ListWltAddrHdl {
 
 
     /**
      * @param reqdto
-     * @param context
+
      * @return
      * @throws Throwable
      */
-    @Override
-    public ApiGatewayResponse handleRequest(QueryDto reqdto, Context context) throws Throwable {
-//        WithdrawalPassword wp=new WithdrawalPassword();
-//        wp.setUname(reqdto.getUname());
-//        wp.setEncryptedPassword(encodeMd5(reqdto.getPwd()));
+
+    public ApiGatewayResponse handleRequest(NonDto reqdto ) throws Throwable {
+
+
+
         try {
-            MyWltAddr wp = findByHerbinate(MyWltAddr.class, reqdto.uname, sessionFactory.getCurrentSession());
+            List wp = getListBySql("select * from "+MY_WLT_ADDR+" order by timestamp desc", sessionFactory.getCurrentSession());
             return new ApiGatewayResponse(wp);
         } catch (findByIdExptn_CantFindData e) {
             return new ApiGatewayResponse(new MyWltAddr());
         }
+
     }
 
 }

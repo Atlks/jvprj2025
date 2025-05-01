@@ -24,7 +24,8 @@ import static util.tx.HbntUtil.mergeByHbnt;
 
 /**
  * 审核充值--拒绝
- *
+ * 主要流程：：状态更改，
+ * 拒绝后钱可能需要转回去
  *
 
  */

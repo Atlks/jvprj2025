@@ -185,19 +185,11 @@ public class HbntUtil {
         return var1;
     }
 
-    public static @NotNull Object getListBySql(@NotBlank String sql, @NotNull Session session) throws Throwable {
 
-        ifIsBlank(sql);
-        String mthClr = colorStr("getListBySql", YELLOW_bright);
-        System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(" + (sql));
-        NativeQuery nativeQuery = session.createNativeQuery(sql);
-        // setPrmts4sql(sqlprmMap, nativeQuery);
+    //alias  of get rzt lst
+    public static @NotNull List getListBySql(@NotBlank String sql, @NotNull Session session) throws Throwable {
 
-        //       .setParameter("age", 18);
-        @NotNull
-        List<?> list1 = nativeQuery.getResultList();
-        System.out.println("✅endfun getListBySql.ret=list,listsize=" + list1.size());
-        return list1;
+     return  getResultList(sql,session);
     }
 
 
