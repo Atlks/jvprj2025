@@ -21,6 +21,7 @@ import static cfg.Containr.sessionFactory;
 import static cfg.MyCfg.iniContnr;
 import static cfg.MyCfg.iniContnr4cfgfile;
 import static cfg.WebSvr.*;
+import static java.time.LocalTime.now;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 
 
@@ -42,8 +43,13 @@ public class MainApi {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-    //    ovrtTEst=true;//todo cancel if test ok
+
+
+        //    ovrtTEst=true;//todo cancel if test ok
         ConsoleInterceptor.init();// log
+        System.out.println("fun main(), now= " + now());
+
+
         start();
         //cfg auth mode =jwt ,,,in apigateway
 
@@ -52,8 +58,9 @@ public class MainApi {
 
 //        sleep(3000);
         System.out.println("--------------------\n\n main()");
-        t1();
+        System.out.println("main() exe finish, " + now());
         AutoRestartApp.main(null);
+
     }
 
     private static void t1() {
@@ -108,7 +115,7 @@ public class MainApi {
             Account acc1=new Account(AccountSubType.uke_ins_fd_pool.name());
             // .. acc1.userId= uname1;
          //   acc1.accountId=
-            acc1.accountOwner = String.valueOf(AccountSubType.uke_ins_fd_pool);
+            acc1.accountOwner = "sys";
             acc1.accountType=AccountType.BUSINESS;
             acc1.accountSubType=AccountSubType.uke_ins_fd_pool;
             persistByHibernate(acc1, session);

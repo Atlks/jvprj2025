@@ -28,7 +28,9 @@ public class StaticFileHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
 
         try {
-            String requestPath = exchange.getRequestURI().getPath().replaceFirst("^" + rmvUrlPathPrefix, "");
+            String path = exchange.getRequestURI().getPath();
+            System.out.println("fun stticFilHdl.hdl(url="+path);
+            String requestPath = path.replaceFirst("^" + rmvUrlPathPrefix, "");
             File file = new File(rootDir, requestPath);
 
 

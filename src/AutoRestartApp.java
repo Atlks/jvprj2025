@@ -14,6 +14,8 @@ import static util.misc.Util2025.encodeJson;
 
 public class AutoRestartApp {
     public static void main(String[] args) throws Exception {
+        if(!new File("/windows").exists())
+            return;
         String pathToWatch =getPrjPath()+ "/src";
         // 监听的文件夹路径
         watchDirectory(pathToWatch);
