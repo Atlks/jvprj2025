@@ -81,7 +81,7 @@ public class ListBetWinLogHdl implements RequestHandler<QueryDto, ApiGatewayResp
 
     public static void main(String[] args) throws Throwable {
 
-        new AppConfig().sessionFactory();//ini sessFctr
+      //  new AppConfig().sessionFactory();//ini sessFctr
         //ini contnr 4cfg,, svrs
         iniContnr();
 

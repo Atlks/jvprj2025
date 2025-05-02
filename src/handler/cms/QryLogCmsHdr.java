@@ -1,6 +1,7 @@
 package handler.cms;
 
 import cfg.BaseHdr;
+import cfg.Containr;
 import cfg.MyCfg;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -9,7 +10,7 @@ import entityx.usr.Usr;
 import org.hibernate.Session;
 import util.misc.HttpExchangeImp;
 import entityx.PageResult;
-import util.excptn.OrmUtilBiz;
+// util.excptn.OrmUtilBiz;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -95,7 +96,7 @@ public class QryLogCmsHdr extends BaseHdr<Usr, Usr> {
         Map<String, Object> sqlprmMap = Map.of("sql", sql, "uname", qryDto.uname);
         System.out.println(encodeJson(sqlprmMap));
 
-        Session session = OrmUtilBiz.openSession(saveUrlOrdChrg);
+        Session session = Containr.sessionFactory.getCurrentSession();
         PageResult<?> rzt = getPageResultByHbnt(sql, sqlprmMap, qryDto.page, qryDto.pagesize, session);
         //    var list1 = getSortedMapsBypages( sql,pageSize, pageNumber);
         // 1️⃣ 计算总记录数
