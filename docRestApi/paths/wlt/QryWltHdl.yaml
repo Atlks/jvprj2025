@@ -1,7 +1,7 @@
 get:
   tags:
     - Account
-  summary: "admin 查询资金"
+  summary: "admin 查询资金钱包"
 
   parameters:
     - name: uname

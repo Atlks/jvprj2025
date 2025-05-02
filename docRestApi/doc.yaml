@@ -33,7 +33,7 @@ tags:
 
   - name: coin
     description: 加密货币外汇贵金属方面接口
-  - name: AccountYl
+  - name: AccountInvst
     description: 盈利钱包方面接口
   - name : wthdr
     description: 取现方面接口
@@ -194,8 +194,7 @@ paths:
      $ref: './paths/wlt/QryWltHdl.yaml'
   /wlt/MeWlt:
     $ref: './paths/wlt/MeWlt.yaml'
-  /wlt/QryFundDetailHdl:
-   $ref: './paths/wlt/QryFundDetailHdl.yaml'
+
   /admin/cfg/SetCfgKv:
     $ref: './paths/cfg/SetCfgKv.yaml'
   /cfg/GetCfg:
@@ -301,6 +300,14 @@ paths:
     $ref: './paths/usr/QryNextLvMbrHdl.yaml'
   /user/setScrQstn:
     $ref: './paths/usrSecury/setScrQstn.yaml'
+  /invstAcc/me:
+    get:
+      tags:
+        - AccountInvst
+      summary: 查询投资盈利账户
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
 
   /admin/qryUsr:
    get:

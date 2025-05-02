@@ -4,6 +4,7 @@ import cfg.AppConfig;
 import entityx.usr.WithdrawDto;
 import jakarta.ws.rs.core.Context;
 import model.OpenBankingOBIE.Account;
+import model.OpenBankingOBIE.AccountSubType;
 import model.OpenBankingOBIE.CreditDebitIndicator;
 import model.OpenBankingOBIE.Transaction;
 
@@ -108,6 +109,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         Account yLwlt=new Account(getAccId4ylwlt(uname1)  );
       //  yLwlt.userId= uname1;
         yLwlt.accountOwner =uname1;
+        yLwlt.accountSubType= AccountSubType.GeneralInvestment;
         persistByHibernate(yLwlt,sessionFactory.getCurrentSession());
 
     }

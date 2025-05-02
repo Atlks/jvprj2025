@@ -1,6 +1,6 @@
 get:
   tags:
-    - AccountYl
+    - AccountInvst
   summary: " 盈利钱包方面接口 投注盈利列表"
   description: " 。。。。"
   operationId: "ListBetWinLogHdl"

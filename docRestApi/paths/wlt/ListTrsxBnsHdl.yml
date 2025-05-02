@@ -1,7 +1,7 @@
 
 get:
   tags:
-    - AccountYl
+    - AccountInvst
   summary: " 盈利钱包方面接口 奖励收入列表"
  
 

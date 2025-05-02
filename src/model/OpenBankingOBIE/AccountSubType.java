@@ -23,25 +23,25 @@ public enum AccountSubType
     uke_ins_fd_pool,
 
     // 活期账户
-    CurrentAccount,
+  //  CurrentAccount,
 
     // 储蓄账户
     SavingsAccount,
 
     // 信用卡账户
-    CreditCard,
+  //  CreditCard,
 
     // 记账卡账户
-    ChargeCard,
+   // ChargeCard,
 
     // 贷款账户
-    Loan,
+  //  Loan,
 
     // 按揭贷款账户
-    Mortgage,
+   // Mortgage,
 
     // 预付卡账户
-    PrePaidCard,
+  //  PrePaidCard,
 
 
 
@@ -51,13 +51,13 @@ public enum AccountSubType
   //  IndividualSavingsAccount,
 
     // 定期存款账户
-    TermDeposit,
+ //   TermDeposit,
 
     // 租赁账户
-    Lease,
+ //   Lease,
 
     // 股票交易账户
-    ShareTrading,
+ //   ShareTrading,
 
     // 财务管理账户
     FinancialAccount,
