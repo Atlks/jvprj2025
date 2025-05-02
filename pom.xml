@@ -474,6 +474,14 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version> <!-- 或使用最新稳定版本 -->
+        </dependency>
+
+
+
         <!-- MySQL JDBC Driver -->
         <dependency>
             <groupId>mysql</groupId>

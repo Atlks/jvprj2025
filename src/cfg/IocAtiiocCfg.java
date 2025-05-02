@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.function.Function;
 
 import static cfg.BaseHdr.saveDirUsrs;
-import static cfg.AopLogJavassist.*;
+//import static cfg.AopLogJavassist.*;
 //import static cfg.AopLogJavassist.printLn;
 import static util.tx.HbntUtil.getSessionFactory;
 import static util.tx.dbutil.setField;
@@ -41,7 +41,7 @@ public class IocAtiiocCfg {
         // 注册组件
      //   PicoContainer888.addComponent(sessionFactory);
     //    container888.addComponent(LoginHdr.class);
-        scanAllClassRgClz();//  all add class  ...  mdfyed class btr
+        //scanAllClassRgClz();//  all add class  ...  mdfyed class btr
          injectAll();
         return AtIoc_context;
     }
@@ -125,61 +125,61 @@ public class IocAtiiocCfg {
     /**
      * 扫描classes路径所有class，加入到容器 MutablePicoContainer
      */
-    public static void scanAllClassRgClz() {
-        try {
-            // 获取 classes 目录
-            String classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-            File classDir = new File(classpath);
-            if (!classDir.exists() || !classDir.isDirectory()) {
-                System.err.println("classes 目录不存在！");
-                return;
-            }
-
-            // 递归扫描 .class 文件
-            List<Class<?>> classList = new ArrayList<>();
-            scanClasses(classDir, classDir.getAbsolutePath(), classList);
-
-            // 注册到 PicoContainer
-            for (Class<?> clazz : classList) {
-                synchronized (lock) {
-                    System.out.flush();  // 刷新输出缓冲区
-                    System.err.flush();  // 刷新输出缓冲区
-                    try {
-                        if (clazz.getName().startsWith("entityx."))
-                            continue;
-                        if (clazz.getName().startsWith("test."))
-                            continue;
-                        if (clazz.getName().startsWith("cfg."))
-                            continue;
-                        if (clazz.getName().startsWith("util"))
-                            continue;
-                        if (clazz.getName().contains("ReChargeComplete"))
-                             printLn("D1138");
-                        System.out.flush();  // 刷新输出缓冲区
-                        Class<?> modifiedClass = getAClassAoped(clazz);
-                        //   context.register(modifiedClass);
-                        if( modifiedClass.getName().contains("ReChargeComplete"))
-                            System.out.println("d231");
-                        Object instsWzSessfac = getInstsWzSessfac(modifiedClass);
-                        AtIoc_context.put(modifiedClass.getName(), instsWzSessfac);
-
-                        printLn("atIoc已注册: " + clazz.getName());
-                        printLn("conetxt size:"+AtIoc_context.size());
-
-                    } catch (Exception e) {
-                        printLn("atIoc注册失败: " + clazz.getName());
-                        System.err.flush();  // 刷新输出缓冲区
-                        printLn("atIoc注册失败msg: " + e.getMessage());
-                        System.err.flush();  // 刷新输出缓冲区
-                        //  System.err.println("注册失败: " + clazz.getName());
-                    }
-                }
-              //  sleepMs(100);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void scanAllClassRgClz() {
+//        try {
+//            // 获取 classes 目录
+//            String classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+//            File classDir = new File(classpath);
+//            if (!classDir.exists() || !classDir.isDirectory()) {
+//                System.err.println("classes 目录不存在！");
+//                return;
+//            }
+//
+//            // 递归扫描 .class 文件
+//            List<Class<?>> classList = new ArrayList<>();
+//            scanClasses(classDir, classDir.getAbsolutePath(), classList);
+//
+//            // 注册到 PicoContainer
+//            for (Class<?> clazz : classList) {
+//                synchronized (lock) {
+//                    System.out.flush();  // 刷新输出缓冲区
+//                    System.err.flush();  // 刷新输出缓冲区
+//                    try {
+//                        if (clazz.getName().startsWith("entityx."))
+//                            continue;
+//                        if (clazz.getName().startsWith("test."))
+//                            continue;
+//                        if (clazz.getName().startsWith("cfg."))
+//                            continue;
+//                        if (clazz.getName().startsWith("util"))
+//                            continue;
+//                        if (clazz.getName().contains("ReChargeComplete"))
+//                             printLn("D1138");
+//                        System.out.flush();  // 刷新输出缓冲区
+//                        Class<?> modifiedClass = getAClassAoped(clazz);
+//                        //   context.register(modifiedClass);
+//                        if( modifiedClass.getName().contains("ReChargeComplete"))
+//                            System.out.println("d231");
+//                        Object instsWzSessfac = getInstsWzSessfac(modifiedClass);
+//                        AtIoc_context.put(modifiedClass.getName(), instsWzSessfac);
+//
+//                        printLn("atIoc已注册: " + clazz.getName());
+//                        printLn("conetxt size:"+AtIoc_context.size());
+//
+//                    } catch (Exception e) {
+//                        printLn("atIoc注册失败: " + clazz.getName());
+//                        System.err.flush();  // 刷新输出缓冲区
+//                        printLn("atIoc注册失败msg: " + e.getMessage());
+//                        System.err.flush();  // 刷新输出缓冲区
+//                        //  System.err.println("注册失败: " + clazz.getName());
+//                    }
+//                }
+//              //  sleepMs(100);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private static void sleepMs(int i) throws InterruptedException {
    Thread.sleep(i);
