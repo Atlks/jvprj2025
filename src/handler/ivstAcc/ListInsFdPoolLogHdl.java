@@ -1,13 +1,12 @@
-package handler.ylwlt;
+package handler.ivstAcc;
 
 
 /**
  * BetWinLog
  */
 
-import handler.ylwlt.dto.QueryDto;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
+import handler.ivstAcc.dto.AccountIdSpec;
+import handler.ivstAcc.dto.QueryDto;
 import util.annos.NoDftParam;
 import cfg.AppConfig;
 import entityx.ylwlt.BetWinLog;
@@ -24,7 +23,6 @@ import java.util.UUID;
 
 import static cfg.Containr.sessionFactory;
 import static cfg.MyCfg.iniContnr;
- 
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
 import static util.misc.Util2025.encodeJson;
 import static util.tx.Pagging.getPageResultByHbntRtLstmap;
@@ -35,10 +33,10 @@ import static util.tx.TransactMng.openSessionBgnTransact;
  *
  */
 @RestController
-@Path("/wlt/ListBetWinLogHdl")
+@Path("/wlt/ListInsFdPoolLogHdl")
 @PermitAll
 @NoDftParam
-public class ListBetWinLogHdl implements RequestHandler<QueryDto, ApiGatewayResponse> {
+public class ListInsFdPoolLogHdl implements RequestHandler<QueryDto, ApiGatewayResponse> {
     /**
      * @param reqdto
      * @param context
@@ -47,7 +45,8 @@ public class ListBetWinLogHdl implements RequestHandler<QueryDto, ApiGatewayResp
      */
     @Override
     public ApiGatewayResponse handleRequest(QueryDto reqdto, Context context) throws Throwable {
-        var sqlNoOrd = "select * from Transactions where transactionCode='DIV' ";//for count    where  uname =:uname
+        var sqlNoOrd = "select * from Transactions    where  accountid= "  +encodeSqlPrmAsStr(AccountIdSpec.invd_fd_pool.name());
+        //for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         if(reqdto.uname!="")
         {  sqlNoOrd=sqlNoOrd+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
@@ -59,23 +58,8 @@ public class ListBetWinLogHdl implements RequestHandler<QueryDto, ApiGatewayResp
         //   System.out.println( encodeJson(sqlprmMap));
 
         var list1 = getPageResultByHbntRtLstmap(sql, sqlprmMap,reqdto, sessionFactory.getCurrentSession());
-        list1.sum=getSum4div(reqdto);
+
         return new ApiGatewayResponse(list1);
-    }
-
-    private BigDecimal getSum4div(QueryDto reqdto) {
-        var sql = "select sum(amount) from Transactions where transactionCode='DIV' ";//for count    where  uname =:uname
-        if(reqdto.uname!="")
-        {  sql=sql+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
-            // sqlprmMap.put("uname",)
-        }
-
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery(sql);
-      var  result = (BigDecimal) query.getSingleResult();
-      return  result;
-
-
     }
 
 
@@ -96,7 +80,7 @@ public class ListBetWinLogHdl implements RequestHandler<QueryDto, ApiGatewayResp
         o.setUname("777");
         o.setAmt(new BigDecimal("9999"));
       //  persistByHibernate(o, AppConfig.sessionFactory.getCurrentSession());
-        System.out.println(encodeJson(new ListBetWinLogHdl().handleRequest(new QueryDto("777"),null)));
+        System.out.println(encodeJson(new ListInsFdPoolLogHdl().handleRequest(new QueryDto("777"),null)));
 
         commitTsact();
     }

@@ -1,7 +1,7 @@
 package handler.agt;
 
 import entityx.usr.Usr;
-import handler.ylwlt.dto.QueryDto;
+import handler.ivstAcc.dto.QueryDto;
 import model.OpenBankingOBIE.Transaction;
 import model.agt.Agent;
 import org.hibernate.Session;

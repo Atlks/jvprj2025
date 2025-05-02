@@ -1,6 +1,6 @@
 package handler.wlt;
 
-import handler.ylwlt.dto.QueryDto;
+import handler.ivstAcc.dto.QueryDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.core.Context;
 

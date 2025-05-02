@@ -1,6 +1,6 @@
 package handler.wlt;
 
-import handler.ylwlt.dto.QueryDto;
+import handler.ivstAcc.dto.QueryDto;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 

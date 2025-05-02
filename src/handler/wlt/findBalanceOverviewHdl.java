@@ -1,7 +1,7 @@
 package handler.wlt;
 
 
-import handler.ylwlt.dto.QueryDto;
+import handler.ivstAcc.dto.QueryDto;
 import lombok.NoArgsConstructor;
 import model.OpenBankingOBIE.AccountSubType;
 import model.OpenBankingOBIE.Account;

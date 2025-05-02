@@ -19,11 +19,12 @@ import util.serverless.RequestHandler;
 import util.tx.findByIdExptn_CantFindData;
 
 //import static cfg.Containr.evtlist4reg;
+import static handler.ivstAcc.IvstAccUti.newIvstWltIfNotExist;
 import static util.evt.RegEvt.evtlist4reg;
 import static cfg.Containr.sam4regLgn;
 import static cfg.AppConfig.sessionFactory;
 import static handler.rechg.ReviewChrgPassHdr.addWltIfNotExst;
-import static handler.wthdr.WthdReqHdl.iniYlwltIfNotExist;
+
 import static util.algo.CopyUti.copyProp;
 import static util.evtdrv.EvtHlpr.publishEvent;
 import static util.misc.Util2025.encodeJson;
@@ -82,7 +83,7 @@ public class RegHandler implements RequestHandler<RegDto, ApiGatewayResponse>,IR
 
         try{
 
-            iniYlwltIfNotExist(uname);
+            newIvstWltIfNotExist(uname);
         }catch (Throwable e){
 
         }

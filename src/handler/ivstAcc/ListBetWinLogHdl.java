@@ -1,11 +1,11 @@
-package handler.ylwlt;
+package handler.ivstAcc;
 
 
 /**
  * BetWinLog
  */
 
-import handler.ylwlt.dto.QueryDto;
+import handler.ivstAcc.dto.QueryDto;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import util.annos.NoDftParam;
@@ -14,8 +14,6 @@ import entityx.ylwlt.BetWinLog;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import model.OpenBankingOBIE.TransactionCodes;
-
 import org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
@@ -37,10 +35,10 @@ import static util.tx.TransactMng.openSessionBgnTransact;
  *
  */
 @RestController
-@Path("/wlt/ListTrsxBnsHdl")
+@Path("/wlt/ListBetWinLogHdl")
 @PermitAll
 @NoDftParam
-public class ListTrsxBnsHdl implements RequestHandler<QueryDto, ApiGatewayResponse> {
+public class ListBetWinLogHdl implements RequestHandler<QueryDto, ApiGatewayResponse> {
     /**
      * @param reqdto
      * @param context
@@ -49,7 +47,7 @@ public class ListTrsxBnsHdl implements RequestHandler<QueryDto, ApiGatewayRespon
      */
     @Override
     public ApiGatewayResponse handleRequest(QueryDto reqdto, Context context) throws Throwable {
-        var sqlNoOrd = "select * from Transactions where transactionCode= " +encodeSqlPrmAsStr( TransactionCodes.BON.name());//for count    where  uname =:uname
+        var sqlNoOrd = "select * from Transactions where transactionCode='DIV' ";//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         if(reqdto.uname!="")
         {  sqlNoOrd=sqlNoOrd+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
@@ -61,12 +59,12 @@ public class ListTrsxBnsHdl implements RequestHandler<QueryDto, ApiGatewayRespon
         //   System.out.println( encodeJson(sqlprmMap));
 
         var list1 = getPageResultByHbntRtLstmap(sql, sqlprmMap,reqdto, sessionFactory.getCurrentSession());
-        list1.sum=getSum4bns(reqdto);
+        list1.sum=getSum4div(reqdto);
         return new ApiGatewayResponse(list1);
     }
 
-    private BigDecimal getSum4bns(QueryDto reqdto) {
-        var sql = "select sum(amount) from Transactions where transactionCode="+encodeSqlPrmAsStr( TransactionCodes.BON.name());//for count    where  uname =:uname
+    private BigDecimal getSum4div(QueryDto reqdto) {
+        var sql = "select sum(amount) from Transactions where transactionCode='DIV' ";//for count    where  uname =:uname
         if(reqdto.uname!="")
         {  sql=sql+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
             // sqlprmMap.put("uname",)

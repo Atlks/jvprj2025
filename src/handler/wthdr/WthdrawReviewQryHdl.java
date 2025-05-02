@@ -1,7 +1,7 @@
 package handler.wthdr;
 
 
-import handler.ylwlt.dto.WthdrawReviewQryDto;
+import handler.ivstAcc.dto.WthdrawReviewQryDto;
 import jakarta.ws.rs.core.Context;
 
 import util.serverless.ApiGatewayResponse;

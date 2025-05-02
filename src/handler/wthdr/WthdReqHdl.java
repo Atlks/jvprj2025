@@ -101,15 +101,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
 
     }
 
-    public static void iniYlwltIfNotExist(String uname1) {
 
-        try{
-            var wlt=findByHerbinate(Account.class, getAccId4ylwlt(uname1) , sessionFactory.getCurrentSession());
-        } catch (findByIdExptn_CantFindData e) {
-
-            iniYlwlt(  uname1);
-        }
-    }
 
     public static void iniYlwlt(String uname1) {
 

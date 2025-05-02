@@ -1,14 +1,11 @@
 package handler.wltadrs;
 
-import handler.ylwlt.dto.QueryDto;
+import handler.ivstAcc.dto.QueryDto;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.usr.MyWltAddr;
-import org.springframework.data.jpa.repository.support.Querydsl;
 import org.springframework.web.bind.annotation.RestController;
-import util.serverless.ApiGatewayResponse;
 import util.tx.findByIdExptn_CantFindData;
 
 import static cfg.AppConfig.sessionFactory;

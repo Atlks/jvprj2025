@@ -1,7 +1,7 @@
 package handler.agt;
 
 import entityx.usr.Usr;
-import handler.ylwlt.dto.QueryDto;
+import handler.ivstAcc.dto.QueryDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import org.hibernate.HibernateException;

@@ -3,7 +3,7 @@ package handler.cms;
 
 import entityx.usr.Usr;
 import handler.agt.getSuperiors;
-import handler.ylwlt.dto.QueryDto;
+import handler.ivstAcc.dto.QueryDto;
 import jakarta.validation.constraints.NotNull;
 import model.OpenBankingOBIE.Transaction;
 import model.agt.Agent;

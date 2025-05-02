@@ -1,7 +1,5 @@
 package util.algo;
 
-import handler.ylwlt.dto.QueryDto;
-
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
 

@@ -23,6 +23,7 @@ import service.Trans2YLwltService;
 
 import static cfg.AppConfig.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
+import static handler.ivstAcc.IvstAccUti.newIvstWltIfNotExist;
 import static util.tx.HbntUtil.findByHbntDep;
 import static util.proxy.SprUtil.injectAll4spr;
 
@@ -38,7 +39,7 @@ import static util.proxy.SprUtil.injectAll4spr;
 //@Parameter(name = "changeAmount", description = "转账金额", required = true)
 @CookieParam(name = "uname",description = "用户名",decryKey="a1235678")
 @Component
-public class TransHdr implements Icall<TransDto, String> {
+public class TransHdr   {
     // 实现 Serializable 接口
     public static final long serialVersionUID = 1L; // 推荐
     /**
@@ -82,11 +83,13 @@ public class TransHdr implements Icall<TransDto, String> {
     public static ThreadLocal<Account> curLockAcc = new ThreadLocal<>();
 
     @Transactional
-    @Override
-    public String main(@ModelAttribute  TransDto lgblsDto) throws Throwable {
+
+    public Object handleRequest(@ModelAttribute  TransDto lgblsDto) throws Throwable {
 
         injectAll4spr(this);
         //blk login ed
+
+        newIvstWltIfNotExist(lgblsDto.uname);
 
 
         // 获取对象并加悲观锁
