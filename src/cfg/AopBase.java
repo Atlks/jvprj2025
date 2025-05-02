@@ -5,7 +5,7 @@ import org.hibernate.SessionFactory;
 
 
 
-import javax.inject.Inject;
+// javax.inject.Inject;
 import java.io.Serializable;
 
 import static util.tx.dbutil.setField;
@@ -17,7 +17,7 @@ public abstract class AopBase implements Serializable {
     public static boolean ovrtTEst = false;
 //    
 //    @Lazy
-    @Inject
+ //   @Inject
     public SessionFactory sessionFactory;
 
     //

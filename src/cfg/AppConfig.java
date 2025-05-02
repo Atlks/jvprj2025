@@ -27,6 +27,7 @@ public class AppConfig {
     public static SessionFactory sessionFactory;
 
     public void sessionFactory() {
+
     }
 }
 //
