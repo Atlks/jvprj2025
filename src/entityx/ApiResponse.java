@@ -1,6 +1,6 @@
 package entityx;
 
-import cfg.PageInfo;
+import util.misc.PageInfo;
 import lombok.Data;
 
 import java.util.HashMap;

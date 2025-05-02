@@ -21,6 +21,9 @@ package cfg;//package cfg;
 //@EnableMBeanExport
 
 import org.hibernate.SessionFactory;
+import service.YLwltSvs.AddMoney2YLWltService;
+import service.wlt.RdsFromWltService;
+import util.auth.SecurityContextImp4jwt;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
@@ -28,6 +31,9 @@ import java.util.List;
 
 import static cfg.Containr.saveDirUsrs;
 import static cfg.Containr.sessionFactory;
+// static cfg.MyCfg.iniContnr4cfgfile;
+import static cfg.IniCfg.iniContnr4cfgfile;
+import static util.ioc.SimpleContainer.registerObj;
 import static util.tx.HbntUtil.getSessionFactory;
 
 ////启用 MBean（Managed Bean） 的导出，即 将 Spring 管理的 Bean 注册到 JMX（Java Management Extensions） 中，使其可以被 JMX 监控和管理。
@@ -49,13 +55,33 @@ public class MainStart {
         if(sessionFactory==null)
         {
             List<Class> li = List.of();
-            MyCfg.iniContnr4cfgfile();
+            iniContnr4cfgfile();
             SessionFactory sessionFactory2 = getSessionFactory(saveDirUsrs, li);
             sessionFactory=sessionFactory2;
             sessionFactory=sessionFactory2;
             return sessionFactory;
         }else
             return  sessionFactory;
+
+    }
+
+
+    public static void iniContnr() throws Exception {
+        //@NonNull
+        iniContnr4cfgfile();
+        //  new AppConfig().sessionFactory();//ini sessFctr
+        //---------------ini contarin
+        //   cfg.IocSpringCfg.iniIocContainr4spr();
+        Containr.SecurityContext1=new SecurityContextImp4jwt();
+        //   Containr.chooseEvtPblshr=  new ChooseEvtPublshr();
+        registerObj( "RdsFromWltService",()->{
+            return    new RdsFromWltService();
+        });
+
+        registerObj( "AddMoney2YLWltService",()->{
+            return    new AddMoney2YLWltService();
+        });
+
 
     }
 //

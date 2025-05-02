@@ -1,4 +1,4 @@
-package cfg;
+package util.misc;
 
 import lombok.Data;
 

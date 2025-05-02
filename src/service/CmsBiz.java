@@ -15,7 +15,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 
-import static cfg.MyCfg.iniContnr4cfgfile;
+import static cfg.IniCfg.iniContnr4cfgfile;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 
 import static util.acc.AccUti.getAccId4ylwlt;

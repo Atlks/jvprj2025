@@ -2,9 +2,9 @@ package util.ex;
 
 
 
-import util.excptn.ExceptionBase;
+import util.excptn.ExceptionObj;
 
-public class ValideTokenFailEx extends ExceptionBase {
+public class ValideTokenFailEx extends ExceptionObj {
     public ValideTokenFailEx(String s) {
         super(s);
     }

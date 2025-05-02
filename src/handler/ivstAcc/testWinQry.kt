@@ -3,7 +3,7 @@ package handler.ylwlt
 import cfg.MainStart
 import cfg.Containr
 import cfg.Containr.sessionFactory
-import cfg.MyCfg
+import cfg.IniCfg
 import entityx.usr.Usr
 //import handler.agt.AgtHdl
 import handler.ylwlt.dto.QueryDto

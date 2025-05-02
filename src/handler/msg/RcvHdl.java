@@ -11,7 +11,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static cfg.Containr.sessionFactory;
-import static cfg.MyCfg.iniContnr;
+// static cfg.IniCfg.iniContnr;
+import static cfg.MainStart.iniContnr;
 import static util.algo.CallUtil.lmdIvk;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
 import static util.misc.Util2025.encodeJson;

@@ -29,7 +29,7 @@ import static util.tx.Pagging.getPageResultByHbntRtLstmap;
 import static util.tx.TransactMng.commitTsact;
 import static util.tx.TransactMng.openSessionBgnTransact;
 import static cfg.Containr.sessionFactory;
-import static cfg.MyCfg.iniContnr;
+import static cfg.MainStart.iniContnr;
 
 /**
  *

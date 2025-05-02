@@ -2,7 +2,7 @@ package ztest
 
 import cfg.MainStart
 import cfg.Containr
-import cfg.MyCfg
+import cfg.IniCfg
 import entityx.usr.Usr
 import entityx.wlt.TransDto
 //import handler.agt.AgtHdl

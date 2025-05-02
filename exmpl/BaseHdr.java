@@ -6,7 +6,7 @@ import org.hibernate.SessionFactory;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import util.excptn.ExceptionBase;
+import util.excptn.ExceptionObj;
 
 import util.auth.IsEmptyEx;
 import util.ex.NeedLoginEx;
@@ -74,7 +74,7 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
         System.out.println("▶\uFE0Ffun " + mth + "(url=" + prmurl);
         //   curUrlPrm.set(exchange.getrequ);
         var responseTxt = "";
-        ExceptionBase ex = new ExceptionBase("");
+        ExceptionObj ex = new ExceptionObj("");
         try {
             //   setcookie("uname", "007", exchange);//for test
 

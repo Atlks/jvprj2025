@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -27,6 +28,53 @@ import static util.algo.IndexOfUti.indexOfFirst;
 
 
 public class GetUti {
+
+
+    //查找对象的的handle3方法，获得参数（带有 ModelAttribute 标记 ） 类型，
+    //子类方法是public void handle3(@ModelAttribute Usr dto)
+    public static Class getPrmClass(Object obj, String methodName) {
+        if (obj == null || methodName == null) {
+            return null;
+        }
+
+        // 获取 obj 的所有方法
+        Method[] methods = obj.getClass().getMethods();
+
+        for (Method method : methods) {
+            // 确保方法名称匹配
+            if (!method.getName().equals(methodName)) {
+                continue;
+            }
+
+            // 遍历方法的所有参数
+            Parameter[] parameters = method.getParameters();
+            if(parameters.length==0)
+                return  null;
+            Parameter parameter=parameters[0];
+            Class<?> type = parameter.getType();
+            if (type == Object.class)
+                continue;
+            return type; // 返回参数的 Class 类型
+
+//            for (Parameter parameter : parameters) {
+//                if (parameter.isAnnotationPresent(BeanParam.class)) {
+//                    Class<?> type = parameter.getType();
+//                    if (type == Object.class)
+//                        continue;
+//                    return type; // 返回参数的 Class 类型
+//                }
+//                // 检查参数是否标记了 @ModelAttribute
+//                if (parameter.isAnnotationPresent(ModelAttribute.class)) {
+//                    Class<?> type = parameter.getType();
+//                    if (type == Object.class)
+//                        continue;
+//                    return type; // 返回参数的 Class 类型
+//                }
+//            }
+        }
+
+        return null; // 未找到匹配的方法或参数
+    }
 
     /**
      * 获取实体类 立马的 @table 表格名称。如果没有@table或者为空，则使用实体类名

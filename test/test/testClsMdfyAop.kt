@@ -11,7 +11,7 @@ import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.hibernate.SessionFactory
 import cfg.AopLogJavassist
-import cfg.MyCfg
+import cfg.IniCfg
 import util.misc.HttpExchangeImp
 import util.tx.dbutil.setField
 

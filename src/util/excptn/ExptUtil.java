@@ -39,7 +39,7 @@ public class ExptUtil {
 
 
     }
-    public static void addInfo2ex(ExceptionBase ex, Throwable e) {
+    public static void addInfo2ex(ExceptionObj ex, Throwable e) {
         if (ex.fun.equals(""))
             ex.fun = curFun4dbg.get();
         if (ex.funPrm == null)

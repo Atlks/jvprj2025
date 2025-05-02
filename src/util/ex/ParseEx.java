@@ -1,8 +1,8 @@
 package util.ex;
 
-import util.excptn.ExceptionBase;
+import util.excptn.ExceptionObj;
 
-public class ParseEx  extends ExceptionBase {
+public class ParseEx  extends ExceptionObj {
     public ParseEx(String s) {
         super(s);
     }

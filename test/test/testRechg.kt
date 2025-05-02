@@ -4,7 +4,7 @@ package test;
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
 import api.wlt.RechargeHdr
-import cfg.MyCfg
+import cfg.IniCfg
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import util.misc.HttpExchangeImp

@@ -47,7 +47,7 @@ public class WebSvr {
         int port = 8889;
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         // 定义一个上下文，绑定到 "/api/hello" 路径
-        server.createContext("/hello", new HelloHandler());
+      //  server.createContext("/hello", new HelloHandler());
 
 
         // 设置静态资源目录 (例如: D:/myweb/static)

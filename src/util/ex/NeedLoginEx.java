@@ -1,8 +1,8 @@
 package util.ex;
 
-import util.excptn.ExceptionBase;
+import util.excptn.ExceptionObj;
 
-public class NeedLoginEx extends ExceptionBase {
+public class NeedLoginEx extends ExceptionObj {
     public NeedLoginEx(String s) {
   super(s);
     }

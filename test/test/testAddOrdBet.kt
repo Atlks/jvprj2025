@@ -5,7 +5,7 @@ package test;
 //import utilDep.AOPASM.customClassLoader
 import cfg.MainStart
 import api.bet.BetHdr
-import cfg.MyCfg
+import cfg.IniCfg
 import com.sun.net.httpserver.HttpExchange
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.AnnotationConfigApplicationContext

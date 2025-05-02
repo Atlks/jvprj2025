@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 
 import static cfg.Containr.sessionFactory;
-import static cfg.MyCfg.iniContnr;
+import static cfg.MainStart.iniContnr;
 import static util.algo.GetUti.getTableName;
 import static util.misc.Util2025.encodeJson;
 import static util.oo.TimeUti.beforeTmstmp;

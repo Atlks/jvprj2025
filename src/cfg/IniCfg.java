@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import service.CmsBiz;
 // util.algo.ChooseEvtPublshr;
-import util.auth.SecurityContextImp4jwt;
 import util.oo.UserBiz;
 
 
@@ -23,7 +22,7 @@ import static util.misc.util2026.*;
 
 import java.io.*;
 
-public class MyCfg {
+public class IniCfg {
 
     public static void iniCfgFrmCfgfileMltDb() {
 
@@ -43,7 +42,7 @@ public class MyCfg {
     //    saveUrlOrdChrg = RegHandler.saveDirUsrs;
         //(String) cfg.get("saveUrlOrdChrg");
         //RechargeCallbackHdr.saveUrlLogBalance = (String) cfg.get("saveUrlLogBalance");
-        BaseBiz.saveUrlLogBalanceYinliWlt = (String) cfg.get("saveUrlLogBalanceYinliWlt");
+     //   BaseBiz.saveUrlLogBalanceYinliWlt = (String) cfg.get("saveUrlLogBalanceYinliWlt");
     //    WithdrawHdr.saveUrlOrdWthdr = (String) cfg.get("saveUrlOrdWthdr");
         CmsBiz.saveUrlLogCms = (String) cfg.get("saveUrlLogCms");
         System.out.println("ini cfg finish..");
@@ -54,17 +53,6 @@ public class MyCfg {
      * for ban
      * @throws Exception
      */
-    public static void iniContnr() throws Exception {
-        //@NonNull
-        iniContnr4cfgfile();
-      //  new AppConfig().sessionFactory();//ini sessFctr
-        //---------------ini contarin
-     //   cfg.IocSpringCfg.iniIocContainr4spr();
-        Containr.SecurityContext1=new SecurityContextImp4jwt();
-     //   Containr.chooseEvtPblshr=  new ChooseEvtPublshr();
-
-    }
-
     /**
      * maven编译后目录结构是这样的
      * /target/cfg/xx.cfg
@@ -88,20 +76,22 @@ public class MyCfg {
 
         Map cfg = parse_ini_fileNosecByStream(inputStream);
         //rootPath + "../../cfg/dbcfg.ini");
-        BaseHdr.saveDirUsrs = (String) cfg.get("saveDirUsrs");
+        //saveDirUsrs = (String) cfg.get("saveDirUsrs");
         Containr.saveDirUsrs= (String) cfg.get("saveDirUsrs");
         // saveDirAcc= (String) cfg.get("saveDirAcc");
         //   savedirOrd= (String) cfg.get("savedirOrd");
         //QryOrdBetHdr.saveUrlOrdBet
         ListBetsHdr.saveUrlOrdBet = Containr.saveDirUsrs;
-     //   saveUrlOrdChrg = RegHandler.saveDirUsrs;
+        //   saveUrlOrdChrg = RegHandler.saveDirUsrs;
         //(String) cfg.get("saveUrlOrdChrg");
         //RechargeCallbackHdr.saveUrlLogBalance = Containr.saveDirUsrs;
-        BaseBiz.saveUrlLogBalanceYinliWlt = Containr.saveDirUsrs;
-      //  WithdrawHdr.saveUrlOrdWthdr = Containr.saveDirUsrs;
+      //  BaseBiz.saveUrlLogBalanceYinliWlt = Containr.saveDirUsrs;
+        //  WithdrawHdr.saveUrlOrdWthdr = Containr.saveDirUsrs;
         CmsBiz.saveUrlLogCms = Containr.saveDirUsrs;
         System.out.println("ini cfg finish..");
     }
+
+
 
 
     /**
@@ -149,7 +139,7 @@ public class MyCfg {
                         // 尝试从 classpath 加载资源文件
                         //-----jar mode
                         //  inputStream = new FileInputStream( targetDirMode);
-                        inputStream = MyCfg.class.getClassLoader().getResourceAsStream(cfgFileName);
+                        inputStream = IniCfg.class.getClassLoader().getResourceAsStream(cfgFileName);
                     }
                 }
             }

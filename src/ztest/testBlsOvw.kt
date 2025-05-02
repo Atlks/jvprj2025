@@ -3,7 +3,7 @@ package ztest
 import MainApi
 import cfg.MainStart
 import cfg.Containr
-import cfg.MyCfg
+import cfg.IniCfg
 import entityx.usr.Usr
 //import handler.agt.AgtHdl
 import handler.wlt.findBalanceOverviewHdl

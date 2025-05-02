@@ -3,7 +3,7 @@ package service.YLwltSvs
 import cfg.Containr
 import cfg.MainStart
 import cfg.IocSpringCfg
-import cfg.MyCfg
+import cfg.IniCfg
 import entityx.wlt.TransDto
 import entityx.usr.Usr
 import util.auth.SecurityContextImp4ck

@@ -3,11 +3,12 @@ package util.serverless;
 import cfg.MinValidator;
 import entityx.usr.NonDto;
 import org.hibernate.context.internal.ThreadLocalSessionContext;
+import org.jetbrains.annotations.Nullable;
 import util.annos.*;
 import util.ex.ValideTokenFailEx;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import util.excptn.ExceptionBase;
+import util.excptn.ExceptionObj;
 import jakarta.annotation.security.PermitAll;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.SecurityContext;
@@ -16,6 +17,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.internal.constraintvalidators.bv.NotBlankValidator;
 import org.hibernate.validator.internal.constraintvalidators.bv.NotNullValidator;
+import util.excptn.ExceptionBaseRtm;
 import util.excptn.ExptUtil;
 import util.algo.Icall;
 import util.auth.IsEmptyEx;
@@ -31,24 +33,22 @@ import java.lang.reflect.Field;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
-import static cfg.BaseHdr.*;
+// static cfg.BaseHdr.*;
 
 
 //import static cfg.Containr.sessionFactory;
 import static cfg.Containr.*;
 import static util.algo.AnnotationUtils.getCookieParamsV2;
 import static util.algo.AnnotationUtils.getParams;
-import static util.algo.GetUti.getMethod;
-import static util.algo.GetUti.getUUid;
+import static util.algo.GetUti.*;
 import static util.algo.ToXX.toDtoFrmHttp;
 import static util.auth.AuthUtil.request_getHeaders_get;
 import static util.excptn.ExptUtil.*;
-import static util.oo.WebsrvUtil.processNmlExptn;
 import static util.proxy.AopUtil.ivk4log;
 import static util.auth.AuthUtil.getCurrentUser;
 import static util.log.ColorLogger.*;
 
- 
+
 import static util.serverless.ApiGatewayResponse.createErrResponseWzErrcode;
 import static util.misc.Util2025.*;
 import static util.tx.TransactMng.*;
@@ -97,7 +97,7 @@ public class ApiGateway implements HttpHandler {
 
         //---------blk chk auth
         Object result = ivk4log(mthFullname, dto, () -> {
-           // injectAll4spr(target);
+            // injectAll4spr(target);
             if (isImpltInterface(target, RequestHandler.class))
                 return ((RequestHandler) target).handleRequest(dto, null);
             else if (isImpltInterface(target, Icall.class)) {
@@ -173,7 +173,7 @@ public class ApiGateway implements HttpHandler {
         System.out.println("▶\uFE0Ffun " + mth + "(url=" + prmurl);
         //   curUrlPrm.set(exchange.getrequ);
         var responseTxt = "";
-        ExceptionBase ex = new ExceptionBase("");
+        // ExceptionObj ex = new ExceptionObj("");
         try {
             //   setcookie("uname", "007", exchange);//for test
 
@@ -189,33 +189,22 @@ public class ApiGateway implements HttpHandler {
             System.out.println("✅endfun handle()");
             return;
 
-        } catch (java.lang.reflect.InvocationTargetException e) {
+        } catch (Throwable e8) {
             // transactionThreadLocal.get().rollback();
             rollbackTransaction();
-            printLn("---------------------print1134 ex ()");
+            printStackTrace(e8);
+            //---------warp ex obj
+            Throwable e = getRawEx(e8);
+            ExceptionObj ex = getExceptionObjFrmE(e);
+            System.out.println(ex);
+            addInfo2ex(ex, e);
+            //-----------print exobj
+            ApiGatewayResponse errResponseWzErrcode = createErrResponseWzErrcode(ex);
+            responseTxt = encodeJson4ex(errResponseWzErrcode);
+            wrtRespErr(exchange, responseTxt);
 
-            e.printStackTrace();
-            System.out.flush();  // 立即刷新缓冲区
-            System.err.flush();  // 立即刷新缓冲区
-            sleepx(500);
-            printLn("---------------------end print ex ()");
-            responseTxt = processInvkExpt(exchange, e);
-            //  Transaction tx = sessionFactory.beginTransaction();
 
-        } catch (Throwable e) {
-            transactionThreadLocal.get().rollback();
-            rollbackTransaction();
-            printLn("---------------------print ex ()");
-
-            e.printStackTrace();
-            System.out.flush();  // 立即刷新缓冲区
-            System.err.flush();  // 立即刷新缓冲区
-            sleepx(500);
-            printLn("---------------------end print ex ()");
-            responseTxt = processNmlExptn(exchange, e);
-            // throw new RuntimeException(e);
-            //   transactionThreadLocal.get().rollback();
-        } finally {
+        }  finally {
             sessionFactory.getCurrentSession().close();// 关闭 session，但不会提交事务
             ThreadLocalSessionContext.unbind(sessionFactory);
         }
@@ -225,6 +214,55 @@ public class ApiGateway implements HttpHandler {
         //not ex ,just all ok blk
         //ex.fun  from stacktrace
         System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
+    }
+
+    @org.jetbrains.annotations.NotNull
+    private static ExceptionObj getExceptionObjFrmE(Throwable e) {
+        ExceptionObj ex;
+        if (e instanceof ExceptionObj) {
+            //my throw ex.incld funprm
+            ex = (ExceptionObj) e;
+            ex.errcode = e.getClass().getName();
+
+
+        } else if (e instanceof ExceptionBaseRtm) {
+            ex = new ExceptionObj(e.getMessage());
+
+            //cvt to cstm ex
+            String message = e.getMessage();
+            ex = new ExceptionObj(message);
+            ex.cause = e;
+            ex.errcode = ((ExceptionBaseRtm) e).getType();
+        } else {
+            //nml err
+            ex = new ExceptionObj(e.getMessage());
+
+            //cvt to cstm ex
+            String message = e.getMessage();
+            ex = new ExceptionObj(message);
+            ex.cause = e;
+            ex.errcode = e.getClass().getName();
+
+        }
+        return ex;
+    }
+
+    @Nullable
+    private static Throwable getRawEx(Throwable e) {
+        Throwable ee = e;  //deft is nml ex
+        if (e instanceof InvocationTargetException) {
+            ee = e.getCause();
+        }
+        return ee;
+    }
+
+    private static void printStackTrace(Throwable e) {
+        printLn("---------------------print1134 ex ()");
+        e.printStackTrace();
+        System.out.flush();  // 立即刷新缓冲区
+        System.err.flush();  // 立即刷新缓冲区
+        sleepx(20);
+        printLn("---------------------end print ex ()");
     }
 
 //    @Inject
@@ -336,11 +374,10 @@ public class ApiGateway implements HttpHandler {
         // 反射创建 DTO 实例
         Object dto = Dtocls.getDeclaredConstructor().newInstance();
 
-       
 
         var dtoFrmHttp = toDtoFrmHttp(exchange, Dtocls);
-       // copyProps(dtoFrmHttp, dto);
-       dto=dtoFrmHttp;
+        // copyProps(dtoFrmHttp, dto);
+        dto = dtoFrmHttp;
 
         //--------set cook to dto
         List<CookieParam> cookieParams = getCookieParamsV2(target.getClass(), "call");
@@ -443,13 +480,13 @@ public class ApiGateway implements HttpHandler {
 
 
     public static String processInvkExpt(HttpExchange exchange, InvocationTargetException e) throws IOException {
-        ExceptionBase ex;
-        ex = new ExceptionBase(e.getMessage());
+        ExceptionObj ex;
+        ex = new ExceptionObj(e.getMessage());
         ex.cause = e;
         Throwable cause = e.getCause();
 
         ex.errcode = cause.getClass().getName();
-        ex.errmsg = e.getCause().getMessage();
+        ex.errmsg = cause.getMessage();
 
 
         addInfo2ex(ex, e);

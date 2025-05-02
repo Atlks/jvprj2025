@@ -1,6 +1,6 @@
 package handler.wthdr;
 
-import cfg.MyCfg;
+import cfg.IniCfg;
 import handler.rechg.dto.ReviewChrgRqdto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.persistence.LockModeType;
@@ -98,7 +98,7 @@ public class ReviewWthdrReqOrdRejectHdr implements RequestHandler<ReviewChrgRqdt
     }
 
     public static void main(String[] args) throws Exception {
-        MyCfg.iniContnr4cfgfile();
+        IniCfg.iniContnr4cfgfile();
         Map<String, String> queryParams = Map.of(
                 "uname", "007",
                 "key2", "value2"

@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import static cfg.Containr.sessionFactory;
-import static cfg.MyCfg.iniContnr;
+import static cfg.MainStart.iniContnr;
  
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
 import static util.misc.Util2025.encodeJson;

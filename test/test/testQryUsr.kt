@@ -6,7 +6,7 @@ package test;
 import cfg.MainStart
 import api.usr.QueryUsrHdr
 import cfg.IocPicoCfg
-import cfg.MyCfg
+import cfg.IniCfg
 import com.sun.net.httpserver.HttpExchange
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.AnnotationConfigApplicationContext

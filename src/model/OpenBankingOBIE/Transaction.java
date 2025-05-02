@@ -29,7 +29,7 @@ import static util.algo.GetUti.getUuid;
 @Table(name="Transactions",
         indexes = {
         @Index(name = "idx_transaction_code", columnList = "transactionCode"),
-        @Index(name = "idx_uname", columnList = "uname")
+        @Index(name = "idx_uname", columnList = "accountOwner")
 } )  //Transactions_Pay
 @NoArgsConstructor
 @Data
@@ -44,7 +44,7 @@ public class Transaction {
 
 
 
-
+public String uname="dep";
 
     /**
      * creditDebitIndicator 的合法取值（仅两个）

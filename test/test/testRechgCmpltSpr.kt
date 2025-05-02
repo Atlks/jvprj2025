@@ -6,7 +6,7 @@ package test;
 //import apiAcc.ReChargeComplete.invk
 import api.wlt.DepReChargeComplete
 import cfg.IocSpringCfg
-import cfg.MyCfg
+import cfg.IniCfg
 
 
 fun main(){

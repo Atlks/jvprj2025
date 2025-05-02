@@ -1,6 +1,6 @@
 //package api.usr
 //import MainApi
-//import cfg.MyCfg.iniContnr
+//import cfg.IniCfg.iniContnr
 //import entityx.usr.SetWithdrawalPasswordDto
 //import handler.usr.SetWthdrPwdHdr
 //import org.junit.Assert.assertNotNull

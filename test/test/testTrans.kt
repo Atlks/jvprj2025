@@ -7,7 +7,7 @@ package test;
 import api.wlt.DepReChargeComplete
 import api.wlt.TransHdr
 import cfg.IocSpringCfg
-import cfg.MyCfg
+import cfg.IniCfg
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import util.misc.HttpExchangeImp

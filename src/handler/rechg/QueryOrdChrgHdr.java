@@ -1,8 +1,8 @@
 package handler.rechg;
 
+import cfg.IniCfg;
 import model.OpenBankingOBIE.Transaction;
 import util.annos.NoDftParam;
-import cfg.MyCfg;
 import entityx.wlt.QryRechgOrdReqDto;
 
 import jakarta.annotation.security.PermitAll;
@@ -66,7 +66,7 @@ public class QueryOrdChrgHdr  implements RequestHandler<QryRechgOrdReqDto, ApiGa
 
 
     public static void main(String[] args) throws Exception {
-        MyCfg.iniContnr4cfgfile();
+        IniCfg.iniContnr4cfgfile();
         Map<String, String> queryParams = Map.of(
                 "uname", "007",
                 "key2", "value2"

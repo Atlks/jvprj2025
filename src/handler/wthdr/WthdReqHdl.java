@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 
 // static cfg.AppConfig.sessionFactory;
 import static cfg.Containr.sessionFactory;
-import static cfg.MyCfg.iniContnr;
+import static cfg.MainStart.iniContnr;
 import static service.CmsBiz.toBigDcmTwoDot;
 import static util.acc.AccUti.getAccId4ylwlt;
 import static util.algo.GetUti.getUuid;

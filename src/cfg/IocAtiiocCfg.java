@@ -14,9 +14,10 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.function.Function;
 
-import static cfg.BaseHdr.saveDirUsrs;
+// static cfg.BaseHdr.saveDirUsrs;
 //import static cfg.AopLogJavassist.*;
 //import static cfg.AopLogJavassist.printLn;
+import static cfg.Containr.saveDirUsrs;
 import static util.tx.HbntUtil.getSessionFactory;
 import static util.tx.dbutil.setField;
 import static util.misc.util2026.*;
@@ -27,14 +28,14 @@ public class IocAtiiocCfg {
 
     @NotNull
     public static Map<String,Object> iniIocContainr4at() throws SQLException, FileNotFoundException {
-        MyCfg.iniContnr4cfgfile();
+        IniCfg.iniContnr4cfgfile();
 
 //        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
         // **使用 Provider，每次获取都是新的 `Session`**
      //   container888.addAdapter(new SessionProvider());
 
         List<Class> li = List.of();
-        MyCfg.iniContnr4cfgfile();
+        IniCfg.iniContnr4cfgfile();
         SessionFactory sessionFactory = getSessionFactory(saveDirUsrs, li);
         AtIoc_context.put(SessionFactory.class.getName(),sessionFactory);
        // container888.addAdapter(new SessionFactProvider());

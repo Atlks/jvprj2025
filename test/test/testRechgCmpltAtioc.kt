@@ -6,7 +6,7 @@ package test;
 //import apiAcc.ReChargeComplete.invk
 import api.wlt.DepReChargeComplete
 import cfg.IocAtiiocCfg.*
-import cfg.MyCfg
+import cfg.IniCfg
 import org.hibernate.Session
 import org.hibernate.SessionFactory
 

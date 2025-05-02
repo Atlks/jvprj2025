@@ -1,8 +1,7 @@
 package util.oo;
 
-import entityx.ApiResponse;
 import com.sun.net.httpserver.HttpExchange;
-import util.excptn.ExceptionBase;
+import util.excptn.ExceptionObj;
 import util.excptn.ExceptionBaseRtm;
 import util.serverless.ApiGatewayResponse;
 
@@ -16,7 +15,7 @@ public class WebsrvUtil {
 
 
     public static String processNmlExptn(HttpExchange exchange, Throwable e) {
-        ExceptionBase ex;
+        ExceptionObj ex;
 //        System.out.println(
 //                "⚠\uFE0F e="
 //                        + e.getMessage() + "\nStackTrace="
@@ -26,28 +25,28 @@ public class WebsrvUtil {
 
 
         //my throw ex.incld funprm
-        if (e instanceof ExceptionBase) {
-            ex = (ExceptionBase) e;
+        if (e instanceof ExceptionObj) {
+            ex = (ExceptionObj) e;
             ex.errcode = e.getClass().getName();
 
 
         }else if( e instanceof ExceptionBaseRtm){
-            ex = new ExceptionBase(e.getMessage());
+            ex = new ExceptionObj(e.getMessage());
 
             //cvt to cstm ex
             String message = e.getMessage();
-            ex = new ExceptionBase(message);
+            ex = new ExceptionObj(message);
             ex.cause = e;
             ex.errcode =((ExceptionBaseRtm) e).getType();
         }
 
         else {
             //nml err
-            ex = new ExceptionBase(e.getMessage());
+            ex = new ExceptionObj(e.getMessage());
 
             //cvt to cstm ex
             String message = e.getMessage();
-            ex = new ExceptionBase(message);
+            ex = new ExceptionObj(message);
             ex.cause = e;
             ex.errcode = e.getClass().getName();
 

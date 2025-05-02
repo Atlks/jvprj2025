@@ -1,8 +1,8 @@
 package util.ex;
 
-import util.excptn.ExceptionBase;
+import util.excptn.ExceptionObj;
 
-public class UserNotExistEx extends ExceptionBase {
+public class UserNotExistEx extends ExceptionObj {
     public UserNotExistEx(String msg) {
         super(msg);
     }

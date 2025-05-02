@@ -1,8 +1,7 @@
 package util.serverless;
 
-import entityx.ApiResponse;
 import lombok.Data;
-import util.excptn.ExceptionBase;
+import util.excptn.ExceptionObj;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +42,7 @@ public class ApiGatewayResponse {
         return new ApiGatewayResponse(ex,ex.getClass().getName(), ex.getMessage());
     }
 
-    public static ApiGatewayResponse createErrResponseWzErrcode(ExceptionBase ex) {
+    public static ApiGatewayResponse createErrResponseWzErrcode(ExceptionObj ex) {
         return new ApiGatewayResponse(ex, ex.errcode,ex.getMessage());
     }
 }

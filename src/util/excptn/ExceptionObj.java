@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.HashMap;
 import java.util.Map;
 @Data
-public class ExceptionBase extends  Exception {
+public class ExceptionObj extends  Exception {
 
     public String url;
     public String urlprm;
@@ -13,7 +13,7 @@ public class ExceptionBase extends  Exception {
 
 
 
-    public ExceptionBase() {
+    public ExceptionObj() {
 
 
     }
@@ -61,7 +61,7 @@ public class ExceptionBase extends  Exception {
     public String   requestId;
     public  Throwable cause;
     public Map<String, Object> extraData=new HashMap<>();
-    public ExceptionBase(String message) {
+    public ExceptionObj(String message) {
         super(message);
         errmsg=message;
 

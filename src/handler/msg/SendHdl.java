@@ -14,7 +14,8 @@ import org.hibernate.Session;
 import java.sql.SQLException;
 
 import static cfg.Containr.sessionFactory;
-import static cfg.MyCfg.iniContnr;
+// static cfg.IniCfg.iniContnr;
+import static cfg.MainStart.iniContnr;
 import static util.algo.CallUtil.lmdIvk;
 import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.persistByHibernate;

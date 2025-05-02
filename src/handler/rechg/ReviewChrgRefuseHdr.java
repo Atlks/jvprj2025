@@ -1,6 +1,6 @@
 package handler.rechg;
 
-import cfg.MyCfg;
+import cfg.IniCfg;
 import handler.rechg.dto.ReviewChrgRqdto;
 import model.OpenBankingOBIE.Transaction;
 
@@ -77,7 +77,7 @@ public class ReviewChrgRefuseHdr implements RequestHandler<ReviewChrgRqdto, ApiG
     }
 
     public static void main(String[] args) throws Exception {
-        MyCfg.iniContnr4cfgfile();
+        IniCfg.iniContnr4cfgfile();
         Map<String, String> queryParams = Map.of(
                 "uname", "007",
                 "key2", "value2"

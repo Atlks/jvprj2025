@@ -18,8 +18,10 @@ import util.algo.Icall;
 import service.Trans2YLwltService;
 
 // static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static handler.ivstAcc.IvstAccUti.newIvstWltIfNotExist;
+import static util.ioc.SimpleContainer.getObj;
 import static util.tx.HbntUtil.findByHbntDep;
 // static util.proxy.SprUtil.injectAll4spr;
 
@@ -81,7 +83,31 @@ public class TransHdr   {
     @Transactional
 
     public Object handleRequest(TransDto lgblsDto) throws Throwable {
-        return null;
+        newIvstWltIfNotExist(lgblsDto.uname);
+
+        Icall RdsFromWltService1=getObj("RdsFromWltService");
+        Icall AddMoney2YLWltService1=getObj("AddMoney2YLWltService");
+        // 获取对象并加悲观锁
+
+        //add blance   bcs uname frm cookie
+        //  lgblsDto.uname=decryptDES( lgblsDto.uname,Key_a1235678);
+
+        String uname = lgblsDto.uname;
+        Account objU = findByHbntDep(Account.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+
+//        if (objU.id == null) {
+//            objU.id = uname;
+//            objU.uname = uname;
+//        }
+        curLockAcc.set(objU);
+
+        RdsFromWltService1.main(lgblsDto);
+        AddMoney2YLWltService1.main(lgblsDto);
+
+//        Icall is = Trans2YLwltService1;
+//        ((Trans2YLwltService) is).handle(lgblsDto);
+
+        return "ok";
     }
 
     private void injectAll4spr(TransHdr transHdr) {
