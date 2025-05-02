@@ -5,7 +5,7 @@ import util.ex.PwdNotEqExceptn;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import jakarta.validation.constraints.NotNull;
-import javassist.*;
+//import javassist.*;
 import util.auth.IsEmptyEx;
 import util.oo.UserBiz;
 
@@ -534,37 +534,37 @@ public class util2026 {
     }
 
     //  这里没有增加  声明 serialVersionUID
-    private static void srlzCtCls(CtClass ctClass, ClassPool pool) throws NotFoundException, CannotCompileException {
-        boolean isSerializable = false;
-        for (CtClass iface : ctClass.getInterfaces()) {
-            if (iface.getName().equals("java.io.Serializable")) {
-                isSerializable = true;
-                break;
-            }
-        }
-
-        // 如果未实现，则添加 Serializable 接口
-        if (!isSerializable) {
-            //  ctClass.addInterface(serializable);
-            ctClass.addInterface(pool.get("java.io.Serializable"));
-            System.out.println(ctClass.getName() + " 已添加 Serializable 接口");
-        } else {
-            System.out.println(ctClass.getName() + " 已经实现 Serializable，无需添加");
-        }
-
-
-        // **保持旧的 serialVersionUID**
-        long serialVersionUIDValue = 9164029442537620054L; // 这里使用旧的值
-        try {
-            CtField uidField = ctClass.getDeclaredField("serialVersionUID");
-            System.out.println("已有 serialVersionUID: " + uidField);
-        } catch (NotFoundException e) {
-            CtField serialVersionUID = new CtField(CtClass.longType, "serialVersionUID", ctClass);
-            serialVersionUID.setModifiers(Modifier.PRIVATE | Modifier.STATIC | Modifier.FINAL);
-            ctClass.addField(serialVersionUID, CtField.Initializer.constant(serialVersionUIDValue)); // 设定固定值
-            System.out.println(ctClass.getName() + " 已添加 serialVersionUID = " + serialVersionUIDValue);
-        }
-    }
+//    private static void srlzCtCls(CtClass ctClass, ClassPool pool) throws NotFoundException, CannotCompileException {
+//        boolean isSerializable = false;
+//        for (CtClass iface : ctClass.getInterfaces()) {
+//            if (iface.getName().equals("java.io.Serializable")) {
+//                isSerializable = true;
+//                break;
+//            }
+//        }
+//
+//        // 如果未实现，则添加 Serializable 接口
+//        if (!isSerializable) {
+//            //  ctClass.addInterface(serializable);
+//            ctClass.addInterface(pool.get("java.io.Serializable"));
+//            System.out.println(ctClass.getName() + " 已添加 Serializable 接口");
+//        } else {
+//            System.out.println(ctClass.getName() + " 已经实现 Serializable，无需添加");
+//        }
+//
+//
+//        // **保持旧的 serialVersionUID**
+//        long serialVersionUIDValue = 9164029442537620054L; // 这里使用旧的值
+//        try {
+//            CtField uidField = ctClass.getDeclaredField("serialVersionUID");
+//            System.out.println("已有 serialVersionUID: " + uidField);
+//        } catch (NotFoundException e) {
+//            CtField serialVersionUID = new CtField(CtClass.longType, "serialVersionUID", ctClass);
+//            serialVersionUID.setModifiers(Modifier.PRIVATE | Modifier.STATIC | Modifier.FINAL);
+//            ctClass.addField(serialVersionUID, CtField.Initializer.constant(serialVersionUIDValue)); // 设定固定值
+//            System.out.println(ctClass.getName() + " 已添加 serialVersionUID = " + serialVersionUIDValue);
+//        }
+//    }
 
 
     //no delay
