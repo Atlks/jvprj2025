@@ -11,7 +11,7 @@ import model.role.CustomRole;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.persistByHibernate;
 
 

@@ -14,7 +14,7 @@ import util.excptn.BalanceNegativeException;
 
 import java.math.BigDecimal;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static service.CmsBiz.toBigDcmTwoDot;
 import static util.acc.AccUti.getAccId;

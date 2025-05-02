@@ -10,7 +10,7 @@ import model.usr.MyWltAddr;
 import util.serverless.ApiGatewayResponse;
 import util.tx.findByIdExptn_CantFindData;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static model.review.ReviewStat.fromCodeStr_ReviewStat;
 import static util.tx.HbntUtil.findByHerbinate;
 

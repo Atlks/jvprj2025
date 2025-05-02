@@ -1,6 +1,6 @@
 package handler.msg;
 
-import cfg.AppConfig;
+import cfg.MainStart;
 import entityx.usr.Usr;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
@@ -13,7 +13,7 @@ import org.hibernate.Session;
 
 import java.sql.SQLException;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static cfg.MyCfg.iniContnr;
 import static util.algo.CallUtil.lmdIvk;
 import static util.tx.HbntUtil.findByHerbinate;
@@ -81,7 +81,7 @@ public class SendHdl {
     private static void bfTst() throws Throwable, SQLException {
 
 
-        new AppConfig().sessionFactory();//ini sessFctr
+        new MainStart().sessionFactory();//ini sessFctr
         //ini contnr 4cfg,, svrs
         iniContnr();
         openSessionBgnTransact();

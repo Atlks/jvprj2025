@@ -34,7 +34,7 @@ import java.util.Map;
 import static cfg.BaseHdr.*;
 
 
-//import static cfg.AppConfig.sessionFactory;
+//import static cfg.Containr.sessionFactory;
 import static cfg.Containr.*;
 import static util.algo.AnnotationUtils.getCookieParamsV2;
 import static util.algo.AnnotationUtils.getParams;

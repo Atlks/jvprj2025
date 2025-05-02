@@ -9,7 +9,6 @@ import handler.ivstAcc.dto.QueryDto;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import util.annos.NoDftParam;
-import cfg.AppConfig;
 import entityx.ylwlt.BetWinLog;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;

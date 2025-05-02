@@ -20,7 +20,7 @@ import util.serverless.RequestHandler;
 
 import java.util.Collections;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.algo.EncodeUtil.encodeMd5;
 import static util.misc.util2026.hopePwdEq;
 import static util.tx.HbntUtil.findByHerbinate;

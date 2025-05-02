@@ -1,25 +1,19 @@
 package handler.wlt;
 
-import cfg.AppConfig;
-import entityx.usr.Usr;
+import cfg.MainStart;
 import handler.wlt.qryFdDtl.QryFundDetailRqdto;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
 import model.OpenBankingOBIE.Transaction;
 import model.wlt.BalancesFundDetail;
 import org.jooq.*;
 import org.jooq.conf.ParamType;
 import org.jooq.impl.DSL;
 
-import util.serverless.ApiGatewayResponse;
-import util.serverless.RequestHandler;
-
 import java.math.BigDecimal;
 import java.util.HashMap;
 
 import static cfg.Containr.sessionFactory;
 import static cfg.MyCfg.iniContnr;
-import static util.algo.EncodeUtil.encodeSqlPrm;
 import static util.algo.GetUti.getTableName;
 import static util.misc.Util2025.encodeJson;
 import static util.oo.TimeUti.beforeTmstmp;
@@ -66,7 +60,7 @@ public class QryFundDetailHdl  {
 
 
     public static void main(String[] args) throws Throwable {
-        new AppConfig().sessionFactory();//ini sessFctr
+        new MainStart().sessionFactory();//ini sessFctr
         //ini contnr 4cfg,, svrs
         iniContnr();
 

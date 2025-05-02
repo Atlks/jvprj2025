@@ -22,14 +22,22 @@ package cfg;//package cfg;
 
 import org.hibernate.SessionFactory;
 
+import java.io.FileNotFoundException;
+import java.sql.SQLException;
+import java.util.List;
+
+import static cfg.Containr.saveDirUsrs;
+import static cfg.Containr.sessionFactory;
+import static util.tx.HbntUtil.getSessionFactory;
+
 ////启用 MBean（Managed Bean） 的导出，即 将 Spring 管理的 Bean 注册到 JMX（Java Management Extensions） 中，使其可以被 JMX 监控和管理。
-public class AppConfig {
-    public static SessionFactory sessionFactory;
+public class MainStart {
+  //  public static SessionFactory sessionFactory;
 
-    public void sessionFactory() {
+//    public void sessionFactory() {
+//
+//    }
 
-    }
-}
 //
 //    @Bean
 //    public LoadTimeWeaver loadTimeWeaver() {
@@ -37,19 +45,19 @@ public class AppConfig {
 //    }
 
 //    @Bean
-//    public SessionFactory sessionFactory() throws SQLException, FileNotFoundException {
-//        if(sessionFactory==null)
-//        {
-//            List<Class> li = List.of();
-//            MyCfg.iniContnr4cfgfile();
-//            SessionFactory sessionFactory2 = getSessionFactory(saveDirUsrs, li);
-//            sessionFactory=sessionFactory2;
-//            Containr.sessionFactory=sessionFactory2;
-//            return sessionFactory;
-//        }else
-//            return  sessionFactory;
-//
-//    }
+    public SessionFactory sessionFactory() throws SQLException, FileNotFoundException {
+        if(sessionFactory==null)
+        {
+            List<Class> li = List.of();
+            MyCfg.iniContnr4cfgfile();
+            SessionFactory sessionFactory2 = getSessionFactory(saveDirUsrs, li);
+            sessionFactory=sessionFactory2;
+            sessionFactory=sessionFactory2;
+            return sessionFactory;
+        }else
+            return  sessionFactory;
+
+    }
 //
 //
 //    @Bean
@@ -85,4 +93,4 @@ public class AppConfig {
 //        mapper.registerModule(new JavaTimeModule()); // 让 Jackson 支持 LocalDate
 //        return mapper;
 //    }
-//}
+}

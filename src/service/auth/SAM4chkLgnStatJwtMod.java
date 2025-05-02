@@ -18,7 +18,7 @@ import util.tx.findByIdExptn_CantFindData;
 import java.util.HashMap;
 import java.util.Map;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.serverless.ApiGateway.httpExchangeCurThrd;
 import static util.excptn.ExptUtil.appendEx2lastExs;
 import static util.auth.JwtUtil.*;

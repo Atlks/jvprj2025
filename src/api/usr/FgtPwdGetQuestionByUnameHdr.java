@@ -13,7 +13,7 @@ import util.serverless.ApiGatewayResponse;
 
 import java.util.HashMap;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.findByHerbinate;
 
 /**

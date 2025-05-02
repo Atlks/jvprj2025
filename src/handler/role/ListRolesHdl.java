@@ -14,7 +14,7 @@ import util.serverless.RequestHandler;
 
 import java.util.HashMap;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.tx.dbutil.nativeQueryGetResultList;
 
 

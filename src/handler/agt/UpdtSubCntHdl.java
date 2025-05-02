@@ -10,7 +10,7 @@ import util.tx.findByIdExptn_CantFindData;
 
 import java.util.List;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.algo.CallUtil.lambdaInvoke;
 import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.mergeByHbnt;

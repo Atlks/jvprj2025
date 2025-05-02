@@ -13,7 +13,7 @@ import util.tx.findByIdExptn_CantFindData;
 
 import java.util.List;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static model.usr.MyWltAddr.MY_WLT_ADDR;
 import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.getListBySql;

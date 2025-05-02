@@ -22,7 +22,7 @@ import util.tx.findByIdExptn_CantFindData;
 import static handler.ivstAcc.IvstAccUti.newIvstWltIfNotExist;
 import static util.evt.RegEvt.evtlist4reg;
 import static cfg.Containr.sam4regLgn;
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static handler.rechg.ReviewChrgPassHdr.addWltIfNotExst;
 
 import static util.algo.CopyUti.copyProp;

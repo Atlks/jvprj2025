@@ -14,7 +14,7 @@ import util.annos.JwtParam;
 
 
 import static entityx.ApiResponse.createResponse;
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static java.time.LocalTime.now;
 import static util.algo.EncodeUtil.encodeParamSql;
 import static util.tx.HbntUtil.getListBySql;

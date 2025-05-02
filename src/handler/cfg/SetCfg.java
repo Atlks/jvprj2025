@@ -1,6 +1,6 @@
 package handler.cfg;
 
-import cfg.AppConfig;
+import cfg.MainStart;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
@@ -40,7 +40,7 @@ public class SetCfg implements RequestHandler<CfgKv, ApiGatewayResponse> {
     }
 
     public static void main(String[] args) throws Throwable {
-        new AppConfig().sessionFactory();//ini sessFctr
+        new MainStart().sessionFactory();//ini sessFctr
         //ini contnr 4cfg,, svrs
         iniContnr();
 

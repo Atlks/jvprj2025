@@ -1,6 +1,6 @@
 package handler.ylwlt
 
-import cfg.AppConfig
+import cfg.MainStart
 import cfg.Containr
 import cfg.Containr.sessionFactory
 import cfg.MyCfg

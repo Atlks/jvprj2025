@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import model.usr.MyWltAddr;
 
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.mergeByHbnt;
 
 /**

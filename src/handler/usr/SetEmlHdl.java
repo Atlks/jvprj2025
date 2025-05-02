@@ -11,7 +11,7 @@ import model.usr.MyWltAddr;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.mergeByHbnt;
 

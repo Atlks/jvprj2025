@@ -6,7 +6,7 @@ import model.OpenBankingOBIE.Transaction;
 import util.algo.Tag;
 import util.annos.CookieParam;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static java.time.LocalTime.now;
 
 

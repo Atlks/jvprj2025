@@ -5,9 +5,9 @@ package handler.ivstAcc;
  * BetWinLog
  */
 
+import cfg.MainStart;
 import handler.ivstAcc.dto.QueryDto;
 import util.annos.NoDftParam;
-import cfg.AppConfig;
 import entityx.ylwlt.BetWinLog;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
@@ -83,7 +83,7 @@ public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayRes
 
     public static void main(String[] args) throws Throwable {
 
-        new AppConfig().sessionFactory();//ini sessFctr
+        new MainStart().sessionFactory();//ini sessFctr
         //ini contnr 4cfg,, svrs
         iniContnr();
 

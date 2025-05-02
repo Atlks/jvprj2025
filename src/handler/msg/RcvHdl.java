@@ -1,21 +1,16 @@
 package handler.msg;
 
-import cfg.AppConfig;
-import entityx.usr.Usr;
+import cfg.MainStart;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import model.msg.Message;
-import model.msg.TlgrmUserx;
-import model.msg.ToChat;
 import org.hibernate.Session;
 
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.List;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static cfg.MyCfg.iniContnr;
 import static util.algo.CallUtil.lmdIvk;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
@@ -63,7 +58,7 @@ public class RcvHdl {
     private static void bfTst() throws Throwable, SQLException {
 
 
-        new AppConfig().sessionFactory();//ini sessFctr
+        new MainStart().sessionFactory();//ini sessFctr
         //ini contnr 4cfg,, svrs
         iniContnr();
         openSessionBgnTransact();

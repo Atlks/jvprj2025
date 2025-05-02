@@ -11,7 +11,7 @@ import util.algo.Icall;
 import util.serverless.ApiGatewayResponse;
 
 import static cfg.Containr.sam4regLgn;
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.findByHerbinate;
 
 /**

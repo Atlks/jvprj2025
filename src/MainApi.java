@@ -2,13 +2,13 @@
 //import handler.rechg.RechargeCallbackHdr;
 
 //import org.noear.solon.annotation.SolonMain;
+import cfg.MainStart;
 import lombok.SneakyThrows;
 import model.OpenBankingOBIE.AccountSubType;
 import model.OpenBankingOBIE.AccountType;
 import model.OpenBankingOBIE.Account;
 import org.hibernate.Session;
 
-import service.wlt.AddMoneyToWltService;
 import util.log.ConsoleInterceptor;
 import util.tx.findByIdExptn_CantFindData;
 //import service.AddRchgOrdToWltService;
@@ -79,7 +79,7 @@ public class MainApi {
     public static void start() throws Exception {
         //--------ini saveurlFrm Cfg
 
-       // new AppConfig().sessionFactory();//ini sessFctr
+         new MainStart().sessionFactory();//ini sessFctr
         //ini contnr 4cfg,, svrs
         iniContnr();
         iniEvtHdrCtnr();

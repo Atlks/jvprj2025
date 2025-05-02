@@ -11,7 +11,7 @@ import model.resetpwd.PasswordResetConfirmDTO;
 import model.resetpwd.PasswordResetRequestDTO;
 import util.ex.PwdNotEqExceptn;
 import util.serverless.ApiGatewayResponse;
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.findByHerbinate;
 import static cfg.Containr.sam4regLgn;
 @Path("/password/reset/confirm")

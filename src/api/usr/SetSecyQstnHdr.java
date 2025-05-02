@@ -12,7 +12,7 @@ import util.auth.validateTokenExcptn;
 import util.ex.existUserEx;
 import util.serverless.ApiGatewayResponse;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.mergeByHbnt;
 
 /**

@@ -1,6 +1,5 @@
 package handler.wthdr;
 
-import cfg.AppConfig;
 import cfg.MyCfg;
 import handler.rechg.dto.ReviewChrgRqdto;
 import jakarta.annotation.security.PermitAll;
@@ -65,7 +64,7 @@ public class ReviewWthdrReqOrdRejectHdr implements RequestHandler<ReviewChrgRqdt
 
         var  mthBiz = colorStr("减少盈利钱包的冻结金额,back to 有效余额", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
-        Account objU = findByHbntDep(Account.class,( tx.accountId), LockModeType.PESSIMISTIC_WRITE, AppConfig.sessionFactory.getCurrentSession());
+        Account objU = findByHbntDep(Account.class,( tx.accountId), LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
         BigDecimal bls = objU.InterimAvailableBalance;
         BigDecimal bls2 = bls.add(tx.amount);
         BigDecimal beforeAmt=objU.InterimAvailableBalance.add(tx.amount);

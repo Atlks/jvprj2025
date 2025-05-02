@@ -20,7 +20,7 @@ import util.ex.PwdNotEqExceptn;
 import java.util.Set;
 
 //import static api.usr.LgnHdr3.loginVldObsvs;
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.algo.EncryUtil.Key4pwd4aeskey;
 import static util.algo.EncryUtil.encryptAesToStrBase64;
 

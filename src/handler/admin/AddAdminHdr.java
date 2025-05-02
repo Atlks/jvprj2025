@@ -15,7 +15,7 @@ import util.algo.Tag;
 import util.annos.Paths;
 import util.ex.existUserEx;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.algo.EncodeUtil.encodeMd5;
 import static util.misc.Util2025.encodeJson;
 import static util.tx.HbntUtil.persistByHibernate;

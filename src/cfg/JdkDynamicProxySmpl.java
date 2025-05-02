@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import static cfg.Containr.sessionFactory;
 import static util.misc.Util2025.*;
 import static util.tx.dbutil.setField;
 
@@ -21,7 +22,7 @@ public class JdkDynamicProxySmpl implements InvocationHandler {
 
     public static void main(String[] args) throws Exception {
         Object obj1 = RechargeHdr.class.getConstructor().newInstance();
-        setField(obj1, SessionFactory.class,  AppConfig. sessionFactory);
+        setField(obj1, SessionFactory.class,   sessionFactory);
         //new RechargeHdr(); // 目标对象
         Object proxyObj =  JdkDynamicProxySmpl.createProxy(obj1); // 创建
         HttpHandlerX hx= (HttpHandlerX) proxyObj;

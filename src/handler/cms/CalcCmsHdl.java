@@ -13,7 +13,7 @@ import util.annos.EventListener;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.algo.CallUtil.lambdaInvoke;
 import static util.evtdrv.EventDispatcher.publishEvent;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;

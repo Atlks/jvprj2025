@@ -29,7 +29,7 @@
 //
 //import static handler.wlt.TransHdr.curLockAcc;
 //import static cfg.Containr.SecurityContext1;
-//import static cfg.AppConfig.sessionFactory;
+//import static cfg.Containr.sessionFactory;
 //import static java.time.LocalTime.now;
 //import static util.auth.AuthUtil.getCurrentUser;
 //import static util.tx.HbntUtil.findByHbntDep;

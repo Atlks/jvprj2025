@@ -15,7 +15,7 @@
 //import java.util.HashMap;
 //import java.util.Map;
 //
-//import static cfg.AppConfig.sessionFactory;
+//import static cfg.Containr.sessionFactory;
 //// static ztest.htmlTppltl.rend;
 //import static util.algo.EncodeUtil.encodeParamSql;
 //import static util.algo.NullUtil.isBlank;

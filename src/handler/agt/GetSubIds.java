@@ -1,6 +1,6 @@
 package handler.agt;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 
 import java.util.List;
 

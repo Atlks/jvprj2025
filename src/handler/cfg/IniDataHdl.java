@@ -16,7 +16,7 @@ import util.tx.findByIdExptn_CantFindData;
 import java.util.ArrayList;
 import java.util.List;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.*;
 
 

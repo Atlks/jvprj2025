@@ -8,7 +8,6 @@ package handler.ivstAcc;
 import handler.ivstAcc.dto.AccountIdSpec;
 import handler.ivstAcc.dto.QueryDto;
 import util.annos.NoDftParam;
-import cfg.AppConfig;
 import entityx.ylwlt.BetWinLog;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;

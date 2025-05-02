@@ -23,7 +23,7 @@
 //
 //
 //// static cfg.Containr.evtPublisher;
-//import static cfg.AppConfig.sessionFactory;
+//import static cfg.Containr.sessionFactory;
 //import static util.misc.Util2025.encodeJson;
 //import static util.proxy.AopUtil.ivk4log;
 //import static util.tx.HbntUtil.persistByHibernate;

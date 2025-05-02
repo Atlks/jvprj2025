@@ -27,7 +27,7 @@
 //
 //import java.math.BigDecimal;
 //
-//import static cfg.AppConfig.sessionFactory;
+//import static cfg.Containr.sessionFactory;
 //import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 //import static java.time.LocalTime.now;
 //import static util.log.ColorLogger.*;

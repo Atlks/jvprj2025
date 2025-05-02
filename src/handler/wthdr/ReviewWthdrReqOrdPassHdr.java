@@ -1,6 +1,5 @@
 package handler.wthdr;
 
-import cfg.AppConfig;
 import cfg.MyCfg;
 import entityx.wlt.TransDto;
 import handler.rechg.dto.ReviewChrgRqdto;
@@ -106,7 +105,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
         //----------------------sub blsAvld   blsFreez++
           mthBiz = colorStr("减少盈利钱包的有效余额,增加冻结金额", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
-        Account objU = findByHbntDep(Account.class, getAccId4ylwlt(uname), LockModeType.PESSIMISTIC_WRITE, AppConfig.sessionFactory.getCurrentSession());
+        Account objU = findByHbntDep(Account.class, getAccId4ylwlt(uname), LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
         BigDecimal nowAmt2 = objU.InterimAvailableBalance;
         BigDecimal newBls2 = nowAmt2.subtract(objOrd.amount);
         BigDecimal beforeAmt=objU.InterimAvailableBalance.add(objOrd.amount);

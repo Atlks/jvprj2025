@@ -1,6 +1,6 @@
 package handler.wthdr;
 
-import cfg.AppConfig;
+import cfg.MainStart;
 import entityx.usr.WithdrawDto;
 import jakarta.ws.rs.core.Context;
 import model.OpenBankingOBIE.Account;
@@ -117,7 +117,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
 
 
     public static void main(String[] args) throws Throwable {
-        new AppConfig().sessionFactory();//ini sessFctr
+        new MainStart().sessionFactory();//ini sessFctr
         //ini contnr 4cfg,, svrs
         iniContnr();
 

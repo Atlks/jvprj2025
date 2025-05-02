@@ -17,7 +17,7 @@ import util.algo.Icall;
 import java.util.*;
 
 
-//import static cfg.AppConfig.sessionFactory;
+//import static cfg.Containr.sessionFactory;
 import static cfg.Containr.sessionFactory;
 import static entityx.ApiResponse.createResponse;
 import static util.algo.EncodeUtil.encodeParamSql;

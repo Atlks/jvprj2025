@@ -1,6 +1,6 @@
 package ztest
 
-import cfg.AppConfig
+import cfg.MainStart
 import cfg.Containr
 import cfg.MyCfg
 import entityx.usr.Usr

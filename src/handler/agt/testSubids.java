@@ -1,6 +1,6 @@
 //package handler.agt;
 //import static cfg.MyCfg.iniContnr;
-//import static cfg.AppConfig.sessionFactory;
+//import static cfg.Containr.sessionFactory;
 //import static cfg.MyCfg.iniContnr;
 //import java.io.FileNotFoundException;
 //import java.sql.SQLException;

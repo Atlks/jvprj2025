@@ -12,7 +12,7 @@ import util.model.EvtType;
 
 import java.math.BigDecimal;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 //import static cfg.Containr.evtlist4aftCalcRchgAmtSum;
 //import static handler.agt.AgtHdl.addAgtIfNotExst;
 import static handler.agt.RegEvtHdl.addAgtIfNotExst;
