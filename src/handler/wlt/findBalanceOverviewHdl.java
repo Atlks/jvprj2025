@@ -30,8 +30,8 @@ public class findBalanceOverviewHdl {
 var accYl=findByHerbinate(Account.class, getAccId4ylwlt(reqdto.uname) ,sessionFactory.getCurrentSession());
     var acc_insFdpool=findByHerbinate (Account.class, AccountSubType.uke_ins_fd_pool.name() ,sessionFactory.getCurrentSession());
             BalanceOverview balanceOverview = new BalanceOverview();
-            balanceOverview.balance=account.InterimAvailableBalance;
-            balanceOverview.accYlwlt_balance=accYl.InterimAvailableBalance;
+            balanceOverview.accBalance =account.InterimAvailableBalance;
+            balanceOverview.accInvst_balance =accYl.InterimAvailableBalance;
             balanceOverview.InsFdPool_balance=acc_insFdpool.InterimAvailableBalance;
             return balanceOverview;
         }
