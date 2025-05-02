@@ -23,8 +23,7 @@
         <nacos.starter.version>2.2.5.RELEASE</nacos.starter.version>
         <nacos.discovery.starter.version>2.2.5.RELEASE</nacos.discovery.starter.version>
         <druid.starter.version>1.2.15</druid.starter.version>
-        <springboot.starter.version>2.2.2.RELEASE</springboot.starter.version>
-        <springboot.admin.starter.version>2.2.2</springboot.admin.starter.version>
+
         <mybatis.starter.version>2.1.0</mybatis.starter.version>
         <mybatis.mapper.starter.version>2.1.5</mybatis.mapper.starter.version>
         <pagehelper.version>5.1.11</pagehelper.version>
@@ -38,18 +37,14 @@
         <fastjson.version>1.2.83</fastjson.version>
         <mysql.connector.version>8.0.17</mysql.connector.version>
         <slf4j.version>1.7.30</slf4j.version>
-        <spring.version>5.2.2.RELEASE</spring.version>
+
+
         <xxljob.version>2.1.2</xxljob.version>
         <aspect.version>1.8.13</aspect.version>
         <kotlin.version>2.1.20</kotlin.version>
     </properties>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.3</version>  <!-- 这里指定 Spring Boot 版本 -->
-        <relativePath/> <!-- 防止继承其他 `parent` -->
-    </parent>
+
 
     <repositories>
 
@@ -78,23 +73,8 @@
             <artifactId>junit</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib</artifactId>
-            <version>1.8.0</version> <!-- 确保 Kotlin 版本与 coroutines 兼容 -->
-        </dependency>
 
-    <dependency>
-        <groupId>org.thymeleaf</groupId>
-        <artifactId>thymeleaf</artifactId>
-        <version>3.1.1.RELEASE</version> <!-- 最新稳定版本 -->
-    </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test</artifactId>
-            <version>${kotlin.version}</version>
-            <scope>test</scope>
-        </dependency>
+
 
 
         <dependency>
@@ -133,13 +113,6 @@
             <version>2.16.2</version>
         </dependency>
 
-
-        <!-- JavaFX Base -->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-base</artifactId>
-            <version>21</version>
-        </dependency>
 
         <!--
             <dependency>
@@ -345,37 +318,7 @@
         </dependency>
 
 
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
-        <!--
-          <dependency>
-              <groupId>org.springframework.boot</groupId>
-              <artifactId>spring-boot-starter-web</artifactId>
-              <version>3.4.3</version>
-          </dependency>
-          -->
 
-
-        <!-- Spring Boot 核心依赖 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-
-        <!-- Spring Boot Web -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
 
 
         <!-- SLF4J API -->
@@ -392,39 +335,7 @@
 
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-logging</artifactId>
-            <scope>provided</scope> <!-- 避免自动引入冲突 -->
-        </dependency>
 
-        <dependency>
-            <groupId>io.r2dbc</groupId>
-            <artifactId>r2dbc-spi</artifactId>
-            <version>1.0.0.RELEASE</version> <!-- 或者和 spring-boot-starter-data-r2dbc 版本一致 -->
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-couchbase</artifactId>
-
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jdbc</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.integration</groupId>
-            <artifactId>spring-integration-core</artifactId>
-            <version>6.2.2</version>
-        </dependency>
 
 
         <dependency>
@@ -433,21 +344,6 @@
             <version>9.0.0</version> <!-- 使用适当的版本 -->
         </dependency>
 
-        <dependency>
-
-            <groupId>org.springframework.hateoas</groupId>
-            <artifactId>spring-hateoas</artifactId>
-            <version>1.1.0.RELEASE</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.hazelcast/hazelcast-client -->
-
-        <!-- https://mvnrepository.com/artifact/org.springframework.integration/spring-integration-core -->
-        <dependency>
-            <groupId>org.springframework.integration</groupId>
-            <artifactId>spring-integration-core</artifactId>
-            <version>6.4.2</version>
-        </dependency>
 
         <dependency>
             <groupId>jakarta.jms</groupId>
@@ -461,35 +357,9 @@
             <version>4.19.0</version> <!-- 使用适当的版本 -->
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-client</artifactId>
-            <version>6.2.3</version> <!-- 使用适当的版本 -->
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-jose</artifactId>
-            <version>6.2.3</version> <!-- 使用适当的版本 -->
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-resource-server</artifactId>
-            <version>6.2.3</version> <!-- 使用适当的版本 -->
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-authorization-server</artifactId>
-            <version>0.3.0</version> <!-- 使用适当的版本 -->
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-saml2-service-provider</artifactId>
-            <version>6.0.0</version> <!-- 使用适当的版本 -->
-        </dependency>
 
         <dependency>
             <groupId>org.opensaml</groupId>
@@ -502,11 +372,7 @@
             <version>4.0.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-saml2-service-provider</artifactId>
-            <version>5.6.0</version> <!-- 请根据需要选择适当版本 -->
-        </dependency>
+
 
 
         <dependency>
@@ -583,11 +449,6 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
-            <version>3.3.0</version>
-        </dependency>
 
 
         <dependency>
@@ -595,41 +456,11 @@
             <artifactId>json</artifactId>
             <version>20210307</version>
         </dependency>
-        <dependency>
-            <groupId>net.bytebuddy</groupId>
-            <artifactId>byte-buddy</artifactId>
-            <version>1.12.3</version> <!-- 使用最新版 -->
-        </dependency>
 
 
-        <!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
-        <dependency>
-            <groupId>com.jcraft</groupId>
-            <artifactId>jsch</artifactId>
-            <version>0.1.55</version>
-        </dependency>
 
 
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
-            <version>3.3.0</version>
-        </dependency>
 
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib</artifactId>
-            <version>1.9.0</version>
-        </dependency>
-
-
-        <!-- https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-reflect -->
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-reflect</artifactId>
-            <version>1.9.0</version>
-            <scope>runtime</scope>
-        </dependency>
 
 
         <dependency>
@@ -646,47 +477,13 @@
         </dependency>
 
 
-        <!-- Spring Core（包含 SpEL）-->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>6.2.3</version>
-        </dependency>
-
-        <!-- Spring AOP依赖 -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>6.2.3</version> <!-- 使用Spring 6.x版本 -->
-        </dependency>
-
-
         <dependency>
             <groupId>p6spy</groupId>
             <artifactId>p6spy</artifactId>
             <version>3.9.1</version>  <!-- 请使用最新版本 -->
         </dependency>
 
-        <!-- AspectJ依赖（用于增强AOP的功能） -->
-        <!-- AspectJ 依赖 -->
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>1.9.9.1</version>
-        </dependency>
 
-        <!-- Spring Context依赖（确保@Component工作正常） -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>6.2.3</version> <!-- 确保版本一致 -->
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-expression</artifactId>
-            <version>6.2.3</version>
-        </dependency>
 
 
 
@@ -768,19 +565,7 @@
             <artifactId>fastjson2</artifactId>
             <version>2.0.44</version> <!-- 请使用最新版本 -->
         </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test</artifactId>
-            <version>2.1.0</version>
-        </dependency>
 
-
-        <dependency>
-            <groupId>org.jetbrains.kotlinx</groupId>
-            <artifactId>kotlinx-coroutines-core</artifactId>
-            <version>1.10.1</version>
-
-        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
@@ -807,36 +592,6 @@
         <plugins>
 
 
-            <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirs>
-                                <source>src</source>
-                                <source>target/generated-sources/annotations</source>
-                            </sourceDirs>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>test-compile</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>test-compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <jvmTarget>1.8</jvmTarget>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -901,38 +656,7 @@
             </plugin>
 
 
-            <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <version>2.1.0</version>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirs>
-                                <source>src/main/java</source>
-                                <source>target/generated-sources/annotations</source>
-                                <source>asrc</source>
-                                <source>src</source>
-                            </sourceDirs>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>ztest-compile</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>test-compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <jvmTarget>1.8</jvmTarget>
-                </configuration>
-            </plugin>
+
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

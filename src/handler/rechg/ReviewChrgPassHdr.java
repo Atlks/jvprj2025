@@ -13,10 +13,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.algo.Icall;
 import util.excptn.AreadyProcessedEx;
 import util.serverless.ApiGatewayResponse;
@@ -52,7 +49,7 @@ import static handler.secury.SecUti.*;
  * <p>
  * //   http://localhost:8889/ReviewChrgPassHdr?ord_id=
  */
-@RestController
+
 @Path("/admin/wlt/ReviewChrgPassHdr")
 @PermitAll
 public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgRqdto, ApiGatewayResponse> {
@@ -140,10 +137,9 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgRqdto, ApiGat
 
 
     //注解告诉 JSON 序列化库跳过该字段。
-    @Lazy
-    @Autowired()
+
     // @Inject("addMoneyToWltService")
-    @Qualifier("AddMoneyToWltService")  // 使用类名自动转换
+    //@Qualifier("AddMoneyToWltService")  // 使用类名自动转换
     public Icall addMoneyToWltService1;   //=new AddMoneyToWltService();
     /**
      * @param uname

@@ -11,7 +11,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.algo.Tag;
 import util.ex.existUserEx;
 import util.serverless.ApiGatewayResponse;
@@ -40,7 +40,7 @@ import static util.tx.HbntUtil.persistByHibernate;
 //@Component  // 让 Spring 自动管理这个 Bean
 
 //  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
-@RestController
+
 @Path("/reg")
 @Tag(name = "用户管理", description = "用户相关操作")
 //@Parameter(name = "uname")

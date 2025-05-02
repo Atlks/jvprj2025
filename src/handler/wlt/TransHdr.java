@@ -13,11 +13,7 @@ import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
 
 import jakarta.ws.rs.Path;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.algo.Icall;
 import service.Trans2YLwltService;
 
@@ -31,14 +27,14 @@ import static util.proxy.SprUtil.injectAll4spr;
  * 从本机钱包转账到盈利钱包
  * http://localhost:8889/Trans?changeAmount=8
  */
-@RestController   // 默认返回 JSON，不需要额外加 @ResponseBody。
+   // 默认返回 JSON，不需要额外加 @ResponseBody。
 @Tag(name = "wlt 钱包")
 @Path("/wlt/Trans")
 //@Operation(summary = "转账操作", example = "/Trans?changeAmount=8")
 //@Parameter(name = "uname", description = "用户名（in cookie）", required = true)
 //@Parameter(name = "changeAmount", description = "转账金额", required = true)
 @CookieParam(name = "uname",description = "用户名",decryKey="a1235678")
-@Component
+
 public class TransHdr   {
     // 实现 Serializable 接口
     public static final long serialVersionUID = 1L; // 推荐
@@ -71,20 +67,20 @@ public class TransHdr   {
     Trans2YLwltService Trans2YLwltService1;
 
     @注入
-    @Autowired
-    @Qualifier("RdsFromWltService")
+
+    //@Qualifier("RdsFromWltService")
     public Icall RdsFromWltService1;
 
     @注入
-    @Autowired
-    @Qualifier("AddMoney2YLWltService")
+
+    //@Qualifier("AddMoney2YLWltService")
     public Icall AddMoney2YLWltService1;
 
     public static ThreadLocal<Account> curLockAcc = new ThreadLocal<>();
 
     @Transactional
 
-    public Object handleRequest(@ModelAttribute  TransDto lgblsDto) throws Throwable {
+    public Object handleRequest(  TransDto lgblsDto) throws Throwable {
 
         injectAll4spr(this);
         //blk login ed

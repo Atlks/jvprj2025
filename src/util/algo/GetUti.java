@@ -5,7 +5,7 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
 import org.jooq.Table;
-import org.springframework.retry.annotation.CircuitBreaker;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -137,7 +137,7 @@ public class GetUti {
 
     @NotNull
     //@Retry @TimeLimiter
-    @CircuitBreaker(maxAttempts = 3, openTimeout = 5000, resetTimeout = 10000)
+  //  @CircuitBreaker(maxAttempts = 3, openTimeout = 5000, resetTimeout = 10000)
     //name = "myService", fallbackMethod = "fallback"
     public static String getStrFrmUrl(@NotBlank String apiUrl) throws IOException {
         URL url = new URL(apiUrl);

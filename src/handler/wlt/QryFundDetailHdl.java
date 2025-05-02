@@ -10,7 +10,7 @@ import model.wlt.BalancesFundDetail;
 import org.jooq.*;
 import org.jooq.conf.ParamType;
 import org.jooq.impl.DSL;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 

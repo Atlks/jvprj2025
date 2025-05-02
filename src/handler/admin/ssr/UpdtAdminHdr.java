@@ -33,8 +33,7 @@ import static util.tx.HbntUtil.persistByHibernate;
 
 //  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
 @RestController
-@Path("/reg")
-@RequestMapping("/reg")
+
 @Tag(name = "用户管理", description = "用户相关操作")
 //@Parameter(name = "uname")
 //@Parameter(name = "pwd")

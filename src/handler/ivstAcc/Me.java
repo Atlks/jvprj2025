@@ -6,7 +6,7 @@ import jakarta.ws.rs.core.Context;
 import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.AccountSubType;
 import org.hibernate.Session;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
@@ -21,7 +21,7 @@ import static util.tx.HbntUtil.findByHerbinate;
  * invstAcc/me
  */
 @jakarta.annotation.security.RolesAllowed("user")
-@RestController
+
 @Path("/invstAcc/me")
 
 public class Me    {

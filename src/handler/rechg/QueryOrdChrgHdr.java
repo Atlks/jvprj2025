@@ -8,7 +8,7 @@ import entityx.wlt.QryRechgOrdReqDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
@@ -29,7 +29,7 @@ import static util.tx.Pagging.getPageResultByHbntV4;
  *
  订单号              会员账号          标签                    VIP等级          上级代理             充值金额           截图附件              审核状态            审核人                    充值时间                         审核时间
  */
-@RestController
+
 @Path("/admin/wlt/QueryOrdChrgHdr")
 @PermitAll
 @NoDftParam
