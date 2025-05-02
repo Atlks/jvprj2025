@@ -26,7 +26,8 @@ import static util.algo.GetUti.getUuid;
 @Entity
 @DynamicUpdate  // 仅更新被修改的字段
 @DynamicInsert //如果还希望 INSERT 时也只插入非 null 的字段，可以搭配
-@Table(indexes = {
+@Table(name="Transactions",
+        indexes = {
         @Index(name = "idx_transaction_code", columnList = "transactionCode"),
         @Index(name = "idx_uname", columnList = "uname")
 } )  //Transactions_Pay

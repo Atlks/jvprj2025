@@ -21,7 +21,7 @@ import static util.model.EvtType.AftrCalcRchgAmtSumEvt;
 import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.mergeByHbnt;
 
-@EventListener({AftrCalcRchgAmtSumEvt})
+//@EventListener({AftrCalcRchgAmtSumEvt})
 public class CalcCmsHdl {
 
 
