@@ -10,7 +10,7 @@ import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.auth.Role;
-import org.springframework.stereotype.Controller;
+
 import util.algo.EncryUtil;
 import util.auth.JwtUtil;
 import util.misc.util2026;
@@ -26,7 +26,7 @@ import static util.misc.util2026.hopePwdEq;
 import static util.tx.HbntUtil.findByHerbinate;
 
 
-//组合了 @Controller 和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
+//组合了  和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
 @PermitAll
 @Path("/admin/login")
 //   http://localhost:8889/adm/loginSbmt

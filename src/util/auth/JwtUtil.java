@@ -12,7 +12,7 @@ import model.constt.VisaConstants;
 import model.auth.Role;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Value;
+
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -44,7 +44,7 @@ public class JwtUtil {
         System.out.println(newToken("6666", Role.USER));
     }
 
-    @Value("scrkey")
+   // @Value("scrkey")
     // 密钥，通常应该从环境变量或配置文件中获取，避免硬编码
     private static final String SECRET_KEY = "mysecretkey";
 

@@ -10,7 +10,8 @@ import model.role.CustomRole;
 import org.hibernate.Session;
 import util.serverless.ApiGatewayResponse;
 
-import static cfg.AppConfig.sessionFactory;
+// static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.algo.GetUti.getUuid;
 import static util.tx.HbntUtil.mergeByHbnt;
 import static util.tx.HbntUtil.toEttMngr;

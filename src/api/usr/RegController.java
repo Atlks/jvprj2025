@@ -1,12 +1,12 @@
 package api.usr;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+
+
+
 
 //http://localhost:8080/reg?name=Tom
 // Controller
-@RestController
+
 class RegController {
    // private final MyService myService;
 
@@ -18,7 +18,7 @@ class RegController {
 
     ////http://localhost:8080/reg?name=Tom
   //  @GetMapping("/reg")
-    public String greet(@RequestParam String name) {
+    public String greet( String name) {
         return "get prm,name="+name;
     }
 }

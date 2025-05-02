@@ -1,60 +1,54 @@
-//package handler.usr;
+//package handler.admin.ssr;
 //
-//import handler.admin.AuthFun4admin;
-//import util.annos.NoDftParam;
-//import util.annos.RequireAuth;
-//import entityx.usr.ReqDtoQryUsr;
+//import model.admin.Admin;
+//import entityx.usr.NonDto;
+//import jakarta.annotation.security.PermitAll;
 //import jakarta.ws.rs.Path;
 //import lombok.Data;
 //import lombok.NoArgsConstructor;
 //import org.hibernate.Session;
 //
-//// org.thymeleaf.context.Context;
+//import org.springframework.stereotype.Controller;
+//import org.thymeleaf.context.Context;
 //import util.algo.Icall;
 //
 //import java.util.HashMap;
 //import java.util.Map;
 //
 //import static cfg.AppConfig.sessionFactory;
-//// static ztest.htmlTppltl.rend;
-//import static util.algo.EncodeUtil.encodeParamSql;
-//import static util.algo.NullUtil.isBlank;
-//import static util.tx.Pagging.getPageResultByHbntV3;
+//import static ztest.htmlTppltl.rend;
+//import static util.tx.dbutil.nativeQueryGetResultList;
+//
+//@Controller
 //
 //
-//
-//
-////组合了  和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
-////@PermitAll
-//@Path("/admin/qryUsr")
-////   http://localhost:8889/admin/qryUsr?uname=008&page=1&pagesize=100
+////组合了 @Controller 和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
+//@PermitAll
+//@Path("/admin/listAdm")
+////   http://localhost:8889/admin/listAdm
 //@NoArgsConstructor
 //@Data
 //
-//@RequireAuth(role="admin",authFun= AuthFun4admin.class)
-//@NoDftParam
-//public class QueryUsrHdr implements Icall<ReqDtoQryUsr, Object> {
+//public class ListAdmHdr implements Icall<NonDto, Object> {
 //
-//    public Object main(ReqDtoQryUsr reqdto) throws Exception {
+//    public Object main(NonDto reqdto) throws Exception {
 //
-//        var uNameLikeConditon = "";
-//        if (!isBlank(reqdto.unameKeyword))
-//            uNameLikeConditon = "where  uname like '%" + encodeParamSql(reqdto.unameKeyword) + "%'";
-//        var sql = "select * from usr " + uNameLikeConditon + " order by crtTimeStmp desc  ";
+////        var uNameLikeConditon = "";
+////        if (!isBlank(reqdto.unameKeyword))
+////            uNameLikeConditon = "where  uname like '%" + encodeParamSql(reqdto.unameKeyword) + "%'";
+//        var sql = "select * from admin   order by createdAt desc  ";
 //        System.out.println(sql);
 //
 //        Session session = sessionFactory.getCurrentSession();
-//        var list1 = getPageResultByHbntV3(sql, new HashMap<>(), reqdto, session);
+//        var list1 = nativeQueryGetResultList(sql, new HashMap<>(), session, Admin.class);
 //
-//
-//        Context context = new Context();
-//        context.setVariable("users", list1.records);
-//        String tmpleFileName = "adm/usr/listUsr";
-//
-//
-//        return  ( rend(tmpleFileName, context ));
 //     //   return createResponse(list1);
+//        Context context = new Context();
+//        context.setVariable("users", list1);
+//        String tmpleFileName = "adm/listAdm";
 //
+//
+//       return  ( rend(tmpleFileName, context ));
 //    }
 //
 //

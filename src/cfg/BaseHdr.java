@@ -3,13 +3,11 @@ package cfg;
 import jakarta.annotation.security.PermitAll;
 
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
+
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import util.excptn.ExceptionBase;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+
 import util.auth.IsEmptyEx;
 import util.ex.NeedLoginEx;
 
@@ -44,17 +42,17 @@ import static util.misc.util2026.*;
  * 异常处理（捕获异常并记录）
  * 事务
  */
-@Component
+
 public abstract class BaseHdr<T, U> implements HttpHandler {
 
     // 实现 Serializable 接口
     public static final long serialVersionUID = 1L; // 推荐加
-    @Autowired
-    @Lazy
+//    
+//    @Lazy
     public SessionFactory sessionFactory;
 
-    @Lazy
-    @Autowired
+    //@Lazy
+    //
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -64,7 +62,7 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
 
     //----------aop ex  and some log part
     //事务管理  全局异常
-    @ExceptionHandler
+    //@ExceptionHandler
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         //wz qrystr
@@ -216,7 +214,7 @@ public abstract class BaseHdr<T, U> implements HttpHandler {
     }
 
     //----------aop auth
-    // @ControllerAdvice
+    // Advice
     private void urlAuthChk(HttpExchange exchange) throws IOException, NeedLoginEx, IsEmptyEx {
 
 

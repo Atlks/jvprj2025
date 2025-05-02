@@ -6,7 +6,7 @@ import jakarta.ws.rs.core.Context;
 
 import model.OpenBankingOBIE.Account;
 import org.hibernate.Session;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
@@ -19,7 +19,7 @@ import static util.tx.HbntUtil.findByHerbinate;
  * MeWlt center
  */
 @jakarta.annotation.security.RolesAllowed("user")
-@RestController
+
 @Path("/wlt/MeWlt")
 
 public class MeWlt implements RequestHandler<QueryDto, ApiGatewayResponse>  {

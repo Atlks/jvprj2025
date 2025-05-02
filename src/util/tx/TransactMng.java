@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.context.internal.ThreadLocalSessionContext;
 
-import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 
 
 /**

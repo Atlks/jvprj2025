@@ -15,10 +15,10 @@
 //import lombok.AllArgsConstructor;
 //import lombok.Data;
 //import lombok.NoArgsConstructor;
-//import org.springframework.beans.factory.annotation.Autowired;
+//
 //import org.springframework.beans.factory.annotation.Qualifier;
-//import org.springframework.context.annotation.Lazy;
-//import org.springframework.stereotype.Component;
+//
+//
 //import service.CmsBiz;
 //
 //import entityx.usr.Usr;
@@ -45,7 +45,7 @@
 //@Lazy
 //@NoArgsConstructor
 //@AllArgsConstructor
-//@Component
+//
 //public class RechargeCallbackHdr implements  Icall<TransactionsPay,Object> {
 //    public static String saveUrlLogBalance;
 //
@@ -55,14 +55,14 @@
 //
 //    //注解告诉 JSON 序列化库跳过该字段。
 //  @Lazy
-//  @Autowired()
+//  ()
 // // @Inject("addMoneyToWltService")
 // @Qualifier("AddMoneyToWltService")  // 使用类名自动转换
 // public Icall addMoneyToWltService1;   //=new AddMoneyToWltService();
 //
 //public   String addMoneyToWltService = "AddMoneyToWltService";
 ////    @Lazy
-////   // @Autowired()
+////   // ()
 ////    @Qualifier("addMoneyToYLWltService")
 ////    public Iservice addMoneyToYLWltService1;
 //

@@ -17,7 +17,7 @@
 //import lombok.extern.slf4j.Slf4j;
 //import org.hibernate.Session;
 //import org.springframework.security.access.prepost.PreAuthorize;
-//import org.springframework.web.bind.annotation.RestController;
+//
 //import util.algo.Icall;
 //
 //import java.math.BigDecimal;
@@ -44,7 +44,7 @@
 //@Path("/Withdraw")
 //@Parameter(name = "amount", description = "金额")
 //@CookieParam(name = "uname",value = "$curuser")
-//@RestController
+//
 //@PreAuthorize("user")
 //@Slf4j
 //@Deprecated   //cant drktl wdth,need app first

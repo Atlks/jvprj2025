@@ -16,7 +16,8 @@ import util.tx.findByIdExptn_CantFindData;
 
 import java.math.BigDecimal;
 
-import static cfg.AppConfig.sessionFactory;
+// static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static cfg.MyCfg.iniContnr;
 import static service.CmsBiz.toBigDcmTwoDot;
 import static util.acc.AccUti.getAccId4ylwlt;

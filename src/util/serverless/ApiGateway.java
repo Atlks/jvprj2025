@@ -32,11 +32,10 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import static cfg.BaseHdr.*;
-import static cfg.Containr.curCtrlCls;
-import static cfg.Containr.sam4chkLgnStat;
 
 
-import static cfg.AppConfig.sessionFactory;
+//import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.*;
 import static util.algo.AnnotationUtils.getCookieParamsV2;
 import static util.algo.AnnotationUtils.getParams;
 import static util.algo.GetUti.getMethod;
@@ -49,7 +48,7 @@ import static util.proxy.AopUtil.ivk4log;
 import static util.auth.AuthUtil.getCurrentUser;
 import static util.log.ColorLogger.*;
 
-import static util.proxy.SprUtil.injectAll4spr;
+ 
 import static util.serverless.ApiGatewayResponse.createErrResponseWzErrcode;
 import static util.misc.Util2025.*;
 import static util.tx.TransactMng.*;
@@ -98,7 +97,7 @@ public class ApiGateway implements HttpHandler {
 
         //---------blk chk auth
         Object result = ivk4log(mthFullname, dto, () -> {
-            injectAll4spr(target);
+           // injectAll4spr(target);
             if (isImpltInterface(target, RequestHandler.class))
                 return ((RequestHandler) target).handleRequest(dto, null);
             else if (isImpltInterface(target, Icall.class)) {
@@ -234,7 +233,7 @@ public class ApiGateway implements HttpHandler {
     //   public ISAM sam1;
 
 //    @Inject
-//    @Autowired
+//    
 //    @Qualifier("ChkLgnStatAuthenticationMechanism")
 //    public HttpAuthenticationMechanism HttpAuthenticationMechanism1;
 
@@ -261,6 +260,10 @@ public class ApiGateway implements HttpHandler {
             }
 
         }
+    }
+
+    private void injectAll4spr(ApiGateway apiGateway) {
+
     }
 
 

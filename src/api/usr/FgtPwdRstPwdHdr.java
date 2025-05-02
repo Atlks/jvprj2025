@@ -6,7 +6,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.algo.Icall;
 import util.serverless.ApiGatewayResponse;
 
@@ -19,7 +19,7 @@ import static util.tx.HbntUtil.findByHerbinate;
  * //@param uname
  * //@param pwd
  */
-@RestController
+
 
  @PermitAll
 @Path("/FgtPwdRstPwdHdr")

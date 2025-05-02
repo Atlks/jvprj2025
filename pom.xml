@@ -231,6 +231,13 @@
             <version>4.0.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>5.0.0</version> <!-- 或更新的版本 -->
+            <scope>provided</scope>
+        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/jakarta.security.jacc/jakarta.security.jacc-api -->
         <dependency>
@@ -328,7 +335,15 @@
             <version>2.0.9</version>  <!-- 统一使用最新稳定版 -->
         </dependency>
 
-        <!-- Logback 作为默认日志实现 -->
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Logback 作为默认日志实现
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -336,7 +351,7 @@
         </dependency>
 
 
-
+-->
 
         <dependency>
             <groupId>org.flywaydb</groupId>
@@ -566,15 +581,6 @@
             <version>2.0.44</version> <!-- 请使用最新版本 -->
         </dependency>
 
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
 
     </dependencies>
 

@@ -1,6 +1,7 @@
 package handler.agt;
 
-import static cfg.AppConfig.sessionFactory;
+// static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.findByHerbinate;
 
 import java.util.ArrayList;

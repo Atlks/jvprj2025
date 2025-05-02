@@ -7,7 +7,7 @@ import model.admin.Admin;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
+
 import org.springframework.stereotype.Controller;
 import util.algo.Icall;
 import util.algo.Tag;
@@ -20,7 +20,7 @@ import static ztest.htmlTppltl.rend;
  * // @param uname
  * // @param pwd
  */
-@Component  // 让 Spring 自动管理这个 Bean
+  // 让 Spring 自动管理这个 Bean
 
 //  http://localhost:8889/adm/addUi
 @Controller

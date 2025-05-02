@@ -13,7 +13,7 @@ import entityx.ylwlt.BetWinLog;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
@@ -32,7 +32,7 @@ import static util.tx.TransactMng.openSessionBgnTransact;
 /**
  *
  */
-@RestController
+
 @Path("/wlt/ListInsFdPoolLogHdl")
 @PermitAll
 @NoDftParam
@@ -65,7 +65,7 @@ public class ListInsFdPoolLogHdl implements RequestHandler<QueryDto, ApiGatewayR
 
     public static void main(String[] args) throws Throwable {
 
-        new AppConfig().sessionFactory();//ini sessFctr
+      //  new AppConfig().sessionFactory();//ini sessFctr
         //ini contnr 4cfg,, svrs
         iniContnr();
 

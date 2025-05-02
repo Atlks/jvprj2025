@@ -17,11 +17,11 @@ import jakarta.ws.rs.Path;
 import util.algo.Icall;
 import service.Trans2YLwltService;
 
-import static cfg.AppConfig.sessionFactory;
+// static cfg.AppConfig.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static handler.ivstAcc.IvstAccUti.newIvstWltIfNotExist;
 import static util.tx.HbntUtil.findByHbntDep;
-import static util.proxy.SprUtil.injectAll4spr;
+// static util.proxy.SprUtil.injectAll4spr;
 
 /**
  * 从本机钱包转账到盈利钱包
@@ -63,7 +63,7 @@ public class TransHdr   {
 //    }
 
 
-    //@Autowired
+    //
     Trans2YLwltService Trans2YLwltService1;
 
     @注入
@@ -80,35 +80,11 @@ public class TransHdr   {
 
     @Transactional
 
-    public Object handleRequest(  TransDto lgblsDto) throws Throwable {
+    public Object handleRequest(TransDto lgblsDto) throws Throwable {
+        return null;
+    }
 
-        injectAll4spr(this);
-        //blk login ed
-
-        newIvstWltIfNotExist(lgblsDto.uname);
-
-
-        // 获取对象并加悲观锁
-
-        //add blance   bcs uname frm cookie
-      //  lgblsDto.uname=decryptDES( lgblsDto.uname,Key_a1235678);
-
-        String uname = lgblsDto.uname;
-        Account objU = findByHbntDep(Account.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
-
-//        if (objU.id == null) {
-//            objU.id = uname;
-//            objU.uname = uname;
-//        }
-        curLockAcc.set(objU);
-
-        RdsFromWltService1.main(lgblsDto);
-        AddMoney2YLWltService1.main(lgblsDto);
-
-//        Icall is = Trans2YLwltService1;
-//        ((Trans2YLwltService) is).handle(lgblsDto);
-
-        return "ok";
+    private void injectAll4spr(TransHdr transHdr) {
     }
 
 

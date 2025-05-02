@@ -6,8 +6,7 @@ import jakarta.ws.rs.Path;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.algo.Icall;
 //import org.apache.lucene.index.DirectoryReader;
 //import org.apache.lucene.index.Term;
@@ -18,23 +17,24 @@ import util.algo.Icall;
 import java.util.*;
 
 
-import static cfg.AppConfig.sessionFactory;
+//import static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static entityx.ApiResponse.createResponse;
 import static util.algo.EncodeUtil.encodeParamSql;
 import static util.algo.NullUtil.isBlank;
 
 import static util.tx.Pagging.getPageResultByHbntV3;
 
-@RestController
 
 
-//组合了 @Controller 和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
+
+//组合了  和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
 @PermitAll
 @Path("/admin/qryUsrApi")
 //   http://localhost:8889/admin/qryUsr?uname=008&page=1&pagesize=100
 @NoArgsConstructor
 @Data
-@Component
+
 public class QueryUsrHdrApi implements Icall<ReqDtoQryUsr, Object> {
 
     public Object main(ReqDtoQryUsr reqdto) throws Exception {

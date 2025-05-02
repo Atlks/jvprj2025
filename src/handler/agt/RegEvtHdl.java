@@ -9,7 +9,8 @@ import util.annos.EventListener;
 import util.model.EvtType;
 import util.tx.findByIdExptn_CantFindData;
 
-import static cfg.AppConfig.sessionFactory;
+// static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static org.apache.commons.lang3.math.NumberUtils.toInt;
 import static util.algo.CallUtil.lambdaInvoke;
 import static util.algo.NullUtil.isBlank;

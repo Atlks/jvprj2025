@@ -3,7 +3,7 @@ package util.evtdrv;
 import util.algo.ConsumerX;
 import util.algo.SupplierX;
 import util.annos.Observes;
-import org.springframework.context.event.EventListener;
+import util.annos.EventListener;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -117,31 +117,31 @@ public class EvtUtil {
     }
 
 
-    private static void iniEvtHdrCtnr(Class clz) {
-        Method[] mthds = clz.getDeclaredMethods();
-        for (Method mth : mthds) {
-            if (mth.isAnnotationPresent(EventListener.class)) {
-                EventListener ano = mth.getAnnotation(EventListener.class);
-
-                //set evt map by cls lsit
-                Class<?>[] lstEvts = ano.value();
-                for (Class evtClz : lstEvts) {
-                    Set<Method> li_meth = evtHdrMap.get(evtClz);
-                    if (li_meth == null) {
-                        li_meth = new HashSet<>();
-                        evtHdrMap.put(evtClz, li_meth);
-                    }
-                    li_meth.add(mth);
-                    // evtHdrMap.put(evtClz, mth);
-                }
-
-                //
-                setEVtMapByParam(mth);
-
-            }
-
-        }
-    }
+//    private static void iniEvtHdrCtnr(Class clz) {
+//        Method[] mthds = clz.getDeclaredMethods();
+//        for (Method mth : mthds) {
+//            if (mth.isAnnotationPresent(EventListener.class)) {
+//                EventListener ano = mth.getAnnotation(EventListener.class);
+//
+//                //set evt map by cls lsit
+//                Class<?>[] lstEvts = ano.value();
+//                for (Class evtClz : lstEvts) {
+//                    Set<Method> li_meth = evtHdrMap.get(evtClz);
+//                    if (li_meth == null) {
+//                        li_meth = new HashSet<>();
+//                        evtHdrMap.put(evtClz, li_meth);
+//                    }
+//                    li_meth.add(mth);
+//                    // evtHdrMap.put(evtClz, mth);
+//                }
+//
+//                //
+//                setEVtMapByParam(mth);
+//
+//            }
+//
+//        }
+//    }
 
     private static void setEVtMapByParam(Method mth) {
         Class firstParamClass = getFirstParamClassFromMethod(mth);

@@ -15,10 +15,7 @@ import model.OpenBankingOBIE.TransactionStatus;
 
 
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.algo.Icall;
 import util.excptn.AreadyProcessedEx;
 import util.serverless.ApiGatewayResponse;
@@ -46,7 +43,7 @@ import static handler.secury.SecUti.*;
  * <p>
  * //   http://localhost:8889/ReviewChrgPassHdr?ord_id=
  */
-@RestController
+
 @Path("/admin/wlt/ReviewWthdrReqOrdPassHdr")
 @PermitAll
 public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto, ApiGatewayResponse> {
@@ -149,10 +146,10 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
 
 
     //注解告诉 JSON 序列化库跳过该字段。
-    @Lazy
-    @Autowired()
-    // @Inject("addMoneyToWltService")
-    @Qualifier("AddMoneyToWltService")  // 使用类名自动转换
+//    @Lazy
+//    ()
+//    // @Inject("addMoneyToWltService")
+//    @Qualifier("AddMoneyToWltService")  // 使用类名自动转换
     public Icall addMoneyToWltService1;   //=new AddMoneyToWltService();
     /**
      * @param uname

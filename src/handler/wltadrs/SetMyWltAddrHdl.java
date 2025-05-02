@@ -4,7 +4,7 @@ import jakarta.ws.rs.Path;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.usr.MyWltAddr;
-import org.springframework.web.bind.annotation.RestController;
+
 
 import static cfg.AppConfig.sessionFactory;
 import static util.tx.HbntUtil.mergeByHbnt;
@@ -14,7 +14,7 @@ import static util.tx.HbntUtil.mergeByHbnt;
  * //@param uname
  * //@param pwd
  */
-@RestController
+
 
 //@PermitAll
 @Path("/myWltAdrs/SetMyWltAddrHdl")

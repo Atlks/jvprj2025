@@ -17,7 +17,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
+
 import service.VisaService;
 import util.algo.EncryUtil;
 import util.annos.Paths;
@@ -41,10 +41,10 @@ import static util.serverless.ApiGateway.httpExchangeCurThrd;
  * //@param uname
  * //@param pwd
  */
-@RestController
 
 
-//组合了 @Controller 和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
+
+//组合了  和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
 @PermitAll
 
 @Paths({"/api/token"})

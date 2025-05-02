@@ -12,8 +12,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.resetpwd.PasswordResetRequestDTO;
 import util.serverless.ApiGatewayResponse;
-import static cfg.AppConfig.sessionFactory;
-import static cfg.AppConfig.sessionFactory;
+
+import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.findByHerbinate;
 @Path("/password/reset/request")
 

@@ -37,7 +37,7 @@ import static util.tx.HbntUtil.persistByHibernate;
  * // @param uname
  * // @param pwd
  */
-//@Component  // 让 Spring 自动管理这个 Bean
+//  // 让 Spring 自动管理这个 Bean
 
 //  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
 
@@ -115,7 +115,7 @@ public class RegHandler implements RequestHandler<RegDto, ApiGatewayResponse>,IR
     public static boolean ovrwtest = false;
 
 
-    //@Autowired
+    //
 //    org.hibernate.Session session;
     @Override
     public boolean chkExistUser(RegDto user) throws existUserEx {

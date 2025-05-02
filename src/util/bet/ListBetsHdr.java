@@ -5,7 +5,7 @@ import util.model.bet.QryDto4bets;
 import jakarta.ws.rs.Path;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.algo.Icall;
 import util.algo.Tag;
 import util.annos.JwtParam;
@@ -24,7 +24,7 @@ import static util.tx.HbntUtil.getListBySql;
  *  查询规则，参数使用类型化，不要新定义dto，直接使用实体代替
  * http://localhost:8889/list_bets
  */
-@RestController
+
 @Tag(name = "bet", description = "")
 @Path("/list_bets")
 @JwtParam(name = "uname")

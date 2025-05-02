@@ -8,7 +8,7 @@ import model.agt.CmsLv;
 import model.rpt.DataSummaryToppart;
 import model.cfg.CfgKv;
 import model.cfg.MbrVipCfg;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 import util.tx.findByIdExptn_CantFindData;
@@ -19,7 +19,7 @@ import java.util.List;
 import static cfg.AppConfig.sessionFactory;
 import static util.tx.HbntUtil.*;
 
-@RestController
+
 @Path("/cfg/IniDataHdl")
 @PermitAll
 public class IniDataHdl implements RequestHandler<NonDto, ApiGatewayResponse> {

@@ -1,26 +1,26 @@
 package cfg;
 
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
+
+
+
 
 import javax.inject.Inject;
 import java.io.Serializable;
 
 import static util.tx.dbutil.setField;
 
-@Component
+
 public abstract class AopBase implements Serializable {
     // 实现 Serializable 接口
     private static final long serialVersionUID = 1L; // 推荐加 serialVersionUID
     public static boolean ovrtTEst = false;
-    @Autowired
-    @Lazy
+//    
+//    @Lazy
     @Inject
     public SessionFactory sessionFactory;
 
-    @Autowired
+    //
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }

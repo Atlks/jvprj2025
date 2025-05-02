@@ -5,7 +5,7 @@ import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Path;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
+// org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
 import util.auth.unameIsEmptyExcptn;
 import util.auth.validateTokenExcptn;
@@ -20,7 +20,7 @@ import static util.tx.HbntUtil.mergeByHbnt;
  * //@param uname
  * //@param pwd
  */
-@RestController
+
 
 //@PermitAll
 @Path("/user/setScrQstn")

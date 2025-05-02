@@ -5,14 +5,15 @@ import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.role.CustomRole;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 import jakarta.annotation.security.PermitAll;
-import static cfg.AppConfig.sessionFactory;
+// static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.algo.GetUti.getUuid;
 import static util.tx.HbntUtil.mergeByHbnt;
-@RestController
+
 
 @PermitAll
 @Path("/admin/role/SaveRoleHdl")

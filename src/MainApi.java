@@ -1,13 +1,13 @@
 //import handler.agt.AgtHdl;
 //import handler.rechg.RechargeCallbackHdr;
-import cfg.AppConfig;
+
 //import org.noear.solon.annotation.SolonMain;
 import lombok.SneakyThrows;
 import model.OpenBankingOBIE.AccountSubType;
 import model.OpenBankingOBIE.AccountType;
 import model.OpenBankingOBIE.Account;
 import org.hibernate.Session;
-import org.springframework.context.annotation.ComponentScan;
+
 import service.wlt.AddMoneyToWltService;
 import util.log.ConsoleInterceptor;
 import util.tx.findByIdExptn_CantFindData;
@@ -15,14 +15,15 @@ import util.tx.findByIdExptn_CantFindData;
 
 import java.io.FileNotFoundException;
 
-import static cfg.AppConfig.sessionFactory;
+// static cfg.AppConfig.sessionFactory;
 //import static cfg.Containr.evtlist4reg;
+import static cfg.Containr.sessionFactory;
 import static cfg.MyCfg.iniContnr;
 import static cfg.MyCfg.iniContnr4cfgfile;
 import static cfg.WebSvr.*;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 
-import static util.proxy.SprUtil.getBeanFrmSpr;
+
 import static util.tx.HbntUtil.findByHerbinate;
 import static util.tx.HbntUtil.persistByHibernate;
 import static util.tx.dbutil.setField;
@@ -30,7 +31,7 @@ import static util.tx.dbutil.setField;
 //  System.out.flush();  // 刷新输出缓冲区
 //            System.err.flush();  // 刷新输出缓冲区
 //@SolonMain
-@ComponentScan("apiUsr")
+//Scan("apiUsr")
 public class MainApi {
 
 
@@ -56,8 +57,8 @@ public class MainApi {
     }
 
     private static void t1() {
-        Object AddMoneyToWltService1 = getBeanFrmSpr(AddMoneyToWltService.class);
-        System.out.println("AddMoneyToWltService is :"+ AddMoneyToWltService1.getClass());
+//        Object AddMoneyToWltService1 = getBeanFrmSpr(AddMoneyToWltService.class);
+      //  System.out.println("AddMoneyToWltService is :"+ AddMoneyToWltService1.getClass());
 
 //
        //  Object bean = getBeanFrmSpr(RechargeCallbackHdr.class);
@@ -78,7 +79,7 @@ public class MainApi {
     public static void start() throws Exception {
         //--------ini saveurlFrm Cfg
 
-        new AppConfig().sessionFactory();//ini sessFctr
+       // new AppConfig().sessionFactory();//ini sessFctr
         //ini contnr 4cfg,, svrs
         iniContnr();
         iniEvtHdrCtnr();

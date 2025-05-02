@@ -5,14 +5,15 @@ import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.CreditDebitIndicator;
 import model.OpenBankingOBIE.Transaction;
 import org.hibernate.Session;
-import org.springframework.context.event.EventListener;
+import util.annos.EventListener;
+
 
 import static cfg.AppConfig.sessionFactory;
 import static util.acc.AccUti.getAccId4ylwlt;
 import static util.tx.HbntUtil.*;
 
 public class WthdrCmsHdl {
-@EventListener
+//@EventListener
     public Object handleRequest(@NotNull WthdCmsRqdto dto) throws Throwable {
 
 

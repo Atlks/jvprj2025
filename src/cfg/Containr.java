@@ -3,12 +3,12 @@ package cfg;
 import entityx.usr.Usr;
 import jakarta.security.enterprise.SecurityContext;
 import org.hibernate.SessionFactory;
-import org.springframework.context.ApplicationEventPublisher;
+//ringframework.context.ApplicationEventPublisher;
 import service.auth.ISAM;
 import service.auth.SAM4chkLgnStatJwtMod;
 import service.auth.SAM4reglgn;
-import util.algo.ChooseEvtPublshr;
-import util.evtdrv.ApplicationEventPublisherImplt;
+// util.algo.ChooseEvtPublshr;
+// util.evtdrv.ApplicationEventPublisherImplt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +26,11 @@ public class Containr {
 
 
 
-    public static ApplicationEventPublisher evtPublisher=new ApplicationEventPublisherImplt();
-    public static EvtPublisherPathevtMod evtPublisherPathmd=new EvtPublisherPathevtMod();
-    public static EvtPublisherObsv evtPublisherObsv=new EvtPublisherObsv();
+//    public static ApplicationEventPublisher evtPublisher=new ApplicationEventPublisherImplt();
+   // public static EvtPublisherPathevtMod evtPublisherPathmd=new EvtPublisherPathevtMod();
+   // public static EvtPublisherObsv evtPublisherObsv=new EvtPublisherObsv();
     public  static  SecurityContext SecurityContext1;
-    public static ChooseEvtPublshr chooseEvtPblshr=new ChooseEvtPublshr();
+   // public static ChooseEvtPublshr chooseEvtPblshr=new ChooseEvtPublshr();
 
 
     public  static  ThreadLocal<Class>  curCtrlCls=new ThreadLocal<>();

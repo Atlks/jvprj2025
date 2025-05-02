@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.review.ReviewRqdto;
 import model.usr.MyWltAddr;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.tx.findByIdExptn_CantFindData;
 
@@ -19,7 +19,7 @@ import static util.tx.HbntUtil.findByHerbinate;
  * //@param uname
  * //@param pwd
  */
-@RestController
+
 
 @PermitAll
 @Path("/myWltAdrs/ReviewWltAdrsHdl")

@@ -1,7 +1,6 @@
 package cfg;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+
 //import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 
@@ -16,8 +15,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  * JDK 17：JDK 17 是 Spring 7 的最低支持版本。这是一个长期支持（LTS）版本，Spring 7 完全兼容 JDK 17。
  * JDK 20 和 JDK 21：Spring 7 也支持较新的 JDK 版本，包括 JDK 20 和 JDK 21，因为它们处于较新的更新周期，并且 Spring 7 会保持对最新 JDK 版本的兼容性。
  */
-@Configuration
-@EnableAspectJAutoProxy(proxyTargetClass = false)  // 禁用类加载时的字节码增强
+//@Configuration
+//@EnableAspectJAutoProxy(proxyTargetClass = false)  // 禁用类加载时的字节码增强
 
 public class HibernateConfig {
 

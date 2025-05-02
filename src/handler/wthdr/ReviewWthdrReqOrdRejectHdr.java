@@ -13,7 +13,7 @@ import model.OpenBankingOBIE.Transaction;
 import model.OpenBankingOBIE.TransactionStatus;
 
 import org.hibernate.Session;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
@@ -37,7 +37,7 @@ import static util.tx.HbntUtil.*;
  *
 
  */
-@RestController
+
 @Path("/admin/wthdr/ReviewWthdrReqOrdRejectHdr")
 @PermitAll
 public class ReviewWthdrReqOrdRejectHdr implements RequestHandler<ReviewChrgRqdto, ApiGatewayResponse> {

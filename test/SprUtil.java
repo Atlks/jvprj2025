@@ -1,10 +1,8 @@
 package util.proxy;
 
-import cfg.IocSpringCfg;
+//import cfg.IocSpringCfg;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import service.wlt.AddMoneyToWltService;
 import util.algo.TraveUtil;
 import util.oo.StrUtil;

@@ -7,13 +7,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.opmng.InvestmentOpRecord;
 import model.role.CustomRole;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
 import static cfg.AppConfig.sessionFactory;
 import static util.tx.HbntUtil.persistByHibernate;
-@RestController
+
 
 @PermitAll
 @Path("/admin/InvstRcd/AddInvstRcdHdl")

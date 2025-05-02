@@ -7,7 +7,7 @@ import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.usr.MyWltAddr;
-import org.springframework.web.bind.annotation.RestController;
+// org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
@@ -20,7 +20,7 @@ import static util.tx.HbntUtil.mergeByHbnt;
  * //@param uname
  * //@param pwd
  */
-@RestController
+
 
 //@PermitAll
 @Path("/user/SetEmlHdl")

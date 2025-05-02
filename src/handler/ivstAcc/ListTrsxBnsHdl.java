@@ -16,7 +16,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import model.OpenBankingOBIE.TransactionCodes;
 
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
@@ -36,7 +36,7 @@ import static util.tx.TransactMng.openSessionBgnTransact;
 /**
  *
  */
-@RestController
+
 @Path("/wlt/ListTrsxBnsHdl")
 @PermitAll
 @NoDftParam
@@ -83,7 +83,7 @@ public class ListTrsxBnsHdl implements RequestHandler<QueryDto, ApiGatewayRespon
 
     public static void main(String[] args) throws Throwable {
 
-        new AppConfig().sessionFactory();//ini sessFctr
+      //  new AppConfig().sessionFactory();//ini sessFctr
         //ini contnr 4cfg,, svrs
         iniContnr();
 

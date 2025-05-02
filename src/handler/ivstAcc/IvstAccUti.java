@@ -3,7 +3,8 @@ package handler.ivstAcc;
 import model.OpenBankingOBIE.Account;
 import util.tx.findByIdExptn_CantFindData;
 
-import static cfg.AppConfig.sessionFactory;
+// static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static handler.wthdr.WthdReqHdl.iniYlwlt;
 import static util.acc.AccUti.getAccId4ylwlt;
 import static util.tx.HbntUtil.findByHerbinate;

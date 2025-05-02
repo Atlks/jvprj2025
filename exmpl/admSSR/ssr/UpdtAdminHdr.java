@@ -12,10 +12,8 @@ import jakarta.inject.Named;
 import jakarta.ws.rs.Path;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+
 import service.auth.ISAM;
 import util.algo.Tag;
 import util.ex.existUserEx;
@@ -29,10 +27,10 @@ import static util.tx.HbntUtil.persistByHibernate;
  * // @param uname
  * // @param pwd
  */
-@Component  // 让 Spring 自动管理这个 Bean
+   // 让 Spring 自动管理这个 Bean
 
 //  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
-@RestController
+
 
 @Tag(name = "用户管理", description = "用户相关操作")
 //@Parameter(name = "uname")
@@ -90,7 +88,7 @@ public class UpdtAdminHdr implements IRegHandler {
 
 
     @Inject
-    @Qualifier(SAM4regLgn)
+            //@Qualifier(SAM4regLgn)
     @Named(SAM4regLgn)
     public ISAM sam;
 

@@ -1,9 +1,10 @@
 package util.algo;
 
-import org.springframework.beans.BeanUtils;
+// org.springframework.beans.BeanUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -134,6 +135,39 @@ public class CopyUti {
         if (from == null || target == null) {
             throw new IllegalArgumentException("Source and target must not be null");
         }
-        BeanUtils.copyProperties(from, target);
+        copyProperties(from, target);
+    }
+
+    private static void copyProperties(Object from, Object target) {
+
+        if (from == null || target == null) return;
+
+        Class<?> fromClass = from.getClass();
+        Class<?> targetClass = target.getClass();
+
+        Field[] fromFields = fromClass.getDeclaredFields();
+
+        for (Field fromField : fromFields) {
+            try {
+                fromField.setAccessible(true);
+                String name = fromField.getName();
+                Object value = fromField.get(from);
+
+                Field targetField = null;
+                try {
+                    targetField = targetClass.getDeclaredField(name);
+                } catch (NoSuchFieldException e) {
+                    continue; // skip if target doesn't have the field
+                }
+
+                if (targetField.getType().equals(fromField.getType())) {
+                    targetField.setAccessible(true);
+                    targetField.set(target, value);
+                }
+
+            } catch (IllegalAccessException e) {
+                e.printStackTrace(); // or handle logging
+            }
+        }
     }
 }

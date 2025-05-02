@@ -5,7 +5,7 @@ import handler.ivstAcc.dto.QueryDto;
 import model.OpenBankingOBIE.Transaction;
 import model.agt.Agent;
 import org.hibernate.Session;
-import org.springframework.context.ApplicationEventPublisher;
+
 import util.tx.findByIdExptn_CantFindData;
 
 import java.math.BigDecimal;
@@ -39,7 +39,7 @@ public class UpdtChainRchgAmtSumSttHdl {
         updateChainAllSubRchgAmtSum(tx, u, session);
 
 
-        ApplicationEventPublisher eventPublisher;
+       // ApplicationEventPublisher eventPublisher;
         // 发布事件publishEvent(Object event)
         //   publishEvent(evtlist4aftCalcRchgAmtSum,tx);
     }

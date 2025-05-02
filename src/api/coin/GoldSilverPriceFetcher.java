@@ -11,7 +11,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import kotlinx.serialization.descriptors.StructureKind;
 import org.json.JSONObject;
-import org.springframework.web.bind.annotation.RestController;
+
 
 import static util.misc.Util2025.encodeJson;
 import static util.misc.Util2025.encodeJsonByGson;
@@ -19,7 +19,7 @@ import static util.misc.Util2025.encodeJsonByGson;
 /**
  * 贵金属
  */
-@RestController
+
 
 @PermitAll
 @Path("/coin/goldSilver")

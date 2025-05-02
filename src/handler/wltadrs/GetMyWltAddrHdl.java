@@ -5,7 +5,7 @@ import jakarta.ws.rs.Path;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.usr.MyWltAddr;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.tx.findByIdExptn_CantFindData;
 
 import static cfg.AppConfig.sessionFactory;
@@ -16,7 +16,7 @@ import static util.tx.HbntUtil.findByHerbinate;
  * //@param uname
  * //@param pwd
  */
-@RestController
+
 
 //@PermitAll
 @Path("/myWltAdrs/GetMyWltAddrHdl")

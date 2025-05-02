@@ -1,6 +1,6 @@
 package util.misc;
 
-import org.springframework.stereotype.Controller;
+
 import util.ex.PwdNotEqExceptn;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -1043,10 +1043,12 @@ public class util2026 {
         exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
 
         Class ctrlCls = curCtrlCls.get();
-        if (ctrlCls != null && ctrlCls.isAnnotationPresent(Controller.class)) {
-            // 输出为html
-            exchange.getResponseHeaders().set("Content-Type", "text/html; charset=utf-8");
-        } else {
+//        if (ctrlCls != null && ctrlCls.isAnnotationPresent(Controller.class)) {
+//            // 输出为html
+//            exchange.getResponseHeaders().set("Content-Type", "text/html; charset=utf-8");
+//        } else
+
+        {
             //输出为json
             exchange.getResponseHeaders().set("Content-Type", "application/json; charset=utf-8");
         }

@@ -2,8 +2,8 @@ package service.auth;
 
 
 import util.annos.Observes;
-import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Service;
+//
+//import org.springframework.stereotype.Service;
 import util.evtdrv.AnotherEvent;
 import util.misc.AuthenticationExceptionRtm;
 import util.tx.findByIdExptn_CantFindData;
@@ -19,7 +19,7 @@ import util.ex.PwdNotEqExceptn;
 
 import java.util.Set;
 
-import static api.usr.LgnHdr3.loginVldObsvs;
+//import static api.usr.LgnHdr3.loginVldObsvs;
 import static cfg.AppConfig.sessionFactory;
 import static util.algo.EncryUtil.Key4pwd4aeskey;
 import static util.algo.EncryUtil.encryptAesToStrBase64;
@@ -29,7 +29,7 @@ import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.hopePwdEq;
 import static util.tx.HbntUtil.*;
 
-@Service
+//@Service
 /**
  * sam安全授权模块   stoer in db,,this sam for reg login
  */
@@ -38,11 +38,11 @@ public class SAM4reglgn implements ISAM {
 //   return    encryptAesToStrBase64("p="+pwd+"&slt="+pwdstore.getSalt(), Key4pwd4aeskey);
 //    }
 
-    @EventListener({LoginValidEvt.class, AnotherEvent.class})
-    public CredentialValidationResult validate(LoginValidEvt evt) {
-        Credential crdt = (Credential) evt.getSource();
-        return validate(crdt);
-    }
+   // @EventListener({LoginValidEvt.class, AnotherEvent.class})
+//    public CredentialValidationResult validate(LoginValidEvt evt) {
+//        Credential crdt = (Credential) evt.getSource();
+//        return validate(crdt);
+//    }
 
     /**
      * 用户名密码验证  IdentityStore接口
@@ -52,7 +52,7 @@ public class SAM4reglgn implements ISAM {
      * @return
      */
     @Override
-    @Observes({loginVldObsvs})
+    //@Observes({loginVldObsvs})
     @EvtLsnr({"lgnVldEvt"})
     public CredentialValidationResult validate(Credential credential) {
 

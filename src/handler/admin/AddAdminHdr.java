@@ -8,10 +8,11 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+
+
 import util.algo.Tag;
+import util.annos.Paths;
 import util.ex.existUserEx;
 
 import static cfg.AppConfig.sessionFactory;
@@ -25,12 +26,13 @@ import static util.tx.HbntUtil.persistByHibernate;
  * // @param uname
  * // @param pwd
  */
-@Component  // 让 Spring 自动管理这个 Bean
+  // 让 Spring 自动管理这个 Bean
 
 //  http://localhost:8889/adm/add?username=000&password=000&key=
-@Controller
+
 @Path("/admin/AddAdminHdr")
-@RequestMapping("/adm/add")
+//@RequestMapping()
+@Paths({"/adm/add"})
 @Tag(name = "用户管理", description = "用户相关操作")
 @PermitAll
 @NoArgsConstructor
@@ -62,7 +64,7 @@ public class AddAdminHdr {
 
 
 
-    //@Autowired
+    //
 //    org.hibernate.Session session;
 
     public boolean chkExistUser(Admin user) throws existUserEx {

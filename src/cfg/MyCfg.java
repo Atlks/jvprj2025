@@ -7,7 +7,7 @@ import util.bet.ListBetsHdr;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import service.CmsBiz;
-import util.algo.ChooseEvtPublshr;
+// util.algo.ChooseEvtPublshr;
 import util.auth.SecurityContextImp4jwt;
 import util.oo.UserBiz;
 
@@ -57,11 +57,11 @@ public class MyCfg {
     public static void iniContnr() throws Exception {
         //@NonNull
         iniContnr4cfgfile();
-        new AppConfig().sessionFactory();//ini sessFctr
+      //  new AppConfig().sessionFactory();//ini sessFctr
         //---------------ini contarin
-        cfg.IocSpringCfg.iniIocContainr4spr();
+     //   cfg.IocSpringCfg.iniIocContainr4spr();
         Containr.SecurityContext1=new SecurityContextImp4jwt();
-        Containr.chooseEvtPblshr=  new ChooseEvtPublshr();
+     //   Containr.chooseEvtPblshr=  new ChooseEvtPublshr();
 
     }
 

@@ -7,8 +7,8 @@ import jakarta.ws.rs.Path;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
+
+
 import util.algo.Icall;
 import util.annos.Paths;
 import util.serverless.ApiGatewayResponse;
@@ -20,7 +20,7 @@ import static cfg.AppConfig.sessionFactory;
 import static util.tx.dbutil.nativeQueryGetResultList;
 
 
-//组合了 @Controller 和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
+//组合了  和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
 @PermitAll
 @Paths({"/admin/listAdm","admin/ListAdmHdr"})
 ///admin/ListAdmHdr

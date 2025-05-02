@@ -7,7 +7,7 @@ import model.OpenBankingOBIE.Transaction;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 import model.OpenBankingOBIE.TransactionStatus;
@@ -29,7 +29,7 @@ import static util.tx.HbntUtil.mergeByHbnt;
  *
 
  */
-@RestController
+
 @Path("/admin/wlt/ReviewChrgRefuseHdr")
 @PermitAll
 public class ReviewChrgRefuseHdr implements RequestHandler<ReviewChrgRqdto, ApiGatewayResponse> {

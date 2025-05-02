@@ -6,11 +6,12 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import model.rpt.DataSummaryToppart;
 import model.cfg.CfgKv;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
-import static cfg.AppConfig.sessionFactory;
+// static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static cfg.MyCfg.iniContnr;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.Util2025.readTxtFrmFil;
@@ -21,7 +22,7 @@ import static util.tx.TransactMng.openSessionBgnTransact;
 /**
  *     /admin/cfg/SetCfgKv?k=rechargeCommissionRates&v={}
  */
-@RestController
+
 @Path("/admin/cfg/SetCfgKv")
 @PermitAll
 public class SetCfg implements RequestHandler<CfgKv, ApiGatewayResponse> {

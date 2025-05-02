@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.opmng.InvestmentOpRecord;
 import model.opmng.InvstOpRcdQryDto;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import static cfg.Containr.sessionFactory;
 import static util.tx.Pagging.getPageResultByHbntV4;
 
-@RestController
+
 
 @PermitAll
 @Path("/admin/InvstRcd/QryInvstRcdHdl")

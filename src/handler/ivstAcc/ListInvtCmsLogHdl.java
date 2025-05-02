@@ -16,7 +16,7 @@ import model.OpenBankingOBIE.TransactionCodes;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
@@ -34,7 +34,7 @@ import static cfg.MyCfg.iniContnr;
 /**
  *
  */
-@RestController
+
 @Path("/wlt/ListInvtCmsLogHdl")
 @PermitAll
 @NoDftParam

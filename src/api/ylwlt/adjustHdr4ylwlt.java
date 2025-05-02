@@ -11,13 +11,14 @@ import entityx.wlt.TransDto;
 //import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.Path;
-import org.springframework.web.bind.annotation.RestController;
+// org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
 
 import java.math.BigDecimal;
 
-import static cfg.AppConfig.sessionFactory;
+// static cfg.AppConfig.sessionFactory;
 
+import static cfg.Containr.sessionFactory;
 import static service.CmsBiz.toBigDcmTwoDot;
 import static util.acc.AccUti.getAccId4ylwlt;
 import static util.misc.util2026.getFilenameFrmLocalTimeString;
@@ -28,7 +29,7 @@ import static util.tx.HbntUtil.*;
  * http://localhost:8889/AddOrdBetHdr?bettxt=龙湖和
  */
 
-@RestController   // 默认返回 JSON，不需要额外加 @ResponseBody。
+   // 默认返回 JSON，不需要额外加 @ResponseBody。
 @Tag(name = "ylwlt", description = "")
 @Path("/admin/ylwlt/adjust")
 @JwtParam(name = "uname")

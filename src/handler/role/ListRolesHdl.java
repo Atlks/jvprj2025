@@ -8,7 +8,7 @@ import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import static cfg.AppConfig.sessionFactory;
 import static util.tx.dbutil.nativeQueryGetResultList;
 
-@RestController
+
 
 @PermitAll
 @Path("/admin/role/ListRolesHdl")

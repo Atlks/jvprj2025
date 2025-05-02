@@ -4,7 +4,7 @@ import entityx.usr.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import org.json.JSONObject;
-import org.springframework.web.bind.annotation.RestController;
+// org.springframework.web.bind.annotation.RestController;
 import util.algo.Icall;
 
 import java.io.BufferedReader;
@@ -16,7 +16,7 @@ import java.net.URL;
 /**
  * 外汇
  */
-@RestController
+
 
 @PermitAll
 @Path("/coin/frnXchg")

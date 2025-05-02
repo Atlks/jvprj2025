@@ -21,7 +21,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+// org.springframework.stereotype.Component;
 import util.algo.Icall;
 import util.serverless.ApiGatewayResponse;
 
@@ -40,7 +40,7 @@ import static util.misc.util2026.*;
 @DeclareRoles({"ADMIN", "USER"})
 @RolesAllowed({"", "USER"})
 @CookieParam(name = "uname", value = "$curuser")
-@Component
+
 public class RechargeHdr implements Icall<Transaction, Object> {
 
 

@@ -8,12 +8,12 @@ import jakarta.ws.rs.core.Context;
 import model.cfg.CfgKv;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
-import static cfg.AppConfig.sessionFactory;
+// static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.findByHerbinate;
 
 /**  GetCfg kv mode
@@ -22,7 +22,7 @@ import static util.tx.HbntUtil.findByHerbinate;
  * /cfg/GetCfg?k=DataSummary
  *     DataSummary
  */
-@RestController
+
 @Path("/cfg/GetCfg")
 //@GetMapping("/admin/cfg/GetCfg")
 @PermitAll

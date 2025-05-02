@@ -1,57 +1,57 @@
-package util.tx;
-
-import util.model.bet.BetOrd;
-import org.hibernate.Session;
-import util.misc.HttpExchangeImp;
-import util.excptn.OrmUtilBiz;
-
-import java.util.List;
-import java.util.Map;
-
-
-import static cfg.Containr.saveUrlOrdChrg;
-import static cfg.MyCfg.iniContnr4cfgfile;
-import static util.tx.Qry.convertSqlToSpEL;
-import static util.misc.Util2025.encodeJson;
-import static util.misc.Util2025.encodeJsonObj;
-import static util.tx.dbutil.nativeQueryGetResultList;
-
-public class QryLstByHbntTest {
-
-    public static void main(String[] args) throws Exception {
-        iniContnr4cfgfile();;
-        BetOrd queryParams=new BetOrd();
-        queryParams.uname="008";
-        //    System.out.println(encodeJson( qryOrdBetSql(queryParams)));
-
-
-        HttpExchangeImp he = new HttpExchangeImp("http://localhost:8889/QryLogCmsHdr", "uname=007","output2025.txt");
-
-        //   new QryOrdBetHdr().handle2(he);
-        BetOrd prm=new BetOrd();prm.uname="009";
-        System.out.println(encodeJsonObj(  qryOrdBetSql4t(prm)));   ;
-    }
-
-
-    private static Object qryOrdBetSql4t(BetOrd queryParams) throws Exception {
-
-        //   order by timestamp desc
-        var sql = "select * from ordbet where  uname =:uname    order by timestamp desc" ;
-        Map<String, Object> sqlprmMap= Map.of( "sql",sql,   "uname",queryParams.uname);
-        System.out.println( encodeJson(sqlprmMap));
-        System.out.println("spel="+convertSqlToSpEL(sql));
-        Session session = OrmUtilBiz. openSession(saveUrlOrdChrg);
-        List<BetOrd> lst = nativeQueryGetResultList( sql, sqlprmMap, session, BetOrd.class );
-
-
-        //    var list1 = getSortedMapsBypages( sql,pageSize, pageNumber);
-        // 1️⃣ 计算总记录数
-        return lst;
-
-
-    }
-
-
-
-
-}
+//package util.tx;
+//
+//import util.model.bet.BetOrd;
+//import org.hibernate.Session;
+//import util.misc.HttpExchangeImp;
+//import util.excptn.OrmUtilBiz;
+//
+//import java.util.List;
+//import java.util.Map;
+//
+//
+//import static cfg.Containr.saveUrlOrdChrg;
+//import static cfg.MyCfg.iniContnr4cfgfile;
+//import static util.tx.Qry.convertSqlToSpEL;
+//import static util.misc.Util2025.encodeJson;
+//import static util.misc.Util2025.encodeJsonObj;
+//import static util.tx.dbutil.nativeQueryGetResultList;
+//
+//public class QryLstByHbntTest {
+//
+//    public static void main(String[] args) throws Exception {
+//        iniContnr4cfgfile();;
+//        BetOrd queryParams=new BetOrd();
+//        queryParams.uname="008";
+//        //    System.out.println(encodeJson( qryOrdBetSql(queryParams)));
+//
+//
+//        HttpExchangeImp he = new HttpExchangeImp("http://localhost:8889/QryLogCmsHdr", "uname=007","output2025.txt");
+//
+//        //   new QryOrdBetHdr().handle2(he);
+//        BetOrd prm=new BetOrd();prm.uname="009";
+//        System.out.println(encodeJsonObj(  qryOrdBetSql4t(prm)));   ;
+//    }
+//
+//
+//    private static Object qryOrdBetSql4t(BetOrd queryParams) throws Exception {
+//
+//        //   order by timestamp desc
+//        var sql = "select * from ordbet where  uname =:uname    order by timestamp desc" ;
+//        Map<String, Object> sqlprmMap= Map.of( "sql",sql,   "uname",queryParams.uname);
+//        System.out.println( encodeJson(sqlprmMap));
+//        System.out.println("spel="+convertSqlToSpEL(sql));
+//        Session session = OrmUtilBiz. openSession(saveUrlOrdChrg);
+//        List<BetOrd> lst = nativeQueryGetResultList( sql, sqlprmMap, session, BetOrd.class );
+//
+//
+//        //    var list1 = getSortedMapsBypages( sql,pageSize, pageNumber);
+//        // 1️⃣ 计算总记录数
+//        return lst;
+//
+//
+//    }
+//
+//
+//
+//
+//}

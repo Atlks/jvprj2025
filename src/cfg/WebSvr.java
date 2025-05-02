@@ -5,9 +5,9 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Path;
-import org.springframework.web.bind.annotation.*;
+// org.springframework.web.bind.annotation.*;
 //import org.thymeleaf.context.Context;
-import org.thymeleaf.context.Context;
+// org.thymeleaf.context.Context;
 import util.annos.Paths;
 import util.serverless.ApiGateway;
 
@@ -25,7 +25,7 @@ import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 
-import static ztest.htmlTppltl.rend;
+// static ztest.htmlTppltl.rend;
 import static util.algo.JarClassScanner.getPrjPath;
 import static util.algo.JarClassScanner.getTargetPath;
 import static util.algo.NullUtil.isBlank;
@@ -33,8 +33,6 @@ import static util.misc.PathUtil.getDirTaget;
 import static util.misc.util2026.*;
 import static util.oo.WebsrvUtil.processNmlExptn;
 
-import static util.proxy.SprUtil.getBeanFrmSpr;
-import static util.proxy.SprUtil.getBeanByClzFrmSpr;
 
 
 /**
@@ -230,16 +228,16 @@ public class WebSvr {
                 return;
             if(path1.endsWith(".htm")  || path1.endsWith(".html"))
             {
-                Context context = new Context();
-
-                //listAdm
-                String tmpleFileName = path1.substring(0,path1.length()-4);
-
-                if(path1.endsWith(".html"))
-                    tmpleFileName = path1.substring(0,path1.length()-5);
-
-                var rsp=rend(tmpleFileName, context );
-                wrtRespHtml(exchange,rsp);
+//                Context context = new Context();
+//
+//                //listAdm
+//                String tmpleFileName = path1.substring(0,path1.length()-4);
+//
+//                if(path1.endsWith(".html"))
+//                    tmpleFileName = path1.substring(0,path1.length()-5);
+//
+//                var rsp=rend(tmpleFileName, context );
+//                wrtRespHtml(exchange,rsp);
                 return;
             }
 
@@ -306,10 +304,10 @@ public class WebSvr {
         }
 
         // 查找 @RequestMapping（类级别）
-        if (aClass.isAnnotationPresent(RequestMapping.class)) {
-            RequestMapping mapping = aClass.getAnnotation(RequestMapping.class);
-            return String.join(", ", mapping.value());  // 可能有多个路径
-        }
+//        if (aClass.isAnnotationPresent(RequestMapping.class)) {
+//            RequestMapping mapping = aClass.getAnnotation(RequestMapping.class);
+//            return String.join(", ", mapping.value());  // 可能有多个路径
+//        }
         // 兼容 @GetMapping、@PostMapping 等（可选）
         return getPathFromAnnotations(aClass);
     }
@@ -331,18 +329,18 @@ public class WebSvr {
     // 处理其他 Spring Mapping 注解
     private static String getPathFromAnnotations(AnnotatedElement element) {
         for (Annotation annotation : element.getAnnotations()) {
-            if (annotation instanceof GetMapping) {
-                return String.join(", ", ((GetMapping) annotation).value());
-            }
-            if (annotation instanceof PostMapping) {
-                return String.join(", ", ((PostMapping) annotation).value());
-            }
-            if (annotation instanceof PutMapping) {
-                return String.join(", ", ((PutMapping) annotation).value());
-            }
-            if (annotation instanceof DeleteMapping) {
-                return String.join(", ", ((DeleteMapping) annotation).value());
-            }
+//            if (annotation instanceof GetMapping) {
+//                return String.join(", ", ((GetMapping) annotation).value());
+//            }
+//            if (annotation instanceof PostMapping) {
+//                return String.join(", ", ((PostMapping) annotation).value());
+//            }
+//            if (annotation instanceof PutMapping) {
+//                return String.join(", ", ((PutMapping) annotation).value());
+//            }
+//            if (annotation instanceof DeleteMapping) {
+//                return String.join(", ", ((DeleteMapping) annotation).value());
+//            }
         }
         return "/defPathhhhhh";
     }

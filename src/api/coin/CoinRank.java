@@ -11,7 +11,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.algo.Icall;
 
 import static util.algo.GetUti.getStrFrmUrl;
@@ -29,7 +29,7 @@ import static util.algo.GetUti.getStrFrmUrl;
 //        this.price = price;
 //    }
 //}
-@RestController
+
 
 @PermitAll
 @Path("/coinRank")

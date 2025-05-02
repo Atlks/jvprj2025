@@ -7,7 +7,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Controller;
+
 import util.algo.EncryUtil;
 import util.algo.Icall;
 import util.ex.PwdNotEqExceptn;
@@ -15,12 +15,12 @@ import util.misc.util2026;
 import util.serverless.ApiGateway;
 import util.tx.findByIdExptn_CantFindData;
 
-import static cfg.AppConfig.sessionFactory;
+// static cfg.AppConfig.sessionFactory;
 import static util.algo.EncodeUtil.encodeMd5;
 import static util.misc.util2026.hopePwdEq;
 import static util.tx.HbntUtil.findByHerbinate;
 
-@Controller
+
 
 
 //组合了 @Controller 和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。

@@ -4,13 +4,14 @@ import entityx.wlt.RechargeConfig;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
-import static cfg.AppConfig.sessionFactory;
+// static cfg.AppConfig.sessionFactory;
+import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.mergeByHbnt;
-@RestController
+
 @Path("/admin/cfg/SetRechargeConfigHdlr")
 @PermitAll
 public class SetRechargeConfigHdlr implements RequestHandler<RechargeConfig, ApiGatewayResponse> {

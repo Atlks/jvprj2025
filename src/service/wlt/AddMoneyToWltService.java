@@ -1,5 +1,5 @@
 package service.wlt;
-import static cfg.AppConfig.sessionFactory;
+// static cfg.AppConfig.sessionFactory;
 
 
 import model.OpenBankingOBIE.Account;
@@ -10,12 +10,12 @@ import jdk.jfr.Name;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
+
 import util.algo.Icall;
 
 import java.math.BigDecimal;
 
+import static cfg.Containr.sessionFactory;
 import static service.CmsBiz.toBigDcmTwoDot;
 import static util.tx.HbntUtil.*;
 import static util.misc.util2026.getFilenameFrmLocalTimeString;
@@ -36,8 +36,8 @@ import static util.misc.util2026.getFilenameFrmLocalTimeString;
  *  @code
  */
 @Data
-@Component
-@Lazy
+//
+//@Lazy
 //@Parameter(name = "amt", description = "金额")
 //@Parameter(name = "uname",value = "$curuser")
 //@Parameter(name = "lockAccObj")

@@ -19,9 +19,9 @@
 //import jakarta.ws.rs.QueryParam;
 //import lombok.NoArgsConstructor;
 //import org.hibernate.Session;
-//import org.springframework.beans.factory.annotation.Autowired;
+//
 //import org.springframework.beans.factory.annotation.Qualifier;
-//import org.springframework.stereotype.Component;
+//
 //import util.algo.Icall;
 //
 //import java.math.BigDecimal;
@@ -44,12 +44,12 @@
 //@Path("/bet")
 //@util.annos.Parameter(name = "bettxt")
 //@JwtParam(name = "uname")
-//@Component
+//
 //@NoArgsConstructor
 //public class BetHdr implements Icall<BetOrdDto, Object> {
 //
 //
-//    //    @Autowired
+//    //    
 ////    private SessionFactory sessionFactory;
 ////@Path("/BetHdr")
 //    @Tag(name = "bet")
@@ -94,7 +94,7 @@
 ////    }
 //
 //    @注入
-//    @Autowired
+//    
 //    @Qualifier("RdsFromWltService")
 //    public Icall RdsFromWltService1;
 //    // wrtResp(httpExchangeCurThrd.get(), encodeJson(obj));

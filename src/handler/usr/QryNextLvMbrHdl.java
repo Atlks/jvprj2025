@@ -5,7 +5,7 @@ import handler.ivstAcc.dto.QueryDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import org.springframework.web.bind.annotation.RestController;
+
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import static cfg.Containr.sessionFactory;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
 import static util.tx.Pagging.getPageResultByHbntV4;
-@RestController
+
 @Path("/usr/QryNextLvMbrHdl")
 @PermitAll
 public class QryNextLvMbrHdl implements RequestHandler<QueryDto, ApiGatewayResponse> {
