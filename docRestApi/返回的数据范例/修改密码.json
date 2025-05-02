@@ -1,0 +1,12 @@
+{
+"statusCode": 200,
+"errcode": "",
+"headers": {},
+"body": true,
+"message_err": "",
+"message": "",
+"timestamp": 1744905238185,
+"path": "\"/user/ModifyPwdHdr?oldpwd=777&newpwd=777\"",
+"requestId": "reqid__ca4fc6f9-d2cc-4bb6-a5c4-8ba6dcfc941b",
+"debugInfo": {}
+}

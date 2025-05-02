@@ -1,0 +1,12 @@
+{
+  "statusCode": 200,
+  "errcode": "",
+  "headers": {},
+  "body": true,
+  "message_err": "",
+  "message": "",
+  "timestamp": 1744901853325,
+  "path": "\"/user/SetWthdrPwd?pwd=77888\"",
+  "requestId": "reqid__a660fb2d-8e63-4219-b476-619708cd3c51",
+  "debugInfo": {}
+}

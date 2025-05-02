@@ -1,0 +1,18 @@
+
+{
+  "statusCode": 200,
+  "statusCodeStr": "ok",
+  "headers": {},
+  "body": {
+    "uname": "777",
+    "pwd": "777",
+    "invtr": "",
+    "email": ""
+  },
+  "message_err": "",
+  "message": "",
+  "timestamp": 1744854683274,
+  "path": "\"/reg?uname=777&pwd=777\"",
+  "requestId": "reqid__33796511-5a0e-43a1-be17-098ea39d339a",
+  "debugInfo": {}
+}

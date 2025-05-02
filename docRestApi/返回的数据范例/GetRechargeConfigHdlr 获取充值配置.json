@@ -1,0 +1,18 @@
+{
+  "statusCode": 200,
+  "errcode": "",
+  "headers": {},
+  "body": {
+    "id": "uniqID",
+    "currency": "USDT",
+    "protocol": "BEP20",
+    "address": "0xsdgdfsagag23472385629352345235",
+    "qrCodeUrl": "/res/uploadds/qrcode.png"
+  },
+  "message_err": "",
+  "message": "",
+  "timestamp": 1744901579294,
+  "path": "\"/cfg/GetRechargeConfigHdlr\"",
+  "requestId": "reqid__227657bd-cc15-4675-bd5a-5240deb52d18",
+  "debugInfo": {}
+}

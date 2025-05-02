@@ -1,0 +1,29 @@
+{
+  "statusCode": 200,
+  "errcode": "",
+  "headers": {},
+  "body": {
+    "transactionId": "ordChrg2025-04-21T10-21-46",
+    "amount": 888,
+    "currency": "usdt",
+    "bookingDate": "Apr 21, 2025, 10:21:46 AM",
+    "transactionStatus": "PENDING",
+    "note": "",
+    "id": "ordChrg2025-04-21T10-21-46",
+    "paymentChannel": "usdt",
+    "uname": "6666",
+    "review_timestamp": 0,
+    "timestamp": 1745205706395,
+    "parentProxy": "",
+    "vipLev": "",
+    "img": "",
+    "crtTimeStmpLocalfmt": 20250421102146,
+    "updtTmstmpLocalfmt": 20250421102146
+  },
+  "message_err": "",
+  "message": "",
+  "timestamp": 1745205706472,
+  "path": "\"/pay/recharge?amount=888\"",
+  "requestId": "reqid__c3a57d54-c6ad-4e0e-a4a7-547856ccc3db",
+  "debugInfo": {}
+}
