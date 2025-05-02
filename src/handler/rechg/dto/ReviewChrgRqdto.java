@@ -7,6 +7,6 @@ import lombok.Data;
 public class ReviewChrgRqdto {
     @NotBlank
     public  String transactionId="";
-    //@NotBlank
+    //@NotBlank  。。
     public String IdempotencyKey="";
 }
