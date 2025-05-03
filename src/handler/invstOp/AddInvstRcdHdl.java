@@ -71,6 +71,8 @@ public class AddInvstRcdHdl   {
 
     private void addDiv2perUsr(InvestmentOpRecord param, Session session) throws findByIdExptn_CantFindData {
         BigDecimal sysEmnyBls=getSysAccEmnyBls(session);
+        if(sysEmnyBls.compareTo(BigDecimal.ZERO)<=0)
+            return;
         List<Account> accs= getAccountsWithBalanceGreaterThanOne(session);
         for(Account acc:accs){
             try{
