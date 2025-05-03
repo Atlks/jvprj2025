@@ -20,6 +20,7 @@ public enum TransactionCodes {
     exchIn,
     adjstIn,adjstOut,
     wthdr,
+    Profit,  //收益  income earning
     /**
      * COM - Commission (佣金)
      */
@@ -36,7 +37,8 @@ public enum TransactionCodes {
    // INT,
 
     /**
-     * DIV - Dividend (股息、分红  收益)
+     * DIV - Dividend (股息、分红  收益  股息)
+     * 股息是收益的一种，但不是精确代表收益
      */
     DIV,
 
