@@ -1,6 +1,6 @@
 //package handler.wlt;
 //
 //public class setMny2sysEmnAcc {
-//    public setMny2sysEmnAcc(AddMoneyDto dto) {
+//    public setMny2sysEmnAcc(AddMoneyDto ) {
 //    }
 //}
