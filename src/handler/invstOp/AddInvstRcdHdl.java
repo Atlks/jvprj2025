@@ -5,9 +5,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import model.OpenBankingOBIE.Account;
-import model.OpenBankingOBIE.AccountSubType;
-import model.OpenBankingOBIE.TransactionCodes;
+import model.OpenBankingOBIE.*;
 import model.opmng.InvestmentOpRecord;
 import model.role.CustomRole;
 
@@ -22,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static cfg.Containr.sessionFactory;
+import static java.time.LocalTime.now;
 import static util.acc.AccUti.getAccId;
 import static util.tx.HbntUtil.*;
 
@@ -85,6 +84,17 @@ public class AddInvstRcdHdl   {
                 accIvst.setInterimAvailableBalance(accIvst.getInterimAvailableBalance().add(mydiv));
                 accIvst.setInterimBookedBalance(accIvst.getInterimBookedBalance().add(mydiv));
                 mergeByHbnt(accIvst, session);
+
+
+                //add lgtx
+                Transaction txr=new Transaction();
+                txr.transactionId="div_"+now();
+                txr.transactionCode=TransactionCodes.DIV;
+                txr.accountId=accId;
+                txr.accountOwner=acc.accountOwner;
+                txr.creditDebitIndicator= CreditDebitIndicator.CREDIT;
+                txr.amount=mydiv;
+                persistByHibernate(txr, session);
             } catch (Exception e) {
                 e.printStackTrace();
             }
