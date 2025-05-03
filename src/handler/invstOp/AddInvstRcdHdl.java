@@ -81,7 +81,7 @@ public class AddInvstRcdHdl   {
         bftst();
         InvestmentOpRecord dto=new InvestmentOpRecord();
         dto.investmentType=TransactionCodes.DIV;
-        dto.amount= BigDecimal.valueOf(10000);
+        dto.setAmount(BigDecimal.valueOf(0)); ;
 
         new AddInvstRcdHdl().handleRequest(dto);
 

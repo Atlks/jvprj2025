@@ -3,6 +3,7 @@ package model.opmng;
 import jakarta.persistence.*;
 import lombok.Data;
 import model.OpenBankingOBIE.TransactionCodes;
+import util.excptn.AmtErr;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -72,7 +73,11 @@ public class InvestmentOpRecord {
     }
 
     public void setAmount(BigDecimal amount) {
+
         this.amount = amount;
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new AmtErr("金额错误");
+        }
     }
 
     public String getFundFlowDirection() {
