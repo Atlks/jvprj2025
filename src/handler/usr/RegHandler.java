@@ -18,6 +18,7 @@ import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
 //import static cfg.Containr.evtlist4reg;
+import static handler.acc.IniAcc.iniTwoWlt;
 import static util.evt.RegEvt.evtlist4reg;
 import static cfg.Containr.sam4regLgn;
 import static cfg.Containr.sessionFactory;

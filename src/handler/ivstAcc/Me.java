@@ -9,7 +9,8 @@ import org.hibernate.Session;
 import util.serverless.ApiGatewayResponse;
 
 import static cfg.Containr.sessionFactory;
-import static handler.ivstAcc.IvstAccUti.newIvstWltIfNotExist;
+
+import static handler.acc.IniAcc.newIvstWltIfNotExist;
 import static util.acc.AccUti.getAccId;
 import static util.tx.HbntUtil.findByHerbinate;
 

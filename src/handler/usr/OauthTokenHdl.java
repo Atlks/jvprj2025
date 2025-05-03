@@ -31,7 +31,8 @@ import util.serverless.RequestHandler;
 import java.util.Collections;
 
 import static cfg.Containr.sam4regLgn;
-import static handler.usr.RegHandler.iniTwoWlt;
+
+import static handler.acc.IniAcc.iniTwoWlt;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.setcookie;
 import static util.serverless.ApiGateway.httpExchangeCurThrd;

@@ -20,7 +20,8 @@ import service.Trans2YLwltService;
 // static cfg.AppConfig.sessionFactory;
 import static cfg.Containr.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
-import static handler.ivstAcc.IvstAccUti.newIvstWltIfNotExist;
+
+import static handler.acc.IniAcc.newIvstWltIfNotExist;
 import static util.ioc.SimpleContainer.getObj;
 import static util.tx.HbntUtil.findByHbntDep;
 // static util.proxy.SprUtil.injectAll4spr;
