@@ -15,4 +15,4 @@ GlApiHandlerImpl。java
 * <p>
 * <p>
 * 历史记录一个函数
-* * ===### betList 查询历史记录 投注
+* * ===### betList 查询历史记录 投资

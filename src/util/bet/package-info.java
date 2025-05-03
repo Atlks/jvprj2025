@@ -1,5 +1,5 @@
 /**
- *  投注接口api
+ *  投资接口api
  */
 package util.bet;
 

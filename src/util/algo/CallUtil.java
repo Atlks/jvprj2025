@@ -4,10 +4,20 @@ import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
 import static util.algo.GetUti.getMethod;
+import static util.ioc.SimpleContainer.getObj;
+import static util.ioc.SimpleContainer.rgstMap4clz;
 import static util.proxy.AopUtil.ivk4log;
 
 //run invoke process invk call run start
 public class CallUtil {
+
+    public static < RetType> RetType lmdIvk
+            (String regFunName, Object dto) throws Throwable {
+       Class beanClz=rgstMap4clz.get(regFunName);
+
+        return  lambdaInvoke(  beanClz,dto);
+    }
+
 
     public static < RetType> RetType lmdIvk
             (Class<?> cls1, Object dto) throws Throwable {

@@ -33,7 +33,7 @@ import static cfg.Containr.saveDirUsrs;
 import static cfg.Containr.sessionFactory;
 // static cfg.MyCfg.iniContnr4cfgfile;
 import static cfg.IniCfg.iniContnr4cfgfile;
-import static util.ioc.SimpleContainer.registerObj;
+import static util.ioc.SimpleContainer.registerInstance;
 import static util.tx.HbntUtil.getSessionFactory;
 
 ////启用 MBean（Managed Bean） 的导出，即 将 Spring 管理的 Bean 注册到 JMX（Java Management Extensions） 中，使其可以被 JMX 监控和管理。
@@ -74,11 +74,11 @@ public class MainStart {
         //   cfg.IocSpringCfg.iniIocContainr4spr();
         Containr.SecurityContext1=new SecurityContextImp4jwt();
         //   Containr.chooseEvtPblshr=  new ChooseEvtPublshr();
-        registerObj( "RdsFromWltService",()->{
+        registerInstance( "RdsFromWltService",()->{
             return    new RdsFromWltService();
         });
 
-        registerObj( "AddMoney2YLWltService",()->{
+        registerInstance( "AddMoney2YLWltService",()->{
             return    new AddMoney2YLWltService();
         });
 

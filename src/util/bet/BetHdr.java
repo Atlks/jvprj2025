@@ -54,7 +54,7 @@
 ////@Path("/BetHdr")
 //    @Tag(name = "bet")
 //    @Path("/BetHdr")
-//    @Operation(method = "get", summary = "投注", description = "")
+//    @Operation(method = "get", summary = "投资", description = "")
 //    @QueryParam("bettxt")
 //    @CookieParam("uname")
 //    @Parameter(name = "bettxt", required = true, example = "123", in = ParameterIn.QUERY)

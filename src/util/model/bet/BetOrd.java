@@ -18,7 +18,7 @@ import static util.misc.util2026.getFilenameFrmLocalTimeString;
 //  must jakarta not javax
 
 /**
- * 注单 投注单
+ * 注单 投资单
  */
 @Entity
 @Table(name = "OrdBet")

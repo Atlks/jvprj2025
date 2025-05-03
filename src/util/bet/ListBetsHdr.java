@@ -20,7 +20,7 @@ import static util.algo.EncodeUtil.encodeParamSql;
 import static util.tx.HbntUtil.getListBySql;
 
 /**
- *  列出投注记录
+ *  列出投资记录
  *  查询规则，参数使用类型化，不要新定义dto，直接使用实体代替
  * http://localhost:8889/list_bets
  */
