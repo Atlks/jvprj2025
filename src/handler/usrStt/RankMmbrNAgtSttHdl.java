@@ -1,28 +1,26 @@
 package handler.usrStt;
 
 import entityx.usr.NonDto;
+import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.core.Context;
-import model.OpenBankingOBIE.Account;
-import model.usr.UsrStats;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
-import util.serverless.ApiGatewayResponse;
-import util.serverless.RequestHandler;
 
 import java.util.List;
 import java.util.Map;
 
 import static cfg.Containr.sessionFactory;
 // 数据报表》排行榜
-public class RankMmbrRchgHdl {
+//   /usrStt/RankMmbrNAgtSttHdl
+@PermitAll
+public class RankMmbrNAgtSttHdl {
     /**
      * @param param
-     * @param context
+
      * @return
      * @throws Throwable
      */
     //  @Override
-    public Object handleRequest(NonDto param, Context context) throws Throwable {
+    public Object handleRequest(NonDto param ) throws Throwable {
 
         RankRptVo vo = new RankRptVo();
         vo.totalRechg_mbrList = getListTtlDpst();

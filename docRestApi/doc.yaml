@@ -52,7 +52,7 @@ tags:
     description: 管理端接口-管理员管理
   - name: admin_usr
     description: 管理端接口-会员管理
-  - name: admin_rpt
+  - name: rpt
     description: 管理端接口-报表管理
   - name: invstRcd
     description: 管理端接口-投资记录管理
@@ -94,6 +94,15 @@ security:
   - JwtAuth88: []  # 全局应用 JWT 认证
 
 paths:
+  /usrStt/RankMmbrNAgtSttHdl:
+    get:
+      tags:
+        - rpt
+      summary: " 数据报表》排行榜 （用户统计）"
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
+
   /wlt/ListTrsxBnsHdl:
      $ref: './paths/wlt/ListTrsxBnsHdl.yml'
   /wlt/findBalanceOverviewHdl:
