@@ -20,10 +20,15 @@ package cfg;//package cfg;
 ////@EnableMBeanExport
 //@EnableMBeanExport
 
+import model.OpenBankingOBIE.Account;
+import model.OpenBankingOBIE.AccountSubType;
+import model.OpenBankingOBIE.AccountType;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import service.YLwltSvs.AddMoney2YLWltService;
 import service.wlt.RdsFromWltService;
 import util.auth.SecurityContextImp4jwt;
+import util.tx.findByIdExptn_CantFindData;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
@@ -33,8 +38,12 @@ import static cfg.Containr.saveDirUsrs;
 import static cfg.Containr.sessionFactory;
 // static cfg.MyCfg.iniContnr4cfgfile;
 import static cfg.IniCfg.iniContnr4cfgfile;
+import static handler.invstOp.AddInvstRcdHdl.iniSysEmnyAccIfNotExst;
+import static handler.invstOp.AddInvstRcdHdl.iniSysInvstAccIfNotExst;
+import static util.acc.AccUti.getAccId;
+import static util.acc.AccUti.sysusrName;
 import static util.ioc.SimpleContainer.registerInstance;
-import static util.tx.HbntUtil.getSessionFactory;
+import static util.tx.HbntUtil.*;
 
 ////启用 MBean（Managed Bean） 的导出，即 将 Spring 管理的 Bean 注册到 JMX（Java Management Extensions） 中，使其可以被 JMX 监控和管理。
 public class MainStart {
@@ -63,6 +72,38 @@ public class MainStart {
         }else
             return  sessionFactory;
 
+    }
+
+    public static void iniAccInsFdPool_IfNotExist(String uname1) {
+
+        Session session = sessionFactory.openSession();
+        session.getTransaction().begin();
+        String accid =getAccId(AccountSubType.uke_ins_fd_pool.name(),sysusrName);
+        try{
+            var wlt=findByHerbinate(Account.class, accid, session);
+        } catch (findByIdExptn_CantFindData e) {
+
+            Account acc1=new Account(accid);
+            // .. acc1.userId= uname1;
+            //   acc1.accountId=
+            acc1.accountOwner = sysusrName;
+            //  acc1.uname
+            acc1.accountType= AccountType.BUSINESS;
+            acc1.accountSubType=AccountSubType.uke_ins_fd_pool;
+            persistByHibernate(acc1, session);
+
+        }
+        session.getTransaction().commit();
+    }
+
+
+    public static void iniSysAcc() {
+        iniAccInsFdPool_IfNotExist("");
+        Session session = sessionFactory.getCurrentSession();
+        session.getTransaction().begin();
+        iniSysEmnyAccIfNotExst(session);
+        iniSysInvstAccIfNotExst(session);
+        session.getTransaction().commit();
     }
 
 

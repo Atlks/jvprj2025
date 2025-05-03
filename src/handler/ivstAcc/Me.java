@@ -2,17 +2,14 @@ package handler.ivstAcc;
 
 import handler.ivstAcc.dto.QueryDto;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
 import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.AccountSubType;
 import org.hibernate.Session;
 
 import util.serverless.ApiGatewayResponse;
-import util.serverless.RequestHandler;
 
 import static cfg.Containr.sessionFactory;
 import static handler.ivstAcc.IvstAccUti.newIvstWltIfNotExist;
-import static handler.rechg.ReviewChrgPassHdr.addWltIfNotExst;
 import static util.acc.AccUti.getAccId;
 import static util.tx.HbntUtil.findByHerbinate;
 

@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import static cfg.Containr.sessionFactory;
 import static cfg.MainStart.iniContnr;
 import static service.CmsBiz.toBigDcmTwoDot;
+import static util.acc.AccUti.getAccId;
 import static util.acc.AccUti.getAccId4ylwlt;
 import static util.algo.GetUti.getUuid;
 import static util.auth.AuthUtil.getCurrentUser;
@@ -54,7 +55,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
 
             YLwlt11 = findByHerbinateLockForUpdtV2(Account.class, acc_id, sessionFactory.getCurrentSession());
         } catch (findByIdExptn_CantFindData e) {
-            iniYlwlt(uname1);
+            iniIvstAcc(uname1);
             YLwlt11 = findByHerbinateLockForUpdtV2(Account.class, acc_id, sessionFactory.getCurrentSession());
         }
 
@@ -105,9 +106,10 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
 
 
 
-    public static void iniYlwlt(String uname1) {
+    public static void iniIvstAcc(String uname1) {
 
-        Account yLwlt=new Account(getAccId4ylwlt(uname1)  );
+        String accid=getAccId(AccountSubType.GeneralInvestment.name(), uname1);
+        Account yLwlt=new Account(accid );
       //  yLwlt.userId= uname1;
         yLwlt.accountOwner =uname1;
         yLwlt.accountSubType= AccountSubType.GeneralInvestment;
@@ -123,7 +125,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
 
         //============aop trans begn
         openSessionBgnTransact();
-        iniYlwlt("666");
+        iniIvstAcc("666");
         //  persistByHibernate(o, AppConfig.sessionFactory.getCurrentSession());
 
 

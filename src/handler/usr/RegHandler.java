@@ -16,14 +16,11 @@ import util.algo.Tag;
 import util.ex.existUserEx;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
-import util.tx.findByIdExptn_CantFindData;
 
 //import static cfg.Containr.evtlist4reg;
-import static handler.ivstAcc.IvstAccUti.newIvstWltIfNotExist;
 import static util.evt.RegEvt.evtlist4reg;
 import static cfg.Containr.sam4regLgn;
 import static cfg.Containr.sessionFactory;
-import static handler.rechg.ReviewChrgPassHdr.addWltIfNotExst;
 
 import static util.algo.CopyUti.copyProp;
 import static util.evtdrv.EvtHlpr.publishEvent;
@@ -72,23 +69,6 @@ public class RegHandler implements RequestHandler<RegDto, ApiGatewayResponse>,IR
         return new ApiGatewayResponse(dtoReg);
     }
 
-    public static void iniTwoWlt( String uname) throws findByIdExptn_CantFindData {
-
-        try{
-            addWltIfNotExst(uname,sessionFactory.getCurrentSession());
-
-        }catch (Throwable e){
-
-        }
-
-        try{
-
-            newIvstWltIfNotExist(uname);
-        }catch (Throwable e){
-
-        }
-
-    }
 
     public RegHandler(String uname, String pwd) {
     }

@@ -20,8 +20,13 @@ import java.io.FileNotFoundException;
 import static cfg.Containr.sessionFactory;
 import static cfg.MainStart.iniContnr;
 import static cfg.IniCfg.iniContnr4cfgfile;
+import static cfg.MainStart.iniSysAcc;
 import static cfg.WebSvr.*;
+import static handler.invstOp.AddInvstRcdHdl.iniSysEmnyAccIfNotExst;
+import static handler.invstOp.AddInvstRcdHdl.iniSysInvstAccIfNotExst;
 import static java.time.LocalTime.now;
+import static util.acc.AccUti.getAccId;
+import static util.acc.AccUti.sysusrName;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 
 
@@ -97,32 +102,16 @@ public class MainApi {
         //================== 创建 HTTP 服务器，监听端口8080
         iniRestPathMap();
 
-        iniAccInsFdPool_IfNotExist("");
+
+        //------ini sys acc
+        iniSysAcc();
+
 
         startWebSrv();
         System.out.println(11);
     }
 
 
-    public static void iniAccInsFdPool_IfNotExist(String uname1) {
-
-        Session session = sessionFactory.getCurrentSession();
-       session.getTransaction().begin();
-        try{
-            var wlt=findByHerbinate(Account.class, AccountSubType.uke_ins_fd_pool.name(), session);
-        } catch (findByIdExptn_CantFindData e) {
-
-            Account acc1=new Account(AccountSubType.uke_ins_fd_pool.name());
-            // .. acc1.userId= uname1;
-         //   acc1.accountId=
-            acc1.accountOwner = "sys";
-            acc1.accountType=AccountType.BUSINESS;
-            acc1.accountSubType=AccountSubType.uke_ins_fd_pool;
-            persistByHibernate(acc1, session);
-
-        }
-        session.getTransaction().commit();
-    }
 
 
 

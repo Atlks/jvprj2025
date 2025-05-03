@@ -13,10 +13,8 @@ public class AccUti {
 
 
     public static String getAccId(String accountSubType, String uname) {
-        if(accountSubType.equals(AccountSubType.EMoney.name()) )
-            return  uname;
-        else
-            return uname+"_"+accountSubType;
+
+        return uname+"_"+accountSubType;
 
     }
 }

@@ -4,6 +4,7 @@ import cfg.IniCfg;
 import entityx.wlt.TransDto;
 import handler.rechg.dto.ReviewChrgRqdto;
 import model.OpenBankingOBIE.Account;
+import model.OpenBankingOBIE.AccountSubType;
 import model.OpenBankingOBIE.TransactionStatus;
 import model.OpenBankingOBIE.Transaction;
 
@@ -25,6 +26,7 @@ import java.util.Map;
 import java.util.SortedMap;
 
 import static cfg.Containr.sessionFactory;
+import static util.acc.AccUti.getAccId;
 import static util.log.ColorLogger.RED_bright;
 import static util.log.ColorLogger.colorStr;
 import static util.misc.util2026.copyProps;
@@ -101,7 +103,7 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgRqdto, ApiGat
         copyProps(trx1,transDto);
         transDto.amt=trx1.amount;
         transDto.refUniqId="reqid="+trx1.id;
-        addWltIfNotExst( trx1.accountOwner, session);
+        addAccEmnyIfNotExst( trx1.accountOwner, session);
         transDto.lockAccObj= findByHerbinateLockForUpdtV2(Account.class, trx1.accountOwner, session);
         addMoneyToWltService1.main(transDto);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
@@ -123,17 +125,7 @@ public class ReviewChrgPassHdr implements RequestHandler<ReviewChrgRqdto, ApiGat
    
        
 
-    public static void addWltIfNotExst(String uname, Session session) throws findByIdExptn_CantFindData {
-        try{
-            var wlt=findByHerbinate(Account.class, uname, session);
-        } catch (findByIdExptn_CantFindData e) {
-            //ini wlt
-            Account wlt=new Account();
-            wlt.accountId = uname;
-            persistByHibernate(wlt, session);
-          //  transDto.lockAccObj=findByHerbinate(Wallet.class, uname, session);
-        }
-    }
+
 
 
     //注解告诉 JSON 序列化库跳过该字段。

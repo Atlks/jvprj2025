@@ -2,18 +2,14 @@ package handler.invstOp;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.OpenBankingOBIE.*;
 import model.opmng.InvestmentOpRecord;
-import model.role.CustomRole;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import util.acc.AccUti;
-import util.serverless.ApiGatewayResponse;
-import util.serverless.RequestHandler;
 import util.tx.findByIdExptn_CantFindData;
 
 import java.math.BigDecimal;
@@ -54,10 +50,16 @@ public class AddInvstRcdHdl   {
             //updt acc systm ivstAcc
             String accId = getAccId(AccountSubType.GeneralInvestment.name(), AccUti.sysusrName);
             Account sysAccIvst=findByHerbinate(Account.class, accId, session);
-            sysAccIvst.setInterimAvailableBalance(sysAccIvst.getInterimAvailableBalance().add(dto.getAmount()));
+            BigDecimal amount2sysIvstAcc = dto.getAmount().multiply(BigDecimal.valueOf(0.2));
+            sysAccIvst.setInterimAvailableBalance(sysAccIvst.getInterimAvailableBalance().add(amount2sysIvstAcc));
 
-            sysAccIvst.setInterimBookedBalance(sysAccIvst.getInterimBookedBalance().add(dto.getAmount()));
+            sysAccIvst.setInterimBookedBalance(sysAccIvst.getInterimBookedBalance().add(amount2sysIvstAcc));
             mergeByHbnt(sysAccIvst, session);
+
+
+            //----add fdpool
+            BigDecimal amount2sysFdpoolAcc = dto.getAmount().multiply(BigDecimal.valueOf(0.8));
+            addMoney2fdpool(amount2sysFdpoolAcc);
 
             //
 
@@ -66,6 +68,50 @@ public class AddInvstRcdHdl   {
         }
 
         return (dto);
+    }
+
+    private void addMoney2fdpool(BigDecimal amount2sysFdpoolAcc) throws findByIdExptn_CantFindData {
+        Session session = sessionFactory.getCurrentSession();
+        String accId = getAccId(AccountSubType.uke_ins_fd_pool.name(), AccUti.sysusrName);
+        Account sysAccIvst=findByHerbinate(Account.class, accId, session);
+
+        sysAccIvst.setInterimAvailableBalance(sysAccIvst.getInterimAvailableBalance().add(amount2sysFdpoolAcc));
+
+        sysAccIvst.setInterimBookedBalance(sysAccIvst.getInterimBookedBalance().add(amount2sysFdpoolAcc));
+        mergeByHbnt(sysAccIvst, session);
+    }
+
+    public  static  void iniSysEmnyAccIfNotExst(Session session)   {
+        try{
+            String accId = getAccId(AccountSubType.EMoney.name(), AccUti.sysusrName);
+            Account a=findByHerbinate(Account.class, accId, session);
+
+        }catch(findByIdExptn_CantFindData e)
+        {
+            String accId = getAccId(AccountSubType.EMoney.name(), AccUti.sysusrName);
+            Account a= new Account(accId);
+            a.accountType=AccountType.BUSINESS;
+            a.setInterimAvailableBalance(BigDecimal.ZERO);
+            a.setInterimBookedBalance(BigDecimal.ZERO);
+            persistByHibernate(a, session);
+        }
+
+    }
+    public  static  void iniSysInvstAccIfNotExst(Session session)  {
+
+        try{
+            String accId = getAccId(AccountSubType.GeneralInvestment.name(), AccUti.sysusrName);
+            Account a=findByHerbinate(Account.class, accId, session);
+        } catch (findByIdExptn_CantFindData e) {
+            String accId = getAccId(AccountSubType.GeneralInvestment.name(), AccUti.sysusrName);
+            Account a= new Account(accId);
+            a.accountType=AccountType.BUSINESS;
+            a.setInterimAvailableBalance(BigDecimal.ZERO);
+            a.setInterimBookedBalance(BigDecimal.ZERO);
+            persistByHibernate(a, session);
+        }
+
+
     }
 
     private void addDiv2perUsr(InvestmentOpRecord param, Session session) throws findByIdExptn_CantFindData {
