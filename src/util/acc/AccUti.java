@@ -5,6 +5,8 @@ import model.OpenBankingOBIE.AccountType;
 
 public class AccUti {
 
+    public  static String  sysusrName = "sys2025007";
+
     public static  String getAccId4ylwlt(String uname) {
         return  uname+"_"+ AccountSubType.GeneralInvestment;
     }

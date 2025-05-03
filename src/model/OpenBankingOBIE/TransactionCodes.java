@@ -4,7 +4,7 @@ package model.OpenBankingOBIE;
  * ✅ OBIE 的 Transaction Codes 源自 ISO 20022
  * OBIE 使用以下两个字段来描述交易类型：
  *
- * BankTransactionCode
+ * BankTransactionCode==trx type
  *
  * ProprietaryBankTransactionCode
  */
@@ -14,6 +14,12 @@ public enum TransactionCodes {
     ADJT,//	Adjustment	调账
     CRED,  // Credit Transfer - 充值、存款、转账入账
     DEBT,  // Direct Debit - 支出、扣款
+    rchg,  //充值
+    exchOut,//兑换支出
+    loss, //亏损
+    exchIn,
+    adjstIn,adjstOut,
+    wthdr,
     /**
      * COM - Commission (佣金)
      */
@@ -27,7 +33,7 @@ public enum TransactionCodes {
     /**
      * INT - Interest (利息)
      */
-    INT,
+   // INT,
 
     /**
      * DIV - Dividend (股息、分红  收益)
@@ -37,7 +43,7 @@ public enum TransactionCodes {
     /**
      * SAL - Salary / Payroll (工资)
      */
-    SAL,
+  //  SAL,
 
     /**
      * FEE - Fees (费用)
@@ -52,12 +58,12 @@ public enum TransactionCodes {
     /**
      * LON - Loan (贷款相关)
      */
-    LON,
+  //  LON,
 
     /**
      * TAX - Tax (税收)
      */
-    TAX,
+  //  TAX,
 
     /**
      * TRF - Transfer (转账)
@@ -67,7 +73,7 @@ public enum TransactionCodes {
     /**
      * GOV - Government Payment (政府转账)
      */
-    GOV,
+  //  GOV,
 
     /**
      * OTH - Other (其他)

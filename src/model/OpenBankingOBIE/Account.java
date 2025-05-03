@@ -17,6 +17,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class Account {
 
+    // 使用hibernate ，查询account实体，查询所有InterimAvailableBalance>1的账户
+
     @Id
     public String accountId;// 用户ID
 

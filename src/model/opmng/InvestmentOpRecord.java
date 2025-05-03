@@ -1,9 +1,8 @@
 package model.opmng;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+import model.OpenBankingOBIE.TransactionCodes;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -26,7 +25,7 @@ public class InvestmentOpRecord {
     /**
      * 投资时间（时间戳或格式化字符串）
      */
-    private LocalDateTime investmentTime;
+    private long investmentTime=System.currentTimeMillis();
 
     public  long timestamp=System.currentTimeMillis();
 
@@ -37,8 +36,11 @@ public class InvestmentOpRecord {
 
     /**
      * 投资类型（盈利 ）
+     *
+     *     public TransactionCodes
      */
-    public String investmentType;
+    @Enumerated(EnumType.STRING)
+    public TransactionCodes investmentType;
 
     /**
      * 操作金额（例如：8888.00）
@@ -53,13 +55,7 @@ public class InvestmentOpRecord {
 
     // Getters and Setters
 
-    public LocalDateTime getInvestmentTime() {
-        return investmentTime;
-    }
 
-    public void setInvestmentTime(LocalDateTime investmentTime) {
-        this.investmentTime = investmentTime;
-    }
 
     public String getOrderNumber() {
         return orderNumber;
@@ -69,13 +65,7 @@ public class InvestmentOpRecord {
         this.orderNumber = orderNumber;
     }
 
-    public String getInvestmentType() {
-        return investmentType;
-    }
 
-    public void setInvestmentType(String investmentType) {
-        this.investmentType = investmentType;
-    }
 
     public BigDecimal getAmount() {
         return amount;
