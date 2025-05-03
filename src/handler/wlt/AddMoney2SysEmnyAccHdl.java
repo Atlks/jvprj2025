@@ -38,10 +38,23 @@ public class AddMoney2SysEmnyAccHdl {
 
         bftst();
         AddMoneyDto dto=new AddMoneyDto();
-        dto.amt= BigDecimal.valueOf(88899999);
-        new AddMoney2SysEmnyAccHdl().handleRequest(dto);
+        dto.amt= BigDecimal.valueOf(888888);
+             setMny2sysEmnAcc(dto);
+
 
         TransactMng.commitTsact();
 
+    }
+
+    private static void setMny2sysEmnAcc(AddMoneyDto dto) throws findByIdExptn_CantFindData {
+
+        Session session = sessionFactory.getCurrentSession();
+        String accId = getAccId(AccountSubType.uke_ins_fd_pool.name(), AccUti.sysusrName);
+        Account sysAccIvst=findByHerbinate(Account.class, accId, session);
+
+        sysAccIvst.setInterimAvailableBalance (dto.amt);
+
+        sysAccIvst.setInterimBookedBalance( (dto.amt));
+        mergeByHbnt(sysAccIvst, session);
     }
 }
