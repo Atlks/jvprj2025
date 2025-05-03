@@ -1,5 +1,6 @@
 package handler.invstOp;
 
+import handler.wlt.AddMoneyDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.Data;
@@ -10,12 +11,14 @@ import model.opmng.InvestmentOpRecord;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import util.acc.AccUti;
+import util.tx.TransactMng;
 import util.tx.findByIdExptn_CantFindData;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import static cfg.Containr.sessionFactory;
+import static handler.uti.TestUti.bftst;
 import static java.time.LocalTime.now;
 import static util.acc.AccUti.getAccId;
 import static util.tx.HbntUtil.*;
@@ -39,9 +42,8 @@ public class AddInvstRcdHdl   {
         //yinli
         if(dto.investmentType== TransactionCodes.DIV)
         {
-            //---add ord
+
             Session session = sessionFactory.getCurrentSession();
-            persistByHibernate(dto, session);
 
             //add foreach per mem ,ivst acc
             addDiv2perUsr(dto, session);
@@ -63,11 +65,29 @@ public class AddInvstRcdHdl   {
 
             //
 
+            //---add ord
+            dto.setFundFlowDirection(amount2sysIvstAcc.toString()+"转入盈利钱包,"+amount2sysFdpoolAcc.toString()+"转入保险资金池");
+            persistByHibernate(dto, session);
+
+
             //add tx lg
 
         }
 
         return (dto);
+    }
+
+    public static void main(String[] args) throws Throwable {
+        bftst();
+        InvestmentOpRecord dto=new InvestmentOpRecord();
+        dto.investmentType=TransactionCodes.DIV;
+        dto.amount= BigDecimal.valueOf(10000);
+
+        new AddInvstRcdHdl().handleRequest(dto);
+
+
+        TransactMng.commitTsact();
+
     }
 
     private void addMoney2fdpool(BigDecimal amount2sysFdpoolAcc) throws findByIdExptn_CantFindData {
