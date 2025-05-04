@@ -14,6 +14,12 @@ public class TableNames {
     public static String admin_roles = "user_roles";
 
 
+    //user rpt
+    //usr_ext_amt_rpt
+    //usr_ext amt month rpt
+
+
+
     //三、交易与流水模块
     public static String accounts="accounts";
     public static String transactions="transactions";
@@ -26,12 +32,14 @@ public class TableNames {
     //多级代理关系表（如 parent_id 指向上级代理）
 
 
-    //cms sys
+    //cms sys.... trx_comm
     public static String commissions; //返佣记录（记录每笔返佣来源、金额、下级ID）
     public static String commission_rules;//	返佣规则配置（如级数、比例等）
 
 
     //
+
+    //tx_rechage  wdhtr
 
 //    五、充值与提现
 //    表名	说明
