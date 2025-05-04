@@ -36,7 +36,7 @@ public class RankMmbrNAgtSttHdl {
         vo.totalEchxg_agtList = qryTtlTrs4agt();
         return vo;
 
-        //return null;
+        //return null ;
     }
 
     private List<?> qryTtlTrs4agt() {
