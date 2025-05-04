@@ -3,12 +3,15 @@ package handler.usrStt;
 import entityx.usr.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.core.Context;
+import model.usr.UsrExtAmtStats;
 import org.hibernate.Session;
 
 import java.util.List;
 import java.util.Map;
 
 import static cfg.Containr.sessionFactory;
+import static util.algo.GetUti.getTableName;
+
 // 数据报表》排行榜
 //   /usrStt/RankMmbrNAgtSttHdl
 @PermitAll
@@ -40,10 +43,11 @@ public class RankMmbrNAgtSttHdl {
         var sql = "select * from agent order by  exchangeAmount desc limit 20";
         return qryByHbnt(sessionFactory.getCurrentSession(), sql);
     }
-
+   public static String usrStatsTbl = getTableName(UsrExtAmtStats.class);
     private List<?> qryTtlTrs4mmr() {
 
-        var sql = "select * from  UsrStats order by totalTransfer desc limit 20";
+
+        var sql = "select * from  " + usrStatsTbl + " order by totalTransfer desc limit 20";
         //  Query<?> query = ;
         // query.setParameter("amount", 1);
         Session session = sessionFactory.getCurrentSession();
@@ -51,7 +55,7 @@ public class RankMmbrNAgtSttHdl {
     }
 
     private List<?> qryTtlPrft4mbr() {
-        var sql = "select * from  UsrStats order by totalProfit desc limit 20";
+        var sql = "select * from  " + usrStatsTbl + " order by totalProfit desc limit 20";
         //  Query<?> query = ;
         // query.setParameter("amount", 1);
         Session session = sessionFactory.getCurrentSession();
@@ -69,7 +73,8 @@ public class RankMmbrNAgtSttHdl {
     }
 
     private List<?> qryTtlWthd4mbr() {
-        var sql = "select * from  UsrStats order by totalWithdraw desc limit 20";
+        String usrStats = "UsrStats";
+        var sql = "select * from  " + usrStatsTbl + " order by totalWithdraw desc limit 20";
         //  Query<?> query = ;
         // query.setParameter("amount", 1);
         Session session = sessionFactory.getCurrentSession();
@@ -83,7 +88,8 @@ public class RankMmbrNAgtSttHdl {
     }
 
     private static List<Map> getListTtlDpst() {
-        var sql = "select * from  UsrStats order by totalDeposit desc limit 20";
+        String usrStats = "UsrStats";
+        var sql = "select * from  " + usrStatsTbl + " order by totalDeposit desc limit 20";
         //  Query<?> query = ;
         // query.setParameter("amount", 1);
         Session session = sessionFactory.getCurrentSession();

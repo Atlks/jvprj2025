@@ -4,14 +4,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import util.model.TableNames;
 
 import java.math.BigDecimal;
 
-//成员统计
+//成员 amt 方面的统计
 @Entity
-@Table
+@Table(name= TableNames.UsrExtAmtStats)
 @Data
-public class UsrStats {
+public class UsrExtAmtStats {
 
     @Id
     public  String uname;
@@ -41,7 +42,7 @@ public class UsrStats {
   //  private BigDecimal totalBonus = BigDecimal.ZERO;
 
     // 构造函数
-    public UsrStats() {}
+    public UsrExtAmtStats() {}
 
 
     public BigDecimal getTotalDeposit() {

@@ -6,9 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import model.OpenBankingOBIE.Transaction;
 import model.agt.Agent;
 import model.agt.ChgSubStt;
-import model.usr.UsrStats;
+import model.usr.UsrExtAmtStats;
 import org.hibernate.Session;
-import util.algo.Runnablex;
 import util.annos.EventListener;
 import util.model.EvtType;
 
@@ -18,6 +17,7 @@ import static cfg.Containr.sessionFactory;
 //import static cfg.Containr.evtlist4aftCalcRchgAmtSum;
 //import static handler.agt.AgtHdl.addAgtIfNotExst;
 import static handler.agt.RegEvtHdl.addAgtIfNotExst;
+import static handler.usrStt.UamtSttSvs.updtUsrRpt4rechg;
 import static org.apache.commons.lang3.math.NumberUtils.toInt;
 import static util.algo.CallUtil.*;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
@@ -80,12 +80,6 @@ public class RchgEvtHdl {
     }
 
 
-    private void updtUsrRpt4rechg(@NotNull Transaction tx) {
-        System.out.println("fun updtUsrRpt4rechg()");
-        UsrStats usrStats=new UsrStats();
-        usrStats.uname=tx.accountOwner;
-        usrStats.setTotalDeposit(usrStats.getTotalDeposit().add(tx.amount));
-        mergeByHbnt(usrStats,sessionFactory.getCurrentSession());
-    }
+
 
 }

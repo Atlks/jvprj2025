@@ -4,6 +4,8 @@ package util.model;
 // 要做一个类似于交易金融业务系统，里面包含用户 管理员 用户钱包，资金收益账户  交易流水 多级代理与返佣
 public class TableNames {
 
+    public static final String UsrExtAmtStats = "u_ext_amt_stats";
+
     //sys mdel
     public static String cfg = "cfg";
     public static String users = "users";
