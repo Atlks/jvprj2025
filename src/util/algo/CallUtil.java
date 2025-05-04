@@ -11,6 +11,16 @@ import static util.proxy.AopUtil.ivk4log;
 //run invoke process invk call run start
 public class CallUtil {
 
+
+    public static  void callTry(Runnablex o) {
+        try {
+            o.run();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public static < RetType> RetType lmdIvk
             (String regFunName, Object dto) throws Throwable {
        Class beanClz=rgstMap4clz.get(regFunName);

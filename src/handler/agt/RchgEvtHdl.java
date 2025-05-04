@@ -19,8 +19,7 @@ import static cfg.Containr.sessionFactory;
 //import static handler.agt.AgtHdl.addAgtIfNotExst;
 import static handler.agt.RegEvtHdl.addAgtIfNotExst;
 import static org.apache.commons.lang3.math.NumberUtils.toInt;
-import static util.algo.CallUtil.lambdaInvoke;
-import static util.algo.CallUtil.lmdIvk;
+import static util.algo.CallUtil.*;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
 import static util.algo.NullUtil.isBlank;
 import static util.tx.HbntUtil.*;
@@ -43,7 +42,7 @@ public class RchgEvtHdl {
             agt = addAgtIfNotExst(u.invtr, session);
 
 
-            callTry(()->{updtUsrRpt4rechg(tx)});
+            callTry(()->{updtUsrRpt4rechg(tx);});
 
             try {
                 ChgSubStt css = new ChgSubStt();
@@ -80,13 +79,6 @@ public class RchgEvtHdl {
         return 0;
     }
 
-    private void callTry(Runnablex o) {
-        try {
-            o.run();
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-    }
 
     private void updtUsrRpt4rechg(@NotNull Transaction tx) {
         System.out.println("fun updtUsrRpt4rechg()");
