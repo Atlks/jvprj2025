@@ -59,6 +59,7 @@ public class QryFundDetailHdl  {
     }
 
 
+
     public static void main(String[] args) throws Throwable {
         new MainStart().sessionFactory();//ini sessFctr
         //ini contnr 4cfg,, svrs
