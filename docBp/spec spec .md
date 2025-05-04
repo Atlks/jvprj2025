@@ -7,16 +7,17 @@
 reqDto
 responseDto
 
-
-
-# tablename spec
-
-# fled spec
 # model spec
 # fun spec ,aws lmd spec
 
 hdl(dto,context)
 
+
+# pkg n clssname  spec
+
+# tablename spec
+
+# fled spec
 
 
 

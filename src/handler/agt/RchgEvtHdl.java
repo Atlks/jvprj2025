@@ -6,7 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import model.OpenBankingOBIE.Transaction;
 import model.agt.Agent;
 import model.agt.ChgSubStt;
+import model.usr.UsrStats;
 import org.hibernate.Session;
+import util.algo.Runnablex;
 import util.annos.EventListener;
 import util.model.EvtType;
 
@@ -41,6 +43,8 @@ public class RchgEvtHdl {
             agt = addAgtIfNotExst(u.invtr, session);
 
 
+            callTry(()->{updtUsrRpt4rechg(tx)});
+
             try {
                 ChgSubStt css = new ChgSubStt();
                 css.agtName = u.invtr;
@@ -74,6 +78,22 @@ public class RchgEvtHdl {
         }
 
         return 0;
+    }
+
+    private void callTry(Runnablex o) {
+        try {
+            o.run();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updtUsrRpt4rechg(@NotNull Transaction tx) {
+        System.out.println("fun updtUsrRpt4rechg()");
+        UsrStats usrStats=new UsrStats();
+        usrStats.uname=tx.accountOwner;
+        usrStats.setTotalDeposit(usrStats.getTotalDeposit().add(tx.amount));
+        mergeByHbnt(usrStats,sessionFactory.getCurrentSession());
     }
 
 }

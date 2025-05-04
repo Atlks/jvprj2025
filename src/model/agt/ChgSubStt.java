@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 统计充值的下级数量
+ * 统计充值的下级数量   重复排除 uname做key
  */
 @Entity
 @Table
