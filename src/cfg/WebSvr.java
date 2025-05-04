@@ -3,11 +3,13 @@ package cfg;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Path;
 // org.springframework.web.bind.annotation.*;
 //import org.thymeleaf.context.Context;
 // org.thymeleaf.context.Context;
+import model.other.ContentType;
 import util.annos.Paths;
 import util.serverless.ApiGateway;
 
@@ -34,7 +36,6 @@ import static util.misc.util2026.*;
 import static util.oo.WebsrvUtil.processNmlExptn;
 
 
-
 /**
  * ini web   \n
  * ini url-->bean.handler()  \n
@@ -47,19 +48,19 @@ public class WebSvr {
         int port = 8889;
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         // 定义一个上下文，绑定到 "/api/hello" 路径
-      //  server.createContext("/hello", new HelloHandler());
+        //  server.createContext("/hello", new HelloHandler());
 
 
         // 设置静态资源目录 (例如: D:/myweb/static)
-      //  String dirWzClassesDirSameLev = "static";
+        //  String dirWzClassesDirSameLev = "static";
         String docRestApiDir = getdirRestapiDoc();
-        System.out.println("docRestApiDir="+docRestApiDir);
+        System.out.println("docRestApiDir=" + docRestApiDir);
 
-        server.createContext("/static22", new StaticFileHandler(docRestApiDir+"/aa","/static"));
-        server.createContext("/static", new StaticFileHandler(docRestApiDir,"/static"));
-        server.createContext("/docRestApi", new StaticFileHandler(docRestApiDir,"/docRestApi"));
+        server.createContext("/static22", new StaticFileHandler(docRestApiDir + "/aa", "/static"));
+        server.createContext("/static", new StaticFileHandler(docRestApiDir, "/static"));
+        server.createContext("/docRestApi", new StaticFileHandler(docRestApiDir, "/docRestApi"));
 
-        server.createContext("/res/uploads", new StaticFileHandler(getPrjPath()+"/res/uploads", "/res/uploads"));
+        server.createContext("/res/uploads", new StaticFileHandler(getPrjPath() + "/res/uploads", "/res/uploads"));
         //    http://localhost:8889/static/doc.htm
         server.createContext("/post2", exchange -> {
             try {
@@ -68,6 +69,7 @@ public class WebSvr {
                 throw new RuntimeException(e);
             }
         });
+        server.createContext("/jar/docRestApi", exchange -> docRestApiHdl(exchange));
         server.createContext("/", exchange -> handleAllReq(exchange));
         //-------------------
         cfgPath(server);
@@ -83,14 +85,54 @@ public class WebSvr {
         System.out.println("Server started on port " + port);
     }
 
+    //parse /jar/restdoc
+    private static void docRestApiHdl(HttpExchange exchange) throws IOException {
+        URI uri = exchange.getRequestURI();
+        String path = uri.getPath();  //   /jar/api  noqrystr
+        String jarPath=path;
+        jarPath=jarPath.substring(4);
+        String txt=getTxtFrmJar(jarPath);
+
+        wrtResp(exchange, txt, ContentType.TEXT_HTML.getValue());
+    }
+
+    /**
+     * 读取jar里面的某个文本文件资源
+     * @param pathInJar
+     * @return
+     */
+    private static @NotNull String getTxtFrmJar(@NotBlank  String pathInJar) {
+        try (InputStream in = WebSvr.class.getResourceAsStream(pathInJar)) {
+            if (in == null) {
+                System.err.println("资源未找到: " + pathInJar);
+                return "";
+            }
+
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(in, StandardCharsets.UTF_8))) {
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                return sb.toString();
+            }
+
+        } catch (Exception e) {
+            System.err.println("读取资源失败: " + e.getMessage());
+            e.printStackTrace();
+            return "";
+        }
+    }
+
     private static void handlePost2(HttpExchange exchange) throws Exception {
         if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
-        
+
             // body:::     a=1&b=2
 
- // 读取请求体
- InputStream inputStream = exchange.getRequestBody();
- String body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+            // 读取请求体
+            InputStream inputStream = exchange.getRequestBody();
+            String body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
 
 
             // 解析 form 数据
@@ -129,12 +171,11 @@ public class WebSvr {
         // if(new File("/staticSrc").exists())
         //     staticDir = "C:\\0prj\\jvprj2025\\static";
         String targetDirMode = getTargetPath() + docRestDir;
-        if(isExistDir(prjDirMode))
-        {            staticDir=prjDirMode;
-        } else if(isExistDir(targetDirMode))
-        {            staticDir=prjDirMode;
-        }
-        else {
+        if (isExistDir(prjDirMode)) {
+            staticDir = prjDirMode;
+        } else if (isExistDir(targetDirMode)) {
+            staticDir = prjDirMode;
+        } else {
             dirTaget = getDirTaget();
             staticDir = dirTaget + docRestDir;
         }
@@ -142,7 +183,7 @@ public class WebSvr {
     }
 
     private static boolean isExistDir(String prjDirMode) {
-   return  new File(prjDirMode).exists();
+        return new File(prjDirMode).exists();
     }
 
 
@@ -165,31 +206,29 @@ public class WebSvr {
         server.createContext("/users/get", exchange -> handleGetUser(exchange));
 
 
-
-
     }
 
     public static void iniRestPathMap() {
         Consumer<Class> fun = aClass -> {
-            if (aClass.getName().startsWith("api")|| aClass.getName().startsWith("handler")) {
+            if (aClass.getName().startsWith("api") || aClass.getName().startsWith("handler")) {
                 //  var bean=getBeanFrmSpr(aClass);
                 var path = getPathFromBean(aClass);
                 System.out.println("pathMap(path=" + path + ",aClass=" + aClass.toString());
                 //   server.createContext(path, (HttpHandler) bean);
                 pathMap.put(path, aClass);
-                if(aClass.getName().contains("RechargeHdr"))
+                if (aClass.getName().contains("RechargeHdr"))
                     System.out.println("D835");
-                var path_pkgNclsname=getAutoRouterPath(aClass);
+                var path_pkgNclsname = getAutoRouterPath(aClass);
                 pathMap.put(path_pkgNclsname, aClass);
                 System.out.println("pathMap(path=" + path_pkgNclsname + ",aClass=" + aClass.toString());
 
-                String[] getPathsFromBeanRzt=getPathsFromBean(aClass);
-    for (String p : getPathsFromBeanRzt) {
+                String[] getPathsFromBeanRzt = getPathsFromBean(aClass);
+                for (String p : getPathsFromBeanRzt) {
 
-        pathMap.put(p, aClass);
-        System.out.println("pathMap(path=" + p + ",aClass=" + aClass.toString());
+                    pathMap.put(p, aClass);
+                    System.out.println("pathMap(path=" + p + ",aClass=" + aClass.toString());
 
-    }
+                }
             }
         };
         System.out.println("====start createContext");
@@ -200,6 +239,7 @@ public class WebSvr {
     /**
      * 获取自动化的路由路径，规则: 上一级包名/类名
      * 例如  /role/SaveRoleHdl
+     *
      * @param aClass 要处理的类
      * @return 自动生成的路由路径
      */
@@ -224,10 +264,9 @@ public class WebSvr {
             @NotNull String path1 = getPathNoQuerystring(exchange);
             if (isBlank(path1))
                 throw new RuntimeException("path is blnk");
-            if(path1.equals("/favicon.ico"))
+            if (path1.equals("/favicon.ico"))
                 return;
-            if(path1.endsWith(".htm")  || path1.endsWith(".html"))
-            {
+            if (path1.endsWith(".htm") || path1.endsWith(".html")) {
 //                Context context = new Context();
 //
 //                //listAdm
@@ -244,9 +283,9 @@ public class WebSvr {
             @NotNull Class<?> hdrclas = pathMap.get(path1);
             if (hdrclas == null)
                 throw new RuntimeException("key is null,key=" + requestURI);
-            Object obj=hdrclas.getConstructor().newInstance();
+            Object obj = hdrclas.getConstructor().newInstance();
             var bean = obj;
-                    //getBeanByClzFrmSpr(hdrclas);
+            //getBeanByClzFrmSpr(hdrclas);
             @NotNull HttpHandler proxyObj = new ApiGateway(bean);
             proxyObj.handle(exchange);
         } catch (Exception e) {
@@ -256,7 +295,7 @@ public class WebSvr {
             processNmlExptn(exchange, e);
         } finally {
             exchange.close(); // ⚠️ 必须调用，否则会卡住
-    }
+        }
 
 
     }
@@ -321,7 +360,7 @@ public class WebSvr {
             return mapping.value();  // 可能有多个路径
         }
 
-        return  new String[]{};
+        return new String[]{};
 
 
     }

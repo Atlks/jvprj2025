@@ -89,6 +89,11 @@
               <outputDirectory>${project.build.directory}/static</outputDirectory>
               <resources>
                 <resource>
+                  <directory>${project.basedir}/docRestApi</directory>
+                  <filtering>false</filtering>
+                  <targetPath>../classes/docRestApi</targetPath>
+                </resource>
+                <resource>
                   <directory>${project.basedir}/static</directory>
                   <filtering>false</filtering>
                 </resource>

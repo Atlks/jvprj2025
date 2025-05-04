@@ -1060,6 +1060,36 @@ public class util2026 {
         os.close();
     }
 
+
+    public static void wrtResp(HttpExchange exchange, String responseTxt,  String conttType ) throws IOException {
+
+        System.out.println("wrtResp(resptxt=" + responseTxt);
+        if (responseTxt == null)
+            responseTxt = "";
+
+        // 设置跨域响应头
+        exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+
+        Class ctrlCls = curCtrlCls.get();
+//        if (ctrlCls != null && ctrlCls.isAnnotationPresent(Controller.class)) {
+//            // 输出为html
+//            exchange.getResponseHeaders().set("Content-Type", "text/html; charset=utf-8");
+//        } else
+
+        {
+            //输出为json
+      //      String conttType = "";
+            exchange.getResponseHeaders().set("Content-Type", conttType);
+        }
+
+
+        exchange.sendResponseHeaders(200, responseTxt.getBytes().length);
+        OutputStream os = exchange.getResponseBody();
+        os.write(responseTxt.getBytes());
+        os.close();
+    }
+
+
     public static void wrtRespHtml(HttpExchange exchange, String responseTxt) throws IOException {
 
         System.out.println("wrtResp(resptxt=" + responseTxt);
