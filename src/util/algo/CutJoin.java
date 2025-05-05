@@ -6,6 +6,20 @@ import java.util.List;
 import static util.algo.IndexOfUti.indexOf;
 
 public class CutJoin {
+
+
+    /**
+     * 去除左右俩边各一个字符
+     * @param s
+     * @return
+     */
+    public static Object trim4sql(String s) {
+        if (s == null || s.length() <= 2) {
+            return "";
+        }
+        return s.substring(1, s.length() - 1);
+    }
+
     /**
      * 截取字节数组 前面若干个字节
      * @param part

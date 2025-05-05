@@ -1,6 +1,7 @@
 package util.model.openbank;
 
 public enum ObieAccFields {
+    ACCOUNT("Account"),
     ACCOUNT_ID("AccountId"),
     ACCOUNT_TYPE("AccountType"),
     ACCOUNT_SUB_TYPE("AccountSubType"),
@@ -12,8 +13,8 @@ public enum ObieAccFields {
 
     private final String fieldName;
 
-    ObieAccFields(String fieldName) {
-        this.fieldName = fieldName;
+    ObieAccFields(String fieldName1) {
+        this.fieldName = fieldName1;
     }
 
     public String getFieldName() {
