@@ -1,0 +1,64 @@
+package util.model.openbank;
+
+/**
+ * 表示 OBIE 中定义的余额类型
+ */
+public enum BalanceType {
+    /** 临时已清算余额（常用，实际到账） 也即是常见的总余额 */
+    InterimBooked,
+
+    /** 临时可用余额（可能包含未清算交易） */
+    InterimAvailable,
+
+    /** 开始时的已清算余额（用于对账起点） */
+    OpeningBooked,
+
+    /** 结束时的已清算余额（用于对账终点） */
+    ClosingBooked,
+
+    /** 未来可用余额（含预测入账） */
+    ForwardAvailable,
+
+    /** 预计余额（未确定，但银行认为将到账） */
+    Expected,
+
+    /** 已授权但尚未清算的交易总额（如挂账） */
+    Authorised,
+
+    /** 信息目的余额（可能用于展示或报表） */
+    Information,
+
+    /** 💰 累计充值金额（单位 ETH 或等值） */
+        totalDeposited,
+
+    //累计提现
+    totalWthdr,
+
+    //累计佣金
+    TOTAL_COMMISSIONS,
+
+    //累计投资
+    TOTAL_INVESTMENT,
+
+    //累计投资收益
+    TOTAL_INVESTMENT_income,
+
+    //累计得到奖励
+    totalReward,
+
+    //累计划转资金
+    TOTAL_TRANSFERRED
+    ;
+
+    /**
+     * 从字符串安全解析（忽略大小写）
+     */
+    public static BalanceType fromString(String str) {
+        for (BalanceType type : BalanceType.values()) {
+            if (type.name().equalsIgnoreCase(str)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Unknown balance type: " + str);
+    }
+}

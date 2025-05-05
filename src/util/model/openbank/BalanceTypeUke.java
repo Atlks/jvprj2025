@@ -1,9 +1,10 @@
-package model.OpenBankingOBIE;
+package util.model.openbank;
 
 /**
  * 这个是简化版本，方便理解，不是obie原版
  */
-public enum BalanceType {
+@Deprecated
+public enum BalanceTypeUke {
 
     /**
      * AVAILABLE: 可用余额
@@ -45,7 +46,7 @@ public enum BalanceType {
      * 账户允许超过其实际余额的额度，通常是银行为账户提供的透支额度。
      * 用户可以使用超出账户余额的资金，但通常会产生额外费用或利息。
      */
-    OVERDRAFT("OVERDRAFT"),
+   // OVERDRAFT("OVERDRAFT"),
 
     /**
      * INACTIVE: 非活跃余额
@@ -72,7 +73,7 @@ public enum BalanceType {
     private final String value;
 
     // 构造器，用于设置每个枚举值的对应字符串
-    BalanceType(String value) {
+    BalanceTypeUke(String value) {
         this.value = value;
     }
 
@@ -82,8 +83,8 @@ public enum BalanceType {
     }
 
     // 根据字符串值获取对应的枚举
-    public static BalanceType fromValue(String value) {
-        for (BalanceType balanceType : BalanceType.values()) {
+    public static BalanceTypeUke fromValue(String value) {
+        for (BalanceTypeUke balanceType : BalanceTypeUke.values()) {
             if (balanceType.getValue().equalsIgnoreCase(value)) {
                 return balanceType;
             }
