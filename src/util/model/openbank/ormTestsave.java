@@ -16,11 +16,11 @@ public class ormTestsave {
 
 
         InsertIntoStmt query =new InsertIntoStmt(getTableName(Account.class));
-       query.set(ObieAccFields.ACCOUNT_ID.getFieldName(),new Column(1,Integer.class));
-        query.set(ObieAccFields.ACCOUNT_SUB_TYPE.getFieldName(),newColumn(AccountType.BUSINESS,String.class) );
-        query.set(newColumn(ObieAccFields.ACCOUNT_STATUS.getFieldName(),  AccountStatus.Enabled.name(),String.class));
+       query.set(ObieAccFields.ACCOUNT_ID.getFieldName(),1);
+        query.set(ObieAccFields.ACCOUNT_SUB_TYPE.getFieldName(),AccountType.BUSINESS.name())    ;
+        query.set(ObieAccFields.ACCOUNT_STATUS.getFieldName(),  AccountStatus.Enabled.name());
 
-
+        query.setStr(ObieAccFields.ACCOUNT_TYPE.getFieldName(), "ooo");
         String sql = query.getSQL();  // ✅ 直接拿到 SQL 字符串
         System.out.println(sql);
     }
