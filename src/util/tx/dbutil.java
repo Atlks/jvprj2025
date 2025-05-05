@@ -1921,16 +1921,7 @@ public class dbutil {
             String url = url_noDB + "/mysql?user=" + getUnameFromJdbcurl(jdbcurl) + "&password=" + getPwdFromJdbcurl(jdbcurl);
             System.out.println("crtDB().url=" + url);
             Connection conn = DriverManager.getConnection(url);
-            Statement stmt = conn.createStatement();
-            try {
-                stmt.executeUpdate(sqlCrtDb);
-            } catch (Exception e) {
-                //database exists
-                if (e.getMessage().contains("Can't create database")) {
-
-                } else
-                    e.printStackTrace();
-            }
+           executeUpdate(sqlCrtDb,conn);
 
         }
 
