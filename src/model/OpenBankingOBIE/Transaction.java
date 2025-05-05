@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -33,6 +34,7 @@ import static util.algo.GetUti.getUuid;
 } )  //Transactions_Pay
 @NoArgsConstructor
 @Data
+@FieldNameConstants
 public class Transaction {
 
     @Id

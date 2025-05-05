@@ -7,6 +7,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.*;
 import util.annos.CurrentUsername;
 
@@ -35,6 +36,7 @@ import static service.CmsBiz.toBigDcmTwoDot;
 @DynamicInsert //如果还希望 INSERT 时也只插入非 null 的字段，可以搭配
 //@PersistenceCapable
 @Data
+@FieldNameConstants
 public class Usr {
 
 

@@ -4,9 +4,12 @@ ObieAccFields flds = ObieAccFields.ACCOUNT_ID;
 
 
         InsertIntoStmt query =new InsertIntoStmt(getTableName(Account.class));
-       query.set(ObieAccFields.ACCOUNT_ID.getFieldName(),1);
-        query.set(ObieAccFields.ACCOUNT_SUB_TYPE.getFieldName(),AccountType.BUSINESS.name())    ;
-        query.set(ObieAccFields.ACCOUNT_STATUS.getFieldName(),  AccountStatus.Enabled.name());
+     
+        InsertIntoStmt query =new InsertIntoStmt(getTableName(Account.class));
+       query.set(Account.Fields.accountId,1);
+        query.set(Account.Fields.accountType,AccountType.BUSINESS.name())    
+
+
 
         query.setStr(ObieAccFields.ACCOUNT_TYPE.getFieldName(), "ooo");
         String sql = query.getSQL();  // ✅ 直接拿到 SQL 字符串

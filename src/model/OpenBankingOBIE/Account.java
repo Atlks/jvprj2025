@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldNameConstants;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -16,6 +17,7 @@ import java.util.Date;
 @Table
 @Data
 @NoArgsConstructor
+@FieldNameConstants
 public class Account {
 
     // 使用hibernate ，查询account实体，查询所有InterimAvailableBalance>1的账户
