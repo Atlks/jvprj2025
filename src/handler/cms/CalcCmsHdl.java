@@ -37,14 +37,22 @@ public class CalcCmsHdl {
     public Object handleRequest(@NotNull Transaction tx) throws Throwable {
 
         try{
+            //  sups from low Sup 2 hi sups
             List<Usr> sups = lambdaInvoke(getSuperiors.class, new QueryDto(tx.accountOwner));
             Session session = sessionFactory.getCurrentSession();
+            Agent curSub = new Agent();
+            curSub.commissionRate= BigDecimal.valueOf(1);
             for (Usr u : sups) {
 
+
                 Agent agt = findByHerbinate(Agent.class, u.uname, session);
-                BigDecimal cms = agt.commissionRate.multiply(tx.amount);
+                BigDecimal curRate=agt.commissionRate.multiply(curSub.commissionRate)   ;
+
+
+                BigDecimal cms = curRate.multiply(tx.amount);
                 agt.balanceCms = agt.balanceCms.add(cms);
                 mergeByHbnt(agt, session);
+                curSub=agt;
 
             }
             // new AgtRegSubSttSvs().updateIndirectSubordinatesOnNewUser(u.id);
