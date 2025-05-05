@@ -9,9 +9,11 @@ import model.OpenBankingOBIE.AccountType;
 import model.OpenBankingOBIE.Account;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.hibernate.Session;
 
 import util.log.ConsoleInterceptor;
+import util.misc.Flywayx;
 import util.tx.findByIdExptn_CantFindData;
 //import service.AddRchgOrdToWltService;
 
@@ -101,11 +103,11 @@ public class MainApi {
             e.printStackTrace();
         }
         // 创建并配置 Flyway
-        Flyway flyway = Flyway.configure()
+        Flywayx flyway = Flyway_configure()
                 .dataSource(dataSource)  // 直接传递 Connection 对象
 
                 .locations("filesystem:sql") // 指向 SQL 脚本目录
-                .baselineOnMigrate(true) // If you are starting fresh with Flyway
+               // .baselineOnMigrate(true) // If you are starting fresh with Flyway
                 .load();
 
 
@@ -115,6 +117,10 @@ public class MainApi {
         flyway.migrate();
 
         System.out.println("✅ 数据库字段删除迁移完成！");
+    }
+
+    private static Flywayx Flyway_configure() {
+        return new Flywayx();
     }
 
 

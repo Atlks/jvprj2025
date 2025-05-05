@@ -325,6 +325,18 @@ public class HbntUtil {
 
     }
 
+    public static int executeUpdate(String sql,   Session session) {
+        // 使用原生 SQL 执行 UPDATE 操作
+        //String sql = "UPDATE my_entity SET name = :name WHERE id = :id";
+        int updatedEntities = session.createNativeQuery(sql)
+                // .setParameter("name", "New Name")
+                //  .setParameter("id", 1L) // 假设更新 ID 为 1 的实体
+                .executeUpdate();
+
+        System.out.println("Number of entities updated: " + updatedEntities);
+        return  updatedEntities;
+    }
+
     //good bp  throw ex,,,more lubst
     public static <T> T findByHerbinate(Class<T> t, String id, Session session) throws findByIdExptn_CantFindData {
 

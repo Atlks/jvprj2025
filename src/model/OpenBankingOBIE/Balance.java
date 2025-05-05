@@ -1,9 +1,6 @@
 package model.OpenBankingOBIE;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
 import util.model.openbank.BalanceType;
@@ -16,6 +13,7 @@ import java.time.ZonedDateTime;
 @FieldNameConstants
 public class Balance {
 
+    @Id
     public String accountId;
     private BigDecimal amount;
     private String currency;
