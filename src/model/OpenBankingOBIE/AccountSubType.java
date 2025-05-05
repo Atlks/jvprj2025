@@ -65,8 +65,10 @@ public enum AccountSubType
     // 保证金账户（如保证金贷款）
     MarginTrading,
 
+    ,usrStat,
     // 其他（无法归类的账户）
-    Other
+    Other;
+
 
 
 }

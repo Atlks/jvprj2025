@@ -16,7 +16,9 @@ public class CallUtil {
         try {
             o.run();
         } catch (Throwable e) {
+            System.out.println("---calltry().catch: " + e.getMessage() + "  ");
             e.printStackTrace();
+            System.out.println("----end catlltry().catch()");
         }
     }
 

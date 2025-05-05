@@ -1,16 +1,18 @@
 package model.OpenBankingOBIE;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
-import org.bitcoinj.wallet.Wallet;
 import util.model.openbank.BalanceType;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-
+@Entity
 @Data
+@Table(name="balances")
 @FieldNameConstants
 public class Balance {
 
@@ -29,5 +31,9 @@ public class Balance {
 
     @Enumerated(EnumType.STRING)
     private CreditDebitIndicator creditDebitIndicator; // Credit or Debit
+
+    public Balance(String accid) {
+        this.accountId=accid;
+    }
     // private CreditLine creditLine;  crdt card bls
 }
