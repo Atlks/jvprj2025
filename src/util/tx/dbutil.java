@@ -1916,6 +1916,8 @@ public class dbutil {
             //  stmt.execute(sqlCrtDb);
             System.out.println(sqlCrtDb);
 
+
+            //替换为sql好建立conn
             int lastSlashIndex = jdbcurl.lastIndexOf('/');
             var url_noDB = jdbcurl.substring(0, lastSlashIndex);
             String url = url_noDB + "/mysql?user=" + getUnameFromJdbcurl(jdbcurl) + "&password=" + getPwdFromJdbcurl(jdbcurl);
