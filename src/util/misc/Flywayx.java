@@ -3,6 +3,7 @@ package util.misc;
 import lombok.experimental.Accessors;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import util.tx.dbutil;
 
 import javax.sql.DataSource;
 import java.io.File;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import static cfg.Containr.sessionFactory;
+import static util.algo.CallUtil.callTry;
 import static util.tx.HbntUtil.executeUpdate;
 
 
@@ -114,11 +117,14 @@ public class Flywayx {
             String[] stmt = txt.split(";");
             for (String sql : stmt) {
                 System.out.println(sql);
-                Session session = sessionFactory.openSession();
-                Transaction tx = session.beginTransaction();
-                executeUpdate(sql, session);
-                tx.commit();
+               callTry(()->{
+                 dbutil.  executeUpdate(sql, conn);
+
+               });
+
             }
         }
     }
+
+
 }

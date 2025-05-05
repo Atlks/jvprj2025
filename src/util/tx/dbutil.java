@@ -695,6 +695,17 @@ public class dbutil {
         }
 
     }
+
+
+    public static int executeUpdate(String sql, Connection conn) {
+        try (Statement stmt = conn.createStatement()) {
+            int affectedRows = stmt.executeUpdate(sql);
+            System.out.println("Affected rows: " + affectedRows);
+            return affectedRows;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public static int executeUpdate(String sql, Map<String, Object> sqlprmMap, Session session) {
         // 使用原生 SQL 执行 UPDATE 操作
         //String sql = "UPDATE my_entity SET name = :name WHERE id = :id";
