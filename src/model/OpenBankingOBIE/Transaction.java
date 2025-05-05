@@ -46,7 +46,7 @@ public class Transaction {
 
 
 
-public String uname="dep";
+
 
     /**
      * creditDebitIndicator 的合法取值（仅两个）

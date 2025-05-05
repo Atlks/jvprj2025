@@ -6,7 +6,7 @@ import java.net.URISyntaxException;
 public class PathUtil {
 
     public static void main(String[] args) {
-        System.out.println(com.p6spy.engine.spy.appender.SingleLineFormat.class);
+      //  System.out.println(com.p6spy.engine.spy.appender.SingleLineFormat.class);
      //   System.out.println(com.p6spy.engine.logging.format.MySQLBinaryFormat);
     }
     @org.jetbrains.annotations.NotNull

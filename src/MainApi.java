@@ -7,16 +7,25 @@ import lombok.SneakyThrows;
 import model.OpenBankingOBIE.AccountSubType;
 import model.OpenBankingOBIE.AccountType;
 import model.OpenBankingOBIE.Account;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.flywaydb.core.Flyway;
 import org.hibernate.Session;
 
 import util.log.ConsoleInterceptor;
 import util.tx.findByIdExptn_CantFindData;
 //import service.AddRchgOrdToWltService;
 
+import javax.sql.DataSource;
 import java.io.FileNotFoundException;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Enumeration;
 
 // static cfg.AppConfig.sessionFactory;
 //import static cfg.Containr.evtlist4reg;
+import static cfg.Containr.saveDirUsrs;
 import static cfg.Containr.sessionFactory;
 import static cfg.MainStart.iniContnr;
 import static cfg.IniCfg.iniContnr4cfgfile;
@@ -68,6 +77,66 @@ public class MainApi {
 
     }
 
+    private static void fxSql() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/prjdb", "root", "pppppp");
+        System.out.println("连接成功：" + conn.getMetaData().getURL());
+        Enumeration<Driver> drivers = DriverManager.getDrivers();
+        while (drivers.hasMoreElements()) {
+            System.out.println("JDBC Driver: " + drivers.nextElement().getClass().getName());
+        }
+        System.out.println("Driver: " + java.sql.DriverManager.getDrivers());
+
+        // 使用 BasicDataSource 来包装 Connection
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setUrl("jdbc:mysql://localhost:3306/prjdb");
+        dataSource.setUsername("root");
+        dataSource.setPassword("pppppp");
+
+
+        // Get a connection from the pool
+        try (Connection connection = dataSource.getConnection()) {
+            System.out.println("Connection Successful: " + connection.getMetaData().getURL());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // 创建并配置 Flyway
+        Flyway flyway = Flyway.configure()
+                .dataSource(dataSource)  // 直接传递 Connection 对象
+
+                .locations("filesystem:sql") // 指向 SQL 脚本目录
+                .baselineOnMigrate(true) // If you are starting fresh with Flyway
+                .load();
+
+
+        // .dataSource("jdbc:mysql://localhost:3306/prjdb", getUnameFrmDburl(saveDirUsrs), getPwdFrmDburl(saveDirUsrs)) // 替换为你的实际信息
+
+        // 执行迁移
+        flyway.migrate();
+
+        System.out.println("✅ 数据库字段删除迁移完成！");
+    }
+
+
+    //  url格式是  jdbc:mysql://localhost:3306/prjdb?user=root&password=pppppp
+    private static String getPwdFrmDburl(String url) {
+        int pwdIndex = url.indexOf("password=");
+        if (pwdIndex == -1) return null;
+        int endIndex = url.indexOf('&', pwdIndex);
+        return endIndex == -1
+                ? url.substring(pwdIndex + 9)
+                : url.substring(pwdIndex + 9, endIndex);
+    }
+
+    private static String getUnameFrmDburl(String url) {
+        int userIndex = url.indexOf("user=");
+        if (userIndex == -1) return null;
+        int endIndex = url.indexOf('&', userIndex);
+        return endIndex == -1
+                ? url.substring(userIndex + 5)
+                : url.substring(userIndex + 5, endIndex);
+    }
+
     private static void t1() {
 //        Object AddMoneyToWltService1 = getBeanFrmSpr(AddMoneyToWltService.class);
       //  System.out.println("AddMoneyToWltService is :"+ AddMoneyToWltService1.getClass());
@@ -91,6 +160,8 @@ public class MainApi {
     public static void start() throws Exception {
         //--------ini saveurlFrm Cfg
 
+        iniContnr4cfgfile();
+        fxSql();
          new MainStart().sessionFactory();//ini sessFctr
         //ini contnr 4cfg,, svrs
         iniContnr();
