@@ -1,5 +1,10 @@
 package util.model.openbank;
 
+
+/**
+ * only for doc ,,if code nameof,,just use lombk
+ * @FieldNameConstants
+ */
 //openbank obie  Account实体的所有强制性字段，做成一个枚举ObieAccFields
 public enum OBIEField {
     // Account Information

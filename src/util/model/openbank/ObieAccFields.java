@@ -1,5 +1,11 @@
 package util.model.openbank;
 
+
+/**
+ *
+ *  * only for doc ,,if code nameof,,just use lombk
+ *  * @FieldNameConstants
+ */
 public enum ObieAccFields {
     ACCOUNT("Account"),
     ACCOUNT_ID("AccountId"),
