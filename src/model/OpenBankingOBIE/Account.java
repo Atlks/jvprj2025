@@ -31,8 +31,8 @@ public class Account {
 
 
     @Column(length = 500)
-    @Enumerated(EnumType.STRING)
-    public AccountSubType accountSubType= AccountSubType.EMoney;         // 账户类型
+  //  @Enumerated(EnumType.STRING)
+    public String accountSubType= AccountSubType.EMoney.name();         // 账户类型
 
 
 //avd bls

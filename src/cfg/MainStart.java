@@ -193,7 +193,7 @@ public class MainStart {
             acc1.accountOwner = sysusrName;
             //  acc1.uname
             acc1.accountType= AccountType.BUSINESS;
-            acc1.accountSubType=AccountSubType.insFdPl;
+            acc1.accountSubType=AccountSubType.insFdPl.name();
             persistByHibernate(acc1, session);
 
         }

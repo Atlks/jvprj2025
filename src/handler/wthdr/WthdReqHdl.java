@@ -112,7 +112,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         Account yLwlt=new Account(accid );
       //  yLwlt.userId= uname1;
         yLwlt.accountOwner =uname1;
-        yLwlt.accountSubType= AccountSubType.GeneralInvestment;
+        yLwlt.accountSubType= AccountSubType.GeneralInvestment.name();
         persistByHibernate(yLwlt,sessionFactory.getCurrentSession());
 
     }
