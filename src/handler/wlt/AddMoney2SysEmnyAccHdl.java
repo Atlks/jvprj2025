@@ -22,7 +22,7 @@ public class AddMoney2SysEmnyAccHdl {
 
     private void handleRequest(AddMoneyDto dto) throws findByIdExptn_CantFindData {
         Session session = sessionFactory.getCurrentSession();
-        String accId = getAccId(AccountSubType.ins_fd_pool.name(), AccUti.sysusrName);
+        String accId = getAccId(AccountSubType.insFdPl.name(), AccUti.sysusrName);
         Account sysAccIvst=findByHerbinate(Account.class, accId, session);
 
         sysAccIvst.setInterimAvailableBalance(sysAccIvst.getInterimAvailableBalance().add(dto.amt));
@@ -49,7 +49,7 @@ public class AddMoney2SysEmnyAccHdl {
     private static void setMny2sysEmnAcc(AddMoneyDto dto) throws findByIdExptn_CantFindData {
 
         Session session = sessionFactory.getCurrentSession();
-        String accId = getAccId(AccountSubType.ins_fd_pool.name(), AccUti.sysusrName);
+        String accId = getAccId(AccountSubType.insFdPl.name(), AccUti.sysusrName);
         Account sysAccIvst=findByHerbinate(Account.class, accId, session);
 
         sysAccIvst.setInterimAvailableBalance (dto.amt);

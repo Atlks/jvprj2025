@@ -1,7 +1,7 @@
 
 
 ==watchDirectory more easy
-C:\Users\attil\IdeaProjects\jvprj2025\src\AutoRestartApp.java
+C:\Users\attil\IdeaProjects\jvprj2025\src\handler.mainx.AutoRestartApp.java
 /**
 * // 创建新进程，重新运行 当前程序
 * @throws IOException

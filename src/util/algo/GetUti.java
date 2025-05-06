@@ -28,6 +28,24 @@ import static util.algo.IndexOfUti.indexOfFirst;
 
 
 public class GetUti {
+    //  url格式是  jdbc:mysql://localhost:3306/prjdb?user=root&password=pppppp
+    private static String getPwdFrmDburl(String url) {
+        int pwdIndex = url.indexOf("password=");
+        if (pwdIndex == -1) return null;
+        int endIndex = url.indexOf('&', pwdIndex);
+        return endIndex == -1
+                ? url.substring(pwdIndex + 9)
+                : url.substring(pwdIndex + 9, endIndex);
+    }
+
+    private static String getUnameFrmDburl(String url) {
+        int userIndex = url.indexOf("user=");
+        if (userIndex == -1) return null;
+        int endIndex = url.indexOf('&', userIndex);
+        return endIndex == -1
+                ? url.substring(userIndex + 5)
+                : url.substring(userIndex + 5, endIndex);
+    }
 
 
     //查找对象的的handle3方法，获得参数（带有 ModelAttribute 标记 ） 类型，

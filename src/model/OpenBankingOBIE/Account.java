@@ -29,6 +29,8 @@ public class Account {
     @Enumerated(EnumType.STRING)
     public AccountType accountType= AccountType.PERSONAL;         // 账户类型
 
+
+    @Column(length = 500)
     @Enumerated(EnumType.STRING)
     public AccountSubType accountSubType= AccountSubType.EMoney;         // 账户类型
 

@@ -19,7 +19,7 @@ public enum AccountSubType {
     GeneralInvestment,
     agtCmsAcc,  //代理账户   cms bls
 
-    ins_fd_pool,
+    insFdPl,  //inshor fd pool
     usrExt, //扩展统计类的账户
 
     // 活期账户
