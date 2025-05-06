@@ -27,6 +27,8 @@ public class Balance {
     private BalanceType balanceType;
     private ZonedDateTime dateTime;
 
+
+
     @Enumerated(EnumType.STRING)
     private CreditDebitIndicator creditDebitIndicator; // Credit or Debit
 
@@ -34,4 +36,9 @@ public class Balance {
         this.accountId=accid;
     }
     // private CreditLine creditLine;  crdt card bls
+
+
+    //text
+    String accountOwner;  //uname
+    String accSubType;
 }

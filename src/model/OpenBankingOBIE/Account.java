@@ -67,7 +67,7 @@ public class Account {
     public BigDecimal InterimBookedBalance = BigDecimal.valueOf(0);  //totalBalance
 
     // totalBalance=availableBalance+frozenAmount+penddingBalance
-    public BigDecimal penddingBalance;
+    public BigDecimal penddingBalance; //InterimCleared bls
 
     //  private List<Transaction> transactions; // 交易记录
     @Enumerated(EnumType.STRING)
