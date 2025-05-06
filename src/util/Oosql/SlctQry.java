@@ -1,9 +1,10 @@
 package util.Oosql;
 
 public class SlctQry {
-    private   String fromFrag;
+    private   String fromFrag="";
     private String selectFrag="";
     private String sql;
+    private String ordby="";
 
     public SlctQry(String sql) {
    this.fromFrag =sql+" where 1=1 ";
@@ -14,14 +15,14 @@ public class SlctQry {
     }
 
     public void addOrderBy(String ordbyStr) {
-        this.fromFrag +=" order by "+ordbyStr;
+        this.ordby =" order by "+ordbyStr;
     }
 
     public String getSQL() {
         if(selectFrag.equals(""))
             this.selectFrag="select *";
 
-        this.sql =selectFrag+" "+this.fromFrag;
+        this.sql =selectFrag+" "+this.fromFrag+" "+this.ordby;
         return this.sql;
     }
 

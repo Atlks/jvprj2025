@@ -23,7 +23,7 @@ package model.OpenBankingOBIE;
 //BankTransactionCode
 //交易类型，iso 20022  有表示
 public enum TransactionCodes {
-    Adjustment_Credit,
+    AdjustmentCredit,
             // Credit Transfer - 充值、存款、转账入账
     AdjustmentDebit,  // Direct Debit - 支出、扣款
 

@@ -1,6 +1,6 @@
 get:
-  summary: 转账操作
-  description: 进行转账操作
+  summary: 转账操作 兑换 划转
+
   tags:
     - Account
   parameters:

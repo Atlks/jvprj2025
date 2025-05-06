@@ -60,7 +60,7 @@ String accid=getAccId(adjstDto.accountSubType,adjstDto.uname);
             logTag = "减少";
             acc1.InterimBookedBalance = acc1.InterimBookedBalance.subtract(subAmt);
             tx.creditDebitIndicator= CreditDebitIndicator.DEBIT;
-        } else if (adjstDto.transactionCode.toUpperCase().equals(TransactionCodes.Adjustment_Credit.name())) {
+        } else if (adjstDto.transactionCode.toUpperCase().equals(TransactionCodes.AdjustmentCredit.name())) {
             newBls = avdBls.add(subAmt);
             logTag = "增加";
             acc1.InterimBookedBalance = acc1.InterimBookedBalance.add(subAmt);

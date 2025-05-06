@@ -2,8 +2,7 @@ get:
   tags:
     - AccountInvst
   summary: " 盈利钱包方面接口 邀请佣金列表"
-  description: " 。。。。"
-  operationId: "ListInvtCmsLogHdl"
+
 
 
   responses:
