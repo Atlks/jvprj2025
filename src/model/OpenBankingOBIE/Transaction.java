@@ -44,8 +44,8 @@ public class Transaction {
     //OBIE Transaction 是否有 accountId？	❌ 没有，默认由 API URL 上下文提供
     public String accountId;
 
-
-
+    public String   StatementReference;
+    public String   transactionReference;
 
 
     /**
@@ -86,6 +86,9 @@ public class Transaction {
     // 交易金额有效入账的日期
     private Date valueDate;
 
+    long BookingDateTime;
+    long      ValueDateTime;
+
     // 付款方账户信息
     private String debtorAccount;
 
@@ -100,6 +103,19 @@ public class Transaction {
   //obie没有表示，交易类型，iso 20022  有表示
   @Enumerated(EnumType.STRING)
     public TransactionCodes transactionCode=TransactionCodes.OTH;
+
+
+  //TransactionCode/SubCode
+
+    String ProprietaryBankTransactionCode;
+
+
+    //after bls
+    BigDecimal Balance;
+    String BalanceCreditDebitIndicator;
+    String BalanceType;
+    String BalanceAmountCurrency;
+    String SupplementaryData;
 
    // ---------本地自定义扩展字段
    public String refUniqId;
@@ -116,10 +132,22 @@ public class Transaction {
      *
      * bankTransactionCode.code + subCode（标准化交易分类）
      *
-     * transactionInformation（自然语言提示）
+     * （自然语言提示）
      *
      * 若你在构建平台，可以自定义一个 transactionType 字段来标注 "DEPOSIT"、"WITHDRAWAL"、"FEE"、"TRANSFER" 等类型。
      */
+
+   // 记录有关交易的地址信息，例如：
+
+   // 线下刷卡消费的商户地址
+    String AddressLine;
+
+    public BigDecimal ChargeAmount;
+
+    String ChargeAmountCurrency;
+    String CurrencyExchange;
+
+    public String transactionInformation;
     // 交易类型：借记、贷记等  可选字段
     private String transactionType;
 
