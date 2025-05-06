@@ -573,7 +573,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>MainApi</mainClass> <!-- Replace with your main class -->
+                            <mainClass>MainApp</mainClass> <!-- Replace with your main class -->
                         </manifest>
                         <!--
                              <manifestFile>${project.basedir}/src/main/resources/META-INF/MANIFEST.MF</manifestFile>
@@ -701,7 +701,7 @@
                             <!--  -->
                             <archive>
                                 <manifest>
-                                    <mainClass>MainApi</mainClass> <!-- Replace with your main class -->
+                                    <mainClass>MainApp</mainClass> <!-- Replace with your main class -->
                                 </manifest>
                             </archive>
                             <transformers>

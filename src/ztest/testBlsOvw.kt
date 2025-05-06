@@ -1,6 +1,6 @@
 package ztest
 
-import MainApi
+import MainApp
 import cfg.MainStart
 import cfg.Containr
 import cfg.IniCfg
@@ -16,7 +16,7 @@ fun main() {
 
 
     befTest()
-    MainApi.iniAccInsFdPool_IfNotExist("")
+    MainApp.iniAccInsFdPool_IfNotExist("")
 
     var jwt="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NjYiLCJpYXQiOjE3NDU0MTUwNzgsImlzcyI6ImF0aSIsInVwbiI6IjY2NiIsInByZWZlcnJlZF91c2VybmFtZSI6IjY2NiIsImVtYWlsIjoiYXRAdWtlLmNvbSIsInVuYW1lIjoiNjY2IiwiYXVkIjoiVVNFUiIsInJvbGUiOiJVU0VSIiwiZXhwIjoxNzU0MDU1MDc4LCJqdGkiOiJlMWIzODM4ZGQyOTk0ZWRlYjNmNTNjMzg1NzY2YzVkMSJ9.MEbTr22IB4IZdShdnUPFZoxr92StP8rBHR8Vd-hL65vU5DuXgcl-2-weO6cB5C6tB6KW14-F8zdRiqF1l9wtKQ"
 

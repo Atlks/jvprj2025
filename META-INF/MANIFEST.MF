@@ -4,5 +4,5 @@ Build-Jdk-Spec: 21
 Implementation-Title: apiPrj
 Implementation-Version: 8
 Multi-Release: true
-Main-Class: MainApi
+Main-Class: MainApp
 

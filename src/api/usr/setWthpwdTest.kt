@@ -1,5 +1,5 @@
 //package api.usr
-//import MainApi
+//import MainApp
 //import cfg.IniCfg.iniContnr
 //import entityx.usr.SetWithdrawalPasswordDto
 //import handler.usr.SetWthdrPwdHdr

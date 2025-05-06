@@ -765,7 +765,7 @@
 -->
                     <transformers>
                         <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>MainApi</mainClass> <!-- 替换为你的 Main 类 -->
+                            <mainClass>MainApp</mainClass> <!-- 替换为你的 Main 类 -->
                         </transformer>
                     </transformers>
                 </configuration>

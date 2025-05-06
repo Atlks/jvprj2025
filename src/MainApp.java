@@ -4,20 +4,12 @@
 //import org.noear.solon.annotation.SolonMain;
 import cfg.MainStart;
 import lombok.SneakyThrows;
-import model.OpenBankingOBIE.AccountSubType;
-import model.OpenBankingOBIE.AccountType;
-import model.OpenBankingOBIE.Account;
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.flywaydb.core.Flyway;
-import org.flywaydb.core.api.configuration.FluentConfiguration;
-import org.hibernate.Session;
 
 import util.log.ConsoleInterceptor;
 import util.misc.Flywayx;
-import util.tx.findByIdExptn_CantFindData;
 //import service.AddRchgOrdToWltService;
 
-import javax.sql.DataSource;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.Driver;
@@ -27,29 +19,21 @@ import java.util.Enumeration;
 
 // static cfg.AppConfig.sessionFactory;
 //import static cfg.Containr.evtlist4reg;
-import static cfg.Containr.saveDirUsrs;
-import static cfg.Containr.sessionFactory;
 import static cfg.MainStart.iniContnr;
 import static cfg.IniCfg.iniContnr4cfgfile;
 import static cfg.MainStart.iniSysAcc;
 import static cfg.WebSvr.*;
-import static handler.invstOp.AddInvstRcdHdl.iniSysEmnyAccIfNotExst;
-import static handler.invstOp.AddInvstRcdHdl.iniSysInvstAccIfNotExst;
 import static java.time.LocalTime.now;
-import static util.acc.AccUti.getAccId;
-import static util.acc.AccUti.sysusrName;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 
 
-import static util.tx.HbntUtil.findByHerbinate;
-import static util.tx.HbntUtil.persistByHibernate;
 import static util.tx.dbutil.setField;
 //import static cfg.IocPicoCfg.iniIocContainr;
 //  System.out.flush();  // 刷新输出缓冲区
 //            System.err.flush();  // 刷新输出缓冲区
 //@SolonMain
 //Scan("apiUsr")
-public class MainApi {
+public class MainApp {
 
 
 
