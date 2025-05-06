@@ -78,7 +78,7 @@ public class MainStart {
 
         Session session = sessionFactory.openSession();
         session.getTransaction().begin();
-        String accid =getAccId(AccountSubType.uke_ins_fd_pool.name(),sysusrName);
+        String accid =getAccId(AccountSubType.ins_fd_pool.name(),sysusrName);
         try{
             var wlt=findByHerbinate(Account.class, accid, session);
         } catch (findByIdExptn_CantFindData e) {
@@ -89,7 +89,7 @@ public class MainStart {
             acc1.accountOwner = sysusrName;
             //  acc1.uname
             acc1.accountType= AccountType.BUSINESS;
-            acc1.accountSubType=AccountSubType.uke_ins_fd_pool;
+            acc1.accountSubType=AccountSubType.ins_fd_pool;
             persistByHibernate(acc1, session);
 
         }

@@ -28,7 +28,7 @@ public class findBalanceOverviewHdl {
         public Object handleRequest(QueryDto reqdto) throws findByIdExptn_CantFindData {
             Account account = findByHerbinate(Account.class,reqdto.uname,sessionFactory.getCurrentSession());
 var accYl=findByHerbinate(Account.class, getAccId4ylwlt(reqdto.uname) ,sessionFactory.getCurrentSession());
-    var acc_insFdpool=findByHerbinate (Account.class, AccountSubType.uke_ins_fd_pool.name() ,sessionFactory.getCurrentSession());
+    var acc_insFdpool=findByHerbinate (Account.class, AccountSubType.ins_fd_pool.name() ,sessionFactory.getCurrentSession());
             BalanceOverview balanceOverview = new BalanceOverview();
             balanceOverview.accBalance =account.InterimAvailableBalance;
             balanceOverview.accInvst_balance =accYl.InterimAvailableBalance;

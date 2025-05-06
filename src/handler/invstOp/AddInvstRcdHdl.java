@@ -91,7 +91,7 @@ public class AddInvstRcdHdl   {
 
     private void addMoney2fdpool(BigDecimal amount2sysFdpoolAcc) throws findByIdExptn_CantFindData {
         Session session = sessionFactory.getCurrentSession();
-        String accId = getAccId(AccountSubType.uke_ins_fd_pool.name(), AccUti.sysusrName);
+        String accId = getAccId(AccountSubType.ins_fd_pool.name(), AccUti.sysusrName);
         Account sysAccIvst=findByHerbinate(Account.class, accId, session);
 
         sysAccIvst.setInterimAvailableBalance(sysAccIvst.getInterimAvailableBalance().add(amount2sysFdpoolAcc));
