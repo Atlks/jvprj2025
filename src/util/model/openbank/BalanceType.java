@@ -61,6 +61,8 @@ public enum BalanceType {
 
     //累计佣金 代理充值佣金（推广人数和充值佣金
     TOTAL_COMMISSIONS,
+    ttl_cms_devSubsCnt,
+    ttl_cms_subsRchgAmtSum,
 
     //累计得到奖励  (好像是发展人数得到的佣金
     totalReward,
