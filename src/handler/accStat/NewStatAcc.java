@@ -23,17 +23,17 @@ public class NewStatAcc {
 
     public void handleRequest(@NotNull Usr u) {
         callTry(()->{
-            addStatAccIfNotExist(u.uname);
+            addUsrStatAccIfNotExist(u.uname);
         });
 
 
     }
 
-    private void addStatAccIfNotExist(@NotBlank @Valid String uname) {
+    private void addUsrStatAccIfNotExist(@NotBlank @Valid String uname) {
 
         Session session = sessionFactory.getCurrentSession();
 
-        String accid=getAccId(String.valueOf(AccountSubType.usrStat),uname) ;
+        String accid=getAccId(String.valueOf(AccountSubType.usrExt),uname) ;
 
         try {
             Account a=findByHerbinate(Account.class,accid,session);

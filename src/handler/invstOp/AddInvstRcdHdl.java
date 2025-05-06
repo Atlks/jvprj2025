@@ -1,6 +1,5 @@
 package handler.invstOp;
 
-import handler.wlt.AddMoneyDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.Data;
@@ -40,7 +39,7 @@ public class AddInvstRcdHdl   {
     public Object handleRequest(InvestmentOpRecord dto) throws Throwable {
 
         //yinli
-        if(dto.investmentType== TransactionCodes.DIV)
+        if(dto.investmentType== TransactionCodes.InvestmentProfit)
         {
 
             Session session = sessionFactory.getCurrentSession();
@@ -80,7 +79,7 @@ public class AddInvstRcdHdl   {
     public static void main(String[] args) throws Throwable {
         bftst();
         InvestmentOpRecord dto=new InvestmentOpRecord();
-        dto.investmentType=TransactionCodes.DIV;
+        dto.investmentType=TransactionCodes.InvestmentProfit;
         dto.setAmount(BigDecimal.valueOf(0)); ;
 
         new AddInvstRcdHdl().handleRequest(dto);
@@ -155,7 +154,7 @@ public class AddInvstRcdHdl   {
                 //add lgtx
                 Transaction txr=new Transaction();
                 txr.transactionId="div_"+now();
-                txr.transactionCode=TransactionCodes.DIV;
+                txr.transactionCode=TransactionCodes.InvestmentProfit;
                 txr.accountId=accId;
                 txr.accountOwner=acc.accountOwner;
                 txr.creditDebitIndicator= CreditDebitIndicator.CREDIT;

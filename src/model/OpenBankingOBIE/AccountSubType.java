@@ -18,7 +18,7 @@ public enum AccountSubType
     EMoney,
     // 投资账户（ 就是盈利账户 一般证券）
     GeneralInvestment,
-    uke_agt,  //代理账户
+    uke_agt,  //代理账户   cms bls
 
     uke_ins_fd_pool,
 
@@ -65,7 +65,7 @@ public enum AccountSubType
     // 保证金账户（如保证金贷款）
     MarginTrading
 
-    ,usrStat,
+    ,usrExt, //扩展统计类的账户
     // 其他（无法归类的账户）
     Other;
 

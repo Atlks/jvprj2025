@@ -52,7 +52,7 @@ String accid=getAccId(adjstDto.accountSubType,adjstDto.uname);
         BigDecimal newBls = avdBls;
         var logTag = "";
         BigDecimal subAmt = BigDecimal.valueOf(adjstDto.adjustAmount);
-        if (adjstDto.transactionCode.toUpperCase().equals(TransactionCodes.DEBT.name())) {
+        if (adjstDto.transactionCode.toUpperCase().equals(TransactionCodes.AdjustmentDebit.name())) {
             newBls = avdBls.subtract(subAmt);
             if (newBls.compareTo(BigDecimal.ZERO) < 0) {
                 throw new BalanceNegativeException("余额不能为负数");
@@ -60,17 +60,17 @@ String accid=getAccId(adjstDto.accountSubType,adjstDto.uname);
             logTag = "减少";
             acc1.InterimBookedBalance = acc1.InterimBookedBalance.subtract(subAmt);
             tx.creditDebitIndicator= CreditDebitIndicator.DEBIT;
-        } else if (adjstDto.transactionCode.toUpperCase().equals(TransactionCodes.CRED.name())) {
+        } else if (adjstDto.transactionCode.toUpperCase().equals(TransactionCodes.Adjustment_Credit.name())) {
             newBls = avdBls.add(subAmt);
             logTag = "增加";
             acc1.InterimBookedBalance = acc1.InterimBookedBalance.add(subAmt);
             tx.creditDebitIndicator= CreditDebitIndicator.CREDIT;
-        } else if (adjstDto.transactionCode.toLowerCase().equals(TransactionCodes.frz.name())){
+        } else if (adjstDto.transactionCode.toLowerCase().equals(TransactionCodes.adjst_frz.name())){
             acc1.frozenAmount= acc1.frozenAmount.add(subAmt);
             acc1.InterimBookedBalance = acc1.InterimBookedBalance.subtract(subAmt);
             tx.creditDebitIndicator= CreditDebitIndicator.DEBIT;
 
-        } else if (adjstDto.transactionCode.toLowerCase().equals(TransactionCodes.unfrz.name())){
+        } else if (adjstDto.transactionCode.toLowerCase().equals(TransactionCodes.adjust_unfrz.name())){
             acc1.frozenAmount= acc1.frozenAmount.subtract(subAmt);
             acc1.InterimBookedBalance = acc1.InterimBookedBalance.add(subAmt);
             tx.creditDebitIndicator= CreditDebitIndicator.CREDIT;

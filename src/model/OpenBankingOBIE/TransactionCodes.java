@@ -25,7 +25,7 @@ package model.OpenBankingOBIE;
 public enum TransactionCodes {
     Adjustment_Credit,
             // Credit Transfer - 充值、存款、转账入账
-    Adjustment_DEBT,  // Direct Debit - 支出、扣款
+    AdjustmentDebit,  // Direct Debit - 支出、扣款
 
 
     adjust_loss, //亏损
@@ -38,9 +38,9 @@ public enum TransactionCodes {
     payment_rechg,
     InternalTransfers_exchgOut,
     InternalTransfers_exchgIn,
-    Investment_Profit,  //收益  income earning
-    Service_Commission_rechgCms,
-    Service_Commission_devlpSubsCntCms,
+    InvestmentProfit,  //收益  income earning
+    Service_Cms_rechgCms,
+    Service_Cms_devlpSubsCntCms,
 
     /**
      * OTH - Other (其他)

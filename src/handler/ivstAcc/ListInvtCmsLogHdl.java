@@ -47,7 +47,7 @@ public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayRes
      */
     @Override
     public ApiGatewayResponse handleRequest(QueryDto reqdto, Context context) throws Throwable {
-        var sqlNoOrd = "select * from Transactions where transactionCode= "+encodeSqlPrmAsStr( TransactionCodes.COM.name());//for count    where  uname =:uname
+        var sqlNoOrd = "select * from Transactions where transactionCode= "+encodeSqlPrmAsStr( TransactionCodes.Service_Cms_rechgCms.name());//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         if(reqdto.uname!="")
         {  sqlNoOrd=sqlNoOrd+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
@@ -64,7 +64,7 @@ public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayRes
     }
 
     private BigDecimal getSum4cms(QueryDto reqdto) {
-        var sql = "select sum(amount) from Transactions     where  transactionCode= "  +encodeSqlPrmAsStr( TransactionCodes.COM.name());//for count    where  uname =:uname
+        var sql = "select sum(amount) from Transactions     where  transactionCode= "  +encodeSqlPrmAsStr( TransactionCodes.Service_Cms_rechgCms.name());//for count    where  uname =:uname
         if(reqdto.uname!="")
         {  sql=sql+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
             // sqlprmMap.put("uname",)
