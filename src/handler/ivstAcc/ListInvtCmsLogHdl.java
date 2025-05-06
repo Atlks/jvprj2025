@@ -7,6 +7,8 @@ package handler.ivstAcc;
 
 import cfg.MainStart;
 import handler.ivstAcc.dto.QueryDto;
+import model.OpenBankingOBIE.Transaction;
+import util.Oosql.SlctQry;
 import util.annos.NoDftParam;
 import entityx.ylwlt.BetWinLog;
 import jakarta.annotation.security.PermitAll;
@@ -15,16 +17,21 @@ import jakarta.ws.rs.core.Context;
 import model.OpenBankingOBIE.TransactionCodes;
 
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
+import util.tx.findByIdExptn_CantFindData;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.UUID;
+
+import static util.Oosql.SlctQry.newSelectQuery;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
+import static util.algo.EncodeUtil.toStr4sqlprm;
+import static util.algo.GetUti.getTableName;
 import static util.misc.Util2025.encodeJson;
+import static util.tx.HbntUtil.getSingleResult;
 import static util.tx.Pagging.getPageResultByHbntRtLstmap;
 import static util.tx.TransactMng.commitTsact;
 import static util.tx.TransactMng.openSessionBgnTransact;
@@ -47,33 +54,47 @@ public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayRes
      */
     @Override
     public ApiGatewayResponse handleRequest(QueryDto reqdto, Context context) throws Throwable {
-        var sqlNoOrd = "select * from Transactions where transactionCode= "+encodeSqlPrmAsStr( TransactionCodes.Service_Cms_rechgCms.name());//for count    where  uname =:uname
-        HashMap<String, Object> sqlprmMap = new HashMap<>();
+
+
+
+        SlctQry query = newSelectQuery(getTableName(Transaction.class));
+        query.select("*");
+        query.addConditions(Transaction.Fields.transactionCode+"="+toStr4sqlprm(TransactionCodes.Service_Cms_rechgCms.name()));
+
         if(reqdto.uname!="")
-        {  sqlNoOrd=sqlNoOrd+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
-         //   sqlprmMap.put("uname",)
+        {
+            query.addConditions(Transaction.Fields.accountOwner+"="+encodeSqlPrmAsStr(reqdto.uname));
         }
-
-        var sql=sqlNoOrd+" order by timestamp desc ";
-        //  Map<String, Object> sqlprmMap= Map.of( "sql",sql,   "uname",reqdto.uname);
-        //   System.out.println( encodeJson(sqlprmMap));
-
+        query.addOrderBy("timestamp desc");
+       String sql=query.getSQL();
+        System.out.println(sql);
+ //--------------
+        HashMap<String, Object> sqlprmMap = new HashMap<>();
         var list1 = getPageResultByHbntRtLstmap(sql, sqlprmMap,reqdto, sessionFactory.getCurrentSession());
-        list1.sum=getSum4cms(reqdto);
+        list1.sum=getSum4cms(reqdto,0);
         return new ApiGatewayResponse(list1);
     }
 
-    private BigDecimal getSum4cms(QueryDto reqdto) {
-        var sql = "select sum(amount) from Transactions     where  transactionCode= "  +encodeSqlPrmAsStr( TransactionCodes.Service_Cms_rechgCms.name());//for count    where  uname =:uname
-        if(reqdto.uname!="")
-        {  sql=sql+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
-            // sqlprmMap.put("uname",)
-        }
 
+
+    private BigDecimal getSum4cms(QueryDto reqdto, int i)  {
+        //var sql = "select sum(amount) from Transactions     where  transactionCode= "  +encodeSqlPrmAsStr( TransactionCodes.Service_Cms_rechgCms.name());//for count    where  uname =:uname
+        SlctQry query = newSelectQuery(getTableName(Transaction.class));
+        query.select("sum(amount)");
+        query.addConditions(Transaction.Fields.transactionCode+"="+toStr4sqlprm(TransactionCodes. Service_Cms_rechgCms.name()));
+
+        if(reqdto.uname!="")
+        {
+            query.addConditions(Transaction.Fields.accountOwner+"="+encodeSqlPrmAsStr(reqdto.uname));
+        }
+        var sql=query.getSQL();
+        System.out.println(sql);
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery(sql);
-      var  result = (BigDecimal) query.getSingleResult();
-      return  result;
+        try {
+            return (BigDecimal) getSingleResult(sql,session);
+        } catch (findByIdExptn_CantFindData e) {
+           return BigDecimal.valueOf(0);
+        }
 
 
     }

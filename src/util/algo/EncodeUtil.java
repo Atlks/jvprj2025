@@ -22,7 +22,9 @@ public class EncodeUtil {
 
     }
 
-
+    public static  String toStr4sqlprm(String name) {
+        return   encodeSqlPrmAsStr(name);
+    }
 
     public static String encodeSqlPrm(String uname) {
         return  uname.replaceAll("'","''");

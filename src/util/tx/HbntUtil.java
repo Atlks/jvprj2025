@@ -260,7 +260,20 @@ public class HbntUtil {
 
     }
 
-    
+
+    public static Object getSingleResult(String sql,  Session session) throws findByIdExptn_CantFindData {
+
+        // Session   session = sessionFactory.getCurrentSession(); // 使用 SessionFactory 打开一个新的 Session
+        Query<?> query = session.createNativeQuery(sql); // 创建原生 SQL 查询
+        Object result = query.getSingleResult(); // 执行查询并获取唯一结果
+        if(result==null)
+            throw  new findByIdExptn_CantFindData(sql);
+
+        return result;
+    }
+
+
+
     /**
      * no uniRzt, dep...bcz no rzt ret null,,gsr no rzt ex,and gsr is jpa stdd,unirzt only hbnt api
      *  使用hibernate执行sql，返回一个字段值
