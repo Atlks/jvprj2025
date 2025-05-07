@@ -5,7 +5,6 @@ import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.CreditDebitIndicator;
 import model.OpenBankingOBIE.Transaction;
 import org.hibernate.Session;
-import util.annos.EventListener;
 
 
 import static cfg.Containr.sessionFactory;
@@ -28,8 +27,8 @@ public class WthdrCmsHdl {
         String accId4ylwlt = getAccId4ylwlt(dto.uname);
         Account agtAccYlwlt=  findByHerbinate(Account.class ,accId4ylwlt, session);
 
-        agtAcc.InterimAvailableBalance = agtAcc.InterimAvailableBalance.subtract(dto.amt);
-        agtAccYlwlt.InterimAvailableBalance = agtAccYlwlt.InterimAvailableBalance.add(dto.amt);
+        agtAcc.interim_Available_Balance = agtAcc.interim_Available_Balance.subtract(dto.amt);
+        agtAccYlwlt.interim_Available_Balance = agtAccYlwlt.interim_Available_Balance.add(dto.amt);
         mergeByHbnt(agtAccYlwlt,session);
 
         Transaction tx=new Transaction(accId4ylwlt,dto.uname, CreditDebitIndicator.CREDIT,dto.amt);

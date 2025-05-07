@@ -3,6 +3,7 @@ package model.rpt;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.YearMonth;
@@ -18,14 +19,14 @@ import java.time.YearMonth;
  */
 @Entity
 @Table(name="month_rechg_sum")
-
+@Data
 public class RechgAmtSumNMbrs {
 
     /**
      * 月份（格式如：2025-05）
      */
     @Id
-    private YearMonth month;
+    private String yr_month;
 
     /**
      * 该月充值总金额
@@ -45,18 +46,12 @@ public class RechgAmtSumNMbrs {
     public RechgAmtSumNMbrs() {}
 
     public RechgAmtSumNMbrs(YearMonth month, BigDecimal totalRechargeAmount, int rechargeUserCount) {
-        this.month = month;
+        this.yr_month = month.toString();
         this.totalRechargeAmount = totalRechargeAmount;
         this.rechargeUserCount = rechargeUserCount;
     }
 
-    public YearMonth getMonth() {
-        return month;
-    }
 
-    public void setMonth(YearMonth month) {
-        this.month = month;
-    }
 
     public BigDecimal getTotalRechargeAmount() {
         return totalRechargeAmount;
@@ -77,7 +72,7 @@ public class RechgAmtSumNMbrs {
     @Override
     public String toString() {
         return "RechgAmtSumNMbrs{" +
-                "month=" + month +
+                "month=" + yr_month +
                 ", totalRechargeAmount=" + totalRechargeAmount +
                 ", rechargeUserCount=" + rechargeUserCount +
                 '}';

@@ -111,7 +111,7 @@ public class SAM4reglgn implements ISAM {
     public void addLogVldSucess(String uname) {
         SAMSecuryLog lg = new SAMSecuryLog();
         lg.setOp("vld");
-        lg.setUser(uname);
+        lg.setUname(uname);
         lg.setDscrp("vld rzt is ok");
         persistByHibernate(lg, sessionFactory.getCurrentSession());
     }
@@ -125,7 +125,7 @@ public class SAM4reglgn implements ISAM {
         SAMSecuryLog lg = new SAMSecuryLog();
         lg.setOp("vld");
 
-        lg.setUser(uname);
+        lg.setUname(uname);
         lg.setDscrp("vld rzt is err,e=" + e.getClass().getName() + ",emsg=" + e.getMessage());
         persistByHibernate(lg, currentSession);
         currentSession.getTransaction().commit();

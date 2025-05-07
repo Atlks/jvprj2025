@@ -58,7 +58,7 @@ public class AddMoneyToWltService   implements Icall<TransDto, Object> {
         BigDecimal amt = TransDto88.getAmt();
         Session session=sessionFactory.getCurrentSession();
         Account wlt1=TransDto88.lockAccObj;
-        BigDecimal nowAmt =wlt1.InterimAvailableBalance;
+        BigDecimal nowAmt =wlt1.interim_Available_Balance;
         BigDecimal newBls = nowAmt.add(amt);
 
 
@@ -82,7 +82,7 @@ public class AddMoneyToWltService   implements Icall<TransDto, Object> {
 
 
         //=================updt
-        wlt1.InterimAvailableBalance = toBigDcmTwoDot(newBls);
+        wlt1.interim_Available_Balance = toBigDcmTwoDot(newBls);
         mergeByHbnt(wlt1, session);
 
 

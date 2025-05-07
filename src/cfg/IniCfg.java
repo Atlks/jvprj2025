@@ -11,6 +11,7 @@ import service.CmsBiz;
 import util.oo.UserBiz;
 
 
+import java.net.URL;
 import java.util.Map;
 import java.util.Objects;
 
@@ -68,7 +69,8 @@ public class IniCfg {
 
         // 获取类加载器 /C:/Users/attil/IdeaProjects/jvprj2025/out/production/jvprj2025/
         //  \target\lib\bcpkix-jdk15on-1.64.jar!\META-INF\versions\9\..\..\cfg\dbcfg.ini
-        String rootPath = UserBiz.class.getClassLoader().getResource("").getPath();
+        URL resource = UserBiz.class.getResource("/");
+      //  String rootPath = resource.getPath();
         String dbcfgName = "dbcfg.ini";
         String path = dbcfgName;
 

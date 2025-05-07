@@ -45,7 +45,7 @@ public class adjustHdr4ylwlt implements Icall<TransDto, Object> {
 
         Account objU = findByHbntDep(Account.class, getAccId4ylwlt(TransDto1.uname) , LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
-        BigDecimal nowAmt = objU.InterimAvailableBalance;
+        BigDecimal nowAmt = objU.interim_Available_Balance;
         //def is add
         BigDecimal newBls = nowAmt;
         var logTag = "";
@@ -61,7 +61,7 @@ public class adjustHdr4ylwlt implements Icall<TransDto, Object> {
         if (newBls.equals(nowAmt) || TransDto1.adjustType.equals(""))
             throw new ErrAdjstTypeEx("");
 
-        objU.setInterimAvailableBalance(newBls);
+        objU.setInterim_Available_Balance(newBls);
         mergeByHbnt(objU, sessionFactory.getCurrentSession());
 
         //add balanceLog

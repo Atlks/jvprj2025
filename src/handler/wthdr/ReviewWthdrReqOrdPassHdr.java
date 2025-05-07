@@ -106,9 +106,9 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
           mthBiz = colorStr("减少盈利钱包的有效余额,增加冻结金额", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         Account objU = findByHbntDep(Account.class, getAccId4ylwlt(uname), LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
-        BigDecimal nowAmt2 = objU.InterimAvailableBalance;
+        BigDecimal nowAmt2 = objU.interim_Available_Balance;
         BigDecimal newBls2 = nowAmt2.subtract(objOrd.amount);
-        BigDecimal beforeAmt=objU.InterimAvailableBalance.add(objOrd.amount);
+        BigDecimal beforeAmt=objU.interim_Available_Balance.add(objOrd.amount);
       //  objU.availableBalance = toBigDcmTwoDot(newBls2);
 
         BigDecimal nowAmtFreez = toBigDcmTwoDot(objU.frozenAmount);

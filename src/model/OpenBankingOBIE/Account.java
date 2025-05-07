@@ -44,15 +44,15 @@ public class Account {
      * iso 20022和obie都没有avlbbls fld...only itrAvBls
      */
     @DecimalMin(value = "0.00", inclusive = true, message = "余额不能为负数")
-    @Column(name = "interim_available_balance")
-    public BigDecimal InterimAvailableBalance = BigDecimal.valueOf(0); // 有效余额
+
+    public BigDecimal interim_Available_Balance = BigDecimal.valueOf(0); // 有效余额
     public BigDecimal frozenAmount= BigDecimal.valueOf(0);    // 冻结金额
 
 
     @PostLoad
     private void initDefaults() {
-        if (InterimAvailableBalance == null) {
-            InterimAvailableBalance = BigDecimal.valueOf(0.0);
+        if (interim_Available_Balance == null) {
+            interim_Available_Balance = BigDecimal.valueOf(0.0);
         }
         if( InterimBookedBalance==null)
         {

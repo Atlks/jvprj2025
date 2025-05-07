@@ -89,16 +89,34 @@ public class HbntUtil {
     }
 
     public static SessionFactory getSessionFactory(String jdbcUrl, List<Class> li) throws SQLException {
-        var db = getDatabaseFileName4mysql(jdbcUrl);
-        crtDatabase(jdbcUrl, db);
+
+        System.out.println("fun get sess fatcy(jdbcurl=" + jdbcUrl + ",listClass=" + encodeJsonObj(li) + "");
+        if(jdbcUrl.startsWith("jdbc:mysql")){
+            var db = getDatabaseFileName4mysql(jdbcUrl);
+            crtDatabase(jdbcUrl, db);
+        }
+
 
         // Hibernate 配置属性
         Properties properties = new Properties();
-        properties.put(Environment.DRIVER, getDvr(jdbcUrl));
+        String dvr = getDvr(jdbcUrl);
+        System.out.println("dvr188="+dvr);
+        properties.put(Environment.DRIVER, dvr);
         properties.put(Environment.URL, "" + jdbcUrl);
         properties.put(Environment.USER, getUnameFromJdbcurl(jdbcUrl));
         properties.put(Environment.PASS, getPwdFromJdbcurl(jdbcUrl));
         properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
+        if(isSqliteJdbcUrl(jdbcUrl))
+        {
+            properties.put(Environment.DIALECT, "org.hibernate.dialect.SQLiteDialect");
+
+        } else if (jdbcUrl.startsWith("jdbc:h2")) {
+
+
+            properties.put(Environment.DIALECT, "org.hibernate.dialect.H2Dialect");
+
+        }
+
         //    hibernate.dialect.storage_engine
         properties.put(Environment.SHOW_SQL, "true");
         properties.put(Environment.FORMAT_SQL, "true");
@@ -125,6 +143,10 @@ public class HbntUtil {
         // 创建 SessionFactory
         SessionFactory sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
         return sessionFactory;
+    }
+
+    private static boolean isSqliteJdbcUrl(String jdbcUrl) {
+        return  jdbcUrl.startsWith("jdbc:sqlite:");
     }
 
     private static void addAnnotatedClasses2025(MetadataSources metadataSources) {

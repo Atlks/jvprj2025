@@ -120,7 +120,7 @@ public class CmsBiz {
 
         BigDecimal nowAmt= getFieldAsBigDecimal(objU,"balanceYinliwlt",0);
         BigDecimal newBls=nowAmt.add(amt);
-        objU.InterimAvailableBalance =toBigDcmTwoDot (newBls);
+        objU.interim_Available_Balance =toBigDcmTwoDot (newBls);
         mergeByHbnt(objU,session);  ;
 
 

@@ -45,7 +45,7 @@ String accid=getAccId(adjstDto.accountSubType,adjstDto.uname);
         Account acc1 = findByHerbinateLockForUpdtV2(Account.class, accid ,session);
         Transaction tx=new Transaction();
 
-        BigDecimal avdBls = acc1.InterimAvailableBalance;
+        BigDecimal avdBls = acc1.interim_Available_Balance;
 
 
         //def is add
@@ -80,7 +80,7 @@ String accid=getAccId(adjstDto.accountSubType,adjstDto.uname);
 //        if (newBls.equals(avdBls) || adjstDto.adjustType.equals(""))
 //            throw new ErrAdjstTypeEx("");
 
-        acc1.setInterimAvailableBalance(newBls);
+        acc1.setInterim_Available_Balance(newBls);
         mergeByHbnt(acc1, session);
 
 

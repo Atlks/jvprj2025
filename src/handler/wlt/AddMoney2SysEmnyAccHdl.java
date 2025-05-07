@@ -25,7 +25,7 @@ public class AddMoney2SysEmnyAccHdl {
         String accId = getAccId(AccountSubType.insFdPl.name(), AccUti.sysusrName);
         Account sysAccIvst=findByHerbinate(Account.class, accId, session);
 
-        sysAccIvst.setInterimAvailableBalance(sysAccIvst.getInterimAvailableBalance().add(dto.amt));
+        sysAccIvst.setInterim_Available_Balance(sysAccIvst.getInterim_Available_Balance().add(dto.amt));
 
         sysAccIvst.setInterimBookedBalance(sysAccIvst.getInterimBookedBalance().add(dto.amt));
         mergeByHbnt(sysAccIvst, session);
@@ -52,7 +52,7 @@ public class AddMoney2SysEmnyAccHdl {
         String accId = getAccId(AccountSubType.insFdPl.name(), AccUti.sysusrName);
         Account sysAccIvst=findByHerbinate(Account.class, accId, session);
 
-        sysAccIvst.setInterimAvailableBalance (dto.amt);
+        sysAccIvst.setInterim_Available_Balance(dto.amt);
 
         sysAccIvst.setInterimBookedBalance( (dto.amt));
         mergeByHbnt(sysAccIvst, session);

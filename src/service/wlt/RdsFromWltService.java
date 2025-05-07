@@ -43,7 +43,7 @@ public class RdsFromWltService  implements Icall<TransDto, Object> {
         if(acc==null)
             acc=TransDto88.lockAccObj;
 
-        BigDecimal nowAmt =acc.InterimAvailableBalance;
+        BigDecimal nowAmt =acc.interim_Available_Balance;
         if (TransDto88.getChangeAmount().compareTo(nowAmt) > 0) {
             BalanceNotEnghou ex = new BalanceNotEnghou("余额不足");
             ex.fun =this.getClass().getName()+"." + getCurrentMethodName();
@@ -54,9 +54,9 @@ public class RdsFromWltService  implements Icall<TransDto, Object> {
 
         BigDecimal amt = TransDto88.getChangeAmount();
         BigDecimal newBls = nowAmt.subtract(toBigDecimal(amt));
-        acc.InterimAvailableBalance = newBls;
+        acc.interim_Available_Balance = newBls;
 
-        acc.InterimBookedBalance =acc.InterimAvailableBalance.add(acc.frozenAmount) ;
+        acc.InterimBookedBalance =acc.interim_Available_Balance.add(acc.frozenAmount) ;
         acc.ClosingBookedBalance =acc.InterimBookedBalance;
 
         mergeByHbnt(acc, sessionFactory.getCurrentSession());

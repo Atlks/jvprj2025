@@ -190,6 +190,7 @@
 
 
 
+
         <!-- https://mvnrepository.com/artifact/jakarta.inject/jakarta.inject-api -->
         <dependency>
             <groupId>jakarta.inject</groupId>
@@ -433,6 +434,13 @@
         </dependency>
 
 
+    <!-- H2 数据库驱动 -->
+    <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <version>2.2.224</version>
+    </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-dbcp2</artifactId>
@@ -639,14 +647,10 @@
                                     <directory>${project.basedir}/static</directory>
                                     <filtering>false</filtering>
                                 </resource>
-                                <resource>
-                                    <directory>${project.basedir}/META-INF</directory>
-                                    <includes>
-                                        <include>**/*.MF</include>
-                                    </includes>
-                                    <filtering>false</filtering>
-                                    <targetPath>../classes/META-INF</targetPath>
-                                </resource>
+
+
+
+
 
 
                                 <!-- 复制 src 目录下的 properties 文件 -->
@@ -682,10 +686,8 @@
                 </executions>
             </plugin>
 
-
-
-            <!-- Maven Shade Plugin for packaging a fat JAR -->
-            <!-- Maven Shade Plugin for packaging a fat JAR -->
+           
+  <!-- Maven Shade Plugin for packaging a fat JAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -698,6 +700,16 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                             <!--  -->
                             <archive>
                                 <manifest>

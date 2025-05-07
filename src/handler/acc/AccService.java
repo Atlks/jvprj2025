@@ -2,8 +2,6 @@ package handler.acc;
 
 import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.AccountSubType;
-import model.OpenBankingOBIE.TransactionCode;
-import model.opmng.InvestmentOpRecord;
 import util.Oosql.SlctQry;
 import util.tx.findByIdExptn_CantFindData;
 
@@ -25,7 +23,7 @@ public class AccService {
         Account acc = null;
         try {
             acc = findByHerbinate(Account.class, accid, sessionFactory.getCurrentSession());
-            return acc.getInterimAvailableBalance();
+            return acc.getInterim_Available_Balance();
         } catch (findByIdExptn_CantFindData e) {
             return BigDecimal.valueOf(0);
         }
@@ -35,9 +33,9 @@ public class AccService {
 
     public static BigDecimal sumAllEmnyAccBal() {
         SlctQry query = newSelectQuery(getTableName(Account.class));
-        query.select("sum("+Account.Fields.InterimAvailableBalance+")");
+        query.select("sum("+Account.Fields.interim_Available_Balance +")");
         query.addConditions(Account.Fields.accountSubType + "=" + toValStr(AccountSubType.EMoney.name()));
-        // query.addConditions("timestamp>"+ beforeTmstmp(reqdto.day));..
+        // query.addConditions("timestamp>"+ beforeTmstmp(reqdto.day));
         //    query.addOrderBy("timestamp desc");
         String sql = query.getSQL();  // ✅ 直接拿到 SQL 字符串
         System.out.println(sql);

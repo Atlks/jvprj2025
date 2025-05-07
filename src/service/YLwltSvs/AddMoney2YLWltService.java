@@ -51,11 +51,11 @@ public class AddMoney2YLWltService implements Icall<TransDto,Object> {
        var ylwltAccId= getAccId4ylwlt(uname);
        acc=findByHerbinate(Account.class,ylwltAccId,session);
 
-        BigDecimal nowAmt =acc.getInterimAvailableBalance();
+        BigDecimal nowAmt =acc.getInterim_Available_Balance();
               //  getFieldAsBigDecimal(acc, "balance", 0);
 
         BigDecimal newBls = nowAmt.add(amt);
-        acc.InterimAvailableBalance = toBigDcmTwoDot(newBls);
+        acc.interim_Available_Balance = toBigDcmTwoDot(newBls);
         mergeByHbnt(acc, session);
 
 

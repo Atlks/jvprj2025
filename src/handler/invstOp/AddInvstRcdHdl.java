@@ -52,7 +52,7 @@ public class AddInvstRcdHdl   {
             String accId = getAccId(AccountSubType.GeneralInvestment.name(), AccUti.sysusrName);
             Account sysAccIvst=findByHerbinate(Account.class, accId, session);
             BigDecimal amount2sysIvstAcc = dto.getAmount().multiply(BigDecimal.valueOf(0.2));
-            sysAccIvst.setInterimAvailableBalance(sysAccIvst.getInterimAvailableBalance().add(amount2sysIvstAcc));
+            sysAccIvst.setInterim_Available_Balance(sysAccIvst.getInterim_Available_Balance().add(amount2sysIvstAcc));
 
             sysAccIvst.setInterimBookedBalance(sysAccIvst.getInterimBookedBalance().add(amount2sysIvstAcc));
             mergeByHbnt(sysAccIvst, session);
@@ -94,7 +94,7 @@ public class AddInvstRcdHdl   {
         String accId = getAccId(AccountSubType.insFdPl.name(), AccUti.sysusrName);
         Account sysAccIvst=findByHerbinate(Account.class, accId, session);
 
-        sysAccIvst.setInterimAvailableBalance(sysAccIvst.getInterimAvailableBalance().add(amount2sysFdpoolAcc));
+        sysAccIvst.setInterim_Available_Balance(sysAccIvst.getInterim_Available_Balance().add(amount2sysFdpoolAcc));
 
         sysAccIvst.setInterimBookedBalance(sysAccIvst.getInterimBookedBalance().add(amount2sysFdpoolAcc));
         mergeByHbnt(sysAccIvst, session);
@@ -110,7 +110,7 @@ public class AddInvstRcdHdl   {
             String accId = getAccId(AccountSubType.EMoney.name(), AccUti.sysusrName);
             Account a= new Account(accId);
             a.accountType=AccountType.BUSINESS;
-            a.setInterimAvailableBalance(BigDecimal.ZERO);
+            a.setInterim_Available_Balance(BigDecimal.ZERO);
             a.setInterimBookedBalance(BigDecimal.ZERO);
             persistByHibernate(a, session);
         }
@@ -125,7 +125,7 @@ public class AddInvstRcdHdl   {
             String accId = getAccId(AccountSubType.GeneralInvestment.name(), AccUti.sysusrName);
             Account a= new Account(accId);
             a.accountType=AccountType.BUSINESS;
-            a.setInterimAvailableBalance(BigDecimal.ZERO);
+            a.setInterim_Available_Balance(BigDecimal.ZERO);
             a.setInterimBookedBalance(BigDecimal.ZERO);
             persistByHibernate(a, session);
         }
@@ -144,9 +144,9 @@ public class AddInvstRcdHdl   {
                 String accId = getAccId(AccountSubType.GeneralInvestment.name(), acc.accountOwner);
 
                 Account accIvst=findByHerbinate(Account.class, accId, session);
-                BigDecimal rate=accIvst.getInterimAvailableBalance().divide(sysEmnyBls);
+                BigDecimal rate=accIvst.getInterim_Available_Balance().divide(sysEmnyBls);
                 BigDecimal mydiv=rate.multiply(param.amount);
-                accIvst.setInterimAvailableBalance(accIvst.getInterimAvailableBalance().add(mydiv));
+                accIvst.setInterim_Available_Balance(accIvst.getInterim_Available_Balance().add(mydiv));
                 accIvst.setInterimBookedBalance(accIvst.getInterimBookedBalance().add(mydiv));
                 mergeByHbnt(accIvst, session);
 
@@ -170,7 +170,7 @@ public class AddInvstRcdHdl   {
     private BigDecimal getSysAccEmnyBls(Session session) throws findByIdExptn_CantFindData {
         String accId = getAccId(AccountSubType.EMoney.name(), AccUti.sysusrName);
         Account a=findByHerbinate(Account.class, accId, session);
-        return a.getInterimAvailableBalance();
+        return a.getInterim_Available_Balance();
 
     }
 

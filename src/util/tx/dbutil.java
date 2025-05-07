@@ -388,12 +388,18 @@ public class dbutil {
     }
 
     public static String getDvr(String jdbcUrl) {
-
+        System.out.println("fun getdvr(url="+jdbcUrl+")");
+       //  System.out.println(org.sqlite.JDBC.class.getName());
         if (jdbcUrl.startsWith("jdbc:mysql"))
             return "com.mysql.cj.jdbc.Driver";
         else if(jdbcUrl.contains("p6spy"))
             return "com.p6spy.engine.spy.P6SpyDriver";
-        return "sqlt";
+        else if(jdbcUrl.startsWith("jdbc:h2"))
+             return "org.h2.Driver";
+
+
+          return "org.sqlite.JDBC";
+        //return "sqlt";
     }
 
 //    private static String addObjHbntCfgmd(Object obj, String saveDir, Class class1) {

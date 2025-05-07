@@ -60,7 +60,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         }
 
 
-        BigDecimal nowAmt2 = YLwlt11.InterimAvailableBalance;
+        BigDecimal nowAmt2 = YLwlt11.interim_Available_Balance;
 
         if (dtoWithdrawDto.getAmount().compareTo(nowAmt2) > 0) {
             BalanceNotEnghou ex = new BalanceNotEnghou("余额不足");
@@ -93,7 +93,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         String mthBiz = colorStr("减少盈利钱包的有效余额,增加冻结金额", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         BigDecimal newBls2 = nowAmt2.subtract(dtoWithdrawDto.getAmount());
-        YLwlt11.InterimAvailableBalance = toBigDcmTwoDot(newBls2);
+        YLwlt11.interim_Available_Balance = toBigDcmTwoDot(newBls2);
 
         BigDecimal nowAmtFreez = toBigDcmTwoDot(YLwlt11.frozenAmount);
         YLwlt11.frozenAmount = toBigDcmTwoDot(nowAmtFreez.add(dtoWithdrawDto.getAmount()));
