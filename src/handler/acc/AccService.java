@@ -37,7 +37,7 @@ public class AccService {
         SlctQry query = newSelectQuery(getTableName(Account.class));
         query.select("sum("+Account.Fields.InterimAvailableBalance+")");
         query.addConditions(Account.Fields.accountSubType + "=" + toValStr(AccountSubType.EMoney.name()));
-        // query.addConditions("timestamp>"+ beforeTmstmp(reqdto.day));
+        // query.addConditions("timestamp>"+ beforeTmstmp(reqdto.day));..
         //    query.addOrderBy("timestamp desc");
         String sql = query.getSQL();  // ✅ 直接拿到 SQL 字符串
         System.out.println(sql);
