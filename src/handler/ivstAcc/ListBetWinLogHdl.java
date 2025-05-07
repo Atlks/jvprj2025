@@ -7,9 +7,8 @@ package handler.ivstAcc;
 
 import handler.ivstAcc.dto.QueryDto;
 import model.OpenBankingOBIE.Transaction;
-import model.OpenBankingOBIE.TransactionCodes;
+import model.OpenBankingOBIE.TransactionCode;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 import util.Oosql.SlctQry;
 import util.annos.NoDftParam;
 import entityx.ylwlt.BetWinLog;
@@ -60,7 +59,7 @@ public class ListBetWinLogHdl implements RequestHandler<QueryDto, ApiGatewayResp
 
         SlctQry query = newSelectQuery(getTableName(Transaction.class));
         query.select("*");
-        query.addConditions(Transaction.Fields.transactionCode+"="+toStr4sqlprm(TransactionCodes.Service_Cms_rechgCms.name()));
+        query.addConditions(Transaction.Fields.transactionCode+"="+toStr4sqlprm(TransactionCode.Service_Cms_rechgCms.name()));
         query.addOrderBy("timestamp desc");
 
         if(reqdto.uname!="")
@@ -78,7 +77,7 @@ String sql=query.getSQL();
     private BigDecimal getSum4div(QueryDto reqdto)  {
           SlctQry query = newSelectQuery(getTableName(Transaction.class));
         query.select("sum(amount)");
-        query.addConditions(Transaction.Fields.transactionCode+"="+toStr4sqlprm(TransactionCodes.Service_Cms_rechgCms.name()));
+        query.addConditions(Transaction.Fields.transactionCode+"="+toStr4sqlprm(TransactionCode.Service_Cms_rechgCms.name()));
         query.addOrderBy("timestamp desc");
 
         if(reqdto.uname!="")

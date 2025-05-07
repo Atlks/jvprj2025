@@ -194,6 +194,15 @@ paths:
       responses:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
+  /admin/InvstRcd/QryIvstTopOvrvw:
+    get:
+      tags:
+        - invstRcd
+      summary: "投资记录界面上面的统计部分"
+
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
 
   /admin/role/ListRolesHdl:
    $ref: './paths/role/ListRolesHdl.yaml'
@@ -214,6 +223,7 @@ paths:
     $ref: './paths/wlt/ListInvtCmsLogHdl.yaml'
   /wlt/ListIvstProfitHdl:
     $ref: './paths/wlt/ListBetWinLogHdl.yaml'
+
   /admin/wlt/QueryOrdChrgHdr:
     $ref: './paths/pay/QueryOrdChrgHdr.yaml'
   /admin/wlt/ReviewChrgPassHdr:

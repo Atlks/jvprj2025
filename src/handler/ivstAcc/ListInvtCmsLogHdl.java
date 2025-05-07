@@ -8,13 +8,13 @@ package handler.ivstAcc;
 import cfg.MainStart;
 import handler.ivstAcc.dto.QueryDto;
 import model.OpenBankingOBIE.Transaction;
+import model.OpenBankingOBIE.TransactionCode;
 import util.Oosql.SlctQry;
 import util.annos.NoDftParam;
 import entityx.ylwlt.BetWinLog;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import model.OpenBankingOBIE.TransactionCodes;
 
 import org.hibernate.Session;
 
@@ -59,7 +59,7 @@ public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayRes
 
         SlctQry query = newSelectQuery(getTableName(Transaction.class));
         query.select("*");
-        query.addConditions(Transaction.Fields.transactionCode+"="+toStr4sqlprm(TransactionCodes.Service_Cms_rechgCms.name()));
+        query.addConditions(Transaction.Fields.transactionCode+"="+toStr4sqlprm(TransactionCode.Service_Cms_rechgCms.name()));
 
         if(reqdto.uname!="")
         {
@@ -81,7 +81,7 @@ public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayRes
         //var sql = "select sum(amount) from Transactions     where  transactionCode= "  +encodeSqlPrmAsStr( TransactionCodes.Service_Cms_rechgCms.name());//for count    where  uname =:uname
         SlctQry query = newSelectQuery(getTableName(Transaction.class));
         query.select("sum(amount)");
-        query.addConditions(Transaction.Fields.transactionCode+"="+toStr4sqlprm(TransactionCodes. Service_Cms_rechgCms.name()));
+        query.addConditions(Transaction.Fields.transactionCode+"="+toStr4sqlprm(TransactionCode. Service_Cms_rechgCms.name()));
 
         if(reqdto.uname!="")
         {

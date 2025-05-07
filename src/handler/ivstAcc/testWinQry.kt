@@ -8,7 +8,7 @@ import entityx.usr.Usr
 //import handler.agt.AgtHdl
 import handler.ylwlt.dto.QueryDto
 import model.OpenBankingOBIE.CreditDebitIndicator
-import model.OpenBankingOBIE.TransactionCodes
+import model.OpenBankingOBIE.TransactionCode
 import model.OpenBankingOBIE.TransactionStatus
 import model.OpenBankingOBIE.Transaction
 import util.acc.AccUti.getAccId4ylwlt

@@ -6,6 +6,7 @@ package handler.ivstAcc;
  */
 
 import handler.ivstAcc.dto.QueryDto;
+import model.OpenBankingOBIE.TransactionCode;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import util.annos.NoDftParam;
@@ -13,7 +14,6 @@ import entityx.ylwlt.BetWinLog;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import model.OpenBankingOBIE.TransactionCodes;
 
 
 import util.serverless.ApiGatewayResponse;
@@ -48,7 +48,7 @@ public class ListTrsxBnsHdl implements RequestHandler<QueryDto, ApiGatewayRespon
      */
     @Override
     public ApiGatewayResponse handleRequest(QueryDto reqdto, Context context) throws Throwable {
-        var sqlNoOrd = "select * from Transactions where transactionCode= " +encodeSqlPrmAsStr( TransactionCodes.Service_Cms_devlpSubsCntCms.name())     ;//for count    where  uname =:uname
+        var sqlNoOrd = "select * from Transactions where transactionCode= " +encodeSqlPrmAsStr( TransactionCode.Service_Cms_devlpSubsCntCms.name())     ;//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         if(reqdto.uname!="")
         {  sqlNoOrd=sqlNoOrd+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
@@ -65,7 +65,7 @@ public class ListTrsxBnsHdl implements RequestHandler<QueryDto, ApiGatewayRespon
     }
 
     private BigDecimal getSum4bns(QueryDto reqdto) {
-        var sql = "select sum(amount) from Transactions where transactionCode="+encodeSqlPrmAsStr( TransactionCodes.Service_Cms_devlpSubsCntCms.name());//for count    where  uname =:uname
+        var sql = "select sum(amount) from Transactions where transactionCode="+encodeSqlPrmAsStr( TransactionCode.Service_Cms_devlpSubsCntCms.name());//for count    where  uname =:uname
         if(reqdto.uname!="")
         {  sql=sql+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
             // sqlprmMap.put("uname",)

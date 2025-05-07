@@ -1,7 +1,5 @@
 package model.review;
 
-import model.OpenBankingOBIE.TransactionCodes;
-
 public enum ReviewStat {
     Completed,
     Pending,

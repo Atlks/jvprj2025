@@ -7,7 +7,7 @@ package model.OpenBankingOBIE;
  * BankTransactionCode==trx type
  *
  * ProprietaryBankTransactionCode
- *
+ *iso20022 Transaction Codes
  * Domain	含义	示例
  * adjst
  * PMNT	Payments（支付）	PMNT-ICDT-STDO（标准直接借记）
@@ -22,7 +22,7 @@ package model.OpenBankingOBIE;
  */
 //BankTransactionCode
 //交易类型，iso 20022  有表示
-public enum TransactionCodes {
+public enum TransactionCode {
     AdjustmentCredit,
             // Credit Transfer - 充值、存款、转账入账
     AdjustmentDebit,  // Direct Debit - 支出、扣款
@@ -38,7 +38,8 @@ public enum TransactionCodes {
     payment_rechg,
     InternalTransfers_exchgOut,
     InternalTransfers_exchgIn,
-    InvestmentProfit,  //收益  income earning
+    invstProfit,  //收益  income  earning
+    invstLoss,//
     Service_Cms_rechgCms,
     Service_Cms_devlpSubsCntCms,
 
@@ -58,8 +59,8 @@ public enum TransactionCodes {
     /**
      * 根据字符串 code 获取对应枚举，默认返回 OTH（其他）
      */
-    public static TransactionCodes fromCode(String code) {
-        for (TransactionCodes tc : values()) {
+    public static TransactionCode fromCode(String code) {
+        for (TransactionCode tc : values()) {
             if (tc.name().equalsIgnoreCase(code)) {
                 return tc;
             }

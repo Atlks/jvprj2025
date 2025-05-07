@@ -102,7 +102,7 @@ public class Transaction {
 
   //obie没有表示，交易类型，iso 20022  有表示
   @Enumerated(EnumType.STRING)
-    public TransactionCodes transactionCode=TransactionCodes.OTH;
+    public TransactionCode transactionCode= TransactionCode.OTH;
 
 
   //TransactionCode/SubCode

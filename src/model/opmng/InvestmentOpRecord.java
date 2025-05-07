@@ -2,11 +2,11 @@ package model.opmng;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import model.OpenBankingOBIE.TransactionCodes;
+import lombok.experimental.FieldNameConstants;
+import model.OpenBankingOBIE.TransactionCode;
 import util.excptn.AmtErr;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 import static util.algo.GetUti.getUuid;
 
@@ -19,6 +19,7 @@ import static util.algo.GetUti.getUuid;
 @Entity
 @Table(name = "invst_op_rcd")
 @Data
+@FieldNameConstants
 public class InvestmentOpRecord {
 
     @Id
@@ -41,7 +42,7 @@ public class InvestmentOpRecord {
      *     public TransactionCodes
      */
     @Enumerated(EnumType.STRING)
-    public TransactionCodes investmentType;
+    public TransactionCode investmentType;
 
     /**
      * 操作金额（例如：8888.00）
