@@ -60,6 +60,16 @@
 
 
     <dependencies>
+
+
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>  <!-- 或使用 5.0.0 看你的兼容性需求 -->
+
+        </dependency>
+
+
         <!-- jOOQ Core -->
         <dependency>
             <groupId>org.jooq</groupId>

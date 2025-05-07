@@ -89,19 +89,20 @@ public class WebSvr {
     private static void docRestApiHdl(HttpExchange exchange) throws IOException {
         URI uri = exchange.getRequestURI();
         String path = uri.getPath();  //   /jar/api  noqrystr
-        String jarPath=path;
-        jarPath=jarPath.substring(4);
-        String txt=getTxtFrmJar(jarPath);
+        String jarPath = path;
+        jarPath = jarPath.substring(4);
+        String txt = getTxtFrmJar(jarPath);
 
         wrtResp(exchange, txt, ContentType.TEXT_HTML.getValue());
     }
 
     /**
      * 读取jar里面的某个文本文件资源
+     *
      * @param pathInJar
      * @return
      */
-    private static @NotNull String getTxtFrmJar(@NotBlank  String pathInJar) {
+    private static @NotNull String getTxtFrmJar(@NotBlank String pathInJar) {
         try (InputStream in = WebSvr.class.getResourceAsStream(pathInJar)) {
             if (in == null) {
                 System.err.println("资源未找到: " + pathInJar);
@@ -194,7 +195,7 @@ public class WebSvr {
 
 
     // path,hdrClz
-    public static Map<String, Class> pathMap = new HashMap<>();
+    public static Map<String, Class> pathClzMap = new HashMap<>();
 
     /**
      * ini rest url wz bean
@@ -215,17 +216,17 @@ public class WebSvr {
                 var path = getPathFromBean(aClass);
                 System.out.println("pathMap(path=" + path + ",aClass=" + aClass.toString());
                 //   server.createContext(path, (HttpHandler) bean);
-                pathMap.put(path, aClass);
+                pathClzMap.put(path, aClass);
                 if (aClass.getName().contains("RechargeHdr"))
                     System.out.println("D835");
                 var path_pkgNclsname = getAutoRouterPath(aClass);
-                pathMap.put(path_pkgNclsname, aClass);
+                pathClzMap.put(path_pkgNclsname, aClass);
                 System.out.println("pathMap(path=" + path_pkgNclsname + ",aClass=" + aClass.toString());
 
                 String[] getPathsFromBeanRzt = getPathsFromBean(aClass);
                 for (String p : getPathsFromBeanRzt) {
 
-                    pathMap.put(p, aClass);
+                    pathClzMap.put(p, aClass);
                     System.out.println("pathMap(path=" + p + ",aClass=" + aClass.toString());
 
                 }
@@ -280,13 +281,7 @@ public class WebSvr {
                 return;
             }
 
-            @NotNull Class<?> hdrclas = pathMap.get(path1);
-            if (hdrclas == null)
-                throw new RuntimeException("key is null,key=" + requestURI);
-            Object obj = hdrclas.getConstructor().newInstance();
-            var bean = obj;
-            //getBeanByClzFrmSpr(hdrclas);
-            @NotNull HttpHandler proxyObj = new ApiGateway(bean);
+            @NotNull HttpHandler proxyObj = new ApiGateway(path1);
             proxyObj.handle(exchange);
         } catch (Exception e) {
             printLn("---------------statt epr int  ");

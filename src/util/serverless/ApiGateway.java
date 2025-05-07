@@ -38,12 +38,14 @@ import java.util.Map;
 
 //import static cfg.Containr.sessionFactory;
 import static cfg.Containr.*;
+import static cfg.WebSvr.pathClzMap;
 import static util.algo.AnnotationUtils.getCookieParamsV2;
 import static util.algo.AnnotationUtils.getParams;
 import static util.algo.GetUti.*;
 import static util.algo.ToXX.toDtoFrmHttp;
 import static util.auth.AuthUtil.request_getHeaders_get;
 import static util.excptn.ExptUtil.*;
+import static util.misc.RestUti.pathMthMap;
 import static util.proxy.AopUtil.ivk4log;
 import static util.auth.AuthUtil.getCurrentUser;
 import static util.log.ColorLogger.*;
@@ -68,8 +70,25 @@ public class ApiGateway implements HttpHandler {
     public static final String ChkLgnStatSam = "ChkLgnStatSam";
     private Object target; // 目标对象 for compt,,frm icall to obj type
 
-    public @NotNull ApiGateway(@NotNull Object target) {
-        this.target = target;
+    public @NotNull ApiGateway( String path1) throws Exception {
+
+
+Object hdlr;
+        @NotNull Class<?> hdrclas = pathClzMap.get(path1);
+        if (hdrclas != null)
+            hdlr = hdrclas.getConstructor().newInstance();
+        else{
+            hdlr=  pathMthMap.get(path1);
+
+        }
+
+
+        if (hdlr == null)
+            throw new CantFindPathEx("path=" + path1);
+
+
+
+        this.target = hdlr;
     }
 
 //    public static void main(String[] args) throws Exception {
@@ -102,7 +121,17 @@ public class ApiGateway implements HttpHandler {
                 return ((RequestHandler) target).handleRequest(dto, null);
             else if (isImpltInterface(target, Icall.class)) {
                 return ((Icall) target).main(dto);
-            } else {
+            } else if(target instanceof  Method)
+            {
+                Method m= (Method) target;
+                var retobj = m.invoke(target, dto);
+
+                var apigtwy = new ApiGatewayResponse(retobj);
+                return apigtwy;
+            }
+
+            else
+            {
                 Method m = getMethod(target, "handleRequest");
                 var retobj = m.invoke(target, dto);
 

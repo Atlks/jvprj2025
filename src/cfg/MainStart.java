@@ -57,6 +57,7 @@ import static util.acc.AccUti.getAccId;
 import static util.acc.AccUti.sysusrName;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 import static util.ioc.SimpleContainer.registerInstance;
+import static util.misc.RestUti.iniRestPathMthMap;
 import static util.misc.util2026.sleep;
 import static util.tx.HbntUtil.*;
 
@@ -91,7 +92,7 @@ public class MainStart {
 
         //================== 创建 HTTP 服务器，监听端口8080
         iniRestPathMap();
-
+        iniRestPathMthMap();
 
         //------ini sys acc
         iniSysAcc();
