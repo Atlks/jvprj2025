@@ -25,6 +25,7 @@ import util.auth.IsEmptyEx;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,22 +71,21 @@ public class ApiGateway implements HttpHandler {
     public static final String ChkLgnStatSam = "ChkLgnStatSam";
     private Object target; // 目标对象 for compt,,frm icall to obj type
 
-    public @NotNull ApiGateway( String path1) throws Exception {
+    public @NotNull ApiGateway(String path1) throws Exception {
 
 
-Object hdlr;
+        Object hdlr;
         @NotNull Class<?> hdrclas = pathClzMap.get(path1);
         if (hdrclas != null)
             hdlr = hdrclas.getConstructor().newInstance();
-        else{
-            hdlr=  pathMthMap.get(path1);
+        else {
+            hdlr = pathMthMap.get(path1);
 
         }
 
 
         if (hdlr == null)
             throw new CantFindPathEx("path=" + path1);
-
 
 
         this.target = hdlr;
@@ -121,17 +121,13 @@ Object hdlr;
                 return ((RequestHandler) target).handleRequest(dto, null);
             else if (isImpltInterface(target, Icall.class)) {
                 return ((Icall) target).main(dto);
-            } else if(target instanceof  Method)
-            {
-                Method m= (Method) target;
+            } else if (target instanceof Method) {
+                Method m = (Method) target;
                 var retobj = m.invoke(target, dto);
 
                 var apigtwy = new ApiGatewayResponse(retobj);
                 return apigtwy;
-            }
-
-            else
-            {
+            } else {
                 Method m = getMethod(target, "handleRequest");
                 var retobj = m.invoke(target, dto);
 
@@ -192,7 +188,7 @@ Object hdlr;
      */
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        ExptUtil.lastExsList.set(new ArrayList<>());
+        lastExsList.set(new ArrayList<>());
         httpExchangeCurThrd.set(exchange);
         curCtrlCls.set(this.target.getClass());
         String mth = colorStr("handle", YELLOW_bright);
@@ -233,7 +229,7 @@ Object hdlr;
             wrtRespErr(exchange, responseTxt);
 
 
-        }  finally {
+        } finally {
             sessionFactory.getCurrentSession().close();// 关闭 session，但不会提交事务
             ThreadLocalSessionContext.unbind(sessionFactory);
         }
@@ -366,19 +362,20 @@ Object hdlr;
 
         Object rzt;
         //---------log
-        Class PrmDtoCls = getPrmClass(this.target, "handleRequest");
-        if (PrmDtoCls == null)
-            PrmDtoCls = getPrmClass(this.target, "main");
+        Class prmDtoCls = getDtoCls();
+        Object dto;
 
-        if (PrmDtoCls == null) {
-            rzt = invoke_callNlogWarp(new NonDto());
+        if (NonDto.class.isAssignableFrom(prmDtoCls)) {  // 判断类型是否是 NonDto 或其子类
+            dto = new NonDto();
         } else {
-            var dto = toDto(exchange, PrmDtoCls);
-
-            // addDeftParam(dto);
-            validDto(dto);
-            rzt = invoke_callNlogWarp(dto);
+            dto = toDto(exchange, prmDtoCls);  // 假设 toDto 返回 Object 或 dto 类型
         }
+
+
+        // addDeftParam(dto);
+        validDto(dto);
+        rzt = invoke_callNlogWarp(dto);
+
 
         //  默认返回 JSON，不需要额外加 @ResponseBody
         //  默认会将 String 直接作为 text/plain 处理：
@@ -394,6 +391,85 @@ Object hdlr;
         /// ----------log
 
 
+    }
+
+    @NotNull
+    private Class getDtoCls() throws CantFindPrmEx, CantFindPrmDtoEx {
+        Class PrmDtoCls = null;
+
+        if (isMth(this.target)) {
+            //   try{
+            PrmDtoCls = getPrmClassFrmMth((Method) this.target);
+//            } catch (CantFindPrmEx e) {
+//                System.out.println(e.printStackTrace(););
+//            }
+        } else if (hasMtd(this.target, "handleRequest")) {
+            PrmDtoCls = getPrmClass(this.target, "handleRequest");
+            // getPrmClass(this.target, "handleRequest");
+        } else if (isNotMth(this.target)) {
+            PrmDtoCls = getPrmClass(this.target, "main");
+        }
+        if (PrmDtoCls == null)
+            throw new CantFindPrmDtoEx("target=" + this.target.toString());
+        return PrmDtoCls;
+    }
+
+    private @NotNull Class getPrmClassFrmMth(@NotNull Method method) throws CantFindPrmEx {
+
+        // 确保方法名称匹配
+//        if (!method.getName().equals(methodName)) {
+//            continue;
+//        }
+
+        // 遍历方法的所有参数
+        Parameter[] parameters = method.getParameters();
+        if (parameters.length == 0)
+            throw new CantFindPrmEx("m=" + method.getName());
+        Parameter parameter = parameters[0];
+        Class<?> type = parameter.getType();
+        if (type == Object.class)
+            throw new CantFindPrmEx("m=" + method.getName());
+        return type; // 返回参数的 Class 类型
+    }
+
+    private boolean isMth(Object target) {
+        if (target instanceof Method) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isNotMth(Object target) {
+        return !isMth(target);
+    }
+
+
+    /**
+     * 是否包含方法
+     *
+     * @param target     target一般是个object，也可能是个method
+     * @param methodName
+     * @return
+     */
+    private boolean hasMtd(Object target, String methodName) {
+        if (target == null || methodName == null) {
+            return false;
+        }
+
+        // 如果传入的是一个 Method 对象
+        if (target instanceof Method) {
+            return false;
+        }
+
+        // 否则，认为是 Object，遍历其所有方法
+        Class<?> clazz = target.getClass();
+        for (Method method : clazz.getMethods()) {
+            if (method.getName().equals(methodName)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // @Nullable
