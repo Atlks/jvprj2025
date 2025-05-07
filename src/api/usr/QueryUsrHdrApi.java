@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 
 import util.algo.Icall;
+import util.annos.Paths;
 //import org.apache.lucene.index.DirectoryReader;
 //import org.apache.lucene.index.Term;
 //import org.apache.lucene.search.*;
@@ -30,7 +31,7 @@ import static util.tx.Pagging.getPageResultByHbntV3;
 
 //组合了  和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
 @PermitAll
-@Path("/admin/qryUsrApi")
+@Paths({"/admin/qryUsrApi","/admin/qryUsr"})
 //   http://localhost:8889/admin/qryUsr?uname=008&page=1&pagesize=100
 @NoArgsConstructor
 @Data
