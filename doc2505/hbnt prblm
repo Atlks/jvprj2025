@@ -1,0 +1,35 @@
+
+
+
+# auto crt db
+# spt sqlt
+# del column
+# sql dbg
+
+启动慢
+Hibernate 启动时要初始化实体、映射、方言、缓存等，项目初次启动明显比 MyBatis 等轻量框架慢。
+
+对数据库功能支持有限
+比如一些数据库特定函数、触发器、自定义索引等，Hibernate 并不天然支持，需自己扩展方言或手动执行 SQL。
+
+
+
+结合 Spring Data JPA 使用 Hibernate：
+极大简化 DAO 层
+
+你只需要写一个接口继承 JpaRepository，Spring 自动生成 CRUD、分页、排序、查询等方法，不需要手写实现类。
+
+java
+复制
+编辑
+public interface UserRepository extends JpaRepository<User, Long> {
+    List<User> findByName(String name);
+}
+
+
+天然支持分页与排序
+
+Pageable、Sort 等内建支持，分页不再需要手动拼接 LIMIT/OFFSET。
+
+
+# Pageable  不完善

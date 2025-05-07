@@ -62,6 +62,14 @@
     <dependencies>
 
 
+        <!-- Spring Data JPA -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>3.2.3</version> <!-- 对应 Hibernate 6.x -->
+        </dependency>
+
+
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
