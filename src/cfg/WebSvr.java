@@ -3,6 +3,7 @@ package cfg;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import handler.ivstAcc.dto.QueryDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Path;
@@ -12,6 +13,7 @@ import jakarta.ws.rs.Path;
 import model.other.ContentType;
 import util.annos.Paths;
 import util.serverless.ApiGateway;
+import util.serverless.ApiGatewayResponse;
 
 import java.io.*;
 import java.lang.annotation.Annotation;
@@ -25,15 +27,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 
 // static ztest.htmlTppltl.rend;
 import static util.algo.JarClassScanner.getPrjPath;
 import static util.algo.JarClassScanner.getTargetPath;
 import static util.algo.NullUtil.isBlank;
+import static util.algo.ToXX.toDtoFrmHttp;
 import static util.misc.PathUtil.getDirTaget;
+import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.*;
 import static util.oo.WebsrvUtil.processNmlExptn;
+import static util.rest.RestUti.createContext4rest;
+import static util.tx.QueryParamParser.toDto;
 
 
 /**
@@ -46,6 +53,8 @@ public class WebSvr {
 
     public static void startWebSrv() throws Exception {
         int port = 8889;
+
+
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         // 定义一个上下文，绑定到 "/api/hello" 路径
         //  server.createContext("/hello", new HelloHandler());
@@ -70,7 +79,10 @@ public class WebSvr {
             }
         });
         server.createContext("/jar/docRestApi", exchange -> docRestApiHdl(exchange));
-        server.createContext("/", exchange -> handleAllReq(exchange));
+
+
+        HttpHandler httpHandlerAll = exchange -> handleAllReq(exchange);
+        server.createContext("/", httpHandlerAll);
         //-------------------
         cfgPath(server);
         //  http://localhost:8889/
@@ -207,7 +219,21 @@ public class WebSvr {
         server.createContext("/users/get", exchange -> handleGetUser(exchange));
 
 
+        String path = "/tt2";
+        server.createContext(
+                path, exchange -> handleGetUser(exchange));
+
+
+        //   /p8?uname=123
+        createContext4rest("/p8", QueryDto.class, dto1 -> hdlDto2(dto1), server);
+
     }
+
+    private static Object hdlDto2(Object dto1) {
+        System.out.println("fun hdldto(prm=" + encodeJson(dto1));
+        return 888;
+    }
+
 
     public static void iniRestPathMap() {
         Consumer<Class> fun = aClass -> {
