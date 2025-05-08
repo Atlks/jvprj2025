@@ -58,8 +58,7 @@ public class CacheFil implements CacheItfs {
             //not exst ,put
 
                 Object obj = get.call();
-                String json = encodeJson(obj);
-                wrtFile(pathname, json);
+                put(key, obj);
                 return obj;
 
         }
