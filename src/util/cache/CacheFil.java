@@ -28,21 +28,21 @@ public class CacheFil implements CacheItfs {
             .build();
 
     @SuppressWarnings("unchecked")
-    public static <T> T getOrLoad(String key, Supplier<T> supplier) {
+    public static <T> T getOrLoad(String key, Supplier<T> supplier, int timeoutSecs) {
         System.out.println("fun getOrLoad key="+key+" ");
         try {
-            return (T) get(key, (Callable<Object>) supplier::get);
+            return (T) get(key, (Callable<Object>) supplier::get,timeoutSecs);
         } catch (Exception e) {
             return  supplier.get();
         }
     }
 
-    private static Object get(String key, Callable<Object> get) throws Exception {
+    private static Object get(String key, Callable<Object> get, int timeoutSecs) throws Exception {
         String pathname = "cacheDir/" + key + ".json";
 
         try{
             long passTimeSecs = fileModifyTimeDuration(pathname);
-            if(passTimeSecs>300) {
+            if(passTimeSecs>timeoutSecs) {
                 delFile(pathname);
             }
         }catch (CantFindFileEx e) {

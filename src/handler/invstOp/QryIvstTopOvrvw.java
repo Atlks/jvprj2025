@@ -51,7 +51,7 @@ public class QryIvstTopOvrvw {
             a.setTotalInvstLoss(sumInvstLoss());
             return a;
         };
-        return CacheFil.getOrLoad("glbAcc",glbAccSupplier);
+        return CacheFil.getOrLoad("glbAcc",glbAccSupplier,300);
       //  return CacheUtil.getOrLoad("glbAcc", glbAccSupplier);
     }
 
