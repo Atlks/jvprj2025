@@ -13,11 +13,13 @@ import model.OpenBankingOBIE.TransactionCode;
 import model.acc.GlbAcc;
 import model.opmng.InvestmentOpRecord;
 import util.Oosql.SlctQry;
+import util.cache.CacheFil;
 import util.cache.CacheUtil;
 import util.tx.findByIdExptn_CantFindData;
 
 import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 import static cfg.Containr.sessionFactory;
 import static handler.acc.AccService.getInsFdPlBal;
@@ -41,14 +43,16 @@ public class QryIvstTopOvrvw {
 
     public Object handleRequest(NonDto param) {
 
-        return CacheUtil.getOrLoad("glbAcc", () -> {
+        Supplier<GlbAcc> glbAccSupplier = () -> {
             GlbAcc a = new GlbAcc();
             a.setTotalEmoneyBalance(sumAllEmnyAccBal());
             a.setInsFdPoolBalance(getInsFdPlBal());
             a.setTotalInvstProfit(sumInvstProfit());
             a.setTotalInvstLoss(sumInvstLoss());
             return a;
-        });
+        };
+        return CacheFil.getOrLoad("glbAcc",glbAccSupplier);
+      //  return CacheUtil.getOrLoad("glbAcc", glbAccSupplier);
     }
 
 

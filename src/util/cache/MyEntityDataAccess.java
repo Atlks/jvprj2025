@@ -1,6 +1,5 @@
 package util.cache;
 
-package util.cache;
 
 import org.hibernate.cache.spi.DomainDataRegion;
 import org.hibernate.cache.spi.access.AccessType;

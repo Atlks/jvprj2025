@@ -3,7 +3,9 @@ package util.cache;
 import org.hibernate.cache.CacheException;
 import org.hibernate.cache.spi.DomainDataRegion;
 import org.hibernate.cache.spi.RegionFactory;
+import org.hibernate.cache.spi.access.CollectionDataAccess;
 import org.hibernate.cache.spi.access.EntityDataAccess;
+import org.hibernate.cache.spi.access.NaturalIdDataAccess;
 import org.hibernate.metamodel.model.domain.NavigableRole;
 
 public class MyDomainDataRegion implements DomainDataRegion {
