@@ -229,7 +229,13 @@ public class WebSvr {
 
     }
 
-    private static Object hdlDto2(Object dto1) {
+
+    /**
+     *
+     * @param dto1
+     * @return   apigatewayResponse
+     */
+    private static Object hdlDto2(QueryDto dto1) {
         System.out.println("fun hdldto(prm=" + encodeJson(dto1));
         return 888;
     }
