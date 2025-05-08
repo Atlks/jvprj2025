@@ -15,16 +15,22 @@ import static util.serverless.ApiGatewayResponse.createErrResponse;
 public class RestUti {
 
 
-
-    public static void createContext4rest(String path, Class dtoClz, Function<Object, Object> handler4rest, HttpServer server) {
+    /**
+     * 设置路由,强制规范了使用rqdto，和返回dto
+     * @param path
+     * @param dtoClz
+     * @param handlerFun
+     * @param server
+     */
+    public static <T> void createContext4rest(String path, Class<T> dtoClz, Function<T, Object> handlerFun, HttpServer server) {
         System.out.println("\n\n\nfun createContext4rest(path="+path+",dtoClz="+dtoClz.getName()+",hdlr,svr)))");
         HttpHandler httpHandler = exchange -> {
             System.out.println("url="+exchange.getRequestURI());
 
             String respTxt = "";
             try {
-                Object dtoTmp =toDtoFrmHttp(exchange,dtoClz);
-                Object respOBj = handler4rest.apply(dtoTmp);
+                T dtoTmp =toDtoFrmHttp(exchange,dtoClz);
+                Object respOBj = handlerFun.apply(dtoTmp);
                 respTxt = encodeJson(new ApiGatewayResponse(respOBj));
             } catch (Exception e) {
                 respTxt=encodeJson(createErrResponse(e));
