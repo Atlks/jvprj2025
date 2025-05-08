@@ -1,0 +1,19 @@
+<infinispan
+        xmlns="urn:infinispan:config:14.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:infinispan:config:14.0 https://infinispan.org/schemas/infinispan-config-14.0.xsd">
+
+    <cache-container default-cache="local">
+        <transport stack="tcp" cluster="hibernate-cluster"/>
+
+        <local-cache name="local">
+            <memory max-count="10000"/>
+            <expiration max-idle="600000"/>
+        </local-cache>
+
+        <!-- Optional named region -->
+        <local-cache name="org.hibernate.cache.internal.StandardQueryCache">
+            <memory max-count="1000"/>
+        </local-cache>
+    </cache-container>
+</infinispan>

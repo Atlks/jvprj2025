@@ -1,15 +1,19 @@
 package model.acc;
 
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import util.model.TableNames;
 
 import java.math.BigDecimal;
 
+@Entity
 // 方面的统计
-
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Data
 public class GlbAcc {
 

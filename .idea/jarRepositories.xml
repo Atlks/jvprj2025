@@ -7,6 +7,11 @@
       <option name="url" value="https://repo.maven.apache.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="central2" />
+      <option name="name" value="central2" />
+      <option name="url" value="https://repo.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="opencv-repo" />
       <option name="name" value="opencv-repo" />
       <option name="url" value="https://raw.github.com/opencv/opencv/master" />

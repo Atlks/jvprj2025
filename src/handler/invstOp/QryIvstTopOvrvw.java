@@ -1,5 +1,7 @@
 package handler.invstOp;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import entityx.usr.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
@@ -11,9 +13,11 @@ import model.OpenBankingOBIE.TransactionCode;
 import model.acc.GlbAcc;
 import model.opmng.InvestmentOpRecord;
 import util.Oosql.SlctQry;
+import util.cache.CacheUtil;
 import util.tx.findByIdExptn_CantFindData;
 
 import java.math.BigDecimal;
+import java.util.concurrent.TimeUnit;
 
 import static cfg.Containr.sessionFactory;
 import static handler.acc.AccService.getInsFdPlBal;
@@ -37,12 +41,14 @@ public class QryIvstTopOvrvw {
 
     public Object handleRequest(NonDto param) {
 
-        GlbAcc a = new GlbAcc();
-        a.setTotalEmoneyBalance(sumAllEmnyAccBal());
-        a.setInsFdPoolBalance(getInsFdPlBal());
-        a.setTotalInvstProfit(sumInvstProfit());
-        a.setTotalInvstLoss(sumInvstLoss());
-        return a;
+        return CacheUtil.getOrLoad("glbAcc", () -> {
+            GlbAcc a = new GlbAcc();
+            a.setTotalEmoneyBalance(sumAllEmnyAccBal());
+            a.setInsFdPoolBalance(getInsFdPlBal());
+            a.setTotalInvstProfit(sumInvstProfit());
+            a.setTotalInvstLoss(sumInvstLoss());
+            return a;
+        });
     }
 
 

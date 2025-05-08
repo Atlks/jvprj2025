@@ -1,0 +1,8 @@
+<config xmlns="http://www.ehcache.org/v3">
+    <cache alias="com.example.User">
+        <expiry>
+            <ttl unit="minutes">10</ttl>
+        </expiry>
+        <heap units="entries">1000</heap>
+    </cache>
+</config>

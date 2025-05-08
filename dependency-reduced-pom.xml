@@ -98,14 +98,6 @@
                   <filtering>false</filtering>
                 </resource>
                 <resource>
-                  <directory>${project.basedir}/META-INF</directory>
-                  <includes>
-                    <include>**/*.MF</include>
-                  </includes>
-                  <filtering>false</filtering>
-                  <targetPath>../classes/META-INF</targetPath>
-                </resource>
-                <resource>
                   <directory>${project.basedir}/src</directory>
                   <includes>
                     <include>**/*.properties</include>
@@ -141,6 +133,16 @@
               <goal>shade</goal>
             </goals>
             <configuration>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                  </excludes>
+                </filter>
+              </filters>
               <archive>
                 <manifest>
                   <mainClass>MainApp</mainClass>
@@ -158,19 +160,31 @@
       <id>central</id>
       <url>https://repo.maven.apache.org/maven2</url>
     </repository>
+    <repository>
+      <id>central2</id>
+      <url>https://repo.maven.apache.org/maven2</url>
+    </repository>
   </repositories>
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.2</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>hamcrest-core</artifactId>
-          <groupId>org.hamcrest</groupId>
-        </exclusion>
-      </exclusions>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-jcache</artifactId>
+      <version>6.6.5.Final</version>
+      <type>pom</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-infinispan</artifactId>
+      <version>5.6.15.Final</version>
+      <type>pom</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-ehcache</artifactId>
+      <version>6.0.0.Alpha7</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>jakarta.servlet</groupId>
@@ -217,6 +231,18 @@
       <artifactId>mockito-inline</artifactId>
       <version>5.2.0</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>hamcrest-core</artifactId>
+          <groupId>org.hamcrest</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>

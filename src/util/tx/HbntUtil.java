@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Environment;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
@@ -127,6 +128,22 @@ public class HbntUtil {
 
         properties.put(Environment.ORDER_INSERTS, "false");
         properties.put(Environment.ORDER_UPDATES, "false");
+
+
+        //-------统计查询cache的使用
+     //   properties.put(Environment.USE_SECOND_LEVEL_CACHE, true);
+
+     //   properties.put(Environment.USE_QUERY_CACHE, true);
+
+        // 二级缓存
+
+       // properties.put(AvailableSettings.CACHE_REGION_FACTORY, InfinispanRegionFactory.class.getName());
+
+        // 不使用 infinispan.xml，而是使用默认或 programmatic 配置
+        // 可以通过 Infinispan 自定义 CacheManager（下面是默认的）
+
+
+
 
         // 创建 ServiceRegistry
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
 import model.OpenBankingOBIE.TransactionCode;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import util.excptn.AmtErr;
 
 import java.math.BigDecimal;
@@ -20,6 +21,8 @@ import static util.algo.GetUti.getUuid;
 @Table(name = "invst_op_rcd")
 @Data
 @FieldNameConstants
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class InvestmentOpRecord {
 
     @Id

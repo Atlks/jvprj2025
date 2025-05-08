@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="infinispan-commons-14.0.19.Final">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libjar/infinispan-commons-14.0.19.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libjar/infinispan-core-9.3.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libjar/infinispan-core-14.0.19.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libjar/infinispan-hibernate-cache-commons-9.3.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libjar/infinispan-hibernate-cache-spi-9.3.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libjar/jakarta.servlet-api-6.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

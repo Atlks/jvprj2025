@@ -1,14 +1,14 @@
 
 
-　pfm enhs spec
+pfm enhs spec
 
 提升性能方法
 参照hdwr硬件模式和window
 
-pfm 
+pfm
 
 将硬件，WINDOWS还有软件开发中的性能提升方法对应起来
- ~
+~
 # 开源节流模式
 。。并行架构 多通道 多核
 。。读写分离
@@ -31,13 +31,17 @@ pfm
 
 
 ---------------
-# mysql pfm enhs 
+# mysql pfm enhs
 # 具体的cache
 。。hbnt lev2 cache...jcache ,guava cache
 ..mysql  ,buffer pool ,let idex n data cache in memry
 
 
 
+ref
+
+mysql pfm
+cache java
 
 
 
