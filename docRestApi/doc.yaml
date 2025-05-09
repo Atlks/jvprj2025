@@ -220,7 +220,21 @@ paths:
       tags:
         - fdList
       summary: "资金明细 管理端"
-
+      parameters:
+        - name: uname
+          in: query
+          required: false
+          schema:
+            type: string
+          description:
+          example: "666"
+        - name: day
+          in: query
+          required: false
+          schema:
+            type: int
+          description:
+          example: 300
       responses:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
