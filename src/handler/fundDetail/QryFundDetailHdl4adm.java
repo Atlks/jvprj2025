@@ -49,6 +49,7 @@ public class QryFundDetailHdl4adm {
         SelectQuery<?> query = create.selectQuery();
 
         query.addFrom(Transaction1);
+        if(reqdto.uname!="")
         query.addConditions(accountOwner.eq(reqdto.uname));
 
         query.addConditions(timestamp.gt( beforeTmstmp(reqdto.day)));
