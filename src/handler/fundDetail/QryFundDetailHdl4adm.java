@@ -1,29 +1,36 @@
-package handler.wlt;
+package handler.fundDetail;
 
 import cfg.MainStart;
-import handler.wlt.qryFdDtl.QryFundDetailRqdto;
+import handler.fundDetail.qryFdDtl.QryFundDetailRqdto;
+import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import model.OpenBankingOBIE.Transaction;
 import model.wlt.BalancesFundDetail;
 import org.jooq.*;
 import org.jooq.conf.ParamType;
 import org.jooq.impl.DSL;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Map;
 
-import static cfg.Containr.sessionFactory;
 import static cfg.MainStart.iniContnr;
 import static util.algo.GetUti.getTableName;
 import static util.misc.Util2025.encodeJson;
 import static util.oo.TimeUti.beforeTmstmp;
-import static util.tx.Pagging.getPageResultByHbntV4;
+import static util.tx.HbntUtil.getResultListWzPageByHbntRtLstmap;
 import static util.tx.TransactMng.commitTsact;
 import static util.tx.TransactMng.openSessionBgnTransact;
 
-@Path("/wlt/QryFundDetailHdl")
-
-public class QryFundDetailHdl  {
+/**
+ * menu::  admin/data rpt/fd dtl
+ */
+@Path("/admin/QryFundDetailHdl")
+@PermitAll
+public class QryFundDetailHdl4adm {
     /**
      * @param reqdto
 
@@ -34,14 +41,14 @@ public class QryFundDetailHdl  {
     public Object handleRequest(QryFundDetailRqdto reqdto) throws Throwable {
 
 
-        Table<?> USER = DSL.table(getTableName(Transaction.class));
+        Table<?> Transaction1 = DSL.table(getTableName(Transaction.class));
         Field<String> accountOwner = DSL.field("accountOwner", String.class);
         Field<Long> timestamp = DSL.field("timestamp", Long.class);
 
         DSLContext create = DSL.using(SQLDialect.MYSQL);
         SelectQuery<?> query = create.selectQuery();
 
-        query.addFrom(USER);
+        query.addFrom(Transaction1);
         query.addConditions(accountOwner.eq(reqdto.uname));
 
         query.addConditions(timestamp.gt( beforeTmstmp(reqdto.day)));
@@ -53,7 +60,9 @@ public class QryFundDetailHdl  {
 
 
         HashMap<String, Object> sqlprmMap = new HashMap<>();
-        var list1 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), Transaction.class);
+        Pageable pageable = PageRequest.of(2, 10);
+
+        Page<Map> list1 = getResultListWzPageByHbntRtLstmap(sql, sqlprmMap, pageable);
 
         return (list1);
     }
@@ -80,7 +89,7 @@ public class QryFundDetailHdl  {
         QryFundDetailRqdto c=new QryFundDetailRqdto();
         c.uname="007";
         //  persistByHibernate(o, AppConfig.sessionFactory.getCurrentSession());
-        System.out.println(encodeJson(new QryFundDetailHdl().handleRequest(c)));
+        System.out.println(encodeJson(new QryFundDetailHdl4adm().handleRequest(c)));
 
         commitTsact();
     }

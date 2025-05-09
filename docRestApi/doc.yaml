@@ -60,6 +60,8 @@ tags:
     description: 管理后台——钱包方面接口
   - name: role
     description: 管理后台——自定义角色
+  - name: fdList
+    description: 资金明细
 
 components:
   parameters:
@@ -203,6 +205,26 @@ paths:
       responses:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
+  /wlt/QryFundDetailHdl:
+    get:
+      tags:
+        - fdList
+      summary: "资金明细 用户端"
+
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
+
+  /admin/QryFundDetailHdl:
+    get:
+      tags:
+        - fdList
+      summary: "资金明细 管理端"
+
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
+
 
   /admin/role/ListRolesHdl:
    $ref: './paths/role/ListRolesHdl.yaml'

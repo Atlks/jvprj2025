@@ -1,5 +1,7 @@
 package util.tx;
 
+import entityx.PageResult;
+import entityx.usr.Usr;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
@@ -15,12 +17,17 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import util.entty.PageDto;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import static cfg.Containr.sessionFactory;
 import static util.algo.IsXXX.ifIsBlank;
 import static util.algo.JarClassScanner.getClassesList;
 import static util.log.ColorLogger.*;
@@ -337,6 +344,38 @@ public class HbntUtil {
         System.out.println("✅endfun findByHbnt.ret=" + encodeJson(rzt));
         return rzt;
     }
+
+    /**
+     * Pageable pageable = PageRequest.of(2, 10, Sort.by("createdAt").descending());
+     * @param sql
+     * @param sqlprmMap
+     * @param pageable
+
+     * @return
+     * @throws SQLException
+     */
+    public static @NotNull Page<Map> getResultListWzPageByHbntRtLstmap(@NotBlank  String sql, Map<String, Object> sqlprmMap, Pageable pageable) throws SQLException {
+
+        System.out.println("fun getResultListWzPageByHbntRtLstmap(sql= "+sql);
+        Session session=sessionFactory.getCurrentSession();
+        NativeQuery<?> nativeQuery = session.createNativeQuery(sql, Map.class );
+        setPrmts4sql(sqlprmMap, nativeQuery);
+        // 设置分页
+        nativeQuery.setFirstResult(getstartPosition(pageable.getPageNumber(), pageable.getPageSize()));
+        nativeQuery.setMaxResults(pageable.getPageSize());
+        //       .setParameter("age", 18);
+        List<Map> list1 = (List<Map>) nativeQuery.getResultList();
+
+
+        //------------page
+        long totalRecords = nativeQuery.getResultCount();
+
+     //   Page<Usr> page;
+    //    int totalPages = (int) Math.ceil((double) totalRecords / pageable.getPageSize());
+        return   new PageImpl<Map>(list1, pageable, totalRecords);
+       // return new PageResult<>(list1, totalRecords, totalPages,pageable.getPageNumber(),pageable.getPageSize());
+    }
+
 
     @Deprecated
     public static <T> T findByHerbinateLockForUpdt(Class<T> t, String id, Session session) {

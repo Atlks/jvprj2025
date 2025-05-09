@@ -16,6 +16,7 @@ public class PageResult<T> {
     //如果有多个统计总额的化，读写这里可以
     public Map<String,Object>  sumInfo=new HashMap<>();
     public    long totalRecords;
+    public  long totalElements;
     public   int totalPages;
     public    int page;
     public   int pagesize;

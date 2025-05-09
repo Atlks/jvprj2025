@@ -1,4 +1,4 @@
-package handler.fundDetail;
+package handler.fundDetail.qryFdDtl;
 
 //账变时间       会员账号       关联订单号       额度类型     账变类型  收支类型
 //

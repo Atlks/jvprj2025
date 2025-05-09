@@ -1,6 +1,6 @@
 package util.Oosql;
 
-import handler.wlt.qryFdDtl.QryFundDetailRqdto;
+import handler.fundDetail.qryFdDtl.QryFundDetailRqdto;
 import model.OpenBankingOBIE.Transaction;
 
 

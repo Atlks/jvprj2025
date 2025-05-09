@@ -1,4 +1,4 @@
-package handler.wlt.qryFdDtl;
+package handler.fundDetail.qryFdDtl;
 
 import util.annos.CurrentUsername;
 import lombok.Data;
