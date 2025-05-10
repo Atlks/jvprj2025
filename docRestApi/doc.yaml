@@ -308,7 +308,7 @@ paths:
   /wlt/ListInvtCmsLogHdl:
     $ref: './paths/wlt/ListInvtCmsLogHdl.yaml'
   /wlt/ListIvstProfitHdl:
-    $ref: './paths/wlt/ListBetWinLogHdl.yaml'
+    $ref: './paths/wlt/ListIvstProfitHdl.yaml'
 
   /admin/wlt/QueryOrdChrgHdr:
     $ref: './paths/pay/QueryOrdChrgHdr.yaml'

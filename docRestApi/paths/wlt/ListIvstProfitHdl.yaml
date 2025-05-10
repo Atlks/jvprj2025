@@ -1,7 +1,7 @@
 get:
   tags:
     - AccountInvst
-  summary: " 盈利钱包方面接口 投资盈利列表"
+  summary: " 盈利钱包方面接口 投资盈利列表 收益流水"
 
 
 
