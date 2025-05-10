@@ -24,6 +24,7 @@ import java.util.function.Supplier;
 import static cfg.Containr.sessionFactory;
 import static handler.acc.AccService.getInsFdPlBal;
 import static handler.acc.AccService.sumAllEmnyAccBal;
+import static handler.trx.TransactnService.sumInvstProfit;
 import static util.Oosql.SlctQry.newSelectQuery;
 import static util.Oosql.SlctQry.toValStr;
 import static util.acc.AccUti.getAccId;

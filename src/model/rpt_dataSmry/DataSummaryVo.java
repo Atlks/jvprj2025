@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ public class DataSummaryVo {
     private BigDecimal totalAdjustment= BigDecimal.valueOf(0);    // 累计调整
 
     // 月份列表（如：2025/05, 2025/06 ...）
-    private List<MonthRechgStats> monthRechgStatsList;
+    public List<MonthRechgStats> monthRechgStatsList=new ArrayList<>();
 
     // 当月相关
     private BigDecimal currentMonthRechargeAmount= BigDecimal.valueOf(0); // 当月充值金额

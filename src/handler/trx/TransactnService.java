@@ -17,7 +17,7 @@ import static util.tx.HbntUtil.getSingleResult;
 
 public class TransactnService {
 
-    private BigDecimal sumInvstProfit() {
+    public static BigDecimal sumInvstProfit() {
 
         String trxType = TransactionCode.invstProfit.name();
         return getSumAmtByTrxtype(trxType);

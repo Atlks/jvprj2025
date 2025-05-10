@@ -214,6 +214,17 @@ paths:
       responses:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
+  /rpt/DataSummray:
+    get:
+      tags:
+        - rpt
+      summary: "数据报表-数据总览
+"
+
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
+
 
   /admin/QryFundDetailHdl:
     get:

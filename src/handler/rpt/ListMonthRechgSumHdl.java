@@ -4,7 +4,7 @@ import entityx.usr.NonDto;
 import jakarta.ws.rs.core.Context;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
-import  model.rpt.RechgAmtSumNMbrs;
+
 public class ListMonthRechgSumHdl  implements RequestHandler<NonDto, ApiGatewayResponse> {
     /**
      * @param param
