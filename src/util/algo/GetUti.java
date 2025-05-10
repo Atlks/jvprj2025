@@ -5,7 +5,7 @@ import com.sun.net.httpserver.HttpExchange;
 import jakarta.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jooq.Table;
+
 
 
 import java.io.ByteArrayOutputStream;

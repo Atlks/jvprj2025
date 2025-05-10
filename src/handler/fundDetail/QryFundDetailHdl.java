@@ -5,13 +5,12 @@ import handler.fundDetail.qryFdDtl.QryFundDetailRqdto;
 import jakarta.ws.rs.Path;
 import model.OpenBankingOBIE.Transaction;
 import model.wlt.BalancesFundDetail;
-import org.jooq.*;
-import org.jooq.conf.ParamType;
-import org.jooq.impl.DSL;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import util.Oosql.SlctQry;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -41,20 +40,16 @@ public class QryFundDetailHdl  {
 
     public Object handleRequest(QryFundDetailRqdto reqdto) throws Throwable {
 
+        SlctQry query = SlctQry.newSelectQuery(getTableName(Transaction.class));
 
-        Table<?> Transaction1 = DSL.table(getTableName(Transaction.class));
-        Field<String> accountOwner = DSL.field("accountOwner", String.class);
-        Field<Long> timestamp = DSL.field("timestamp", Long.class);
 
-        DSLContext create = DSL.using(SQLDialect.MYSQL);
-        SelectQuery<?> query = create.selectQuery();
 
-        query.addFrom(Transaction1);
-        query.addConditions(accountOwner.eq(reqdto.uname));
+            query.addConditions(Transaction.Fields.accountOwner+"="+(reqdto.uname));
 
-        query.addConditions(timestamp.gt( beforeTmstmp(reqdto.day)));
-        query.addOrderBy(timestamp.desc());
-        String sql = query.getSQL(ParamType.INLINED);  // ✅ 直接拿到 SQL 字符串
+        query.addConditions(Transaction.Fields.timestamp+">"+( beforeTmstmp(reqdto.day)));
+        query.addOrderBy(Transaction.Fields.timestamp+" desc");
+        String sql = query.getSQL();
+        // ✅ 直接拿到 SQL 字符串
         System.out.println(sql);
 
 

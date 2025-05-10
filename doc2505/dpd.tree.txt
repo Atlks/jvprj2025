@@ -1,0 +1,145 @@
+
+INFO] --- dependency:3.1.0:tree (default-cli) @ jvprj2025api ---
+[WARNING] The artifact org.hibernate:hibernate-jcache:pom:6.6.5.Final has been relocated to org.hibernate.orm:hibernate-jcache:pom:6.6.5.Final
+[WARNING] The artifact org.hibernate:hibernate-core:jar:6.6.5.Final has been relocated to org.hibernate.orm:hibernate-core:jar:6.6.5.Final
+[INFO] uke:jvprj2025api:jar:202505
+[INFO] +- jakarta.xml.bind:jakarta.xml.bind-api:jar:4.0.2:compile
+[INFO] |  \- jakarta.activation:jakarta.activation-api:jar:2.1.3:compile
+[INFO] +- org.hibernate.orm:hibernate-jcache:pom:6.6.5.Final:compile
+[INFO] |  \- org.jboss.logging:jboss-logging:jar:3.5.0.Final:compile
+[INFO] +- jakarta.transaction:jakarta.transaction-api:jar:2.0.1:compile
+[INFO] +- javax.cache:cache-api:jar:1.1.1:compile
+[INFO] +- org.springframework.data:spring-data-commons:jar:3.2.3:compile
+[INFO] +- jakarta.servlet:jakarta.servlet-api:jar:5.0.0:provided
+[INFO] +- com.fatboyindustrial.gson-javatime-serialisers:gson-javatime-serialisers:jar:1.1.1:compile
+[INFO] +- jakarta.validation:jakarta.validation-api:jar:3.0.2:compile
+[INFO] +- com.fasterxml:classmate:jar:1.5.1:compile
+[INFO] +- com.fasterxml.jackson.core:jackson-databind:jar:2.16.2:compile
+[INFO] +- com.fasterxml.jackson.core:jackson-core:jar:2.16.2:compile
+[INFO] +- com.fasterxml.jackson.core:jackson-annotations:jar:2.16.2:compile
+[INFO] +- org.hibernate.validator:hibernate-validator:jar:8.0.2.Final:compile
+[INFO] +- io.jsonwebtoken:jjwt-api:jar:0.11.5:compile
+[INFO] +- io.jsonwebtoken:jjwt-impl:jar:0.11.5:runtime
+[INFO] +- io.jsonwebtoken:jjwt-jackson:jar:0.11.5:runtime
+[INFO] +- org.jsoup:jsoup:jar:1.17.2:compile
+[INFO] +- jakarta.inject:jakarta.inject-api:jar:2.0.1:compile
+[INFO] +- jakarta.enterprise:jakarta.enterprise.cdi-api:jar:4.1.0:compile
+[INFO] |  +- jakarta.enterprise:jakarta.enterprise.lang-model:jar:4.1.0:compile
+[INFO] |  +- jakarta.annotation:jakarta.annotation-api:jar:3.0.0:compile
+[INFO] |  +- jakarta.el:jakarta.el-api:jar:6.0.0:compile
+[INFO] |  \- jakarta.interceptor:jakarta.interceptor-api:jar:2.2.0:compile
+[INFO] +- jakarta.security.enterprise:jakarta.security.enterprise-api:jar:4.0.0:compile
+[INFO] |  \- jakarta.json:jakarta.json-api:jar:2.1.3:compile
+[INFO] +- jakarta.security.jacc:jakarta.security.jacc-api:jar:1.6.1:compile
+[INFO] +- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.16.0:compile
+[INFO] +- jakarta.ws.rs:jakarta.ws.rs-api:jar:4.0.0:compile
+[INFO] +- org.projectlombok:lombok:jar:1.18.34:provided
+[INFO] +- org.junit.jupiter:junit-jupiter:jar:5.9.3:test
+[INFO] |  \- org.junit.jupiter:junit-jupiter-params:jar:5.9.3:test
+[INFO] +- org.mockito:mockito-core:jar:5.8.0:test
+[INFO] |  +- net.bytebuddy:byte-buddy:jar:1.14.10:runtime
+[INFO] |  +- net.bytebuddy:byte-buddy-agent:jar:1.14.10:test
+[INFO] |  \- org.objenesis:objenesis:jar:3.3:test
+[INFO] +- org.mockito:mockito-inline:jar:5.2.0:test
+[INFO] +- org.web3j:core:jar:5.0.0:compile
+[INFO] |  +- org.web3j:abi:jar:5.0.0:compile
+[INFO] |  +- org.web3j:tuples:jar:5.0.0:compile
+[INFO] |  +- com.github.jnr:jnr-unixsocket:jar:0.21:compile
+[INFO] |  |  +- com.github.jnr:jnr-ffi:jar:2.1.9:compile
+[INFO] |  |  |  +- com.github.jnr:jffi:jar:1.2.17:compile
+[INFO] |  |  |  +- com.github.jnr:jffi:jar:native:1.2.16:runtime
+[INFO] |  |  |  +- org.ow2.asm:asm-analysis:jar:5.0.3:compile
+[INFO] |  |  |  +- org.ow2.asm:asm-util:jar:5.0.3:compile
+[INFO] |  |  |  +- com.github.jnr:jnr-a64asm:jar:1.0.0:compile
+[INFO] |  |  |  \- com.github.jnr:jnr-x86asm:jar:1.0.2:compile
+[INFO] |  |  +- com.github.jnr:jnr-constants:jar:0.9.11:compile
+[INFO] |  |  +- com.github.jnr:jnr-enxio:jar:0.19:compile
+[INFO] |  |  \- com.github.jnr:jnr-posix:jar:3.0.47:compile
+[INFO] |  +- com.squareup.okhttp3:logging-interceptor:jar:4.3.1:compile
+[INFO] |  +- io.reactivex.rxjava2:rxjava:jar:2.2.2:compile
+[INFO] |  |  \- org.reactivestreams:reactive-streams:jar:1.0.2:compile
+[INFO] |  \- org.java-websocket:Java-WebSocket:jar:1.3.8:compile
+[INFO] +- org.web3j:crypto:jar:5.0.0:compile
+[INFO] |  \- org.web3j:rlp:jar:5.0.0:compile
+[INFO] +- org.slf4j:slf4j-api:jar:2.0.9:compile
+[INFO] +- junit:junit:jar:4.13.2:test
+[INFO] |  \- org.hamcrest:hamcrest-core:jar:1.3:test
+[INFO] +- org.opensaml:opensaml-core:jar:4.0.1:compile
+[INFO] |  +- commons-codec:commons-codec:jar:1.14:compile
+[INFO] |  +- com.google.code.findbugs:jsr305:jar:3.0.2:compile
+[INFO] |  +- com.google.guava:guava:jar:28.2-jre:compile
+[INFO] |  |  +- com.google.guava:failureaccess:jar:1.0.1:compile
+[INFO] |  |  +- com.google.guava:listenablefuture:jar:9999.0-empty-to-avoid-conflict-with-guava:compile
+[INFO] |  |  +- org.checkerframework:checker-qual:jar:2.10.0:compile
+[INFO] |  |  +- com.google.errorprone:error_prone_annotations:jar:2.3.4:compile
+[INFO] |  |  \- com.google.j2objc:j2objc-annotations:jar:1.3:compile
+[INFO] |  +- io.dropwizard.metrics:metrics-core:jar:4.1.4:compile
+[INFO] |  \- net.shibboleth.utilities:java-support:jar:8.0.0:compile
+[INFO] +- org.opensaml:opensaml-saml-api:jar:4.0.1:compile
+[INFO] |  +- org.opensaml:opensaml-messaging-api:jar:4.0.1:compile
+[INFO] |  |  +- org.apache.httpcomponents:httpclient:jar:4.5.12:compile
+[INFO] |  |  \- org.apache.httpcomponents:httpcore:jar:4.4.13:compile
+[INFO] |  +- org.opensaml:opensaml-profile-api:jar:4.0.1:compile
+[INFO] |  +- org.opensaml:opensaml-security-api:jar:4.0.1:compile
+[INFO] |  |  +- org.cryptacular:cryptacular:jar:1.2.4:compile
+[INFO] |  |  +- org.bouncycastle:bcpkix-jdk15on:jar:1.64:compile
+[INFO] |  |  \- org.springframework:spring-core:jar:5.2.4.RELEASE:compile
+[INFO] |  |     \- org.springframework:spring-jcl:jar:5.2.4.RELEASE:compile
+[INFO] |  +- org.opensaml:opensaml-soap-api:jar:4.0.1:compile
+[INFO] |  +- org.opensaml:opensaml-xmlsec-api:jar:4.0.1:compile
+[INFO] |  \- org.apache.santuario:xmlsec:jar:2.1.4:compile
+[INFO] |     \- com.fasterxml.woodstox:woodstox-core:jar:5.0.3:compile
+[INFO] |        \- org.codehaus.woodstox:stax2-api:jar:3.1.4:compile
+[INFO] +- jakarta.json.bind:jakarta.json.bind-api:jar:2.0.0:compile
+[INFO] +- org.web3j:utils:jar:5.0.0:compile
+[INFO] |  \- org.bouncycastle:bcprov-jdk15on:jar:1.65:compile
+[INFO] +- com.belerweb:pinyin4j:jar:2.5.0:compile
+[INFO] +- org.bitcoinj:bitcoinj-core:jar:0.15.10:compile
+[INFO] |  +- org.bouncycastle:bcprov-jdk15to18:jar:1.68:compile
+[INFO] |  +- com.google.protobuf:protobuf-java:jar:3.6.1:compile
+[INFO] |  \- net.jcip:jcip-annotations:jar:1.0:runtime
+[INFO] +- org.ow2.asm:asm-commons:jar:9.7:compile
+[INFO] |  +- org.ow2.asm:asm:jar:9.7:compile
+[INFO] |  \- org.ow2.asm:asm-tree:jar:9.7:compile
+[INFO] +- org.junit.jupiter:junit-jupiter-api:jar:5.9.3:test
+[INFO] |  +- org.opentest4j:opentest4j:jar:1.2.0:test
+[INFO] |  +- org.junit.platform:junit-platform-commons:jar:1.9.3:test
+[INFO] |  \- org.apiguardian:apiguardian-api:jar:1.1.2:test
+[INFO] +- org.junit.jupiter:junit-jupiter-engine:jar:5.9.3:test
+[INFO] |  \- org.junit.platform:junit-platform-engine:jar:1.9.3:test
+[INFO] +- io.mockk:mockk:jar:1.13.4:test
+[INFO] |  +- io.mockk:mockk-dsl:jar:1.13.4:test
+[INFO] |  +- io.mockk:mockk-agent:jar:1.13.4:test
+[INFO] |  +- io.mockk:mockk-agent-api:jar:1.13.4:test
+[INFO] |  +- io.mockk:mockk-core:jar:1.13.4:test
+[INFO] |  \- org.jetbrains.kotlin:kotlin-stdlib-common:jar:1.8.0:compile
+[INFO] +- com.squareup.okhttp3:okhttp:jar:4.9.1:compile
+[INFO] |  +- com.squareup.okio:okio:jar:2.8.0:compile
+[INFO] |  \- org.jetbrains.kotlin:kotlin-stdlib:jar:1.4.10:compile
+[INFO] |     \- org.jetbrains:annotations:jar:13.0:compile
+[INFO] +- org.json:json:jar:20210307:compile
+[INFO] +- com.google.code.gson:gson:jar:2.10.1:compile
+[INFO] +- com.h2database:h2:jar:2.2.224:compile
+[INFO] +- org.apache.commons:commons-dbcp2:jar:2.9.0:compile
+[INFO] |  +- org.apache.commons:commons-pool2:jar:2.10.0:compile
+[INFO] |  \- commons-logging:commons-logging:jar:1.2:compile
+[INFO] +- org.hibernate.orm:hibernate-core:jar:6.6.5.Final:compile
+[INFO] |  +- org.hibernate.common:hibernate-commons-annotations:jar:7.0.3.Final:runtime
+[INFO] |  +- io.smallrye:jandex:jar:3.2.0:runtime
+[INFO] |  +- org.glassfish.jaxb:jaxb-runtime:jar:4.0.2:compile
+[INFO] |  |  \- org.glassfish.jaxb:jaxb-core:jar:4.0.2:compile
+[INFO] |  |     +- org.eclipse.angus:angus-activation:jar:2.0.0:runtime
+[INFO] |  |     +- org.glassfish.jaxb:txw2:jar:4.0.2:compile
+[INFO] |  |     \- com.sun.istack:istack-commons-runtime:jar:4.1.1:compile
+[INFO] |  \- org.antlr:antlr4-runtime:jar:4.13.0:runtime
+[INFO] +- jakarta.persistence:jakarta.persistence-api:jar:3.1.0:compile
+[INFO] +- org.apache.commons:commons-lang3:jar:3.12.0:compile
+[INFO] +- mysql:mysql-connector-java:jar:8.0.30:compile
+[INFO] +- org.datanucleus:datanucleus-api-jdo:jar:6.0.4:compile
+[INFO] \- com.alibaba.fastjson2:fastjson2:jar:2.0.44:compile
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.846 s
+[INFO] Finished at: 2025-05-11T00:34:28+07:00
+[INFO] ------------------------
