@@ -7,8 +7,10 @@ package model.OpenBankingOBIE;
  * <p>
  * 选择	原因
  * SavingsAccount	比较合理，保险资金池的本质类似“储蓄账户”，资金集中管理，且流动性相对较低
- * GeneralInvestment	如果资金池用于投资理财、赚收益，可能归到 GeneralInvestment（一般投资账户）
- */
+ * GeneralInvestment	如果资金池用于投资理财、赚收益，可能归到 GeneralInvestment（一般投资账户）、
+ *
+ * ChargeCard CreditCard CurrentAccount EMoney Loan Mortgage PrePaidCard Savings
+ * */
 public enum AccountSubType {
 
     //EMoney:本金钱包 ，GeneralInvestment 投资账户盈利钱包 ，
@@ -17,7 +19,7 @@ public enum AccountSubType {
     EMoney,
     // 投资账户（ 就是盈利账户 一般证券）
     GeneralInvestment,
-    agtCmsAcc,  //代理账户   cms bls
+    agtCms,  //代理cmd账户   cms bls
 
     insFdPl,  //inshor fd pool
     usrExt, //扩展统计类的账户
