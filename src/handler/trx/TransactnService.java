@@ -13,6 +13,10 @@ import static cfg.Containr.sessionFactory;
 import static util.Oosql.SlctQry.newSelectQuery;
 import static util.Oosql.SlctQry.toValStr;
 import static util.algo.GetUti.getTableName;
+import static util.oo.DatetimeUti.getMonthEndDatetime;
+
+
+import static util.oo.DatetimeUti.getMonthStartDatetime;
 import static util.tx.HbntUtil.getSingleResult;
 
 public class TransactnService {
@@ -24,6 +28,41 @@ public class TransactnService {
 
     }
 
+    public static long getCntByBkDttm(String startTime, String endTime) {
+
+        SlctQry query = newSelectQuery(getTableName(Transaction.class));
+        query.select("count(*)");
+
+        query.addConditions(Transaction.Fields.transactionCode + "=" + toValStr(TransactionCode.payment_rechg.name()));
+        query.addConditions(Transaction.Fields.bookingDateTime + ">=" + toValStr(startTime));
+        query.addConditions(Transaction.Fields.bookingDateTime + "<=" + toValStr(endTime));
+
+        String sql = query.getSQL();  // ✅ 直接拿到 SQL 字符串
+        System.out.println(sql);
+        try {
+            return (long) getSingleResult(sql, sessionFactory.getCurrentSession());
+        } catch (findByIdExptn_CantFindData e) {
+            return 0;
+        }
+
+    }
+
+    /**
+     * @param yearMonth 202505
+     * @return
+     */
+    public static BigDecimal getMonthRchgAmt(int yearMonth) {
+        String startTime = getMonthStartDatetime(yearMonth);
+        String endTime = getMonthEndDatetime(yearMonth);
+        return getSumAmtByBkDttm(startTime, endTime);
+
+    }
+    public static long getMonthRchgUserCnt(int yearMonth) {
+
+        String startTime = getMonthStartDatetime(yearMonth);
+        String endTime = getMonthEndDatetime(yearMonth);
+        return getCntByBkDttm(startTime, endTime);
+    }
 
     @NotNull
     public static BigDecimal getSumAmtByBkDttm(String starttime, String endTime) {
