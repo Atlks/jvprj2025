@@ -34,5 +34,5 @@ public class MonthRechgStats {
   */
   public   BigDecimal MonthRechargeAmount;
 
-  public   Integer  MonthRechargeUsersCnt;
+  public   long  MonthRechargeUsersCnt;
 }

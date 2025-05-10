@@ -36,7 +36,7 @@ public class DataSummaryVo {
 
     // 当月相关
     private BigDecimal currentMonthRechargeAmount= BigDecimal.valueOf(0); // 当月充值金额
-    private Integer currentMonthRechargeUsers=0;     // 当月充值人数
+    private long currentMonthRechargeUsers=0;     // 当月充值人数
 
     // Getter & Setter 省略，可使用 Lombok 或 IDE 自动生成
 

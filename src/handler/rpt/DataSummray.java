@@ -67,14 +67,14 @@ public class DataSummray {
         return targetMonth.format(formatter);
     }
 
-    private Integer getMonthRchgUserCnt(int yearMonth) {
+    private long getMonthRchgUserCnt(int yearMonth) {
 
         String startTime = getMonthStartDatetime(yearMonth);
         String endTime = getMonthEndDatetime(yearMonth);
         return getCntByBkDttm(startTime, endTime);
     }
 
-    private int getCntByBkDttm(String startTime, String endTime) {
+    private long getCntByBkDttm(String startTime, String endTime) {
 
         SlctQry query = newSelectQuery(getTableName(Transaction.class));
         query.select("count(*)");
@@ -86,7 +86,7 @@ public class DataSummray {
         String sql = query.getSQL();  // ✅ 直接拿到 SQL 字符串
         System.out.println(sql);
         try {
-            return (Integer) getSingleResult(sql, sessionFactory.getCurrentSession());
+            return (long) getSingleResult(sql, sessionFactory.getCurrentSession());
         } catch (findByIdExptn_CantFindData e) {
             return 0;
         }
