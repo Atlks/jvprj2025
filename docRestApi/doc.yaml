@@ -50,14 +50,12 @@ tags:
     description: 管理端接口-运营管理
   - name: admin
     description: 管理端接口-管理员管理
-  - name: admin_usr
-    description: 管理端接口-会员管理
+
   - name: rpt
     description: 管理端接口-报表管理
   - name: invstRcd
     description: 管理端接口-投资记录管理
-  - name: adm_wlt
-    description: 管理后台——钱包方面接口
+
   - name: role
     description: 管理后台——自定义角色
   - name: fdList
