@@ -97,7 +97,7 @@ public class ListTrsxBnsHdl implements RequestHandler<QueryDto, ApiGatewayRespon
         o.setUname("777");
         o.setAmt(new BigDecimal("9999"));
       //  persistByHibernate(o, AppConfig.sessionFactory.getCurrentSession());
-        System.out.println(encodeJson(new ListBetWinLogHdl().handleRequest(new QueryDto("777"),null)));
+        System.out.println(encodeJson(new ListIvstProftLogHdl().handleRequest(new QueryDto("777"),null)));
 
         commitTsact();
     }

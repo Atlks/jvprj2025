@@ -45,7 +45,7 @@ import static util.tx.TransactMng.openSessionBgnTransact;
 @Path("/wlt/ListIvstProfitHdl")
 @PermitAll
 @NoDftParam
-public class ListBetWinLogHdl implements RequestHandler<QueryDto, ApiGatewayResponse> {
+public class ListIvstProftLogHdl implements RequestHandler<QueryDto, ApiGatewayResponse> {
     /**
      * @param reqdto
      * @param context
@@ -59,14 +59,8 @@ public class ListBetWinLogHdl implements RequestHandler<QueryDto, ApiGatewayResp
 
         SlctQry query = newSelectQuery(getTableName(Transaction.class));
         query.select("*");
-        query.addConditions(Transaction.Fields.transactionCode+"="+toStr4sqlprm(TransactionCode.Service_Cms_rechgCms.name()));
-        query.addOrderBy("timestamp desc");
-
-        if(reqdto.uname!="")
-        {
-            query.addConditions(Transaction.Fields.accountOwner+"="+encodeSqlPrmAsStr(reqdto.uname));
-        }
-String sql=query.getSQL();
+        addCdtn(query,  reqdto);
+        String sql=query.getSQL();
 
         Map<String,Object> sqlprmMap=new HashMap();
         var list1 = getPageResultByHbntRtLstmap(sql, sqlprmMap,reqdto, sessionFactory.getCurrentSession());
@@ -74,16 +68,19 @@ String sql=query.getSQL();
         return new ApiGatewayResponse(list1);
     }
 
+    private static void addCdtn(SlctQry query,  QueryDto reqdto) {
+        query.addConditions(Transaction.Fields.transactionCode + "=" + toStr4sqlprm(TransactionCode.invstProfit.name()));
+        query.addOrderBy("timestamp desc");
+
+        if (reqdto.uname != "") {
+            query.addConditions(Transaction.Fields.accountOwner + "=" + encodeSqlPrmAsStr(reqdto.uname));
+        }
+    }
+
     private BigDecimal getSum4div(QueryDto reqdto)  {
           SlctQry query = newSelectQuery(getTableName(Transaction.class));
         query.select("sum(amount)");
-        query.addConditions(Transaction.Fields.transactionCode+"="+toStr4sqlprm(TransactionCode.Service_Cms_rechgCms.name()));
-        query.addOrderBy("timestamp desc");
-
-        if(reqdto.uname!="")
-        {
-            query.addConditions(Transaction.Fields.accountOwner+"="+encodeSqlPrmAsStr(reqdto.uname));
-        }
+        addCdtn(query,  reqdto);
         String sql=query.getSQL();
 
         Session session = sessionFactory.getCurrentSession();
@@ -118,7 +115,7 @@ String sql=query.getSQL();
         o.setUname("777");
         o.setAmt(new BigDecimal("9999"));
       //  persistByHibernate(o, AppConfig.sessionFactory.getCurrentSession());
-        System.out.println(encodeJson(new ListBetWinLogHdl().handleRequest(new QueryDto("777"),null)));
+        System.out.println(encodeJson(new ListIvstProftLogHdl().handleRequest(new QueryDto("777"),null)));
 
         commitTsact();
     }
