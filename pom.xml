@@ -295,12 +295,6 @@
             <version>4.0.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <version>5.0.0</version> <!-- 或更新的版本 -->
-            <scope>provided</scope>
-        </dependency>
 
 
         <!-- https://mvnrepository.com/artifact/jakarta.security.jacc/jakarta.security.jacc-api -->

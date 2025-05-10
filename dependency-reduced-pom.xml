@@ -297,16 +297,8 @@
       <version>6.6.5.Final</version>
       <scope>compile</scope>
     </dependency>
-    <dependency>
-      <groupId>com.example</groupId>
-      <artifactId>your-artifact-id</artifactId>
-      <version>1.0.0</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/libjar/mysql-connector-j-8.2.0.jar</systemPath>
-    </dependency>
   </dependencies>
   <properties>
-    <kotlin.version>2.1.20</kotlin.version>
     <slf4j.version>1.7.30</slf4j.version>
     <elasticsearch.starter.version>2.2.2.RELEASE</elasticsearch.starter.version>
     <fastjson.version>1.2.83</fastjson.version>
@@ -318,11 +310,9 @@
     <redis.starter.version>2.2.2.RELEASE</redis.starter.version>
     <mysql.connector.version>8.0.17</mysql.connector.version>
     <xxljob.version>2.1.2</xxljob.version>
-    <kotlin.compiler.api.version>1.8</kotlin.compiler.api.version>
     <guava.version>28.1-jre</guava.version>
     <mybatis.starter.version>2.1.0</mybatis.starter.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <kotlin.compiler.language.version>1.8</kotlin.compiler.language.version>
     <java.version>1.8</java.version>
     <druid.starter.version>1.2.15</druid.starter.version>
     <aspect.version>1.8.13</aspect.version>
