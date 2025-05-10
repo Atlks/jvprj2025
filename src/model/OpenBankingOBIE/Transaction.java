@@ -13,6 +13,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import static util.algo.GetUti.getUuid;
@@ -80,14 +81,22 @@ public class Transaction {
     // 商户名称（适用于消费交易）
     private String merchantName;
 
-    // 交易的实际处理日期
+    // 交易的实际处理日期 this not starnd inobie
     private Date bookingDate;
 
-    // 交易金额有效入账的日期
+    // 交易金额有效入账的日期  this not starnd inobie
     private Date valueDate;
 
-    long BookingDateTime;
-    long      ValueDateTime;
+    //采用 ISO 8601 标准的日期时间格式，即 YYYY-MM-DDThh:mm:ss+00:00。
+    /**
+     * BookingDateTime 是强制字段，所有 ASPSPs（Account Servicing Payment Service Providers）必须提供此字段，
+     * 对应mysql字段 DATETIME LocalDateTime ⇒ MySQL DATETIME
+     */
+  public LocalDateTime bookingDateTime;
+    public  LocalDateTime       ValueDateTime;
+
+    @Column(name = "booking_timezone")
+    private String bookingTimezone; // 比如 "Asia/Shanghai"
 
     // 付款方账户信息
     private String debtorAccount;

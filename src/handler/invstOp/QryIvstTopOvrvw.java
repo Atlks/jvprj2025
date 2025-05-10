@@ -72,21 +72,6 @@ public class QryIvstTopOvrvw {
 
     }
 
-    private BigDecimal sumInvstProfit() {
-        SlctQry query = newSelectQuery(getTableName(InvestmentOpRecord.class));
-        query.select("sum(amount)");
-        query.addConditions(InvestmentOpRecord.Fields.investmentType + "=" + toValStr(TransactionCode.invstProfit.name()));
-        // query.addConditions("timestamp>"+ beforeTmstmp(reqdto.day));
-        //    query.addOrderBy("timestamp desc");
-        String sql = query.getSQL();  // ✅ 直接拿到 SQL 字符串
-        System.out.println(sql);
-        try {
-            return (BigDecimal) getSingleResult(sql, sessionFactory.getCurrentSession());
-        } catch (findByIdExptn_CantFindData e) {
-            return BigDecimal.valueOf(0);
-        }
-
-    }
 
 
 

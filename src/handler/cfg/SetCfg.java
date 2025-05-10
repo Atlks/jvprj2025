@@ -4,7 +4,7 @@ import cfg.MainStart;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
-import model.rpt.DataSummaryToppart;
+import model.rpt_dataSmry.DataSummaryVo;
 import model.cfg.CfgKv;
 
 import util.serverless.ApiGatewayResponse;
@@ -51,7 +51,7 @@ public class SetCfg implements RequestHandler<CfgKv, ApiGatewayResponse> {
         String f="C:\\0prj\\jvprj2025\\doc2504\\agt rechg cms ruler cfg.json";
         String txt=readTxtFrmFil(f);
        // CfgKv c=new CfgKv("rechargeCommissionRates",txt);
-        CfgKv c=new CfgKv("DataSummary",new DataSummaryToppart());
+        CfgKv c=new CfgKv("DataSummary",new DataSummaryVo());
 
 
         //  persistByHibernate(o, AppConfig.sessionFactory.getCurrentSession());

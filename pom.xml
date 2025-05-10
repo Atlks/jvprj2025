@@ -92,27 +92,9 @@
         </dependency>
 
 
-        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-infinispan -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-infinispan</artifactId>
-            <version>5.6.15.Final</version>
-            <type>pom</type>
-        </dependency>
 
-        <!-- Infinispan 核心 -->
-        <dependency>
-            <groupId>org.infinispan</groupId>
-            <artifactId>infinispan-core</artifactId>
-            <version>14.0.19.Final</version> <!-- 或你需要的版本 -->
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-ehcache -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-ehcache</artifactId>
-            <version>6.0.0.Alpha7</version>
 
-        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/javax.cache/cache-api -->
         <dependency>

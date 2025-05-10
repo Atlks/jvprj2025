@@ -5,7 +5,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import model.agt.CmsLv;
-import model.rpt.DataSummaryToppart;
+import model.rpt_dataSmry.DataSummaryVo;
 import model.cfg.CfgKv;
 import model.cfg.MbrVipCfg;
 
@@ -35,7 +35,7 @@ public class IniDataHdl implements RequestHandler<NonDto, ApiGatewayResponse> {
         try{
             findByHerbinate(CfgKv.class,"DataSummary", sessionFactory.getCurrentSession());
         } catch (findByIdExptn_CantFindData e) {
-            CfgKv c=new CfgKv("DataSummary",new DataSummaryToppart());
+            CfgKv c=new CfgKv("DataSummary",new DataSummaryVo());
             persistByHibernate(c, sessionFactory.getCurrentSession());
         }
 

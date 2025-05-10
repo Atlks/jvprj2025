@@ -18,6 +18,7 @@ import static util.tx.HbntUtil.getSingleResult;
 
 public class AccService {
 
+    //资金池余额
     public static BigDecimal getInsFdPlBal() {
         String accid = getAccId(String.valueOf(AccountSubType.insFdPl), sysusrName);
         Account acc = null;
@@ -30,7 +31,7 @@ public class AccService {
 
     }
 
-
+//总余额统计 本金钱包
     public static BigDecimal sumAllEmnyAccBal() {
         SlctQry query = newSelectQuery(getTableName(Account.class));
         query.select("sum("+Account.Fields.interim_Available_Balance +")");
