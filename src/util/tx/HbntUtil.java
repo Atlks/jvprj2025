@@ -255,6 +255,27 @@ public class HbntUtil {
         return list1;
     }
 
+
+    public static @NotNull <T> List<T> getResultList(@NotBlank String sql,@NotNull Class<T> clz
+    ) throws Throwable {
+
+        ifIsBlank(sql);
+        String mthClr = colorStr("getListBySqlLmt200", YELLOW_bright);
+        System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(" + (sql));
+        // System.out.println("mergeByHbnt("+ t.getClass().getName());
+        Session session=sessionFactory.getCurrentSession();
+        NativeQuery nativeQuery = session.createNativeQuery(sql,clz);
+        // setPrmts4sql(sqlprmMap, nativeQuery);
+        // 设置分页
+       // nativeQuery.setFirstResult(0);
+       // nativeQuery.setMaxResults(200);
+        //       .setParameter("age", 18);
+        @NotNull
+        List<T> list1 = nativeQuery.getResultList();
+        System.out.println("✅endfun getListBySqlLmt200.ret=list,listsize=" + list1.size());
+        return list1;
+    }
+@Deprecated
     public static @NotNull Object getListBySqlLmt200(@NotBlank String sql, @NotNull Session session) throws Throwable {
 
         ifIsBlank(sql);

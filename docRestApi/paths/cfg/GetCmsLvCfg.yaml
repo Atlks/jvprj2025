@@ -1,6 +1,6 @@
 get:
   tags:
-    - cfg
+    - cms
   summary: "获取佣金挡位配置"
 
 

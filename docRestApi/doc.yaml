@@ -248,6 +248,24 @@ paths:
       responses:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
+  /agt/listMyMmbr:
+    get:
+      tags:
+        - agt
+      summary: "列出本人下级会员"
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
+
+  /agt/MyAgtInfo:
+    get:
+      tags:
+        - agt
+      summary: "查询本人信息作为代理"
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
+
 
   /admin/QryFundDetailHdl:
     get:
@@ -329,8 +347,7 @@ paths:
     $ref: './paths/common/upld.yaml'
   /res/uploads:
     $ref: './paths/common/getimg.yaml'
-  /prxy/getCmsHdr:
-    $ref: './paths/prx/getCmsHdr.yaml'
+
   /user/SetWthdrPwd:
     $ref: './paths/usr/SetWthdrPwdHdr.yaml'
 
