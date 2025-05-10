@@ -8,6 +8,8 @@ import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -74,11 +76,16 @@ public class Account {
     //  private List<Transaction> transactions; // 交易记录
     @Enumerated(EnumType.STRING)
     public AccountStatus accountStatus=AccountStatus.Enabled;       // 账户状态（例如：有效、冻结、关闭）
+
+
+    public String status;
+    public LocalDateTime statusUpdateDateTime;
     public Date accountCreationTime;   // 账户创建时间
     public Date lastUpdatedTime;       // 上次更新时间
-
+public  String Description;
     public String nickname;
     public String currency;            // 币种（如 CNY、USD）
+    public LocalDate OpeningDate;
 
 
     public String accountOwner;
