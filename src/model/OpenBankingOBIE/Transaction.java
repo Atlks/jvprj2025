@@ -61,7 +61,21 @@ public class Transaction {
 
 
     // 交易金额
+    /**
+     * 在 OBIE（Open Banking Implementation Entity）规范中，交易流水的 amount 字段 本身不允许为负数。是否是支出或收入，由另一个字段 creditDebitIndicator 决定。
+     */
     public BigDecimal amount;
+
+
+    /**
+     * 不允许为负数
+     * @param amount
+     */
+    public  void setAmountVldChk(@NotNull  BigDecimal amount) {
+        if(amount==null || amount.compareTo(BigDecimal.ZERO)<0)
+            throw new AmtCantLessThan0Excptn(amount.toString());
+this.amount=amount;
+    }
 
 
     /**
