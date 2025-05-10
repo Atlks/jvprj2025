@@ -2,7 +2,7 @@ package handler.ivstAcc;
 
 
 /**
- * BetWinLog
+ *  钱包  我的佣金 列表明细
  */
 
 import cfg.MainStart;

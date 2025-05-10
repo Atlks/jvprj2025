@@ -1,7 +1,7 @@
 get:
   tags:
-    - AccountInvst
-  summary: " 盈利钱包方面接口 邀请佣金列表"
+    - cms
+  summary: " 佣金 我的佣金列表"
 
 
 
