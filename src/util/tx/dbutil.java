@@ -785,10 +785,10 @@ public class dbutil {
      }
 
 
-    @Deprecated
-    public static PageResult<SortedMap<String, Object>> getPageResultByCntsql(String sql, Map<String, Object> sqlprmMap, List list1, long pageSize) throws SQLException {
-        return  Pagging.getPageResultByCntsql(sql,sqlprmMap,list1,pageSize,null);
-    }
+//    @Deprecated
+//    public static PageResult<SortedMap<String, Object>> getPageResultByCntsql(String sql, Map<String, Object> sqlprmMap, List list1, long pageSize) throws SQLException {
+//        return  Pagging.getPageResultByCntsql(sql,sqlprmMap,list1,pageSize,null);
+//    }
 
     public static <T> PageResult<T> getPageResultBySblst(List<T> list1, int pageSize, int pageNumber) {
            return getPageResultBySblst(list1, pageSize, pageNumber);

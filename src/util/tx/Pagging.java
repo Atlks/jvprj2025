@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import util.entty.PageDto;
 
 import java.sql.SQLException;
@@ -47,9 +49,9 @@ public class Pagging {
         //------------page
         long totalRecords = nativeQuery.getResultCount();
 
-
+        Pageable pageable = PageRequest.of(pageobj.page, pageobj.pagesize);
         int totalPages = (int) Math.ceil((double) totalRecords / pageobj.pagesize);
-        return new PageResult<>(list1, totalRecords, totalPages,pageobj.page,pageobj.pagesize);
+        return new PageResult<>(list1, totalRecords, totalPages,pageable);
     }
 
     public static @NotNull PageResult<?> getPageResultByHbntRtLstmap(@NotBlank  String sql, Map<String, Object> sqlprmMap, PageDto pageobj, Session session) throws SQLException {
@@ -126,22 +128,22 @@ public class Pagging {
      * @throws SQLException
      */
 //todo session 放外面
-    @Deprecated
-    public static PageResult<SortedMap<String, Object>> getPageResultByCntsql(String sqlNoOrdby, Map<String, Object> sqlprmMap, List list1, long pageSize, org.hibernate.Session session) throws SQLException {
-        String countSql = "SELECT COUNT(*) FROM (" + sqlNoOrdby + ") t";
-        System.out.println("countSql=" + countSql);
-//        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
-
-        NativeQuery nativeQuery = session.createNativeQuery(countSql);
-        setPrmts4sql(sqlprmMap, nativeQuery);
-        long totalRecords = ((Number) nativeQuery
-//                .setParameter(1, username)
-//                .setParameter(2, minAge)
-                .getSingleResult()).longValue();
-
-        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
-        return new PageResult<>(list1, totalRecords, totalPages);
-    }
+//    @Deprecated
+//    public static PageResult<SortedMap<String, Object>> getPageResultByCntsql(String sqlNoOrdby, Map<String, Object> sqlprmMap, List list1, long pageSize, org.hibernate.Session session) throws SQLException {
+//        String countSql = "SELECT COUNT(*) FROM (" + sqlNoOrdby + ") t";
+//        System.out.println("countSql=" + countSql);
+////        org.hibernate.Session session = OrmUtilBiz.openSession(saveDirUsrs);
+//
+//        NativeQuery nativeQuery = session.createNativeQuery(countSql);
+//        setPrmts4sql(sqlprmMap, nativeQuery);
+//        long totalRecords = ((Number) nativeQuery
+////                .setParameter(1, username)
+////                .setParameter(2, minAge)
+//                .getSingleResult()).longValue();
+//
+//        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+//        return new PageResult<>(list1, totalRecords, totalPages);
+//    }
 
     /**
      * back pagging
@@ -158,7 +160,8 @@ public class Pagging {
         int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
 
         List<T> listPageed = subList2025(list1, pageSize, pageNumber);
-        return new PageResult<>(listPageed, totalRecords, totalPages);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return new PageResult<>(listPageed, totalRecords, totalPages,pageable);
     }
 
 

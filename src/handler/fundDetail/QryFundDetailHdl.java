@@ -56,7 +56,7 @@ public class QryFundDetailHdl  {
 
 
         HashMap<String, Object> sqlprmMap = new HashMap<>();
-        Pageable pageable = PageRequest.of(2, 10);
+        Pageable pageable = PageRequest.of(reqdto.page, reqdto.pagesize);
 
         Page<Map> list1 = getResultListWzPageByHbntRtLstmap(sql, sqlprmMap, pageable);
 
