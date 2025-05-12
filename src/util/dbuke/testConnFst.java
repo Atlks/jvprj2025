@@ -1,6 +1,6 @@
 package util.dbuke;
 
-import entityx.usr.Usr;
+import model.usr.Usr;
 import jakarta.persistence.EntityTransaction;
 import jakarta.transaction.Transaction;
 import jakarta.transaction.TransactionManager;

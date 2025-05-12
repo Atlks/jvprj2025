@@ -3,7 +3,7 @@
 //import cfg.BaseHdr;
 //import cfg.MyCfg;
 //import com.sun.net.httpserver.HttpExchange;
-//import entityx.usr.Usr;
+//import model.usr.Usr;
 //import org.hibernate.Session;
 //import org.hibernate.query.NativeQuery;
 //// util.excptn.OrmUtilBiz;

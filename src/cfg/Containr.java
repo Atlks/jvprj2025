@@ -1,6 +1,6 @@
 package cfg;
 
-import entityx.usr.Usr;
+import model.usr.Usr;
 import jakarta.security.enterprise.SecurityContext;
 import org.hibernate.SessionFactory;
 //ringframework.context.ApplicationEventPublisher;

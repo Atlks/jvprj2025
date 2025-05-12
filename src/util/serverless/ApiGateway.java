@@ -2,6 +2,7 @@ package util.serverless;
 
 import cfg.MinValidator;
 import entityx.usr.NonDto;
+import handler.NoWarpApiRsps;
 import org.hibernate.context.internal.ThreadLocalSessionContext;
 import org.jetbrains.annotations.Nullable;
 import util.annos.*;
@@ -22,17 +23,16 @@ import util.excptn.ExptUtil;
 import util.algo.Icall;
 import util.auth.IsEmptyEx;
 import util.model.FaasContext;
+import util.oo.HttpUti;
 import util.rest.RestUti;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.lang.reflect.Parameter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.lang.reflect.Field;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
@@ -113,7 +113,7 @@ public class ApiGateway implements HttpHandler {
      * @return
      * @throws Exception
      */
-    public Object invoke_callNlogWarp(Object dto) throws Throwable {
+    public @NotNull Object invoke_callNlogWarp(@NotNull Object dto) throws Throwable {
 
         //funName jst 4 lg
         String mthFullname = target.getClass().getName() + ".call/hdlrRq";
@@ -128,10 +128,19 @@ public class ApiGateway implements HttpHandler {
                 return ((Icall) target).main(dto);
             } else if (target instanceof Method) {
                 Method m = (Method) target;
-                var retobj = m.invoke(target, dto);
+                Object retobj;
+                if(dto instanceof NullDto)
+                    retobj = m.invoke(getObjByMthd(m));
+                else
+                    retobj = m.invoke(getObjByMthd(m), dto);
 
-                var apigtwy = new ApiGatewayResponse(retobj);
-                return apigtwy;
+                if(m.isAnnotationPresent(NoWarpApiRsps.class))
+                    return retobj;
+                else {
+                    var apigtwy = new ApiGatewayResponse(retobj);
+                    return apigtwy;
+                }
+
             } else {
                 Method m = getMethod(target, "handleRequest");
                 var retobj = m.invoke(target, dto);
@@ -148,6 +157,17 @@ public class ApiGateway implements HttpHandler {
 
 
         return result;
+    }
+
+    private Object getObjByMthd(Method m) {
+        if (Modifier.isStatic(m.getModifiers())) {
+            return null; // 静态方法不需要实例
+        }
+        try {
+            return m.getDeclaringClass().getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create instance for method: " + m.getName(), e);
+        }
     }
 
     /**
@@ -195,6 +215,7 @@ public class ApiGateway implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         lastExsList.set(new ArrayList<>());
         httpExchangeCurThrd.set(exchange);
+        HttpUti.httpExchangeCurThrd.set(exchange);
         curCtrlCls.set(this.target.getClass());
         String mth = colorStr("handle", YELLOW_bright);
         String prmurl = colorStr(String.valueOf(exchange.getRequestURI()), GREEN);
@@ -355,13 +376,23 @@ public class ApiGateway implements HttpHandler {
 
     protected boolean needLoginUserAuth() {
 
+        //here target also canbe a method
         Class<?> aClass = this.getClass();
         if (aClass == ApiGateway.class) {
             aClass = this.target.getClass();
         }
 
-        boolean annotationPresent = aClass.isAnnotationPresent(PermitAll.class);
 
+        if(this.target instanceof Method)
+        {
+            Method mth= (Method) this.target;
+            return !mth.isAnnotationPresent(PermitAll.class);
+
+        }
+
+
+        //here also can be a mthd
+        boolean annotationPresent = aClass.isAnnotationPresent(PermitAll.class);
         //if has anno ,not need login
         return !annotationPresent;
     }
@@ -377,18 +408,7 @@ public class ApiGateway implements HttpHandler {
 
         Object rzt;
         //---------log
-        Class prmDtoCls = getDtoCls();
-        Object dto;
-
-        if (NonDto.class.isAssignableFrom(prmDtoCls)) {  // 判断类型是否是 NonDto 或其子类
-            dto = new NonDto();
-        } else {
-            dto = toDto(exchange, prmDtoCls);  // 假设 toDto 返回 Object 或 dto 类型
-        }
-
-
-        // addDeftParam(dto);
-        validDto(dto);
+        Object dto = getDto(exchange);
         rzt = invoke_callNlogWarp(dto);
 
 
@@ -405,6 +425,30 @@ public class ApiGateway implements HttpHandler {
 
         /// ----------log
 
+
+    }
+
+    @org.jetbrains.annotations.NotNull
+    private Object getDto(HttpExchange exchange) throws Exception {
+
+
+         try{
+            Class prmDtoCls = getDtoCls();
+            Object dto;
+
+            if (NonDto.class.isAssignableFrom(prmDtoCls)) {  // 判断类型是否是 NonDto 或其子类
+                dto = new NonDto();
+            } else {
+                dto = toDto(exchange, prmDtoCls);  // 假设 toDto 返回 Object 或 dto 类型
+            }
+
+
+            // addDeftParam(dto);
+            validDto(dto);
+            return dto;
+        }catch(CantFindPrmEx e){
+return new NullDto();
+        }
 
     }
 

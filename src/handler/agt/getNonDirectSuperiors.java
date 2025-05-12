@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 
-import entityx.usr.Usr;
+import model.usr.Usr;
 import jakarta.annotation.security.PermitAll;
 import util.tx.findByIdExptn_CantFindData;
 

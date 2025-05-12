@@ -1,12 +1,11 @@
 package handler.usr;
 
-import entityx.usr.Usr;
+import model.usr.Usr;
 import handler.usr.dto.SetEmlHdlRqDto;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import model.usr.MyWltAddr;
 // org.springframework.web.bind.annotation.RestController;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;

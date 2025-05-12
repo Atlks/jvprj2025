@@ -1,0 +1,14 @@
+package util.model.openbank;
+
+public enum OpenBankingEventType {
+    ACCOUNT_CREATED,
+    ACCOUNT_UPDATED,
+    TRANSACTION_POSTED,
+    PAYMENT_SUBMITTED,
+    PAYMENT_COMPLETED,
+    PAYMENT_FAILED,
+    CONSENT_GRANTED,
+    CONSENT_REVOKED,
+    API_ERROR,
+    RATE_LIMIT_EXCEEDED
+}

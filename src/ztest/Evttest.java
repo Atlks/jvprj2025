@@ -1,6 +1,6 @@
 package ztest;
 
-import entityx.usr.Usr;
+import model.usr.Usr;
 
 import static util.evt.RegEvt.evtlist4reg;
 //import static cfg.Containr.evtlist4reg;

@@ -1,6 +1,6 @@
 package handler.agt;
 
-import entityx.usr.Usr;
+import model.usr.Usr;
 import handler.ivstAcc.dto.QueryDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;

@@ -2,6 +2,7 @@ package util.algo;
 
 import com.alibaba.fastjson2.JSON;
 import com.sun.net.httpserver.HttpExchange;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 import static util.algo.EncodeUtil.decodeUrl;
 import static util.misc.Util2025.encodeJson;
+import static util.oo.HttpUti.getParamMap;
 import static util.tx.QueryParamParser.toDto;
 
 
@@ -35,14 +37,13 @@ public class ToXX {
        
 
         // 解析查询参数到 Map
-        Map<String, String> paramMap = toParamMapFromGetMthd(exchange);
-     
-        if(exchange.getRequestMethod().equalsIgnoreCase("POST"))
-           paramMap=toMapFrmPostBody(exchange);
+        Map<String, String> paramMap = getParamMap(exchange);
         System.out.println("parmmap="+encodeJson(paramMap));
 
         return toDto( paramMap,usrClass);
     }
+
+
 
 
     /**

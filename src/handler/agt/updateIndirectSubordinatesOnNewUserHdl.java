@@ -1,6 +1,6 @@
 package handler.agt;
 
-import entityx.usr.Usr;
+import model.usr.Usr;
 import jakarta.validation.constraints.NotNull;
 import util.tx.findByIdExptn_CantFindData;
 

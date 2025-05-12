@@ -3,7 +3,7 @@ package handler.usr;
 import api.usr.lgnDlgt;
 import core.Ilogin;
 import entityx.usr.Passport;
-import entityx.usr.Usr;
+import model.usr.Usr;
 import entityx.usr.Visa;
 import handler.usr.dto.RegDto;
 import jakarta.annotation.security.PermitAll;
@@ -20,7 +20,6 @@ import model.oauthOpenid.LoginResponse;
 
 import service.VisaService;
 import util.algo.EncryUtil;
-import util.annos.Paths;
 import util.ex.*;
 import util.misc.util2026;
 import util.serverless.ApiGateway;

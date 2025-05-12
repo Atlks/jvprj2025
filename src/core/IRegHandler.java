@@ -1,6 +1,6 @@
 package core;
 
-import entityx.usr.Usr;
+import model.usr.Usr;
 import handler.usr.dto.RegDto;
 import util.model.common.ApiResponse;
 //import io.swagger.v3.oas.annotations.tags.Tag;

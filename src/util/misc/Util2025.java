@@ -5,8 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSONWriter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import com.sun.net.httpserver.HttpExchange;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -14,12 +13,14 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -38,18 +39,21 @@ public class Util2025 {
     }
 
     /**
-     *  * 全面增加了空安全 检测 与自动转换机制
+     * * 全面增加了空安全 检测 与自动转换机制
+     *
      * @param resultInXml
      * @param y
      * @return
      */
     public static boolean isEqualsx(String resultInXml, String y) {
-        if( resultInXml==null || y==null)
-            return  false;
+        if (resultInXml == null || y == null)
+            return false;
         return y.equals(resultInXml);
     }
+
     /**
      * 全面增加了空安全 检测 与自动转换机制
+     *
      * @param url
      * @param ori
      * @param rplsStr
@@ -72,25 +76,27 @@ public class Util2025 {
             return "{}";
         return JSON.toJSONString(obj);
     }
+
     public static String encodeJson4dbgShowVal(boolean obj) {
 
-        if(obj==true)
-            return  "true";
+        if (obj == true)
+            return "true";
         else
             return "false";
-         //   return obj ;  // 直接返回 "true" 或 "false"
+        //   return obj ;  // 直接返回 "true" 或 "false"
 
     }
+
     public static String encodeJson4dbgShowVal(Object obj) {
         if (obj instanceof Boolean) {
             return obj.toString();  // 直接返回 "true" 或 "false"
         }
 
-        return    com.alibaba.fastjson2.JSON.toJSONString(obj, JSONWriter.Feature.PrettyFormat);
+        return com.alibaba.fastjson2.JSON.toJSONString(obj, JSONWriter.Feature.PrettyFormat);
     }
 
     public static String encodeJsonV2(Object obj) {
-        try{
+        try {
             if (obj == null)
                 return "{}";
             //   return com.alibaba.fastjson2.JSON.toJSONString(obj);
@@ -100,11 +106,11 @@ public class Util2025 {
                 for (Object obj1 : (Object[]) obj) {
                     if (obj1 instanceof HttpExchange) {
                         list.add(toExchgDt((HttpExchange) obj1));
-                    }else
-                        list.add( obj1);
+                    } else
+                        list.add(obj1);
                 }
                 //JSON.toJSONString(obj, JSONWriter.Feature.IgnoreErrorGetter);
-                return JSON.toJSONString(list, JSONWriter.Feature.PrettyFormat,JSONWriter.Feature.IgnoreErrorGetter);
+                return JSON.toJSONString(list, JSONWriter.Feature.PrettyFormat, JSONWriter.Feature.IgnoreErrorGetter);
             } else if (obj instanceof Collection<?>) {
                 List<Object> list = new ArrayList<>();
                 for (Object obj1 : (Collection<?>) obj) {
@@ -115,12 +121,12 @@ public class Util2025 {
                 return JSON.toJSONString(list, JSONWriter.Feature.PrettyFormat);
             }
 
-            if(obj instanceof HttpExchange){
-                HttpExchange HttpExchange1= (HttpExchange) obj;
-                Map<String, Object> exchangeData=toExchgDt(HttpExchange1);
-                return    com.alibaba.fastjson2.JSON.toJSONString(exchangeData, JSONWriter.Feature.PrettyFormat);
+            if (obj instanceof HttpExchange) {
+                HttpExchange HttpExchange1 = (HttpExchange) obj;
+                Map<String, Object> exchangeData = toExchgDt(HttpExchange1);
+                return com.alibaba.fastjson2.JSON.toJSONString(exchangeData, JSONWriter.Feature.PrettyFormat);
             }
-            return    com.alibaba.fastjson2.JSON.toJSONString(obj, JSONWriter.Feature.PrettyFormat);
+            return com.alibaba.fastjson2.JSON.toJSONString(obj, JSONWriter.Feature.PrettyFormat);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -143,7 +149,7 @@ public class Util2025 {
 
         // 读取请求体
         exchangeData.put("body", readRequestBody(exchange));
-    return exchangeData;
+        return exchangeData;
     }
 
     private static String readRequestBody(HttpExchange exchange) throws IOException {
@@ -163,29 +169,41 @@ public class Util2025 {
 
     public static String encodeJson4ex(Object obj) {
 
-      try{
+        try {
 
-          return  encodeJsonByJackjson(obj);
-      } catch (Exception e) {
-          try{
-              return encodeJsonByFastjson2(obj);
-          } catch (Exception ex) {
-              return encodeJsonByGson(obj);
-          }
+            return encodeJsonByJackjson(obj);
+        } catch (Exception e) {
+            try {
+                return encodeJsonByFastjson2(obj);
+            } catch (Exception ex) {
+                return encodeJsonByGson(obj);
+            }
 
-      }
+        }
     }
+
     /**
      * 使用gson序列化对象
+     *
      * @param obj
      * @return
      */
-    public static String encodeJsonByGson(Object obj){
+    public static String encodeJsonByGson(Object obj) {
         GsonBuilder builder = new GsonBuilder();
         registerAll(builder);  // 自动注册常见 Java 时间类适配器
+        builder  .registerTypeAdapter(Timestamp.class, new DateSerializer()) ; // Register custom serializer
         Gson gson = builder.create();
-      //  Gson gson = new Gson();
-        return gson.toJson(obj);    }
+        //  Gson gson = new Gson();
+        return gson.toJson(obj);
+    }
+
+    static class DateSerializer implements JsonSerializer<Date> {
+        @Override
+        public JsonElement serialize(Date date, Type typeOfSrc, JsonSerializationContext context) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");  // Customize as needed
+            return new JsonPrimitive(sdf.format(date));
+        }
+    }
 
     // 使用 Fastjson2 进行 JSON 序列化
     public static String encodeJsonByFastjson2(Object obj) {
@@ -195,30 +213,29 @@ public class Util2025 {
     // 使用 Jackson 进行 JSON 序列化
     public static String encodeJsonByJackjson(Object obj) throws JsonProcessingException {
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writeValueAsString(obj);
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(obj);
 
 
     }
-
 
 
     @Deprecated
     public static String encodeJson(Object obj) {
-      try{
-          if (obj == null)
-              return "{}";
-      //   return com.alibaba.fastjson2.JSON.toJSONString(obj);
-          return    com.alibaba.fastjson2.JSON.toJSONString(obj, JSONWriter.Feature.PrettyFormat);
+        try {
+            if (obj == null)
+                return "{}";
+            //   return com.alibaba.fastjson2.JSON.toJSONString(obj);
+            return com.alibaba.fastjson2.JSON.toJSONString(obj, JSONWriter.Feature.PrettyFormat);
 
-      } catch (Exception e) {
-          return "{}";
-      }
+        } catch (Exception e) {
+            return "{}";
+        }
 
     }
 
     public static String encodeJsonObj(Object obj) {
-        try{
+        try {
             if (obj == null)
                 return "{}";
             return JSON.toJSONString(obj);
@@ -229,7 +246,7 @@ public class Util2025 {
     }
 
     public static String encodeJsonArray(Object obj) {
-        try{
+        try {
             if (obj == null)
                 return "[]";
             return JSON.toJSONString(obj);
@@ -366,7 +383,9 @@ public class Util2025 {
         }
         //end auth
     }
-    public static String taglog="";
+
+    public static String taglog = "";
+
     public static String sendGetWzAuth(String urlString, String username, String password) {
 
         printlnx(taglog + "fun sendGetWzAuth(");
@@ -537,7 +556,7 @@ public class Util2025 {
 
 
     public static String writeFile2501(String filePath, String value) {
-        System.out.println("filePath="+filePath);
+        System.out.println("filePath=" + filePath);
         File file = mkdir(filePath);
 
         // 检查文件是否存在，若不存在则创建文件
@@ -562,13 +581,14 @@ public class Util2025 {
 
     /**
      * dep bcs append
+     *
      * @param filePath
      * @param value
      * @return
      */
     @Deprecated
     public static String writeFile2024(String filePath, String value) {
-        System.out.println("filePath="+filePath);
+        System.out.println("filePath=" + filePath);
         File file = mkdir(filePath);
 
         // 检查文件是否存在，若不存在则创建文件
@@ -659,7 +679,6 @@ public class Util2025 {
     }
 
 
-
     public static boolean isStr2024(Object s1) {
 
         return s1 instanceof String;
@@ -710,7 +729,7 @@ public class Util2025 {
     }
 
     private static void loginfo(String s) {
-        writeFile2024("xx2025.log",s);
+        writeFile2024("xx2025.log", s);
 
     }
 
@@ -750,7 +769,7 @@ public class Util2025 {
 
         try {
             // 创建一个不进行证书验证的 TrustManager
-             setNotChkSSL();
+            setNotChkSSL();
 
             // 打开 URL 连接
             URL url = new URL(urlString);
@@ -799,7 +818,6 @@ public class Util2025 {
     }
 
 
-
 // 处理数组的 JSON 字符串，将每个元素换行显示
 
     public static String encodeJsonPretty2(Object obj) {
@@ -820,7 +838,7 @@ public class Util2025 {
 
         } else {
             // 处理单个对象
-            return JSON.toJSONString(obj );
+            return JSON.toJSONString(obj);
         }
 
     }

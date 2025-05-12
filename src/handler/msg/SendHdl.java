@@ -1,7 +1,7 @@
 package handler.msg;
 
 import cfg.MainStart;
-import entityx.usr.Usr;
+import model.usr.Usr;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.Data;

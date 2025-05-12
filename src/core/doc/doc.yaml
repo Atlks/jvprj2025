@@ -17,8 +17,8 @@ tags:
     description: 钱包方面接口
   - name: bet
     description: 注单方面接口
-  - name: ylWallet
-    description: 盈利钱包方面接口
+  - name: misc
+    description: other接口
 
 
 components:
@@ -81,12 +81,12 @@ paths:
   /ylwlt/changeLog:
     get:
       tags:
-        - ylWallet
+        - misc
       summary: "盈利钱包账变流水"
   /wlt/changeLog:
     get:
       tags:
-        - Wallet
+        - misc
       summary: "钱包账变流水"
 
   /logout:

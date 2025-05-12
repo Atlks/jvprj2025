@@ -2,7 +2,7 @@ package service;
 
 
 import entityx.wlt.LogCms;
-import entityx.usr.Usr;
+import model.usr.Usr;
 import entityx.wlt.LogBls4YLwlt;
 import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.Transaction;

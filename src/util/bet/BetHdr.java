@@ -7,7 +7,7 @@
 //import entityx.bet.BetOrd;
 //import entityx.bet.BetOrdDto;
 //import entityx.wlt.TransDto;
-//import entityx.usr.Usr;
+//import model.usr.Usr;
 //import io.swagger.v3.oas.annotations.Operation;
 //import io.swagger.v3.oas.annotations.Parameter;
 //import io.swagger.v3.oas.annotations.enums.ParameterIn;

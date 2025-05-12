@@ -1,9 +1,7 @@
-
-
 openapi: 3.0.0
 info:
   title: 用户端 API
-  version: 89.v250510
+  version: v250513.1
   description: |
     这是一个用于系统的 API。通过该 API，可以作为开发。
     该文档提供了所有可用接口的详细说明。
@@ -43,11 +41,11 @@ tags:
     description: 充值支付方面接口
   - name: common
     description: 基础接口
-
+  - name: cms
+    description: 佣金方面接口
   - name: cfg
     description: 获取配置方面接口
-  - name: adm_opmng
-    description: 管理端接口-运营管理
+
   - name: admin
     description: 管理端接口-管理员管理
 
@@ -91,9 +89,25 @@ components:
       name: uname
 
 security:
-  - JwtAuth88: []  # 全局应用 JWT 认证
+  - JwtAuth88: []  # 全局应用 JWT 认证 。。
 
 paths:
+  /oth/LookLog:
+    get:
+
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
+
+  /oth/ClrLogFileHdl:
+    get:
+
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
+
+  /usr/QryNextLvMbrHdl:
+    $ref: './paths/usr/QryNextLvMbrHdl.yaml'
   /usrStt/RankMmbrNAgtSttHdl:
     get:
       tags:
@@ -105,7 +119,7 @@ paths:
 
 
   /wlt/ListTrsxBnsHdl:
-     $ref: './paths/wlt/ListTrsxBnsHdl.yml'
+    $ref: './paths/wlt/ListTrsxBnsHdl.yml'
   /wlt/findBalanceOverviewHdl:
     $ref: './paths/wlt/findBalanceOverviewHdl.yml'
   /wlt/Trans:
@@ -218,7 +232,7 @@ paths:
       tags:
         - rpt
       summary: "数据报表-数据总览
-"
+  "
 
       responses:
         "200":
@@ -292,11 +306,11 @@ paths:
 
 
   /admin/role/ListRolesHdl:
-   $ref: './paths/role/ListRolesHdl.yaml'
+    $ref: './paths/role/ListRolesHdl.yaml'
   /admin/role/SaveRolesHdl:
-     $ref: './paths/role/SaveRolesHdl.yaml'
+    $ref: './paths/role/SaveRolesHdl.yaml'
   /wlt/QryWltHdl:
-     $ref: './paths/wlt/QryWltHdl.yaml'
+    $ref: './paths/wlt/QryWltHdl.yaml'
   /wlt/MeWlt:
     $ref: './paths/wlt/MeWlt.yaml'
 
@@ -359,50 +373,7 @@ paths:
   /user/SetEmlHdl:
     $ref: './paths/usr/SetEmlHdl.yaml'
 
-  /myWltAdrs/ListWltAddrHdl:
-    get:
-      tags:
-        - user
-      summary: "审核读取钱包地址"
-      description: ""
 
-
-      responses:
-        "200":
-          $ref: '../../components/responses/CommonResponse.yaml'
-  /myWltAdrs/ReviewWltAdrsHdl:
-    get:
-      tags:
-        - user
-      summary: "审核钱包地址 通过或拒绝"
-      description: ""
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-          description: ID，不能为空
-          example: "666"
-
-        - name: stat
-          in: query
-          required: true
-          schema:
-            type: string
-          description: 状态字段，
-          example: "Completed"
-
-
-      responses:
-        "200":
-          $ref: '../../components/responses/CommonResponse.yaml'
-  /myWltAdrs/GetMyWltAddrHdl:
-    $ref: './paths/usr/GeMyWltAddrHdl.yaml'
-  /myWltAdrs/SetMyWltAddrHdl:
-    $ref: './paths/usr/SeMyWltAddrHdl.yaml'
-  /usr/QryNextLvMbrHdl:
-    $ref: './paths/usr/QryNextLvMbrHdl.yaml'
   /user/setScrQstn:
     $ref: './paths/usrSecury/setScrQstn.yaml'
   /invstAcc/me:
@@ -415,70 +386,70 @@ paths:
           $ref: './components/responses/CommonResponse.yaml'
 
   /admin/qryUsr:
-   get:
-    tags:
-       - admin_usr
-    summary: 查询用户
-    description: 根据用户名分页查询用户列表。
-    parameters:
-      - name: uname4qry
-        in: query
-        required: false
-        schema:
-          type: string
-        description: 用户名（模糊匹配）
-      - name: page
-        in: query
-        required: false
-        schema:
-          type: integer
-          default: 1
-          minimum: 1
-        description: 当前页码
-      - name: pagesize
-        in: query
-        required: false
-        schema:
-          type: integer
-          default: 20
-          minimum: 1
-          maximum: 1000
-        description: 每页数量
-    responses:
-      '200':
-        description: 返回用户列表
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                code:
-                  type: integer
-                  example: 0
-                  description: 返回码，0 表示成功
-                msg:
-                  type: string
-                  example: OK
-                total:
-                  type: integer
-                  description: 用户总数
-                data:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                        example: "1001"
-                      username:
-                        type: string
-                        example: "008"
-                      email:
-                        type: string
-                        example: "008@example.com"
-                      status:
-                        type: string
-                        example: "active"
+    get:
+      tags:
+        - user
+      summary: 查询用户
+      description: 根据用户名分页查询用户列表。
+      parameters:
+        - name: uname4qry
+          in: query
+          required: false
+          schema:
+            type: string
+          description: 用户名（模糊匹配）
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+          description: 当前页码
+        - name: pagesize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 1000
+          description: 每页数量
+      responses:
+        '200':
+          description: 返回用户列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 0
+                    description: 返回码，0 表示成功
+                  msg:
+                    type: string
+                    example: OK
+                  total:
+                    type: integer
+                    description: 用户总数
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "1001"
+                        username:
+                          type: string
+                          example: "008"
+                        email:
+                          type: string
+                          example: "008@example.com"
+                        status:
+                          type: string
+                          example: "active"
   /post2:
     post:
       summary: 提交参数 a 和 b
@@ -552,7 +523,7 @@ paths:
   /ylwlt/changeLog:
     get:
       tags:
-        - ylWallet
+        - misc
       summary: "盈利钱包账变流水"
   /wlt/changeLog:
     get:
@@ -645,14 +616,14 @@ paths:
       tags:
         - secury
       summary: 请求充值密码-获取问题 security question by username
-      description: 
+      description:
       parameters:
-      - name: username
-        in: query
-        required: true
-        description: Username of the user requesting the security question
-        schema:
-          type: string
+        - name: username
+          in: query
+          required: true
+          description: Username of the user requesting the security question
+          schema:
+            type: string
       responses:
         '200':
           description: Security question returned
@@ -672,7 +643,7 @@ paths:
       tags:
         - secury
       summary: 重置密码by安全问题
-      description: 
+      description:
       requestBody:
         required: true
         content:
@@ -692,7 +663,7 @@ paths:
                 - username
                 - answer
                 - newPassword
-                - confirmPassword    
+                - confirmPassword
       responses:
         '200':
           description: Password successfully reset
@@ -714,7 +685,7 @@ paths:
       tags:
         - secury
       summary: 设置安全问题与答案
-      description:  
+      description:
       requestBody:
         required: true
         content:
@@ -746,8 +717,8 @@ paths:
   /ylwlt/adjust:
     get:
       tags:
-        - ylWallet
-      summary: "资金调整 盈利钱包"
+        - misc
+      summary: " "
       parameters:
         - name: adjustType
           in: query
@@ -767,3 +738,46 @@ paths:
       responses:
         '200':
           description: 成功响应
+  /myWltAdrs/ListWltAddrHdl:
+    get:
+      tags:
+        - wltAddr
+      summary: "审核读取钱包地址"
+      description: ""
+
+
+      responses:
+        "200":
+          $ref: '../../components/responses/CommonResponse.yaml'
+  /myWltAdrs/ReviewWltAdrsHdl:
+    get:
+      tags:
+        - wltAddr
+      summary: "审核钱包地址 通过或拒绝"
+      description: ""
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: ID，不能为空
+          example: "666"
+
+        - name: stat
+          in: query
+          required: true
+          schema:
+            type: string
+          description: 状态字段，
+          example: "Completed"
+
+
+      responses:
+        "200":
+          $ref: '../../components/responses/CommonResponse.yaml'
+  /myWltAdrs/GetMyWltAddrHdl:
+    $ref: './paths/usr/GeMyWltAddrHdl.yaml'
+  /myWltAdrs/SetMyWltAddrHdl:
+    $ref: './paths/usr/SeMyWltAddrHdl.yaml'
+

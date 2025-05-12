@@ -1,6 +1,7 @@
 package api.usr;
 
 import entityx.usr.ReqDtoQryUsr;
+import model.usr.Usr;
 import jakarta.annotation.security.PermitAll;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,18 +20,18 @@ import java.util.*;
 
 //import static cfg.Containr.sessionFactory;
 import static cfg.Containr.sessionFactory;
+import static util.algo.ToXX.toSnake;
 import static util.model.common.ApiResponse.createResponse;
 import static util.algo.EncodeUtil.encodeParamSql;
 import static util.algo.NullUtil.isBlank;
 
+import static util.oo.SqlUti.orderby;
 import static util.tx.Pagging.getPageResultByHbntV3;
-
-
 
 
 //组合了  和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
 @PermitAll
-@Paths({"/admin/qryUsrApi","/admin/qryUsr"})
+@Paths({"/admin/qryUsrApi", "/admin/qryUsr"})
 //   http://localhost:8889/admin/qryUsr?uname=008&page=1&pagesize=100
 @NoArgsConstructor
 @Data
@@ -39,10 +40,13 @@ public class QueryUsrHdrApi implements Icall<ReqDtoQryUsr, Object> {
 
     public Object main(ReqDtoQryUsr reqdto) throws Exception {
 
+        String crtTimeStmp = toSnake(Usr.Fields.crtTimeStmp);
         var uNameLikeConditon = "";
         if (!isBlank(reqdto.unameKeyword))
             uNameLikeConditon = "where  uname like '%" + encodeParamSql(reqdto.unameKeyword) + "%'";
-        var sql = "select * from usr " + uNameLikeConditon + " order by crtTimeStmp desc  ";
+        var sql = "select * from usr " + uNameLikeConditon
+
+                + orderby(crtTimeStmp + " desc ");
         System.out.println(sql);
 
         Session session = sessionFactory.getCurrentSession();
@@ -51,6 +55,8 @@ public class QueryUsrHdrApi implements Icall<ReqDtoQryUsr, Object> {
         return createResponse(list1);
 
     }
+
+
 
 
 //

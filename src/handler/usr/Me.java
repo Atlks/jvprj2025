@@ -1,6 +1,6 @@
 package handler.usr;
 
-import entityx.usr.Usr;
+import model.usr.Usr;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import util.annos.Paths;

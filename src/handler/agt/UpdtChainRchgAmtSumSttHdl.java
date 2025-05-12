@@ -1,6 +1,6 @@
 package handler.agt;
 
-import entityx.usr.Usr;
+import model.usr.Usr;
 import handler.ivstAcc.dto.QueryDto;
 import model.OpenBankingOBIE.Transaction;
 import model.agt.Agent;

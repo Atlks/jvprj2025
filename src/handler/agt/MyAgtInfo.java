@@ -1,15 +1,10 @@
 package handler.agt;
 
-import entityx.usr.Usr;
-import handler.fundDetail.qryFdDtl.QryFundDetailRqdto;
+import model.usr.Usr;
 import handler.ivstAcc.dto.QueryDto;
-import model.OpenBankingOBIE.Transaction;
-import model.OpenBankingOBIE.TransactionCode;
 import model.agt.Agent;
 import util.Oosql.SlctQry;
 import util.annos.Paths;
-
-import java.math.BigDecimal;
 
 import static cfg.Containr.sessionFactory;
 import static util.Oosql.SlctQry.newSelectQuery;

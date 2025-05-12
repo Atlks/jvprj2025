@@ -1,6 +1,6 @@
 get:
   tags:
-    - adm_rpt
+    - rpt
   summary: "获取数据总览"
   description: " 。。。。"
 

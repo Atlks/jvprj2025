@@ -21,7 +21,7 @@
 //
 //import service.CmsBiz;
 //
-//import entityx.usr.Usr;
+//import model.usr.Usr;
 //import org.hibernate.Session;
 //import util.algo.Icall;
 //

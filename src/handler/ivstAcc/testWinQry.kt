@@ -4,7 +4,7 @@ import cfg.MainStart
 import cfg.Containr
 import cfg.Containr.sessionFactory
 import cfg.IniCfg
-import entityx.usr.Usr
+import model.usr.Usr
 //import handler.agt.AgtHdl
 import handler.ylwlt.dto.QueryDto
 import model.OpenBankingOBIE.CreditDebitIndicator

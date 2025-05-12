@@ -1,12 +1,11 @@
 package handler.agt;
 
-import entityx.usr.Usr;
+import model.usr.Usr;
 import handler.cms.CalcCmsHdl;
 import jakarta.validation.constraints.NotNull;
 import model.OpenBankingOBIE.Transaction;
 import model.agt.Agent;
 import model.agt.ChgSubStt;
-import model.usr.UsrExtAmtStats;
 import org.hibernate.Session;
 import util.annos.EventListener;
 import util.model.EvtType;

@@ -2,7 +2,7 @@
 //
 //import util.model.common.ApiResponse;
 //import entityx.usr.Passport;
-//import entityx.usr.Usr;
+//import model.usr.Usr;
 //import entityx.usr.Visa;
 //import handler.usr.dto.RegDto;
 //import jakarta.annotation.security.PermitAll;

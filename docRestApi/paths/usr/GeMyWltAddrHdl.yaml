@@ -1,6 +1,6 @@
 get:
   tags:
-    - user
+    - wltAddr
   summary: "我的钱包地址"
   description: ""
   operationId: "我的钱包地址"

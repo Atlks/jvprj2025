@@ -4,11 +4,17 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static handler.Uti.delFil;
+import static util.algo.CallUtil.callTry;
+
 public class ConsoleInterceptor {
     public static void init() {
         try {
+            String applog = "app.log";
+            callTry( ()->{delFil(applog);})   ;
+
             // 日志文件输出流
-            FileOutputStream fileOut = new FileOutputStream("app.log", true);
+            FileOutputStream fileOut = new FileOutputStream(applog, true);
             PrintStream customOut = new PrintStream(new MultiOutputStream(System.out, fileOut));
             PrintStream customErr = new PrintStream(new MultiOutputStream(System.err, fileOut));
 

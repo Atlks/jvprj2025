@@ -1,4 +1,4 @@
-package entityx.usr;
+package model.usr;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,8 +16,7 @@ import util.annos.CurrentUsername;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
-
-import static service.CmsBiz.toBigDcmTwoDot;
+import java.time.OffsetDateTime;
 
 /**
  *   Usr实体
@@ -95,12 +94,12 @@ public class Usr {
     //@Column(updatable = false) 推荐配合 @CreationTimestamp 使用，避免人为修改
     @CreationTimestamp
     @Column(updatable = false)
-    public LocalDateTime crtTimeStmp;
+    public OffsetDateTime crtTimeStmp;
 
     public long timestamp=System.currentTimeMillis();
 
     @UpdateTimestamp
-    public LocalDateTime updtTmstmp;
+    public OffsetDateTime updtTmstmp;
 
 
 

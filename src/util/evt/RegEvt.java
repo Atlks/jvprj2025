@@ -1,6 +1,6 @@
 package util.evt;
 
-import entityx.usr.Usr;
+import model.usr.Usr;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,9 +5,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jnr.a64asm.Offset;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /**
  * 提现密码
@@ -27,9 +29,9 @@ public class WithdrawalPassword {
     @Column(nullable = false)
     private String encryptedPassword; // 加密后的提现密码
 
-    private LocalDateTime createdAt = LocalDateTime.now();  // 设置时间
+    private OffsetDateTime createdAt = OffsetDateTime.now();  // 设置时间
 
-    private LocalDateTime updatedAt = LocalDateTime.now();  // 修改时间
+    private OffsetDateTime updatedAt = OffsetDateTime.now();  // 修改时间
 
     private Boolean isSet = false; // 是否已经设置提现密码
 
@@ -49,13 +51,7 @@ public class WithdrawalPassword {
         this.encryptedPassword = encryptedPassword;
     }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
 
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
     public Boolean getIsSet() { return isSet; }
 

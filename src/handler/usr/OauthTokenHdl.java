@@ -1,9 +1,8 @@
 package handler.usr;
 
-import api.usr.lgnDlgt;
 import core.Ilogin;
 import entityx.usr.Passport;
-import entityx.usr.Usr;
+import model.usr.Usr;
 import entityx.usr.Visa;
 import handler.usr.dto.OpenIdTokenRequestDto;
 import handler.usr.dto.OpenIdTokenResponseDto;
@@ -13,7 +12,6 @@ import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.SecurityContext;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import jakarta.validation.constraints.NotNull;
-import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,10 +23,7 @@ import util.auth.JwtUtil;
 import util.ex.existUserEx;
 import util.misc.util2026;
 import util.serverless.ApiGateway;
-import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
-
-import java.util.Collections;
 
 import static cfg.Containr.sam4regLgn;
 

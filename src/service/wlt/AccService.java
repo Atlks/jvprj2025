@@ -5,7 +5,7 @@ package service.wlt;
 import model.OpenBankingOBIE.Account;
 import entityx.wlt.LogBls;
 import entityx.wlt.TransDto;
-import entityx.usr.Usr;
+import model.usr.Usr;
 import jdk.jfr.Name;
 import lombok.Data;
 import lombok.NoArgsConstructor;

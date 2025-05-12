@@ -1,6 +1,6 @@
 //package handler.wltadrs;
 //
-//import entityx.usr.Usr;
+//import model.usr.Usr;
 //import jakarta.persistence.EntityManager;
 //import jakarta.persistence.EntityManagerFactory;
 //import jakarta.persistence.Persistence;
@@ -44,7 +44,7 @@
 //        properties.put("hibernate.archive.autodetection", "class, hbm");  // 自动扫描实体类
 //
 //        // 将实体类添加到 jpaProperties 中
-//         properties.put("jakarta.persistence.classnames", "entityx.usr.Usr"); // 替换为你的实体类全路径
+//         properties.put("jakarta.persistence.classnames", "model.usr.Usr"); // 替换为你的实体类全路径
 //
 //        // 使用 HibernatePersistenceProvider 来创建 EntityManagerFactory
 //        HibernatePersistenceProvider persistenceProvider = new HibernatePersistenceProvider();

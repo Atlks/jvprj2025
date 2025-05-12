@@ -1,6 +1,6 @@
 package util.tx;
 
-import entityx.usr.Usr;
+import model.usr.Usr;
 import entityx.baseObj;
 import util.model.common.PageResult;
 import jakarta.validation.constraints.NotBlank;

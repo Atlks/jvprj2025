@@ -5,7 +5,7 @@
 //import entityx.wlt.LogCms;
 //import model.OpenBankingOBIE.Transaction;
 //import util.model.bet.BetOrd;
-//import entityx.usr.Usr;
+//import model.usr.Usr;
 //import entityx.wlt.LogBls4YLwlt;
 //import org.hibernate.Session;
 //import util.tx.HbntUtil;

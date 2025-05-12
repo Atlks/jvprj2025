@@ -10,7 +10,8 @@ import util.annos.CurrentUsername;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+// java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 /**
@@ -86,7 +87,7 @@ public class Account {
 
 
     //  public String status;
-    public LocalDateTime statusUpdateDateTime;
+    public OffsetDateTime statusUpdateDateTime;
 
     public String Description;
     public String nickname;

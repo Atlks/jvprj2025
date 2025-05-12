@@ -5,7 +5,7 @@ import cfg.MainStart
 import cfg.IocSpringCfg
 import cfg.IniCfg
 import entityx.wlt.TransDto
-import entityx.usr.Usr
+import model.usr.Usr
 import util.auth.SecurityContextImp4ck
 import util.tx.HbntUtil
 import util.algo.Icall

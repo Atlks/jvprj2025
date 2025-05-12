@@ -1,14 +1,13 @@
 package handler.cms;
 
 
-import entityx.usr.Usr;
+import model.usr.Usr;
 import handler.agt.getSuperiors;
 import handler.ivstAcc.dto.QueryDto;
 import jakarta.validation.constraints.NotNull;
 import model.OpenBankingOBIE.Transaction;
 import model.agt.Agent;
 import org.hibernate.Session;
-import util.annos.EventListener;
 
 import java.math.BigDecimal;
 import java.util.List;

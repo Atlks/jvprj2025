@@ -16,7 +16,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import util.annos.CurrentUsername;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+
+import java.time.OffsetDateTime;
 
 import static util.algo.GetUti.getUuid;
 
@@ -111,7 +112,7 @@ public class Transaction {
      */
     // 允许为 null 的字段  def iscan be null
     @Nullable
-    public LocalDateTime bookingDateTime;
+    public OffsetDateTime bookingDateTime;
 
 
     /**
@@ -120,14 +121,14 @@ public class Transaction {
      * 可选字段，经常为 null；  对应资金延迟到账或记息规则时才会设置。
      */
     @Nullable
-    public LocalDateTime ValueDateTime;
+    public OffsetDateTime  ValueDateTime;
 
     @CreationTimestamp
     @Column(updatable = false)
-    public LocalDateTime crtDateTime;
+    public OffsetDateTime  crtDateTime;
 
     @UpdateTimestamp
-    public LocalDateTime updtDateTime;
+    public OffsetDateTime  updtDateTime;
 
     @Column(name = "booking_timezone")
     private String bookingTimezone; // 比如 "Asia/Shanghai"

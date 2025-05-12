@@ -4,7 +4,7 @@ import MainApp
 import cfg.MainStart
 import cfg.Containr
 import cfg.IniCfg
-import entityx.usr.Usr
+import model.usr.Usr
 //import handler.agt.AgtHdl
 import handler.wlt.findBalanceOverviewHdl
 import handler.ylwlt.dto.QueryDto
