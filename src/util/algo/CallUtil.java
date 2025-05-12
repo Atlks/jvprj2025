@@ -1,5 +1,7 @@
 package util.algo;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
@@ -11,6 +13,34 @@ import static util.proxy.AopUtil.ivk4log;
 //run invoke process invk call run start
 public class CallUtil {
 
+    public static void exec(String cmd) {
+        try {
+            ProcessBuilder builder = new ProcessBuilder();
+            if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                builder.command("cmd.exe", "/c", cmd);
+            } else {
+                builder.command("sh", "-c", cmd);
+            }
+
+            builder.redirectErrorStream(true);
+            Process process = builder.start();
+
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                }
+            }
+
+            int exitCode = process.waitFor();
+            System.out.println("Exit code: " + exitCode);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public static  void callTry(Runnablex o) {
         try {

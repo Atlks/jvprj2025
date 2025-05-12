@@ -14,6 +14,7 @@ import org.hibernate.Session;
 
 import util.algo.Tag;
 import util.ex.existUserEx;
+import util.model.FaasContext;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
@@ -48,14 +49,14 @@ import static util.tx.HbntUtil.persistByHibernate;
 // @Produces / @Consumes：指定返回和接收的数据格式（如 application/json）
 
 //implements RequestHandler<Map<String,Object>, ApiGatewayResponse> {
-public class RegHandler implements RequestHandler<RegDto, ApiGatewayResponse>,IRegHandler {
+public class RegHandler implements IRegHandler {
     /**
      * @param dtoReg
-     * @param context
+
      * @return
      */
-    @Override
-    public ApiGatewayResponse handleRequest(RegDto dtoReg, Context context) throws Throwable {
+
+    public Object handleRequest(RegDto dtoReg  ) throws Throwable {
         System.out.println("RegHandler.handleRequest(" + encodeJson(dtoReg));
         ivk4log("chkExistUser", () -> {
             return chkExistUser(dtoReg);
@@ -67,7 +68,7 @@ public class RegHandler implements RequestHandler<RegDto, ApiGatewayResponse>,IR
         iniTwoWlt(dtoReg.uname);
 
         publishEvent(evtlist4reg,u);
-        return new ApiGatewayResponse(dtoReg);
+        return (dtoReg);
     }
 
 

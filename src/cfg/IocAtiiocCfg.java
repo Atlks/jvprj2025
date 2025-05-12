@@ -17,7 +17,7 @@ import java.util.function.Function;
 // static cfg.BaseHdr.saveDirUsrs;
 //import static cfg.AopLogJavassist.*;
 //import static cfg.AopLogJavassist.printLn;
-import static cfg.Containr.saveDirUsrs;
+import static cfg.Containr.jdbcUrl;
 import static util.tx.HbntUtil.getSessionFactory;
 import static util.tx.dbutil.setField;
 import static util.misc.util2026.*;
@@ -36,7 +36,7 @@ public class IocAtiiocCfg {
 
         List<Class> li = List.of();
         IniCfg.iniContnr4cfgfile();
-        SessionFactory sessionFactory = getSessionFactory(saveDirUsrs, li);
+        SessionFactory sessionFactory = getSessionFactory(jdbcUrl, li);
         AtIoc_context.put(SessionFactory.class.getName(),sessionFactory);
        // container888.addAdapter(new SessionFactProvider());
         // 注册组件

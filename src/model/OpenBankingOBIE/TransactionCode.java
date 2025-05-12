@@ -23,9 +23,9 @@ package model.OpenBankingOBIE;
 //BankTransactionCode
 //交易类型，iso 20022  有表示
 public enum TransactionCode {
-    AdjustmentCredit,
+    adjust_crdt,
             // Credit Transfer - 充值、存款、转账入账
-    AdjustmentDebit,  // Direct Debit - 支出、扣款
+            adjust_dbt,  // Direct Debit - 支出、扣款
 
 
     adjust_loss, //亏损
@@ -53,8 +53,7 @@ public enum TransactionCode {
     ;
 
 
-
-    
+   // public static String adjst_add;
 
     /**
      * 根据字符串 code 获取对应枚举，默认返回 OTH（其他）

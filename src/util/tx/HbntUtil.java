@@ -1,7 +1,5 @@
 package util.tx;
 
-import entityx.PageResult;
-import entityx.usr.Usr;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
@@ -11,8 +9,8 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Environment;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
@@ -20,7 +18,6 @@ import org.hibernate.service.ServiceRegistry;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import util.entty.PageDto;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -133,9 +130,15 @@ public class HbntUtil {
         properties.put(Environment.HBM2DDL_AUTO, "update"); // 自动建表
         properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
 
+        // 禁用插入和更新的顺序控制（按实际需要设置）
         properties.put(Environment.ORDER_INSERTS, "false");
         properties.put(Environment.ORDER_UPDATES, "false");
 
+        // 设置 Hibernate 命名策略为物理命名策略
+        properties.put("hibernate.physical_naming_strategy",
+                CamelCaseToUnderscoresNamingStrategy.class.getName());
+        System.out.println(org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl.class);
+       // spring.jpa.hibernate.naming.physical-strategy=
 
         //-------统计查询cache的使用
      //   properties.put(Environment.USE_SECOND_LEVEL_CACHE, true);
@@ -165,7 +168,8 @@ public class HbntUtil {
         addAnnotatedClasses2025(metadataSources);
 
         // 创建 SessionFactory
-        SessionFactory sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
+        sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
+
         return sessionFactory;
     }
 
@@ -303,6 +307,11 @@ public class HbntUtil {
         EntityManager entityManager = session.getEntityManagerFactory().createEntityManager();
 
         return  entityManager;
+    }
+    public static SessionFactory sessionFactory;
+    public static @NotNull @org.jetbrains.annotations.NotNull <T> T mergeByHbnt(@NotNull T t ) {
+
+        return  mergeByHbnt(t,sessionFactory.getCurrentSession());
     }
 
     public static @NotNull @org.jetbrains.annotations.NotNull <T> T mergeByHbnt(@NotNull T t, @NotNull Session session) {

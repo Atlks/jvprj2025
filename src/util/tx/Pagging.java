@@ -2,7 +2,7 @@ package util.tx;
 
 import entityx.usr.Usr;
 import entityx.baseObj;
-import entityx.PageResult;
+import util.model.common.PageResult;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.Session;
@@ -14,7 +14,6 @@ import util.entty.PageDto;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
 
 import static util.oo.ArrUtil.subList2025;
 

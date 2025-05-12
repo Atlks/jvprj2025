@@ -95,6 +95,9 @@ public class GetUti {
         return null; // 未找到匹配的方法或参数
     }
 
+    public static String getTablename(Class<?> jpaModelClass){
+     return  getTableName(jpaModelClass);
+    }
     /**
      * 获取实体类 立马的 @table 表格名称。如果没有@table或者为空，则使用实体类名
      * @param jpaModelClass

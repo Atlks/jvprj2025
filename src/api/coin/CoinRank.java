@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import entityx.ApiResponse;
+import util.model.common.ApiResponse;
 import entityx.Coin;
 import entityx.usr.NonDto;
 import jakarta.annotation.security.PermitAll;

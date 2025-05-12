@@ -12,6 +12,8 @@ import jakarta.ws.rs.Path;
 // org.thymeleaf.context.Context;
 import model.other.ContentType;
 import util.annos.Paths;
+import util.model.FaasContext;
+import util.rest.RestUti;
 import util.serverless.ApiGateway;
 import util.serverless.ApiGatewayResponse;
 
@@ -31,6 +33,7 @@ import java.util.function.Function;
 
 
 // static ztest.htmlTppltl.rend;
+import static cfg.Containr.sessionFactory;
 import static util.algo.JarClassScanner.getPrjPath;
 import static util.algo.JarClassScanner.getTargetPath;
 import static util.algo.NullUtil.isBlank;
@@ -40,6 +43,7 @@ import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.*;
 import static util.oo.WebsrvUtil.processNmlExptn;
 import static util.rest.RestUti.createContext4rest;
+import static util.rest.RestUti.httpSvr;
 import static util.tx.QueryParamParser.toDto;
 
 
@@ -50,14 +54,14 @@ import static util.tx.QueryParamParser.toDto;
  */
 public class WebSvr {
 
-
+    HttpServer httpServer;
     public static void startWebSrv() throws Exception {
         int port = 8889;
 
 
-        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+        HttpServer httpServer = HttpServer.create(new InetSocketAddress(port), 0);
         // 定义一个上下文，绑定到 "/api/hello" 路径
-        //  server.createContext("/hello", new HelloHandler());
+        //  httpServer.createContext("/hello", new HelloHandler());
 
 
         // 设置静态资源目录 (例如: D:/myweb/static)
@@ -65,34 +69,34 @@ public class WebSvr {
         String docRestApiDir = getdirRestapiDoc();
         System.out.println("docRestApiDir=" + docRestApiDir);
 
-        server.createContext("/static22", new StaticFileHandler(docRestApiDir + "/aa", "/static"));
-        server.createContext("/static", new StaticFileHandler(docRestApiDir, "/static"));
-        server.createContext("/docRestApi", new StaticFileHandler(docRestApiDir, "/docRestApi"));
+        httpServer.createContext("/static22", new StaticFileHandler(docRestApiDir + "/aa", "/static"));
+        httpServer.createContext("/static", new StaticFileHandler(docRestApiDir, "/static"));
+        httpServer.createContext("/docRestApi", new StaticFileHandler(docRestApiDir, "/docRestApi"));
 
-        server.createContext("/res/uploads", new StaticFileHandler(getPrjPath() + "/res/uploads", "/res/uploads"));
+        httpServer.createContext("/res/uploads", new StaticFileHandler(getPrjPath() + "/res/uploads", "/res/uploads"));
         //    http://localhost:8889/static/doc.htm
-        server.createContext("/post2", exchange -> {
+        httpServer.createContext("/post2", exchange -> {
             try {
                 handlePost2(exchange);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });
-        server.createContext("/jar/docRestApi", exchange -> docRestApiHdl(exchange));
+        httpServer.createContext("/jar/docRestApi", exchange -> docRestApiHdl(exchange));
 
 
         HttpHandler httpHandlerAll = exchange -> handleAllReq(exchange);
-        server.createContext("/", httpHandlerAll);
+        httpServer.createContext("/", httpHandlerAll);
         //-------------------
-        cfgPath(server);
+        cfgPath(httpServer);
         //  http://localhost:8889/
         // 启动服务器
-        //   server.setExecutor(null); // 默认的线程池  单线程
+        //   httpServer.setExecutor(null); // 默认的线程池  单线程
         // 设置 10 线程并发执行.
-        server.setExecutor(Executors.newFixedThreadPool(20));
-        //  server.setExecutor(Executors.newSingleThreadExecutor());//每次新线程
+        httpServer.setExecutor(Executors.newFixedThreadPool(20));
+        //  httpServer.setExecutor(Executors.newSingleThreadExecutor());//每次新线程
 
-        server.start();
+        httpServer.start();
         System.out.println("http://localhost:" + port + "/reg");
         System.out.println("Server started on port " + port);
     }
@@ -227,7 +231,26 @@ public class WebSvr {
         //   /p8?uname=123
         createContext4rest("/p8", QueryDto.class, dto1 -> hdlDto2(dto1), server);
 
+        RestUti.httpSvr=server;
+        FaasContext ctx = new FaasContext();
+        ctx.sessionFactory=sessionFactory;
+        RestUti.contextThdloc.set(ctx);
+        createContext4rest("/p9", QueryDto.class, WebSvr::hdl9);
+        createContext4rest("/p99",  WebSvr::hdl99);
+
     }
+    private static Object hdl9(QueryDto dto1) {
+        System.out.println("fun hdl9(prm=" + encodeJson(dto1));
+        return 9;
+    }
+    private static Object hdl99() {
+        FaasContext ctx=RestUti.contextThdloc.get();
+        System.out.println("fun hdl8()");
+        return 99;
+    }
+
+
+
 
 
     /**

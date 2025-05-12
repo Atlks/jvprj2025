@@ -2,7 +2,7 @@ package core;
 
 import entityx.usr.Usr;
 import handler.usr.dto.RegDto;
-import entityx.ApiResponse;
+import util.model.common.ApiResponse;
 //import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.BeanParam;

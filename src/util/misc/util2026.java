@@ -33,6 +33,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import static cfg.Containr.curCtrlCls;
+import static cfg.Containr.testUnitMode;
 import static java.time.LocalTime.now;
 import static util.algo.EncodeUtil.decodeUrl;
 import static util.algo.EncodeUtil.encodeUrl;
@@ -465,6 +466,8 @@ public class util2026 {
         try {
             // 获取 classes 目录
             String classpath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
+            if(testUnitMode)
+                classpath=new File(classpath).getParentFile().getPath()+"/classes/";
             File classDir = new File(classpath);
             if (!classDir.exists() || !classDir.isDirectory()) {
                 System.err.println("classes 目录不存在！");

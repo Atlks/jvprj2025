@@ -1,7 +1,7 @@
 //package ztools;
 //
 ////import io.swagger.v3.oas.models.responses.ApiResponse;
-//import entityx.ApiResponseDep;
+//import util.model.common.ApiResponseDep;
 //// org.springframework.http.ResponseEntity;
 //
 //import static util.misc.Util2025.encodeJson;

@@ -1,7 +1,6 @@
-package entityx;
+package util.model.common;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 //   extends io.swagger.v3.oas.models.responses.ApiResponse

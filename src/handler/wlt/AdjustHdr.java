@@ -6,7 +6,7 @@ import jakarta.annotation.security.RolesAllowed;
 
 import model.OpenBankingOBIE.*;
 import org.hibernate.Session;
-import entityx.ApiResponse;
+import util.model.common.ApiResponse;
 import entityx.wlt.LogBls;
 //import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ws.rs.Path;
@@ -52,7 +52,7 @@ String accid=getAccId(adjstDto.accountSubType,adjstDto.uname);
         BigDecimal newBls = avdBls;
         var logTag = "";
         BigDecimal subAmt = BigDecimal.valueOf(adjstDto.adjustAmount);
-        if (adjstDto.transactionCode.toUpperCase().equals(TransactionCode.AdjustmentDebit.name())) {
+        if (adjstDto.transactionCode.toUpperCase().equals(TransactionCode.adjust_dbt.name())) {
             newBls = avdBls.subtract(subAmt);
             if (newBls.compareTo(BigDecimal.ZERO) < 0) {
                 throw new BalanceNegativeException("余额不能为负数");
@@ -60,7 +60,7 @@ String accid=getAccId(adjstDto.accountSubType,adjstDto.uname);
             logTag = "减少";
             acc1.InterimBookedBalance = acc1.InterimBookedBalance.subtract(subAmt);
             tx.creditDebitIndicator= CreditDebitIndicator.DEBIT;
-        } else if (adjstDto.transactionCode.toUpperCase().equals(TransactionCode.AdjustmentCredit.name())) {
+        } else if (adjstDto.transactionCode.toUpperCase().equals(TransactionCode.adjust_crdt.name())) {
             newBls = avdBls.add(subAmt);
             logTag = "增加";
             acc1.InterimBookedBalance = acc1.InterimBookedBalance.add(subAmt);
@@ -90,9 +90,9 @@ String accid=getAccId(adjstDto.accountSubType,adjstDto.uname);
         tx.transactionId=getUuid();
         tx.accountOwner =adjstDto.uname;
         tx.accountId= accid.toString();
-        tx.transactionCode= TransactionCode.fromCode( adjstDto.transactionCode);
+        tx.transactionCode=  adjstDto.transactionCode;
         tx.amount=toBigDecimal( adjstDto.adjustAmount);
-        tx.transactionStatus=TransactionStatus.BOOKED;
+        tx.status =TransactionStatus.BOOKED;
         persistByHibernate(tx,session);
 
 

@@ -9,9 +9,9 @@ import entityx.usr.Usr;
 import jdk.jfr.Name;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import model.OpenBankingOBIE.CreditDebitIndicator;
+import model.OpenBankingOBIE.Transaction;
 import org.hibernate.Session;
-
-import util.algo.Icall;
 
 import java.math.BigDecimal;
 
@@ -42,8 +42,8 @@ import static util.misc.util2026.getFilenameFrmLocalTimeString;
 //@Parameter(name = "uname",value = "$curuser")
 //@Parameter(name = "lockAccObj")
 @NoArgsConstructor
-public class AddMoneyToWltService   implements Icall<TransDto, Object> {
-    public AddMoneyToWltService(BigDecimal amt,String uname,Usr lockAccObj) {
+public class AccService {
+    public AccService(BigDecimal amt, String uname, Usr lockAccObj) {
     }
 
     @Name("add")
@@ -51,7 +51,7 @@ public class AddMoneyToWltService   implements Icall<TransDto, Object> {
 
         return null;
     }
-    public Object main(TransDto TransDto88 ) throws Exception {
+    public static Object crdtFd(TransDto TransDto88 ) throws Exception {
 
 
         String uname = TransDto88.uname;
@@ -79,7 +79,13 @@ public class AddMoneyToWltService   implements Icall<TransDto, Object> {
         persistByHibernate(logBalance, session);
 
 
-
+        Transaction txx=new Transaction();
+        txx.transactionId="add2wlt"+ TransDto88.refUniqId;
+        txx.amount= TransDto88.getChangeAmount();
+        txx.creditDebitIndicator= CreditDebitIndicator.CREDIT;
+        txx.accountId= wlt1.accountId;
+        txx.accountOwner = uname;
+        persistByHibernate(txx, session);
 
         //=================updt
         wlt1.interim_Available_Balance = toBigDcmTwoDot(newBls);
@@ -88,7 +94,7 @@ public class AddMoneyToWltService   implements Icall<TransDto, Object> {
 
         
         
-        mm2();
+       // mm2();
         System.out.println("1217");
 
         //  System.out.println("✅endfun updtBlsByAddChrg()");

@@ -1,4 +1,4 @@
-package entityx;
+package util.model.common;
 
 import lombok.Data;
 import org.springframework.data.domain.PageRequest;

@@ -154,7 +154,7 @@ public class AddInvstRcdHdl   {
                 //add lgtx
                 Transaction txr=new Transaction();
                 txr.transactionId="div_"+now();
-                txr.transactionCode= TransactionCode.invstProfit;
+                txr.transactionCode= TransactionCode.invstProfit.name();
                 txr.accountId=accId;
                 txr.accountOwner=acc.accountOwner;
                 txr.creditDebitIndicator= CreditDebitIndicator.CREDIT;

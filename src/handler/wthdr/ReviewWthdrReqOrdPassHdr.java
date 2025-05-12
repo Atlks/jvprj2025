@@ -67,11 +67,11 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
         String mthBiz = colorStr("设置订单状态=完成", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         Session session = sessionFactory.getCurrentSession();
-        var objOrd = findByHerbinate(Transaction.class, reqdto.transactionId, session);
+        Transaction objOrd = findByHerbinate(Transaction.class, reqdto.transactionId, session);
         // System.out.println("\r\n----blk updt chg ord set stat=ok");
         //  is proceed??
-        if (objOrd.transactionStatus.equals(TransactionStatus.BOOKED)
-                || objOrd.transactionStatus.equals(TransactionStatus.REJECTED)) {
+        if (objOrd.status.equals(TransactionStatus.BOOKED)
+                || objOrd.status.equals(TransactionStatus.REJECTED)) {
             System.out.println("alread cpmlt ord,id=" + objOrd.id);
             if (ovrtTEst) {
             } else {
@@ -80,8 +80,8 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
         }
         //chk stat is not pndg,,, throw ex
         //
-        if (objOrd.transactionStatus.equals(TransactionStatus.PENDING))
-            objOrd.setTransactionStatus((TransactionStatus.BOOKED));
+        if (objOrd.status.equals(TransactionStatus.PENDING))
+            objOrd.setStatus((TransactionStatus.BOOKED));
         mergeByHbnt(objOrd, session);
 
 

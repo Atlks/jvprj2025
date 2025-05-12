@@ -17,6 +17,14 @@ import static util.tx.QueryParamParser.toDto;
 
 public class ToXX {
 
+
+    public static String toSnake(String Camel_input) {
+        if (Camel_input == null || Camel_input.isEmpty()) return Camel_input;
+        return Camel_input.replaceAll("([a-z])([A-Z])", "$1_$2")
+                .replaceAll("([A-Z]+)([A-Z][a-z])", "$1_$2")
+                .toLowerCase();
+    }
+
     public static @jakarta.validation.constraints.NotNull <T> T toDtoFrmHttp(HttpExchange exchange, Class<T> usrClass) throws Exception {
 
         if(exchange.getClass()==usrClass)

@@ -68,7 +68,7 @@ public class AddMoney2YLWltService implements Icall<TransDto,Object> {
         txx.accountOwner = TransDto1.uname;
         txx.amount= TransDto1.getChangeAmount();
         txx.refUniqId= String.valueOf(System.currentTimeMillis());
-        txx.transactionStatus= TransactionStatus.BOOKED;
+        txx.status = TransactionStatus.BOOKED;
         persistByHibernate(txx, sessionFactory.getCurrentSession());
 
 

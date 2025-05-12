@@ -1,6 +1,7 @@
 package handler.rechg;
 
 import cfg.IniCfg;
+import model.OpenBankingOBIE.CreditDebitIndicator;
 import model.OpenBankingOBIE.Transaction;
 import util.annos.NoDftParam;
 import entityx.wlt.QryRechgOrdReqDto;
@@ -16,7 +17,10 @@ import java.util.*;
 
 
 import static cfg.Containr.sessionFactory;
+import static util.Oosql.SlctQry.toValStr;
 import static util.algo.EncodeUtil.encodeSqlAsLikeMatchParam;
+import static util.algo.GetUti.getTablename;
+import static util.algo.ToXX.toSnake;
 import static util.tx.Pagging.getPageResultByHbntV4;
 
 
@@ -44,10 +48,13 @@ public class QueryOrdChrgHdr  implements RequestHandler<QryRechgOrdReqDto, ApiGa
     @Override
     public ApiGatewayResponse handleRequest(QryRechgOrdReqDto reqdto, Context context) throws Throwable {
 
-        var sqlNoOrd = "select * from Transactions where creditDebitIndicator='credit' ";//for count    where  uname =:uname
+        var sqlNoOrd = "select * from "+getTablename(Transaction.class)+" where "
+                +toSnake(Transaction.Fields.creditDebitIndicator) +"="+
+                toValStr(CreditDebitIndicator.CREDIT.name()) ;
+               // ='credit' ";//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         if(reqdto.uname!="")
-        {  sqlNoOrd=sqlNoOrd+ " and  uname like "+ encodeSqlAsLikeMatchParam(reqdto.uname);
+        {  sqlNoOrd=sqlNoOrd+ " and  "+toSnake(Transaction.Fields.accountOwner)+" like "+ encodeSqlAsLikeMatchParam(reqdto.uname);
           //  sqlprmMap.put("uname",)
         }
 

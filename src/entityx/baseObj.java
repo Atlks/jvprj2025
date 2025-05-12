@@ -21,10 +21,10 @@ public class baseObj {
   //  @NotBlank    //most need auth   ,,if not need uname,just fill defUsre
     public String uname="";
 
-    @CreationTimestamp
+    // @CreationTimestamp
     public long crtTimeStmp=System.currentTimeMillis();
 
-    @UpdateTimestamp
+   // @UpdateTimestamp
     public long updtTmstmp=System.currentTimeMillis();
 
     public long   timestamp=System.currentTimeMillis();

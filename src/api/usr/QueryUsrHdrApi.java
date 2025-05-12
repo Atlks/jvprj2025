@@ -2,7 +2,6 @@ package api.usr;
 
 import entityx.usr.ReqDtoQryUsr;
 import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.Path;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
@@ -20,7 +19,7 @@ import java.util.*;
 
 //import static cfg.Containr.sessionFactory;
 import static cfg.Containr.sessionFactory;
-import static entityx.ApiResponse.createResponse;
+import static util.model.common.ApiResponse.createResponse;
 import static util.algo.EncodeUtil.encodeParamSql;
 import static util.algo.NullUtil.isBlank;
 

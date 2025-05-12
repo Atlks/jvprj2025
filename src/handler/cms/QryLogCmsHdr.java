@@ -9,7 +9,7 @@
 //import entityx.usr.Usr;
 //import org.hibernate.Session;
 //import util.misc.HttpExchangeImp;
-//import entityx.PageResult;
+//import util.model.common.PageResult;
 //// util.excptn.OrmUtilBiz;
 //
 //import java.io.FileOutputStream;

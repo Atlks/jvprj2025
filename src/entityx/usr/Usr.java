@@ -15,6 +15,7 @@ import util.annos.CurrentUsername;
 //import javax.jdo.annotations.PrimaryKey;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 import static service.CmsBiz.toBigDcmTwoDot;
 
@@ -31,7 +32,7 @@ import static service.CmsBiz.toBigDcmTwoDot;
 @Entity
 @Table
 @org.hibernate.annotations.Comment(  "用户表")
-@org.hibernate.annotations.Table(appliesTo = "Usr", comment = "用户表")
+@org.hibernate.annotations.Table(appliesTo = "usr", comment = "用户表")
 @DynamicUpdate  // 仅更新被修改的字段
 @DynamicInsert //如果还希望 INSERT 时也只插入非 null 的字段，可以搭配
 //@PersistenceCapable
@@ -90,13 +91,16 @@ public class Usr {
     public String email = "";
     public  boolean enabled=true;
 
+
+    //@Column(updatable = false) 推荐配合 @CreationTimestamp 使用，避免人为修改
     @CreationTimestamp
-    public long crtTimeStmp;
+    @Column(updatable = false)
+    public LocalDateTime crtTimeStmp;
 
     public long timestamp=System.currentTimeMillis();
 
     @UpdateTimestamp
-    public long updtTmstmp;
+    public LocalDateTime updtTmstmp;
 
 
 
@@ -152,7 +156,7 @@ public class Usr {
     private Boolean phoneNumberVerified;
 
 
-    @UpdateTimestamp
+   // @UpdateTimestamp
     /** 最后更新时间（UNIX 时间戳） */
     private Instant updatedAt;
 }

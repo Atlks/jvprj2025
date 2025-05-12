@@ -69,7 +69,7 @@ public class RdsFromWltService  implements Icall<TransDto, Object> {
         txx.accountOwner = acc.accountId;
         txx.amount= TransDto88.getChangeAmount();
         txx.refUniqId= String.valueOf(System.currentTimeMillis());
-         txx.transactionStatus= TransactionStatus.BOOKED;
+         txx.status = TransactionStatus.BOOKED;
         persistByHibernate(txx, sessionFactory.getCurrentSession());
 
 

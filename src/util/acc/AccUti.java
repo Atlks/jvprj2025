@@ -11,7 +11,9 @@ public class AccUti {
         return  uname+"_"+ AccountSubType.GeneralInvestment;
     }
 
-
+public  static  String getAccid(String accountSubType, String uname){
+        return getAccId(accountSubType,uname);
+}
     public static String getAccId(String accountSubType, String uname) {
 
         return uname+"_"+accountSubType;

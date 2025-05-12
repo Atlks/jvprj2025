@@ -12,3 +12,7 @@
 /node_modules/
 /docJvdoc/
 /libjar/
+/data
+/flywayLog
+/data/
+/data/prjdb.mv.db

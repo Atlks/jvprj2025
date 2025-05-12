@@ -1,6 +1,6 @@
 //package api.usr;
 //
-//import entityx.ApiResponse;
+//import util.model.common.ApiResponse;
 //import entityx.usr.Passport;
 //import entityx.usr.Usr;
 //import entityx.usr.Visa;

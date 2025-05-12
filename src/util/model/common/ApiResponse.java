@@ -1,4 +1,4 @@
-package entityx;
+package util.model.common;
 
 import util.misc.PageInfo;
 import lombok.Data;

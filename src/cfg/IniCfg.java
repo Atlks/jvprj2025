@@ -77,19 +77,20 @@ public class IniCfg {
         InputStream inputStream = getCfgInputStream(dbcfgName);
 
         Map cfg = parse_ini_fileNosecByStream(inputStream);
+        Containr.cfgMap=cfg;
         //rootPath + "../../cfg/dbcfg.ini");
         //saveDirUsrs = (String) cfg.get("saveDirUsrs");
-        Containr.saveDirUsrs= (String) cfg.get("saveDirUsrs");
+        Containr.jdbcUrl = (String) cfg.get("saveDirUsrs");
         // saveDirAcc= (String) cfg.get("saveDirAcc");
         //   savedirOrd= (String) cfg.get("savedirOrd");
         //QryOrdBetHdr.saveUrlOrdBet
-        ListBetsHdr.saveUrlOrdBet = Containr.saveDirUsrs;
+        ListBetsHdr.saveUrlOrdBet = Containr.jdbcUrl;
         //   saveUrlOrdChrg = RegHandler.saveDirUsrs;
         //(String) cfg.get("saveUrlOrdChrg");
         //RechargeCallbackHdr.saveUrlLogBalance = Containr.saveDirUsrs;
       //  BaseBiz.saveUrlLogBalanceYinliWlt = Containr.saveDirUsrs;
         //  WithdrawHdr.saveUrlOrdWthdr = Containr.saveDirUsrs;
-        CmsBiz.saveUrlLogCms = Containr.saveDirUsrs;
+        CmsBiz.saveUrlLogCms = Containr.jdbcUrl;
         System.out.println("ini cfg finish..");
     }
 

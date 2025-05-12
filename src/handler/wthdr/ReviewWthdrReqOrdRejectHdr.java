@@ -54,10 +54,10 @@ public class ReviewWthdrReqOrdRejectHdr implements RequestHandler<ReviewChrgRqdt
         var tx=findByHerbinate(Transaction.class,reqdto.transactionId, session);
 
         //mideng chk
-        if(tx.transactionStatus.equals(TransactionStatus.REJECTED)){
+        if(tx.status.equals(TransactionStatus.REJECTED)){
             return new ApiGatewayResponse(tx);
         }
-         tx.setTransactionStatus((TransactionStatus.REJECTED));
+         tx.setStatus((TransactionStatus.REJECTED));
          mergeByHbnt(tx, session);
 
 

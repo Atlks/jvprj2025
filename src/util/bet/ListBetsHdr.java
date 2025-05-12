@@ -13,7 +13,7 @@ import util.annos.JwtParam;
 //import static api.usr.QueryUsrHdr.qryuserLucene;
 
 
-import static entityx.ApiResponse.createResponse;
+import static util.model.common.ApiResponse.createResponse;
 import static cfg.Containr.sessionFactory;
 import static java.time.LocalTime.now;
 import static util.algo.EncodeUtil.encodeParamSql;

@@ -3,7 +3,7 @@
 //import model.wlt.Wallet;
 //import util.annos.JwtParam;
 //import util.annos.注入;
-//import entityx.ApiResponse;
+//import util.model.common.ApiResponse;
 //import entityx.bet.BetOrd;
 //import entityx.bet.BetOrdDto;
 //import entityx.wlt.TransDto;

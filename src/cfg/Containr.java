@@ -12,6 +12,7 @@ import service.auth.SAM4reglgn;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class Containr {
@@ -35,7 +36,7 @@ public class Containr {
 
     public  static  ThreadLocal<Class>  curCtrlCls=new ThreadLocal<>();
 
-    public static String saveDirUsrs;
+    public static String jdbcUrl;
     public static String saveUrlOrdChrg;
     //======ex
 
@@ -48,4 +49,6 @@ public class Containr {
     //for tx
     public static SessionFactory sessionFactory;
     public  static  ThreadLocal<Object>  curLockWltAcc=new ThreadLocal<>();
+    public static Map cfgMap;
+    public static boolean testUnitMode=false;
 }

@@ -32,7 +32,7 @@ public class WthdrCmsHdl {
         mergeByHbnt(agtAccYlwlt,session);
 
         Transaction tx=new Transaction(accId4ylwlt,dto.uname, CreditDebitIndicator.CREDIT,dto.amt);
-        tx.transactionCode= TransactionCode.Service_Cms_rechgCms;
+        tx.transactionCode= TransactionCode.Service_Cms_rechgCms.name();
         persistByHibernate(tx,session);
 
 
@@ -45,7 +45,7 @@ public class WthdrCmsHdl {
 
         mergeByHbnt(agtAcc,session);
         Transaction tx2=new Transaction(agtAccId,dto.uname, CreditDebitIndicator.DEBIT,dto.amt);
-        tx2.transactionCode= TransactionCode.Service_Cms_rechgCms;
+        tx2.transactionCode= TransactionCode.Service_Cms_rechgCms.name();
         persistByHibernate(tx2,session);
 
 

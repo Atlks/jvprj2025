@@ -21,6 +21,8 @@ import util.excptn.ExceptionBaseRtm;
 import util.excptn.ExptUtil;
 import util.algo.Icall;
 import util.auth.IsEmptyEx;
+import util.model.FaasContext;
+import util.rest.RestUti;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -89,6 +91,9 @@ public class ApiGateway implements HttpHandler {
 
 
         this.target = hdlr;
+
+
+
     }
 
 //    public static void main(String[] args) throws Exception {
@@ -207,6 +212,16 @@ public class ApiGateway implements HttpHandler {
 
             //---------blk chk auth
             urlAuthChkV2(exchange);
+
+            //injkt ctx
+            FaasContext ctx = new FaasContext();
+            ctx.sessionFactory=sessionFactory;
+            ctx.session=sessionFactory.getCurrentSession();
+            ctx.cfg=cfgMap;
+            if(needLoginUserAuth())
+                ctx.currUsername=getCurrentUser();
+            RestUti.contextThdloc.set(ctx);
+            // hdl
             handlexProcess(exchange);
 
             commitTsact();

@@ -5,7 +5,7 @@ import entityx.baseObj;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import entityx.PageResult;
+import util.model.common.PageResult;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 
@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 
 //import static api.usr.RegHandler.saveDirUsrs;
 // static cfg.BaseHdr.saveDirUsrs;
-import static cfg.Containr.saveDirUsrs;
+import static cfg.Containr.jdbcUrl;
 import static com.alibaba.fastjson2.util.TypeUtils.toLong;
 import static util.log.ColorLogger.*;
 import static util.algo.Fltr.fltr2501;
@@ -802,7 +802,7 @@ public class dbutil {
     public static List<SortedMap<String, Object>> getSortedMapsBypages(String sql, long pageSize, long pageNumber) throws Exception {
         var sql_limt = sql + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1) * pageSize;
         System.out.println(sql_limt);
-        var list1 = qrySql(sql_limt, saveDirUsrs);
+        var list1 = qrySql(sql_limt, jdbcUrl);
         return list1;
     }
 

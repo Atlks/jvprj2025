@@ -603,14 +603,14 @@ paths:
           required: true
           schema:
             type: string
-            enum: [ AdjustmentCredit, AdjustmentDebit, adjst_frz, adjust_unfrz ]
+            enum: [ adjst_crd, adjst_dbt, adjst_frz, adjust_unfrz ]
           description: |
             调整类型（如：增加、减少、冻结、解冻）
-            - AdjustmentCredit: 加款
-            - AdjustmentDebit: 扣款
+            - adjst_crd: 加款
+            - adjst_dbt: 扣款
             - adjst_frz: 冻结
             - adjust_unfrz: 解冻
-          example: AdjustmentCredit
+          example: adjst_crd
 
         - name: uname
           in: query

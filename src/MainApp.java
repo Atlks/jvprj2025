@@ -50,7 +50,7 @@ public class MainApp {
 
 
         lmdIvk(MainStart.class,null);
-        //cfg auth mode =jwt ,,,in apigateway
+        //cfg。 auth mode =jwt ,,,in apigateway
 
 
 
