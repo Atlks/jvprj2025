@@ -7,7 +7,7 @@ import lombok.Data;
 public class ChangePasswordReqDto {
 
     @CurrentUsername
-    public String uname;
+    public String uname="";
 
     // 当前密码
     public String oldpwd;

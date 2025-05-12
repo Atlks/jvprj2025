@@ -2,6 +2,7 @@ package model.OpenBankingOBIE;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -65,7 +66,7 @@ public class Transaction {
     /**
      * 在 OBIE（Open Banking Implementation Entity）规范中，交易流水的 amount 字段 本身不允许为负数。是否是支出或收入，由另一个字段 creditDebitIndicator 决定。
      */
-    public BigDecimal amount;
+    public @DecimalMin(value = "0.00", inclusive = true, message = "余额不能为负数") BigDecimal amount;
 
 
     /**

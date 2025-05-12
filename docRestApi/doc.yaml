@@ -603,14 +603,14 @@ paths:
           required: true
           schema:
             type: string
-            enum: [ adjst_crd, adjst_dbt, adjst_frz, adjust_unfrz ]
+            enum: [ adjst_crdt, adjst_dbt, adjst_frz, adjust_unfrz ]
           description: |
             调整类型（如：增加、减少、冻结、解冻）
-            - adjst_crd: 加款
+            - adjst_crdt: 加款
             - adjst_dbt: 扣款
             - adjst_frz: 冻结
             - adjust_unfrz: 解冻
-          example: adjst_crd
+          example: adjst_crdt
 
         - name: uname
           in: query
@@ -618,7 +618,7 @@ paths:
           schema:
             type: string
           description: 会员账号（用户唯一标识）
-          example: user_12345
+          example: 666
 
         - name: adjustAmount
           in: query

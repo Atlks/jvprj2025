@@ -30,7 +30,7 @@ import model.OpenBankingOBIE.AccountType;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import service.YLwltSvs.AddMoney2YLWltService;
-import service.wlt.RdsFromWltService;
+import service.wlt.AccSvs;
 import util.auth.SecurityContextImp4jwt;
 import util.tx.findByIdExptn_CantFindData;
 
@@ -188,7 +188,7 @@ public class MainStart {
         Containr.SecurityContext1 = new SecurityContextImp4jwt();
         //   Containr.chooseEvtPblshr=  new ChooseEvtPublshr();
         registerInstance("RdsFromWltService", () -> {
-            return new RdsFromWltService();
+            return new AccSvs();
         });
 
         registerInstance("AddMoney2YLWltService", () -> {

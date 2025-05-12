@@ -32,6 +32,7 @@ import static util.Oosql.SlctQry.newSelectQuery;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
 import static util.algo.EncodeUtil.toStr4sqlprm;
 import static util.algo.GetUti.getTableName;
+import static util.algo.ToXX.toSnake;
 import static util.misc.Util2025.encodeJson;
 import static util.tx.HbntUtil.getSingleResult;
 import static util.tx.Pagging.getPageResultByHbntRtLstmap;
@@ -59,7 +60,7 @@ public class ListIvstProftLogHdl implements RequestHandler<QueryDto, ApiGatewayR
 
         SlctQry query = newSelectQuery(getTableName(Transaction.class));
         query.select("*");
-        addCdtn(query,  reqdto);
+        addCdtn(query,  reqdto);   query.addOrderBy("timestamp desc");
         String sql=query.getSQL();
 
         Map<String,Object> sqlprmMap=new HashMap();
@@ -69,8 +70,8 @@ public class ListIvstProftLogHdl implements RequestHandler<QueryDto, ApiGatewayR
     }
 
     private static void addCdtn(SlctQry query,  QueryDto reqdto) {
-        query.addConditions(Transaction.Fields.transactionCode + "=" + toStr4sqlprm(TransactionCode.invstProfit.name()));
-        query.addOrderBy("timestamp desc");
+        query.addConditions(toSnake(Transaction.Fields.transactionCode) + "=" + toStr4sqlprm(TransactionCode.invstProfit.name()));
+
 
         if (reqdto.uname != "") {
             query.addConditions(Transaction.Fields.accountOwner + "=" + encodeSqlPrmAsStr(reqdto.uname));
@@ -81,6 +82,7 @@ public class ListIvstProftLogHdl implements RequestHandler<QueryDto, ApiGatewayR
           SlctQry query = newSelectQuery(getTableName(Transaction.class));
         query.select("sum(amount)");
         addCdtn(query,  reqdto);
+
         String sql=query.getSQL();
 
         Session session = sessionFactory.getCurrentSession();

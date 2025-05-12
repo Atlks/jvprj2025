@@ -15,6 +15,7 @@ import util.serverless.RequestHandler;
 
 import static cfg.Containr.sam4regLgn;
 import static cfg.Containr.sessionFactory;
+import static util.auth.AuthUtil.getCurrentUser;
 import static util.tx.HbntUtil.*;
 import static util.tx.dbutil.addObj;
 
@@ -37,6 +38,9 @@ public class ModifyPwdHdr  implements RequestHandler<ChangePasswordReqDto, ApiGa
     @Override
     public ApiGatewayResponse handleRequest(ChangePasswordReqDto reqDto, Context context) throws Throwable {
         org.hibernate.Session session = sessionFactory.getCurrentSession();
+
+        if(reqDto.uname.equals(""))
+            reqDto.uname=getCurrentUser();
 
         Keyx u = findByHerbinateLockForUpdt(Keyx.class, reqDto.uname, session);
         sam4regLgn.validate(new UsernamePasswordCredential(reqDto.uname, reqDto.oldpwd));

@@ -4,12 +4,17 @@ package handler.wthdr;
 import handler.ivstAcc.dto.WthdrawReviewQryDto;
 import jakarta.ws.rs.core.Context;
 
+import model.OpenBankingOBIE.CreditDebitIndicator;
+import model.OpenBankingOBIE.Transaction;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
 import java.util.HashMap;
 
 import static cfg.Containr.sessionFactory;
+import static util.Oosql.SlctQry.toValStr;
+import static util.algo.GetUti.getTablename;
+import static util.algo.ToXX.toSnake;
 import static util.tx.Pagging.*;
 
 /**
@@ -24,7 +29,13 @@ public class WthdrawReviewQryHdl  implements RequestHandler<WthdrawReviewQryDto,
      */
     @Override
     public ApiGatewayResponse handleRequest(WthdrawReviewQryDto reqdto, Context context) throws Throwable {
-        var sqlNoOrd = "select * from Transactions where creditDebitIndicator='debit' ";//for count    where  uname =:uname
+        String tablename = getTablename(Transaction.class);
+        String fldIdctr=toSnake(Transaction.Fields.creditDebitIndicator);
+        var sqlNoOrd = "select * from "+ tablename +" where "
+                +fldIdctr+"="+
+                toValStr(CreditDebitIndicator.DEBIT.name()) ;
+
+                ;//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
 //        if(reqdto.uname!="")
 //        {  sqlNoOrd=sqlNoOrd+ " and  uname like "+ encodeSqlAsLikeMatchParam(reqdto.uname);

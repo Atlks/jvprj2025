@@ -2,6 +2,7 @@ package handler.wlt;
 
 
 import model.OpenBankingOBIE.Account;
+import model.OpenBankingOBIE.AccountSubType;
 import util.algo.Tag;
 import util.annos.CookieParam;
 import util.annos.注入;
@@ -21,7 +22,9 @@ import service.Trans2YLwltService;
 import static cfg.Containr.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 
+import static handler.acc.AccService.subBal;
 import static handler.acc.IniAcc.newIvstWltIfNotExist;
+import static util.acc.AccUti.getAccid;
 import static util.ioc.SimpleContainer.getObj;
 import static util.tx.HbntUtil.findByHbntDep;
 // static util.proxy.SprUtil.injectAll4spr;
@@ -86,7 +89,7 @@ public class TransHdr   {
     public Object handleRequest(TransDto lgblsDto) throws Throwable {
         newIvstWltIfNotExist(lgblsDto.uname);
 
-        Icall RdsFromWltService1=getObj("RdsFromWltService");
+      //  Icall RdsFromWltService1=getObj("RdsFromWltService");
         Icall AddMoney2YLWltService1=getObj("AddMoney2YLWltService");
         // 获取对象并加悲观锁
 
@@ -94,7 +97,8 @@ public class TransHdr   {
         //  lgblsDto.uname=decryptDES( lgblsDto.uname,Key_a1235678);
 
         String uname = lgblsDto.uname;
-        Account objU = findByHbntDep(Account.class, lgblsDto.uname, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+        String accid=getAccid(AccountSubType.EMoney.name(),uname);
+        Account objU = findByHbntDep(Account.class, accid, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
 //        if (objU.id == null) {
 //            objU.id = uname;
@@ -102,7 +106,10 @@ public class TransHdr   {
 //        }
         curLockAcc.set(objU);
 
-        RdsFromWltService1.main(lgblsDto);
+        subBal(lgblsDto);
+
+        lgblsDto.changeAmount=lgblsDto.changeAmount.multiply(toBigDecimal("0.9"));
+      //  RdsFromWltService1.main();
         AddMoney2YLWltService1.main(lgblsDto);
 
 //        Icall is = Trans2YLwltService1;

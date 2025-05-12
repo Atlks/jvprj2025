@@ -1,7 +1,10 @@
 package handler.wlt.dto;
 
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+
+import static util.algo.GetUti.getUuid;
 
 /**
  *
@@ -24,7 +27,8 @@ import lombok.Data;
 @Data
 public class AdjstDto {
 
-    public String IdempotencyKey="";
+    @NotBlank
+    public String IdempotencyKey=getUuid();
 
    // public String accountSubType;
 

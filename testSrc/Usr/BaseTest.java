@@ -12,6 +12,7 @@ import static cfg.IniCfg.iniContnr4cfgfile;
 import static cfg.MainStart.iniContnr;
 import static util.algo.CallUtil.callTry;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
+import static util.orm.HbntExt.migrateSql;
 import static util.tx.TransactMng.commitTsact;
 import static util.tx.TransactMng.openSessionBgnTransact;
 
@@ -22,7 +23,7 @@ public abstract class BaseTest {
         Containr.testUnitMode=true;
         iniContnr4cfgfile();
 
-        callTry(MainStart::fxSql);
+        callTry(() -> migrateSql());
         new MainStart().sessionFactory();//ini sessFctr ..
 
 

@@ -5,6 +5,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 
 import model.OpenBankingOBIE.Account;
+import model.OpenBankingOBIE.AccountSubType;
 import org.hibernate.Session;
 
 import util.serverless.ApiGatewayResponse;
@@ -13,6 +14,7 @@ import util.serverless.RequestHandler;
 import static cfg.Containr.sessionFactory;
 
 import static handler.acc.IniAcc.addAccEmnyIfNotExst;
+import static util.acc.AccUti.getAccid;
 import static util.tx.HbntUtil.findByHerbinate;
 
 
@@ -42,7 +44,8 @@ public class MeWlt implements RequestHandler<QueryDto, ApiGatewayResponse>  {
         Session session = sessionFactory.getCurrentSession();
         addAccEmnyIfNotExst( param.uname, session);
 
-        Account objU = findByHerbinate(Account.class,param.uname, session);
+        String accid=getAccid(AccountSubType.EMoney.name(), param.uname);
+        Account objU = findByHerbinate(Account.class,accid, session);
         return new ApiGatewayResponse(objU);
     }
 }

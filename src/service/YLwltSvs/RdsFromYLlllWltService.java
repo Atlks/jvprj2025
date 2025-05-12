@@ -38,11 +38,11 @@ public class RdsFromYLlllWltService implements Icall<TransDto, Object> {
         BigDecimal nowAmt2 = objU.interim_Available_Balance;
 
         if (TransDto88.getChangeAmount().compareTo(nowAmt2) > 0) {
-            BalanceNotEnghou ex = new BalanceNotEnghou("余额不足");
-            ex.fun = this.getClass().getName() + "." + getCurrentMethodName();
-            ex.funPrm = TransDto88;
-            ex.info = "nowAmtBls=" + nowAmt2;
-            throw ex;
+            throw new BalanceNotEnghou("余额不足"+"nowAmtBls=" + nowAmt2);
+//            ex.fun = this.getClass().getName() + "." + getCurrentMethodName();
+//            ex.funPrm = TransDto88;
+//            ex.info = "nowAmtBls=" + nowAmt2;
+//            throw ex;
         }
 
 

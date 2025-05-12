@@ -6,10 +6,12 @@ import jakarta.ws.rs.core.Context;
 
 import model.OpenBankingOBIE.Account;
 
+import model.OpenBankingOBIE.AccountSubType;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
 import static cfg.Containr.sessionFactory;
+import static util.acc.AccUti.getAccid;
 import static util.tx.HbntUtil.findByHerbinate;
 
 @PermitAll
@@ -23,6 +25,7 @@ public class QryWltHdl  implements RequestHandler<QueryDto, ApiGatewayResponse> 
      */
     @Override
     public ApiGatewayResponse handleRequest(QueryDto param, Context context) throws Throwable {
-        return new ApiGatewayResponse(findByHerbinate(Account.class,param.uname,sessionFactory.getCurrentSession()));
+        String accid=getAccid(AccountSubType.EMoney.name(), param.uname);
+        return new ApiGatewayResponse(findByHerbinate(Account.class,accid,sessionFactory.getCurrentSession()));
     }
 }

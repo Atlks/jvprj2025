@@ -48,8 +48,10 @@ public class QueryOrdChrgHdr  implements RequestHandler<QryRechgOrdReqDto, ApiGa
     @Override
     public ApiGatewayResponse handleRequest(QryRechgOrdReqDto reqdto, Context context) throws Throwable {
 
-        var sqlNoOrd = "select * from "+getTablename(Transaction.class)+" where "
-                +toSnake(Transaction.Fields.creditDebitIndicator) +"="+
+        String tablename = getTablename(Transaction.class);
+        String fldIdctr=toSnake(Transaction.Fields.creditDebitIndicator);
+        var sqlNoOrd = "select * from "+ tablename +" where "
+                +fldIdctr+"="+
                 toValStr(CreditDebitIndicator.CREDIT.name()) ;
                // ='credit' ";//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();

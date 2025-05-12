@@ -7,6 +7,7 @@ package handler.ivstAcc;
 
 import handler.ivstAcc.dto.AccountIdSpec;
 import handler.ivstAcc.dto.QueryDto;
+import model.OpenBankingOBIE.Transaction;
 import util.annos.NoDftParam;
 import entityx.ylwlt.BetWinLog;
 import jakarta.annotation.security.PermitAll;
@@ -23,6 +24,7 @@ import java.util.UUID;
 import static cfg.Containr.sessionFactory;
 import static cfg.MainStart.iniContnr;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
+import static util.algo.ToXX.toSnake;
 import static util.misc.Util2025.encodeJson;
 import static util.tx.Pagging.getPageResultByHbntRtLstmap;
 import static util.tx.TransactMng.commitTsact;
@@ -44,11 +46,15 @@ public class ListInsFdPoolLogHdl implements RequestHandler<QueryDto, ApiGatewayR
      */
     @Override
     public ApiGatewayResponse handleRequest(QueryDto reqdto, Context context) throws Throwable {
-        var sqlNoOrd = "select * from Transactions    where  accountid= "  +encodeSqlPrmAsStr(AccountIdSpec.invd_fd_pool.name());
+        String accid=toSnake(Transaction.Fields.accountId);
+        var sqlNoOrd = "select * from Transactions  "
+        +"where "+ accid+"= "  +encodeSqlPrmAsStr(AccountIdSpec.invd_fd_pool.name());
         //for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         if(reqdto.uname!="")
-        {  sqlNoOrd=sqlNoOrd+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
+        {
+            String fldAccOnr=toSnake(Transaction.Fields.accountOwner);
+            sqlNoOrd=sqlNoOrd+ "and  "+fldAccOnr+" = "+ encodeSqlPrmAsStr(reqdto.uname);
          //   sqlprmMap.put("uname",)
         }
 

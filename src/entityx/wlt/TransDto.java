@@ -12,6 +12,8 @@ import util.annos.CurrentUsername;
 
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
+import static util.algo.GetUti.getUuid;
+
 @Data
 public class TransDto {
 
@@ -70,7 +72,8 @@ public class TransDto {
         // 备注信息
         private String remark;
 
-
+    @NotBlank
+    public String IdempotencyKey=getUuid();
     }
 
 

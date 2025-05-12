@@ -52,6 +52,7 @@ public class IniAcc {
             //ini wlt
             Account wlt=new Account(accid);
             wlt.accountId = accid;
+            wlt.accountOwner=uname;
             persistByHibernate(wlt, session);
             //  transDto.lockAccObj=findByHerbinate(Wallet.class, uname, session);
         }

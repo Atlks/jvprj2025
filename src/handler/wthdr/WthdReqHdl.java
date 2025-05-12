@@ -63,11 +63,11 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         BigDecimal nowAmt2 = YLwlt11.interim_Available_Balance;
 
         if (dtoWithdrawDto.getAmount().compareTo(nowAmt2) > 0) {
-            BalanceNotEnghou ex = new BalanceNotEnghou("余额不足");
-            ex.fun = this.getClass().getName() + "." + getCurrentMethodName();
-            ex.funPrm = dtoWithdrawDto;
-            ex.info = "nowAmtBls=" + nowAmt2;
-            throw ex;
+             throw  new BalanceNotEnghou("余额不足"+"nowAmtBls=" + nowAmt2);
+//            ex.fun = this.getClass().getName() + "." + getCurrentMethodName();
+//            ex.funPrm = dtoWithdrawDto;
+//            ex.info = "nowAmtBls=" + nowAmt2;
+//            throw ex;
         }
 
 

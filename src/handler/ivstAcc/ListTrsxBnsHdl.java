@@ -6,6 +6,7 @@ package handler.ivstAcc;
  */
 
 import handler.ivstAcc.dto.QueryDto;
+import model.OpenBankingOBIE.Transaction;
 import model.OpenBankingOBIE.TransactionCode;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -27,6 +28,7 @@ import static cfg.Containr.sessionFactory;
 import static cfg.MainStart.iniContnr;
  
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
+import static util.algo.ToXX.toSnake;
 import static util.misc.Util2025.encodeJson;
 import static util.tx.Pagging.getPageResultByHbntRtLstmap;
 import static util.tx.TransactMng.commitTsact;
@@ -48,10 +50,13 @@ public class ListTrsxBnsHdl implements RequestHandler<QueryDto, ApiGatewayRespon
      */
     @Override
     public ApiGatewayResponse handleRequest(QueryDto reqdto, Context context) throws Throwable {
-        var sqlNoOrd = "select * from Transactions where transactionCode= " +encodeSqlPrmAsStr( TransactionCode.Service_Cms_devlpSubsCntCms.name())     ;//for count    where  uname =:uname
+        String transactionCode=toSnake(Transaction.Fields.transactionCode);
+        var sqlNoOrd = "select * from Transactions"
+        +" where "+transactionCode+"= " +encodeSqlPrmAsStr( TransactionCode.Service_Cms_devlpSubsCntCms.name())     ;//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         if(reqdto.uname!="")
-        {  sqlNoOrd=sqlNoOrd+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
+        {   String accOwn=toSnake(Transaction.Fields.accountOwner);
+            sqlNoOrd=sqlNoOrd+ "and  "+accOwn+" = "+ encodeSqlPrmAsStr(reqdto.uname);
          //   sqlprmMap.put("uname",)
         }
 
@@ -65,14 +70,15 @@ public class ListTrsxBnsHdl implements RequestHandler<QueryDto, ApiGatewayRespon
     }
 
     private BigDecimal getSum4bns(QueryDto reqdto) {
-        var sql = "select sum(amount) from Transactions where transactionCode="+encodeSqlPrmAsStr( TransactionCode.Service_Cms_devlpSubsCntCms.name());//for count    where  uname =:uname
+        String transactionCode=toSnake(Transaction.Fields.transactionCode);
+        var sql = "select sum(amount) from Transactions where  "+transactionCode+"="+encodeSqlPrmAsStr( TransactionCode.Service_Cms_devlpSubsCntCms.name());//for count    where  uname =:uname
         if(reqdto.uname!="")
-        {  sql=sql+ "and  uname = "+ encodeSqlPrmAsStr(reqdto.uname);
-            // sqlprmMap.put("uname",)
+        {  String accOwn=toSnake(Transaction.Fields.accountOwner);
+            sql=sql+ "and  "+accOwn+" = "+ encodeSqlPrmAsStr(reqdto.uname);
         }
 
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery(sql);
+        Query query = session.createNativeQuery(sql);
       var  result = (BigDecimal) query.getSingleResult();
       return  result;
 

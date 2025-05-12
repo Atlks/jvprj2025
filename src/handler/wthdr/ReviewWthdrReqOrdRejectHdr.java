@@ -55,8 +55,10 @@ public class ReviewWthdrReqOrdRejectHdr implements RequestHandler<ReviewChrgRqdt
 
         //mideng chk
         if(tx.status.equals(TransactionStatus.REJECTED)){
-            return new ApiGatewayResponse(tx);
+            throw new AlreadyProcessedEx("  AlreadyProcessed ord,id="+tx.id);
         }
+
+
          tx.setStatus((TransactionStatus.REJECTED));
          mergeByHbnt(tx, session);
 
@@ -64,15 +66,17 @@ public class ReviewWthdrReqOrdRejectHdr implements RequestHandler<ReviewChrgRqdt
 
         var  mthBiz = colorStr("减少盈利钱包的冻结金额,back to 有效余额", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
-        Account objU = findByHbntDep(Account.class,( tx.accountId), LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
-        BigDecimal bls = objU.interim_Available_Balance;
+        Account acc1 = findByHbntDep(Account.class,( tx.accountId), LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
+        BigDecimal bls = acc1.interim_Available_Balance;
         BigDecimal bls2 = bls.add(tx.amount);
-        BigDecimal beforeAmt=objU.interim_Available_Balance.add(tx.amount);
+        BigDecimal beforeAmt=acc1.interim_Available_Balance.add(tx.amount);
         //  objU.availableBalance = toBigDcmTwoDot(bls2);
 
-        BigDecimal nowAmtFreez = toBigDcmTwoDot(objU.frozenAmount);
-        objU.frozenAmount = objU.frozenAmount.subtract(tx.amount);
-        Account acc = mergeByHbnt(objU, session);
+        BigDecimal nowAmtFreez = toBigDcmTwoDot(acc1.frozenAmount);
+        acc1.frozenAmount = acc1.frozenAmount.subtract(tx.amount);
+        acc1.interim_Available_Balance = acc1.interim_Available_Balance.add(tx.amount) ;
+       // acc1.setInterimBookedBalance(;
+        Account acc = mergeByHbnt(acc1, session);
         return new ApiGatewayResponse(acc);
     }
 

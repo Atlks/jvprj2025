@@ -5,16 +5,13 @@ import handler.wlt.dto.AdjstDto;
 import model.OpenBankingOBIE.AccountSubType;
 import model.OpenBankingOBIE.TransactionCode;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static cfg.Containr.sessionFactory;
 import static handler.acc.IniAcc.addAccEmnyIfNotExst;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 import static util.misc.Util2025.encodeJson;
 import static util.tx.TransactMng.commitTsact;
-import static util.tx.TransactMng.openSessionBgnTransact;
 
 public class AdjustHdrTest extends BaseTest {
 
@@ -30,7 +27,7 @@ public class AdjustHdrTest extends BaseTest {
 
         AdjstDto mockDto =new AdjstDto();
         mockDto.uname="666";
-        mockDto.setTransactionCode(TransactionCode.adjust_crdt.name());
+        mockDto.setTransactionCode(TransactionCode.adjst_crdt.name());
         mockDto.setAdjustAmount(8.0);
         mockDto.setAccountSubType(AccountSubType.EMoney.name());
        // when(mockDto.getId()).thenReturn("test123");

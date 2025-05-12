@@ -49,38 +49,40 @@ String accid=getAccId(adjstDto.accountSubType,adjstDto.uname);
 
 
         //def is add
-        BigDecimal newBls = avdBls;
+        BigDecimal newAvdBls = avdBls;
         var logTag = "";
         BigDecimal subAmt = BigDecimal.valueOf(adjstDto.adjustAmount);
-        if (adjstDto.transactionCode.toUpperCase().equals(TransactionCode.adjust_dbt.name())) {
-            newBls = avdBls.subtract(subAmt);
-            if (newBls.compareTo(BigDecimal.ZERO) < 0) {
+        if (adjstDto.transactionCode.toLowerCase().equals(TransactionCode.adjst_dbt.name().toLowerCase())) {
+            newAvdBls = avdBls.subtract(subAmt);
+            if (newAvdBls.compareTo(BigDecimal.ZERO) < 0) {
                 throw new BalanceNegativeException("余额不能为负数");
             }
             logTag = "减少";
             acc1.InterimBookedBalance = acc1.InterimBookedBalance.subtract(subAmt);
+            acc1.setInterim_Available_Balance(newAvdBls);
             tx.creditDebitIndicator= CreditDebitIndicator.DEBIT;
-        } else if (adjstDto.transactionCode.toUpperCase().equals(TransactionCode.adjust_crdt.name())) {
-            newBls = avdBls.add(subAmt);
+        } else if (adjstDto.transactionCode.toLowerCase().equals(TransactionCode.adjst_crdt.name().toLowerCase())) {
+            newAvdBls = avdBls.add(subAmt);
             logTag = "增加";
             acc1.InterimBookedBalance = acc1.InterimBookedBalance.add(subAmt);
+            acc1.setInterim_Available_Balance(newAvdBls);
             tx.creditDebitIndicator= CreditDebitIndicator.CREDIT;
-        } else if (adjstDto.transactionCode.toLowerCase().equals(TransactionCode.adjst_frz.name())){
+        } else if (adjstDto.transactionCode.toLowerCase().equals(TransactionCode.adjst_frz.name().toLowerCase())){
             acc1.frozenAmount= acc1.frozenAmount.add(subAmt);
-            acc1.InterimBookedBalance = acc1.InterimBookedBalance.subtract(subAmt);
+            acc1.interim_Available_Balance = acc1.interim_Available_Balance.subtract(subAmt);
             tx.creditDebitIndicator= CreditDebitIndicator.DEBIT;
 
-        } else if (adjstDto.transactionCode.toLowerCase().equals(TransactionCode.adjust_unfrz.name())){
+        } else if (adjstDto.transactionCode.toLowerCase().equals(TransactionCode.adjst_unfrz.name().toLowerCase())){
             acc1.frozenAmount= acc1.frozenAmount.subtract(subAmt);
-            acc1.InterimBookedBalance = acc1.InterimBookedBalance.add(subAmt);
+            acc1.interim_Available_Balance = acc1.interim_Available_Balance.add(subAmt);
             tx.creditDebitIndicator= CreditDebitIndicator.CREDIT;
         }
 
 
-//        if (newBls.equals(avdBls) || adjstDto.adjustType.equals(""))
+//        if (newAvdBls.equals(avdBls) || adjstDto.adjustType.equals(""))
 //            throw new ErrAdjstTypeEx("");
 
-        acc1.setInterim_Available_Balance(newBls);
+ //       acc1.setInterim_Available_Balance(newAvdBls);
         mergeByHbnt(acc1, session);
 
 
@@ -104,7 +106,7 @@ String accid=getAccId(adjstDto.accountSubType,adjstDto.uname);
 
         logBalance.changeAmount = BigDecimal.valueOf(adjstDto.getAdjustAmount());
         logBalance.amtBefore = toBigDcmTwoDot(avdBls);
-        logBalance.newBalance = toBigDcmTwoDot(newBls);
+        logBalance.newBalance = toBigDcmTwoDot(newAvdBls);
         logBalance.refUniqId = String.valueOf(System.currentTimeMillis());
         logBalance.adjustType = adjstDto.transactionCode;
         logBalance.changeMode = logTag;

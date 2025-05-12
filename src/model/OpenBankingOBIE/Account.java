@@ -2,9 +2,11 @@ package model.OpenBankingOBIE;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
+import util.annos.CurrentUsername;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -96,6 +98,8 @@ public class Account {
 
 
     // -------------ext fld
+    @NotBlank
+    @CurrentUsername
     public String accountOwner;
 
     public Account(String accountId) {

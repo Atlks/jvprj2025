@@ -1,7 +1,7 @@
 package Usr;
 
 import static cfg.IniCfg.iniContnr4cfgfile;
-import static cfg.MainStart.fxSql;
+
 import static cfg.MainStart.iniContnr;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,6 +9,7 @@ import static util.algo.CallUtil.callTry;
 import static util.algo.GetUti.getUuid;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 import static util.misc.Util2025.encodeJson;
+import static util.orm.HbntExt.migrateSql;
 import static util.tx.TransactMng.commitTsact;
 import static util.tx.TransactMng.openSessionBgnTransact;
 
@@ -37,7 +38,7 @@ public class RegHandlerTest {
     Containr.testUnitMode=true;
         iniContnr4cfgfile();
 
-        callTry(MainStart::fxSql);
+    callTry(() -> migrateSql());
         new MainStart().sessionFactory();//ini sessFctr ..
 
 
