@@ -3,12 +3,12 @@ package util.model.openbank;
 /**
  * 表示 OBIE 中定义的余额类型
  */
-public enum BalanceType {
+public enum BalanceTypes {
     /** 临时已清算余额（常用，实际到账） 也即是常见的总余额 */
-    InterimBooked,
+    interimBooked,
 
     /** 临时可用余额（可能包含未清算交易） */
-    InterimAvailable,
+    interimAvailable,
 
 
     /**
@@ -68,13 +68,13 @@ public enum BalanceType {
     totalReward,
 
 
-    ;
+    frz;
 
     /**
      * 从字符串安全解析（忽略大小写）
      */
-    public static BalanceType fromString(String str) {
-        for (BalanceType type : BalanceType.values()) {
+    public static BalanceTypes fromString(String str) {
+        for (BalanceTypes type : BalanceTypes.values()) {
             if (type.name().equalsIgnoreCase(str)) {
                 return type;
             }

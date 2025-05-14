@@ -81,7 +81,7 @@ public class AccService {
 
         Transaction txx=new Transaction();
         txx.transactionId="add2wlt"+ TransDto88.refUniqId;
-        txx.amount= TransDto88.getChangeAmount();
+        txx.amount= TransDto88.getAmount();
         txx.creditDebitIndicator= CreditDebitIndicator.CREDIT;
         txx.accountId= wlt1.accountId;
         txx.accountOwner = uname;

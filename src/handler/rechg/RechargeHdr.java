@@ -70,7 +70,7 @@ public class RechargeHdr implements Icall<Transaction, Object> {
         //amt alreay have in dto
         ts.accountId = ts.accountOwner;
 
-        ts.timestamp = System.currentTimeMillis();
+       // ts.timestamp = System.currentTimeMillis();
 
         ts.accountOwner = getCurrentUser();
 

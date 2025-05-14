@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import static cfg.Containr.sessionFactory;
 import static util.acc.AccUti.getAccId;
 import static util.acc.AccUti.getAccId4ylwlt;
+import static util.algo.GetUti.getUuid;
 import static util.tx.HbntUtil.*;
 
 //   cms/WthdrCmsHdl
@@ -31,7 +32,7 @@ public class WthdrCmsHdl {
         agtAccYlwlt.interim_Available_Balance = agtAccYlwlt.interim_Available_Balance.add(dto.amt);
         mergeByHbnt(agtAccYlwlt,session);
 
-        Transaction tx=new Transaction(accId4ylwlt,dto.uname, CreditDebitIndicator.CREDIT,dto.amt);
+        Transaction tx=new Transaction("wthdrCmsAdd_"+getUuid(),accId4ylwlt,dto.uname, CreditDebitIndicator.CREDIT,dto.amt);
         tx.transactionCode= TransactionCode.Service_Cms_rechgCms.name();
         persistByHibernate(tx,session);
 
@@ -44,7 +45,7 @@ public class WthdrCmsHdl {
         agtAcc.interim_Available_Balance = agtAcc.interim_Available_Balance.subtract(dto.amt);
 
         mergeByHbnt(agtAcc,session);
-        Transaction tx2=new Transaction(agtAccId,dto.uname, CreditDebitIndicator.DEBIT,dto.amt);
+        Transaction tx2=new Transaction("wthdrCms_"+getUuid(),agtAccId,dto.uname, CreditDebitIndicator.DEBIT,dto.amt);
         tx2.transactionCode= TransactionCode.Service_Cms_rechgCms.name();
         persistByHibernate(tx2,session);
 

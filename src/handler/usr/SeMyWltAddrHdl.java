@@ -40,6 +40,7 @@ public class SeMyWltAddrHdl implements RequestHandler<MyWltAddr, ApiGatewayRespo
 //        WithdrawalPassword wp=new WithdrawalPassword();
 //        wp.setUname(reqdto.getUname());
 //        wp.setEncryptedPassword(encodeMd5(reqdto.getPwd()));
+     //   reqdto.setReviewStat();
         mergeByHbnt( reqdto, sessionFactory.getCurrentSession());
         return     new ApiGatewayResponse(true);
     }

@@ -29,7 +29,7 @@ import model.OpenBankingOBIE.AccountSubType;
 import model.OpenBankingOBIE.AccountType;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import service.YLwltSvs.AddMoney2YLWltService;
+import service.YLwltSvs.AccSvs4invstAcc;
 import service.wlt.AccSvs;
 import util.auth.SecurityContextImp4jwt;
 import util.tx.findByIdExptn_CantFindData;
@@ -192,7 +192,7 @@ public class MainStart {
         });
 
         registerInstance("AddMoney2YLWltService", () -> {
-            return new AddMoney2YLWltService();
+            return new AccSvs4invstAcc();
         });
 
 

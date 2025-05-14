@@ -9,7 +9,9 @@ import model.wlt.BalanceOverview;
 import util.tx.findByIdExptn_CantFindData;
 
 import static cfg.Containr.sessionFactory;
-import static util.acc.AccUti.getAccId4ylwlt;
+import static cfg.MainStart.iniAccInsFdPool_IfNotExist;
+import static handler.acc.IniAcc.iniTwoWlt;
+import static util.acc.AccUti.*;
 import static util.tx.HbntUtil.findByHerbinate;
 
 @NoArgsConstructor
@@ -26,9 +28,12 @@ public class findBalanceOverviewHdl {
          * @return Object apigateWayWarp obj
          */
         public Object handleRequest(QueryDto reqdto) throws findByIdExptn_CantFindData {
-            Account account = findByHerbinate(Account.class,reqdto.uname,sessionFactory.getCurrentSession());
+            iniTwoWlt(reqdto.uname);
+            iniAccInsFdPool_IfNotExist(null);
+            String accid=getAccid(AccountSubType.EMoney.name(), reqdto.uname);
+            Account account = findByHerbinate(Account.class,accid,sessionFactory.getCurrentSession());
 var accYl=findByHerbinate(Account.class, getAccId4ylwlt(reqdto.uname) ,sessionFactory.getCurrentSession());
-    var acc_insFdpool=findByHerbinate (Account.class, AccountSubType.insFdPl.name() ,sessionFactory.getCurrentSession());
+    var acc_insFdpool=findByHerbinate (Account.class,  getAccId(AccountSubType.insFdPl.name(), sysusrName),sessionFactory.getCurrentSession());
             BalanceOverview balanceOverview = new BalanceOverview();
             balanceOverview.accBalance =account.interim_Available_Balance;
             balanceOverview.accInvst_balance =accYl.interim_Available_Balance;

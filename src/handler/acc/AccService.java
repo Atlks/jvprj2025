@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 
 import static cfg.Containr.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
-import static handler.wlt.TransHdr.curLockAcc;
+import static handler.wlt.TransfHdr.curLockAcc;
 import static util.Oosql.SlctQry.newSelectQuery;
 import static util.Oosql.SlctQry.toValStr;
 import static util.acc.AccUti.getAccId;
@@ -28,7 +28,7 @@ public class AccService {
      * @throws Exception
      */
     @NotNull
-    public static @NotNull Object subBal(@NotNull TransDto TransDto88) throws Exception {
+    public static @NotNull Object subBalFrmWlt(@NotNull TransDto TransDto88) throws Exception {
 
 
 
@@ -42,12 +42,12 @@ public class AccService {
             acc=TransDto88.lockAccObj;
 
         BigDecimal nowAmt =acc.interim_Available_Balance;
-        if (TransDto88.getChangeAmount().compareTo(nowAmt) > 0) {
+        if (TransDto88.getAmount().compareTo(nowAmt) > 0) {
             throw new BalanceNotEnghou("余额不足"+"nowAmtBls="+nowAmt);
 
         }
 
-        BigDecimal amt = TransDto88.getChangeAmount();
+        BigDecimal amt = TransDto88.getAmount();
         BigDecimal newBls = nowAmt.subtract(toBigDecimal(amt));
         acc.interim_Available_Balance = newBls;
 
@@ -62,7 +62,7 @@ public class AccService {
         txx.creditDebitIndicator= CreditDebitIndicator.DEBIT;
         txx.accountId= acc.accountId;
         txx.accountOwner = acc.accountOwner;
-        txx.amount= TransDto88.getChangeAmount();
+        txx.amount= TransDto88.getAmount();
         txx.refUniqId= String.valueOf(System.currentTimeMillis());
         txx.status = TransactionStatus.BOOKED;
         persistByHibernate(txx, sessionFactory.getCurrentSession());

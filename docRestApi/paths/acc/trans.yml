@@ -5,7 +5,7 @@ get:
     - Account
   parameters:
 
-    - name: changeAmount
+    - name: amount
       in: query
       required: true
       description: 转账金额

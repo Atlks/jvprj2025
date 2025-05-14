@@ -8,6 +8,7 @@
 /cmd/spy.log
 /res/uploads/
 /out.htm
+
 /app.log
 /node_modules/
 /docJvdoc/
@@ -16,3 +17,6 @@
 /flywayLog
 /data/
 /data/prjdb.mv.db
+data/prjdb.trace.db
+data/prjdb.mv.db
+/data/prjdb.trace.db

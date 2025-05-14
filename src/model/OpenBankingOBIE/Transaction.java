@@ -14,12 +14,11 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 import util.annos.CurrentUsername;
+import util.model.openbank.BalanceTypes;
 
 import java.math.BigDecimal;
 
 import java.time.OffsetDateTime;
-
-import static util.algo.GetUti.getUuid;
 
 /**
  * OpenBanking OBIE 的Transactions实体  交易流水，也就是
@@ -46,7 +45,10 @@ public class Transaction {
     public String transactionId;
 
     //OBIE Transaction 是否有 accountId？	❌ 没有，默认由 API URL 上下文提供
+    @NotNull @NotBlank
     public String accountId;
+
+
 
     public String StatementReference;
 
@@ -60,14 +62,15 @@ public class Transaction {
      * Debit	出账（Outgoing）	表示这笔钱是从账户转出的，比如：消费、提现、支付等
      */
     @Enumerated(EnumType.STRING)
-    public CreditDebitIndicator creditDebitIndicator;
+   @NotNull  @NotBlank
+    public CreditDebitIndicator creditDebitIndicator=CreditDebitIndicator.CREDIT;
 
 
     // 交易金额
     /**
      * 在 OBIE（Open Banking Implementation Entity）规范中，交易流水的 amount 字段 本身不允许为负数。是否是支出或收入，由另一个字段 creditDebitIndicator 决定。
      */
-    public @DecimalMin(value = "0.00", inclusive = true, message = "余额不能为负数") BigDecimal amount;
+    public @DecimalMin(value = "0.00", inclusive = true, message = "余额不能为负数") BigDecimal amount=BigDecimal.ZERO;
 
 
     /**
@@ -143,17 +146,29 @@ public class Transaction {
   //  @Enumerated(EnumType.STRING)
     public String transactionCode = TransactionCode.OTH.name();
 
+    public  void setTransactionCode(@NotNull String transactionCode) {
+        this.transactionType=transactionCode;
+    }
 
     //TransactionCode/SubCode
 
 
     //------------bls fld
     //after bls
-    BigDecimal BalanceAmount;
-    String BalanceCreditDebitIndicator;
-    String BalanceType;
-    String BalanceAmountCurrency;
-    String SupplementaryData;
+
+    /**
+     * Transaction.Balance：通常是交易后的可用余额（Available Balance）
+     * 	每笔交易后的余额（通常为“可用余额”）
+     */
+    @NotNull
+   public BigDecimal BalanceAmount=BigDecimal.ZERO;
+    public String BalanceCreditDebitIndicator=CreditDebitIndicator.CREDIT.name();
+    public  void setCreditDebitIndicator(@NotNull CreditDebitIndicator creditDebitIndicator) {
+        this.setBalanceCreditDebitIndicator(creditDebitIndicator.name());
+    }
+    public String BalanceType= BalanceTypes.interimBooked.name();
+    public String BalanceAmountCurrency="usdt";
+    public String SupplementaryData;
 
     // ---------本地自定义扩展字段
 
@@ -188,28 +203,40 @@ public class Transaction {
     // 线下刷卡消费的商户地址
     String AddressLine;
 
-    public BigDecimal ChargeAmount;
+    /**
+     * 这笔交易产生的费用或手续费（比如：手续费 2 GBP）
+     * 银行或第三方收的服务费。
+     */
+    public BigDecimal ChargeAmount= BigDecimal.valueOf(0);
 
-    String ChargeAmountCurrency;
+    String ChargeAmountCurrency="usdt";
     String CurrencyExchange;
 
-    public String transactionInformation;
-    // 交易类型：借记、贷记等  可选字段
-    private String transactionType;
+    public String transactionInformation="";
+
+String ChargeDetails="";
+
+    // 交易类型：借记、贷记等  可选字段,trscod alias 需要同步
+    @NotNull @NotBlank
+    private String transactionType=TransactionCode.OTH.name();
 
     @NotBlank
     @CurrentUsername
     public String accountOwner = "";
 
     //review time
-    public long review_timestamp = 0;
+    @Nullable
+    public OffsetDateTime review_timestamp;
 
-    public long timestamp = System.currentTimeMillis();
+    @CreationTimestamp
+    public OffsetDateTime timestamp;
 
-    public Transaction(String txId, CreditDebitIndicator creditDebitIndicator, @NotNull(message = "金额不能为空") @Min(value = 1, message = "金额必须大于0") BigDecimal amount) {
+    public Transaction(String txId, String accid,String accOwnr,CreditDebitIndicator creditDebitIndicator, @NotNull(message = "金额不能为空") @Min(value = 1, message = "金额必须大于0") BigDecimal amount) {
         this.transactionId = txId;
-        this.creditDebitIndicator = creditDebitIndicator;
-        this.amount = amount;
+        this.setCreditDebitIndicator( creditDebitIndicator );
+        this.accountOwner=accOwnr;
+        this.accountId=accid;
+        this.setAmountVldChk(amount);
     }
 
 //    public Transactions( CreditDebitIndicator creditDebitIndicator, @NotNull(message = "提现金额不能为空") @Min(value = 1, message = "提现金额必须大于0") BigDecimal amount) {
@@ -218,14 +245,14 @@ public class Transaction {
 //        this.amount = amount;
 //    }
 
-    @Deprecated
-    public Transaction(String accountId, String uname, CreditDebitIndicator creditDebitIndicator, @NotNull(message = "金额不能为空") @Min(value = 1, message = "金额必须大于0") BigDecimal amount) {
-        this.transactionId = "div_" + getUuid();
-        this.creditDebitIndicator = creditDebitIndicator;
-        this.amount = amount;
-        this.accountOwner = uname;
-        this.accountId = accountId;
-    }
+//    @Deprecated
+//    public Transaction(String accountId, String uname, CreditDebitIndicator creditDebitIndicator, @NotNull(message = "金额不能为空") @Min(value = 1, message = "金额必须大于0") BigDecimal amount) {
+//        this.transactionId = "div_" + getUuid();
+//        this.creditDebitIndicator = creditDebitIndicator;
+//        this.amount = amount;
+//        this.accountOwner = uname;
+//        this.accountId = accountId;
+//    }
 
 
     public String getAccountOwner() {
@@ -245,13 +272,7 @@ public class Transaction {
     //截图附件
     public String img = "";
 
-    //  @CreationTimestamp   //20240505112233
-    public long crtTimeStmpLocalfmt = System.currentTimeMillis();
 
-    //  @UpdateTimestamp
-    public long updtTmstmpLocalfmt = System.currentTimeMillis();
-
-    // public long   timestamp=System.currentTimeMillis();
 
 
     // Getter 和 Setter 方法

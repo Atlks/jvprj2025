@@ -615,7 +615,7 @@ paths:
     get:
       tags:
         - secury
-      summary: 请求充值密码-获取问题 security question by username
+      summary: 请求重置密码-获取问题 security question by username
       description:
       parameters:
         - name: username
@@ -763,19 +763,23 @@ paths:
             type: string
           description: ID，不能为空
           example: "666"
-
         - name: stat
           in: query
           required: true
           schema:
             type: string
-          description: 状态字段，
+            enum: [ Completed, Pending, CANCELLED, REJECTED, OTH ]
+            description: |-
+              状态字段，支持以下枚举值：
+              - `Completed`: 审核已完成
+              - `Pending`: 待审核
+              - `CANCELLED`: 已取消
+              - `REJECTED`: 已拒绝
+              - `OTH`: 其他
           example: "Completed"
-
-
       responses:
         "200":
-          $ref: '../../components/responses/CommonResponse.yaml'
+          $ref: './components/responses/CommonResponse.yaml'
   /myWltAdrs/GetMyWltAddrHdl:
     $ref: './paths/usr/GeMyWltAddrHdl.yaml'
   /myWltAdrs/SetMyWltAddrHdl:

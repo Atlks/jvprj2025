@@ -3,7 +3,27 @@ package cfg;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+
 import handler.ivstAcc.dto.QueryDto;
+import io.milton.http.HttpManager;
+import io.milton.http.ResourceFactory;
+import io.milton.http.fs.FileSystemResourceFactory;
+import io.milton.http.http11.Http11Protocol;
+import io.milton.http.webdav.DefaultWebDavResponseHandler;
+import io.milton.http.webdav.WebDavProtocol;
+import io.milton.http.webdav.WebDavResponseHandler;
+import io.milton.http.http11.auth.DigestGenerator;
+import io.milton.http.fs.SimpleFileContentService;
+import io.milton.http.fs.FileSystemResourceFactory;
+import io.milton.http.HttpManager;
+import io.milton.http.ResourceFactory;
+import io.milton.http.webdav.DefaultWebDavResponseHandler;
+import io.milton.http.webdav.WebDavResponseHandler;
+import io.milton.http.webdav.WebDavProtocol;
+import io.milton.http.http11.Http11Protocol;
+import io.milton.http.http11.auth.DigestResponse;
+import io.milton.servlet.MiltonServlet;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Path;
@@ -40,12 +60,24 @@ import static util.algo.NullUtil.isBlank;
 import static util.algo.ToXX.toDtoFrmHttp;
 import static util.misc.PathUtil.getDirTaget;
 import static util.misc.Util2025.encodeJson;
+import static util.misc.Util2025.readTxtFrmFil;
 import static util.misc.util2026.*;
 import static util.oo.WebsrvUtil.processNmlExptn;
 import static util.rest.RestUti.createContext4rest;
 import static util.rest.RestUti.httpSvr;
 import static util.tx.QueryParamParser.toDto;
 
+
+import com.sun.net.httpserver.HttpServer;
+import com.sun.net.httpserver.HttpExchange;
+
+import java.io.*;
+import java.net.InetSocketAddress;
+import java.nio.file.*;
+import java.util.Date;
+
+import com.sun.net.httpserver.*;
+import wbdv.MiltonResponseAdapter;
 
 /**
  * ini web   \n
@@ -60,6 +92,37 @@ public class WebSvr {
 
 
         HttpServer httpServer = HttpServer.create(new InetSocketAddress(port), 0);
+
+        // 本地目录作为共享根目录
+      //  wbdvStart();
+        // 监听 8080 端口
+//        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+//        System.out.println("WebDAV server started on http://localhost:8080/");
+//
+//        // 使用 Milton 处理请求
+//        String webroot1 = "webroot";
+//        HttpManager milton = new HttpManager(
+//                new FileSystemResourceFactory(new File(webroot1), null, null),
+//                new WebDavProtocol(new LockManagerImpl()),
+//                new Http11Protocol()
+//        );
+//
+//        // 所有请求交给 Milton 处理
+//        server.createContext("/wbdv", exchange -> {
+//            try {
+//                milton.process(new MiltonHttpExchangeAdapter(exchange));
+//            } catch (Throwable e) {
+//                e.printStackTrace();
+//                exchange.sendResponseHeaders(500, -1);
+//            } finally {
+//                exchange.close();
+//            }
+//        });
+
+
+
+
+
         // 定义一个上下文，绑定到 "/api/hello" 路径
         //  httpServer.createContext("/hello", new HelloHandler());
 
@@ -85,6 +148,7 @@ public class WebSvr {
         httpServer.createContext("/jar/docRestApi", exchange -> docRestApiHdl(exchange));
 
 
+        //------------hdl all
         HttpHandler httpHandlerAll = exchange -> handleAllReq(exchange);
         httpServer.createContext("/", httpHandlerAll);
         //-------------------
@@ -101,8 +165,46 @@ public class WebSvr {
         System.out.println("Server started on port " + port);
     }
 
+    private static void wbdvStart() throws IOException {
+//        File rootDir = new File("webroot");
+//        if (!rootDir.exists()) rootDir.mkdirs();
+//
+//        // 创建 Milton 的资源工厂（从文件系统映射资源）
+//        ResourceFactory resourceFactory = new FileSystemResourceFactory(
+//                new File(rootDir.getAbsolutePath()),
+//                null, // no security manager
+//                null  // no contentService
+//        );
+//
+//        // Milton 响应处理器
+//        WebDavResponseHandler responseHandler = new DefaultWebDavResponseHandler(resourceFactory);
+//
+//        // Milton HTTP 管理器（请求分发核心）
+//        HttpManager httpManager = new HttpManager(resourceFactory, responseHandler,
+//                new WebDavProtocol(), new Http11Protocol());
+//
+//        // 启动 Java 原生 HttpServer
+//        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+//        server.createContext("/", exchange -> {
+//            try {
+//                // Create and use Milton adapter for the request
+//                httpManager.process(new wbdv.MiltonExchangeAdapter(exchange),
+//                new MiltonResponseAdapter(exchange)
+//                );
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//                exchange.sendResponseHeaders(500, -1);
+//            } finally {
+//                exchange.close();
+//            }
+//        });
+    }
+
     //parse /jar/restdoc
     private static void docRestApiHdl(HttpExchange exchange) throws IOException {
+        try {
+
+
         URI uri = exchange.getRequestURI();
         String path = uri.getPath();  //   /jar/api  noqrystr
         String jarPath = path;
@@ -110,6 +212,9 @@ public class WebSvr {
         String txt = getTxtFrmJar(jarPath);
 
         wrtResp(exchange, txt, ContentType.TEXT_HTML.getValue());
+     } finally {
+        exchange.close(); // ⚠️ 必须调用，否则会卡住
+        }
     }
 
     /**
@@ -143,27 +248,32 @@ public class WebSvr {
     }
 
     private static void handlePost2(HttpExchange exchange) throws Exception {
-        if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+        try{
+            if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
 
-            // body:::     a=1&b=2
+                // body:::     a=1&b=2
 
-            // 读取请求体
-            InputStream inputStream = exchange.getRequestBody();
-            String body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+                // 读取请求体
+                InputStream inputStream = exchange.getRequestBody();
+                String body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
 
 
-            // 解析 form 数据
-            Map<String, String> params = parseFormData(body);
-            String response = "Received: a=" + params.get("a") + ", b=" + params.get("b");
+                // 解析 form 数据
+                Map<String, String> params = parseFormData(body);
+                String response = "Received: a=" + params.get("a") + ", b=" + params.get("b");
 
-            // 发送响应
-            exchange.sendResponseHeaders(200, response.length());
-            try (OutputStream os = exchange.getResponseBody()) {
-                os.write(response.getBytes());
+                // 发送响应
+                exchange.sendResponseHeaders(200, response.length());
+                try (OutputStream os = exchange.getResponseBody()) {
+                    os.write(response.getBytes());
+                }
+            } else {
+                exchange.sendResponseHeaders(405, -1); // 方法不允许
             }
-        } else {
-            exchange.sendResponseHeaders(405, -1); // 方法不允许
-        }
+        }  finally {
+        exchange.close(); // ⚠️ 必须调用，否则会卡住
+    }
+
     }
 
     private static Map<String, String> parseFormData(String body) throws UnsupportedEncodingException {
@@ -220,12 +330,12 @@ public class WebSvr {
      */
     public static void cfgPath(HttpServer server) {
 
-        server.createContext("/users/get", exchange -> handleGetUser(exchange));
-
-
-        String path = "/tt2";
-        server.createContext(
-                path, exchange -> handleGetUser(exchange));
+//        server.createContext("/users/get", exchange -> handleGetUser(exchange));
+//
+//
+//        String path = "/tt2";
+//        server.createContext(
+//                path, exchange -> handleGetUser(exchange));
 
 
         //   /p8?uname=123
@@ -312,8 +422,32 @@ public class WebSvr {
     }
 
 
+    /**片段是一个 HTTP 请求拦截器，用于拦截所有请求，包括：
+
+     处理 OPTIONS 请求（跨域预检）
+
+     忽略 /favicon.ico
+
+     直接返回 HTML 文件内容
+
+     否则走代理 ApiGateway
+
+
+     * options method spt
+     * favicon.ioc
+     * html ,json file spt
+     *
+     * @return ApiGateway.response
+     * @param exchange
+     * @throws IOException
+     */
     private static void handleAllReq(@NotNull HttpExchange exchange) throws IOException {
         try {
+            String method = exchange.getRequestMethod();
+            if ("OPTIONS".equalsIgnoreCase(method)) {
+                handleOptions(exchange);
+                return;
+            }
             URI requestURI = exchange.getRequestURI();
             System.out.println("" + requestURI);
 
@@ -323,16 +457,9 @@ public class WebSvr {
             if (path1.equals("/favicon.ico"))
                 return;
             if (path1.endsWith(".htm") || path1.endsWith(".html")) {
-//                Context context = new Context();
-//
-//                //listAdm
-//                String tmpleFileName = path1.substring(0,path1.length()-4);
-//
-//                if(path1.endsWith(".html"))
-//                    tmpleFileName = path1.substring(0,path1.length()-5);
-//
-//                var rsp=rend(tmpleFileName, context );
-//                wrtRespHtml(exchange,rsp);
+              //  Context context = new Context();
+                var rsp=readTxtFrmFil(webroot+path1);
+                wrtRespHtml(exchange,rsp);
                 return;
             }
 
@@ -349,6 +476,15 @@ public class WebSvr {
 
 
     }
+public  static     String webroot=getPrjPath()+"/webroot";
+    /**
+     *
+     //listAdm
+     String tmpleFileName = path1.substring(0,path1.length()-4);
+
+     if(path1.endsWith(".html"))
+     tmpleFileName = path1.substring(0,path1.length()-5);
+     */
 
     /**
      * 获取path ，不要带Querystring
@@ -435,7 +571,22 @@ public class WebSvr {
     }
 
 
-    private static void handleGetUser(HttpExchange exchange) {
+    private static void handleOptions(@NotNull HttpExchange exchange) throws Exception {
+        setCrossDomain(exchange);
+        exchange.getResponseHeaders().add("Allow", "GET, POST, PUT, DELETE, OPTIONS");
+
+
+        //返回状态码 204（无内容）是标准做法。
+        exchange.sendResponseHeaders(204, -1); // No Content
+        exchange.close();
     }
 
+
+    //        exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+//        exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+//        exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//        exchange.getResponseHeaders().add("Access-Control-Allow-Credentials","true");
+
 }
+
+

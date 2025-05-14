@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -96,7 +97,7 @@ public class HbntUtil {
     public static SessionFactory getSessionFactory(String jdbcUrl, List<Class> li) throws SQLException {
 
         System.out.println("fun get sess fatcy(jdbcurl=" + jdbcUrl + ",listClass=" + encodeJsonObj(li) + "");
-        if(jdbcUrl.startsWith("jdbc:mysql")){
+        if (jdbcUrl.startsWith("jdbc:mysql")) {
             var db = getDatabaseFileName4mysql(jdbcUrl);
             crtDatabase(jdbcUrl, db);
         }
@@ -105,14 +106,13 @@ public class HbntUtil {
         // Hibernate 配置属性
         Properties properties = new Properties();
         String dvr = getDvr(jdbcUrl);
-        System.out.println("dvr188="+dvr);
+        System.out.println("dvr188=" + dvr);
         properties.put(Environment.DRIVER, dvr);
         properties.put(Environment.URL, "" + jdbcUrl);
         properties.put(Environment.USER, getUnameFromJdbcurl(jdbcUrl));
         properties.put(Environment.PASS, getPwdFromJdbcurl(jdbcUrl));
         properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
-        if(isSqliteJdbcUrl(jdbcUrl))
-        {
+        if (isSqliteJdbcUrl(jdbcUrl)) {
             properties.put(Environment.DIALECT, "org.hibernate.dialect.SQLiteDialect");
 
         } else if (jdbcUrl.startsWith("jdbc:h2")) {
@@ -138,21 +138,19 @@ public class HbntUtil {
         properties.put("hibernate.physical_naming_strategy",
                 CamelCaseToUnderscoresNamingStrategy.class.getName());
         System.out.println(org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl.class);
-       // spring.jpa.hibernate.naming.physical-strategy=
+        // spring.jpa.hibernate.naming.physical-strategy=
 
         //-------统计查询cache的使用
-     //   properties.put(Environment.USE_SECOND_LEVEL_CACHE, true);
+        //   properties.put(Environment.USE_SECOND_LEVEL_CACHE, true);
 
-     //   properties.put(Environment.USE_QUERY_CACHE, true);
+        //   properties.put(Environment.USE_QUERY_CACHE, true);
 
         // 二级缓存
 
-       // properties.put(AvailableSettings.CACHE_REGION_FACTORY, InfinispanRegionFactory.class.getName());
+        // properties.put(AvailableSettings.CACHE_REGION_FACTORY, InfinispanRegionFactory.class.getName());
 
         // 不使用 infinispan.xml，而是使用默认或 programmatic 配置
         // 可以通过 Infinispan 自定义 CacheManager（下面是默认的）
-
-
 
 
         // 创建 ServiceRegistry
@@ -174,7 +172,7 @@ public class HbntUtil {
     }
 
     private static boolean isSqliteJdbcUrl(String jdbcUrl) {
-        return  jdbcUrl.startsWith("jdbc:sqlite:");
+        return jdbcUrl.startsWith("jdbc:sqlite:");
     }
 
     private static void addAnnotatedClasses2025(MetadataSources metadataSources) {
@@ -219,6 +217,9 @@ public class HbntUtil {
 //    private static boolean isHavAnno(Class<?> clazz, Class<?> AnnoClass) {
 //    }
 
+    public static Object persistByHibernate(Object var1) {
+        return persistByHibernate(var1, sessionFactory.getCurrentSession());
+    }
 
     // @log
     public static Object persistByHibernate(Object var1, Session session) {
@@ -239,12 +240,11 @@ public class HbntUtil {
     //alias  of get rzt lst
     public static @NotNull List getListBySql(@NotBlank String sql, @NotNull Session session) throws Throwable {
 
-     return  getResultList(sql,session);
+        return getResultList(sql, session);
     }
 
 
-
-    public static @NotNull List<?>  getResultList(@NotBlank String sql, @NotNull Session session) throws Throwable {
+    public static @NotNull List<?> getResultList(@NotBlank String sql, @NotNull Session session) throws Throwable {
 
         ifIsBlank(sql);
         String mthClr = colorStr("getListBySql", YELLOW_bright);
@@ -260,26 +260,27 @@ public class HbntUtil {
     }
 
 
-    public static @NotNull <T> List<T> getResultList(@NotBlank String sql,@NotNull Class<T> clz
+    public static @NotNull <T> List<T> getResultList(@NotBlank String sql, @NotNull Class<T> clz
     ) throws Throwable {
 
         ifIsBlank(sql);
         String mthClr = colorStr("getListBySqlLmt200", YELLOW_bright);
         System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(" + (sql));
         // System.out.println("mergeByHbnt("+ t.getClass().getName());
-        Session session=sessionFactory.getCurrentSession();
-        NativeQuery nativeQuery = session.createNativeQuery(sql,clz);
+        Session session = sessionFactory.getCurrentSession();
+        NativeQuery nativeQuery = session.createNativeQuery(sql, clz);
         // setPrmts4sql(sqlprmMap, nativeQuery);
         // 设置分页
-       // nativeQuery.setFirstResult(0);
-       // nativeQuery.setMaxResults(200);
+        // nativeQuery.setFirstResult(0);
+        // nativeQuery.setMaxResults(200);
         //       .setParameter("age", 18);
         @NotNull
         List<T> list1 = nativeQuery.getResultList();
         System.out.println("✅endfun getListBySqlLmt200.ret=list,listsize=" + list1.size());
         return list1;
     }
-@Deprecated
+
+    @Deprecated
     public static @NotNull Object getListBySqlLmt200(@NotBlank String sql, @NotNull Session session) throws Throwable {
 
         ifIsBlank(sql);
@@ -297,8 +298,10 @@ public class HbntUtil {
         System.out.println("✅endfun getListBySqlLmt200.ret=list,listsize=" + list1.size());
         return list1;
     }
+
     /**
      * 可以通过 Session 来获取 EntityManager，因为 Session 实现了 EntityManager 接口。以下是如何通过 SessionFactory
+     *
      * @param session
      * @return
      */
@@ -306,12 +309,14 @@ public class HbntUtil {
         // 将 Session 转换为 EntityManager
         EntityManager entityManager = session.getEntityManagerFactory().createEntityManager();
 
-        return  entityManager;
+        return entityManager;
     }
-    public static SessionFactory sessionFactory;
-    public static @NotNull @org.jetbrains.annotations.NotNull <T> T mergeByHbnt(@NotNull T t ) {
 
-        return  mergeByHbnt(t,sessionFactory.getCurrentSession());
+    public static SessionFactory sessionFactory;
+
+    public static @NotNull @org.jetbrains.annotations.NotNull <T> T mergeByHbnt(@NotNull T t) {
+
+        return mergeByHbnt(t, sessionFactory.getCurrentSession());
     }
 
     public static @NotNull @org.jetbrains.annotations.NotNull <T> T mergeByHbnt(@NotNull T t, @NotNull Session session) {
@@ -337,58 +342,59 @@ public class HbntUtil {
     }
 
 
-    public static Object getSingleResult(String sql,  Session session) throws findByIdExptn_CantFindData {
+    public static Object getSingleResult(String sql, Session session) throws findByIdExptn_CantFindData {
 
         // Session   session = sessionFactory.getCurrentSession(); // 使用 SessionFactory 打开一个新的 Session
         Query<?> query = session.createNativeQuery(sql); // 创建原生 SQL 查询
         Object result = query.getSingleResult(); // 执行查询并获取唯一结果
-        if(result==null)
-            throw  new findByIdExptn_CantFindData(sql);
+        if (result == null)
+            throw new findByIdExptn_CantFindData(sql);
 
         return result;
     }
 
 
-
     /**
      * no uniRzt, dep...bcz no rzt ret null,,gsr no rzt ex,and gsr is jpa stdd,unirzt only hbnt api
-     *  使用hibernate执行sql，返回一个字段值
+     * 使用hibernate执行sql，返回一个字段值
+     *
      * @param
      * @return
      */
     public static Object getSingleResult(String sql, Object dft, Session session) {
-  
-    // Session   session = sessionFactory.getCurrentSession(); // 使用 SessionFactory 打开一个新的 Session
+
+        // Session   session = sessionFactory.getCurrentSession(); // 使用 SessionFactory 打开一个新的 Session
         Query<?> query = session.createNativeQuery(sql); // 创建原生 SQL 查询
         Object result = query.getSingleResult(); // 执行查询并获取唯一结果
 
-       return result;
+        return result;
     }
 
-
+@Deprecated
     public static <T> T findByHbntDep(Class<T> t, String id, LockModeType lockModeType, Session session) {
         String mthClr = colorStr("findByHbnt", YELLOW_bright);
         System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(class=" + t + ",id=" + id + ",LockModeType=" + lockModeType);
         //  System.out.println("findByHbnt("+ t+"。。。");
-        T rzt = session.find(t, id, lockModeType);
+      //  T rzt = session.find(t, id, lockModeType);
+    T rzt = session.find(t, id);
         System.out.println("✅endfun findByHbnt.ret=" + encodeJson(rzt));
         return rzt;
     }
 
     /**
      * Pageable pageable = PageRequest.of(2, 10, Sort.by("createdAt").descending());
+     *
      * @param sql
      * @param sqlprmMap
      * @param pageable
-
      * @return
      * @throws SQLException
      */
-    public static @NotNull Page<Map> getResultListWzPageByHbntRtLstmap(@NotBlank  String sql, Map<String, Object> sqlprmMap, Pageable pageable) throws SQLException {
+    public static @NotNull Page<Map> getResultListWzPageByHbntRtLstmap(@NotBlank String sql, Map<String, Object> sqlprmMap, Pageable pageable) throws SQLException {
 
-        System.out.println("fun getResultListWzPageByHbntRtLstmap(sql= "+sql);
-        Session session=sessionFactory.getCurrentSession();
-        NativeQuery<?> nativeQuery = session.createNativeQuery(sql, Map.class );
+        System.out.println("fun getResultListWzPageByHbntRtLstmap(sql= " + sql);
+        Session session = sessionFactory.getCurrentSession();
+        NativeQuery<?> nativeQuery = session.createNativeQuery(sql, Map.class);
         setPrmts4sql(sqlprmMap, nativeQuery);
         // 设置分页
         nativeQuery.setFirstResult(getstartPosition(pageable.getPageNumber(), pageable.getPageSize()));
@@ -400,10 +406,10 @@ public class HbntUtil {
         //------------page
         long totalRecords = nativeQuery.getResultCount();
 
-     //   Page<Usr> page;
-    //    int totalPages = (int) Math.ceil((double) totalRecords / pageable.getPageSize());
-        return   new PageImpl<Map>(list1, pageable, totalRecords);
-       // return new PageResult<>(list1, totalRecords, totalPages,pageable.getPageNumber(),pageable.getPageSize());
+        //   Page<Usr> page;
+        //    int totalPages = (int) Math.ceil((double) totalRecords / pageable.getPageSize());
+        return new PageImpl<Map>(list1, pageable, totalRecords);
+        // return new PageResult<>(list1, totalRecords, totalPages,pageable.getPageNumber(),pageable.getPageSize());
     }
 
 
@@ -414,19 +420,27 @@ public class HbntUtil {
         String mthClr = colorStr("findByHbnt", YELLOW_bright);
         System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(class=" + t + ",id=" + id + ",LockModeType=" + lockModeType);
         //  System.out.println("findByHbnt("+ t+"。。。");
-        T rzt = session.find(t, id, lockModeType);
+        T rzt = session.find(t, id);  //lockModeType
         System.out.println("✅endfun findByHbnt.ret=" + encodeJson(rzt));
         return rzt;
     }
 
     @NotNull
-    public static <T> T findByHerbinateLockForUpdtV2(   @NotNull Class<T> t, String id, Session session) throws findByIdExptn_CantFindData {
+    public static <T> T findByHerbinateLockForUpdtV2(@NotNull Class<T> t, String id) throws findByIdExptn_CantFindData {
+        return findByHerbinateLockForUpdtV2(t, id, sessionFactory.getCurrentSession());
+    }
+
+    @NotNull
+    public static <T> T findByHerbinateLockForUpdtV2(@NotNull Class<T> t, String id, Session session) throws findByIdExptn_CantFindData {
 
         var lockModeType = LockModeType.PESSIMISTIC_WRITE;
         String mthClr = colorStr("findByHbnt", YELLOW_bright);
         System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(class=" + t + ",id=" + id + ",LockModeType=" + lockModeType);
         //  System.out.println("findByHbnt("+ t+"。。。");
-        T rzt = session.find(t, id, lockModeType);
+        Map<String, Object> props = new HashMap<>();
+        props.put("javax.persistence.lock.timeout", 2000); // 等待2秒
+        //T rzt = session.find(t, id, lockModeType, props);
+        T rzt = session.find(t, id);
         if (rzt == null)
             throw new findByIdExptn_CantFindData("cls=" + t + ",id=" + id);
         System.out.println("✅endfun findByHbnt.ret=" + encodeJson(rzt));
@@ -435,7 +449,7 @@ public class HbntUtil {
 
 
     @org.jetbrains.annotations.NotNull
-    public static <T> T addModelIfNotExst(T obj,String id, Session session) {
+    public static <T> T addModelIfNotExst(T obj, String id, Session session) {
 
         try {
             return (T) findByHerbinate(obj.getClass(), id, session);
@@ -446,7 +460,7 @@ public class HbntUtil {
 
     }
 
-    public static int executeUpdate(String sql,   Session session) {
+    public static int executeUpdate(String sql, Session session) {
         // 使用原生 SQL 执行 UPDATE 操作
         //String sql = "UPDATE my_entity SET name = :name WHERE id = :id";
         int updatedEntities = session.createNativeQuery(sql)
@@ -455,7 +469,11 @@ public class HbntUtil {
                 .executeUpdate();
 
         System.out.println("Number of entities updated: " + updatedEntities);
-        return  updatedEntities;
+        return updatedEntities;
+    }
+
+    public static <T> T findByHerbinate(Class<T> t, String id) throws findByIdExptn_CantFindData {
+        return findByHerbinate(t, id, sessionFactory.getCurrentSession());
     }
 
     //good bp  throw ex,,,more lubst

@@ -16,6 +16,7 @@ public class IniAcc {
 
     public static void iniTwoWlt( String uname) throws findByIdExptn_CantFindData {
 
+        System.out.println( "fun iniTwoWlt(uname: " + uname);
         try{
             addAccEmnyIfNotExst(uname,sessionFactory.getCurrentSession());
 
@@ -29,6 +30,7 @@ public class IniAcc {
         }catch (Throwable e){
 
         }
+        System.out.println("endfun initwo wlt()");
 
     }
 

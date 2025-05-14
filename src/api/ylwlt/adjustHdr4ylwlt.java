@@ -50,10 +50,10 @@ public class adjustHdr4ylwlt implements Icall<TransDto, Object> {
         BigDecimal newBls = nowAmt;
         var logTag = "";
         if (TransDto1.adjustType.equals("-")) {
-            newBls = nowAmt.subtract(TransDto1.getChangeAmount());
+            newBls = nowAmt.subtract(TransDto1.getAmount());
             logTag = "减少";
         } else if (TransDto1.adjustType.equals("+")) {
-            newBls = nowAmt.add(TransDto1.getChangeAmount());
+            newBls = nowAmt.add(TransDto1.getAmount());
             logTag = "增加";
         }
 
@@ -70,7 +70,7 @@ public class adjustHdr4ylwlt implements Icall<TransDto, Object> {
         logBalance.id = "LogBalance4ylwlt_" + getFilenameFrmLocalTimeString();
         logBalance.uname = objU.accountOwner;
 
-        logBalance.changeAmount = TransDto1.getChangeAmount();
+        logBalance.changeAmount = TransDto1.getAmount();
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
         logBalance.newBalance = toBigDcmTwoDot(newBls);
         logBalance.refUniqId = String.valueOf(System.currentTimeMillis());

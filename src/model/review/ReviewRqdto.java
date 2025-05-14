@@ -9,6 +9,5 @@ public class ReviewRqdto {
     public  String id="";
 
     public String stat;  //ReviewStat
-    //@NotBlank
-    public String IdempotencyKey="";
+
 }

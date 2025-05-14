@@ -3,34 +3,30 @@
 package service.YLwltSvs;
 
 import entityx.wlt.LogBls4YLwlt;
-import entityx.wlt.TransDto;
 import lombok.Data;
 
 import model.OpenBankingOBIE.Account;
-import model.OpenBankingOBIE.CreditDebitIndicator;
 import model.OpenBankingOBIE.Transaction;
 import model.OpenBankingOBIE.TransactionStatus;
 import org.hibernate.Session;
 
-import util.algo.Icall;
+import util.model.openbank.BalanceTypes;
 import util.tx.findByIdExptn_CantFindData;
 
 import java.math.BigDecimal;
 
 import static cfg.Containr.sessionFactory;
-import static handler.wlt.TransHdr.curLockAcc;
 // static cfg.AppConfig.sessionFactory;
 import static service.CmsBiz.toBigDcmTwoDot;
 import static util.acc.AccUti.getAccId4ylwlt;
-import static util.algo.GetUti.getUuid;
 import static util.tx.HbntUtil.*;
 import static util.misc.util2026.getFilenameFrmLocalTimeString;
 @Data
 //@Service
 //@Lazy
-public class AddMoney2YLWltService implements Icall<TransDto,Object> {
+public class AccSvs4invstAcc  {
 
-    public Object main(TransDto TransDto1 ) throws Exception, findByIdExptn_CantFindData {
+    public static Object crdt(Transaction txx ) throws Exception, findByIdExptn_CantFindData {
 
 
 
@@ -39,36 +35,33 @@ public class AddMoney2YLWltService implements Icall<TransDto,Object> {
 
 
 
-        String uname = TransDto1.uname;
-        BigDecimal amt = TransDto1.changeAmount;
+        String uname = txx.accountOwner;
+        BigDecimal amt = txx.amount;
 
         Session session=sessionFactory.getCurrentSession();
 
-       Account acc=  curLockAcc.get();//nml wlt
-       if(acc==null)
-           acc=TransDto1.lockAccObj;
+//       Account acc=  curLockAcc.get();//nml wlt
+//       if(acc==null)
+//           acc=TransDto1.lockAccObj;
 
        var ylwltAccId= getAccId4ylwlt(uname);
-       acc=findByHerbinate(Account.class,ylwltAccId,session);
+        Account  acc=findByHerbinateLockForUpdtV2(Account.class,ylwltAccId,session);
 
         BigDecimal nowAmt =acc.getInterim_Available_Balance();
-              //  getFieldAsBigDecimal(acc, "balance", 0);
 
         BigDecimal newBls = nowAmt.add(amt);
         acc.interim_Available_Balance = toBigDcmTwoDot(newBls);
+        acc.setInterimBookedBalance(acc.getInterimBookedBalance().add(amt));
         mergeByHbnt(acc, session);
 
 
 
         //-----------add tx lg
-        Transaction txx=new Transaction();
-        txx.transactionId="add2ylwlt"+getUuid();
-        txx.creditDebitIndicator= CreditDebitIndicator.CREDIT;
-        txx.accountId=  acc.accountId;
-        txx.accountOwner = TransDto1.uname;
-        txx.amount= TransDto1.getChangeAmount();
+
         txx.refUniqId= String.valueOf(System.currentTimeMillis());
         txx.status = TransactionStatus.BOOKED;
+        txx.setBalanceAmount( acc.interim_Available_Balance);
+        txx.setBalanceType(BalanceTypes.interimAvailable.name());
         persistByHibernate(txx, sessionFactory.getCurrentSession());
 
 

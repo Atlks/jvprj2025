@@ -1,8 +1,9 @@
 package handler.wlt;
 
 
-import model.OpenBankingOBIE.Account;
-import model.OpenBankingOBIE.AccountSubType;
+import model.OpenBankingOBIE.*;
+import org.jetbrains.annotations.NotNull;
+import service.YLwltSvs.AccSvs4invstAcc;
 import util.algo.Tag;
 import util.annos.CookieParam;
 import util.annos.注入;
@@ -22,9 +23,10 @@ import service.Trans2YLwltService;
 import static cfg.Containr.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 
-import static handler.acc.AccService.subBal;
+import static handler.acc.AccService.subBalFrmWlt;
 import static handler.acc.IniAcc.newIvstWltIfNotExist;
 import static util.acc.AccUti.getAccid;
+import static util.algo.GetUti.getUuid;
 import static util.ioc.SimpleContainer.getObj;
 import static util.tx.HbntUtil.findByHbntDep;
 // static util.proxy.SprUtil.injectAll4spr;
@@ -41,7 +43,7 @@ import static util.tx.HbntUtil.findByHbntDep;
 //@Parameter(name = "changeAmount", description = "转账金额", required = true)
 @CookieParam(name = "uname",description = "用户名",decryKey="a1235678")
 
-public class TransHdr   {
+public class TransfHdr {
     // 实现 Serializable 接口
     public static final long serialVersionUID = 1L; // 推荐
     /**
@@ -90,7 +92,7 @@ public class TransHdr   {
         newIvstWltIfNotExist(lgblsDto.uname);
 
       //  Icall RdsFromWltService1=getObj("RdsFromWltService");
-        Icall AddMoney2YLWltService1=getObj("AddMoney2YLWltService");
+     //   Icall AddMoney2YLWltService1=getObj("AddMoney2YLWltService");
         // 获取对象并加悲观锁
 
         //add blance   bcs uname frm cookie
@@ -106,11 +108,19 @@ public class TransHdr   {
 //        }
         curLockAcc.set(objU);
 
-        subBal(lgblsDto);
 
-        lgblsDto.changeAmount=lgblsDto.changeAmount.multiply(toBigDecimal("0.9"));
-      //  RdsFromWltService1.main();
-        AddMoney2YLWltService1.main(lgblsDto);
+        //subbal frm wlt
+        subBalFrmWlt(lgblsDto);
+
+
+           //crdt to ivst acc
+        lgblsDto.amount =lgblsDto.amount.multiply(toBigDecimal("0.9"));
+        Transaction tx=new Transaction("trsf2ivstAcc_"+getUuid(), getAccid4ivstAcc(uname),uname, CreditDebitIndicator.CREDIT, lgblsDto.amount);
+        tx.transactionCode=TransactionCode.InternalTransfers_exchgIn.name();
+                tx.status= TransactionStatus.BOOKED;
+                tx.ChargeAmount=lgblsDto.amount.multiply(toBigDecimal("0.1"));
+
+        AccSvs4invstAcc.crdt(tx);
 
 //        Icall is = Trans2YLwltService1;
 //        ((Trans2YLwltService) is).handle(lgblsDto);
@@ -118,7 +128,12 @@ public class TransHdr   {
         return "ok";
     }
 
-    private void injectAll4spr(TransHdr transHdr) {
+    @NotNull
+    private static String getAccid4ivstAcc(String uname) {
+        return getAccid(AccountSubType.GeneralInvestment.name(), uname);
+    }
+
+    private void injectAll4spr(TransfHdr transHdr) {
     }
 
 

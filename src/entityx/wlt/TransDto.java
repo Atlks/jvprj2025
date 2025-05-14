@@ -62,11 +62,11 @@ public class TransDto {
     public Account lockYlwltObj;
     public String refUniqId;
 
-    public BigDecimal getChangeAmount() {
-            return  toBigDecimal(changeAmount);
+    public BigDecimal getAmount() {
+            return  toBigDecimal(amount);
         }
 @NotNull
-        public BigDecimal changeAmount;
+        public BigDecimal amount;
     public BigDecimal amt;
         public BigDecimal newBalance;
         // 备注信息

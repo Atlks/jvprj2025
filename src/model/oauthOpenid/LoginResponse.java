@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 
 
 /**
+ * reef  TokenResponse  openid,oauth
  * 哪里“规定”了注册登录 API 和字段？
 
 来源	是否官方	推荐作用
@@ -24,5 +25,7 @@ public class LoginResponse {
     public String accessToken;
     @NotNull
     public int expiresIn;
+
+    public String token_type="Bearer";
 
 }

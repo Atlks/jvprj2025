@@ -1,0 +1,83 @@
+
+
+
+为什么需要   OPTIONS 请求（跨域预检） ，好像可以直接访问啊
+
+
+private static void handleOptions(@NotNull HttpExchange exchange) throws Exception {
+setCrossDomain(exchange);
+exchange.getResponseHeaders().add("Allow", "GET, POST, PUT, DELETE, OPTIONS");
+
+
+//返回状态码 204（无内容）是标准做法。
+exchange.sendResponseHeaders(204, -1); // No Content
+exchange.close();
+}
+
+
+public static void setCrossDomain(HttpExchange exchange) {
+exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+exchange.getResponseHeaders().set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+exchange.getResponseHeaders().set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+exchange.getResponseHeaders().set("Access-Control-Allow-Credentials", "true");
+}
+
+
+
+
+ChatGPT 说：
+你说得对，有些情况下确实可以直接访问而不需要 OPTIONS 预检请求。但这要取决于以下几个因素：
+
+✅ 什么是 OPTIONS 请求（预检请求 preflight）？
+当浏览器要发起跨域请求时，如果这个请求不符合“简单请求（simple request）”的标准，就会先发一个 OPTIONS 请求向目标服务器确认：
+
+“你好，我将要用 POST 方法、携带 Content-Type: application/json 以及 Authorization 头，能否允许？”
+
+如果服务器允许，就返回 200 OK，并带上 CORS 相关响应头，如：
+
+http
+复制
+编辑
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, POST, OPTIONS
+Access-Control-Allow-Headers: Content-Type, Authorization
+之后浏览器才会发送真正的 POST/PUT 请求。
+
+✅ 哪些请求会触发 OPTIONS 预检？
+浏览器认为是“非简单请求”的三种情况：
+方法不是 GET/POST/HEAD
+
+如：PUT, DELETE, PATCH
+
+Content-Type 不是以下三种之一：
+
+application/x-www-form-urlencoded
+
+multipart/form-data
+
+text/plain
+
+例如 application/json 就会触发预检！
+
+自定义请求头
+
+如：Authorization、X-Custom-Header 等
+
+只要以上任意一点满足，就会触发 OPTIONS 请求！
+
+✅ 为什么你“看起来”不需要预检？
+有以下几种可能：
+
+你发的是简单请求：
+
+只用 GET/POST 方法 + text/plain 内容 + 没有自定义请求头
+
+浏览器就会直接发请求，不预检
+
+请求是同源的（不跨域）：
+
+源地址完全一致（协议、域名、端口），浏览器不会限制
+
+你用的工具不是浏览器（如 curl、Postman）：
+
+这些不会执行 CORS 安全策略，自然也不会发 OPTIONS

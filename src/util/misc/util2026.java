@@ -1009,6 +1009,8 @@ public class util2026 {
 
     public static void wrtRespErr(HttpExchange exchange, String responseTxt) throws IOException {
         System.out.println("wrtRespErr(resptxt=" + responseTxt);
+
+        setCrossDomain(exchange);
         exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=utf-8");
         byte[] responseBytes = responseTxt.getBytes(StandardCharsets.UTF_8);
         int statusCode = 500;
@@ -1043,7 +1045,7 @@ public class util2026 {
             responseTxt = "";
 
         // 设置跨域响应头
-        exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+        setCrossDomain(exchange);
 
         Class ctrlCls = curCtrlCls.get();
 //        if (ctrlCls != null && ctrlCls.isAnnotationPresent(Controller.class)) {
@@ -1063,6 +1065,13 @@ public class util2026 {
         os.close();
     }
 
+    public static void setCrossDomain(HttpExchange exchange) {
+        exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+        exchange.getResponseHeaders().set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        exchange.getResponseHeaders().set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        exchange.getResponseHeaders().set("Access-Control-Allow-Credentials", "true");
+    }
+
 
     public static void wrtResp(HttpExchange exchange, String responseTxt,  String conttType ) throws IOException {
 
@@ -1071,7 +1080,7 @@ public class util2026 {
             responseTxt = "";
 
         // 设置跨域响应头
-        exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+        setCrossDomain(exchange);
 
         Class ctrlCls = curCtrlCls.get();
 //        if (ctrlCls != null && ctrlCls.isAnnotationPresent(Controller.class)) {
@@ -1100,7 +1109,7 @@ public class util2026 {
             responseTxt = "";
 
         // 设置跨域响应头
-        exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+        setCrossDomain(exchange);
 
         // 输出为html
             exchange.getResponseHeaders().set("Content-Type", "text/html; charset=utf-8");
