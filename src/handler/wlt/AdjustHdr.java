@@ -36,8 +36,7 @@ import static util.misc.util2026.*;
 
 @Path("/admin/wlt/adjust")
 
-//@Parameter(name = "adjustType")    //+ -  Increase Decrease
-//@Parameter(name = "changeAmount")
+
 @RolesAllowed({"admin", "Operator"})
 @PermitAll
 public class AdjustHdr{
@@ -55,10 +54,7 @@ String accid=getAccId(adjstDto.accountSubType,adjstDto.uname);
 
         BigDecimal avdBls = acc1.interim_Available_Balance;
 
-        String blsid=
-                getBlsid(interimAvailable,  acc1. accountId);
-        iniBal(blsid,acc1.accountId,interimAvailable);
-        iniBal( getBlsid( (interimBooked),  (acc1. accountId)),acc1.accountId,interimAvailable);
+        iniBlss(acc1);
 
         //def is add
         BigDecimal newAvdBls = avdBls;
@@ -135,6 +131,7 @@ String accid=getAccId(adjstDto.accountSubType,adjstDto.uname);
 
         return new ApiResponse(acc1);
     }
+
 
 
     private void  unfrzAmt2accWzlog(Account acc1, Transaction tx) throws findByIdExptn_CantFindData {

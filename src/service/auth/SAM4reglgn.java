@@ -1,10 +1,8 @@
 package service.auth;
 
 
-import util.annos.Observes;
 //
 //import org.springframework.stereotype.Service;
-import util.evtdrv.AnotherEvent;
 import util.misc.AuthenticationExceptionRtm;
 import util.tx.findByIdExptn_CantFindData;
 import util.validateRtmExptn;
@@ -65,7 +63,7 @@ public class SAM4reglgn implements ISAM {
             uname = crdt.getCaller();
 
 
-            var k = findByHerbinate(Keyx.class, uname, sessionFactory.getCurrentSession());
+            var k = findById(Keyx.class, uname, sessionFactory.getCurrentSession());
 
 
             if( k.frz)

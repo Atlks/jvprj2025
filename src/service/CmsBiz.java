@@ -19,7 +19,7 @@ import static cfg.IniCfg.iniContnr4cfgfile;
 //import static apiAcc.TransHdr.saveUrlLogBalanceYinliWlt;
 
 import static util.acc.AccUti.getAccId4ylwlt;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 import static util.tx.HbntUtil.mergeByHbnt;
 import static util.tx.HbntUtil.persistByHibernate;
 import static util.misc.Util2025.encodeJson;
@@ -154,7 +154,7 @@ public class CmsBiz {
             objU.uname= uname_invtr;
         }
 
-        Agent agt=findByHerbinate(Agent.class, objU.id, session);
+        Agent agt= findById(Agent.class, objU.id, session);
         BigDecimal nowAmt=  (agt.getTotalCommssionAmt());
         BigDecimal newBls=nowAmt.add(cmsMny);
         agt.totalCommssionAmt =toBigDcmTwoDot (newBls);

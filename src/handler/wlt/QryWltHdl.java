@@ -12,7 +12,7 @@ import util.serverless.RequestHandler;
 
 import static cfg.Containr.sessionFactory;
 import static util.acc.AccUti.getAccid;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 
 @PermitAll
 
@@ -26,6 +26,6 @@ public class QryWltHdl  implements RequestHandler<QueryDto, ApiGatewayResponse> 
     @Override
     public ApiGatewayResponse handleRequest(QueryDto param, Context context) throws Throwable {
         String accid=getAccid(AccountSubType.EMoney.name(), param.uname);
-        return new ApiGatewayResponse(findByHerbinate(Account.class,accid,sessionFactory.getCurrentSession()));
+        return new ApiGatewayResponse(findById(Account.class,accid,sessionFactory.getCurrentSession()));
     }
 }

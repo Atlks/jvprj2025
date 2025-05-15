@@ -14,7 +14,7 @@ import util.serverless.ApiGatewayResponse;
 import java.util.HashMap;
 
 import static cfg.Containr.sessionFactory;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 
 /**
  * 忘记密码-输入 uname
@@ -38,7 +38,7 @@ public class FgtPwdGetQuestionByUnameHdr implements Icall<FgtPwdGetAnswerByUname
     @Override
     public Object main(FgtPwdGetAnswerByUnameDto arg) throws Throwable {
 
-        SecurityQuestion sq=    findByHerbinate(SecurityQuestion.class,arg.uname,sessionFactory.getCurrentSession());
+        SecurityQuestion sq=    findById(SecurityQuestion.class,arg.uname,sessionFactory.getCurrentSession());
      //   sq.setAnswer("***");
         HashMap vo=new HashMap();
         vo.put("uname",sq.getUserName());

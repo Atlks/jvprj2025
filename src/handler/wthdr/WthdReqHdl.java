@@ -19,6 +19,8 @@ import java.math.BigDecimal;
 // static cfg.AppConfig.sessionFactory;
 import static cfg.Containr.sessionFactory;
 import static cfg.MainStart.iniContnr;
+import static handler.acc.IniAcc.iniIvstAcc;
+import static handler.balance.BlsSvs.iniBlss;
 import static service.CmsBiz.toBigDcmTwoDot;
 import static util.acc.AccUti.getAccId;
 import static util.acc.AccUti.getAccId4ylwlt;
@@ -105,17 +107,6 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
     }
 
 
-
-    public static void iniIvstAcc(String uname1) {
-
-        String accid=getAccId(AccountSubType.GeneralInvestment.name(), uname1);
-        Account yLwlt=new Account(accid );
-      //  yLwlt.userId= uname1;
-        yLwlt.accountOwner =uname1;
-        yLwlt.accountSubType= AccountSubType.GeneralInvestment.name();
-        persistByHibernate(yLwlt,sessionFactory.getCurrentSession());
-
-    }
 
 
     public static void main(String[] args) throws Throwable {

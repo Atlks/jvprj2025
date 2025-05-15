@@ -23,7 +23,7 @@ import static util.serverless.ApiGateway.httpExchangeCurThrd;
 import static util.excptn.ExptUtil.appendEx2lastExs;
 import static util.auth.JwtUtil.*;
 import static util.serverless.RequestHandler.request_getHeaders;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 
 public class SAM4chkLgnStatJwtMod implements ISAM, HttpAuthenticationMechanism {
     /**
@@ -68,7 +68,7 @@ public class SAM4chkLgnStatJwtMod implements ISAM, HttpAuthenticationMechanism {
         String jwthash= splitArr[2];
 
         try{
-            var k = findByHerbinate(JwtBlacklist.class, jwthash, sessionFactory.getCurrentSession());
+            var k = findById(JwtBlacklist.class, jwthash, sessionFactory.getCurrentSession());
             throw new AuthenticationException("jwt token in JwtBlacklist");
         }catch (findByIdExptn_CantFindData e)
         {

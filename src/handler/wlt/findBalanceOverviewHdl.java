@@ -12,7 +12,7 @@ import static cfg.Containr.sessionFactory;
 import static cfg.MainStart.iniAccInsFdPool_IfNotExist;
 import static handler.acc.IniAcc.iniTwoWlt;
 import static util.acc.AccUti.*;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 
 @NoArgsConstructor
 public class findBalanceOverviewHdl {
@@ -31,9 +31,9 @@ public class findBalanceOverviewHdl {
             iniTwoWlt(reqdto.uname);
             iniAccInsFdPool_IfNotExist(null);
             String accid=getAccid(AccountSubType.EMoney.name(), reqdto.uname);
-            Account account = findByHerbinate(Account.class,accid,sessionFactory.getCurrentSession());
-var accYl=findByHerbinate(Account.class, getAccId4ylwlt(reqdto.uname) ,sessionFactory.getCurrentSession());
-    var acc_insFdpool=findByHerbinate (Account.class,  getAccId(AccountSubType.insFdPl.name(), sysusrName),sessionFactory.getCurrentSession());
+            Account account = findById(Account.class,accid,sessionFactory.getCurrentSession());
+var accYl= findById(Account.class, getAccId4ylwlt(reqdto.uname) ,sessionFactory.getCurrentSession());
+    var acc_insFdpool= findById(Account.class,  getAccId(AccountSubType.insFdPl.name(), sysusrName),sessionFactory.getCurrentSession());
             BalanceOverview balanceOverview = new BalanceOverview();
             balanceOverview.accBalance =account.interim_Available_Balance;
             balanceOverview.accInvst_balance =accYl.interim_Available_Balance;

@@ -9,7 +9,7 @@ import model.usr.MyWltAddr;
 
 import static cfg.Containr.sessionFactory;
 import static model.review.ReviewStat.fromCodeStr_ReviewStat;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 
 /**
  * 设置安全问题
@@ -37,7 +37,7 @@ public class ReviewWltAdrsHdl {
 
 
 
-            MyWltAddr wp = findByHerbinate(MyWltAddr.class, reqdto.getId(), sessionFactory.getCurrentSession());
+            MyWltAddr wp = findById(MyWltAddr.class, reqdto.getId(), sessionFactory.getCurrentSession());
             wp.setReviewStat(fromCodeStr_ReviewStat(reqdto.stat)); ;
 
             return (wp);

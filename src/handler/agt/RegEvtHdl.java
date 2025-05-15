@@ -51,7 +51,7 @@ public class RegEvtHdl {
     static Agent addAgtIfNotExst(String agtName, Session session) {
         Agent agt;
         try {
-            agt = findByHerbinate(Agent.class, agtName, session);
+            agt = findById(Agent.class, agtName, session);
         } catch (findByIdExptn_CantFindData e) {
             agt = new Agent(agtName);
             persistByHibernate(agt, session);

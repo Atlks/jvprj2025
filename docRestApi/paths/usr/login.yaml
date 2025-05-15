@@ -2,6 +2,7 @@ get:
   tags:
     - user
   summary: "登录用户的方法"
+  security: []  # 👈 禁用认证机制（不显示锁图标）
   description: " "
 
   parameters:

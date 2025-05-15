@@ -3,7 +3,7 @@ get:
     - user
   summary: "注册用户的方法reg"
   description: "注册用户的方法dscrp。。。。"
-  operationId: "registerUser"
+  security: []  # 👈 禁用认证机制（不显示锁图标）
   parameters:
     - name: uname
       in: query

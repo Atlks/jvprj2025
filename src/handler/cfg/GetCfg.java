@@ -14,7 +14,7 @@ import util.serverless.RequestHandler;
 
 // static cfg.AppConfig.sessionFactory;
 import static cfg.Containr.sessionFactory;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 
 /**  GetCfg kv mode
  *     /admin/cfg/GetCfg?k=rechargeCommissionRates&v={}
@@ -36,7 +36,7 @@ public class GetCfg implements RequestHandler<CfgKv, ApiGatewayResponse> {
     @Override
     public ApiGatewayResponse handleRequest(CfgKv reqDto, Context context) throws Throwable {
      //   reqDto.id="uniqID";
-        CfgKv c=   findByHerbinate(CfgKv.class,reqDto.k,sessionFactory.getCurrentSession());
+        CfgKv c=   findById(CfgKv.class,reqDto.k,sessionFactory.getCurrentSession());
         var vo=c.v;
         var jsonObjOrArr=toJsonObjectOrArrayUseGson(vo);
         return new ApiGatewayResponse(jsonObjOrArr);

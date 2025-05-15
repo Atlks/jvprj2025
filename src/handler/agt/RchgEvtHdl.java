@@ -33,7 +33,7 @@ public class RchgEvtHdl {
         try {
             String uid = tx.accountOwner;
             Session session = sessionFactory.getCurrentSession();
-            Usr u = findByHerbinate(Usr.class, uid, session);
+            Usr u = findById(Usr.class, uid, session);
             if (isBlank(u.invtr))
                 return 0;
             Agent agt;

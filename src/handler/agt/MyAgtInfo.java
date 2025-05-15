@@ -17,7 +17,7 @@ public class MyAgtInfo {
 
 
     public Object handleRequest(QueryDto reqdto) throws Throwable {
-        Agent agt= findByHerbinate(Agent.class, reqdto.uname, sessionFactory.getCurrentSession());
+        Agent agt= findById(Agent.class, reqdto.uname, sessionFactory.getCurrentSession());
     return agt;
     }
 

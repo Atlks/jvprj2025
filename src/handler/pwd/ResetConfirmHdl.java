@@ -2,17 +2,15 @@ package handler.pwd;
 
 import api.usr.AnswerErr;
 import entityx.usr.SecurityQuestion;
-import handler.secury.RstRqResponseDTO;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.resetpwd.PasswordResetConfirmDTO;
-import model.resetpwd.PasswordResetRequestDTO;
 import util.ex.PwdNotEqExceptn;
-import util.serverless.ApiGatewayResponse;
+
 import static cfg.Containr.sessionFactory;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 import static cfg.Containr.sam4regLgn;
 @Path("/password/reset/confirm")
 
@@ -26,7 +24,7 @@ public class ResetConfirmHdl {
      public Object handleRequest(PasswordResetConfirmDTO reqdto) throws Throwable {
       
    
-           SecurityQuestion sq=    findByHerbinate(SecurityQuestion.class,reqdto.getUsername(),sessionFactory.getCurrentSession());
+           SecurityQuestion sq=    findById(SecurityQuestion.class,reqdto.getUsername(),sessionFactory.getCurrentSession());
         if(! (reqdto.getAnswer()) .equals(sq.answer))
             throw  new  AnswerErr("");
 

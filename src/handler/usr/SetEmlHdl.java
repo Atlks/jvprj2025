@@ -11,7 +11,7 @@ import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
 import static cfg.Containr.sessionFactory;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 import static util.tx.HbntUtil.mergeByHbnt;
 
 /**
@@ -40,7 +40,7 @@ public class SetEmlHdl implements RequestHandler<SetEmlHdlRqDto, ApiGatewayRespo
 //        wp.setUname(reqdto.getUname());
 //        wp.setEncryptedPassword(encodeMd5(reqdto.getPwd()));
 
-        Usr u=findByHerbinate(Usr.class,reqdto.uname,sessionFactory.getCurrentSession());
+        Usr u= findById(Usr.class,reqdto.uname,sessionFactory.getCurrentSession());
         u.setEmail(reqdto.email);
         mergeByHbnt( u, sessionFactory.getCurrentSession());
         return     new ApiGatewayResponse(u);

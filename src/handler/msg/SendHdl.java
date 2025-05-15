@@ -17,7 +17,7 @@ import static cfg.Containr.sessionFactory;
 // static cfg.IniCfg.iniContnr;
 import static cfg.MainStart.iniContnr;
 import static util.algo.CallUtil.lmdIvk;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 import static util.tx.HbntUtil.persistByHibernate;
 import static util.tx.TransactMng.*;
 
@@ -33,8 +33,8 @@ public class SendHdl {
         Session session = sessionFactory.getCurrentSession();
         Message msg = new Message();
 
-        Usr fromU = findByHerbinate(Usr.class, reqdto.uid, session);
-        Usr toU=findByHerbinate(Usr.class, reqdto.toChatTargetId, session);
+        Usr fromU = findById(Usr.class, reqdto.uid, session);
+        Usr toU= findById(Usr.class, reqdto.toChatTargetId, session);
         ToChat to = toChatTgt(toU);
         msg.setFrom(toTgUser(fromU));
         msg.setFromUid(reqdto.uid);

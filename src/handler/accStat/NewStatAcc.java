@@ -15,7 +15,7 @@ import util.tx.findByIdExptn_CantFindData;
 import static cfg.Containr.sessionFactory;
 import static util.acc.AccUti.getAccId;
 import static util.algo.CallUtil.callTry;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 import static util.tx.HbntUtil.persistByHibernate;
 
 @EventListener({EvtType.LoginEvt,EvtType.RegEvt})
@@ -36,7 +36,7 @@ public class NewStatAcc {
         String accid=getAccId(String.valueOf(AccountSubType.usrExt),uname) ;
 
         try {
-            Account a=findByHerbinate(Account.class,accid,session);
+            Account a= findById(Account.class,accid,session);
         } catch (findByIdExptn_CantFindData e) {
             Account acc = new Account(accid);
             Balance bls=new Balance(accid);

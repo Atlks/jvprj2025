@@ -89,7 +89,7 @@ public class AccService {
         String accid = getAccId(String.valueOf(AccountSubType.insFdPl), sysusrName);
         Account acc = null;
         try {
-            acc = findByHerbinate(Account.class, accid, sessionFactory.getCurrentSession());
+            acc = findById(Account.class, accid, sessionFactory.getCurrentSession());
             return acc.getInterim_Available_Balance();
         } catch (findByIdExptn_CantFindData e) {
             return BigDecimal.valueOf(0);

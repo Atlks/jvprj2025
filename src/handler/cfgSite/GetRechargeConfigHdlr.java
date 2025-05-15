@@ -13,7 +13,7 @@ import util.serverless.RequestHandler;
 import util.tx.findByIdExptn_CantFindData;
 
 import static cfg.Containr.sessionFactory;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 
 
 /**
@@ -37,7 +37,7 @@ public class GetRechargeConfigHdlr  implements RequestHandler<NonDto, ApiGateway
     @Override
     public ApiGatewayResponse handleRequest(NonDto param, Context context) throws Throwable {
         try{
-            RechargeConfig wp = findByHerbinate(RechargeConfig.class, "uniqID", sessionFactory.getCurrentSession());
+            RechargeConfig wp = findById(RechargeConfig.class, "uniqID", sessionFactory.getCurrentSession());
             return new ApiGatewayResponse(wp);
         } catch (findByIdExptn_CantFindData e) {
             return new ApiGatewayResponse(new  RechargeConfig());

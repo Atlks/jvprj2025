@@ -15,7 +15,7 @@ import static cfg.Containr.sessionFactory;
 
 import static handler.acc.IniAcc.addAccEmnyIfNotExst;
 import static util.acc.AccUti.getAccid;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 
 
 /**
@@ -45,7 +45,7 @@ public class MeWlt implements RequestHandler<QueryDto, ApiGatewayResponse>  {
         addAccEmnyIfNotExst( param.uname, session);
 
         String accid=getAccid(AccountSubType.EMoney.name(), param.uname);
-        Account objU = findByHerbinate(Account.class,accid, session);
+        Account objU = findById(Account.class,accid, session);
         return new ApiGatewayResponse(objU);
     }
 }

@@ -17,7 +17,7 @@ import static util.algo.CallUtil.lambdaInvoke;
 import static util.evtdrv.EventDispatcher.publishEvent;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 import static util.model.EvtType.AftrCalcRchgAmtSumEvt;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 import static util.tx.HbntUtil.mergeByHbnt;
 
 //@EventListener({AftrCalcRchgAmtSumEvt})
@@ -44,7 +44,7 @@ public class CalcCmsHdl {
             for (Usr u : sups) {
 
 
-                Agent agt = findByHerbinate(Agent.class, u.uname, session);
+                Agent agt = findById(Agent.class, u.uname, session);
                 BigDecimal curRate=agt.commissionRate.multiply(curSub.commissionRate)   ;
 
 

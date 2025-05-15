@@ -21,7 +21,7 @@ import java.util.SortedMap;
 
 import static cfg.Containr.sessionFactory;
 import static util.misc.util2026.getField2025;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 import static util.tx.HbntUtil.mergeByHbnt;
 //   http://localhost:8889/QueryOrdChrgHdr
 
@@ -45,7 +45,7 @@ public class ReviewChrgRjctHdr implements RequestHandler<ReviewChrgRqdto, ApiGat
 
 
         Session session = sessionFactory.getCurrentSession();
-        var tx = findByHerbinate(Transaction.class, reqdto.transactionId, session);
+        var tx = findById(Transaction.class, reqdto.transactionId, session);
 
         //mideng chk
         if (tx.status.equals(TransactionStatus.REJECTED)) {
@@ -60,7 +60,7 @@ public class ReviewChrgRjctHdr implements RequestHandler<ReviewChrgRqdto, ApiGat
             tx.setStatus((TransactionStatus.REJECTED));
             mergeByHbnt(tx, session);
 
-            Account acc=findByHerbinate(Account.class, tx.accountId, session);
+            Account acc= findById(Account.class, tx.accountId, session);
             acc.setFrozenAmountVld(acc.frozenAmount.subtract(tx.amount));
             acc.interim_Available_Balance=acc.interim_Available_Balance.add(tx.amount);
             acc.setInterimBookedBalance(acc.getInterimBookedBalance().add(tx.amount));

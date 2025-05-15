@@ -36,7 +36,7 @@ import static util.tx.HbntUtil.*;
 //@Parameter(name = "adjustType", description = "")    //+ -  Increase Decrease
 //@Parameter(name = "changeAmount")
 @RolesAllowed({"admin", "Operator"})
-
+@Deprecated   //use adjustHdr
 public class adjustHdr4ylwlt implements Icall<TransDto, Object> {
 
     @Override

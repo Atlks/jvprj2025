@@ -9,7 +9,7 @@ import util.serverless.RequestHandler;
 
 import static cfg.Containr.sessionFactory;
 import static util.auth.AuthUtil.getCurrentUser;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 
 
 /**
@@ -34,7 +34,7 @@ public class Me   implements RequestHandler<Usr, ApiGatewayResponse>  {
      */
     @Override
     public ApiGatewayResponse handleRequest(Usr param, Context context) throws Throwable {
-        Usr objU = findByHerbinate(Usr.class, getCurrentUser(), sessionFactory.getCurrentSession());
+        Usr objU = findById(Usr.class, getCurrentUser(), sessionFactory.getCurrentSession());
         return new ApiGatewayResponse(objU);
     }
 }

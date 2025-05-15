@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AJAX Fetch Example</title>
+</head>
+<body>
+<button onclick="sendRequest()">发送请求</button>
+<pre id="output"></pre>
+
+<script>
+    function sendRequest() {
+        const url = "http://18.136.123.232:8889/wlt/findBalanceOverviewHdl";
+        const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5OTkiLCJpYXQiOjE3NDcxMzY3MzcsImlzcyI6ImF0aSIsInVwbiI6Ijk5OSIsInByZWZlcnJlZF91c2VybmFtZSI6Ijk5OSIsImVtYWlsIjoiYXRAdWtlLmNvbSIsInVuYW1lIjoiOTk5IiwiYXVkIjoiVVNFUiIsInJvbGUiOiJVU0VSIiwiZXhwIjoxNzU1Nzc2NzM3LCJqdGkiOiJjMjU0ZjE0YmIzMzg0Y2UwYTMyZDI4OWFmNzc2NThjNSJ9.8tge5NHcXwrl6r9r_kJ2IFRHqfZJTPTaOdk2wMagdtf0GTg_javGZea4ZLmx3IFFyapPceGdBcmD6MRtdbEiFw";
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        })
+        .then(response => {
+            document.getElementById("output").textContent = "Status: " + response.status + "\n";
+            return response.text();
+        })
+        .then(data => {
+            document.getElementById("output").textContent += "Response:\n" + data;
+        })
+        .catch(error => {
+            document.getElementById("output").textContent = "Error: " + error;
+        });
+    }
+</script>
+</body>
+</html>

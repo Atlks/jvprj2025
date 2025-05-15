@@ -67,7 +67,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
         String mthBiz = colorStr("设置订单状态=完成", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         Session session = sessionFactory.getCurrentSession();
-        Transaction objOrd = findByHerbinate(Transaction.class, reqdto.transactionId, session);
+        Transaction objOrd = findById(Transaction.class, reqdto.transactionId, session);
         // System.out.println("\r\n----blk updt chg ord set stat=ok");
         //  is proceed??
         if (objOrd.status.equals(TransactionStatus.BOOKED)
@@ -96,7 +96,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
         transDto.amt=objOrd.amount;
         transDto.refUniqId="reqid="+objOrd.id;
         iniWlt( objOrd.accountOwner, session);
-        transDto.lockYlwltObj=findByHerbinate(Account.class, getAccId4ylwlt(objOrd.accountOwner) , session);
+        transDto.lockYlwltObj= findById(Account.class, getAccId4ylwlt(objOrd.accountOwner) , session);
       //  addMoneyToWltService1.main(transDto);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
@@ -133,7 +133,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
 
     public static void iniWlt(String uname, Session session) throws findByIdExptn_CantFindData {
         try{
-            var wlt=findByHerbinate(Account.class, uname, session);
+            var wlt= findById(Account.class, uname, session);
         } catch (findByIdExptn_CantFindData e) {
             //ini wlt
             Account wlt=new Account();

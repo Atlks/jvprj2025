@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: 用户端 API
-  version: v250513.1
+  version: v250515.666.888
   description: |
     这是一个用于系统的 API。通过该 API，可以作为开发。
     该文档提供了所有可用接口的详细说明。
@@ -366,16 +366,16 @@ paths:
 
   /user/IsSetWthdrPwdHdr:
     $ref: './paths/usr/IsSetWthdrPwdHdr.yaml'
-  /FgtPwdRstPwdHdr:
-    $ref: './paths/FgtPwdRstPwdHdr.yaml'
-  /FgtPwdGetQuestionByUnameHdr:
-    $ref: './paths/FgtPwdGetQuestionByUnameHdr.yaml'
+#  /FgtPwdRstPwdHdr:
+ #   $ref: './paths/FgtPwdRstPwdHdr.yaml'
+ # /FgtPwdGetQuestionByUnameHdr:
+ #   $ref: './paths/FgtPwdGetQuestionByUnameHdr.yaml'
   /user/SetEmlHdl:
     $ref: './paths/usr/SetEmlHdl.yaml'
 
 
-  /user/setScrQstn:
-    $ref: './paths/usrSecury/setScrQstn.yaml'
+#  /user/setScrQstn:
+#    $ref: './paths/usrSecury/setScrQstn.yaml'
   /invstAcc/me:
     get:
       tags:
@@ -615,7 +615,8 @@ paths:
     get:
       tags:
         - secury
-      summary: 请求重置密码-获取问题 security question by username
+      summary: 请求重置登录密码-获取问题 security question by username
+      security: []  # 👈 禁用认证机制（不显示锁图标）
       description:
       parameters:
         - name: username
@@ -642,7 +643,8 @@ paths:
     post:
       tags:
         - secury
-      summary: 重置密码by安全问题
+      summary: 重置登录密码by安全问题
+      security: []  # 👈 禁用认证机制（不显示锁图标）
       description:
       requestBody:
         required: true

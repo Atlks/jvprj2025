@@ -26,7 +26,7 @@ public class WthdrCmsHdl {
 
         //---add to ylwlt
         String accId4ylwlt = getAccId4ylwlt(dto.uname);
-        Account agtAccYlwlt=  findByHerbinate(Account.class ,accId4ylwlt, session);
+        Account agtAccYlwlt=  findById(Account.class ,accId4ylwlt, session);
 
 
         agtAccYlwlt.interim_Available_Balance = agtAccYlwlt.interim_Available_Balance.add(dto.amt);
@@ -41,7 +41,7 @@ public class WthdrCmsHdl {
         //redis agt cms acc
         String agtAccId=getAccId(AccountSubType.agtCms.name(), dto.uname);
         Account agtAcc=
-                findByHerbinate(Account.class, agtAccId, session);
+                findById(Account.class, agtAccId, session);
         agtAcc.interim_Available_Balance = agtAcc.interim_Available_Balance.subtract(dto.amt);
 
         mergeByHbnt(agtAcc,session);

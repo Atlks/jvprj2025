@@ -15,7 +15,7 @@ import static cfg.Containr.sessionFactory;
 import static cfg.MainStart.iniSysAcc;
 import static handler.uti.TestUti.bftst;
 import static util.acc.AccUti.getAccId;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 import static util.tx.HbntUtil.mergeByHbnt;
 
 public class AddMoney2SysEmnyAccHdl {
@@ -23,7 +23,7 @@ public class AddMoney2SysEmnyAccHdl {
     private void handleRequest(AddMoneyDto dto) throws findByIdExptn_CantFindData {
         Session session = sessionFactory.getCurrentSession();
         String accId = getAccId(AccountSubType.insFdPl.name(), AccUti.sysusrName);
-        Account sysAccIvst=findByHerbinate(Account.class, accId, session);
+        Account sysAccIvst= findById(Account.class, accId, session);
 
         sysAccIvst.setInterim_Available_Balance(sysAccIvst.getInterim_Available_Balance().add(dto.amt));
 
@@ -50,7 +50,7 @@ public class AddMoney2SysEmnyAccHdl {
 
         Session session = sessionFactory.getCurrentSession();
         String accId = getAccId(AccountSubType.insFdPl.name(), AccUti.sysusrName);
-        Account sysAccIvst=findByHerbinate(Account.class, accId, session);
+        Account sysAccIvst= findById(Account.class, accId, session);
 
         sysAccIvst.setInterim_Available_Balance(dto.amt);
 

@@ -13,7 +13,7 @@ import java.util.List;
 
 import static cfg.Containr.sessionFactory;
 import static util.algo.CallUtil.lambdaInvoke;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 import static util.tx.HbntUtil.mergeByHbnt;
 
 public class UpdtChainRchgAmtSumSttHdl {
@@ -28,7 +28,7 @@ public class UpdtChainRchgAmtSumSttHdl {
     public   void handleRequest(Transaction tx ) throws Throwable {
 
         Session session=sessionFactory.getCurrentSession();
-        Usr u=findByHerbinate(Usr.class,tx.accountOwner,session);
+        Usr u= findById(Usr.class,tx.accountOwner,session);
         updtChainDrktlSubRchgAmtSum(tx, u, session);
 
 
@@ -45,7 +45,7 @@ public class UpdtChainRchgAmtSumSttHdl {
     }
 
     private static void updtChainDrktlSubRchgAmtSum(Transaction tx, Usr u, Session session) throws findByIdExptn_CantFindData {
-        Agent agt=findByHerbinate(Agent.class, u.invtr, session);
+        Agent agt= findById(Agent.class, u.invtr, session);
 
         //更新直属下级充值总额
         //这个要算所有级别的   直属下级充值总额
@@ -61,7 +61,7 @@ public class UpdtChainRchgAmtSumSttHdl {
     private   void updateChainAllSubRchgAmtSum(Transaction tx, Usr u, Session session) throws Throwable {
         List<Usr> agtIds=lambdaInvoke(getSuperiors.class,new QueryDto(u.uname));
         for(Usr uTmp:agtIds){
-            Agent agtTmp=findByHerbinate(Agent.class,uTmp.uname, session);
+            Agent agtTmp= findById(Agent.class,uTmp.uname, session);
             agtTmp.totalRechargeAmount=agtTmp.totalRechargeAmount.add(tx.getAmount());
         }
     }
@@ -72,7 +72,7 @@ public class UpdtChainRchgAmtSumSttHdl {
         var session=sessionFactory.getCurrentSession();
         List<Usr> superiors = new getNonDirectSuperiors().handleRequest(newRechgUserId);
         for (Usr superior : superiors) {
-            Agent agt=findByHerbinate(Agent.class, superior.id, session);
+            Agent agt= findById(Agent.class, superior.id, session);
             agt.levelOneRechargeAmount =agt.levelOneRechargeAmount.add(BigDecimal.valueOf(1)) ;
             agt.indrctlSubRchgAmtSum =agt.indrctlSubRchgAmtSum.add(BigDecimal.valueOf(1)) ;
 

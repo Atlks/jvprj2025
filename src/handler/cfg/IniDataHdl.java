@@ -33,7 +33,7 @@ public class IniDataHdl implements RequestHandler<NonDto, ApiGatewayResponse> {
     public ApiGatewayResponse handleRequest(NonDto param, Context context) throws Throwable {
 
         try{
-            findByHerbinate(CfgKv.class,"DataSummary", sessionFactory.getCurrentSession());
+            findById(CfgKv.class,"DataSummary", sessionFactory.getCurrentSession());
         } catch (findByIdExptn_CantFindData e) {
             CfgKv c=new CfgKv("DataSummary",new DataSummaryVo());
             persistByHibernate(c, sessionFactory.getCurrentSession());
@@ -41,7 +41,7 @@ public class IniDataHdl implements RequestHandler<NonDto, ApiGatewayResponse> {
 
 
         try{//MbrVipCfg
-            findByHerbinate(CfgKv.class,"MbrVipCfg", sessionFactory.getCurrentSession());
+            findById(CfgKv.class,"MbrVipCfg", sessionFactory.getCurrentSession());
         } catch (findByIdExptn_CantFindData e) {
             List<MbrVipCfg> li=new ArrayList<>();
             MbrVipCfg cfg=new MbrVipCfg();
@@ -53,7 +53,7 @@ public class IniDataHdl implements RequestHandler<NonDto, ApiGatewayResponse> {
 
 
         try{//MbrVipCfg
-            findByHerbinate(CfgKv.class,"CmsLvCfg", sessionFactory.getCurrentSession());
+            findById(CfgKv.class,"CmsLvCfg", sessionFactory.getCurrentSession());
         } catch (findByIdExptn_CantFindData e) {
             List<CmsLv> li=new ArrayList<>();
             CmsLv cfg=new CmsLv();

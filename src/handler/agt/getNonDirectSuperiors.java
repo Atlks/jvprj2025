@@ -2,7 +2,7 @@ package handler.agt;
 
 // static cfg.AppConfig.sessionFactory;
 import static cfg.Containr.sessionFactory;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class getNonDirectSuperiors {
 
     // 假设这个方法可以根据 id 查询 Usr 对象
     public Usr getUsrById(String id) throws HibernateException, findByIdExptn_CantFindData {
-         return findByHerbinate(Usr.class, id, sessionFactory.getCurrentSession());
+         return findById(Usr.class, id, sessionFactory.getCurrentSession());
     }
 
    

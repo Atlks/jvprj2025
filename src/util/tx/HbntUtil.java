@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import static cfg.Containr.sessionFactory;
 import static util.algo.IsXXX.ifIsBlank;
 import static util.algo.JarClassScanner.getClassesList;
 import static util.log.ColorLogger.*;
@@ -452,7 +451,7 @@ public class HbntUtil {
     public static <T> T addModelIfNotExst(T obj, String id, Session session) {
 
         try {
-            return (T) findByHerbinate(obj.getClass(), id, session);
+            return (T) findById(obj.getClass(), id, session);
         } catch (findByIdExptn_CantFindData e) {
 
             return (T) persistByHibernate(obj, session);
@@ -472,12 +471,12 @@ public class HbntUtil {
         return updatedEntities;
     }
 
-    public static <T> T findByHerbinate(Class<T> t, String id) throws findByIdExptn_CantFindData {
-        return findByHerbinate(t, id, sessionFactory.getCurrentSession());
+    public static <T> T findById(Class<T> t, String id) throws findByIdExptn_CantFindData {
+        return findById(t, id, sessionFactory.getCurrentSession());
     }
 
     //good bp  throw ex,,,more lubst
-    public static <T> T findByHerbinate(Class<T> t, String id, Session session) throws findByIdExptn_CantFindData {
+    public static <T> T findById(Class<T> t, String id, Session session) throws findByIdExptn_CantFindData {
 
         String mthClr = colorStr("findByHbnt", YELLOW_bright);
         System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(class=" + t + ",id=" + id);

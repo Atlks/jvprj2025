@@ -12,7 +12,7 @@ import util.serverless.ApiGatewayResponse;
 
 import static cfg.Containr.sam4regLgn;
 import static cfg.Containr.sessionFactory;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 
 /**
  * 忘记密码-rest pwd
@@ -37,7 +37,7 @@ public class FgtPwdRstPwdHdr implements Icall<FgtPwdRstPwdHdrDto, Object> {
 
 
 
-        SecurityQuestion sq=    findByHerbinate(SecurityQuestion.class,reqdto.uname,sessionFactory.getCurrentSession());
+        SecurityQuestion sq=    findById(SecurityQuestion.class,reqdto.uname,sessionFactory.getCurrentSession());
         if(! (reqdto.answer) .equals(sq.answer))
             throw  new  AnswerErr("");
         //  sq.setAnswer("***");

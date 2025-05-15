@@ -6,7 +6,6 @@ import model.admin.Admin;
 import handler.admin.dto.AdminLoginDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.auth.Role;
@@ -15,15 +14,11 @@ import util.algo.EncryUtil;
 import util.auth.JwtUtil;
 import util.misc.util2026;
 import util.serverless.ApiGateway;
-import util.serverless.ApiGatewayResponse;
-import util.serverless.RequestHandler;
-
-import java.util.Collections;
 
 import static cfg.Containr.sessionFactory;
 import static util.algo.EncodeUtil.encodeMd5;
 import static util.misc.util2026.hopePwdEq;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 
 
 //组合了  和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
@@ -44,7 +39,7 @@ public class LoginAdm    implements   IloginV2<AdminLoginDto> {
 
      //   String data = "p=" + crdt.getPasswordAsString() + "&slt=" + k.salt;
 
-         var admin = findByHerbinate(Admin.class, arg.username, sessionFactory.getCurrentSession());
+         var admin = findById(Admin.class, arg.username, sessionFactory.getCurrentSession());
          hopePwdEq(admin.getPassword(), encodeMd5(arg.password));
 
         OpenIdTokenResponseDto rsp=new OpenIdTokenResponseDto();

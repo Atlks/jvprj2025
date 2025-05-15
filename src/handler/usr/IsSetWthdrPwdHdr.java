@@ -12,7 +12,7 @@ import util.serverless.RequestHandler;
 import util.tx.findByIdExptn_CantFindData;
 
 import static cfg.Containr.sessionFactory;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 
 /**
  * 设置安全问题
@@ -41,7 +41,7 @@ public class IsSetWthdrPwdHdr   implements RequestHandler<SetWithdrawalPasswordD
         //test
         //  reqdto.setUname("007");
         try{
-            WithdrawalPassword wp = findByHerbinate(WithdrawalPassword.class, dto1.getUname(), sessionFactory.getCurrentSession());
+            WithdrawalPassword wp = findById(WithdrawalPassword.class, dto1.getUname(), sessionFactory.getCurrentSession());
 
             return new ApiGatewayResponse(true);
         } catch (findByIdExptn_CantFindData e) {

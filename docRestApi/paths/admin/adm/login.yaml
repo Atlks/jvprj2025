@@ -3,7 +3,7 @@ get:
     - admin
   summary: ""
 
-
+  security: []  # 👈 禁用认证机制（不显示锁图标）
   parameters:
     - name: username
       in: query

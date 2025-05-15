@@ -1,5 +1,6 @@
 package model.OpenBankingOBIE;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
@@ -20,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * OpenBanking OBIE 的Accounts实体
- * 在项目中的名称 ：本金钱包
- * acc里面本来是不包含banlance的。。。因为一对多的关系
+ * OpenBanking OBIE V3 的Accounts实体
+ * 在项目中的名称 ：本金钱包  投资资金钱包
+ * acc里面本来是不包含banlance的。。。因为一对多的关系，以及安全元素，不能不包含bals,只能在bals关联acc
  */
 @Entity
 @Table
@@ -31,6 +32,13 @@ import java.util.List;
 @FieldNameConstants
 @ToString(exclude = "bals") // Lombok
 public class Account {
+
+    public Account(String accountId, AccountType accountType, String accountSubType) {
+        setAccountId(accountId);
+        setAccountType(accountType);
+        setAccountSubType(accountSubType);
+
+    }
 
     // 使用hibernate ，查询account实体，查询所有InterimAvailableBalance>1的账户
 
@@ -44,21 +52,23 @@ public class Account {
 
     @Column(length = 500)
     //  @Enumerated(EnumType.STRING)
-    @NotNull  @NotBlank
+    @NotNull
+    @NotBlank
     public String accountSubType = AccountSubType.EMoney.name();         // 账户类型
 
 
     /**
-     * account实体的bals字段，代表所有余额
+     * account实体的bals字段，不能包含bals为了安全
      * transt 表示脱离hbnt管理，手动引用，不然容易循环引用
-     *
+     * this bals ,only for some ui,for query balss,not all ui need show bals..
+     * 只读提示 field
      */
 
+    @Transient
     @org.hibernate.annotations.Immutable  // Hibernate扩展，只读提示
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id",insertable = false, updatable = false) // 显式指出用哪个外键字段做关联
-    @JsonManagedReference
-  public   List<Balance> bals=new ArrayList<>();
+    @OneToManyTips(fetch = FetchType.LAZY)
+//    @JsonManagedReference
+    public List<Balance> bals = new ArrayList<>();
 //avd bls
     /**
      * 🧾 拆解 InterimAvailableBalance 的含义：
@@ -71,19 +81,23 @@ public class Account {
     public BigDecimal interim_Available_Balance = BigDecimal.valueOf(0); // 有效余额
 
 
-    public  void setInterim_Available_Balance(BigDecimal interim_Available_Balance) {
-        if(interim_Available_Balance.compareTo(BigDecimal.ZERO)<=0 )
-            throw new InvldAmtEx("itrAvBls="+interim_Available_Balance);
+    public void setInterim_Available_Balance(BigDecimal interim_Available_Balance) {
+        if (interim_Available_Balance.compareTo(BigDecimal.ZERO) < 0)
+            throw new InvldAmtEx("itrAvBls=" + interim_Available_Balance);
         this.interim_Available_Balance = interim_Available_Balance;
     }
 
+    //冻结金额必须大于
     public void setFrozenAmountVld(BigDecimal frozenAmount) {
-        if(frozenAmount.compareTo(BigDecimal.ZERO)<=0 )
-            throw new InvldAmtEx("frzAmt="+frozenAmount);
+        if (frozenAmount.compareTo(BigDecimal.ZERO) <= 0)
+            throw new InvldAmtEx("frzAmt=" + frozenAmount);
         this.frozenAmount = frozenAmount;
     }
 
 
+    /**
+     * frz amt is not starnd field
+     */
     @DecimalMin(value = "0.00", inclusive = false, message = "冻结金额必须大于 0")
     @Column(nullable = false)
     public BigDecimal frozenAmount = BigDecimal.valueOf(0);    // 冻结金额
@@ -100,44 +114,57 @@ public class Account {
     }
 
     //总余额,每日帐点后的余额，一般是Pm10以后，扎帐
-    @DecimalMin(value = "0.00", inclusive = true, message = "余额不能为负数")
-    public BigDecimal ClosingBookedBalance= BigDecimal.valueOf(0); ;
+//    @DecimalMin(value = "0.00", inclusive = true, message = "余额不能为负数")
+//    public BigDecimal ClosingBookedBalance = BigDecimal.valueOf(0);
+    ;
 
     // 总余额  tmp ttl bls
     @DecimalMin(value = "0.00", inclusive = true, message = "余额不能为负数")
     public BigDecimal InterimBookedBalance = BigDecimal.valueOf(0);  //totalBalance
 
-    public  void setInterimBookedBalance(BigDecimal interimBookedBalance) {
-        if(interimBookedBalance.compareTo(BigDecimal.ZERO)<=0 )
-            throw new InvldAmtEx("interimBookedBalance="+interimBookedBalance);
+    //余额不能为负数
+    public void setInterimBookedBalance(BigDecimal interimBookedBalance) {
+        if (interimBookedBalance.compareTo(BigDecimal.ZERO) < 0)
+            throw new InvldAmtEx("interimBookedBalance=" + interimBookedBalance);
         this.InterimBookedBalance = interimBookedBalance;
     }
 
     // totalBalance=availableBalance+frozenAmount+penddingBalance
     @DecimalMin(value = "0.00", inclusive = false, message = "penddingBalance余额不能为负数")
-    public BigDecimal penddingBalance= BigDecimal.valueOf(0);; //InterimCleared bls
+    public BigDecimal penddingBalance = BigDecimal.valueOf(0);
+    ; //InterimCleared bls
 
     //  private List<Transaction> transactions; // 交易记录
     @Enumerated(EnumType.STRING)
-    @NotNull  @NotBlank
+    @NotNull
+    @NotBlank
     public AccountStatus status = AccountStatus.Enabled;       // 账户状态（例如：有效、冻结、关闭）
 
 
     //  public String status;
     @UpdateTimestamp
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     public OffsetDateTime statusUpdateDateTime;
 
     public String Description;
+    @Blankable
     public String nickname;
-    public String currency;            // 币种（如 CNY、USD）
+
+    @NotBlank
+    public String currency="usdt";            // 币种（如 CNY、USD）
 
     @CreationTimestamp
     @NotNull
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+
     public OffsetDateTime OpeningDate;
 
+
+    //-----------option field
     //到期日
-    public OffsetDateTime MaturityDate ;
+    public OffsetDateTime MaturityDate;
     public String name;
     public String accountIdentification;
     public String accountSecondaryIdentification;

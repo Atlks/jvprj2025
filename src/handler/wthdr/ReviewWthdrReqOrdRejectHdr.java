@@ -51,7 +51,7 @@ public class ReviewWthdrReqOrdRejectHdr implements RequestHandler<ReviewChrgRqdt
 
 
         Session session = sessionFactory.getCurrentSession();
-        var tx=findByHerbinate(Transaction.class,reqdto.transactionId, session);
+        var tx= findById(Transaction.class,reqdto.transactionId, session);
 
         //mideng chk
         if(tx.status.equals(TransactionStatus.REJECTED)){

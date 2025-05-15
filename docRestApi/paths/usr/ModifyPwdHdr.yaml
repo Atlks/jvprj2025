@@ -1,7 +1,7 @@
 get:
   tags:
     - secury
-  summary: "修改密码"
+  summary: "修改密码(登陆密码"
   description: " "
 
   parameters:

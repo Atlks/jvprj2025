@@ -105,6 +105,8 @@ public class FileUti {
             while (entries.hasMoreElements()) {
                 JarEntry entry = entries.nextElement();
                 String name = entry.getName();
+                //entry.getName() 是这个文件的路径，比如：
+                System.out.println("entry getname="+name);
                 if (name.startsWith(pathInJar) && !entry.isDirectory()) {
                     // 将 JAR 中的资源提取到临时文件（可选）
                     InputStream is = jarFile.getInputStream(entry);

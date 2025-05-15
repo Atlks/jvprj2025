@@ -12,7 +12,7 @@ import static cfg.Containr.sessionFactory;
 
 import static handler.acc.IniAcc.newIvstWltIfNotExist;
 import static util.acc.AccUti.getAccId;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 
 
 /**
@@ -42,7 +42,7 @@ public class Me    {
 
         newIvstWltIfNotExist( param.uname);
 
-        Account objU = findByHerbinate(Account.class,getAccId(AccountSubType.GeneralInvestment.name(), param.uname), session);
+        Account objU = findById(Account.class,getAccId(AccountSubType.GeneralInvestment.name(), param.uname), session);
         return new ApiGatewayResponse(objU);
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 
 import static cfg.Containr.sessionFactory;
 import static util.algo.CallUtil.lambdaInvoke;
-import static util.tx.HbntUtil.findByHerbinate;
+import static util.tx.HbntUtil.findById;
 import static util.tx.HbntUtil.mergeByHbnt;
 
 /**
@@ -44,7 +44,7 @@ public class UpdtSubCntHdl {
 
     private void updtChainDrctSubCnt(@NotNull Usr u) throws findByIdExptn_CantFindData {
         var session = sessionFactory.getCurrentSession();
-        Agent sup = findByHerbinate(Agent.class, u.invtr, session);
+        Agent sup = findById(Agent.class, u.invtr, session);
         sup.drctSub_registeredMemberCount += 1;
         mergeByHbnt(sup, session);
     }
@@ -56,7 +56,7 @@ public class UpdtSubCntHdl {
         var session = sessionFactory.getCurrentSession();
         List<Usr> superiors = new getNonDirectSuperiors().handleRequest(newUserId);
         for (Usr superior : superiors) {
-            Agent agt = findByHerbinate(Agent.class, superior.id, session);
+            Agent agt = findById(Agent.class, superior.id, session);
             agt.indirectSubCount += 1;
             mergeByHbnt(agt, session);
         }
@@ -67,7 +67,7 @@ public class UpdtSubCntHdl {
     void updateChainAllSubCnt(Usr u, Session session) throws Throwable {
         List<Usr> agtIds = lambdaInvoke(getSuperiors.class, new QueryDto(u.uname));
         for (Usr uTmp : agtIds) {
-            Agent agtTmp = findByHerbinate(Agent.class, uTmp.uname, session);
+            Agent agtTmp = findById(Agent.class, uTmp.uname, session);
             agtTmp.allMmbrCnt = agtTmp.allMmbrCnt + (1);
         }
     }

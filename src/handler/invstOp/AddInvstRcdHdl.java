@@ -50,7 +50,7 @@ public class AddInvstRcdHdl   {
 
             //updt acc systm ivstAcc
             String accId = getAccId(AccountSubType.GeneralInvestment.name(), AccUti.sysusrName);
-            Account sysAccIvst=findByHerbinate(Account.class, accId, session);
+            Account sysAccIvst= findById(Account.class, accId, session);
             BigDecimal amount2sysIvstAcc = dto.getAmount().multiply(BigDecimal.valueOf(0.2));
             sysAccIvst.setInterim_Available_Balance(sysAccIvst.getInterim_Available_Balance().add(amount2sysIvstAcc));
 
@@ -92,7 +92,7 @@ public class AddInvstRcdHdl   {
     private void addMoney2fdpool(BigDecimal amount2sysFdpoolAcc) throws findByIdExptn_CantFindData {
         Session session = sessionFactory.getCurrentSession();
         String accId = getAccId(AccountSubType.insFdPl.name(), AccUti.sysusrName);
-        Account sysAccIvst=findByHerbinate(Account.class, accId, session);
+        Account sysAccIvst= findById(Account.class, accId, session);
 
         sysAccIvst.setInterim_Available_Balance(sysAccIvst.getInterim_Available_Balance().add(amount2sysFdpoolAcc));
 
@@ -103,7 +103,7 @@ public class AddInvstRcdHdl   {
     public  static  void iniSysEmnyAccIfNotExst(Session session)   {
         try{
             String accId = getAccId(AccountSubType.EMoney.name(), AccUti.sysusrName);
-            Account a=findByHerbinate(Account.class, accId, session);
+            Account a= findById(Account.class, accId, session);
 
         }catch(findByIdExptn_CantFindData e)
         {
@@ -120,7 +120,7 @@ public class AddInvstRcdHdl   {
 
         try{
             String accId = getAccId(AccountSubType.GeneralInvestment.name(), AccUti.sysusrName);
-            Account a=findByHerbinate(Account.class, accId, session);
+            Account a= findById(Account.class, accId, session);
         } catch (findByIdExptn_CantFindData e) {
             String accId = getAccId(AccountSubType.GeneralInvestment.name(), AccUti.sysusrName);
             Account a= new Account(accId);
@@ -143,7 +143,7 @@ public class AddInvstRcdHdl   {
                 //updt acc systm ivstAcc
                 String accId = getAccId(AccountSubType.GeneralInvestment.name(), acc.accountOwner);
 
-                Account accIvst=findByHerbinate(Account.class, accId, session);
+                Account accIvst= findById(Account.class, accId, session);
                 BigDecimal rate=accIvst.getInterim_Available_Balance().divide(sysEmnyBls);
                 BigDecimal mydiv=rate.multiply(param.amount);
                 accIvst.setInterim_Available_Balance(accIvst.getInterim_Available_Balance().add(mydiv));
@@ -169,7 +169,7 @@ public class AddInvstRcdHdl   {
 
     private BigDecimal getSysAccEmnyBls(Session session) throws findByIdExptn_CantFindData {
         String accId = getAccId(AccountSubType.EMoney.name(), AccUti.sysusrName);
-        Account a=findByHerbinate(Account.class, accId, session);
+        Account a= findById(Account.class, accId, session);
         return a.getInterim_Available_Balance();
 
     }

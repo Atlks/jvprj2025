@@ -152,7 +152,7 @@ public class MainStart {
         session.getTransaction().begin();
         String accid = getAccId(AccountSubType.insFdPl.name(), sysusrName);
         try {
-            var wlt = findByHerbinate(Account.class, accid, session);
+            var wlt = findById(Account.class, accid, session);
         } catch (findByIdExptn_CantFindData e) {
 
             Account acc1 = new Account(accid);
