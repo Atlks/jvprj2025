@@ -56,7 +56,7 @@ public class QueryOrdChrgHdr  implements RequestHandler<QryRechgOrdReqDto, ApiGa
                // ='credit' ";//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         if(reqdto.uname!="")
-        {  sqlNoOrd=sqlNoOrd+ " and  "+toSnake(Transaction.Fields.accountOwner)+" like "+ encodeSqlAsLikeMatchParam(reqdto.uname);
+        {  sqlNoOrd=sqlNoOrd+ " and  "+toSnake(Transaction.Fields.owner)+" like "+ encodeSqlAsLikeMatchParam(reqdto.uname);
           //  sqlprmMap.put("uname",)
         }
 

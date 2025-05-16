@@ -18,7 +18,7 @@ import util.ex.existUserEx;
 import static cfg.Containr.sessionFactory;
 import static util.algo.EncodeUtil.encodeMd5;
 import static util.misc.Util2025.encodeJson;
-import static util.tx.HbntUtil.persistByHibernate;
+import static util.tx.HbntUtil.persist;
 
 
 /**
@@ -49,7 +49,7 @@ public class AddAdminHdr {
         Admin u=new Admin();
         u.username =arg.username;
         u.setPassword(encodeMd5(arg.getPassword()));
-        persistByHibernate( u, sessionFactory.getCurrentSession());
+        persist( u, sessionFactory.getCurrentSession());
         return "ok";
     }
 

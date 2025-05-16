@@ -36,7 +36,7 @@ public class IniDataHdl implements RequestHandler<NonDto, ApiGatewayResponse> {
             findById(CfgKv.class,"DataSummary", sessionFactory.getCurrentSession());
         } catch (findByIdExptn_CantFindData e) {
             CfgKv c=new CfgKv("DataSummary",new DataSummaryVo());
-            persistByHibernate(c, sessionFactory.getCurrentSession());
+            persist(c, sessionFactory.getCurrentSession());
         }
 
 
@@ -47,7 +47,7 @@ public class IniDataHdl implements RequestHandler<NonDto, ApiGatewayResponse> {
             MbrVipCfg cfg=new MbrVipCfg();
             li.add(cfg);
             CfgKv c=new CfgKv("MbrVipCfg",li);
-            persistByHibernate(c, sessionFactory.getCurrentSession());
+            persist(c, sessionFactory.getCurrentSession());
         }
 
 
@@ -59,7 +59,7 @@ public class IniDataHdl implements RequestHandler<NonDto, ApiGatewayResponse> {
             CmsLv cfg=new CmsLv();
             li.add(cfg);
             CfgKv c=new CfgKv("CmsLvCfg",li);
-            persistByHibernate(c, sessionFactory.getCurrentSession());
+            persist(c, sessionFactory.getCurrentSession());
         }
 
         return  new ApiGatewayResponse("ok");

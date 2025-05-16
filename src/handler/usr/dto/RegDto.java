@@ -16,4 +16,5 @@ public class RegDto {
     public String pwd = "";
     public String invtr = "";
     public String email = "";
+    public String cptch;
 }

@@ -62,13 +62,13 @@ public class adjustHdr4ylwlt implements Icall<TransDto, Object> {
             throw new ErrAdjstTypeEx("");
 
         objU.setInterim_Available_Balance(newBls);
-        mergeByHbnt(objU, sessionFactory.getCurrentSession());
+        mergex(objU, sessionFactory.getCurrentSession());
 
         //add balanceLog
 
         LogBls4YLwlt logBalance = new LogBls4YLwlt();
         logBalance.id = "LogBalance4ylwlt_" + getFilenameFrmLocalTimeString();
-        logBalance.uname = objU.accountOwner;
+        logBalance.uname = objU.owner;
 
         logBalance.changeAmount = TransDto1.getAmount();
         logBalance.amtBefore = toBigDcmTwoDot(nowAmt);
@@ -76,7 +76,7 @@ public class adjustHdr4ylwlt implements Icall<TransDto, Object> {
         logBalance.refUniqId = String.valueOf(System.currentTimeMillis());
         logBalance.adjustType = TransDto1.adjustType;
         logBalance.changeMode = logTag;
-       persistByHibernate(logBalance,sessionFactory.getCurrentSession());
+       persist(logBalance,sessionFactory.getCurrentSession());
 
 
         return objU;

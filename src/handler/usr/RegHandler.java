@@ -24,7 +24,7 @@ import static util.algo.CopyUti.copyProp;
 import static util.evtdrv.EvtHlpr.publishEvent;
 import static util.misc.Util2025.encodeJson;
 import static util.proxy.AopUtil.ivk4log;
-import static util.tx.HbntUtil.persistByHibernate;
+import static util.tx.HbntUtil.persist;
 
 
 /**
@@ -76,7 +76,7 @@ public class RegHandler implements IRegHandler {
     public Usr addU(RegDto dtoReg) {
         Usr u=new Usr(dtoReg.uname);
         copyProp(dtoReg,u);
-        persistByHibernate( u, sessionFactory.getCurrentSession());
+        persist( u, sessionFactory.getCurrentSession());
         return u;
     }
 

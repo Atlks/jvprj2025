@@ -3,12 +3,9 @@ package handler.secury;
 import entityx.usr.SecurityQuestion;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
-import model.resetpwd.PasswordResetConfirmDTO;
-import util.serverless.ApiGatewayResponse;
 
 import static cfg.Containr.sessionFactory;
-import static cfg.Containr.sessionFactory;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.mergex;
 
 @PermitAll
 @Path("/api/security-question/setup")
@@ -20,7 +17,7 @@ public class SetSecuryQstnHdl {
     sq.answer=reqdto.getAnswer();
     sq.customQuestionText=reqdto.getQuestion();
     sq.userName=reqdto.getUserId();
-    mergeByHbnt( sq, sessionFactory.getCurrentSession());
+    mergex( sq, sessionFactory.getCurrentSession());
     return     "ok";
 
  }

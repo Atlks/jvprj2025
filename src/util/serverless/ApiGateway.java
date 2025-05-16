@@ -3,6 +3,7 @@ package util.serverless;
 import cfg.MinValidator;
 import entityx.usr.NonDto;
 import handler.NoWarpApiRsps;
+import jakarta.ws.rs.Produces;
 import org.hibernate.context.internal.ThreadLocalSessionContext;
 import org.jetbrains.annotations.Nullable;
 import util.annos.*;
@@ -133,6 +134,14 @@ public class ApiGateway implements HttpHandler {
                     retobj = m.invoke(getObjByMthd(m));
                 else
                     retobj = m.invoke(getObjByMthd(m), dto);
+
+                if(m.isAnnotationPresent(Produces.class))
+                {
+                    Produces anno=  m.getAnnotation(Produces.class);
+                    String[] value = anno.value();
+                    if(value[0].equals("image/png"))
+                        throw new BreakEx("");
+                }
 
                 if(m.isAnnotationPresent(NoWarpApiRsps.class))
                     return retobj;
@@ -409,7 +418,12 @@ public class ApiGateway implements HttpHandler {
         Object rzt;
         //---------log
         Object dto = getDto(exchange);
-        rzt = invoke_callNlogWarp(dto);
+        try {
+            rzt = invoke_callNlogWarp(dto);
+        }catch (BreakEx e)
+        {
+            return;
+        }
 
 
         //  默认返回 JSON，不需要额外加 @ResponseBody

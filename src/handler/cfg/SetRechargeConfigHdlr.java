@@ -10,7 +10,7 @@ import util.serverless.RequestHandler;
 
 // static cfg.AppConfig.sessionFactory;
 import static cfg.Containr.sessionFactory;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.mergex;
 
 @Path("/admin/cfg/SetRechargeConfigHdlr")
 @PermitAll
@@ -24,7 +24,7 @@ public class SetRechargeConfigHdlr implements RequestHandler<RechargeConfig, Api
     @Override
     public ApiGatewayResponse handleRequest(RechargeConfig reqDto, Context context) throws Throwable {
         reqDto.id="uniqID";
-          mergeByHbnt(reqDto, sessionFactory.getCurrentSession());
+          mergex(reqDto, sessionFactory.getCurrentSession());
         return new ApiGatewayResponse(reqDto);
     }
 }

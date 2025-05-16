@@ -6,7 +6,6 @@ import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
 import static util.algo.GetUti.getMethod;
-import static util.ioc.SimpleContainer.getObj;
 import static util.ioc.SimpleContainer.rgstMap4clz;
 import static util.proxy.AopUtil.ivk4log;
 
@@ -42,7 +41,7 @@ public class CallUtil {
 
     }
 
-    public static  void callTry(Runnablex o) {
+    public static  void callTry(RunnableThrowing o) {
         try {
             o.run();
         } catch (Throwable e) {

@@ -13,7 +13,7 @@ import util.serverless.RequestHandler;
 // static cfg.AppConfig.sessionFactory;
 import static cfg.Containr.sessionFactory;
 import static util.algo.EncodeUtil.encodeMd5;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.mergex;
 
 /**
  * 设置安全问题
@@ -41,7 +41,7 @@ public class SetWthdrPwdHdr    implements RequestHandler<SetWithdrawalPasswordDt
         WithdrawalPassword wp=new WithdrawalPassword();
         wp.setUname(reqdto.getUname());
         wp.setEncryptedPassword(encodeMd5(reqdto.getPwd()));
-        mergeByHbnt( wp, sessionFactory.getCurrentSession());
+        mergex( wp, sessionFactory.getCurrentSession());
         return     new ApiGatewayResponse(true);
     }
 }

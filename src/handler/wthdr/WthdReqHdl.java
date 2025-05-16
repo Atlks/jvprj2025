@@ -4,7 +4,6 @@ import cfg.MainStart;
 import entityx.usr.WithdrawDto;
 import jakarta.ws.rs.core.Context;
 import model.OpenBankingOBIE.Account;
-import model.OpenBankingOBIE.AccountSubType;
 import model.OpenBankingOBIE.CreditDebitIndicator;
 import model.OpenBankingOBIE.Transaction;
 
@@ -20,16 +19,13 @@ import java.math.BigDecimal;
 import static cfg.Containr.sessionFactory;
 import static cfg.MainStart.iniContnr;
 import static handler.acc.IniAcc.iniIvstAcc;
-import static handler.balance.BlsSvs.iniBlss;
 import static service.CmsBiz.toBigDcmTwoDot;
-import static util.acc.AccUti.getAccId;
 import static util.acc.AccUti.getAccId4ylwlt;
 import static util.algo.GetUti.getUuid;
 import static util.auth.AuthUtil.getCurrentUser;
 import static util.log.ColorLogger.RED_bright;
 import static util.log.ColorLogger.colorStr;
 import static util.misc.util2026.copyProps;
-import static util.misc.util2026.getCurrentMethodName;
 import static util.tx.HbntUtil.*;
 import static util.tx.TransactMng.commitTsact;
 import static util.tx.TransactMng.openSessionBgnTransact;
@@ -82,9 +78,9 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         tx1.amount =dtoWithdrawDto.amount;
 
         tx1.id =tx1.transactionId;
-        tx1.accountOwner = uname1;
+        tx1.owner = uname1;
         tx1.accountId=acc_id;
-        Object ord1 = persistByHibernate(tx1, sessionFactory.getCurrentSession());
+        Object ord1 = persist(tx1, sessionFactory.getCurrentSession());
 
 
 
@@ -99,7 +95,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
 
         BigDecimal nowAmtFreez = toBigDcmTwoDot(YLwlt11.frozenAmount);
         YLwlt11.frozenAmount = toBigDcmTwoDot(nowAmtFreez.add(dtoWithdrawDto.getAmount()));
-        Account usr = mergeByHbnt(YLwlt11, sessionFactory.getCurrentSession());
+        Account usr = mergex(YLwlt11, sessionFactory.getCurrentSession());
         return new ApiGatewayResponse(
                 ord1);
 

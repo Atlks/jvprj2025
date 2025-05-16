@@ -1,7 +1,7 @@
 package model.OpenBankingOBIE;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 import util.annos.CurrentUsername;
 
@@ -27,10 +29,13 @@ import java.util.List;
  */
 @Entity
 @Table
+@DynamicUpdate
+@DynamicInsert
 @Data
 @NoArgsConstructor
 @FieldNameConstants
 @ToString(exclude = "bals") // Lombok
+@JsonIgnoreProperties(ignoreUnknown = true) // <--- 忽略 JSON 中未在类中定义的字段
 public class Account {
 
     public Account(String accountId, AccountType accountType, String accountSubType) {
@@ -164,6 +169,7 @@ public class Account {
 
     //-----------option field
     //到期日
+    @ObieFld
     public OffsetDateTime MaturityDate;
     public String name;
     public String accountIdentification;
@@ -173,7 +179,10 @@ public class Account {
     // -------------ext fld
     @NotBlank
     @CurrentUsername
-    public String accountOwner;
+    @ExtFld
+    public String owner;
+//    @Deprecated  //bcs db embd json need this
+//    public String accountOwner="";
 
     public Account(String accountId) {
         this.accountId = accountId;

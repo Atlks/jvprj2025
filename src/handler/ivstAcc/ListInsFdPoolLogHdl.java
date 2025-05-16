@@ -53,7 +53,7 @@ public class ListInsFdPoolLogHdl implements RequestHandler<QueryDto, ApiGatewayR
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         if(reqdto.uname!="")
         {
-            String fldAccOnr=toSnake(Transaction.Fields.accountOwner);
+            String fldAccOnr=toSnake(Transaction.Fields.owner);
             sqlNoOrd=sqlNoOrd+ "and  "+fldAccOnr+" = "+ encodeSqlPrmAsStr(reqdto.uname);
          //   sqlprmMap.put("uname",)
         }

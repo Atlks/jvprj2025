@@ -18,6 +18,12 @@ get:
       required: true
       schema:
         type: string
+    - name : cptch
+      in: query
+      description: "验证码"
+      required: true
+      schema:
+        type: string
 
   responses:
     "200":

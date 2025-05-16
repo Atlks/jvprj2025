@@ -4,6 +4,8 @@ package handler.wlt.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 import static util.algo.GetUti.getUuid;
 
 /**
@@ -52,7 +54,7 @@ public class AdjstDto {
     /**
      * 调整金额（单位：元）
      */
-    public Double adjustAmount= (double) 0;
+    public BigDecimal adjustAmount= BigDecimal.valueOf(0);
 
     /**
      * 调整后的额度余额
@@ -67,13 +69,6 @@ public class AdjstDto {
 
 
 
-    public Double getAdjustAmount() {
-        return adjustAmount;
-    }
-
-    public void setAdjustAmount(Double adjustAmount) {
-        this.adjustAmount = adjustAmount;
-    }
 
 //    public Double getQuotaBalance() {
 //        return quotaBalance;

@@ -55,7 +55,7 @@ public class AddInvstRcdHdl   {
             sysAccIvst.setInterim_Available_Balance(sysAccIvst.getInterim_Available_Balance().add(amount2sysIvstAcc));
 
             sysAccIvst.setInterimBookedBalance(sysAccIvst.getInterimBookedBalance().add(amount2sysIvstAcc));
-            mergeByHbnt(sysAccIvst, session);
+            mergex(sysAccIvst, session);
 
 
             //----add fdpool
@@ -66,7 +66,7 @@ public class AddInvstRcdHdl   {
 
             //---add ord
             dto.setFundFlowDirection(amount2sysIvstAcc.toString()+"转入盈利钱包,"+amount2sysFdpoolAcc.toString()+"转入保险资金池");
-            persistByHibernate(dto, session);
+            persist(dto, session);
 
 
             //add tx lg
@@ -97,7 +97,7 @@ public class AddInvstRcdHdl   {
         sysAccIvst.setInterim_Available_Balance(sysAccIvst.getInterim_Available_Balance().add(amount2sysFdpoolAcc));
 
         sysAccIvst.setInterimBookedBalance(sysAccIvst.getInterimBookedBalance().add(amount2sysFdpoolAcc));
-        mergeByHbnt(sysAccIvst, session);
+        mergex(sysAccIvst, session);
     }
 
     public  static  void iniSysEmnyAccIfNotExst(Session session)   {
@@ -112,7 +112,7 @@ public class AddInvstRcdHdl   {
             a.accountType=AccountType.BUSINESS;
             a.setInterim_Available_Balance(BigDecimal.ZERO);
             a.setInterimBookedBalance(BigDecimal.ZERO);
-            persistByHibernate(a, session);
+            persist(a, session);
         }
 
     }
@@ -127,7 +127,7 @@ public class AddInvstRcdHdl   {
             a.accountType=AccountType.BUSINESS;
             a.setInterim_Available_Balance(BigDecimal.ZERO);
             a.setInterimBookedBalance(BigDecimal.ZERO);
-            persistByHibernate(a, session);
+            persist(a, session);
         }
 
 
@@ -141,14 +141,14 @@ public class AddInvstRcdHdl   {
         for(Account acc:accs){
             try{
                 //updt acc systm ivstAcc
-                String accId = getAccId(AccountSubType.GeneralInvestment.name(), acc.accountOwner);
+                String accId = getAccId(AccountSubType.GeneralInvestment.name(), acc.owner);
 
                 Account accIvst= findById(Account.class, accId, session);
                 BigDecimal rate=accIvst.getInterim_Available_Balance().divide(sysEmnyBls);
                 BigDecimal mydiv=rate.multiply(param.amount);
                 accIvst.setInterim_Available_Balance(accIvst.getInterim_Available_Balance().add(mydiv));
                 accIvst.setInterimBookedBalance(accIvst.getInterimBookedBalance().add(mydiv));
-                mergeByHbnt(accIvst, session);
+                mergex(accIvst, session);
 
 
                 //add lgtx
@@ -156,10 +156,10 @@ public class AddInvstRcdHdl   {
                 txr.transactionId="div_"+now();
                 txr.transactionCode= TransactionCode.invstProfit.name();
                 txr.accountId=accId;
-                txr.accountOwner=acc.accountOwner;
+                txr.owner =acc.owner;
                 txr.creditDebitIndicator= CreditDebitIndicator.CREDIT;
                 txr.amount=mydiv;
-                persistByHibernate(txr, session);
+                persist(txr, session);
             } catch (Exception e) {
                 e.printStackTrace();
             }

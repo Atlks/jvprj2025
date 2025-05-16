@@ -4,6 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.OffsetDateTime;
 
 /**
  * 管理员
@@ -20,9 +24,17 @@ public class Admin {
     public String password;     // 密码（建议加密）
     private String nickname;     // 显示用名称
     private String role;         // 角色（如：admin、editor）
-    private boolean enabled;     // 是否启用
-    private long createdAt;      // 创建时间戳
-    private long updatedAt;      // 最后修改时间戳
+    private boolean enabled;
+
+
+    @CreationTimestamp// 是否启用
+    private OffsetDateTime createdAt;// 创建时间戳
+
+
+    @UpdateTimestamp
+    private OffsetDateTime updatedAt;      // 最后修改时间戳
+
+
  public String dpt;
  public String postn;  //岗位
  public Admin() {
@@ -58,11 +70,7 @@ public class Admin {
     public boolean isEnabled() { return enabled; }
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
 
-    public long getCreatedAt() { return createdAt; }
-    public void setCreatedAt(long createdAt) { this.createdAt = createdAt; }
-
-    public long getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(long updatedAt) { this.updatedAt = updatedAt; }
+    
 
     @Override
     public String toString() {

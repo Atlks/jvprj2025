@@ -14,7 +14,7 @@ import static handler.wlt.TransfHdr.curLockAcc;
 import static cfg.Containr.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static service.YLwltSvs.AccSvs4invstAcc.addBlsLog4ylwlt;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.mergex;
 
 /**
  * 减去钱包余额服务
@@ -52,7 +52,7 @@ public class RdsFromYLlllWltService implements Icall<TransDto, Object> {
         BigDecimal newBls = nowAmt.subtract(toBigDecimal(amt));
         objU.interim_Available_Balance = newBls;
         Session currentSession = sessionFactory.getCurrentSession();
-        mergeByHbnt(objU, currentSession);
+        mergex(objU, currentSession);
 
         //------------add balanceLog
         System.out.println("\n\n\n===========余额流水");

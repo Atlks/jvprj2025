@@ -18,7 +18,7 @@ import static util.evtdrv.EventDispatcher.publishEvent;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 import static util.model.EvtType.AftrCalcRchgAmtSumEvt;
 import static util.tx.HbntUtil.findById;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.mergex;
 
 //@EventListener({AftrCalcRchgAmtSumEvt})
 public class CalcCmsHdl {
@@ -37,7 +37,7 @@ public class CalcCmsHdl {
 
         try{
             //  sups from low Sup 2 hi sups
-            List<Usr> sups = lambdaInvoke(getSuperiors.class, new QueryDto(tx.accountOwner));
+            List<Usr> sups = lambdaInvoke(getSuperiors.class, new QueryDto(tx.owner));
             Session session = sessionFactory.getCurrentSession();
             Agent curSub = new Agent();
             curSub.commissionRate= BigDecimal.valueOf(1);
@@ -50,7 +50,7 @@ public class CalcCmsHdl {
 
                 BigDecimal cms = curRate.multiply(tx.amount);
                 agt.balanceCms = agt.balanceCms.add(cms);
-                mergeByHbnt(agt, session);
+                mergex(agt, session);
                 curSub=agt;
 
             }

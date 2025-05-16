@@ -16,7 +16,7 @@ import static cfg.MainStart.iniSysAcc;
 import static handler.uti.TestUti.bftst;
 import static util.acc.AccUti.getAccId;
 import static util.tx.HbntUtil.findById;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.mergex;
 
 public class AddMoney2SysEmnyAccHdl {
 
@@ -28,7 +28,7 @@ public class AddMoney2SysEmnyAccHdl {
         sysAccIvst.setInterim_Available_Balance(sysAccIvst.getInterim_Available_Balance().add(dto.amt));
 
         sysAccIvst.setInterimBookedBalance(sysAccIvst.getInterimBookedBalance().add(dto.amt));
-        mergeByHbnt(sysAccIvst, session);
+        mergex(sysAccIvst, session);
     }
 
     public static void main(String[] args) throws Throwable {
@@ -55,6 +55,6 @@ public class AddMoney2SysEmnyAccHdl {
         sysAccIvst.setInterim_Available_Balance(dto.amt);
 
         sysAccIvst.setInterimBookedBalance( (dto.amt));
-        mergeByHbnt(sysAccIvst, session);
+        mergex(sysAccIvst, session);
     }
 }

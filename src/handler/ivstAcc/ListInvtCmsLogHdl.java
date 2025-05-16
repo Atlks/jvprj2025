@@ -63,7 +63,7 @@ public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayRes
 
         if(reqdto.uname!="")
         {
-            query.addConditions(Transaction.Fields.accountOwner+"="+encodeSqlPrmAsStr(reqdto.uname));
+            query.addConditions(Transaction.Fields.owner +"="+encodeSqlPrmAsStr(reqdto.uname));
         }
         query.addOrderBy("timestamp desc");
        String sql=query.getSQL();
@@ -85,7 +85,7 @@ public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayRes
 
         if(reqdto.uname!="")
         {
-            query.addConditions(Transaction.Fields.accountOwner+"="+encodeSqlPrmAsStr(reqdto.uname));
+            query.addConditions(Transaction.Fields.owner +"="+encodeSqlPrmAsStr(reqdto.uname));
         }
         var sql=query.getSQL();
         System.out.println(sql);

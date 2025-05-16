@@ -12,7 +12,7 @@ import util.serverless.RequestHandler;
 
 import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.findById;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.mergex;
 
 /**
  * 设置安全问题
@@ -42,7 +42,7 @@ public class SetEmlHdl implements RequestHandler<SetEmlHdlRqDto, ApiGatewayRespo
 
         Usr u= findById(Usr.class,reqdto.uname,sessionFactory.getCurrentSession());
         u.setEmail(reqdto.email);
-        mergeByHbnt( u, sessionFactory.getCurrentSession());
+        mergex( u, sessionFactory.getCurrentSession());
         return     new ApiGatewayResponse(u);
     }
 }

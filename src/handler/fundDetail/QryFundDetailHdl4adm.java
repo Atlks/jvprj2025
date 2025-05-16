@@ -45,7 +45,7 @@ public class QryFundDetailHdl4adm {
 
 
         if(reqdto.uname!="")
-        query.addConditions(Transaction.Fields.accountOwner+"="+(reqdto.uname));
+        query.addConditions(Transaction.Fields.owner +"="+(reqdto.uname));
 
         query.addConditions(Transaction.Fields.timestamp+">"+( beforeTmstmp(reqdto.day)));
         query.addOrderBy(Transaction.Fields.timestamp+" desc");

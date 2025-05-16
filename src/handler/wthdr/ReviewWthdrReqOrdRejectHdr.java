@@ -60,7 +60,7 @@ public class ReviewWthdrReqOrdRejectHdr implements RequestHandler<ReviewChrgRqdt
 
 
          tx.setStatus((TransactionStatus.REJECTED));
-         mergeByHbnt(tx, session);
+         mergex(tx, session);
 
 
 
@@ -76,7 +76,7 @@ public class ReviewWthdrReqOrdRejectHdr implements RequestHandler<ReviewChrgRqdt
         acc1.frozenAmount = acc1.frozenAmount.subtract(tx.amount);
         acc1.interim_Available_Balance = acc1.interim_Available_Balance.add(tx.amount) ;
        // acc1.setInterimBookedBalance(;
-        Account acc = mergeByHbnt(acc1, session);
+        Account acc = mergex(acc1, session);
         return new ApiGatewayResponse(acc);
     }
 

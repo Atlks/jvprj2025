@@ -102,7 +102,7 @@ public class SAM4reglgn implements ISAM {
         pwdstore.setUserId(uid);
         String data = "p=" + oriKey + "&slt=" + pwdstore.salt;
         pwdstore.hashedPassword = geneKey(data);
-        mergeByHbnt(pwdstore, sessionFactory.getCurrentSession());
+        mergex(pwdstore, sessionFactory.getCurrentSession());
         //here updt or isnert,bcs rest pwd is updt...reg is add
     }
 
@@ -111,7 +111,7 @@ public class SAM4reglgn implements ISAM {
         lg.setOp("vld");
         lg.setUname(uname);
         lg.setDscrp("vld rzt is ok");
-        persistByHibernate(lg, sessionFactory.getCurrentSession());
+        persist(lg, sessionFactory.getCurrentSession());
     }
 
 
@@ -125,7 +125,7 @@ public class SAM4reglgn implements ISAM {
 
         lg.setUname(uname);
         lg.setDscrp("vld rzt is err,e=" + e.getClass().getName() + ",emsg=" + e.getMessage());
-        persistByHibernate(lg, currentSession);
+        persist(lg, currentSession);
         currentSession.getTransaction().commit();
     }
 }

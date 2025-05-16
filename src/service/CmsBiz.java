@@ -20,8 +20,8 @@ import static cfg.IniCfg.iniContnr4cfgfile;
 
 import static util.acc.AccUti.getAccId4ylwlt;
 import static util.tx.HbntUtil.findById;
-import static util.tx.HbntUtil.mergeByHbnt;
-import static util.tx.HbntUtil.persistByHibernate;
+import static util.tx.HbntUtil.mergex;
+import static util.tx.HbntUtil.persist;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.util2026.*;
 
@@ -37,7 +37,7 @@ public class CmsBiz {
         u.invtr="007";
 
         Transaction ord=new Transaction();
-        ord.accountOwner ="008";
+        ord.owner ="008";
        ord.amount =new BigDecimal(100);
      //   calcCms4FrmOrdChrg(ord);
 
@@ -61,7 +61,7 @@ public class CmsBiz {
         System.out.println(encodeJson(objChrg));
         System.out.println(")");
 
-        Usr u= session.find( Usr.class,objChrg.accountOwner);
+        Usr u= session.find( Usr.class,objChrg.owner);
         String invtr= toStr( u.invtr);
         BigDecimal cmsMny=toBigDcmTwoDot(objChrg.getAmount().multiply( new BigDecimal(0.05)) );
         if(invtr.equals(""))
@@ -121,7 +121,7 @@ public class CmsBiz {
         BigDecimal nowAmt= getFieldAsBigDecimal(objU,"balanceYinliwlt",0);
         BigDecimal newBls=nowAmt.add(amt);
         objU.interim_Available_Balance =toBigDcmTwoDot (newBls);
-        mergeByHbnt(objU,session);  ;
+        mergex(objU,session);  ;
 
 
         //add balanceLog yonjin wlt
@@ -132,7 +132,7 @@ public class CmsBiz {
         logBalanceYlWlt.changeAmount=toBigDcmTwoDot(amt);
         logBalanceYlWlt.amtBefore=toBigDcmTwoDot(nowAmt);
         logBalanceYlWlt.newBalance=toBigDcmTwoDot(newBls);
-        persistByHibernate(logBalanceYlWlt,session);
+        persist(logBalanceYlWlt,session);
 
 
         System.out.println("endfun "+methodname+"()");
@@ -158,7 +158,7 @@ public class CmsBiz {
         BigDecimal nowAmt=  (agt.getTotalCommssionAmt());
         BigDecimal newBls=nowAmt.add(cmsMny);
         agt.totalCommssionAmt =toBigDcmTwoDot (newBls);
-        mergeByHbnt(agt,session);
+        mergex(agt,session);
 
 
 
@@ -181,7 +181,7 @@ public class CmsBiz {
 //        log.commssionAmt=toBigDcmTwoDot(amtCmsMny);
         //  log.put("amtBefore",nowAmt);
         //  log.put("amtAfter",newBls);
-        persistByHibernate(log,session);
+        persist(log,session);
         System.out.println("\uD83D\uDED1endfun addLogCms");
 
     }

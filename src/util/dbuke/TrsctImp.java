@@ -2,7 +2,7 @@ package util.dbuke;
 
 import jakarta.transaction.*;
 import jakarta.validation.constraints.NotBlank;
-import util.algo.Runnablex;
+import util.algo.RunnableThrowing;
 
 import javax.transaction.xa.XAResource;
 import java.io.File;
@@ -18,7 +18,7 @@ public class TrsctImp implements Transaction {
     private String saveDir1bkTx;
     String saveDir;
     private ConnSession conn;
-    public List<Runnablex> rollback_list = new ArrayList<>();
+    public List<RunnableThrowing> rollback_list = new ArrayList<>();
 
     public TrsctImp(ConnSession connSession) {
         this.conn = connSession;
@@ -26,7 +26,7 @@ public class TrsctImp implements Transaction {
         this.saveDir1bkTx = connSession.saveDir1bkTx;
     }
 
-    public void addRollbackAct(Runnablex act) {
+    public void addRollbackAct(RunnableThrowing act) {
         this.rollback_list.add(act);
     }
 
@@ -37,7 +37,7 @@ public class TrsctImp implements Transaction {
 
     @Override
     public void rollback() {
-        for (Runnablex r : rollback_list) {
+        for (RunnableThrowing r : rollback_list) {
             try {
                 r.run();
             } catch (Throwable e) {

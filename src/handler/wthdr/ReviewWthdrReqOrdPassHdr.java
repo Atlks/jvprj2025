@@ -82,7 +82,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
         //
         if (objOrd.status.equals(TransactionStatus.PENDING))
             objOrd.setStatus((TransactionStatus.BOOKED));
-        mergeByHbnt(objOrd, session);
+        mergex(objOrd, session);
 
 
 
@@ -90,13 +90,13 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
         //----=============rds blance n log  ..blk
         String mthBiz2=colorStr("yl钱包减去钱",RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun "+mthBiz2);
-        String uname = objOrd.accountOwner;
+        String uname = objOrd.owner;
         TransDto transDto=new TransDto();
         copyProps(objOrd,transDto);
         transDto.amt=objOrd.amount;
         transDto.refUniqId="reqid="+objOrd.id;
-        iniWlt( objOrd.accountOwner, session);
-        transDto.lockYlwltObj= findById(Account.class, getAccId4ylwlt(objOrd.accountOwner) , session);
+        iniWlt( objOrd.owner, session);
+        transDto.lockYlwltObj= findById(Account.class, getAccId4ylwlt(objOrd.owner) , session);
       //  addMoneyToWltService1.main(transDto);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
 
@@ -113,7 +113,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
 
         BigDecimal nowAmtFreez = toBigDcmTwoDot(objU.frozenAmount);
         objU.frozenAmount = objU.frozenAmount.subtract(objOrd.amount);
-        Account usr = mergeByHbnt(objU, session);
+        Account usr = mergex(objU, session);
 
 
 
@@ -138,7 +138,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
             //ini wlt
             Account wlt=new Account();
             wlt.accountId = uname;
-            mergeByHbnt(wlt, session);
+            mergex(wlt, session);
           //  transDto.lockAccObj=findByHerbinate(Wallet.class, uname, session);
         }
     }

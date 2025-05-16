@@ -16,7 +16,7 @@ import static cfg.Containr.sessionFactory;
 import static cfg.MainStart.iniContnr;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.Util2025.readTxtFrmFil;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.mergex;
 import static util.tx.TransactMng.commitTsact;
 import static util.tx.TransactMng.openSessionBgnTransact;
 
@@ -36,7 +36,7 @@ public class SetCfg implements RequestHandler<CfgKv, ApiGatewayResponse> {
     @Override
     public ApiGatewayResponse handleRequest(CfgKv reqDto, Context context) throws Throwable {
      //   reqDto.id="uniqID";
-          mergeByHbnt(reqDto, sessionFactory.getCurrentSession());
+          mergex(reqDto, sessionFactory.getCurrentSession());
         return new ApiGatewayResponse(reqDto);
     }
 

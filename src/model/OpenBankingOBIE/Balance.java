@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import util.model.openbank.BalanceTypes;
@@ -24,6 +26,8 @@ import java.time.OffsetDateTime;
  * @version v250515
  */
 @Entity
+@DynamicUpdate
+@DynamicInsert
 @Data
 @Table(name = "balances")
 @FieldNameConstants
@@ -35,7 +39,7 @@ public class Balance {
         setId(getBlsid(acc.accountId,interimAvailable));
         setAccountId(acc.accountId);
         setType(interimAvailable.name());
-        setOwner(acc.getAccountOwner());
+        setOwner(acc.getOwner());
         setAccountId(acc.accountId);
         setAccSnapshot(acc);
     }

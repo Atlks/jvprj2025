@@ -1,5 +1,6 @@
 package util.misc;
 
+import jakarta.ws.rs.Path;
 import util.annos.Paths;
 
 import java.lang.reflect.Method;
@@ -32,6 +33,16 @@ public class RestUti {
                     pathMthMap.put(pathname, mth);
                     System.out.println("pathMap(path=" + pathname + ",mth=" + mth.toString());
 
+
+                    //add rs path
+                    if(mth.getName().contains("getCptch") )
+                        System.out.println("D835");
+                    String path22=getPathFromFun(mth);
+                    pathMthMap.put(path22, mth);
+                    System.out.println("pathMap(path=" + path22 + ",mth=" + mth.toString());
+
+
+                    //proce paths
                     String[] getPathsFromBeanRzt = getPathsFromFun(mth);
                     for (String p : getPathsFromBeanRzt) {
 
@@ -48,6 +59,22 @@ public class RestUti {
         scanAllClass(fun);
         System.out.println("====end createContext");
     }
+
+    public static String getPathFromFun(Method mth) {
+
+
+        if (mth.isAnnotationPresent(Path.class)) {
+            Path mapping = mth.getAnnotation(Path.class);
+          //  assert mapping != null;
+            return mapping.value();  // 可能有多个路径
+        }
+
+        return "";
+
+
+    }
+
+
     public static String[] getPathsFromFun(Method mth) {
 
 

@@ -16,7 +16,7 @@ import static cfg.Containr.sessionFactory;
 import static util.acc.AccUti.getAccId;
 import static util.algo.CallUtil.callTry;
 import static util.tx.HbntUtil.findById;
-import static util.tx.HbntUtil.persistByHibernate;
+import static util.tx.HbntUtil.persist;
 
 @EventListener({EvtType.LoginEvt,EvtType.RegEvt})
 public class NewStatAcc {
@@ -40,8 +40,8 @@ public class NewStatAcc {
         } catch (findByIdExptn_CantFindData e) {
             Account acc = new Account(accid);
             Balance bls=new Balance(accid);
-            persistByHibernate(acc,session);
-            persistByHibernate(bls,session);
+            persist(acc,session);
+            persist(bls,session);
         }
 
 

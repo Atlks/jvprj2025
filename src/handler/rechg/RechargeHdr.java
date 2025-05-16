@@ -26,7 +26,7 @@ import util.algo.Icall;
 import util.serverless.ApiGatewayResponse;
 
 import static util.auth.AuthUtil.getCurrentUser;
-import static util.tx.HbntUtil.persistByHibernate;
+import static util.tx.HbntUtil.persist;
 import static util.tx.dbutil.addObj;
 import static util.misc.util2026.*;
 
@@ -68,14 +68,14 @@ public class RechargeHdr implements Icall<Transaction, Object> {
         ts.transactionId = ts.id;
         ts.creditDebitIndicator = CreditDebitIndicator.CREDIT;
         //amt alreay have in dto
-        ts.accountId = ts.accountOwner;
+        ts.accountId = ts.owner;
 
        // ts.timestamp = System.currentTimeMillis();
 
-        ts.accountOwner = getCurrentUser();
+        ts.owner = getCurrentUser();
 
 
-        return new ApiGatewayResponse(persistByHibernate(ts, sessionFactory.getCurrentSession()));
+        return new ApiGatewayResponse(persist(ts, sessionFactory.getCurrentSession()));
         //   wrtResp(exchange, encodeJson(r));
 
 

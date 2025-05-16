@@ -35,7 +35,7 @@ public class AccSvs4invstAcc  {
 
 
 
-        String uname = txx.accountOwner;
+        String uname = txx.owner;
         BigDecimal amt = txx.amount;
 
         Session session=sessionFactory.getCurrentSession();
@@ -52,7 +52,7 @@ public class AccSvs4invstAcc  {
         BigDecimal newBls = nowAmt.add(amt);
         acc.interim_Available_Balance = toBigDcmTwoDot(newBls);
         acc.setInterimBookedBalance(acc.getInterimBookedBalance().add(amt));
-        mergeByHbnt(acc, session);
+        mergex(acc, session);
 
 
 
@@ -61,8 +61,8 @@ public class AccSvs4invstAcc  {
         txx.refUniqId= String.valueOf(System.currentTimeMillis());
         txx.status = TransactionStatus.BOOKED;
         txx.setBalanceAmount( acc.interim_Available_Balance);
-        txx.setBalanceType(BalanceTypes.interimAvailable.name());
-        persistByHibernate(txx, sessionFactory.getCurrentSession());
+        txx.setBalanceType(BalanceTypes.interimAvailable);
+        persist(txx, sessionFactory.getCurrentSession());
 
 
       //  LogBls4YLwlt logBlsYinliWlt = new LogBls4YLwlt(TransDto1,nowAmt, newBls,"增加");
@@ -80,7 +80,7 @@ public class AccSvs4invstAcc  {
     //    logBlsYinliWlt.changeAmount = lgblsDto.getChangeAmount();
 
         // addObj(logBlsYinliWlt,saveUrlLogBalanceYinliWlt);
-        persistByHibernate(logBlsYinliWlt, session);
+        persist(logBlsYinliWlt, session);
     }
 
 

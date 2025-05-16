@@ -27,7 +27,6 @@ import static handler.acc.AccService.subBalFrmWlt;
 import static handler.acc.IniAcc.newIvstWltIfNotExist;
 import static util.acc.AccUti.getAccid;
 import static util.algo.GetUti.getUuid;
-import static util.ioc.SimpleContainer.getObj;
 import static util.tx.HbntUtil.findByHbntDep;
 // static util.proxy.SprUtil.injectAll4spr;
 
@@ -116,7 +115,7 @@ public class TransfHdr {
            //crdt to ivst acc
         lgblsDto.amount =lgblsDto.amount.multiply(toBigDecimal("0.9"));
         Transaction tx=new Transaction("trsf2ivstAcc_"+getUuid(), getAccid4ivstAcc(uname),uname, CreditDebitIndicator.CREDIT, lgblsDto.amount);
-        tx.transactionCode=TransactionCode.InternalTransfers_exchgIn.name();
+        tx.transactionCode= TransactionCode.InternalTransfers_exchgIn.name();
                 tx.status= TransactionStatus.BOOKED;
                 tx.ChargeAmount=lgblsDto.amount.multiply(toBigDecimal("0.1"));
 

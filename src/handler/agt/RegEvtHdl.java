@@ -54,7 +54,7 @@ public class RegEvtHdl {
             agt = findById(Agent.class, agtName, session);
         } catch (findByIdExptn_CantFindData e) {
             agt = new Agent(agtName);
-            persistByHibernate(agt, session);
+            persist(agt, session);
         }
         return agt;
     }

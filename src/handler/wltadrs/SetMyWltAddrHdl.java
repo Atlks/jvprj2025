@@ -7,7 +7,7 @@ import model.usr.MyWltAddr;
 
 
 import static cfg.Containr.sessionFactory;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.mergex;
 
 /**
  * 设置安全问题
@@ -34,7 +34,7 @@ public class SetMyWltAddrHdl {
     public Object handleRequest(MyWltAddr reqdto ) throws Throwable {
 
 
-        var wp = mergeByHbnt(reqdto , sessionFactory.getCurrentSession());
+        var wp = mergex(reqdto , sessionFactory.getCurrentSession());
         return (wp);
     }
 

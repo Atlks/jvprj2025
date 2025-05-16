@@ -30,11 +30,11 @@ public class WthdrCmsHdl {
 
 
         agtAccYlwlt.interim_Available_Balance = agtAccYlwlt.interim_Available_Balance.add(dto.amt);
-        mergeByHbnt(agtAccYlwlt,session);
+        mergex(agtAccYlwlt,session);
 
         Transaction tx=new Transaction("wthdrCmsAdd_"+getUuid(),accId4ylwlt,dto.uname, CreditDebitIndicator.CREDIT,dto.amt);
         tx.transactionCode= TransactionCode.Service_Cms_rechgCms.name();
-        persistByHibernate(tx,session);
+        persist(tx,session);
 
 
 
@@ -44,10 +44,10 @@ public class WthdrCmsHdl {
                 findById(Account.class, agtAccId, session);
         agtAcc.interim_Available_Balance = agtAcc.interim_Available_Balance.subtract(dto.amt);
 
-        mergeByHbnt(agtAcc,session);
+        mergex(agtAcc,session);
         Transaction tx2=new Transaction("wthdrCms_"+getUuid(),agtAccId,dto.uname, CreditDebitIndicator.DEBIT,dto.amt);
         tx2.transactionCode= TransactionCode.Service_Cms_rechgCms.name();
-        persistByHibernate(tx2,session);
+        persist(tx2,session);
 
 
         return  "ok";

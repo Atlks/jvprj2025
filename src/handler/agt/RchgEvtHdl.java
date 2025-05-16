@@ -31,7 +31,7 @@ public class RchgEvtHdl {
 
 
         try {
-            String uid = tx.accountOwner;
+            String uid = tx.owner;
             Session session = sessionFactory.getCurrentSession();
             Usr u = findById(Usr.class, uid, session);
             if (isBlank(u.invtr))
@@ -47,7 +47,7 @@ public class RchgEvtHdl {
                 ChgSubStt css = new ChgSubStt();
                 css.agtName = u.invtr;
                 css.uname = u.uname;
-                persistByHibernate(css, session);
+                persist(css, session);
 
             } catch (Throwable e) {
 
@@ -58,7 +58,7 @@ public class RchgEvtHdl {
             BigDecimal thisCms = agt.commissionRate.multiply(tx.getAmount());
             agt.commissionAmount = agt.commissionAmount.add(thisCms);
 
-            mergeByHbnt(agt, session);
+            mergex(agt, session);
 
 
 

@@ -55,7 +55,7 @@ public class ListTrsxBnsHdl implements RequestHandler<QueryDto, ApiGatewayRespon
         +" where "+transactionCode+"= " +encodeSqlPrmAsStr( TransactionCode.Service_Cms_devlpSubsCntCms.name())     ;//for count    where  uname =:uname
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         if(reqdto.uname!="")
-        {   String accOwn=toSnake(Transaction.Fields.accountOwner);
+        {   String accOwn=toSnake(Transaction.Fields.owner);
             sqlNoOrd=sqlNoOrd+ "and  "+accOwn+" = "+ encodeSqlPrmAsStr(reqdto.uname);
          //   sqlprmMap.put("uname",)
         }
@@ -73,7 +73,7 @@ public class ListTrsxBnsHdl implements RequestHandler<QueryDto, ApiGatewayRespon
         String transactionCode=toSnake(Transaction.Fields.transactionCode);
         var sql = "select sum(amount) from Transactions where  "+transactionCode+"="+encodeSqlPrmAsStr( TransactionCode.Service_Cms_devlpSubsCntCms.name());//for count    where  uname =:uname
         if(reqdto.uname!="")
-        {  String accOwn=toSnake(Transaction.Fields.accountOwner);
+        {  String accOwn=toSnake(Transaction.Fields.owner);
             sql=sql+ "and  "+accOwn+" = "+ encodeSqlPrmAsStr(reqdto.uname);
         }
 

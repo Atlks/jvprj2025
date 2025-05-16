@@ -216,12 +216,12 @@ public class HbntUtil {
 //    private static boolean isHavAnno(Class<?> clazz, Class<?> AnnoClass) {
 //    }
 
-    public static Object persistByHibernate(Object var1) {
-        return persistByHibernate(var1, sessionFactory.getCurrentSession());
+    public static Object persist(Object var1) {
+        return persist(var1, sessionFactory.getCurrentSession());
     }
 
     // @log
-    public static Object persistByHibernate(Object var1, Session session) {
+    public static Object persist(Object var1, Session session) {
 
         String mth = colorStr("persistByHbnt", YELLOW_bright);
         String prmurl = colorStr(encodeJsonObj(var1), GREEN);
@@ -313,12 +313,12 @@ public class HbntUtil {
 
     public static SessionFactory sessionFactory;
 
-    public static @NotNull @org.jetbrains.annotations.NotNull <T> T mergeByHbnt(@NotNull T t) {
+    public static @NotNull @org.jetbrains.annotations.NotNull <T> T mergex(@NotNull T t) {
 
-        return mergeByHbnt(t, sessionFactory.getCurrentSession());
+        return mergex(t, sessionFactory.getCurrentSession());
     }
 
-    public static @NotNull @org.jetbrains.annotations.NotNull <T> T mergeByHbnt(@NotNull T t, @NotNull Session session) {
+    public static @NotNull @org.jetbrains.annotations.NotNull <T> T mergex(@NotNull T t, @NotNull Session session) {
         String mthClr = colorStr("mergeByHbnt", YELLOW_bright);
         System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(t=" + encodeJsonObj(t));
         System.out.println("mergeByHbnt(" + t.getClass().getName());
@@ -454,7 +454,7 @@ public class HbntUtil {
             return (T) findById(obj.getClass(), id, session);
         } catch (findByIdExptn_CantFindData e) {
 
-            return (T) persistByHibernate(obj, session);
+            return (T) persist(obj, session);
         }
 
     }

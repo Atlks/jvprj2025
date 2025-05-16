@@ -18,7 +18,7 @@ import static cfg.Containr.sessionFactory;
 import static cfg.MainStart.iniContnr;
 import static util.algo.CallUtil.lmdIvk;
 import static util.tx.HbntUtil.findById;
-import static util.tx.HbntUtil.persistByHibernate;
+import static util.tx.HbntUtil.persist;
 import static util.tx.TransactMng.*;
 
 @Path("/msg/send")
@@ -45,7 +45,7 @@ public class SendHdl {
 
         msg.setText(reqdto.text);
 
-        persistByHibernate(msg, session);
+        persist(msg, session);
         return "ok";
     }
 

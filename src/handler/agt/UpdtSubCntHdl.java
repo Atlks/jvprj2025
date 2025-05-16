@@ -13,7 +13,7 @@ import java.util.List;
 import static cfg.Containr.sessionFactory;
 import static util.algo.CallUtil.lambdaInvoke;
 import static util.tx.HbntUtil.findById;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.mergex;
 
 /**
  * drktlSub  indrkSub  allSub
@@ -46,7 +46,7 @@ public class UpdtSubCntHdl {
         var session = sessionFactory.getCurrentSession();
         Agent sup = findById(Agent.class, u.invtr, session);
         sup.drctSub_registeredMemberCount += 1;
-        mergeByHbnt(sup, session);
+        mergex(sup, session);
     }
 
 
@@ -58,7 +58,7 @@ public class UpdtSubCntHdl {
         for (Usr superior : superiors) {
             Agent agt = findById(Agent.class, superior.id, session);
             agt.indirectSubCount += 1;
-            mergeByHbnt(agt, session);
+            mergex(agt, session);
         }
     }
 

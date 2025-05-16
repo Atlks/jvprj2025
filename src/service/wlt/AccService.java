@@ -76,7 +76,7 @@ public class AccService {
         logBalance.newBalance = toBigDcmTwoDot(newBls);
         logBalance.refUniqId=TransDto88.refUniqId;
         System.out.println(" add balanceLog ");
-        persistByHibernate(logBalance, session);
+        persist(logBalance, session);
 
 
         Transaction txx=new Transaction();
@@ -84,12 +84,12 @@ public class AccService {
         txx.amount= TransDto88.getAmount();
         txx.creditDebitIndicator= CreditDebitIndicator.CREDIT;
         txx.accountId= wlt1.accountId;
-        txx.accountOwner = uname;
-        persistByHibernate(txx, session);
+        txx.owner = uname;
+        persist(txx, session);
 
         //=================updt
         wlt1.interim_Available_Balance = toBigDcmTwoDot(newBls);
-        mergeByHbnt(wlt1, session);
+        mergex(wlt1, session);
 
 
         

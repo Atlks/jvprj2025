@@ -9,20 +9,17 @@ import model.wlt.BalancesFundDetail;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import util.Oosql.SlctQry;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import static cfg.Containr.sessionFactory;
 import static cfg.MainStart.iniContnr;
 import static util.algo.GetUti.getTableName;
 import static util.misc.Util2025.encodeJson;
 import static util.oo.TimeUti.beforeTmstmp;
 import static util.tx.HbntUtil.getResultListWzPageByHbntRtLstmap;
-import static util.tx.Pagging.getPageResultByHbntV4;
 import static util.tx.TransactMng.commitTsact;
 import static util.tx.TransactMng.openSessionBgnTransact;
 /**
@@ -44,7 +41,7 @@ public class QryFundDetailHdl  {
 
 
 
-            query.addConditions(Transaction.Fields.accountOwner+"="+(reqdto.uname));
+            query.addConditions(Transaction.Fields.owner +"="+(reqdto.uname));
 
         query.addConditions(Transaction.Fields.timestamp+">"+( beforeTmstmp(reqdto.day)));
         query.addOrderBy(Transaction.Fields.timestamp+" desc");

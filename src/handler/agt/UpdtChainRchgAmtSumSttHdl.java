@@ -14,7 +14,7 @@ import java.util.List;
 import static cfg.Containr.sessionFactory;
 import static util.algo.CallUtil.lambdaInvoke;
 import static util.tx.HbntUtil.findById;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.mergex;
 
 public class UpdtChainRchgAmtSumSttHdl {
 
@@ -28,7 +28,7 @@ public class UpdtChainRchgAmtSumSttHdl {
     public   void handleRequest(Transaction tx ) throws Throwable {
 
         Session session=sessionFactory.getCurrentSession();
-        Usr u= findById(Usr.class,tx.accountOwner,session);
+        Usr u= findById(Usr.class,tx.owner,session);
         updtChainDrktlSubRchgAmtSum(tx, u, session);
 
 
@@ -53,7 +53,7 @@ public class UpdtChainRchgAmtSumSttHdl {
         agt.levelOneRechargeAmount= agt.levelOneRechargeAmount.add(tx.getAmount());
         agt.subLevelRechargeAmount= agt.subLevelRechargeAmount.add(tx.getAmount());
         agt.  drctlSubRchgAmtSum=agt. drctlSubRchgAmtSum.add(tx.getAmount());
-        mergeByHbnt(agt, session);
+        mergex(agt, session);
     }
 
 
@@ -76,7 +76,7 @@ public class UpdtChainRchgAmtSumSttHdl {
             agt.levelOneRechargeAmount =agt.levelOneRechargeAmount.add(BigDecimal.valueOf(1)) ;
             agt.indrctlSubRchgAmtSum =agt.indrctlSubRchgAmtSum.add(BigDecimal.valueOf(1)) ;
 
-            mergeByHbnt(agt, session);
+            mergex(agt, session);
         }
     }
 

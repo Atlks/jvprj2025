@@ -158,11 +158,11 @@ public class MainStart {
             Account acc1 = new Account(accid);
             // .. acc1.userId= uname1;
             //   acc1.accountId=
-            acc1.accountOwner = sysusrName;
+            acc1.owner = sysusrName;
             //  acc1.uname
             acc1.accountType = AccountType.BUSINESS;
             acc1.accountSubType = AccountSubType.insFdPl.name();
-            persistByHibernate(acc1, session);
+            persist(acc1, session);
 
         }
         session.getTransaction().commit();

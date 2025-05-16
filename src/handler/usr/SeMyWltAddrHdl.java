@@ -1,6 +1,5 @@
 package handler.usr;
 
-import entityx.usr.WithdrawalPassword;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import lombok.Data;
@@ -11,8 +10,7 @@ import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
 import static cfg.Containr.sessionFactory;
-import static util.algo.EncodeUtil.encodeMd5;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.mergex;
 
 /**
  * 设置安全问题
@@ -41,7 +39,7 @@ public class SeMyWltAddrHdl implements RequestHandler<MyWltAddr, ApiGatewayRespo
 //        wp.setUname(reqdto.getUname());
 //        wp.setEncryptedPassword(encodeMd5(reqdto.getPwd()));
      //   reqdto.setReviewStat();
-        mergeByHbnt( reqdto, sessionFactory.getCurrentSession());
+        mergex( reqdto, sessionFactory.getCurrentSession());
         return     new ApiGatewayResponse(true);
     }
 }

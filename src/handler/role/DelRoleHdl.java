@@ -2,18 +2,14 @@ package handler.role;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.persistence.EntityManager;
-import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.role.CustomRole;
-import org.hibernate.Session;
-import util.serverless.ApiGatewayResponse;
 
 // static cfg.AppConfig.sessionFactory;
 import static cfg.Containr.sessionFactory;
-import static util.algo.GetUti.getUuid;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.mergex;
 import static util.tx.HbntUtil.toEttMngr;
 @PermitAll
 

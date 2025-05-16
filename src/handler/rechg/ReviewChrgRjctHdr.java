@@ -22,7 +22,7 @@ import java.util.SortedMap;
 import static cfg.Containr.sessionFactory;
 import static util.misc.util2026.getField2025;
 import static util.tx.HbntUtil.findById;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.mergex;
 //   http://localhost:8889/QueryOrdChrgHdr
 
 /**
@@ -58,13 +58,13 @@ public class ReviewChrgRjctHdr implements RequestHandler<ReviewChrgRqdto, ApiGat
 
         if (tx.status.equals(TransactionStatus.PENDING)) {
             tx.setStatus((TransactionStatus.REJECTED));
-            mergeByHbnt(tx, session);
+            mergex(tx, session);
 
             Account acc= findById(Account.class, tx.accountId, session);
             acc.setFrozenAmountVld(acc.frozenAmount.subtract(tx.amount));
             acc.interim_Available_Balance=acc.interim_Available_Balance.add(tx.amount);
             acc.setInterimBookedBalance(acc.getInterimBookedBalance().add(tx.amount));
-            mergeByHbnt(acc, session);
+            mergex(acc, session);
             return new ApiGatewayResponse(tx);
         }
         return new ApiGatewayResponse(tx);

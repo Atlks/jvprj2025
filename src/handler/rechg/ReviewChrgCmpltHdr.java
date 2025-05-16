@@ -99,13 +99,13 @@ public class ReviewChrgCmpltHdr implements RequestHandler<ReviewChrgRqdto, ApiGa
         // 注意，这一步必须是幂等或可重试
         String mthBiz2=colorStr("主钱包加钱",RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun "+mthBiz2);
-        String uname = trx1.accountOwner;
+        String uname = trx1.owner;
         TransDto transDto=new TransDto();
         copyProps(trx1,transDto);
         transDto.amt=trx1.amount;
         transDto.refUniqId="reqid="+trx1.id;
-        addAccEmnyIfNotExst( trx1.accountOwner, session);
-        Account lockAcc4updt = findByHerbinateLockForUpdtV2(Account.class, getAccid(AccountSubType.EMoney.name(), trx1.accountOwner) , session);
+        addAccEmnyIfNotExst( trx1.owner, session);
+        Account lockAcc4updt = findByHerbinateLockForUpdtV2(Account.class, getAccid(AccountSubType.EMoney.name(), trx1.owner) , session);
         transDto.lockAccObj= lockAcc4updt;
         AccService.crdtFd(transDto);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
@@ -116,7 +116,7 @@ public class ReviewChrgCmpltHdr implements RequestHandler<ReviewChrgRqdto, ApiGa
          //chk stat is not pndg,,, throw ex
          if (trx1.status.equals(TransactionStatus.PENDING))
          trx1.setStatus( TransactionStatus.BOOKED);
-     mergeByHbnt(trx1, session);
+     mergex(trx1, session);
 
 
      //===============add  idptkey

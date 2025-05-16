@@ -11,7 +11,7 @@ import static cfg.Containr.sessionFactory;
 import static handler.balance.BlsSvs.iniBlss;
 import static util.acc.AccUti.getAccId;
 import static util.tx.HbntUtil.findById;
-import static util.tx.HbntUtil.persistByHibernate;
+import static util.tx.HbntUtil.persist;
 
 public class IniAcc {
 
@@ -31,7 +31,7 @@ public class IniAcc {
         }catch (Throwable e){
 
         }
-        System.out.println("endfun initwo wlt()");
+        System.out.println("endfun iniTwoWlt()");
 
     }
 
@@ -40,9 +40,9 @@ public class IniAcc {
         String accid=getAccId(AccountSubType.GeneralInvestment.name(), uname1);
         Account acc1=new Account(accid );
         //  acc1.userId= uname1;
-        acc1.accountOwner =uname1;
+        acc1.owner =uname1;
         acc1.accountSubType= AccountSubType.GeneralInvestment.name();
-        persistByHibernate(acc1,sessionFactory.getCurrentSession());
+        persist(acc1,sessionFactory.getCurrentSession());
         iniBlss(acc1);
 
     }
@@ -70,8 +70,8 @@ public class IniAcc {
             //ini acc1
             Account acc1=new Account(accid);
             acc1.accountId = accid;
-            acc1.accountOwner=uname;
-            persistByHibernate(acc1, session);
+            acc1.owner =uname;
+            persist(acc1, session);
             iniBlss(acc1);
             //  transDto.lockAccObj=findByHerbinate(Wallet.class, uname, session);
         }

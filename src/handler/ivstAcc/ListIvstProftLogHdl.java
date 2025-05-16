@@ -74,7 +74,7 @@ public class ListIvstProftLogHdl implements RequestHandler<QueryDto, ApiGatewayR
 
 
         if (reqdto.uname != "") {
-            query.addConditions(Transaction.Fields.accountOwner + "=" + encodeSqlPrmAsStr(reqdto.uname));
+            query.addConditions(Transaction.Fields.owner + "=" + encodeSqlPrmAsStr(reqdto.uname));
         }
     }
 

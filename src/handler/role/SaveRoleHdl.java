@@ -12,7 +12,7 @@ import jakarta.annotation.security.PermitAll;
 // static cfg.AppConfig.sessionFactory;
 import static cfg.Containr.sessionFactory;
 import static util.algo.GetUti.getUuid;
-import static util.tx.HbntUtil.mergeByHbnt;
+import static util.tx.HbntUtil.mergex;
 
 
 @PermitAll
@@ -33,7 +33,7 @@ public class SaveRoleHdl implements RequestHandler<CustomRole, ApiGatewayRespons
 
         if(param.id.equals(""))
             param.id=getUuid();
-        mergeByHbnt( param, sessionFactory.getCurrentSession());
+        mergex( param, sessionFactory.getCurrentSession());
         return new ApiGatewayResponse(param) ;
     }
 }

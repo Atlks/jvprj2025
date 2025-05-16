@@ -1,7 +1,7 @@
 package util.algo;
 
 @FunctionalInterface
-public interface Runnablex {
+public interface RunnableThrowing {
     /**
      * Runs this operation.
      */
