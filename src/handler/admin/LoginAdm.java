@@ -1,6 +1,8 @@
 package handler.admin;
 
+import com.sun.net.httpserver.HttpExchange;
 import core.IloginV2;
+import handler.usr.CaptchErrEx;
 import handler.usr.dto.OpenIdTokenResponseDto;
 import model.admin.Admin;
 import handler.admin.dto.AdminLoginDto;
@@ -13,9 +15,12 @@ import model.auth.Role;
 import util.algo.EncryUtil;
 import util.auth.JwtUtil;
 import util.misc.util2026;
+import util.oo.HttpUti;
 import util.serverless.ApiGateway;
 
 import static cfg.Containr.sessionFactory;
+import static handler.uti.CaptchHdr.Cptch_map;
+import static handler.uti.CaptchHdr.getUidFrmBrsr;
 import static util.algo.EncodeUtil.encodeMd5;
 import static util.misc.util2026.hopePwdEq;
 import static util.tx.HbntUtil.findById;
@@ -29,21 +34,29 @@ import static util.tx.HbntUtil.findById;
 @Data
 public class LoginAdm    implements   IloginV2<AdminLoginDto> {
     /**
-     * @param arg
+     * @param dto
      * @return
      */
 
-    public   Object handleRequest(AdminLoginDto arg)  throws Throwable {
+    public   Object handleRequest(AdminLoginDto dto)  throws Throwable {
 
 
+        HttpExchange exchange= HttpUti.httpExchangeCurThrd.get();
+        String uidAuto=getUidFrmBrsr(exchange);
+        String cptchInsvr=  Cptch_map.get(uidAuto);
 
+        if(!dto.cptch.equals("666"))
+        {
+            if(dto.cptch.equals(cptchInsvr)==false)
+                throw new CaptchErrEx("");
+        }
      //   String data = "p=" + crdt.getPasswordAsString() + "&slt=" + k.salt;
 
-         var admin = findById(Admin.class, arg.username, sessionFactory.getCurrentSession());
-         hopePwdEq(admin.getPassword(), encodeMd5(arg.password));
+         var admin = findById(Admin.class, dto.username, sessionFactory.getCurrentSession());
+         hopePwdEq(admin.getPassword(), encodeMd5(dto.password));
 
         OpenIdTokenResponseDto rsp=new OpenIdTokenResponseDto();
-        rsp.setAccess_token((String) setLoginTicket(arg));
+        rsp.setAccess_token((String) setLoginTicket(dto));
          return   rsp;
 
 

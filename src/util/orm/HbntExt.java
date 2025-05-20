@@ -2,6 +2,8 @@ package util.orm;
 
 import cfg.Containr;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.hibernate.mapping.Column;
+import org.hibernate.mapping.Table;
 
 import java.sql.SQLException;
 
@@ -10,6 +12,10 @@ import static util.oo.StrUtil.getPwdFromJdbcurl;
 import static util.oo.StrUtil.getUnameFromJdbcurl;
 
 public class HbntExt {
+
+    public static void main(String[] args) {
+     //   Table
+    }
 
     public static void migrateSql() throws ClassNotFoundException, SQLException {
 //        Class.forName("com.mysql.cj.jdbc.Driver");

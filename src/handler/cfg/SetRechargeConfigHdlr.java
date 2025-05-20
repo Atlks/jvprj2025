@@ -3,7 +3,7 @@ package handler.cfg;
 import entityx.wlt.RechargeConfig;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
+import util.model.Context;
 
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;

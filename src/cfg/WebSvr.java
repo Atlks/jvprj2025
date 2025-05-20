@@ -5,24 +5,6 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import handler.ivstAcc.dto.QueryDto;
-import io.milton.http.HttpManager;
-import io.milton.http.ResourceFactory;
-import io.milton.http.fs.FileSystemResourceFactory;
-import io.milton.http.http11.Http11Protocol;
-import io.milton.http.webdav.DefaultWebDavResponseHandler;
-import io.milton.http.webdav.WebDavProtocol;
-import io.milton.http.webdav.WebDavResponseHandler;
-import io.milton.http.http11.auth.DigestGenerator;
-import io.milton.http.fs.SimpleFileContentService;
-import io.milton.http.fs.FileSystemResourceFactory;
-import io.milton.http.HttpManager;
-import io.milton.http.ResourceFactory;
-import io.milton.http.webdav.DefaultWebDavResponseHandler;
-import io.milton.http.webdav.WebDavResponseHandler;
-import io.milton.http.webdav.WebDavProtocol;
-import io.milton.http.http11.Http11Protocol;
-import io.milton.http.http11.auth.DigestResponse;
-import io.milton.servlet.MiltonServlet;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -32,10 +14,9 @@ import jakarta.ws.rs.Path;
 // org.thymeleaf.context.Context;
 import model.other.ContentType;
 import util.annos.Paths;
-import util.model.FaasContext;
+import util.model.Context;
 import util.rest.RestUti;
 import util.serverless.ApiGateway;
-import util.serverless.ApiGatewayResponse;
 
 import java.io.*;
 import java.lang.annotation.Annotation;
@@ -49,7 +30,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 
 // static ztest.htmlTppltl.rend;
@@ -57,27 +37,12 @@ import static cfg.Containr.sessionFactory;
 import static util.algo.JarClassScanner.getPrjPath;
 import static util.algo.JarClassScanner.getTargetPath;
 import static util.algo.NullUtil.isBlank;
-import static util.algo.ToXX.toDtoFrmHttp;
 import static util.misc.PathUtil.getDirTaget;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.Util2025.readTxtFrmFil;
 import static util.misc.util2026.*;
 import static util.oo.WebsrvUtil.processNmlExptn;
 import static util.rest.RestUti.createContext4rest;
-import static util.rest.RestUti.httpSvr;
-import static util.tx.QueryParamParser.toDto;
-
-
-import com.sun.net.httpserver.HttpServer;
-import com.sun.net.httpserver.HttpExchange;
-
-import java.io.*;
-import java.net.InetSocketAddress;
-import java.nio.file.*;
-import java.util.Date;
-
-import com.sun.net.httpserver.*;
-import wbdv.MiltonResponseAdapter;
 
 /**
  * ini web   \n
@@ -342,7 +307,7 @@ public class WebSvr {
         createContext4rest("/p8", QueryDto.class, dto1 -> hdlDto2(dto1), server);
 
         RestUti.httpSvr=server;
-        FaasContext ctx = new FaasContext();
+        Context ctx = new Context();
         ctx.sessionFactory=sessionFactory;
         RestUti.contextThdloc.set(ctx);
         createContext4rest("/p9", QueryDto.class, WebSvr::hdl9);
@@ -354,7 +319,7 @@ public class WebSvr {
         return 9;
     }
     private static Object hdl99() {
-        FaasContext ctx=RestUti.contextThdloc.get();
+        Context ctx=RestUti.contextThdloc.get();
         System.out.println("fun hdl8()");
         return 99;
     }

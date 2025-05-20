@@ -1038,6 +1038,7 @@ public class util2026 {
      * @param responseTxt
      * @throws IOException
      */
+    @Deprecated
     public static void wrtResp(HttpExchange exchange, String responseTxt) throws IOException {
 
         System.out.println("wrtResp(resptxt=" + responseTxt);

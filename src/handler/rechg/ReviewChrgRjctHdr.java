@@ -7,7 +7,7 @@ import model.OpenBankingOBIE.Transaction;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
+import util.model.Context;
 
 import org.hibernate.Session;
 import util.excptn.AreadyProcessedEx;

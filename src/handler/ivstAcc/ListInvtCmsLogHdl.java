@@ -14,7 +14,7 @@ import util.annos.NoDftParam;
 import entityx.ylwlt.BetWinLog;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
+import util.model.Context;
 
 import org.hibernate.Session;
 
@@ -30,6 +30,7 @@ import static util.Oosql.SlctQry.newSelectQuery;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
 import static util.algo.EncodeUtil.toStr4sqlprm;
 import static util.algo.GetUti.getTableName;
+import static util.algo.ToXX.toSnake;
 import static util.misc.Util2025.encodeJson;
 import static util.tx.HbntUtil.getSingleResult;
 import static util.tx.Pagging.getPageResultByHbntRtLstmap;
@@ -59,12 +60,7 @@ public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayRes
 
         SlctQry query = newSelectQuery(getTableName(Transaction.class));
         query.select("*");
-        query.addConditions(Transaction.Fields.transactionCode+"="+toStr4sqlprm(TransactionCode.Service_Cms_rechgCms.name()));
-
-        if(reqdto.uname!="")
-        {
-            query.addConditions(Transaction.Fields.owner +"="+encodeSqlPrmAsStr(reqdto.uname));
-        }
+        setCdtn(reqdto, query);
         query.addOrderBy("timestamp desc");
        String sql=query.getSQL();
         System.out.println(sql);
@@ -75,18 +71,22 @@ public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayRes
         return new ApiGatewayResponse(list1);
     }
 
+    private static void setCdtn(QueryDto reqdto, SlctQry query) {
+        query.addConditions(toSnake(Transaction.Fields.transactionCode)+"=",(TransactionCode.Service_Cms_rechgCms.name()));
+        //  query.addConditions(Transaction.Fields.transactionCode+"="+toStr4sqlprm(TransactionCode.Service_Cms_rechgCms.name()));
+
+        if(reqdto.uname!="")
+        {
+            query.addConditions(Transaction.Fields.owner +"="+encodeSqlPrmAsStr(reqdto.uname));
+        }
+    }
 
 
     private BigDecimal getSum4cms(QueryDto reqdto, int i)  {
         //var sql = "select sum(amount) from Transactions     where  transactionCode= "  +encodeSqlPrmAsStr( TransactionCodes.Service_Cms_rechgCms.name());//for count    where  uname =:uname
         SlctQry query = newSelectQuery(getTableName(Transaction.class));
         query.select("sum(amount)");
-        query.addConditions(Transaction.Fields.transactionCode+"="+toStr4sqlprm(TransactionCode. Service_Cms_rechgCms.name()));
-
-        if(reqdto.uname!="")
-        {
-            query.addConditions(Transaction.Fields.owner +"="+encodeSqlPrmAsStr(reqdto.uname));
-        }
+        setCdtn(reqdto, query);
         var sql=query.getSQL();
         System.out.println(sql);
         Session session = sessionFactory.getCurrentSession();

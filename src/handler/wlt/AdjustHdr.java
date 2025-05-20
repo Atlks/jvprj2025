@@ -1,5 +1,7 @@
 package handler.wlt;
 
+import handler.acc.AccService;
+import handler.acc.DecBalDto;
 import handler.wlt.dto.AdjstDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
@@ -8,6 +10,7 @@ import jakarta.validation.constraints.DecimalMin;
 import model.OpenBankingOBIE.*;
 import org.hibernate.Session;
 import util.algo.RunnableThrowing;
+import util.fp.SerializableFun;
 import util.model.common.ApiResponse;
 import entityx.wlt.LogBls;
 //import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,12 +26,15 @@ import java.util.function.Function;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 import static handler.acc.AccService.*;
 import static handler.acc.IniAcc.iniTwoWlt;
+
 import static handler.balance.BlsSvs.*;
 import static service.CmsBiz.toBigDcmTwoDot;
 import static util.acc.AccUti.getAccId;
+import static util.algo.CallUtil.call;
 import static util.tx.HbntUtil.*;
 import static util.tx.dbutil.addObj;
 import static util.misc.util2026.*;
+
 
 /**
  * 资金调整Process
@@ -59,11 +65,13 @@ public class AdjustHdr {
         ChoiceStep<TransactionCode> chooseStep = new ChoiceStep<>();
 
         chooseStep.addCase(new ConditionBranch(TransactionCode.adjst_crdt, () -> {
-            Transaction tx2 = new Transaction();
 
-            tx2.setAmountVldChk(adjAmt);
-            tx2.setTransactionCode(TransactionCode.adjst_crdt);
-            addAmt2accWzLog(acc1, tx2);
+            DepositDto dto=new DepositDto();
+            dto.accid=accid;
+            dto.amt=adjstDto.getAdjustAmount();
+            dto.type=TransactionCode.adjst_crdt;
+            call(AccService::incrBal,dto);
+         //   deposit(dto);
 
         }));
 
@@ -73,11 +81,14 @@ public class AdjustHdr {
         ct.key = adjstDto.transactionCode;
         ct.valueToMatch = TransactionCode.adjst_dbt;
         ct.act = () -> {
-            Transaction tx2 = new Transaction();
 
-            tx2.setAmount(adjAmt);
-            tx2.setTransactionCode(TransactionCode.adjst_dbt);
-            subAmt2accWzlog(acc1, tx2);
+            DecBalDto dto=new DecBalDto();
+            dto.accid=accid;
+            dto.amt=adjstDto.getAdjustAmount();
+            dto.type=TransactionCode.adjst_crdt;
+            SerializableFun<DecBalDto, Object> dcrsBalFun = AccService::adjustBalanceDecrease;
+            call(dcrsBalFun,dto);
+          //  adjustBalanceDecrease(acc1, tx2);
 
         };
         chooseStep.addCase(ct);
@@ -131,6 +142,8 @@ public class AdjustHdr {
 
         return new ApiResponse(acc1);
     }
+
+
 
     private static void addLog(AdjstDto adjstDto, Account acc1, BigDecimal avdBls, BigDecimal newAvdBls, String logTag, Session session) {
         LogBls logBalance = new LogBls();

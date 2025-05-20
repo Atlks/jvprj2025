@@ -44,7 +44,7 @@ public class MainApp {
      * @throws Exception
      */
     public static void main(String[] args) throws Throwable {
-
+        System.setProperty("jdk.net.spi.nameservice.provider.1", "default");
 
         //    ovrtTEst=true;//todo cancel if test ok
 

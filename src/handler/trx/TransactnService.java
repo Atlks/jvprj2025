@@ -35,7 +35,7 @@ public class TransactnService {
         tx.setBalanceType(interimAvailable);
         //  tx.setBalanceCreditDebitIndicator(CreditDebitIndicator.CREDIT.name());
         tx.setBalance(blsAvlb);
-        //-----------stt bked
+        //-----------stat bked
 //        tx.status = TransactionStatus.BOOKED;
 //        tx.setBookingDateTime(OffsetDateTime.now());
         persist(tx);
@@ -57,7 +57,7 @@ public class TransactnService {
         tx.setBalanceType(interimAvailable);
         //  tx.setBalanceCreditDebitIndicator(CreditDebitIndicator.CREDIT.name());
         tx.setBalance(blsAvlb);
-        //-----------stt bked
+        //-----------stat bked
         tx.status = TransactionStatus.BOOKED;
         tx.setBookingDateTime(OffsetDateTime.now());
         persist(tx);

@@ -2,7 +2,7 @@ package handler.wlt;
 
 import handler.ivstAcc.dto.QueryDto;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
+import util.model.Context;
 
 import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.AccountSubType;

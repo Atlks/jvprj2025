@@ -7,6 +7,8 @@ import model.OpenBankingOBIE.TransactionCode;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+
 import static cfg.Containr.sessionFactory;
 import static handler.acc.IniAcc.addAccEmnyIfNotExst;
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,7 +30,7 @@ public class AdjustHdrTest extends BaseTest {
         AdjstDto mockDto =new AdjstDto();
         mockDto.uname="666";
         mockDto.setTransactionCode(TransactionCode.adjst_crdt.name());
-        mockDto.setAdjustAmount(8.0);
+        mockDto.setAdjustAmount(BigDecimal.valueOf(8.0));
         mockDto.setAccountSubType(AccountSubType.EMoney.name());
        // when(mockDto.getId()).thenReturn("test123");
       //  when(mockDto.getValue()).thenReturn(42);

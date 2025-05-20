@@ -1,0 +1,11 @@
+
+<script>
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://18.136.123.232:8889/admin/login?username=111&password=111&cptch=666", true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            console.log("Response:", xhr.responseText);
+        }
+    };
+    xhr.send();
+</script>

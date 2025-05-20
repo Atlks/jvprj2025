@@ -6,6 +6,7 @@ import jakarta.persistence.LockModeType;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import model.admin.Admin;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -18,6 +19,7 @@ import org.hibernate.service.ServiceRegistry;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import util.model.CrudRzt;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -36,7 +38,25 @@ import static util.tx.dbutil.*;
 
 //ormUtilHbnt
 public class HbntUtil {
+    public static String lastMsg="";
+    public static ThreadLocal<CrudRzt> crudRztThreadLocal=new ThreadLocal<>();
+    public static void deletex(Class<?> aClass, String objid) {
+        Session session=sessionFactory.getCurrentSession();
 
+
+        Object user = session.get(aClass, objid); // 根据主键获取实体
+        if (user != null) {
+            session.delete(user); // 删除实体
+           // return 1;
+            lastMsg="dlt 1";
+            crudRztThreadLocal.set(new CrudRzt(1));
+        }else
+        {
+            lastMsg="dlt 0";
+            crudRztThreadLocal.set(new CrudRzt(0));
+        }
+          //  return 0;
+    }
     public static Session openSession(String jdbcUrl, List<Class> li) throws SQLException {
         String mthClr = colorStr("openSession", YELLOW_bright);
         String urlClr = colorStr(jdbcUrl, GREEN);

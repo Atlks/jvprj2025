@@ -19,7 +19,10 @@ import static util.tx.QueryParamParser.toDto;
 
 public class ToXX {
 
-
+public  static  String toTableField(String Camel_input)
+{
+    return  toSnake(Camel_input);
+}
     public static String toSnake(String Camel_input) {
         if (Camel_input == null || Camel_input.isEmpty()) return Camel_input;
         return Camel_input.replaceAll("([a-z])([A-Z])", "$1_$2")

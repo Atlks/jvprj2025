@@ -1,14 +1,19 @@
 package handler.acc;
 
+import api.ylwlt.BizFun;
 import entityx.wlt.TransDto;
+import handler.wlt.DepositDto;
 import jakarta.validation.constraints.NotNull;
 import model.OpenBankingOBIE.*;
 import util.Oosql.SlctQry;
 import util.ex.BalanceNotEnghou;
+import util.model.CrudRzt;
 import util.model.openbank.BalanceTypes;
+import util.model.openbank.BankAccountService;
 import util.tx.findByIdExptn_CantFindData;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static cfg.Containr.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
@@ -29,7 +34,7 @@ import static util.model.openbank.BalanceTypes.interimAvailable;
 import static util.tx.HbntUtil.*;
 import static util.tx.HbntUtil.persist;
 
-public class AccService {
+public class AccService implements BankAccountService {
     public static void addAmt2acc(Account acc1, BigDecimal adjAmt) {
         System.out.println("fun addAmt2acc");
         BigDecimal avdBls = acc1.interim_Available_Balance;
@@ -48,6 +53,15 @@ public class AccService {
         mergex(acc1);
     }
 
+@BizFun("admin dcrs bal")
+    public static Object adjustBalanceDecrease(DecBalDto dto) throws findByIdExptn_CantFindData {
+        Account acc=findById(Account.class,dto.accid);
+        Transaction tx2 = new Transaction();
+        tx2.setAmountVldChk(dto.amt);
+        tx2.setTransactionCode(TransactionCode.adjst_dbt);
+    subAmt2accWzlog(acc,tx2);
+        return 0;
+    }
 
     public static void subAmt2accWzlog(Account acc1, Transaction tx) throws findByIdExptn_CantFindData {
         //-----------sub acc
@@ -133,14 +147,27 @@ public class AccService {
         persist(tx);
     }
 
-
+    /**
+     * 增加余额的服务，包括流水日志
+     * @param dto
+     */
+    @BizFun("管理员手动调整增加余额服务")
+    //@MethodInfo("存款服务")
+    public static Object incrBal(DepositDto dto) throws findByIdExptn_CantFindData {
+        Account acc=findById(Account.class,dto.accid);
+        Transaction tx2 = new Transaction();
+        tx2.setAmountVldChk(dto.amt);
+        tx2.setTransactionCode(TransactionCode.adjst_crdt);
+        icrBalByAccTx(acc,tx2);
+        return 0;
+    }
     /**
      * 增加余额的服务，包括流水日志
      *
      * @param acc1
      * @throws findByIdExptn_CantFindData
      */
-    public static void addAmt2accWzLog(Account acc1, Transaction tx) throws findByIdExptn_CantFindData {
+    public static void icrBalByAccTx(Account acc1, Transaction tx) throws findByIdExptn_CantFindData {
         String txt;
         System.out.println("fun addAmt2accWzLog");
         //-----------add acc
@@ -276,5 +303,60 @@ public class AccService {
         } catch (findByIdExptn_CantFindData e) {
             return BigDecimal.valueOf(0);
         }
+    }
+
+    @Override
+    public CrudRzt openAccount(Account account) {
+        return null;
+    }
+
+    @Override
+    public CrudRzt closeAccount(String accountId) {
+        return null;
+    }
+
+    @Override
+    public Account getAccountById(String accountId) {
+        return null;
+    }
+
+    @Override
+    public CrudRzt deposit(String accountId, BigDecimal amount) {
+        return null;
+    }
+
+    @Override
+    public CrudRzt withdraw(String accountId, BigDecimal amount) {
+        return null;
+    }
+
+    @Override
+    public CrudRzt transfer(String fromAccountId, String toAccountId, BigDecimal amount) {
+        return null;
+    }
+
+    @Override
+    public CrudRzt freezeAccount(String accountId) {
+        return null;
+    }
+
+    @Override
+    public CrudRzt unfreezeAccount(String accountId) {
+        return null;
+    }
+
+    @Override
+    public List<Transaction> listTransactions(String accountId, int page, int pageSize) {
+        return List.of();
+    }
+
+    @Override
+    public CrudRzt changePaymentPassword(String accountId, String oldPwd, String newPwd) {
+        return null;
+    }
+
+    @Override
+    public boolean verifyPaymentPassword(String accountId, String inputPwd) {
+        return false;
     }
 }

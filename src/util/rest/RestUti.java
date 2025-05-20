@@ -2,11 +2,8 @@ package util.rest;
 
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import handler.ivstAcc.dto.QueryDto;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import model.other.ContentType;
-import util.model.FaasContext;
+import util.model.Context;
 import util.serverless.ApiGatewayResponse;
 
 import java.util.function.Function;
@@ -21,7 +18,7 @@ public class RestUti {
 
     public  static ThreadLocal<Class> dtoClz=new ThreadLocal<>();
 
-    public  static ThreadLocal<FaasContext> contextThdloc=new ThreadLocal<>();
+    public  static ThreadLocal<Context> contextThdloc=new ThreadLocal<>();
 
     public  static HttpServer httpSvr;
  //   public static FaasContext contextThdloc;

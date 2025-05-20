@@ -18,6 +18,7 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import static util.misc.util2026.setCrossDomain;
 import static util.oo.HttpUti.httpExchangeCurThrd;
 import static util.secury.CaptchaGenerator.generate;
 
@@ -31,6 +32,7 @@ public class CaptchHdr {
     @Path("/api/captcha")
     @Produces("image/png")
     public   void getCptch(NonDto args) throws IOException {
+        System.setProperty("jdk.net.spi.nameservice.provider.1", "default");
         CaptchaGenerator.Captcha captcha = generate();
         System.out.println("验证码问题: " + captcha.question);
         System.out.println("答案: " + captcha.answer); // 实际使用时不要返回答案！
@@ -61,11 +63,12 @@ public class CaptchHdr {
 
         // 设置 HTTP 响应头
 
-
+        // 设置跨域响应头
+        setCrossDomain(exchange);
 
         exchange.getResponseHeaders().set("Content-Disposition", " attachment; filename=\"captcha.png\"");
         exchange.getResponseHeaders().set("Content-Type", "image/png");
-        exchange.getResponseHeaders().set("Content-Type", "image/png");
+
         exchange.getResponseHeaders().set("Cache-Control", "no-cache, no-store, must-revalidate");
         exchange.getResponseHeaders().set("Pragma", "no-cache");
         exchange.getResponseHeaders().set("Expires", "0");

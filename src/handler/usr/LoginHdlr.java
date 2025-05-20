@@ -12,7 +12,7 @@ import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.SecurityContext;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
+import util.model.Context;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -105,7 +105,7 @@ public class LoginHdlr implements RequestHandler<RegDto, ApiGatewayResponse>,  I
 
     public static ThreadLocal<Usr> usrdto = new ThreadLocal<>();
     //aes key 16byte
-    @Context
+    @jakarta.ws.rs.core.Context
     public static SecurityContext securityContext;
 
 

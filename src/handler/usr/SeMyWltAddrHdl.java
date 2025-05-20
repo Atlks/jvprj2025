@@ -1,7 +1,7 @@
 package handler.usr;
 
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
+import util.model.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.usr.MyWltAddr;

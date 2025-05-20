@@ -3,7 +3,7 @@ package handler.cfg;
 import cfg.MainStart;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
+import util.model.Context;
 import model.rpt_dataSmry.DataSummaryVo;
 import model.cfg.CfgKv;
 

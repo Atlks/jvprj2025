@@ -4,10 +4,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.OffsetDateTime;
+
+import static util.algo.EncodeUtil.encodeMd5;
 
 /**
  * 管理员
@@ -16,6 +19,7 @@ import java.time.OffsetDateTime;
 @Table(name = "Admin")
 @Data
 //@NoArgsConstructor
+@FieldNameConstants
 public class Admin {
 
 
@@ -23,8 +27,8 @@ public class Admin {
    public String username;     // 登录用户名
     public String password;     // 密码（建议加密）
     private String nickname;     // 显示用名称
-    private String role;         // 角色（如：admin、editor）
-    private boolean enabled;
+    private String role="admin";         // 角色（如：admin、editor）
+    private boolean enabled=true;
 
 
     @CreationTimestamp// 是否启用
@@ -83,5 +87,9 @@ public class Admin {
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
+    }
+
+    public void setPasswordEncry(String newpwd) {
+     this.password=encodeMd5(newpwd);
     }
 }

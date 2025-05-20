@@ -17,6 +17,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static cfg.Containr.sessionFactory;
+import static util.algo.GetUti.getTableName;
+import static util.algo.ToXX.toSnake;
+import static util.oo.SqlUti.fromWzSlct;
+import static util.oo.SqlUti.orderByDesc;
 import static util.tx.dbutil.nativeQueryGetResultList;
 
 
@@ -35,7 +39,10 @@ public class ListAdmHdr  {
 //        var uNameLikeConditon = "";
 //        if (!isBlank(reqdto.unameKeyword))
 //            uNameLikeConditon = "where  uname like '%" + encodeParamSql(reqdto.unameKeyword) + "%'";
-        var sql = "select * from admin   order by createdAt desc  ";
+        var sql =
+                fromWzSlct(Admin.class)+
+                orderByDesc(Admin.Fields.createdAt);
+               // order by createdAt desc  ";
         System.out.println(sql);
 
         Session session = sessionFactory.getCurrentSession();
@@ -45,6 +52,8 @@ public class ListAdmHdr  {
 
        return  (list1);
     }
+
+
 
 
 //

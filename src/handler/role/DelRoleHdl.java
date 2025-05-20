@@ -2,7 +2,7 @@ package handler.role;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.persistence.EntityManager;
-import jakarta.ws.rs.core.Context;
+import util.model.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.role.CustomRole;

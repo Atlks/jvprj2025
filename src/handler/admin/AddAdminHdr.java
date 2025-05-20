@@ -50,7 +50,7 @@ public class AddAdminHdr {
         u.username =arg.username;
         u.setPassword(encodeMd5(arg.getPassword()));
         persist( u, sessionFactory.getCurrentSession());
-        return "ok";
+        return u;
     }
 
 

@@ -5,7 +5,7 @@ import model.OpenBankingOBIE.AccountStatus;
 import model.OpenBankingOBIE.AccountType;
 import util.Oosql.Column;
 
-import static util.Oosql.Column.newColumn;
+
 
 import static util.algo.GetUti.getTableName;
 

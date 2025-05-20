@@ -12,7 +12,7 @@ import java.util.Map;
  * 表示一次 FaaS 调用时的上下文信息
  */
 @Data
-public class FaasContext {
+public class Context {
 
     /** 当前函数名称 */
     private String functionName;

@@ -1,18 +1,14 @@
 package util.algo;
 
-import com.sun.net.httpserver.HttpExchange;
 //import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
+        import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Field;
+        import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -20,12 +16,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
+        import java.util.Date;
 import java.util.Scanner;
 import java.util.UUID;
-
-import static util.algo.IndexOfUti.indexOfFirst;
 
 
 public class GetUti {
@@ -51,7 +44,7 @@ public class GetUti {
 
     //查找对象的的handle3方法，获得参数（带有 ModelAttribute 标记 ） 类型，
     //子类方法是public void handle3(@ModelAttribute Usr dto)
-    public static Class getPrmClass(Object obj, String methodName) {
+    public static Class getFirstPrmClassFrmMthd(Object obj, String methodName) {
         if (obj == null || methodName == null) {
             return null;
         }
@@ -73,7 +66,7 @@ public class GetUti {
             Class<?> type = parameter.getType();
             if (type == Object.class)
                 continue;
-            return type; // 返回参数的 Class 类型
+            return type; // 返回first参数的 Class 类型
 
 //            for (Parameter parameter : parameters) {
 //                if (parameter.isAnnotationPresent(BeanParam.class)) {

@@ -6,7 +6,7 @@ import handler.rechg.dto.ReviewChrgRqdto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.persistence.LockModeType;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
+import util.model.Context;
 
 import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.Transaction;

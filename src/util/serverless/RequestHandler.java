@@ -1,7 +1,7 @@
 package util.serverless;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.ws.rs.core.Context;
+import util.model.Context;
 
 import java.util.Map;
 

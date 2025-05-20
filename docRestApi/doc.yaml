@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: 用户端 API
-  version: v250515.666.888
+  version: v250520.666.888
   description: |
     这是一个用于系统的 API。通过该 API，可以作为开发。
     该文档提供了所有可用接口的详细说明。
@@ -108,6 +108,50 @@ paths:
 
   /usr/QryNextLvMbrHdl:
     $ref: './paths/usr/QryNextLvMbrHdl.yaml'
+  /adm/changePwd:
+    get:
+      tags:
+        - admin
+      summary: "更新管理员密码"
+      parameters:
+      - name: oldpwd
+        in: query
+        description: "旧密码"
+        required: true
+        schema:
+          type: string
+      - name: newpwd
+        in: query
+        description: "新密码"
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
+  /adm/updtAdmStat:
+    get:
+      tags:
+        - admin
+      summary: "更新用户状态 "
+      parameters:
+        - name: uname
+          in: query
+          required: true
+          schema:
+            type: string
+          description: 用户名
+          example: admin001
+        - name: enable
+          in: query
+          required: true
+          schema:
+            type: boolean
+          description: 是否启用（true 启用，false 禁用）
+          example: true
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
   /usrStt/RankMmbrNAgtSttHdl:
     get:
       tags:

@@ -43,7 +43,7 @@ public class QryFundDetailHdl  {
 
             query.addConditions(Transaction.Fields.owner +"="+(reqdto.uname));
 
-        query.addConditions(Transaction.Fields.timestamp+">"+( beforeTmstmp(reqdto.day)));
+        query.addConditions(Transaction.Fields.timestamp+">",beforeTmstmp(reqdto.day));
         query.addOrderBy(Transaction.Fields.timestamp+" desc");
         String sql = query.getSQL();
         // ✅ 直接拿到 SQL 字符串

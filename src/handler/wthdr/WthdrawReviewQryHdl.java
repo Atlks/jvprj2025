@@ -2,7 +2,7 @@ package handler.wthdr;
 
 
 import handler.ivstAcc.dto.WthdrawReviewQryDto;
-import jakarta.ws.rs.core.Context;
+import util.model.Context;
 
 import model.OpenBankingOBIE.CreditDebitIndicator;
 import model.OpenBankingOBIE.Transaction;

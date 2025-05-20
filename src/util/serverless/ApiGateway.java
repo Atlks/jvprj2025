@@ -4,6 +4,7 @@ import cfg.MinValidator;
 import entityx.usr.NonDto;
 import handler.NoWarpApiRsps;
 import jakarta.ws.rs.Produces;
+import model.other.ContentType;
 import org.hibernate.context.internal.ThreadLocalSessionContext;
 import org.jetbrains.annotations.Nullable;
 import util.annos.*;
@@ -20,10 +21,9 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.internal.constraintvalidators.bv.NotBlankValidator;
 import org.hibernate.validator.internal.constraintvalidators.bv.NotNullValidator;
 import util.excptn.ExceptionBaseRtm;
-import util.excptn.ExptUtil;
 import util.algo.Icall;
 import util.auth.IsEmptyEx;
-import util.model.FaasContext;
+import util.model.Context;
 import util.oo.HttpUti;
 import util.rest.RestUti;
 
@@ -49,7 +49,9 @@ import static util.algo.GetUti.*;
 import static util.algo.ToXX.toDtoFrmHttp;
 import static util.auth.AuthUtil.request_getHeaders_get;
 import static util.excptn.ExptUtil.*;
+import static util.misc.RecordMapper.mapToRecord;
 import static util.misc.RestUti.pathMthMap;
+import static util.oo.HttpUti.getParamMap;
 import static util.proxy.AopUtil.ivk4log;
 import static util.auth.AuthUtil.getCurrentUser;
 import static util.log.ColorLogger.*;
@@ -244,7 +246,7 @@ public class ApiGateway implements HttpHandler {
             urlAuthChkV2(exchange);
 
             //injkt ctx
-            FaasContext ctx = new FaasContext();
+            Context ctx = new Context();
             ctx.sessionFactory=sessionFactory;
             ctx.session=sessionFactory.getCurrentSession();
             ctx.cfg=cfgMap;
@@ -432,7 +434,7 @@ public class ApiGateway implements HttpHandler {
             rzt = "ok";
         //  rzt=new ApiResponse(rzt);
         if (rzt.getClass() == String.class)
-            wrtResp(exchange, (rzt.toString()));
+            wrtResp(exchange, rzt.toString(), ContentType.TEXT_HTML.getValue());
         else
             wrtResp(exchange, encodeJsonByGson(rzt));
 
@@ -452,7 +454,11 @@ public class ApiGateway implements HttpHandler {
 
             if (NonDto.class.isAssignableFrom(prmDtoCls)) {  // 判断类型是否是 NonDto 或其子类
                 dto = new NonDto();
-            } else {
+            }else if(prmDtoCls.isRecord())
+            {
+                dto=mapToRecord(prmDtoCls,getParamMap(exchange));
+            }
+            else {
                 dto = toDto(exchange, prmDtoCls);  // 假设 toDto 返回 Object 或 dto 类型
             }
 
@@ -477,10 +483,13 @@ return new NullDto();
 //                System.out.println(e.printStackTrace(););
 //            }
         } else if (hasMtd(this.target, "handleRequest")) {
-            PrmDtoCls = getPrmClass(this.target, "handleRequest");
+            PrmDtoCls = getFirstPrmClassFrmMthd(this.target, "handleRequest");
             // getPrmClass(this.target, "handleRequest");
-        } else if (isNotMth(this.target)) {
-            PrmDtoCls = getPrmClass(this.target, "main");
+        } else if (hasMtd(this.target,"main")) {
+            PrmDtoCls = getFirstPrmClassFrmMthd(this.target, "main");
+        }
+        else if (isNotMth(this.target)) {
+            PrmDtoCls = getFirstPrmClassFrmMthd(this.target, "main");
         }
         if (PrmDtoCls == null)
             throw new CantFindPrmDtoEx("target=" + this.target.toString());

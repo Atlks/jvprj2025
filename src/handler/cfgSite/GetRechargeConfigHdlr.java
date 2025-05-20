@@ -4,7 +4,7 @@ import entityx.usr.NonDto;
 import entityx.wlt.RechargeConfig;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
+import util.model.Context;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 // org.springframework.web.bind.annotation.RestController;

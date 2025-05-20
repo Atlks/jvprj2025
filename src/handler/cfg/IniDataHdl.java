@@ -3,7 +3,7 @@ package handler.cfg;
 import entityx.usr.NonDto;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
+import util.model.Context;
 import model.agt.CmsLv;
 import model.rpt_dataSmry.DataSummaryVo;
 import model.cfg.CfgKv;
