@@ -4,7 +4,9 @@ import org.hibernate.mapping.Table;
 
 import java.time.OffsetDateTime;
 
+import static util.Oosql.SlctQry.toValStr;
 import static util.algo.EncodeUtil.toStr4sqlprm;
+import static util.algo.ToXX.toSnake;
 
 public class SlctQry {
     private   String fromFrag="";
@@ -34,6 +36,10 @@ public class SlctQry {
     public void addConditions(String cdtn, String val) {
 
         this.fromFrag +="   and "+cdtn+toStr4sqlprm(val);
+    }
+
+    public void addConditions(String fld, String op, String val) {
+        this.fromFrag +=" and "+ toSnake(fld)+op+toValStr(val);
     }
     public void addOrderBy(String ordbyStr) {
         this.ordby =" order by "+ordbyStr;
@@ -66,7 +72,6 @@ public class SlctQry {
         this.selectFrag="select "+slct;
 
     }
-
 
 
 }

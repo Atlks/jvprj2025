@@ -1,4 +1,4 @@
-package model.OpenBankingOBIE;
+package util.annos;
 
 import jakarta.persistence.FetchType;
 

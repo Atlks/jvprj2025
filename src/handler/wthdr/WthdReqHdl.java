@@ -2,6 +2,7 @@ package handler.wthdr;
 
 import cfg.MainStart;
 import entityx.usr.WithdrawDto;
+import model.OpenBankingOBIE.TransactionCode;
 import util.model.Context;
 import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.CreditDebitIndicator;
@@ -27,8 +28,8 @@ import static util.log.ColorLogger.RED_bright;
 import static util.log.ColorLogger.colorStr;
 import static util.misc.util2026.copyProps;
 import static util.tx.HbntUtil.*;
-import static util.tx.TransactMng.commitTsact;
-import static util.tx.TransactMng.openSessionBgnTransact;
+import static util.tx.TransactMng.commitx;
+import static util.tx.TransactMng.beginx;
 
 /**
  * 提现申请    /wthdr/WthdReqHdl
@@ -80,6 +81,7 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         tx1.id =tx1.transactionId;
         tx1.owner = uname1;
         tx1.accountId=acc_id;
+        tx1.setTransactionCode(TransactionCode.Payment_wthdr);
         Object ord1 = persist(tx1, sessionFactory.getCurrentSession());
 
 
@@ -111,11 +113,11 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
         iniContnr();
 
         //============aop trans begn
-        openSessionBgnTransact();
+        beginx();
         iniIvstAcc("666");
         //  persistByHibernate(o, AppConfig.sessionFactory.getCurrentSession());
 
 
-        commitTsact();
+        commitx();
     }
 }

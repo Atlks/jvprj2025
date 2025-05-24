@@ -36,8 +36,8 @@ import static util.algo.ToXX.toSnake;
 import static util.misc.Util2025.encodeJson;
 import static util.tx.HbntUtil.getSingleResult;
 import static util.tx.Pagging.getPageResultByHbntRtLstmap;
-import static util.tx.TransactMng.commitTsact;
-import static util.tx.TransactMng.openSessionBgnTransact;
+import static util.tx.TransactMng.commitx;
+import static util.tx.TransactMng.beginx;
 
 /**
  *
@@ -107,7 +107,7 @@ public class ListIvstProftLogHdl implements RequestHandler<QueryDto, ApiGatewayR
         iniContnr();
 
         //============aop trans begn
-        openSessionBgnTransact();
+        beginx();
 
 
 
@@ -119,7 +119,7 @@ public class ListIvstProftLogHdl implements RequestHandler<QueryDto, ApiGatewayR
       //  persistByHibernate(o, AppConfig.sessionFactory.getCurrentSession());
         System.out.println(encodeJson(new ListIvstProftLogHdl().handleRequest(new QueryDto("777"),null)));
 
-        commitTsact();
+        commitx();
     }
 
     private static String getUUID() {

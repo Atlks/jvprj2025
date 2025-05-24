@@ -293,7 +293,7 @@ public class AccService implements BankAccountService {
     public static BigDecimal sumAllEmnyAccBal() {
         SlctQry query = newSelectQuery(getTableName(Account.class));
         query.select("sum(" + Account.Fields.interim_Available_Balance + ")");
-        query.addConditions(Account.Fields.accountSubType + "=" + toValStr(AccountSubType.EMoney.name()));
+        query.addConditions(Account.Fields.accountSubType , "=" ,(AccountSubType.EMoney.name()));
         // query.addConditions("timestamp>"+ beforeTmstmp(reqdto.day));
         //    query.addOrderBy("timestamp desc");
         String sql = query.getSQL();  // ✅ 直接拿到 SQL 字符串

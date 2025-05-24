@@ -13,14 +13,14 @@ import static cfg.Containr.sessionFactory;
 import static handler.acc.IniAcc.addAccEmnyIfNotExst;
 import static org.junit.jupiter.api.Assertions.*;
 import static util.misc.Util2025.encodeJson;
-import static util.tx.TransactMng.commitTsact;
+import static util.tx.TransactMng.commitx;
 
 public class AdjustHdrTest extends BaseTest {
 
 
     @AfterEach
     public void setupAftEach() throws Exception {
-        commitTsact();
+        commitx();
     }
     @Test
     public void testHandleRequest() throws Throwable {

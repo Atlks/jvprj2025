@@ -1,8 +1,10 @@
 package util.oo;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 你的理解完全正确，当前在大多数现代 Java 项目中，推荐使用 OffsetDateTime、ZonedDateTime 或 Instant 等类型，而不是裸的时间戳数字。原因如下：
@@ -31,4 +33,18 @@ public class TimeUti {
     public static OffsetDateTime beforeTmstmp(int day) {
         return OffsetDateTime.now(ZoneOffset.UTC).minusDays(day);
     }
+
+    public static Timestamp beforeTmstmpTmstpFmt(int day) {
+        OffsetDateTime time=beforeTmstmp(day);
+        return   Timestamp.from(time.toInstant());
+    }
+
+    public static String beforeTmSqlPrmFmt(int day) {
+        OffsetDateTime offsetDateTime = OffsetDateTime.now(ZoneOffset.UTC).minusDays(day);
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String tsStr =offsetDateTime.format(fmt);
+        return "'"+tsStr+"'";
+    }
+
+
 }

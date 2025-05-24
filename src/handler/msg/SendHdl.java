@@ -75,7 +75,7 @@ public class SendHdl {
         dto.text="nihao";
         lmdIvk(SendHdl.class,dto);
 
-        commitTsact();
+        commitx();
     }
 
 
@@ -85,7 +85,7 @@ public class SendHdl {
         new MainStart().sessionFactory();//ini sessFctr
         //ini contnr 4cfg,, svrs
         iniContnr();
-        openSessionBgnTransact();
+        beginx();
         //  iniEvtHdrCtnr();
 
         //   evtlist4reg.add(new AgtHdl()::regEvtHdl);

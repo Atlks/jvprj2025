@@ -28,14 +28,13 @@ import java.util.UUID;
 
 import static util.Oosql.SlctQry.newSelectQuery;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
-import static util.algo.EncodeUtil.toStr4sqlprm;
 import static util.algo.GetUti.getTableName;
 import static util.algo.ToXX.toSnake;
 import static util.misc.Util2025.encodeJson;
 import static util.tx.HbntUtil.getSingleResult;
 import static util.tx.Pagging.getPageResultByHbntRtLstmap;
-import static util.tx.TransactMng.commitTsact;
-import static util.tx.TransactMng.openSessionBgnTransact;
+import static util.tx.TransactMng.commitx;
+import static util.tx.TransactMng.beginx;
 import static cfg.Containr.sessionFactory;
 import static cfg.MainStart.iniContnr;
 
@@ -109,7 +108,7 @@ public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayRes
         iniContnr();
 
         //============aop trans begn
-        openSessionBgnTransact();
+        beginx();
 
 
 
@@ -121,7 +120,7 @@ public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayRes
       //  persistByHibernate(o, AppConfig.sessionFactory.getCurrentSession());
         System.out.println(encodeJson(new ListInvtCmsLogHdl().handleRequest(new QueryDto("777"),null)));
 
-        commitTsact();
+        commitx();
     }
 
     private static String getUUID() {

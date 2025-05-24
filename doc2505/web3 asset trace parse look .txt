@@ -1,0 +1,16 @@
+
+
+Zerion、Zapper、DeBank 等大平台对 Solana 的支持较弱或不稳定。
+
+
+sol  asst trace parse
+
+
+https://sonar.watch/portfolio/GD74Dw5JHTTuCvWaeiycQsFpJJ3WPrkZfLovsuovZAPz
+
+
+look trans hstroy
+
+https://solscan.io/account/GD74Dw5JHTTuCvWaeiycQsFpJJ3WPrkZfLovsuovZAPz?exclude_amount_zero=true&remove_spam=true#transfers
+
+

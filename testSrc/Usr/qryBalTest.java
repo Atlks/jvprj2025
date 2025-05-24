@@ -8,14 +8,14 @@ import util.tx.findByIdExptn_CantFindData;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static util.misc.Util2025.encodeJson;
 import static util.tx.HbntUtil.findById;
-import static util.tx.TransactMng.commitTsact;
+import static util.tx.TransactMng.commitx;
 
 public class qryBalTest extends BaseTest {
 
 
     @AfterEach
     public void setupAftEach() throws Exception {
-        commitTsact();
+        commitx();
     }
     @Test
     public void testHandleRequest() throws Throwable {

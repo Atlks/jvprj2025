@@ -59,8 +59,14 @@ public class Usr {
     /** 主体标识符（必须） */
     public String sub;   //和uid相同  相当于uid别名
 
- 
 
+    public String regDomain;
+    public String regIp;
+    public String loginLocation;
+    public String logip;
+    public String loginCount;
+    public int offlineDays;
+    public String label;
     //已经充值总额
     public BigDecimal alreadyRechgSum=new BigDecimal(0);;
 
@@ -89,7 +95,7 @@ public class Usr {
     }
     public String email = "";
     public  boolean enabled=true;
-
+public  String vipLevel="";
 
     //@Column(updatable = false) 推荐配合 @CreationTimestamp 使用，避免人为修改
     @CreationTimestamp

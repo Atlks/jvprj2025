@@ -52,7 +52,7 @@ public class QryIvstTopOvrvw {
     private BigDecimal sumInvstLoss() {
         SlctQry query = newSelectQuery(getTableName(InvestmentOpRecord.class));
         query.select("sum(amount)");
-        query.addConditions(InvestmentOpRecord.Fields.investmentType + "=" + toValStr(TransactionCode.invstLoss.name()));
+        query.addConditions(InvestmentOpRecord.Fields.investmentType ,"=" , (TransactionCode.invstLoss.name()));
         // query.addConditions("timestamp>"+ beforeTmstmp(reqdto.day));
         //    query.addOrderBy("timestamp desc");
         String sql = query.getSQL();  // ✅ 直接拿到 SQL 字符串

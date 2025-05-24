@@ -34,7 +34,7 @@ public class TransactMng {
     /**
      *
      */
-    public static void commitTsact() {
+    public static void commitx() {
         commitTransaction(sessionFactory.getCurrentSession());
         sessionFactory.getCurrentSession().close();
         ThreadLocalSessionContext.unbind(sessionFactory);
@@ -45,7 +45,7 @@ public class TransactMng {
      * openSessionBgnTransact
      * todo here by maybe ing trsct..so maybe dont need bgn ts if sometime
      */
-    public static void openSessionBgnTransact() {
+    public static void beginx() {
         //这里需要新开session。。因为可能复用同一个http线程
         Session session = sessionFactory.openSession();
         // 2. 手动将 Session 绑定到当前线程
@@ -86,7 +86,7 @@ public class TransactMng {
 //        }
 //    }
 
-    public static void rollbackTransaction() {
+    public static void rollbackTx() {
             Transaction transaction = transactionThreadLocal.get();
             if (transaction != null) {
                 transaction.rollback();

@@ -11,9 +11,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
+import model.obieErrCode.AmtCantLessThan0Excptn;
 import org.hibernate.annotations.*;
 import org.hibernate.type.SqlTypes;
+import util.annos.Alas;
 import util.annos.CurrentUsername;
+import util.annos.ExtFld;
+import util.annos.ObieFld;
 import util.model.openbank.BalanceTypes;
 
 import java.math.BigDecimal;

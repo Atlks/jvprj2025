@@ -19,10 +19,10 @@ import java.util.Map;
 import static cfg.MainStart.iniContnr;
 import static util.algo.GetUti.getTableName;
 import static util.misc.Util2025.encodeJson;
-import static util.oo.TimeUti.beforeTmstmp;
+import static util.oo.TimeUti.*;
 import static util.tx.HbntUtil.getResultListWzPageByHbntRtLstmap;
-import static util.tx.TransactMng.commitTsact;
-import static util.tx.TransactMng.openSessionBgnTransact;
+import static util.tx.TransactMng.commitx;
+import static util.tx.TransactMng.beginx;
 
 /**
  * menu::  admin/data rpt/fd dtl
@@ -47,7 +47,7 @@ public class QryFundDetailHdl4adm {
         if(reqdto.uname!="")
         query.addConditions(Transaction.Fields.owner +"="+(reqdto.uname));
 
-        query.addConditions(Transaction.Fields.timestamp+">"+( beforeTmstmp(reqdto.day)));
+        query.addConditions(Transaction.Fields.timestamp+">"+beforeTmSqlPrmFmt( (reqdto.day)));
         query.addOrderBy(Transaction.Fields.timestamp+" desc");
         String sql = query.getSQL();  // ✅ 直接拿到 SQL 字符串
         System.out.println(sql);
@@ -71,7 +71,7 @@ public class QryFundDetailHdl4adm {
         iniContnr();
 
         //============aop trans begn
-        openSessionBgnTransact();
+        beginx();
 
         BalancesFundDetail o=new BalancesFundDetail();
         o.changeAmount= BigDecimal.valueOf(666666);
@@ -87,7 +87,7 @@ public class QryFundDetailHdl4adm {
         //  persistByHibernate(o, AppConfig.sessionFactory.getCurrentSession());
         System.out.println(encodeJson(new QryFundDetailHdl4adm().handleRequest(c)));
 
-        commitTsact();
+        commitx();
     }
 
 

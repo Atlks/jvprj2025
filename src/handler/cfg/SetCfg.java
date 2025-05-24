@@ -17,8 +17,8 @@ import static cfg.MainStart.iniContnr;
 import static util.misc.Util2025.encodeJson;
 import static util.misc.Util2025.readTxtFrmFil;
 import static util.tx.HbntUtil.mergex;
-import static util.tx.TransactMng.commitTsact;
-import static util.tx.TransactMng.openSessionBgnTransact;
+import static util.tx.TransactMng.commitx;
+import static util.tx.TransactMng.beginx;
 
 /**
  *     /admin/cfg/SetCfgKv?k=rechargeCommissionRates&v={}
@@ -46,7 +46,7 @@ public class SetCfg implements RequestHandler<CfgKv, ApiGatewayResponse> {
         iniContnr();
 
         //============aop trans begn
-        openSessionBgnTransact();
+        beginx();
 
         String f="C:\\0prj\\jvprj2025\\doc2504\\agt rechg cms ruler cfg.json";
         String txt=readTxtFrmFil(f);
@@ -57,6 +57,6 @@ public class SetCfg implements RequestHandler<CfgKv, ApiGatewayResponse> {
         //  persistByHibernate(o, AppConfig.sessionFactory.getCurrentSession());
         System.out.println(encodeJson(new SetCfg().handleRequest(c,null)));
 
-        commitTsact();
+        commitx();
     }
 }

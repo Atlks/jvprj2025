@@ -130,7 +130,7 @@ public class TransactnService {
         SlctQry query = newSelectQuery(getTableName(Transaction.class));
         query.select("sum(amount)");
 
-        query.addConditions(Transaction.Fields.transactionCode + "=" + toValStr(trxType));
+        query.addConditions(Transaction.Fields.transactionCode , "=",(trxType));
 
         String sql = query.getSQL();  // ✅ 直接拿到 SQL 字符串
         System.out.println(sql);

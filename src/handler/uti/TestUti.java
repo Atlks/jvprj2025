@@ -20,7 +20,7 @@ public class TestUti {
         // Containr.evtlist4reg.add(u -> new AgtHdl().regEvtHdl(u));
 
         //============begin AOP-style transaction
-        TransactMng.openSessionBgnTransact();
+        TransactMng.beginx();
     }
 
 }

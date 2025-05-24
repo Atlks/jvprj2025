@@ -85,7 +85,7 @@ public class AddInvstRcdHdl   {
         new AddInvstRcdHdl().handleRequest(dto);
 
 
-        TransactMng.commitTsact();
+        TransactMng.commitx();
 
     }
 

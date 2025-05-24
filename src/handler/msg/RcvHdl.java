@@ -17,8 +17,8 @@ import static util.algo.CallUtil.lmdIvk;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
 import static util.misc.Util2025.encodeJson;
 import static util.tx.HbntUtil.*;
-import static util.tx.TransactMng.commitTsact;
-import static util.tx.TransactMng.openSessionBgnTransact;
+import static util.tx.TransactMng.commitx;
+import static util.tx.TransactMng.beginx;
 
 @Path("/msg/RcvHdl")
 
@@ -52,7 +52,7 @@ public class RcvHdl {
 
           List li= lmdIvk(RcvHdl.class, dto);
         System.out.println(encodeJson(li));
-        commitTsact();
+        commitx();
     }
 
 
@@ -62,7 +62,7 @@ public class RcvHdl {
         new MainStart().sessionFactory();//ini sessFctr
         //ini contnr 4cfg,, svrs
         iniContnr();
-        openSessionBgnTransact();
+        beginx();
         //  iniEvtHdrCtnr();
 
         //   evtlist4reg.add(new AgtHdl()::regEvtHdl);

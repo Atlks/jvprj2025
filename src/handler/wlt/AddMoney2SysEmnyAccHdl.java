@@ -42,7 +42,7 @@ public class AddMoney2SysEmnyAccHdl {
              setMny2sysEmnAcc(dto);
 
 
-        TransactMng.commitTsact();
+        TransactMng.commitx();
 
     }
 

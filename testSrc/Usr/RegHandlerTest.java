@@ -10,8 +10,8 @@ import static util.algo.GetUti.getUuid;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 import static util.misc.Util2025.encodeJson;
 import static util.orm.HbntExt.migrateSql;
-import static util.tx.TransactMng.commitTsact;
-import static util.tx.TransactMng.openSessionBgnTransact;
+import static util.tx.TransactMng.commitx;
+import static util.tx.TransactMng.beginx;
 
 
 import cfg.Containr;
@@ -19,11 +19,6 @@ import cfg.MainStart;
 import handler.usr.RegHandler;
 import handler.usr.dto.RegDto;
 import org.junit.jupiter.api.*;
-import org.mockito.Mockito;
-import util.serverless.ApiGatewayResponse;
-
-import java.io.FileNotFoundException;
-import java.sql.SQLException;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RegHandlerTest {
@@ -52,13 +47,13 @@ public class RegHandlerTest {
     }
     @BeforeEach
     public void setupBefEach() throws Exception {
-        openSessionBgnTransact();
+        beginx();
 
     }
 
     @AfterEach
     public void setupAftEach() throws Exception {
-        commitTsact();
+        commitx();
     }
 
     @Test

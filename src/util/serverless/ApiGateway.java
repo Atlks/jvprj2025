@@ -240,7 +240,7 @@ public class ApiGateway implements HttpHandler {
             //   setcookie("uname", "007", exchange);//for test
 
             //============aop trans begn
-            openSessionBgnTransact();
+            beginx();
 
             //---------blk chk auth
             urlAuthChkV2(exchange);
@@ -256,14 +256,14 @@ public class ApiGateway implements HttpHandler {
             // hdl
             handlexProcess(exchange);
 
-            commitTsact();
+            commitx();
             //      System.out.println("endfun handle2()");
             System.out.println("✅endfun handle()");
             return;
 
         } catch (Throwable e8) {
             // transactionThreadLocal.get().rollback();
-            rollbackTransaction();
+            rollbackTx();
             printStackTrace(e8);
             //---------warp ex obj
             Throwable e = getRawEx(e8);

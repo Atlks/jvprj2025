@@ -1,8 +1,12 @@
 package handler.rechg;
 
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import model.OpenBankingOBIE.AccountSubType;
 import model.OpenBankingOBIE.CreditDebitIndicator;
 import model.OpenBankingOBIE.Transaction;
+import model.OpenBankingOBIE.TransactionCode;
 import util.algo.Tag;
 import util.annos.CookieParam;
 
@@ -25,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 import util.algo.Icall;
 import util.serverless.ApiGatewayResponse;
 
+import static util.acc.AccUti.getAccid;
 import static util.auth.AuthUtil.getCurrentUser;
 import static util.tx.HbntUtil.persist;
 import static util.tx.dbutil.addObj;
@@ -41,7 +46,7 @@ import static util.misc.util2026.*;
 @RolesAllowed({"", "USER"})
 @CookieParam(name = "uname", value = "$curuser")
 
-public class RechargeHdr implements Icall<Transaction, Object> {
+public class RechargeHdr implements Icall<RechgDto, Object> {
 
 
     /**
@@ -60,15 +65,18 @@ public class RechargeHdr implements Icall<Transaction, Object> {
     //@CookieValue
     @Transactional
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
-    public Object main(@BeanParam Transaction ts) throws Exception {
+    public Object main(@BeanParam RechgDto dto) throws Exception {
         System.out.println("handle2.sessfac=" + sessionFactory);
         System.out.println("regchg hrl.hadler3()");
         //blk login ed
+        Transaction ts=new Transaction();
+        ts.accountId = getAccid(AccountSubType.EMoney,dto.owner);
+        ts.setAmountVldChk(dto.amount);
         ts.id = "ordChrg" + getFilenameFrmLocalTimeString();
         ts.transactionId = ts.id;
         ts.creditDebitIndicator = CreditDebitIndicator.CREDIT;
+        ts.setTransactionCode(TransactionCode.payment_rechg);
         //amt alreay have in dto
-        ts.accountId = ts.owner;
 
        // ts.timestamp = System.currentTimeMillis();
 
@@ -80,6 +88,8 @@ public class RechargeHdr implements Icall<Transaction, Object> {
 
 
     }
+
+
 
 
 //    @Override

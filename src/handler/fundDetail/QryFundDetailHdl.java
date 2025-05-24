@@ -20,8 +20,8 @@ import static util.algo.GetUti.getTableName;
 import static util.misc.Util2025.encodeJson;
 import static util.oo.TimeUti.beforeTmstmp;
 import static util.tx.HbntUtil.getResultListWzPageByHbntRtLstmap;
-import static util.tx.TransactMng.commitTsact;
-import static util.tx.TransactMng.openSessionBgnTransact;
+import static util.tx.TransactMng.commitx;
+import static util.tx.TransactMng.beginx;
 /**
  * menu::  admin/data rpt/fd dtl
  */
@@ -68,7 +68,7 @@ public class QryFundDetailHdl  {
         iniContnr();
 
         //============aop trans begn
-        openSessionBgnTransact();
+        beginx();
 
         BalancesFundDetail o=new BalancesFundDetail();
         o.changeAmount= BigDecimal.valueOf(666666);
@@ -84,7 +84,7 @@ public class QryFundDetailHdl  {
         //  persistByHibernate(o, AppConfig.sessionFactory.getCurrentSession());
         System.out.println(encodeJson(new QryFundDetailHdl().handleRequest(c)));
 
-        commitTsact();
+        commitx();
     }
 
 

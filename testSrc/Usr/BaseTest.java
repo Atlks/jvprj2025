@@ -6,15 +6,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.io.FileNotFoundException;
-
 import static cfg.IniCfg.iniContnr4cfgfile;
 import static cfg.MainStart.iniContnr;
 import static util.algo.CallUtil.callTry;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 import static util.orm.HbntExt.migrateSql;
-import static util.tx.TransactMng.commitTsact;
-import static util.tx.TransactMng.openSessionBgnTransact;
+import static util.tx.TransactMng.commitx;
+import static util.tx.TransactMng.beginx;
 
 public abstract class BaseTest {
     @BeforeAll
@@ -36,13 +34,13 @@ public abstract class BaseTest {
 
     @BeforeEach
     public void setupBefEach() throws Exception {
-        openSessionBgnTransact();
+        beginx();
 
     }
 
     @AfterEach
     public void setupAftEach() throws Exception {
-        commitTsact();
+        commitx();
     }
 
 }
