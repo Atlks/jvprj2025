@@ -43,14 +43,14 @@ import java.time.OffsetDateTime;
 @Data
 @FieldNameConstants
 public class Transaction {
-
+@ObieFld
     @Id
     // 交易唯一标识
     public String transactionId;
 
     //OBIE Transaction 是否有 accountId？	❌ 没有，默认由 API URL 上下文提供
     @NotNull
-    @NotBlank  @ExtFld
+    @NotBlank  @ObieFld
     @Column(name = "account_id")
     public String accountId;
 
@@ -69,7 +69,7 @@ public class Transaction {
      * TransactionID 更侧重于 系统内部的标识符，用于交易处理和管理。
      */
     @ObieFld
-    public String transactionReference;
+    public String transactionReference="";
 
 
 
@@ -231,8 +231,8 @@ public class Transaction {
     // @Nullable @ObieFld
     // public OffsetDateTime  ValueDateTime;
 
-//    @ObieFld
-//    public String StatementReference;
+   @ObieFld
+   public String StatementReference="";//APR-2025-MONTHLY"
 
 
     // ---------本地自定义扩展字段

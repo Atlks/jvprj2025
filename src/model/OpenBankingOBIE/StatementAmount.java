@@ -2,9 +2,10 @@ package model.OpenBankingOBIE;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 import java.math.BigDecimal;
-
+@Data
 public class StatementAmount {
 
 
@@ -23,7 +24,7 @@ public class StatementAmount {
      */
     @NotNull
 
-    private StatementAmountType1Code type;
+    private StatementAmountType type;
 
     /**
      * Monetary amount with currency.

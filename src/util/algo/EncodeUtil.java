@@ -26,6 +26,11 @@ public class EncodeUtil {
         return   encodeSqlPrmAsStr(name);
     }
 
+    /**
+     * safe string val
+     * @param uname
+     * @return
+     */
     public static String encodeSqlPrm(String uname) {
         return  uname.replaceAll("'","''");
     }

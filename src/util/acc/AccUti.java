@@ -20,9 +20,15 @@ public  static  String getAccid(String accountSubType, String uname){
     public  static  @NotNull @NotBlank String getAccid(AccountSubType accountSubType, String owner) {
         return getAccid(accountSubType.name(),owner);
     }
+
+    @Deprecated
     public static String getAccId(String accountSubType, String uname) {
 
         return uname+"_"+accountSubType;
 
+    }
+
+    public  static @NotNull @NotBlank String getAccId(@NotNull AccountSubType accountSubType, @NotBlank String owner) {
+        return owner+"_"+accountSubType.name();
     }
 }

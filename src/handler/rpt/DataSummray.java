@@ -20,7 +20,7 @@ public class DataSummray {
         DataSummaryVo vo = new DataSummaryVo();
         vo.setTotalRecharge(getSumAmtByTrxtype(TransactionCode.payment_rechg.name()));
         vo.setTotalCommission(getSumAmtByTrxtype(TransactionCode.Service_Cms_rechgCms.name()));
-        vo.setTotalExchange(getSumAmtByTrxtype(TransactionCode.InternalTransfers_exchgIn.name()));
+        vo.setTotalExchange(getSumAmtByTrxtype(TransactionCode.InternalTransfers_exchg.name()));
         vo.setTotalProfit(getSumAmtByTrxtype(TransactionCode.invstProfit.name()));
         vo.setTotalReward(getSumAmtByTrxtype(TransactionCode.invstProfit.name()));
         vo.setTotalAdjustment(getSumAmtByTrxtype(TransactionCode.adjst_frz.name()));

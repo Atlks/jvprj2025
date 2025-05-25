@@ -115,7 +115,7 @@ public class TransfHdr {
            //crdt to ivst acc
         lgblsDto.amount =lgblsDto.amount.multiply(toBigDecimal("0.9"));
         Transaction tx=new Transaction("trsf2ivstAcc_"+getUuid(), getAccid4ivstAcc(uname),uname, CreditDebitIndicator.CREDIT, lgblsDto.amount);
-        tx.transactionCode= TransactionCode.InternalTransfers_exchgIn.name();
+        tx.transactionCode= TransactionCode.InternalTransfers_exchg.name();
                 tx.status= TransactionStatus.BOOKED;
                 tx.ChargeAmount=lgblsDto.amount.multiply(toBigDecimal("0.1"));
 

@@ -29,7 +29,7 @@ import java.util.List;
  * acc里面本来是不包含banlance的。。。因为一对多的关系，以及安全元素，不能不包含bals,只能在bals关联acc
  */
 @Entity
-@Table
+@Table(name = "accounts")
 @DynamicUpdate
 @DynamicInsert
 @Data
@@ -47,15 +47,16 @@ public class Account {
     }
 
     // 使用hibernate ，查询account实体，查询所有InterimAvailableBalance>1的账户
-
+    @ObieFld
     @Id
     public String accountId;// 用户ID
 
 
+    @ObieFld
     @Enumerated(EnumType.STRING)
     public AccountType accountType = AccountType.PERSONAL;         // 账户类型
 
-
+    @ObieFld
     @Column(length = 500)
     //  @Enumerated(EnumType.STRING)
     @NotNull

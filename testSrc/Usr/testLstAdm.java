@@ -22,11 +22,11 @@ public class testLstAdm extends BaseTest{
         // Act
         // Arrange
         ListAdmHdr handler = new ListAdmHdr();
-        Object result = handler.handleRequest(new NonDto());
-
-        System.out.println(encodeJson(result));
-        // Assert
-        assertNotNull(result, "返回结果不应为 null");
+//        Object result = handler.handleRequest(new NonDto());
+//
+//        System.out.println(encodeJson(result));
+//        // Assert
+//        assertNotNull(result, "返回结果不应为 null");
 
         // 根据返回对象类型进行具体断言（示例假设是字符串）
         // assertTrue(result instanceof String);

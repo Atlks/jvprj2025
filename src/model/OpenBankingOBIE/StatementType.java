@@ -13,5 +13,14 @@ public enum StatementType {
     AccountOpening,
             Annual,
     Interim,
-            RegularPeriodic
+            RegularPeriodic,
+    xMonthly,xWeekly;
+
+    public static StatementType safeValueOf(String name) {
+        try {
+            return StatementType.valueOf(name);
+        } catch (Exception e) {
+            return null; // 或默认值
+        }
+    }
 }

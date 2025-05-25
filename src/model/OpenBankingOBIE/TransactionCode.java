@@ -36,8 +36,8 @@ public enum TransactionCode {
      * COM - Commission (佣金)
      */
     payment_rechg,
-    InternalTransfers_exchgOut,
-    InternalTransfers_exchgIn,
+
+    InternalTransfers_exchg,
     invstProfit,  //收益  income  earning
     invstLoss,//
     Service_Cms_rechgCms,

@@ -1,21 +1,27 @@
 package model.OpenBankingOBIE;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import util.annos.ExtFld;
+import util.annos.ObieFld;
+
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
-
+@Data
 @Entity
 @Table(name = "statements")
 public class Statement {
-
+    @ObieFld
     @Id
+    private String statementId;
 
-    private String id= UUID.randomUUID().toString();
-
+   // private String id= UUID.randomUUID().toString();
+    @ObieFld
     private String accountId;
 
-    private String statementId;
 
     /**
      * 在 OBIE（Open Banking Implementation Entity）v3 中，并没有一个字段 直接叫“Monthly Statement”或“Monthly Frequency”。但是你可以通过如下两种方式表示某个对账单是“月度对账单”：
@@ -26,20 +32,17 @@ public class Statement {
      */
     private String statementReference;
 
-    @Enumerated(EnumType.STRING)
-    private StatementType type;
 
-    @Enumerated(EnumType.STRING)
-    private StatementSubType subtype;
+
+//    @ExtFld
+//    @Enumerated(EnumType.STRING)
+//    private StatementSubType subtype;
 
     private OffsetDateTime startDateTime;
 
     private OffsetDateTime endDateTime;
 
-    private OffsetDateTime creationDateTime;
 
-    @ElementCollection
-    private List<String> statementDescription;
 
     // 以下字段如果需要可以建复杂子表映射，目前略化为 JSON 字符串或保留字段名
  //   @Transient
@@ -58,7 +61,26 @@ public class Statement {
     @Transient
   private List<StatementAmount> statementAmount;
 
-  //  @Transient
+    public BigDecimal rechgAmt;
+    public BigDecimal transferExchgAmt;
+    public BigDecimal withdrawAmt;
+
+    public void setType(StatementType statementType) {
+        this.type = statementType.name().toString();
+    }
+
+
+    // @Enumerated(EnumType.STRING)
+    // @Convert(converter = StatementTypeConverter.class)
+    private String type;
+
+    @CreationTimestamp
+    @ObieFld
+    private OffsetDateTime creationDateTime;
+
+    @ElementCollection
+    private List<String> statementDescription;
+    //  @Transient
  //   private List<StatementDateTime> statementDateTime;
 
     // Getter / Setter 省略

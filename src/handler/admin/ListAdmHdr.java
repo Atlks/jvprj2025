@@ -1,5 +1,6 @@
 package handler.admin;
 
+import handler.admin.dto.QryAdmDto;
 import model.admin.Admin;
 import entityx.usr.NonDto;
 import jakarta.annotation.security.PermitAll;
@@ -17,7 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static cfg.Containr.sessionFactory;
+import static util.algo.EncodeUtil.encodeSqlPrm;
 import static util.algo.GetUti.getTableName;
+import static util.algo.NullUtil.isBlank;
 import static util.algo.ToXX.toSnake;
 import static util.oo.SqlUti.fromWzSlct;
 import static util.oo.SqlUti.orderByDesc;
@@ -34,14 +37,20 @@ import static util.tx.dbutil.nativeQueryGetResultList;
 
 public class ListAdmHdr  {
 
-    public Object handleRequest(NonDto reqdto) throws Exception {
+    public Object handleRequest(QryAdmDto reqdto) throws Exception {
 
 //        var uNameLikeConditon = "";
-//        if (!isBlank(reqdto.unameKeyword))
-//            uNameLikeConditon = "where  uname like '%" + encodeParamSql(reqdto.unameKeyword) + "%'";
+
         var sql =
-                fromWzSlct(Admin.class)+
-                orderByDesc(Admin.Fields.createdAt);
+                fromWzSlct(Admin.class);
+
+        if (!isBlank(reqdto.uname))
+        {
+            sql+= " where  "+addCondt(Admin.Fields.username ," like", reqdto.uname );
+
+        }
+
+              sql+=  orderByDesc(Admin.Fields.createdAt);
                // order by createdAt desc  ";
         System.out.println(sql);
 
@@ -53,7 +62,12 @@ public class ListAdmHdr  {
        return  (list1);
     }
 
-
+    private String addCondt(String fld, String op, String val) {
+        if(op.trim().toLowerCase().equals("like"))
+            val="'%"+encodeSqlPrm(val) +"%'";
+        fld=toSnake(fld);
+        return fld+" "+op+" "+val;
+    }
 
 
 //
