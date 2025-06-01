@@ -1,0 +1,19 @@
+get:
+  tags:
+    - cfg
+  summary: "获取佣金挡位配置"
+
+
+  parameters:
+    - name: k
+      in: query
+      description: " "
+      required: true
+      schema:
+        type: string
+      example: "CmsLvCfg"
+
+
+  responses:
+    "200":
+      $ref: './components/responses/CommonResponse.yaml'

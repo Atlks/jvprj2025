@@ -709,6 +709,8 @@ public class dbutil {
             System.out.println("Affected rows: " + affectedRows);
             return affectedRows;
         } catch (SQLException e) {
+            System.out.println("---catch exeupdt sql: " + sql);
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

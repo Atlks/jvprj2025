@@ -15,7 +15,7 @@ import static cfg.Containr.sessionFactory;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
 import static util.tx.Pagging.getPageResultByHbntV4;
 
-@Path("/usr/QryNextLvMbrHdl")
+@Path("/apiv1/usr/QryNextLvMbrHdl")
 @PermitAll
 public class QryNextLvMbrHdl implements RequestHandler<QueryDto, ApiGatewayResponse> {
     /**

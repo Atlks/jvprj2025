@@ -1,0 +1,34 @@
+get:
+  tags:
+    - user
+  summary: "注册用户的方法reg"
+  description: "注册用户的方法dscrp。。。。"
+  security: []  # 👈 禁用认证机制（不显示锁图标）
+  parameters:
+    - name: uname
+      in: query
+      description: "用户名"
+      required: true
+      schema:
+        type: string
+    - name: pwd
+      in: query
+      description: "密码"
+      required: true
+      schema:
+        type: string
+    - name: email
+      in: query
+      description: ""
+      required: false
+      schema:
+        type: string
+    - name: invtr
+      in: query
+      description: "邀请人"
+      required: false
+      schema:
+        type: string
+  responses:
+    "200":
+      $ref: './components/responses/CommonResponse.yaml'

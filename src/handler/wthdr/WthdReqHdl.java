@@ -2,6 +2,7 @@ package handler.wthdr;
 
 import cfg.MainStart;
 import entityx.usr.WithdrawDto;
+import jakarta.ws.rs.Path;
 import model.OpenBankingOBIE.TransactionCode;
 import util.model.Context;
 import model.OpenBankingOBIE.Account;
@@ -34,6 +35,7 @@ import static util.tx.TransactMng.beginx;
 /**
  * 提现申请    /wthdr/WthdReqHdl
  */
+@Path("/apiv1/wthdr/WthdReqHdl")
 public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayResponse> {
     /**
 

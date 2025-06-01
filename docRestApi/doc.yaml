@@ -1,9 +1,9 @@
 openapi: 3.0.0
 info:
   title: 用户端 API
-  version: v250520.666.888
+  version: v250526.666.888
   description: |
-    这是一个用于系统的 API。通过该 API，可以作为开发。
+    这是一个用于系统的 API。通过该 API，可以作为开发。.
     该文档提供了所有可用接口的详细说明。
     用户规范参照了oauth/openid，密码方面规参照 OWASP ，金融账户与交易规范参照open banking/obie v3标准，代理方面为自定模式
     
@@ -12,8 +12,12 @@ info:
     name: dddddomas
     email: support@example.com
 servers:
+  - url: http://localhost:888
+    description: 本地环境888
   - url: http://localhost:8889
     description: 本地环境
+  - url: http://13.212.95.142:888
+    description: 测试环境win
   - url: http://18.136.123.232:8889
     description: 测试环境
 
@@ -106,9 +110,39 @@ paths:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
 
-  /usr/QryNextLvMbrHdl:
-    $ref: './paths/usr/QryNextLvMbrHdl.yaml'
-  /adm/changePwd:
+  /apiv1/usr/QryNextLvMbrHdl:
+    $ref: './QryNextLvMbrHdl.yaml'
+  /apiv1/statmt/geneStatmtCurrMth:
+    get:
+      tags:
+        - rpt
+      summary: "生成当月统计报表数据"
+
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
+  /apiv1/adm/resetPwdByAdm:
+    get:
+      tags:
+        - admin
+      summary: "直接重置管理员密码"
+      parameters:
+        - name: uname
+          in: query
+          description: "管理员uname"
+          required: true
+          schema:
+            type: string
+        - name: newpwd
+          in: query
+          description: "新密码"
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
+  /apiv1/adm/changePwd:
     get:
       tags:
         - admin
@@ -129,11 +163,11 @@ paths:
       responses:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
-  /adm/updtAdmStat:
+  /apiv1/adm/updtAdmStat:
     get:
       tags:
         - admin
-      summary: "更新用户状态 "
+      summary: "更新管理员用户状态 "
       parameters:
         - name: uname
           in: query
@@ -152,7 +186,7 @@ paths:
       responses:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
-  /usrStt/RankMmbrNAgtSttHdl:
+  /apiv1/usrStt/RankMmbrNAgtSttHdl:
     get:
       tags:
         - rpt
@@ -162,43 +196,42 @@ paths:
           $ref: './components/responses/CommonResponse.yaml'
 
 
-  /wlt/ListTrsxBnsHdl:
+  /apiv1/wlt/ListTrsxBnsHdl:
     $ref: './paths/wlt/ListTrsxBnsHdl.yml'
-  /wlt/findBalanceOverviewHdl:
+  /apiv1/wlt/findBalanceOverviewHdl:
     $ref: './paths/wlt/findBalanceOverviewHdl.yml'
-  /wlt/Trans:
+  /apiv1/wlt/Trans:
     $ref: './paths/acc/trans.yml'
-  /admin/wthdr/ReviewWthdrReqOrdRejectHdr:
+  /apiv1/admin/wthdr/ReviewWthdrReqOrdRejectHdr:
     $ref: './paths/wthdr/ReviewWthdrReqOrdRejectHdr.yaml'
-  /api/token:
-    $ref: './paths/usr/token.yaml'
-  /api/userinfo:
-    $ref: './paths/usr/me.yaml'
-  /wthdr/WthdReqHdl:
+  /apiv1/api/token:
+    $ref: './token.yaml'
+  /apiv1/api/userinfo:
+    $ref: './me.yaml'
+  /apiv1/wthdr/WthdReqHdl:
     $ref: './paths/ylwlt/WthdReqHdl.yaml'
-  /wthdr/WthdrawReviewQryHdl:
+  /apiv1/wthdr/WthdrawReviewQryHdl:
     $ref: './paths/ylwlt/WthdrawReviewQryHdl.yaml'
-  /admin/wlt/ReviewWthdrReqOrdPassHdr:
+  /apiv1/admin/wlt/ReviewWthdrReqOrdPassHdr:
     $ref: './paths/wthdr/ReviewWthdrReqOrdPassHdr.yaml'
-  /admin/InvstRcd/AddInvstRcdHdl:
+  /apiv1/admin/InvstRcd/AddInvstRcdHdl:
     $ref: './paths/InvstRcd/AddInvstRcdHdl.yaml'
-  /admin/InvstRcd/QryInvstRcdHdl:
+  /apiv1/admin/InvstRcd/QryInvstRcdHdl:
     $ref: './paths/InvstRcd/QryInvstRcdHdl.yaml'
-  /pay/recharge:
+  /apiv1/pay/recharge:
     $ref: './paths/pay/recharge.yml'
-  /cfg/IniDataHdl:
+  /apiv1/cfg/IniDataHdl:
     $ref: './paths/cfg/IniDataHdl.yaml'
-  /cfg/GetCfg?k=DataSummary:
-    $ref: './paths/cfg/GetCfgDataSummary.yaml'
-  /cfg/GetCfg?k=MbrVipCfg:
-    $ref: './paths/cfg/GetMbrVipCfg.yaml'
-  /cfg/GetCfg?k=CmsLvCfg:
-    $ref: './paths/cfg/GetCmsLvCfg.yaml'
-  /agt/QryAgtHdl:
+
+  /apiv1/cfg/GetCfg?k=MbrVipCfg:
+    $ref: './GetMbrVipCfg.yaml'
+  /apiv1/cfg/GetCfg?k=CmsLvCfg:
+    $ref: './GetCmsLvCfg.yaml'
+  /apiv1/agt/QryAgtHdl:
     $ref: './paths/agt/QryAgtHdl.yaml'
-  /agt/listSubHdl:
+  /apiv1/agt/listSubHdl:
     $ref: './paths/agt/listSubHdl.yaml'
-  /agt/listSupHdl:
+  /apiv1/agt/listSupHdl:
     get:
       tags:
         - agt
@@ -207,23 +240,7 @@ paths:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
 
-  /role/FindRoleHdl:
-    get:
-      tags:
-        - role
-      summary: " "
-      responses:
-        "200":
-          $ref: './components/responses/CommonResponse.yaml'
 
-  /role/DelRoleHdl:
-    get:
-      tags:
-        - role
-      summary: " "
-      responses:
-        "200":
-          $ref: './components/responses/CommonResponse.yaml'
 
   /db/QryHdl:
     get:
@@ -253,7 +270,7 @@ paths:
       responses:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
-  /admin/InvstRcd/QryIvstTopOvrvw:
+  /apiv1/admin/InvstRcd/QryIvstTopOvrvw:
     get:
       tags:
         - invstRcd
@@ -262,7 +279,7 @@ paths:
       responses:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
-  /wlt/QryFundDetailHdl:
+  /apiv1/wlt/QryFundDetailHdl:
     get:
       tags:
         - fdList
@@ -271,18 +288,19 @@ paths:
       responses:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
-  /rpt/DataSummray:
+
+  /apiv1/rpt/DataSummray:
     get:
       tags:
         - rpt
-      summary: "数据报表-数据总览
+      summary: "数据报表-数据总览  （月度统计以及总统计）
   "
 
       responses:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
 
-  /cms/WthdrCmsHdl:
+  /apiv1/cms/WthdrCmsHdl:
     get:
       tags:
         - cms
@@ -305,7 +323,7 @@ paths:
       responses:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
-  /agt/listMyMmbr:
+  /apiv1/agt/listMyMmbr:
     get:
       tags:
         - agt
@@ -314,7 +332,7 @@ paths:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
 
-  /agt/MyAgtInfo:
+  /apiv1/agt/MyAgtInfo:
     get:
       tags:
         - agt
@@ -324,7 +342,7 @@ paths:
           $ref: './components/responses/CommonResponse.yaml'
 
 
-  /admin/QryFundDetailHdl:
+  /apiv1/admin/QryFundDetailHdl:
     get:
       tags:
         - fdList
@@ -349,78 +367,78 @@ paths:
           $ref: './components/responses/CommonResponse.yaml'
 
 
-  /admin/role/ListRolesHdl:
+  /apiv1/cfg/GetCfg?k=roleCfg:
     $ref: './paths/role/ListRolesHdl.yaml'
-  /admin/role/SaveRolesHdl:
+  /apiv1/cfg/SetCfg?k=roleCfg:
     $ref: './paths/role/SaveRolesHdl.yaml'
-  /wlt/QryWltHdl:
+  /apiv1/wlt/QryWltHdl:
     $ref: './paths/wlt/QryWltHdl.yaml'
-  /wlt/MeWlt:
+  /apiv1/wlt/MeWlt:
     $ref: './paths/wlt/MeWlt.yaml'
 
-  /admin/cfg/SetCfgKv:
-    $ref: './paths/cfg/SetCfgKv.yaml'
-  /cfg/GetCfg:
-    $ref: './paths/cfg/GetCfg.yaml'
-  /wlt/ListInsFdPoolLogHdl:
+  /apiv1/admin/cfg/SetCfgKv:
+    $ref: './SetCfgKv.yaml'
+  /apiv1/cfg/GetCfg:
+    $ref: './GetCfg.yaml'
+  /apiv1/wlt/ListInsFdPoolLogHdl:
     $ref: './paths/wlt/ListInsFdPoolLogHdl.yaml'
-  /wlt/ListInvtCmsLogHdl:
+  /apiv1/wlt/ListInvtCmsLogHdl:
     $ref: './paths/wlt/ListInvtCmsLogHdl.yaml'
-  /wlt/ListIvstProfitHdl:
+  /apiv1/wlt/ListIvstProfitHdl:
     $ref: './paths/wlt/ListIvstProfitHdl.yaml'
 
-  /admin/wlt/QueryOrdChrgHdr:
+  /apiv1/admin/wlt/QueryOrdChrgHdr:
     $ref: './paths/pay/QueryOrdChrgHdr.yaml'
-  /admin/wlt/ReviewChrgPassHdr:
+  /apiv1/admin/wlt/ReviewChrgPassHdr:
     $ref: './paths/pay/ReviewChrgPassHdr.yaml'
-  /admin/wlt/ReviewChrgRefuseHdr:
+  /apiv1/admin/wlt/ReviewChrgRefuseHdr:
     $ref: './paths/pay/ReviewChrgRefuseHdr.yaml'
-  /reg:
-    $ref: './paths/usr/reg.yaml'
-  /login:
-    $ref: './paths/usr/login.yaml'
-  /users/me:
-    $ref: './paths/usr/me.yaml'
+  /apiv1/reg:
+    $ref: './reg.yaml'
+  /apiv1/login:
+    $ref: './login.yaml'
+  /apiv1/users/me:
+    $ref: './me.yaml'
   /user/ModifyPwdHdr:
-    $ref: './paths/usr/ModifyPwdHdr.yaml'
-  /cfg/GetRechargeConfigHdlr:
-    $ref: './paths/cfg/GetRechargeConfigHdlr.yaml'
+    $ref: './ModifyPwdHdr.yaml'
+  /apiv1/cfg/GetRechargeConfigHdlr:
+    $ref: './GetRechargeConfigHdlr.yaml'
 
-  /admin/cfg/SetRechargeConfigHdlr:
-    $ref: './paths/cfg/SetRechargeConfigHdlr.yaml'
+  /apiv1/admin/cfg/SetRechargeConfigHdlr:
+    $ref: './SetRechargeConfigHdlr.yaml'
 
 
-  /admin/AddAdminHdr:
+  /apiv1/admin/AddAdminHdr:
     $ref: './paths/admin/adm/add.yaml'
-  /admin/ListAdmHdr:
+  /apiv1/admin/ListAdmHdr:
     $ref: './paths/admin/adm/list.yaml'
-  /admin/adm/del:
+  /apiv1/admin/adm/del:
     $ref: './paths/admin/adm/del.yaml'
-  /admin/login:
+  /apiv1/admin/login:
     $ref: './paths/admin/adm/login.yaml'
-  /admin/adm/logout:
+  /apiv1/admin/adm/logout:
     $ref: './paths/admin/adm/logout.yaml'
-  /uploads:
+  /apiv1/uploads:
     $ref: './paths/common/upld.yaml'
-  /res/uploads:
+  /apiv1/res/uploads/xxxx.jpg:
     $ref: './paths/common/getimg.yaml'
 
-  /user/SetWthdrPwd:
-    $ref: './paths/usr/SetWthdrPwdHdr.yaml'
+  /apiv1/user/SetWthdrPwd:
+    $ref: './SetWthdrPwdHdr.yaml'
 
-  /user/IsSetWthdrPwdHdr:
-    $ref: './paths/usr/IsSetWthdrPwdHdr.yaml'
+  /apiv1/user/IsSetWthdrPwdHdr:
+    $ref: './IsSetWthdrPwdHdr.yaml'
 #  /FgtPwdRstPwdHdr:
  #   $ref: './paths/FgtPwdRstPwdHdr.yaml'
  # /FgtPwdGetQuestionByUnameHdr:
  #   $ref: './paths/FgtPwdGetQuestionByUnameHdr.yaml'
-  /user/SetEmlHdl:
-    $ref: './paths/usr/SetEmlHdl.yaml'
+  /apiv1/user/SetEmlHdl:
+    $ref: './SetEmlHdl.yaml'
 
 
 #  /user/setScrQstn:
 #    $ref: './paths/usrSecury/setScrQstn.yaml'
-  /api/captcha :
+  /apiv1/captcha :
     get:
       tags:
         - user
@@ -433,7 +451,7 @@ paths:
               schema:
                 type: string
                 format: binary
-  /invstAcc/me:
+  /apiv1/invstAcc/me:
     get:
       tags:
         - AccountInvst
@@ -442,7 +460,7 @@ paths:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
 
-  /admin/qryUsr:
+  /apiv1/admin/qryUsr:
     get:
       tags:
         - user
@@ -507,7 +525,7 @@ paths:
                         status:
                           type: string
                           example: "active"
-  /post2:
+  /apiv1/post2:
     post:
       summary: 提交参数 a 和 b
       description: 接收 `a` 和 `b` 作为参数，并返回处理结果
@@ -540,7 +558,7 @@ paths:
                     type: integer
                     example: 3
 
-  /coin/frnXchg:
+  /apiv1/coin/frnXchg:
     get:
       tags:
         - coin
@@ -577,18 +595,18 @@ paths:
               schema:
                 type: string
 
-  /ylwlt/changeLog:
+  /apiv1/ylwlt/changeLog:
     get:
       tags:
         - misc
       summary: "盈利钱包账变流水"
-  /wlt/changeLog:
+  /apiv1/wlt/changeLog:
     get:
       tags:
         - Wallet
       summary: "钱包账变流水"
 
-  /logout:
+  /apiv1/logout:
     get:
       tags:
         - user
@@ -608,7 +626,7 @@ paths:
 
 
 
-  /admin/wlt/adjust:
+  /apiv1/admin/wlt/adjust:
     get:
       tags:
         - Account
@@ -668,7 +686,7 @@ paths:
         '200':
           description: 成功响应
 
-  /password/reset/request:
+  /apiv1/password/reset/request:
     get:
       tags:
         - secury
@@ -696,7 +714,7 @@ paths:
         '404':
           description: User not found
 
-  /password/reset/confirm:
+  /apiv1/password/reset/confirm:
     post:
       tags:
         - secury
@@ -739,7 +757,7 @@ paths:
         '404':
           description: User not found
 
-  /api/security-question/setup:
+  /apiv1/api/security-question/setup:
     post:
       tags:
         - secury
@@ -773,7 +791,7 @@ paths:
                   message:
                     type: string
                     example: Security question saved
-  /ylwlt/adjust:
+  /apiv1/ylwlt/adjust:
     get:
       tags:
         - misc
@@ -797,7 +815,7 @@ paths:
       responses:
         '200':
           description: 成功响应
-  /myWltAdrs/ListWltAddrHdl:
+  /apiv1/myWltAdrs/ListWltAddrHdl:
     get:
       tags:
         - wltAddr
@@ -807,8 +825,8 @@ paths:
 
       responses:
         "200":
-          $ref: '../../components/responses/CommonResponse.yaml'
-  /myWltAdrs/ReviewWltAdrsHdl:
+          $ref: './components/responses/CommonResponse.yaml'
+  /apiv1/myWltAdrs/ReviewWltAdrsHdl:
     get:
       tags:
         - wltAddr
@@ -839,8 +857,8 @@ paths:
       responses:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
-  /myWltAdrs/GetMyWltAddrHdl:
-    $ref: './paths/usr/GeMyWltAddrHdl.yaml'
-  /myWltAdrs/SetMyWltAddrHdl:
-    $ref: './paths/usr/SeMyWltAddrHdl.yaml'
+  /apiv1/myWltAdrs/GetMyWltAddrHdl:
+    $ref: './GeMyWltAddrHdl.yaml'
+  /apiv1/myWltAdrs/SetMyWltAddrHdl:
+    $ref: './SeMyWltAddrHdl.yaml'
 

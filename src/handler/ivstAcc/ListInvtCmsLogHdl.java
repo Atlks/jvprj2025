@@ -42,7 +42,7 @@ import static cfg.MainStart.iniContnr;
  *
  */
 
-@Path("/wlt/ListInvtCmsLogHdl")
+@Path("/apiv1/wlt/ListInvtCmsLogHdl")
 @PermitAll
 @NoDftParam
 public class ListInvtCmsLogHdl implements RequestHandler<QueryDto, ApiGatewayResponse> {

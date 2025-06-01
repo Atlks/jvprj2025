@@ -18,6 +18,8 @@ import util.model.openbank.BalanceTypes;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
+import static util.oo.TimeUti.nowOffsetDateTime;
+
 
 /**openbank obieV3.1   bal
  * obieV3规范的 金融模型余额定义
@@ -32,6 +34,7 @@ import java.time.OffsetDateTime;
 @Data
 @Table(name = "balances")
 @FieldNameConstants
+//@EnableJpaRepositories
 @NoArgsConstructor
 //@ToString(exclude = "account")
 public class Balance {
@@ -66,13 +69,13 @@ public class Balance {
     public String accountId;
 
 
-
+@Transient
     /**
      * balance实体的account对象
      */
-    @org.hibernate.annotations.Immutable  // Hibernate扩展，只读提示
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    //@org.hibernate.annotations.Immutable  // Hibernate扩展，只读提示
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "account_id", insertable = false, updatable = false)
     // @JsonBackReference
     public Account account;  //json acc
 
@@ -81,9 +84,10 @@ public class Balance {
      * acc store ,json fmt
      * //H2 实际只会当字符串存储H2 实际只会当字符串存储
      * 不能把同一个字段同时映射为外键关系又当成JSON列，Hibernate 会混乱。
+     * 一旦你使用了 columnDefinition 明确指定列类型，那么 length 属性不会生效。
      */
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "varchar(2000)")
+    @Column(columnDefinition = "varchar(2000)",length = 2200)
     public Account accSnapshot;
 
 
@@ -125,7 +129,9 @@ public class Balance {
     //必填项  发生的时间
     @CreationTimestamp
     @NotNull
-    private OffsetDateTime dateTime;
+    private OffsetDateTime dateTime=nowOffsetDateTime();
+
+
 
 
     /**

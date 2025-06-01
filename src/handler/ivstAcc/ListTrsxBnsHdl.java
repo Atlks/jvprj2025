@@ -38,7 +38,7 @@ import static util.tx.TransactMng.beginx;
  *
  */
 
-@Path("/wlt/ListTrsxBnsHdl")
+@Path("/apiv1/wlt/ListTrsxBnsHdl")
 @PermitAll
 @NoDftParam
 public class ListTrsxBnsHdl implements RequestHandler<QueryDto, ApiGatewayResponse> {

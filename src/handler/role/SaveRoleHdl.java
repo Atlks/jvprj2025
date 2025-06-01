@@ -16,7 +16,7 @@ import static util.tx.HbntUtil.mergex;
 
 
 @PermitAll
-@Path("/admin/role/SaveRoleHdl")
+@Path("/apiv1/admin/role/SaveRoleHdl")
 //   http://localhost:8889/user/IsSetWthdrPwdHdr?jwt.uname=007
 //
 @NoArgsConstructor
@@ -31,8 +31,8 @@ public class SaveRoleHdl implements RequestHandler<CustomRole, ApiGatewayRespons
     @Override
     public ApiGatewayResponse handleRequest(CustomRole param, Context context) throws Throwable {
 
-        if(param.id.equals(""))
-            param.id=getUuid();
+//        if(param.id.equals(""))
+//            param.id=getUuid();
         mergex( param, sessionFactory.getCurrentSession());
         return new ApiGatewayResponse(param) ;
     }

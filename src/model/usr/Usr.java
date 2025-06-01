@@ -100,12 +100,12 @@ public  String vipLevel="";
     //@Column(updatable = false) 推荐配合 @CreationTimestamp 使用，避免人为修改
     @CreationTimestamp
     @Column(updatable = false)
-    public OffsetDateTime crtTimeStmp;
+    public OffsetDateTime crtTimeStmp=OffsetDateTime.now();
 
     public long timestamp=System.currentTimeMillis();
 
     @UpdateTimestamp
-    public OffsetDateTime updtTmstmp;
+    public OffsetDateTime updtTmstmp=OffsetDateTime.now();
 
 
 
@@ -161,7 +161,7 @@ public  String vipLevel="";
     private Boolean phoneNumberVerified;
 
 
-   // @UpdateTimestamp
+   @UpdateTimestamp
     /** 最后更新时间（UNIX 时间戳） */
-    private Instant updatedAt;
+    private OffsetDateTime updatedAt;
 }

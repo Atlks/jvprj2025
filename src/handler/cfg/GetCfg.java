@@ -23,7 +23,7 @@ import static util.tx.HbntUtil.findById;
  *     DataSummary
  */
 
-@Path("/cfg/GetCfg")
+@Path("/apiv1/cfg/GetCfg")
 //@GetMapping("/admin/cfg/GetCfg")
 @PermitAll
 public class GetCfg implements RequestHandler<CfgKv, ApiGatewayResponse> {

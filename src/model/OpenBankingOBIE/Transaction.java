@@ -34,10 +34,9 @@ import java.time.OffsetDateTime;
 @Entity
 @DynamicUpdate  // 仅更新被修改的字段
 @DynamicInsert //如果还希望 INSERT 时也只插入非 null 的字段，可以搭配
-@Table(name = "Transactions",
+@Table(name = "transactions",
         indexes = {
-                @Index(name = "idx_transaction_code", columnList = "transactionCode"),
-                @Index(name = "idx_uname", columnList = "accountOwner")
+                @Index(name = "idx_transaction_code", columnList = "transaction_Code")
         })  //Transactions_Pay
 @NoArgsConstructor
 @Data
@@ -83,7 +82,7 @@ public class Transaction {
      */
     @Enumerated(EnumType.STRING)
     @NotNull
-    @NotBlank
+
     public CreditDebitIndicator creditDebitIndicator = CreditDebitIndicator.CREDIT;
 
 
@@ -181,9 +180,10 @@ public class Transaction {
     @Alas("balanceAfterTx")
     public Balance balance;
 
-    @org.hibernate.annotations.Immutable
-    @ManyToOne
-    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    @Transient
+//    @org.hibernate.annotations.Immutable
+//    @ManyToOne
+//    @JoinColumn(name = "account_id", insertable = false, updatable = false)
     private Account account;
 
     /**
@@ -231,11 +231,14 @@ public class Transaction {
     // @Nullable @ObieFld
     // public OffsetDateTime  ValueDateTime;
 
-   @ObieFld
-   public String StatementReference="";//APR-2025-MONTHLY"
+    /**
+     * 月度账单一般是，，季度账单可以额外建立字段relt
+     */
+    @ObieFld
+    public String StatementReference="";//APR-2025-MONTHLY"
 
 
-    // ---------本地自定义扩展字段
+    // ---------本地自定义扩展字段。。
 
     @ExtFld
     @UpdateTimestamp

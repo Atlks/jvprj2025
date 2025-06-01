@@ -31,7 +31,7 @@ import static util.tx.Pagging.getPageResultByHbntV3;
 
 //组合了  和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
 @PermitAll
-@Paths({"/admin/qryUsrApi", "/admin/qryUsr"})
+@Paths({"/apiv1/admin/qryUsrApi", "/apiv1/admin/qryUsr"})
 //   http://localhost:8889/admin/qryUsr?uname=008&page=1&pagesize=100
 @NoArgsConstructor
 @Data

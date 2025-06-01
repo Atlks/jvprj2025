@@ -34,7 +34,7 @@ import static util.tx.TransactMng.beginx;
  *
  */
 
-@Path("/wlt/ListInsFdPoolLogHdl")
+@Path("/apiv1/wlt/ListInsFdPoolLogHdl")
 @PermitAll
 @NoDftParam
 public class ListInsFdPoolLogHdl implements RequestHandler<QueryDto, ApiGatewayResponse> {

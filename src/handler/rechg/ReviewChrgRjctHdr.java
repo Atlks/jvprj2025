@@ -31,7 +31,7 @@ import static util.tx.HbntUtil.mergex;
  * 拒绝后钱可能需要转回去
  */
 
-@Path("/admin/wlt/ReviewChrgRefuseHdr")
+@Path("/apiv1/admin/wlt/ReviewChrgRefuseHdr")
 @PermitAll
 public class ReviewChrgRjctHdr implements RequestHandler<ReviewChrgRqdto, ApiGatewayResponse> {
     /**

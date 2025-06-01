@@ -1,0 +1,10 @@
+get:
+  tags:
+    - wltAddr
+  summary: "我的钱包地址"
+  description: ""
+  operationId: "我的钱包地址"
+
+  responses:
+    "200":
+      $ref: './components/responses/CommonResponse.yaml'

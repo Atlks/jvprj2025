@@ -22,7 +22,7 @@ import static util.tx.HbntUtil.findById;
 
 
 //@PermitAll
-@Path("/user/IsSetWthdrPwdHdr")
+@Path("/apiv1/user/IsSetWthdrPwdHdr")
 //   http://localhost:8889/user/IsSetWthdrPwdHdr?jwt.uname=007
 //
 @NoArgsConstructor

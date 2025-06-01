@@ -34,7 +34,7 @@ import static util.tx.Pagging.getPageResultByHbntV4;
  订单号              会员账号          标签                    VIP等级          上级代理             充值金额           截图附件              审核状态            审核人                    充值时间                         审核时间
  */
 
-@Path("/admin/wlt/QueryOrdChrgHdr")
+@Path("/apiv1/admin/wlt/QueryOrdChrgHdr")
 @PermitAll
 @NoDftParam
 //@RolesAllowed({"admin","op"})

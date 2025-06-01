@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 import static cfg.Containr.sessionFactory;
+import static handler.trx.TxDao.getSumAmtByBkDttm;
+import static handler.trx.TxDao.getSumAmtByTrxtype;
 import static util.Oosql.SlctQry.newSelectQuery;
 import static util.Oosql.SlctQry.toValStr;
 import static util.algo.GetUti.getTableName;
@@ -67,28 +69,10 @@ public class TransactnService {
     public static BigDecimal sumInvstProfit() {
 
         String trxType = TransactionCode.invstProfit.name();
-        return getSumAmtByTrxtype(trxType);
+        return getSumAmtByTrxtype(TransactionCode.invstProfit);
 
     }
 
-    public static long getCntByBkDttm(String startTime, String endTime) {
-
-        SlctQry query = newSelectQuery(getTableName(Transaction.class));
-        query.select("count(*)");
-
-        query.addConditions(Transaction.Fields.transactionCode + "=" + toValStr(TransactionCode.payment_rechg.name()));
-        query.addConditions(Transaction.Fields.bookingDateTime + ">=" + toValStr(startTime));
-        query.addConditions(Transaction.Fields.bookingDateTime + "<=" + toValStr(endTime));
-
-        String sql = query.getSQL();  // ✅ 直接拿到 SQL 字符串
-        System.out.println(sql);
-        try {
-            return (long) getSingleResult(sql, sessionFactory.getCurrentSession());
-        } catch (findByIdExptn_CantFindData e) {
-            return 0;
-        }
-
-    }
 
     /**
      * @param yearMonth 202505
@@ -100,45 +84,12 @@ public class TransactnService {
         return getSumAmtByBkDttm(startTime, endTime);
 
     }
-    public static long getMonthRchgUserCnt(int yearMonth) {
+//    public static long getMonthRchgUserCnt(int yearMonth) {
+//
+//        String startTime = getMonthStartDatetime(yearMonth);
+//        String endTime = getMonthEndDatetime(yearMonth);
+//        return getCntByBkDttm(startTime, endTime);
+//    }
 
-        String startTime = getMonthStartDatetime(yearMonth);
-        String endTime = getMonthEndDatetime(yearMonth);
-        return getCntByBkDttm(startTime, endTime);
-    }
-
-    @NotNull
-    public static BigDecimal getSumAmtByBkDttm(String starttime, String endTime) {
-        SlctQry query = newSelectQuery(getTableName(Transaction.class));
-        query.select("sum(amount)");
-
-        query.addConditions( Transaction.Fields.transactionCode + "=" + toValStr(TransactionCode.payment_rechg.name()));
-        query.addConditions(Transaction.Fields.bookingDateTime+">="+toValStr(starttime));
-        query.addConditions(Transaction.Fields.bookingDateTime+"<="+toValStr(endTime));
-
-        String sql = query.getSQL();  // ✅ 直接拿到 SQL 字符串
-        System.out.println(sql);
-        try {
-            return (BigDecimal) getSingleResult(sql, sessionFactory.getCurrentSession());
-        } catch (findByIdExptn_CantFindData e) {
-            return BigDecimal.valueOf(0);
-        }
-    }
-
-    @NotNull
-    public static BigDecimal getSumAmtByTrxtype(String trxType) {
-        SlctQry query = newSelectQuery(getTableName(Transaction.class));
-        query.select("sum(amount)");
-
-        query.addConditions(Transaction.Fields.transactionCode , "=",(trxType));
-
-        String sql = query.getSQL();  // ✅ 直接拿到 SQL 字符串
-        System.out.println(sql);
-        try {
-            return (BigDecimal) getSingleResult(sql, sessionFactory.getCurrentSession());
-        } catch (findByIdExptn_CantFindData e) {
-            return BigDecimal.valueOf(0);
-        }
-    }
 
 }

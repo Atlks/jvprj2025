@@ -42,7 +42,7 @@ import static util.misc.util2026.*;
  */
 
 
-@Path("/admin/wlt/adjust")
+@Path("/apiv1/admin/wlt/adjust")
 
 
 @RolesAllowed({"admin", "Operator"})
@@ -70,7 +70,7 @@ public class AdjustHdr {
             dto.accid=accid;
             dto.amt=adjstDto.getAdjustAmount();
             dto.type=TransactionCode.adjst_crdt;
-            call(AccService::incrBal,dto);
+            call(AccService::AdjustCrdBal,dto);
          //   deposit(dto);
 
         }));
@@ -100,6 +100,7 @@ public class AdjustHdr {
 
             tx2.setAmount(adjAmt);
             tx2.transactionCode = TransactionCode.adjst_frz.name();
+
             frzAmt2accWzlog(acc1, tx2);
         };
         chooseStep.addCase(new ConditionBranch(TransactionCode.adjst_frz, throwingRunnable));

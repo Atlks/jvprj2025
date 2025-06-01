@@ -2,6 +2,7 @@ package handler.wlt;
 
 import handler.ivstAcc.dto.QueryDto;
 import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.Path;
 import util.model.Context;
 
 import model.OpenBankingOBIE.Account;
@@ -16,7 +17,7 @@ import static util.acc.AccUti.getAccid;
 import static util.tx.HbntUtil.findById;
 
 @PermitAll
-
+@Path("/apiv1/wlt/QryWltHdl")
 public class QryWltHdl  implements RequestHandler<QueryDto, ApiGatewayResponse> {
     /**
      * @param param

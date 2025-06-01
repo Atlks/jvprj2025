@@ -2,7 +2,14 @@ get:
   tags:
     - role
   summary: " 列表自定义角色"
-  description: " 。。。。"
+  parameters:
+    - name: k
+      in: query
+      description: " "
+      required: true
+      schema:
+        type: string
+      example: "roleCfg"
 
 
 

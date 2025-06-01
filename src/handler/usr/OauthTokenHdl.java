@@ -43,7 +43,7 @@ import static util.serverless.ApiGateway.httpExchangeCurThrd;
 //组合了  和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
 @PermitAll
 
-@Paths({"/api/token"})
+@Paths({"/apiv1/api/token"})
 //   http://localhost:8889/login?uname=008&pwd=000
 @NoArgsConstructor
 @Data

@@ -25,7 +25,7 @@ import static util.tx.TransactMng.beginx;
 /**
  * menu::  admin/data rpt/fd dtl
  */
-@Path("/wlt/QryFundDetailHdl")
+@Path("/apiv1/wlt/QryFundDetailHdl")
 
 public class QryFundDetailHdl  {
     /**

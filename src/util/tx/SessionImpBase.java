@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract   class SessionImpBase<R>    implements Session {
-    Transaction Transaction1=new TransactionImp();
+    Transaction Transaction1;//=new TransactionImp();
     private Class  class1;
 
     /**

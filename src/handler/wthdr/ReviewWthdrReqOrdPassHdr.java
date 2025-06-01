@@ -43,7 +43,7 @@ import static handler.secury.SecUti.*;
  * //   http://localhost:8889/ReviewChrgPassHdr?ord_id=
  */
 
-@Path("/admin/wlt/ReviewWthdrReqOrdPassHdr")
+@Path("/apiv1/admin/wlt/ReviewWthdrReqOrdPassHdr")
 @PermitAll
 public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto, ApiGatewayResponse> {
 

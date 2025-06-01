@@ -1,7 +1,7 @@
 package util.annos;
 
-import model.auth.Role;
+import model.auth.RoleType;
 
 public @interface NeedAuth {
-    Role value();
+    RoleType value();
 }

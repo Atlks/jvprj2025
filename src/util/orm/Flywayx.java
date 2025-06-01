@@ -8,6 +8,7 @@ import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import static orgx.uti.context.ThreadContext.currDbConn;
 import static util.algo.CallUtil.callTry;
 import static util.oo.FileUti.*;
 
@@ -19,6 +20,7 @@ public class Flywayx {
 
     public Flywayx dataSource(DataSource dataSource) throws SQLException {
         this.conn = dataSource.getConnection();
+        currDbConn.set(conn);
         return this;
     }
 
@@ -35,10 +37,11 @@ public class Flywayx {
 
     public void migrate() {
 
+        //remv classpath:   ,only ret  sql  (Dir)
         String path = this.loc.substring(11);
         File[] files = getFilesInJarDir(path);
         for (File f : files) {
-            if(exist(f,"flywayLog/logdir"))
+            if(exist(f.getName(),"flywayLog/logdir"))
 
                 continue;
             String txt = readTxtFrmFile(f);

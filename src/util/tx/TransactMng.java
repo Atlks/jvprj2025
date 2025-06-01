@@ -5,6 +5,8 @@ import org.hibernate.Transaction;
 import org.hibernate.context.internal.ThreadLocalSessionContext;
 
 import static cfg.Containr.sessionFactory;
+import static orgx.uti.context.ThreadContext.currSession;
+import static orgx.uti.context.ThreadContext.currTxHbnt;
 
 
 /**
@@ -35,9 +37,14 @@ public class TransactMng {
      *
      */
     public static void commitx() {
-        commitTransaction(sessionFactory.getCurrentSession());
+        System.out.println("fun commitx");
+        currSession.get().flush();
+        currTxHbnt.get().commit();
+       // commitTransaction(sessionFactory.getCurrentSession());
         sessionFactory.getCurrentSession().close();
         ThreadLocalSessionContext.unbind(sessionFactory);
+
+        System.out.println("endfun commitx");
     }
 
 
@@ -48,6 +55,7 @@ public class TransactMng {
     public static void beginx() {
         //这里需要新开session。。因为可能复用同一个http线程
         Session session = sessionFactory.openSession();
+        currSession.set(session);
         // 2. 手动将 Session 绑定到当前线程
         ThreadLocalSessionContext.bind(session);
         System.out.println("thrdid=" + Thread.currentThread());
@@ -56,6 +64,7 @@ public class TransactMng {
         // commitTransactIfActv(session);
         Transaction tx =  session.beginTransaction();
         transactionThreadLocal.set(tx);
+        currTxHbnt.set(tx);
     }
         public static void commitTransaction(Session session) {
             Transaction transaction = transactionThreadLocal.get();
@@ -87,11 +96,14 @@ public class TransactMng {
 //    }
 
     public static void rollbackTx() {
+        System.out.println("fun rollbackTx");
             Transaction transaction = transactionThreadLocal.get();
             if (transaction != null) {
                 transaction.rollback();
                 transactionThreadLocal.remove();
             }
+
+        System.out.println("endfun rollbackTx");
         }
 
 //        public static void closeSession() {

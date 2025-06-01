@@ -22,7 +22,7 @@ import static util.tx.HbntUtil.findById;
 
 
  @PermitAll
-@Path("/FgtPwdRstPwdHdr")
+@Path("/apiv1/FgtPwdRstPwdHdr")
 //   http://localhost:8889/FgtPwdRstPwdHdr?uname=007&answer=!!!&newpwd=000
 @NoArgsConstructor
 @Data

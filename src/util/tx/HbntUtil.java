@@ -131,14 +131,19 @@ public class HbntUtil {
         properties.put(Environment.USER, getUnameFromJdbcurl(jdbcUrl));
         properties.put(Environment.PASS, getPwdFromJdbcurl(jdbcUrl));
         properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
+
         if (isSqliteJdbcUrl(jdbcUrl)) {
             properties.put(Environment.DIALECT, "org.hibernate.dialect.SQLiteDialect");
 
-        } else if (jdbcUrl.startsWith("jdbc:h2")) {
-
-
+        } else if (jdbcUrl.startsWith("jdbc:mysql")) {
+            properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
+        }
+        else if (jdbcUrl.startsWith("jdbc:p6spy:mysql")) {
+            properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
+        }
+        else if (jdbcUrl.startsWith("jdbc:h2")) {
+            // H2Dialect
             properties.put(Environment.DIALECT, "org.hibernate.dialect.H2Dialect");
-
         }
 
         //    hibernate.dialect.storage_engine

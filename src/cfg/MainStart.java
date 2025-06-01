@@ -56,8 +56,11 @@ import static util.ioc.SimpleContainer.registerInstance;
 import static util.misc.RestUti.iniRestPathMthMap;
 import static util.misc.util2026.sleep;
 import static util.model.WindowSnapshot.restoreWinPrcs;
+import static util.orm.CrtTblUti.scanClzCrtTable;
 import static util.orm.HbntExt.migrateSql;
 import static util.tx.HbntUtil.*;
+import static util.tx.dbutil.crtDatabase;
+import static util.tx.dbutil.getDatabaseFileName4mysql;
 
 ////启用 MBean（Managed Bean） 的导出，即 将 Spring 管理的 Bean 注册到 JMX（Java Management Extensions） 中，使其可以被 JMX 监控和管理。
 public class MainStart {
@@ -82,10 +85,7 @@ public class MainStart {
 
         //--------ini saveurlFrm Cfg
 
-        iniContnr4cfgfile();
-
-        callTry(() -> migrateSql());
-        new MainStart().sessionFactory();//ini sessFctr ..
+        iniDbNcfg();
 
 
         //ini contnr 4cfg,, svrs
@@ -116,8 +116,20 @@ public class MainStart {
         AutoRestartApp.main(null);
     }
 
+    public static void iniDbNcfg() throws FileNotFoundException, SQLException {
+        iniContnr4cfgfile();
+        if (jdbcUrl.startsWith("jdbc:mysql")) {
+            var db = getDatabaseFileName4mysql(jdbcUrl);
+            crtDatabase(jdbcUrl, db);
+        }
+        //h2 not need crt db
+        callTry(() -> migrateSql());
 
-
+        //aft sess factry,crt table again by my slf
+        callTry(() -> scanClzCrtTable());
+       //  System.exit(0);
+        new MainStart().sessionFactory();//ini sessFctr ..
+    }
 
 
     //  public static SessionFactory sessionFactory;

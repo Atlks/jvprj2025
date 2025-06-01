@@ -8,12 +8,13 @@ import lombok.Data;
 
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /**
  * 密保问题（Security Question）」功能所需的实体类，
  */
 @Entity
-@Table(name = "Security_Question")
+@Table
 @Data
 //@NoArgsConstructor
 public class SecurityQuestion {
@@ -30,7 +31,7 @@ public class SecurityQuestion {
     public String answer; // 加密后的答案
     private String encryptedAnswer; // 加密后的答案
 
-    public LocalDateTime createdAt = LocalDateTime.now();
+    public OffsetDateTime createdAt = OffsetDateTime.now();
 
     public Boolean isActive = true;
 

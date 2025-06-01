@@ -7,6 +7,8 @@ import util.annos.CurrentUsername;
 
 import java.time.LocalDateTime;
 
+import static util.algo.NullUtil.isBlank;
+
 /**
  * 提现密码
  */
@@ -20,7 +22,19 @@ public class SetWithdrawalPasswordDto {
     @CurrentUsername
     public String uname;
 
-    public  String pwd;
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        if(isBlank(pwd))
+            throw new FieldIsBlankErr("fld [pwd]");
+        this.pwd = pwd;
+    }
+
+    public  String pwd="";
+
+
 
 
     private LocalDateTime createdAt = LocalDateTime.now();  // 设置时间

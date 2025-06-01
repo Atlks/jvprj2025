@@ -37,7 +37,7 @@ import static util.tx.HbntUtil.*;
 
  */
 
-@Path("/admin/wthdr/ReviewWthdrReqOrdRejectHdr")
+@Path("/apiv1/admin/wthdr/ReviewWthdrReqOrdRejectHdr")
 @PermitAll
 public class ReviewWthdrReqOrdRejectHdr implements RequestHandler<ReviewChrgRqdto, ApiGatewayResponse> {
     /**

@@ -37,7 +37,7 @@ import java.math.BigDecimal;
  */
 
 @Entity
-@Table
+@Table(name="log_bls4_ylwlt")
 @Data
 @NoArgsConstructor
 public class LogBls4YLwlt {

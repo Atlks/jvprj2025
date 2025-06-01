@@ -36,7 +36,7 @@ import static util.tx.HbntUtil.findByHbntDep;
  */
    // 默认返回 JSON，不需要额外加 @ResponseBody。
 @Tag(name = "wlt 钱包")
-@Path("/wlt/Trans")
+@Path("/apiv1/wlt/Trans")
 //@Operation(summary = "转账操作", example = "/Trans?changeAmount=8")
 //@Parameter(name = "uname", description = "用户名（in cookie）", required = true)
 //@Parameter(name = "changeAmount", description = "转账金额", required = true)

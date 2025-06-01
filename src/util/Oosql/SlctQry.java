@@ -7,6 +7,7 @@ import java.time.OffsetDateTime;
 import static util.Oosql.SlctQry.toValStr;
 import static util.algo.EncodeUtil.toStr4sqlprm;
 import static util.algo.ToXX.toSnake;
+import static util.oo.SqlUti.toMysqlTimestampStr;
 
 public class SlctQry {
     private   String fromFrag="";
@@ -36,6 +37,9 @@ public class SlctQry {
     public void addConditions(String cdtn, String val) {
 
         this.fromFrag +="   and "+cdtn+toStr4sqlprm(val);
+    }
+    public void addConditions(String fld, String op, OffsetDateTime startTime) {
+        this.fromFrag +="   and "+ toSnake(fld)+op+"'"+ toMysqlTimestampStr(startTime)+"'";
     }
 
     public void addConditions(String fld, String op, String val) {
@@ -72,6 +76,7 @@ public class SlctQry {
         this.selectFrag="select "+slct;
 
     }
+
 
 
 }

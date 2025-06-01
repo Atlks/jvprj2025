@@ -15,6 +15,8 @@ import util.algo.Tag;
 import util.ex.existUserEx;
 
 //import static cfg.Containr.evtlist4reg;
+import java.util.UUID;
+
 import static handler.acc.IniAcc.iniTwoWlt;
 import static util.evt.RegEvt.evtlist4reg;
 import static cfg.Containr.sam4regLgn;
@@ -36,7 +38,7 @@ import static util.tx.HbntUtil.persist;
 
 //  http://localhost:8889/reg?uname=008&pwd=000&invtr=007
 
-@Path("/reg")
+@Path("/apiv1/reg")
 @Tag(name = "用户管理", description = "用户相关操作")
 //@Parameter(name = "uname")
 //@Parameter(name = "pwd")
@@ -67,6 +69,20 @@ public class RegHandler implements IRegHandler {
         return (dtoReg);
     }
 
+    @PermitAll
+    @Path("/apiv1/usr/addTestU")
+    public static  Object addTestU() throws Throwable {
+        for(int i=0;i<5;i++)
+        {
+            RegDto dtoReg = new RegDto();
+            dtoReg.uname = UUID.randomUUID().toString();
+            dtoReg.pwd = UUID.randomUUID().toString();
+            dtoReg.setCptch("666");
+            new RegHandler().handleRequest(dtoReg);
+        }
+        return "ok";
+
+    }
 
     public RegHandler(String uname, String pwd) {
     }

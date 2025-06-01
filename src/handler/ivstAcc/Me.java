@@ -20,7 +20,7 @@ import static util.tx.HbntUtil.findById;
  */
 @jakarta.annotation.security.RolesAllowed("user")
 
-@Path("/invstAcc/me")
+@Path("/apiv1/invstAcc/me")
 
 public class Me    {
 //    @Override

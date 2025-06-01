@@ -12,7 +12,7 @@ import model.resetpwd.PasswordResetRequestDTO;
 
 import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.findById;
-@Path("/password/reset/request")
+@Path("/apiv1/password/reset/request")
 
 @PermitAll
  

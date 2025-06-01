@@ -1,0 +1,9 @@
+/apiv1/usr/addTestU:
+  get:
+    tags:
+      - user
+    summary: "添加测试用户    "
+
+    responses:
+      "200":
+        $ref: './components/responses/CommonResponse.yaml'

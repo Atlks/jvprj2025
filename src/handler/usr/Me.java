@@ -16,8 +16,8 @@ import static util.tx.HbntUtil.findById;
  * user center
  */
 @jakarta.annotation.security.RolesAllowed("user")
-@Path("/users/me")
-@Paths({"/api/userinfo"})
+@Path("/apiv1/users/me")
+@Paths({"/apiv1/api/userinfo"})
 public class Me   implements RequestHandler<Usr, ApiGatewayResponse>  {
 //    @Override
 //    public Object main(Usr dto) throws  Throwable {

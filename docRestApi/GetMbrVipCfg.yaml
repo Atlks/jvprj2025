@@ -1,0 +1,19 @@
+get:
+  tags:
+    - cfg
+  summary: "获取vip配置"
+
+
+  parameters:
+    - name: k
+      in: query
+      description: " "
+      required: true
+      schema:
+        type: string
+      example: "MbrVipCfg"
+
+
+  responses:
+    "200":
+      $ref: './components/responses/CommonResponse.yaml'

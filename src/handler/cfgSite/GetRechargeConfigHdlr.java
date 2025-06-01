@@ -22,7 +22,7 @@ import static util.tx.HbntUtil.findById;
 
 
 @PermitAll
-@Path("/cfg/GetRechargeConfigHdlr")
+@Path("/apiv1/cfg/GetRechargeConfigHdlr")
 //   http://localhost:8889/admin/cfg/GetRechargeConfigHdlr
 //
 @NoArgsConstructor

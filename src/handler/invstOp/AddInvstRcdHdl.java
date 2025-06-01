@@ -24,7 +24,7 @@ import static util.tx.HbntUtil.*;
 
 
 @PermitAll
-@Path("/admin/InvstRcd/AddInvstRcdHdl")
+@Path("/apiv1/admin/InvstRcd/AddInvstRcdHdl")
 
 @NoArgsConstructor
 @Data
@@ -112,6 +112,7 @@ public class AddInvstRcdHdl   {
             a.accountType=AccountType.BUSINESS;
             a.setInterim_Available_Balance(BigDecimal.ZERO);
             a.setInterimBookedBalance(BigDecimal.ZERO);
+          a.setOwner(AccUti.sysusrName);
             persist(a, session);
         }
 
@@ -126,6 +127,7 @@ public class AddInvstRcdHdl   {
             Account a= new Account(accId);
             a.accountType=AccountType.BUSINESS;
             a.setInterim_Available_Balance(BigDecimal.ZERO);
+            a.setOwner(AccUti.sysusrName);
             a.setInterimBookedBalance(BigDecimal.ZERO);
             persist(a, session);
         }

@@ -1,0 +1,30 @@
+get:
+  tags:
+    - user
+  summary: "登录用户的方法"
+  security: []  # 👈 禁用认证机制（不显示锁图标）
+  description: " "
+
+  parameters:
+    - name: uname
+      in: query
+      description: "用户名"
+      required: true
+      schema:
+        type: string
+    - name: pwd
+      in: query
+      description: "密码"
+      required: true
+      schema:
+        type: string
+    - name : cptch
+      in: query
+      description: "验证码"
+      required: true
+      schema:
+        type: string
+
+  responses:
+    "200":
+      $ref: './components/responses/CommonResponse.yaml'

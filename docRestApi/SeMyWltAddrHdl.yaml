@@ -1,0 +1,29 @@
+get:
+  tags:
+    - wltAddr
+  summary: "设置我的钱包地址"
+  description: ""
+  operationId: "设置我的钱包地址"
+  parameters:
+    - name: currency
+      in: query
+      description: "currency"
+      required: true
+      schema:
+        type: string
+    - name: protocol
+      in: query
+      description: "protocol"
+      required: true
+      schema:
+        type: string
+    - name: address
+      in: query
+      description: ""
+      required: true
+      schema:
+        type: string
+
+  responses:
+    "200":
+      $ref: './components/responses/CommonResponse.yaml'

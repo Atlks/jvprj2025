@@ -1,0 +1,18 @@
+get:
+  tags:
+    - user
+  summary: "设置email"
+  description: "设置email"
+  operationId: "设置我的设置email"
+  parameters:
+    - name: email
+      in: query
+      description: ""
+      required: true
+      schema:
+        type: string
+
+
+  responses:
+    "200":
+      $ref: './components/responses/CommonResponse.yaml'

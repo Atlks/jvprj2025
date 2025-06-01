@@ -29,15 +29,15 @@ public class FileUti {
         }
     }
 
-    public static boolean exist(File f, String dir) {
-        System.out.println("fun exist(f="+f.toPath()+",dir="+dir);
+    public static boolean exist(String fname, String dir) {
+        System.out.println("fun exist(f="+fname+",dir="+dir);
         File targetDir = new File(dir);
         if (!targetDir.exists()) {
             targetDir.mkdirs(); // 确保目录存在
         }
 
 
-        File targetFile = new File(dir, f.getName());
+        File targetFile = new File(dir, fname);
         boolean exists = targetFile.exists();
         System.out.println("endfun exist(),ret="+exists+"");
         return exists;
@@ -104,13 +104,18 @@ public class FileUti {
             Enumeration<JarEntry> entries = jarFile.entries();
             while (entries.hasMoreElements()) {
                 JarEntry entry = entries.nextElement();
+//                if(entry.getPath！=pathInJar)
+//                    continue;
                 String name = entry.getName();
                 //entry.getName() 是这个文件的路径，比如：
                 System.out.println("entry getname="+name);
+                //filt pathInJar
+                if(!name.startsWith(pathInJar))
+                    continue;
                 if (name.startsWith(pathInJar) && !entry.isDirectory()) {
                     // 将 JAR 中的资源提取到临时文件（可选）
                     InputStream is = jarFile.getInputStream(entry);
-                    File temp = File.createTempFile("jarfile_", "_" + new File(name).getName());
+                    File temp = newFile("jarDir2025", "" + new File(name).getName());
                     temp.deleteOnExit();
                     try (FileOutputStream fos = new FileOutputStream(temp)) {
                         is.transferTo(fos);
@@ -119,6 +124,13 @@ public class FileUti {
                 }
             }
         }
+    }
+
+    private static File newFile(String jarDir2025, String filename) {
+        if (jarDir2025 == null || filename == null) {
+            throw new IllegalArgumentException("路径和文件名不能为空");
+        }
+        return new File(jarDir2025, filename);
     }
 
 

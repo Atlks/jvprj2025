@@ -23,7 +23,7 @@ import static util.tx.HbntUtil.findById;
  */
 @jakarta.annotation.security.RolesAllowed("user")
 
-@Path("/wlt/MeWlt")
+@Path("/apiv1/wlt/MeWlt")
 
 public class MeWlt implements RequestHandler<QueryDto, ApiGatewayResponse>  {
 //    @Override

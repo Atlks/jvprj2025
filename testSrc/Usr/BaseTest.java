@@ -18,7 +18,7 @@ public abstract class BaseTest {
     @BeforeAll
     static void globalSetup() throws  Exception {
         System.out.println("所有测试类共用的初始化");
-        Containr.testUnitMode=true;
+        Containr.testUnitMode=true;//for scan claz in from scrDir mode
         iniContnr4cfgfile();
 
         callTry(() -> migrateSql());

@@ -21,7 +21,7 @@ import static util.algo.CallUtil.lambdaInvoke;
 import static util.tx.HbntUtil.*;
 
 @PermitAll
-@Paths({"/admin/adm/del"})
+@Paths({"/apiv1/admin/adm/del"})
 public   class DelAdmHdr implements RequestHandler<DelAdmHdr.DeleteUserReqDto, Object> {
 
     @Override

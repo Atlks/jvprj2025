@@ -14,7 +14,7 @@ public enum StatementType {
             Annual,
     Interim,
             RegularPeriodic,
-    xMonthly,xWeekly;
+    xMonthly,xWeekly, xTodate;
 
     public static StatementType safeValueOf(String name) {
         try {

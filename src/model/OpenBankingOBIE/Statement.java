@@ -2,6 +2,7 @@ package model.OpenBankingOBIE;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.CreationTimestamp;
 import util.annos.ExtFld;
 import util.annos.ObieFld;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "statements")
+@FieldNameConstants
 public class Statement {
     @ObieFld
     @Id
@@ -64,6 +66,7 @@ public class Statement {
     public BigDecimal rechgAmt;
     public BigDecimal transferExchgAmt;
     public BigDecimal withdrawAmt;
+    public BigDecimal profitAmt;
 
     public void setType(StatementType statementType) {
         this.type = statementType.name().toString();
@@ -73,16 +76,23 @@ public class Statement {
     // @Enumerated(EnumType.STRING)
     // @Convert(converter = StatementTypeConverter.class)
     private String type;
-
-    @CreationTimestamp
     @ObieFld
+    @CreationTimestamp
+
+    @Column(nullable = false, updatable = false)
     private OffsetDateTime creationDateTime;
 
-    @ElementCollection
-    private List<String> statementDescription;
+    //@ElementCollection
+    private String statementDescription;
     //  @Transient
  //   private List<StatementDateTime> statementDateTime;
 
     // Getter / Setter 省略
+    @ExtFld
+    public String owner;
+
+    @ExtFld
+    @Column()
+    public Long rechgUsersCnt=0L;
 }
 

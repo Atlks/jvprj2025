@@ -12,7 +12,7 @@ import util.serverless.RequestHandler;
 import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.mergex;
 
-@Path("/admin/cfg/SetRechargeConfigHdlr")
+@Path("/apiv1/admin/cfg/SetRechargeConfigHdlr")
 @PermitAll
 public class SetRechargeConfigHdlr implements RequestHandler<RechargeConfig, ApiGatewayResponse> {
     /**

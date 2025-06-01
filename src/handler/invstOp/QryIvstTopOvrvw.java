@@ -27,7 +27,7 @@ import static util.tx.HbntUtil.getSingleResult;
 
 
 @PermitAll
-@Path("/admin/InvstRcd/QryIvstTopOvrvw")
+@Path("/apiv1/admin/InvstRcd/QryIvstTopOvrvw")
 
 @NoArgsConstructor
 @Data

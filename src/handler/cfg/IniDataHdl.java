@@ -20,7 +20,7 @@ import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.*;
 
 
-@Path("/cfg/IniDataHdl")
+@Path("/apiv1/cfg/IniDataHdl")
 @PermitAll
 public class IniDataHdl implements RequestHandler<NonDto, ApiGatewayResponse> {
     /**

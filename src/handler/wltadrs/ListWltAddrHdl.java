@@ -21,7 +21,7 @@ import static util.tx.HbntUtil.getListBySql;
 
 
 @PermitAll
-@Path("/myWltAdrs/ListWltAddrHdl")
+@Path("/apiv1/myWltAdrs/ListWltAddrHdl")
 //   http://localhost:8889/user/SetWthdrPwd?pwd=000
 @NoArgsConstructor
 @Data

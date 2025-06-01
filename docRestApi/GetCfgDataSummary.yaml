@@ -1,0 +1,19 @@
+get:
+  tags:
+    - rpt
+  summary: "获取数据总览（月度统计以及总统计）"
+  description: " 。。。。"
+
+  parameters:
+    - name: k
+      in: query
+      description: " "
+      required: true
+      schema:
+        type: string
+      example: "DataSummary"
+
+
+  responses:
+    "200":
+      $ref: './components/responses/CommonResponse.yaml'

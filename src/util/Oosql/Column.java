@@ -9,6 +9,8 @@ import java.util.List;
 
 @Data
 public class Column {
+    //一旦你使用了 columnDefinition 明确指定列类型，那么 length 属性不会生效。
+    public  String columnDefinition;
     public  String nameInEntity;   //在实体中的名字
     private String name;       // 字段名（如 "user_id"）
     private String label;      // 字段中文名或注释（如 "用户ID"）

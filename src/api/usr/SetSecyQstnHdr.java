@@ -23,7 +23,7 @@ import static util.tx.HbntUtil.mergex;
 
 
 //@PermitAll
-@Path("/user/setScrQstn")
+@Path("/apiv1/user/setScrQstn")
 //   http://localhost:8889/user/setScrQstn?customQuestionText=???&answer=000
 @NoArgsConstructor
 @Data

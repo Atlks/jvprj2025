@@ -19,7 +19,7 @@ import static util.tx.Pagging.getPageResultByHbntV4;
 
 
 @PermitAll
-@Path("/admin/InvstRcd/QryInvstRcdHdl")
+@Path("/apiv1/admin/InvstRcd/QryInvstRcdHdl")
 
 @NoArgsConstructor
 @Data

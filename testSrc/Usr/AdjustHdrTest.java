@@ -30,6 +30,7 @@ public class AdjustHdrTest extends BaseTest {
         AdjstDto mockDto =new AdjstDto();
         mockDto.uname="666";
         mockDto.setTransactionCode(TransactionCode.adjst_crdt.name());
+
         mockDto.setAdjustAmount(BigDecimal.valueOf(8.0));
         mockDto.setAccountSubType(AccountSubType.EMoney.name());
        // when(mockDto.getId()).thenReturn("test123");

@@ -23,7 +23,7 @@ import static util.tx.HbntUtil.mergex;
 
 
 //@PermitAll
-@Path("/user/SetWthdrPwd")
+@Path("/apiv1/user/SetWthdrPwd")
 //   http://localhost:8889/user/SetWthdrPwd?pwd=000
 @NoArgsConstructor
 @Data
@@ -40,7 +40,7 @@ public class SetWthdrPwdHdr    implements RequestHandler<SetWithdrawalPasswordDt
     public ApiGatewayResponse handleRequest(SetWithdrawalPasswordDto reqdto, Context context) throws Throwable {
         WithdrawalPassword wp=new WithdrawalPassword();
         wp.setUname(reqdto.getUname());
-        wp.setEncryptedPassword(encodeMd5(reqdto.getPwd()));
+        wp.setEncryptedPassword((reqdto.getPwd()));
         mergex( wp, sessionFactory.getCurrentSession());
         return     new ApiGatewayResponse(true);
     }

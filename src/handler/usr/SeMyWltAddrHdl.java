@@ -20,7 +20,7 @@ import static util.tx.HbntUtil.mergex;
 
 
 //@PermitAll
-@Path("/user/SeMyWltAddrHdl")
+@Path("/apiv1/user/SeMyWltAddrHdl")
 //   http://localhost:8889/user/SetWthdrPwd?pwd=000
 @NoArgsConstructor
 @Data

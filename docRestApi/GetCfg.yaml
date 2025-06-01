@@ -1,0 +1,18 @@
+get:
+  tags:
+    - cfg
+  summary: "获取配置"
+  description: " 。。。。"
+  operationId: "getCfgKv"
+  parameters:
+    - name: k
+      in: query
+      description: " "
+      required: true
+      schema:
+        type: string
+
+
+  responses:
+    "200":
+      $ref: './components/responses/CommonResponse.yaml'

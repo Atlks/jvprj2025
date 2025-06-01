@@ -7,6 +7,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 
+import util.annos.Paths;
 import util.secury.CaptchaGenerator;
 
 import javax.imageio.ImageIO;
@@ -29,7 +30,7 @@ public class CaptchHdr {
 
     @PermitAll
 @NoWarpApiRsps
-    @Path("/api/captcha")
+    @Paths({"/apiv1/captcha","/apiv1/api/captcha"})
     @Produces("image/png")
     public   void getCptch(NonDto args) throws IOException {
         System.setProperty("jdk.net.spi.nameservice.provider.1", "default");

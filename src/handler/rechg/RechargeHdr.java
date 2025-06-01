@@ -41,7 +41,7 @@ import static util.misc.util2026.*;
  */
 @Slf4j
 
-@Path("/pay/recharge")
+@Path("/apiv1/pay/recharge")
 @DeclareRoles({"ADMIN", "USER"})
 @RolesAllowed({"", "USER"})
 @CookieParam(name = "uname", value = "$curuser")

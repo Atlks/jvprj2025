@@ -12,7 +12,7 @@ import util.ex.PwdNotEqExceptn;
 import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.findById;
 import static cfg.Containr.sam4regLgn;
-@Path("/password/reset/confirm")
+@Path("/apiv1/password/reset/confirm")
 
 @PermitAll
  

@@ -19,7 +19,7 @@ import static util.tx.HbntUtil.findById;
 
 
 //@PermitAll
-@Path("/myWltAdrs/GetMyWltAddrHdl")
+@Path("/apiv1/myWltAdrs/GetMyWltAddrHdl")
 //   http://localhost:8889/user/SetWthdrPwd?pwd=000
 @NoArgsConstructor
 @Data

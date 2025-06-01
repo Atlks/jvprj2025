@@ -11,6 +11,9 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
+import static util.algo.EncodeUtil.encodeMd5;
+import static util.algo.NullUtil.isBlank;
+
 /**
  * 提现密码
  */
@@ -18,6 +21,13 @@ import java.time.OffsetDateTime;
 @Table(name = "withdrawal_passwords")
 @Data
 public class WithdrawalPassword {
+
+    public void setUname(String uname) {
+        if(isBlank(uname)) {
+            throw new FieldIsBlankErr("fld [uname]");
+        }
+        this.uname = uname;
+    }
 
     @Id
 
@@ -27,7 +37,7 @@ public class WithdrawalPassword {
 
     public  String pwd;
     @Column(nullable = false)
-    private String encryptedPassword; // 加密后的提现密码
+    public String encryptedPassword; // 加密后的提现密码
 
     private OffsetDateTime createdAt = OffsetDateTime.now();  // 设置时间
 
@@ -47,8 +57,10 @@ public class WithdrawalPassword {
 
     public String getEncryptedPassword() { return encryptedPassword; }
 
-    public void setEncryptedPassword(String encryptedPassword) {
-        this.encryptedPassword = encryptedPassword;
+    public void setEncryptedPassword(String pwd) {
+        if(isBlank(pwd))
+            throw new FieldIsBlankErr("fld [encryptedPassword]");
+        this.encryptedPassword =encodeMd5(pwd) ;
     }
 
 

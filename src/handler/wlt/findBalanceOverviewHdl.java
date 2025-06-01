@@ -2,6 +2,7 @@ package handler.wlt;
 
 
 import handler.ivstAcc.dto.QueryDto;
+import jakarta.ws.rs.Path;
 import lombok.NoArgsConstructor;
 import model.OpenBankingOBIE.AccountSubType;
 import model.OpenBankingOBIE.Account;
@@ -15,10 +16,11 @@ import static util.acc.AccUti.*;
 import static util.tx.HbntUtil.findById;
 
 @NoArgsConstructor
+@Path("/apiv1/wlt/findBalanceOverviewHdl")
 public class findBalanceOverviewHdl {
 
         /**
-         *  aws fmt btr than azure,
+         *  aws fmt btr than azure, ..
          * 还是需要返回apires的，因为可能需要包含errcode
          * 但是好像可以返回err with errcode just ok...
          * //todo dft return obj is warp in apigtwyRes

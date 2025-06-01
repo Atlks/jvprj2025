@@ -22,7 +22,7 @@ import static util.tx.HbntUtil.mergex;
 
 
 //@PermitAll
-@Path("/user/SetEmlHdl")
+@Path("/apiv1/user/SetEmlHdl")
 //   http://localhost:8889/user/SetWthdrPwd?pwd=000
 @NoArgsConstructor
 @Data

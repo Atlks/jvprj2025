@@ -23,7 +23,7 @@ import static util.tx.HbntUtil.mergex;
 public class AdmService implements IdentityStoreEx {
 
     @PermitAll
-    @Path("/adm/updtAdmStat")
+    @Path("/apiv1/adm/updtAdmStat")
     public static Object disabUser(EnableDisableSelect dto) throws findByIdExptn_CantFindData {
 
         var admin = findById(Admin.class, dto.uname(), sessionFactory.getCurrentSession());

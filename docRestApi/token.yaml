@@ -1,0 +1,23 @@
+get:
+  tags:
+    - user
+  summary: "登录用户的方法 openid spec"
+  description: " "
+
+  parameters:
+    - name: client_id
+      in: query
+      description: "用户名"
+      required: true
+      schema:
+        type: string
+    - name: client_secret
+      in: query
+      description: "密码"
+      required: true
+      schema:
+        type: string
+
+  responses:
+    "200":
+      $ref: './components/responses/CommonResponse.yaml'

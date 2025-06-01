@@ -20,7 +20,7 @@ import static util.tx.dbutil.nativeQueryGetResultList;
 
 
 @PermitAll
-@Path("/admin/role/ListRolesHdl")
+@Path("/apiv1/admin/role/ListRolesHdl")
 //   http://localhost:8889/user/IsSetWthdrPwdHdr?jwt.uname=007
 //
 @NoArgsConstructor

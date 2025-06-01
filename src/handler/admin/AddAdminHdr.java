@@ -30,9 +30,9 @@ import static util.tx.HbntUtil.persist;
 
 //  http://localhost:8889/adm/add?username=000&password=000&key=
 
-@Path("/admin/AddAdminHdr")
+@Path("/apiv1/admin/AddAdminHdr")
 //@RequestMapping()
-@Paths({"/adm/add"})
+@Paths({"/apiv1/adm/add"})
 @Tag(name = "用户管理", description = "用户相关操作")
 @PermitAll
 @NoArgsConstructor

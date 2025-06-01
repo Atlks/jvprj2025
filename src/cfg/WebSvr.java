@@ -54,13 +54,15 @@ public class WebSvr {
     HttpServer httpServer;
     public static void startWebSrv() throws Exception {
         int port = 8889;
+        if( new File("/port888").exists())
+            port = 888;
 
 
         HttpServer httpServer = HttpServer.create(new InetSocketAddress(port), 0);
 
         // 本地目录作为共享根目录
       //  wbdvStart();
-        // 监听 8080 端口
+        // 监听 8080 端口..
 //        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
 //        System.out.println("WebDAV server started on http://localhost:8080/");
 //
@@ -101,7 +103,7 @@ public class WebSvr {
         httpServer.createContext("/static", new StaticFileHandler(docRestApiDir, "/static"));
         httpServer.createContext("/docRestApi", new StaticFileHandler(docRestApiDir, "/docRestApi"));
 
-        httpServer.createContext("/res/uploads", new StaticFileHandler(getPrjPath() + "/res/uploads", "/res/uploads"));
+        httpServer.createContext("/apiv1/res/uploads", new StaticFileHandler(getPrjPath() + "/res/uploads", "/apiv1/res/uploads"));
         //    http://localhost:8889/static/doc.htm
         httpServer.createContext("/post2", exchange -> {
             try {
@@ -114,7 +116,13 @@ public class WebSvr {
 
 
         //------------hdl all
-        HttpHandler httpHandlerAll = exchange -> handleAllReq(exchange);
+        HttpHandler httpHandlerAll = exchange -> {
+            try {
+                handleAllReq(exchange);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        };
         httpServer.createContext("/", httpHandlerAll);
         //-------------------
         cfgPath(httpServer);
@@ -406,7 +414,7 @@ public class WebSvr {
      * @param exchange
      * @throws IOException
      */
-    private static void handleAllReq(@NotNull HttpExchange exchange) throws IOException {
+    private static void handleAllReq(@NotNull HttpExchange exchange) throws IOException, InterruptedException {
         try {
             String method = exchange.getRequestMethod();
             if ("OPTIONS".equalsIgnoreCase(method)) {
@@ -433,6 +441,8 @@ public class WebSvr {
         } catch (Exception e) {
             printLn("---------------statt epr int  ");
             e.printStackTrace();
+            System.err.flush();
+            Thread.sleep(20);
             printLn("---------------endstatt eprint");
             processNmlExptn(exchange, e);
         } finally {

@@ -2,6 +2,7 @@ package model.rpt_dataSmry;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import model.OpenBankingOBIE.Statement;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -32,11 +33,11 @@ public class DataSummaryVo {
     private BigDecimal totalAdjustment= BigDecimal.valueOf(0);    // 累计调整
 
     // 月份列表（如：2025/05, 2025/06 ...）
-    public List<MonthRechgStats> monthRechgStatsList=new ArrayList<>();
+    public List<Statement> statementList=new ArrayList<>();
 
     // 当月相关
-    private BigDecimal currentMonthRechargeAmount= BigDecimal.valueOf(0); // 当月充值金额
-    private long currentMonthRechargeUsers=0;     // 当月充值人数
+    public BigDecimal currentMonthRechargeAmount= BigDecimal.valueOf(0); // 当月充值金额
+    public long currentMonthRechargeUsers=0;     // 当月充值人数
 
     // Getter & Setter 省略，可使用 Lombok 或 IDE 自动生成
 

@@ -8,7 +8,7 @@ import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.mergex;
 
 @PermitAll
-@Path("/api/security-question/setup")
+@Path("/apiv1/api/security-question/setup")
 public class SetSecuryQstnHdl {
 
  public Object handleRequest(SecurityQuestionSetupDTO reqdto) throws Throwable {

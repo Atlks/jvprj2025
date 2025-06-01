@@ -30,7 +30,7 @@ public class Context {
     private String requestId;
 
     /** 调用时间戳 */
-    private OffsetDateTime timestamp;
+    private OffsetDateTime timestamp=OffsetDateTime.now();
 
     /** 函数被调用的唯一 ARN（如 AWS） */
     private String invokedFunctionArn;

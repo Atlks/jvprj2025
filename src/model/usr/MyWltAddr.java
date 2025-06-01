@@ -7,7 +7,7 @@ import model.review.ReviewStat;
 import util.annos.CurrentUsername;
 
 @Entity
-@Table(name = MyWltAddr.MY_WLT_ADDR)
+@Table
 @Data
 //@NoArgsConstructor
 public class MyWltAddr {

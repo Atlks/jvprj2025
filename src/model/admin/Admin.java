@@ -11,12 +11,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.OffsetDateTime;
 
 import static util.algo.EncodeUtil.encodeMd5;
+import static util.oo.TimeUti.nowOffsetDateTime;
 
 /**
  * 管理员
  */
 @Entity
-@Table(name = "Admin")
+@Table(name = "admins")
 @Data
 //@NoArgsConstructor
 @FieldNameConstants
@@ -32,7 +33,7 @@ public class Admin {
 
 
     @CreationTimestamp// 是否启用
-    private OffsetDateTime createdAt;// 创建时间戳
+    private OffsetDateTime createdAt=nowOffsetDateTime();// 创建时间戳
 
 
     @UpdateTimestamp

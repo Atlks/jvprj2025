@@ -15,7 +15,7 @@
 //            page.navigate("https://coinmarketcap.com/currencies/bitcoin/");
 //
 //            // Wait for the main element to load
-////            page.waitForSelector("div[class*='cmc-homepage']");
+////            page.waitForSelector("div[class*='cmc-homepage']");..
 //
 //            // Optional: print the title of the page
 //            System.out.println("Page title: " + page.title());

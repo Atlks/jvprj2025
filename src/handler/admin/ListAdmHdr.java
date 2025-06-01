@@ -22,14 +22,13 @@ import static util.algo.EncodeUtil.encodeSqlPrm;
 import static util.algo.GetUti.getTableName;
 import static util.algo.NullUtil.isBlank;
 import static util.algo.ToXX.toSnake;
-import static util.oo.SqlUti.fromWzSlct;
-import static util.oo.SqlUti.orderByDesc;
+import static util.oo.SqlUti.*;
 import static util.tx.dbutil.nativeQueryGetResultList;
 
 
 //组合了  和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
 @PermitAll
-@Paths({"/admin/listAdm","admin/ListAdmHdr"})
+@Paths({"/apiv1/admin/listAdm","admin/ListAdmHdr"})
 ///admin/ListAdmHdr
 //   http://localhost:8889/admin/listAdm
 @NoArgsConstructor
@@ -62,12 +61,7 @@ public class ListAdmHdr  {
        return  (list1);
     }
 
-    private String addCondt(String fld, String op, String val) {
-        if(op.trim().toLowerCase().equals("like"))
-            val="'%"+encodeSqlPrm(val) +"%'";
-        fld=toSnake(fld);
-        return fld+" "+op+" "+val;
-    }
+
 
 
 //

@@ -12,7 +12,7 @@ package model.auth;
  * 内容编辑 (Editor)	发布、编辑文章、公告、产品等内容
  * 开发/技术支持 (DevOps/IT)	查看系统状态，可能有特殊技术权限，如日志查看等
  */
-public enum Role {
+public enum RoleType {
    tourist, USER, ADMIN ,Operator,Finance,Auditor,Editor
 }
 

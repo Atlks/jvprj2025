@@ -24,7 +24,7 @@ import static util.tx.TransactMng.beginx;
  *     /admin/cfg/SetCfgKv?k=rechargeCommissionRates&v={}
  */
 
-@Path("/admin/cfg/SetCfgKv")
+@Path("/apiv1/admin/cfg/SetCfgKv")
 @PermitAll
 public class SetCfg implements RequestHandler<CfgKv, ApiGatewayResponse> {
     /**

@@ -94,7 +94,7 @@ public class Account {
         this.interim_Available_Balance = interim_Available_Balance;
     }
 
-    //冻结金额必须大于
+    //冻结金额必须大于   自动生成的时候，为0，所以不能设置vld
     public void setFrozenAmountVld(BigDecimal frozenAmount) {
         if (frozenAmount.compareTo(BigDecimal.ZERO) <= 0)
             throw new InvldAmtEx("frzAmt=" + frozenAmount);
@@ -104,8 +104,9 @@ public class Account {
 
     /**
      * frz amt is not starnd field
+     * 自动生成的时候，为0，所以不能设置vld
      */
-    @DecimalMin(value = "0.00", inclusive = false, message = "冻结金额必须大于 0")
+    //@DecimalMin(value = "0.00", inclusive = false, message = "冻结金额必须大于 0")
     @Column(nullable = false)
     public BigDecimal frozenAmount = BigDecimal.valueOf(0);    // 冻结金额
 
@@ -137,20 +138,20 @@ public class Account {
     }
 
     // totalBalance=availableBalance+frozenAmount+penddingBalance
-    @DecimalMin(value = "0.00", inclusive = false, message = "penddingBalance余额不能为负数")
+  //  @DecimalMin(value = "0.00", inclusive = false, message = "penddingBalance余额不能为负数")
     public BigDecimal penddingBalance = BigDecimal.valueOf(0);
     ; //InterimCleared bls
 
     //  private List<Transaction> transactions; // 交易记录
     @Enumerated(EnumType.STRING)
     @NotNull
-    @NotBlank
+    //@NotBlank
     public AccountStatus status = AccountStatus.Enabled;       // 账户状态（例如：有效、冻结、关闭）
 
 
     //  public String status;
     @UpdateTimestamp
-    @NotNull
+   // @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     public OffsetDateTime statusUpdateDateTime;
 
@@ -162,7 +163,7 @@ public class Account {
     public String currency="usdt";            // 币种（如 CNY、USD）
 
     @CreationTimestamp
-    @NotNull
+   // @NotNull
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
 
@@ -179,10 +180,10 @@ public class Account {
 
 
     // -------------ext fld
-    @NotBlank
+   // @NotBlank
     @CurrentUsername
     @ExtFld
-    public String owner;
+    public String owner="";
 //    @Deprecated  //bcs db embd json need this
 //    public String accountOwner="";
 

@@ -1,36 +1,17 @@
 get:
   tags:
     - role
-  summary: " 添加自定义角色"
+  summary: " 保存自定义角色"
   description: " 。。。。"
   parameters:
-    - name: id
-      in: query
-      description: ""
-      required: false
-      schema:
-        type: string
-    - name: name
+
+    - name: v
       in: query
       description: ""
       required: true
       schema:
         type: string
-    - name: role
-      in: query
-      description: ""
-      required: true
-      schema:
-        type: string
-    - name: enable
-      in: query
-      description: ""
-      required: false
-      schema:
-        type: bool
-
-
-
+      example: "[{\"name\":\"运营人员\",\"type\":\"ADMIN\"}]"
 
   responses:
     "200":

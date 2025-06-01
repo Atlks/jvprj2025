@@ -23,7 +23,6 @@ import static handler.balance.BlsSvs.subAmt2BalWhrAcc_type;
 import static handler.trx.TransactnService.insertTxSetAmtIdctrBooked_txcod;
 import static handler.wlt.TransfHdr.curLockAcc;
 import static util.Oosql.SlctQry.newSelectQuery;
-import static util.Oosql.SlctQry.toValStr;
 import static util.acc.AccUti.getAccId;
 import static util.acc.AccUti.sysusrName;
 import static util.algo.GetUti.getTableName;
@@ -58,6 +57,7 @@ public class AccService implements BankAccountService {
         Account acc=findById(Account.class,dto.accid);
         Transaction tx2 = new Transaction();
         tx2.setAmountVldChk(dto.amt);
+        tx2.setCreditDebitIndicator(CreditDebitIndicator.DEBIT);
         tx2.setTransactionCode(TransactionCode.adjst_dbt);
     subAmt2accWzlog(acc,tx2);
         return 0;
@@ -153,9 +153,10 @@ public class AccService implements BankAccountService {
      */
     @BizFun("管理员手动调整增加余额服务")
     //@MethodInfo("存款服务")
-    public static Object incrBal(DepositDto dto) throws findByIdExptn_CantFindData {
+    public static Object AdjustCrdBal(DepositDto dto) throws findByIdExptn_CantFindData {
         Account acc=findById(Account.class,dto.accid);
         Transaction tx2 = new Transaction();
+        tx2.setCreditDebitIndicator(CreditDebitIndicator.CREDIT);
         tx2.setAmountVldChk(dto.amt);
         tx2.setTransactionCode(TransactionCode.adjst_crdt);
         icrBalByAccTx(acc,tx2);

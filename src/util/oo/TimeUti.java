@@ -1,5 +1,7 @@
 package util.oo;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -10,6 +12,9 @@ import java.time.format.DateTimeParseException;
  */
 public class TimeUti {
 
+    public static @NotNull OffsetDateTime nowOffsetDateTime() {
+        return OffsetDateTime.now();
+    }
     public static void main(String[] args) {
         System.out.println(calcEndtime("2025-11"));
     }
@@ -91,4 +96,21 @@ public class TimeUti {
     }
 
 
+    /**
+     * 获取当前月初时间（UTC）
+     * @return 本月第一天 00:00 的 OffsetDateTime
+     */
+    public static OffsetDateTime getCurrMonthStarttime() {
+        LocalDate firstDay = YearMonth.now().atDay(1);
+        return firstDay.atStartOfDay().atOffset(ZoneOffset.UTC);
+    }
+
+    /**
+     * 获取当前月末最后一纳秒时间（UTC）
+     * @return 本月最后一天 23:59:59.999999999 的 OffsetDateTime
+     */
+    public static OffsetDateTime getCurrMonthEndtime() {
+        LocalDate lastDay = YearMonth.now().atEndOfMonth();
+        return OffsetDateTime.of(lastDay, LocalTime.MAX, ZoneOffset.UTC);
+    }
 }

@@ -43,7 +43,7 @@ import static util.tx.TransactMng.beginx;
  *
  */
 
-@Path("/wlt/ListIvstProfitHdl")
+@Path("/apiv1/wlt/ListIvstProfitHdl")
 @PermitAll
 @NoDftParam
 public class ListIvstProftLogHdl implements RequestHandler<QueryDto, ApiGatewayResponse> {

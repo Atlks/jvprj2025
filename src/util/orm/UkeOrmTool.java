@@ -8,6 +8,8 @@ import model.OpenBankingOBIE.Account;
 import util.Oosql.Column;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +47,7 @@ public class UkeOrmTool {
 //
 //    }
 
-    private static String mapJavaTypeToMySQL(Column col) {
+    static String mapJavaTypeToMySQL(Column col) {
         Class<?> type = col.getType();
 
         if (type == String.class) {
@@ -61,72 +63,21 @@ public class UkeOrmTool {
             return "DOUBLE";
         } else if (type == java.util.Date.class || type == java.sql.Date.class) {
             return "DATETIME";
+
+
+    } else if (type == BigDecimal.class) {
+        return "decimal(38,2)";
+    } else if (type == OffsetDateTime.class) {
+            return "TIMESTAMP(6)";
         }
+
+
+
+
         // 默认 fallback
         return "TEXT";
     }
 
-    public static String generateCreateTableSQL(Table table) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("CREATE TABLE `").append(table.getName()).append("` (\n");
-
-        List<String> columnDefs = new ArrayList<>();
-        String primaryKey = null;
-
-        for (Column col : table.getColumns().values()) {
-            StringBuilder colDef = new StringBuilder();
-            colDef.append("  `").append(col.getName()).append("` ");
-
-            // 映射 Java 类型到 MySQL 类型（简单示例）
-            String type = mapJavaTypeToMySQL(col);
-            colDef.append(type);
-
-            // 自增
-            if (col.isIdentity()) {
-                colDef.append(" AUTO_INCREMENT");
-            }
-
-            // 非空
-            if (!col.isNullable()) {
-                colDef.append(" NOT NULL");
-            }
-
-            // 默认值
-            if (col.getDefaultValue() != null) {
-                colDef.append(" DEFAULT '").append(col.getDefaultValue()).append("'");
-            }
-
-            // 注释
-            if (col.getComment() != null && !col.getComment().isEmpty()) {
-                colDef.append(" COMMENT '").append(col.getComment()).append("'");
-            }
-
-            columnDefs.add(colDef.toString());
-
-            // 主键（这里只支持单字段主键）
-            if (col.getLabel() != null && col.getLabel().contains("主键")) {
-                primaryKey = col.getName();
-            }
-        }
-
-        sql.append(String.join(",\n", columnDefs));
-
-        // 主键
-        if (primaryKey != null) {
-            sql.append(",\n  PRIMARY KEY (`").append(primaryKey).append("`)");
-        }
-
-        sql.append("\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
-
-        // 表注释
-        if (table.getComment() != null && !table.getComment().isEmpty()) {
-            sql.append(" COMMENT='").append(table.getComment()).append("'");
-        }
-
-        sql.append(";");
-
-        return sql.toString();
-    }
 
 
     /**
@@ -140,15 +91,17 @@ public class UkeOrmTool {
         Table tableModel = new Table();
 
         // 1. 表名
+        String simpleNameClz = modelClass.getSimpleName();
+
         if (modelClass.isAnnotationPresent(jakarta.persistence.Table.class)) {
             jakarta.persistence.Table tableAnno = modelClass.getAnnotation(jakarta.persistence.Table.class);
             if(tableAnno.name().equals(""))
-                tableModel.setName((modelClass.getSimpleName() ) );
+                tableModel.setName(toTablename(simpleNameClz) );
             else
                 tableModel.setName(tableAnno.name());
         } else {
             // 默认类名小写为表名
-            tableModel.setName((modelClass.getSimpleName() ) );
+            tableModel.setName(toTablename(simpleNameClz));
         }
 
         tableModel.setColumns(new HashMap<>()); // 初始化 columns
@@ -182,7 +135,8 @@ public class UkeOrmTool {
                     column.setLength((long) colAnno.length());
                 }
                 if (colAnno.columnDefinition() != null) {
-                    column.setComment(colAnno.columnDefinition()); // 可能带注释
+                    column.setColumnDefinition(colAnno.columnDefinition());
+                   // column.setComment(colAnno.columnDefinition()); // 可能带注释
                 }
             }
 
@@ -214,6 +168,10 @@ public class UkeOrmTool {
                 System.out.println("字段：" + name + ", 类型：" + col.getType().getSimpleName()));
 
         return tableModel;
+    }
+
+    private static String toTablename(String simpleNameClz) {
+        return  toSnake( simpleNameClz);
     }
 
     static Class<?> getColType(Field field) {

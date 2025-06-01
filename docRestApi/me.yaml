@@ -1,0 +1,7 @@
+get:
+  tags:
+    - user
+  summary: 获取当前用户
+  responses:
+    '200':
+      $ref: './components/responses/CommonResponse.yaml'

@@ -9,7 +9,7 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.validation.constraints.NotBlank;
 import model.constt.CountryConstants;
 import model.constt.VisaConstants;
-import model.auth.Role;
+import model.auth.RoleType;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,7 +41,7 @@ public class JwtUtil {
 
     public static void main(String[] args) {
        // System.out.println(newToken("666", Role.ADMIN));
-        System.out.println(newToken("6666", Role.USER));
+        System.out.println(newToken("6666", RoleType.USER));
     }
 
    // @Value("scrkey")
@@ -65,7 +65,7 @@ public class JwtUtil {
      * @return
      */
     // 生成 JWT   512bit 64byte
-    public static @NotBlank String newToken(@NotBlank String username, Role role) {
+    public static @NotBlank String newToken(@NotBlank String username, RoleType role) {
         SecretKey key = Keys.hmacShaKeyFor(_get64Bytes512bitKey(SECRET_KEY)); // 生成符合 HS512 规范的密钥
 
         long EXPIRATION_TIME = 100L * 24 * 3600 * 1000; // 100 days
@@ -138,9 +138,9 @@ public class JwtUtil {
                 .claim("preferred_username", username)
                 .claim("email", "at@uke.com")
                 .claim("uname", username)
-                .setAudience(String.valueOf(Role.USER))  //Audience，受众，表示这个 JWT 是为谁生成的。
-                .claim("role", String.valueOf(Role.USER))   // ← 自定义字段
-                .setAudience(String.valueOf(Role.USER))  //Audience，受众，表示这个 JWT 是为谁生成的。
+                .setAudience(String.valueOf(RoleType.USER))  //Audience，受众，表示这个 JWT 是为谁生成的。
+                .claim("role", String.valueOf(RoleType.USER))   // ← 自定义字段
+                .setAudience(String.valueOf(RoleType.USER))  //Audience，受众，表示这个 JWT 是为谁生成的。
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .setId(_getUuid())
                 .signWith(SignatureAlgorithm.HS512, key)
