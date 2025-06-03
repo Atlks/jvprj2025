@@ -6,6 +6,7 @@ import entityx.wlt.LogBls4YLwlt;
 import lombok.Data;
 
 import model.OpenBankingOBIE.Account;
+import model.OpenBankingOBIE.Balance;
 import model.OpenBankingOBIE.Transaction;
 import model.OpenBankingOBIE.TransactionStatus;
 import org.hibernate.Session;
@@ -17,8 +18,11 @@ import java.math.BigDecimal;
 
 import static cfg.Containr.sessionFactory;
 // static cfg.AppConfig.sessionFactory;
+import static handler.balance.BlsSvs.getBlsid;
 import static service.CmsBiz.toBigDcmTwoDot;
 import static util.acc.AccUti.getAccId4ylwlt;
+import static util.model.openbank.BalanceTypes.interimAvailable;
+import static util.model.openbank.BalanceTypes.interimBooked;
 import static util.tx.HbntUtil.*;
 import static util.misc.util2026.getFilenameFrmLocalTimeString;
 @Data
@@ -54,6 +58,9 @@ public class AccSvs4invstAcc  {
         acc.setInterimBookedBalance(acc.getInterimBookedBalance().add(amt));
         mergex(acc, session);
 
+        String accountId = acc.accountId;
+        addAmtUpdtBls(accountId,interimAvailable,amt);
+        addAmtUpdtBls(accountId,interimBooked,amt);
 
 
         //-----------add tx lg
@@ -61,7 +68,8 @@ public class AccSvs4invstAcc  {
         txx.refUniqId= String.valueOf(System.currentTimeMillis());
         txx.status = TransactionStatus.BOOKED;
         txx.setBalanceAmount( acc.interim_Available_Balance);
-        txx.setBalanceType(BalanceTypes.interimAvailable);
+        txx.setBalanceType(interimAvailable);
+        System.out.println("prst tx,amt="+txx.amount);
         persist(txx, sessionFactory.getCurrentSession());
 
 
@@ -69,6 +77,13 @@ public class AccSvs4invstAcc  {
      //   addBlsLog4ylwlt(logBlsYinliWlt, session);
         //  System.out.println("✅endfun updtBlsByAddChrg()");
         return null;
+    }
+
+    private static void addAmtUpdtBls(String accountId, BalanceTypes balanceTypes, BigDecimal amt) throws findByIdExptn_CantFindData {
+        String blsid= getBlsid(accountId,interimAvailable);
+        Balance bls=findById(Balance.class,blsid);
+        bls.setAmount(bls.getAmount().add(amt));
+        mergex(bls);
     }
 
     public static void addBlsLog4ylwlt(LogBls4YLwlt logBlsYinliWlt, Session session) {

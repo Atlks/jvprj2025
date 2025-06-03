@@ -1,5 +1,6 @@
 package util.oo;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sun.net.httpserver.HttpExchange;
 import util.excptn.ExceptionObj;
 import util.excptn.ExceptionBaseRtm;
@@ -14,7 +15,7 @@ import static util.serverless.ApiGatewayResponse.createErrResponseWzErrcode;
 public class WebsrvUtil {
 
 
-    public static String processNmlExptn(HttpExchange exchange, Throwable e) {
+    public static String processNmlExptn(HttpExchange exchange, Throwable e) throws JsonProcessingException {
         ExceptionObj ex;
 //        System.out.println(
 //                "⚠\uFE0F e="

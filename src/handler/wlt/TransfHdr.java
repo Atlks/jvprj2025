@@ -2,6 +2,7 @@ package handler.wlt;
 
 
 import model.OpenBankingOBIE.*;
+import model.obieErrCode.InsufficientFunds;
 import org.jetbrains.annotations.NotNull;
 import service.YLwltSvs.AccSvs4invstAcc;
 import util.algo.Tag;
@@ -20,10 +21,12 @@ import util.algo.Icall;
 import service.Trans2YLwltService;
 
 // static cfg.AppConfig.sessionFactory;
+import java.math.BigDecimal;
+
 import static cfg.Containr.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 
-import static handler.acc.AccService.subBalFrmWlt;
+import static handler.acc.AccService.subBalFrmAcc_whereTypeWlt;
 import static handler.acc.IniAcc.newIvstWltIfNotExist;
 import static util.acc.AccUti.getAccid;
 import static util.algo.GetUti.getUuid;
@@ -31,16 +34,17 @@ import static util.tx.HbntUtil.findByHbntDep;
 // static util.proxy.SprUtil.injectAll4spr;
 
 /**
+ * todo transf
  * 从本机钱包转账到盈利钱包
  * http://localhost:8889/Trans?changeAmount=8
  */
-   // 默认返回 JSON，不需要额外加 @ResponseBody。
+// 默认返回 JSON，不需要额外加 @ResponseBody。
 @Tag(name = "wlt 钱包")
 @Path("/apiv1/wlt/Trans")
 //@Operation(summary = "转账操作", example = "/Trans?changeAmount=8")
 //@Parameter(name = "uname", description = "用户名（in cookie）", required = true)
 //@Parameter(name = "changeAmount", description = "转账金额", required = true)
-@CookieParam(name = "uname",description = "用户名",decryKey="a1235678")
+@CookieParam(name = "uname", description = "用户名", decryKey = "a1235678")
 
 public class TransfHdr {
     // 实现 Serializable 接口
@@ -90,17 +94,25 @@ public class TransfHdr {
     public Object handleRequest(TransDto lgblsDto) throws Throwable {
         newIvstWltIfNotExist(lgblsDto.uname);
 
-      //  Icall RdsFromWltService1=getObj("RdsFromWltService");
-     //   Icall AddMoney2YLWltService1=getObj("AddMoney2YLWltService");
+
+        //  Icall RdsFromWltService1=getObj("RdsFromWltService");
+        //   Icall AddMoney2YLWltService1=getObj("AddMoney2YLWltService");
         // 获取对象并加悲观锁
 
         //add blance   bcs uname frm cookie
         //  lgblsDto.uname=decryptDES( lgblsDto.uname,Key_a1235678);
 
         String uname = lgblsDto.uname;
-        String accid=getAccid(AccountSubType.EMoney.name(),uname);
+        String accid = getAccid(AccountSubType.EMoney.name(), uname);
         Account objU = findByHbntDep(Account.class, accid, LockModeType.PESSIMISTIC_WRITE, sessionFactory.getCurrentSession());
 
+        if (objU.getInterim_Available_Balance().compareTo(BigDecimal.ZERO) == 0) {
+            throw new InsufficientFunds("bls is 0");
+        }
+
+        if (lgblsDto.amount == null) {
+            lgblsDto.amount = objU.getInterim_Available_Balance();
+        }
 //        if (objU.id == null) {
 //            objU.id = uname;
 //            objU.uname = uname;
@@ -109,15 +121,17 @@ public class TransfHdr {
 
 
         //subbal frm wlt
-        subBalFrmWlt(lgblsDto);
+        Transaction txx = new Transaction();
+        txx.setTransactionCode(TransactionCode.InternalTransfers_exchg);
+        subBalFrmAcc_whereTypeWlt(lgblsDto, txx);
 
 
-           //crdt to ivst acc
-        lgblsDto.amount =lgblsDto.amount.multiply(toBigDecimal("0.9"));
-        Transaction tx=new Transaction("trsf2ivstAcc_"+getUuid(), getAccid4ivstAcc(uname),uname, CreditDebitIndicator.CREDIT, lgblsDto.amount);
-        tx.transactionCode= TransactionCode.InternalTransfers_exchg.name();
-                tx.status= TransactionStatus.BOOKED;
-                tx.ChargeAmount=lgblsDto.amount.multiply(toBigDecimal("0.1"));
+        //crdt to ivst acc ..shld be bizsvs
+        lgblsDto.amount = lgblsDto.amount.multiply(toBigDecimal("0.9"));
+        Transaction tx = new Transaction("trsf2ivstAcc_" + getUuid(), getAccid4ivstAcc(uname), uname, CreditDebitIndicator.CREDIT, lgblsDto.amount);
+        tx.setTransactionCode(TransactionCode.InternalTransfers_exchg);
+        tx.status = TransactionStatus.BOOKED;
+        tx.ChargeAmount = lgblsDto.amount.multiply(toBigDecimal("0.1"));
 
         AccSvs4invstAcc.crdt(tx);
 
@@ -128,12 +142,13 @@ public class TransfHdr {
     }
 
     @NotNull
-    private static String getAccid4ivstAcc(String uname) {
+    public static String getAccid4ivstAcc(String uname) {
         return getAccid(AccountSubType.GeneralInvestment.name(), uname);
     }
 
-    private void injectAll4spr(TransfHdr transHdr) {
-    }
+//    private void injectAll4spr(TransfHdr transHdr) {
+//    }
 
 
 }
+

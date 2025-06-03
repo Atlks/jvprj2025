@@ -65,9 +65,15 @@ public class TransDto {
     public BigDecimal getAmount() {
             return  toBigDecimal(amount);
         }
-@NotNull
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+      //  this.amt=amount;
+    }
+
+    //@NotNull  if null ,,trans all bls
         public BigDecimal amount;
-    public BigDecimal amt;
+   //public BigDecimal amt;
         public BigDecimal newBalance;
         // 备注信息
         private String remark;

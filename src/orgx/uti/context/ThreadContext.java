@@ -1,13 +1,28 @@
 package orgx.uti.context;
 
+// com.google.protobuf.AbstractProtobufList;
+import com.sun.net.httpserver.HttpExchange;
+import io.javalin.http.Context;
+import io.javalin.http.Handler;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import orgx.uti.http.HttpHeader;
 
+import java.security.Principal;
 import java.sql.Connection;
+import java.util.List;
+import java.util.Map;
 
 public class ThreadContext {
+    //servlt stande
+    private static final ThreadLocal<String> remoteUser = new ThreadLocal<>();
+
+    public static ThreadLocal<java.security.Principal> principal=new ThreadLocal<>();
+    public static ThreadLocal<Connection> currDbConn=new ThreadLocal<>();
+
+
     private static final ThreadLocal<String> userId = new ThreadLocal<>();
     private static final ThreadLocal<String> userRole = new ThreadLocal<>();
     private static final ThreadLocal<String> traceId = new ThreadLocal<>();
@@ -22,10 +37,16 @@ public class ThreadContext {
     public static   ThreadLocal<EntityManager> currEttyMngr = new ThreadLocal<>();
     public static   ThreadLocal<Session> currSession = new ThreadLocal<>();
     public static   ThreadLocal<EntityTransaction> currEntityTransaction = new ThreadLocal<>();
-    public static   ThreadLocal<Transaction> currTxHbnt = new ThreadLocal<>();
+ 
+  public static   ThreadLocal<HttpHeader> currHttpHeader = new ThreadLocal<>();
 
-    public static   ThreadLocal<Connection> currDbConn = new ThreadLocal<>();
+    public static   ThreadLocal<HttpExchange> currHttpExchange = new ThreadLocal<>();
+    public static   ThreadLocal<Context> currJvlnContext = new ThreadLocal<>();
 
+    public static   ThreadLocal< Map<String, List<String>>> currHttpParamMap = new ThreadLocal<>();
+    public static ThreadLocal<Handler> beforeHdl= new ThreadLocal<>();
+
+    public static ThreadLocal<Transaction> currTxHbnt= new ThreadLocal<>();
 
 
 

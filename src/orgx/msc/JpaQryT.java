@@ -1,4 +1,4 @@
-package orgx;
+package orgx.msc;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;

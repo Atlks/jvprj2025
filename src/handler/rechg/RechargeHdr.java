@@ -7,6 +7,7 @@ import model.OpenBankingOBIE.AccountSubType;
 import model.OpenBankingOBIE.CreditDebitIndicator;
 import model.OpenBankingOBIE.Transaction;
 import model.OpenBankingOBIE.TransactionCode;
+import util.algo.ConsumerX;
 import util.algo.Tag;
 import util.annos.CookieParam;
 
@@ -27,10 +28,17 @@ import jakarta.ws.rs.QueryParam;
 import lombok.extern.slf4j.Slf4j;
 // org.springframework.stereotype.Component;
 import util.algo.Icall;
+import util.evt.RchgEvt;
+import util.evtdrv.EvtHlpr;
 import util.serverless.ApiGatewayResponse;
+
+import java.util.Set;
 
 import static util.acc.AccUti.getAccid;
 import static util.auth.AuthUtil.getCurrentUser;
+import static util.evt.RchgEvt.evtlist4rchg;
+import static util.evt.RegEvt.evtlist4reg;
+import static util.evtdrv.EvtHlpr.publishEvent;
 import static util.tx.HbntUtil.persist;
 import static util.tx.dbutil.addObj;
 import static util.misc.util2026.*;
@@ -83,7 +91,9 @@ public class RechargeHdr implements Icall<RechgDto, Object> {
         ts.owner = getCurrentUser();
 
 
-        return new ApiGatewayResponse(persist(ts, sessionFactory.getCurrentSession()));
+        Object ts1 = persist(ts, sessionFactory.getCurrentSession());
+        EvtHlpr. publishEvent(RchgEvt.evtlist4rchg, ts);
+        return new ApiGatewayResponse(ts1);
         //   wrtResp(exchange, encodeJson(r));
 
 

@@ -2,36 +2,54 @@ package orgx.uti.context;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.sun.net.httpserver.Authenticator;
+import com.sun.net.httpserver.HttpContext;
+import com.sun.net.httpserver.HttpServer;
+import io.javalin.Javalin;
+import io.javalin.http.ExceptionHandler;
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.PropertiesConfiguration;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import orgx.msc.Dtoo;
+import orgx.msc.FunType;
+import orgx.uti.orm.FunctionX;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.params.SetParams;
 
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 
 /**
  * 全局上下文，整合 Apache Commons Configuration，支持动态加载配置
  */
-public class ProcessContext {
+public class ProcessContext<T, R> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessContext.class);
+public  static HttpServer httpServer;
 
-    public static void main2(String[] args) {
-        System.out.println(11);
-    }
-
+    public  static Javalin appJvl;
     // 线程池（异步任务调度）
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(5);
 
     // Hibernate SessionFactory（线程安全）
     public static SessionFactory sessionFactory = null;
 
+
+    //多个租户（多库实例），那
+    public static   Map<String, SessionFactory> sessionFactories = new HashMap<String, SessionFactory>();
+    //或 Map<String, DataSource>
+
+  //public  static  List<HttpContext> httpContexts=new ArrayList<>();
+//    HttpContext context = httpServer.createContext(path, handler);
+//    ProcessContext.httpContexts
     // Guava 本地缓存
     private static final Cache<String, Object> localCache = CacheBuilder.newBuilder()
             .maximumSize(1000)
@@ -40,7 +58,22 @@ public class ProcessContext {
 
     // Apache Commons Configuration 读取 config.properties
     private static final FileBasedConfigurationBuilder<PropertiesConfiguration> configBuilder;
+    public static Map<String, Annotation[]> authMap=new ConcurrentHashMap<>();
+    public static ExceptionHandler<Exception> excptnHdlrInWeb;
+    public static Authenticator authenticator;
+    public static ExceptionHandler<Exception> excptnHdlr;
+
+    public static Map<FunType, FunctionX<Map,Object>> funMap4httpHdlr =new ConcurrentHashMap<>();
+
+    // #procs ctx.java
+    public static FunctionX<Dtoo, Object> fun_userAdd;
+    public static FunctionX<Dtoo, Object> fun_BlsAdd;
     private static Configuration config;
+
+
+    public static FunctionX getFun(FunType funRegName) {
+        return    funMap4httpHdlr.get( funRegName);
+    }
 
     // Redis 客户端
     private static final Jedis redisClient = null;

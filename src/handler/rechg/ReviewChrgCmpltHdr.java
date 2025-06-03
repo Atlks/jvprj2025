@@ -18,6 +18,7 @@ import org.hibernate.Session;
 import service.wlt.AccService;
 import util.algo.Icall;
 import util.excptn.AreadyProcessedEx;
+import util.model.openbank.BalanceTypes;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
@@ -27,11 +28,13 @@ import java.util.SortedMap;
 
 import static cfg.Containr.sessionFactory;
 import static handler.acc.IniAcc.addAccEmnyIfNotExst;
+import static handler.balance.BlsSvs.addAmt2BalWhrAccNType;
 import static util.acc.AccUti.getAccid;
 import static util.log.ColorLogger.RED_bright;
 import static util.log.ColorLogger.colorStr;
 import static util.misc.util2026.copyProps;
 import static util.misc.util2026.getField2025;
+import static util.model.openbank.BalanceTypes.interimAvailable;
 import static util.tx.HbntUtil.*;
 import static handler.secury.SecUti.*;
 
@@ -102,14 +105,15 @@ public class ReviewChrgCmpltHdr implements RequestHandler<ReviewChrgRqdto, ApiGa
         String uname = trx1.owner;
         TransDto transDto=new TransDto();
         copyProps(trx1,transDto);
-        transDto.amt=trx1.amount;
+        transDto.setAmount(trx1.amount);;
         transDto.refUniqId="reqid="+trx1.id;
         addAccEmnyIfNotExst( trx1.owner, session);
         Account lockAcc4updt = findByHerbinateLockForUpdtV2(Account.class, getAccid(AccountSubType.EMoney.name(), trx1.owner) , session);
         transDto.lockAccObj= lockAcc4updt;
         AccService.crdtFd(transDto);
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
-
+        addAmt2BalWhrAccNType(trx1.amount, lockAcc4updt, interimAvailable);
+        addAmt2BalWhrAccNType(trx1.amount, lockAcc4updt, BalanceTypes.interimBooked);
 
 
         //==============stp2...chg tx stat

@@ -4,10 +4,19 @@ package util.model.openbank;
  * 表示 OBIE 中定义的余额类型
  */
 public enum BalanceTypes {
-    /** 临时已清算余额（常用，实际到账） 也即是常见的总余额 */
+    /** 临时已清算余额（常用，实际到账） 也即是常见的总余额
+     *
+     * 如果你是做账务核对、审计对账，应该用 interimBooked。*/
     interimBooked,
 
-    /** 临时可用余额（可能包含未清算交易） */
+    /** 临时可用余额（可能包含未清算交易） 可能包含部分pendding状态的余额
+     * interimAvailable 是最贴近用户银行 App 所显示的“可用余额”（Available Balance）。
+     *
+     * 如果你是做支付、风控、资金校验，建议你使用 interimAvailable 作为主参考；
+     *
+     * 如果你是做账务核对、审计对账，应该用 interimBooked。
+     *
+     * */
     interimAvailable,
 
 

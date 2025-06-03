@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: 用户端 API
-  version: v250526.666.888
+  version: v62.666.888
   description: |
     这是一个用于系统的 API。通过该 API，可以作为开发。.
     该文档提供了所有可用接口的详细说明。
@@ -201,7 +201,7 @@ paths:
   /apiv1/wlt/findBalanceOverviewHdl:
     $ref: './paths/wlt/findBalanceOverviewHdl.yml'
   /apiv1/wlt/Trans:
-    $ref: './paths/acc/trans.yml'
+    $ref: './transf.yml'
   /apiv1/admin/wthdr/ReviewWthdrReqOrdRejectHdr:
     $ref: './paths/wthdr/ReviewWthdrReqOrdRejectHdr.yaml'
   /apiv1/api/token:

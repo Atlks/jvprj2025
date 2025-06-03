@@ -1,9 +1,11 @@
 package handler.cfg;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
+import util.annos.Paths;
 import util.model.Context;
 import model.cfg.CfgKv;
 import org.json.JSONArray;
@@ -14,6 +16,7 @@ import util.serverless.RequestHandler;
 
 // static cfg.AppConfig.sessionFactory;
 import static cfg.Containr.sessionFactory;
+import static util.misc.util2026.toJsonObjectOrArrayUseJackson;
 import static util.tx.HbntUtil.findById;
 
 /**  GetCfg kv mode
@@ -23,7 +26,7 @@ import static util.tx.HbntUtil.findById;
  *     DataSummary
  */
 
-@Path("/apiv1/cfg/GetCfg")
+@Paths({"/apiv1/cfg/GetCfg","/apiv1/admin/cfg/GetCfg"})
 //@GetMapping("/admin/cfg/GetCfg")
 @PermitAll
 public class GetCfg implements RequestHandler<CfgKv, ApiGatewayResponse> {
@@ -38,16 +41,19 @@ public class GetCfg implements RequestHandler<CfgKv, ApiGatewayResponse> {
      //   reqDto.id="uniqID";
         CfgKv c=   findById(CfgKv.class,reqDto.k,sessionFactory.getCurrentSession());
         var vo=c.v;
-        var jsonObjOrArr=toJsonObjectOrArrayUseGson(vo);
+        var jsonObjOrArr=toJsonObjectOrArrayUseJackson(vo);
         return new ApiGatewayResponse(jsonObjOrArr);
     }
 
 
+
     /**
+     * use jackson btr..for ex
      * 转换为json对象或数组 ,使用gson
      * @param vo
      * @return
      */
+    @Deprecated
     private Object toJsonObjectOrArrayUseGson(String vo) {
         if (vo == null || vo.trim().isEmpty()) {
             return null;

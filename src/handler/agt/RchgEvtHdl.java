@@ -7,6 +7,7 @@ import model.OpenBankingOBIE.Transaction;
 import model.agt.Agent;
 import model.agt.ChgSubStt;
 import org.hibernate.Session;
+import util.Oosql.SqlBldr;
 import util.annos.EventListener;
 import util.model.EvtType;
 
@@ -18,9 +19,11 @@ import static cfg.Containr.sessionFactory;
 import static handler.agt.RegEvtHdl.addAgtIfNotExst;
 import static handler.usrStt.UamtSttSvs.updtUsrRpt4rechg;
 import static org.apache.commons.lang3.math.NumberUtils.toInt;
+import static util.Oosql.SqlBldr.where;
 import static util.algo.CallUtil.*;
 import static util.algo.EncodeUtil.encodeSqlPrmAsStr;
 import static util.algo.NullUtil.isBlank;
+import static util.misc.util2026.sleep;
 import static util.tx.HbntUtil.*;
 import static util.tx.HbntUtil.getSingleResult;
 
@@ -53,7 +56,9 @@ public class RchgEvtHdl {
 
             }
 
-            agt.rechargeMemberCount = toInt((String) getSingleResult("select count(*) from ChgSubStt where agtName= " + encodeSqlPrmAsStr(u.invtr), 0, session));
+            //encodeSqlPrmAsStr
+            String sql = "select count(*) " + SqlBldr.from(ChgSubStt.class) + where(" agtName", "= ", u.invtr);
+            agt.rechargeMemberCount = getSingleResult(sql, Long.class);
 
             BigDecimal thisCms = agt.commissionRate.multiply(tx.getAmount());
             agt.commissionAmount = agt.commissionAmount.add(thisCms);
@@ -71,7 +76,10 @@ public class RchgEvtHdl {
 
 
         } catch (Throwable e) {
+            System.out.println("----catch...rchg evt");
             e.printStackTrace();
+            sleep(20);
+            System.out.println("----end catch...rchg evt");
             //  throw  e;  //for test
         }
 

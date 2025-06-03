@@ -20,6 +20,8 @@ package cfg;//package cfg;
 ////@EnableMBeanExport
 //@EnableMBeanExport
 
+import handler.agt.RchgEvtHdl;
+import handler.agt.RegEvtHdl;
 import handler.mainx.AutoRestartApp;
 import util.log.ConsoleInterceptor;
 import entityx.usr.NonDto;
@@ -51,6 +53,8 @@ import static java.time.LocalTime.now;
 import static util.acc.AccUti.getAccId;
 import static util.acc.AccUti.sysusrName;
 import static util.algo.CallUtil.callTry;
+import static util.evt.RchgEvt.evtlist4rchg;
+import static util.evt.RegEvt.evtlist4reg;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 import static util.ioc.SimpleContainer.registerInstance;
 import static util.misc.RestUti.iniRestPathMthMap;
@@ -91,9 +95,14 @@ public class MainStart {
         //ini contnr 4cfg,, svrs
         //ioc ini
         iniContnr();
+
+
+        //dep
         iniEvtHdrCtnr();
 
-        //   evtlist4reg.add(new AgtHdl()::regEvtHdl);
+        evtlist4reg.add(new RegEvtHdl()::handleRequest);
+        evtlist4rchg.add(new RchgEvtHdl()::handleRequest);
+
         //  AgtHdl
 
         //================== 创建 HTTP 服务器，监听端口8080

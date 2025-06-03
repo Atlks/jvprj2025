@@ -10,4 +10,6 @@ public class RegEvt {
 
     public static List<Consumer<Usr>> evtlist4reg=new ArrayList<>();
 
+
+
 }

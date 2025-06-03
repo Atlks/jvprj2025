@@ -1,22 +1,21 @@
 package model.usr;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
+import model.OpenBankingOBIE.Statement;
 import org.hibernate.annotations.*;
 import util.annos.CurrentUsername;
 
 //import javax.jdo.annotations.PersistenceCapable;
 //import javax.jdo.annotations.PrimaryKey;
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.util.Random;
 
 /**
  *   Usr实体
@@ -39,11 +38,18 @@ import java.time.OffsetDateTime;
 @FieldNameConstants
 public class Usr {
 
-
+@Transient
+public  BigDecimal balanceEmoneyAcc;
     @Comment("邀请人 上级")
 
     @Column(name = "invtr", columnDefinition = "VARCHAR(255) COMMENT ' 邀请人 上级.'")
     public String invtr="";
+
+   // @Transient
+    @OneToOne
+    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @Nullable  // sometime begin todate sttmt not gene by timr
+    public Statement statementTodate;  //todate
 
 
     //@PrimaryKey
@@ -96,6 +102,13 @@ public class Usr {
     public String email = "";
     public  boolean enabled=true;
 public  String vipLevel="";
+    @Column(unique = true)
+ public  String refcode=generate6DigitCode();
+    public static String generate6DigitCode() {
+        Random random = new Random();
+        int number = 1000000 + random.nextInt(9999999); // 保证首位不为0
+        return String.valueOf(number);
+    }
 
     //@Column(updatable = false) 推荐配合 @CreationTimestamp 使用，避免人为修改
     @CreationTimestamp

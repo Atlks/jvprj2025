@@ -2,6 +2,7 @@ package model.OpenBankingOBIE;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
@@ -180,10 +181,10 @@ public class Transaction {
     @Alas("balanceAfterTx")
     public Balance balance;
 
-    @Transient
+  //  @Transient
 //    @org.hibernate.annotations.Immutable
-//    @ManyToOne
-//    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Account account;
 
     /**
@@ -306,7 +307,7 @@ public class Transaction {
     @ExtFld
     private String transactionType = TransactionCode.OTH.name();
 
-    @NotBlank
+    //@NotBlank
     @CurrentUsername
     @ExtFld
     public String owner = "";

@@ -48,12 +48,14 @@ public class RegEvtHdl {
     }
 
     @org.jetbrains.annotations.NotNull
-    static Agent addAgtIfNotExst(String agtName, Session session) {
+    static Agent addAgtIfNotExst(String agtName, Session session) throws findByIdExptn_CantFindData {
         Agent agt;
         try {
             agt = findById(Agent.class, agtName, session);
         } catch (findByIdExptn_CantFindData e) {
             agt = new Agent(agtName);
+            Usr u=findById(Usr.class,agtName);
+            agt.parent_agent_id=u.getInvtr();
             persist(agt, session);
         }
         return agt;

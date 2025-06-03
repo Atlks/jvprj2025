@@ -2,6 +2,7 @@ package handler.agt;
 
 import handler.agt.dto.QryAgtsDto;
 import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.Path;
 import util.model.Context;
 import model.agt.Agent;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,7 @@ import static util.algo.EncodeUtil.encodeSqlAsLikeMatchParam;
 import static util.tx.Pagging.getPageResultByHbntV4;
 
 @PermitAll
+@Path("/apiv1/agt/QryAgtHdl")
 public class QryAgtHdl implements RequestHandler<QryAgtsDto, ApiGatewayResponse> {
     /**
      *

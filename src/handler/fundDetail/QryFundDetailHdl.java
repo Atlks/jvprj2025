@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static cfg.MainStart.iniContnr;
+import static util.Oosql.SqlBldr.toSqlPrmAsStr;
 import static util.algo.GetUti.getTableName;
 import static util.misc.Util2025.encodeJson;
 import static util.oo.TimeUti.beforeTmstmp;
@@ -41,7 +42,7 @@ public class QryFundDetailHdl  {
 
 
 
-            query.addConditions(Transaction.Fields.owner +"="+(reqdto.uname));
+            query.addConditions(Transaction.Fields.owner +"="+toSqlPrmAsStr(reqdto.uname));
 
         query.addConditions(Transaction.Fields.timestamp+">",beforeTmstmp(reqdto.day));
         query.addOrderBy(Transaction.Fields.timestamp+" desc");

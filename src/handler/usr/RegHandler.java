@@ -13,11 +13,15 @@ import org.hibernate.Session;
 
 import util.algo.Tag;
 import util.ex.existUserEx;
+import util.tx.findByIdExptn_CantFindData;
 
 //import static cfg.Containr.evtlist4reg;
 import java.util.UUID;
 
 import static handler.acc.IniAcc.iniTwoWlt;
+import static model.usr.Usr.generate6DigitCode;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static util.Oosql.SqlBldr.*;
 import static util.evt.RegEvt.evtlist4reg;
 import static cfg.Containr.sam4regLgn;
 import static cfg.Containr.sessionFactory;
@@ -26,7 +30,7 @@ import static util.algo.CopyUti.copyProp;
 import static util.evtdrv.EvtHlpr.publishEvent;
 import static util.misc.Util2025.encodeJson;
 import static util.proxy.AopUtil.ivk4log;
-import static util.tx.HbntUtil.persist;
+import static util.tx.HbntUtil.*;
 
 
 /**
@@ -50,30 +54,44 @@ import static util.tx.HbntUtil.persist;
 public class RegHandler implements IRegHandler {
     /**
      * @param dtoReg
-
      * @return
      */
 
-    public Object handleRequest(RegDto dtoReg  ) throws Throwable {
+    public Object handleRequest(RegDto dtoReg) throws Throwable {
         System.out.println("RegHandler.handleRequest(" + encodeJson(dtoReg));
         ivk4log("chkExistUser", () -> {
             return chkExistUser(dtoReg);
         });
         //add u
-      Usr u=  addU(dtoReg);
+        Usr u = addU(dtoReg);
+
         //  storekey(dtoReg);
         sam4regLgn.storeKey(dtoReg.uname, dtoReg.pwd);
         iniTwoWlt(dtoReg.uname);
 
-        publishEvent(evtlist4reg,u);
-        return (dtoReg);
+        publishEvent(evtlist4reg, u);
+        return (u);
+    }
+
+    private String findByRfcode(String refcode) {
+        System.out.println("fun findByRfcode(" + refcode + ")");
+        String sql = selectFld(Usr.Fields.id) + from(Usr.class) + where(Usr.Fields.refcode, "=", refcode);
+        try {
+            String singleResultV2 = getSingleResultV2(sql, String.class);
+            System.out.println("singleResultV2: " + singleResultV2);
+            return singleResultV2;
+        } catch (findByIdExptn_CantFindData e) {
+            System.out.println("findByIdExptn_CantFindData");
+            return "";
+        }
+
+
     }
 
     @PermitAll
     @Path("/apiv1/usr/addTestU")
-    public static  Object addTestU() throws Throwable {
-        for(int i=0;i<5;i++)
-        {
+    public static Object addTestU() throws Throwable {
+        for (int i = 0; i < 5; i++) {
             RegDto dtoReg = new RegDto();
             dtoReg.uname = UUID.randomUUID().toString();
             dtoReg.pwd = UUID.randomUUID().toString();
@@ -88,15 +106,21 @@ public class RegHandler implements IRegHandler {
     }
 
 
-
     public Usr addU(RegDto dtoReg) {
-        Usr u=new Usr(dtoReg.uname);
-        copyProp(dtoReg,u);
-        persist( u, sessionFactory.getCurrentSession());
+        Usr u = new Usr(dtoReg.uname);
+        copyProp(dtoReg, u);
+        u.refcode=generate6DigitCode();
+
+        if (isNotBlank(dtoReg.refcode))
+        {
+            String invtrUid = findByRfcode(dtoReg.refcode);
+            if (isNotBlank(invtrUid))
+                u.invtr = invtrUid;
+        }
+
+        persist(u, sessionFactory.getCurrentSession());
         return u;
     }
-
-
 
 
 //
@@ -123,11 +147,8 @@ public class RegHandler implements IRegHandler {
             // 空安全处理，直接操作结果
 
         else
-           throw new existUserEx("uname("+user.uname+")");
+            throw new existUserEx("uname(" + user.uname + ")");
     }
-
-
-
 
 
 }

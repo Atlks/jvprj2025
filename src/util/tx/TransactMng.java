@@ -53,6 +53,7 @@ public class TransactMng {
      * todo here by maybe ing trsct..so maybe dont need bgn ts if sometime
      */
     public static void beginx() {
+        System.out.println("fun beginx");
         //这里需要新开session。。因为可能复用同一个http线程
         Session session = sessionFactory.openSession();
         currSession.set(session);

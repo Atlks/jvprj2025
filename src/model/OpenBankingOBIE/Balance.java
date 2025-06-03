@@ -96,8 +96,8 @@ public class Balance {
     private BigDecimal amount = BigDecimal.valueOf(0);
 
     public void setAmount(BigDecimal amount) {
-        if (amount.compareTo(BigDecimal.ZERO) <= 0)
-            throw new InvldAmtEx("amount=" + amount);
+        if (amount.compareTo(BigDecimal.ZERO) < 0)
+            throw new InvldAmtEx("amount=" + amount+",blsid="+this.id);
         this.amount = amount;
     }
 

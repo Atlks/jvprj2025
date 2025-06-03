@@ -32,7 +32,7 @@ public class Agent {
     /**
      * 充值会员数
      */
-    public int rechargeMemberCount = 0;
+    public Long rechargeMemberCount = 0L;
 
     /**
      * 注册会员数   //直属下级人数   directSubCount
@@ -140,13 +140,7 @@ public int otherLevelCount;
         this.agentAccount = agentAccount;
     }
 
-    public int getRechargeMemberCount() {
-        return rechargeMemberCount;
-    }
 
-    public void setRechargeMemberCount(int rechargeMemberCount) {
-        this.rechargeMemberCount = rechargeMemberCount;
-    }
 
     public int getDrctSub_registeredMemberCount() {
         return drctSub_registeredMemberCount;

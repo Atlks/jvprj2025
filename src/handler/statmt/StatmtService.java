@@ -3,10 +3,7 @@ package handler.statmt;
 import api.ylwlt.BizFun;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
-import model.OpenBankingOBIE.Statement;
-import model.OpenBankingOBIE.StatementType;
-import model.OpenBankingOBIE.Transaction;
-import model.OpenBankingOBIE.TransactionCode;
+import model.OpenBankingOBIE.*;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 
@@ -28,18 +25,21 @@ public class StatmtService {
     @BizFun
     @Path("/apiv1/statmt/geneStatmtCurrMth")
     public static void generStatmtCurMth() {
-        String sql = "select account_id from accounts where account_Type='PERSONAL'";
+        String sql = "select * from accounts where account_Type='PERSONAL'";
         // 使用原生SQL查询
         Session session = sessionFactory.getCurrentSession();
-        NativeQuery<?> query = session.createNativeQuery(sql, String.class);
-        List<String> resultList = (List<String>) query.getResultList();
+        NativeQuery<Account> query = session.createNativeQuery(sql, Account.class);
+        List<Account> resultList =  query.getResultList();
 
         // 遍历结果
-        for (Object acc : resultList) {
+        for (Account acc : resultList) {
             if (acc != null) {
-                System.out.println("Account ID: " + acc.toString());
+                System.out.println("Account ID: " + acc.accountId.toString());
                 callTry(()->{
-                    geneSttmtMonthly(geneStatmtRefCurrMthPart(), acc.toString());
+                    geneSttmtMonthly(geneStatmtRefCurrMthPart(), acc.accountId.toString());
+                });
+                callTry(()->{
+                    geneSttmtTodate(acc.owner);
                 });
 
             }
@@ -71,7 +71,7 @@ public class StatmtService {
 
     @PermitAll
     @BizFun
-    @Path("/apiv1/statmt/geneStatmtAlltime")
+    @Path("/apiv1/statmt/geneStatmtTodateType")
     public static void geneStatmtTodateType() {
         String sql = "select owner from accounts where account_Type='PERSONAL'";
         // 使用原生SQL查询
@@ -93,12 +93,14 @@ public class StatmtService {
 
     }
     public static void geneSttmtTodate(String owner) {
+        //here just like extTable,so id=uid same id ,relt
         Statement stt = new Statement();
-        var statementId = owner + "_todate";
+        var statementId = owner;  // + "_todate"
         stt.setStatementId(statementId);
+        stt.setOwner(owner);
         stt.setAccountId("allAcc");
         stt.setType(StatementType.xTodate);
-        stt.setStartDateTime(calcStarttime("1900-11"));
+        stt.setStartDateTime(calcStarttime("1999-11"));
         stt.setEndDateTime(calcEndtime("2030-11"));
         stt.setStatementReference( "todate");
 

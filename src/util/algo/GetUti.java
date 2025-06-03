@@ -20,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import java.util.UUID;
 
+import static util.algo.ToXX.toSnake;
+
 
 public class GetUti {
     //  url格式是  jdbc:mysql://localhost:3306/prjdb?user=root&password=pppppp
@@ -88,15 +90,18 @@ public class GetUti {
         return null; // 未找到匹配的方法或参数
     }
 
+    public static String getTableName(Class<?> jpaModelClass){
+        return  getTablename(jpaModelClass);
+    }
     public static String getTablename(Class<?> jpaModelClass){
-     return  getTableName(jpaModelClass);
+     return  toSnake(getTableNameFrmAnno(jpaModelClass)) ;
     }
     /**
      * 获取实体类 立马的 @table 表格名称。如果没有@table或者为空，则使用实体类名
      * @param jpaModelClass
      * @return
      */
-    public static String getTableName(Class<?> jpaModelClass) {
+    public static String getTableNameFrmAnno(Class<?> jpaModelClass) {
         jakarta.persistence.Table tableAnnotation = jpaModelClass.getAnnotation(jakarta.persistence.Table.class);
         if (tableAnnotation != null && tableAnnotation.name() != null && !tableAnnotation.name().isEmpty()) {
             return tableAnnotation.name();

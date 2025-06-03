@@ -17,11 +17,12 @@ import java.util.Map;
 
 import static jakarta.persistence.PersistenceConfiguration.*;
 import static orgx.CfgSvs.getSessionFactory;
-import static orgx.uti.TxMng.*;
+
 import static orgx.uti.Uti.*;
 import static orgx.uti.context.ThreadContext.*;
 import static orgx.uti.orm.JpaUti.getResultList;
 import static orgx.uti.orm.JpaUti.merge;
+import static orgx.uti.orm.TxMng.callInTransaction;
 
 public class PersistenceConfigExample {
     public static void main(String[] args) {

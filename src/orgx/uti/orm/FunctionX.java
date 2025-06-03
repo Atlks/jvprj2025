@@ -56,6 +56,29 @@ public interface FunctionX<T, R> extends Serializable {
     R apply(T t) throws Throwable;
 
 
+    /**
+     * 实现获取  某个静态lambda方法 method
+     * @return
+     */
+    default Method getLambdaMethod() {
+        try {
+            // 通过反射获取 `writeReplace` 方法..
+            Method method = this.getClass().getDeclaredMethod("writeReplace");
+            method.setAccessible(true);
+            SerializedLambda lambda = (SerializedLambda) method.invoke(this);
+
+            // 获取 Lambda 所在的类名，并加载 Class
+            String implClass1 = lambda.getImplClass();
+            implClass1=implClass1.replace('/', '.');
+            Class<?> implClass = Class.forName(implClass1);
+            Method implMethod = getDeclaredMethod(implClass,lambda.getImplMethodName());
+            return implMethod;
+
+        } catch (Exception e) {
+            throw new RuntimeException("无法获取 Lambda 方法名称", e);
+        }
+    }
+
     default String getLambdaMethodName() {
         try {
             // 通过反射获取 `writeReplace` 方法..
@@ -165,4 +188,6 @@ public interface FunctionX<T, R> extends Serializable {
     static <T>  FunctionX<T, T> identity() {
         return t -> t;
     }
+
+
 }

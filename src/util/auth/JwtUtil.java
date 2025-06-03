@@ -41,7 +41,11 @@ public class JwtUtil {
 
     public static void main(String[] args) {
        // System.out.println(newToken("666", Role.ADMIN));
-        System.out.println(newToken("6666", RoleType.USER));
+      //  System.out.println(newToken("uuuu6666", RoleType.USER));
+
+        System.out.println(newToken("uuuu1111", RoleType.USER));
+
+
     }
 
    // @Value("scrkey")

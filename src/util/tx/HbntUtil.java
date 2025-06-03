@@ -154,6 +154,9 @@ public class HbntUtil {
         properties.put(Environment.HBM2DDL_AUTO, "update"); // 自动建表
         properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
 
+        properties.put(Environment.UNIQUE_CONSTRAINT_SCHEMA_UPDATE_STRATEGY, "skip");
+        properties.put("hibernate.schema_update.unique_constraint_strateg", "skip");
+       // y=
         // 禁用插入和更新的顺序控制（按实际需要设置）
         properties.put(Environment.ORDER_INSERTS, "false");
         properties.put(Environment.ORDER_UPDATES, "false");
@@ -177,6 +180,7 @@ public class HbntUtil {
         // 可以通过 Infinispan 自定义 CacheManager（下面是默认的）
 
 
+        System.out.println("id13361 "+encodeJson(properties));
         // 创建 ServiceRegistry
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(properties)
@@ -290,7 +294,7 @@ public class HbntUtil {
         ifIsBlank(sql);
         String mthClr = colorStr("getListBySqlLmt200", YELLOW_bright);
         System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(" + (sql));
-        // System.out.println("mergeByHbnt("+ t.getClass().getName());
+
         Session session = sessionFactory.getCurrentSession();
         NativeQuery nativeQuery = session.createNativeQuery(sql, clz);
         // setPrmts4sql(sqlprmMap, nativeQuery);
@@ -310,7 +314,7 @@ public class HbntUtil {
         ifIsBlank(sql);
         String mthClr = colorStr("getListBySqlLmt200", YELLOW_bright);
         System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(" + (sql));
-        // System.out.println("mergeByHbnt("+ t.getClass().getName());
+
         NativeQuery nativeQuery = session.createNativeQuery(sql);
         // setPrmts4sql(sqlprmMap, nativeQuery);
         // 设置分页
@@ -344,13 +348,15 @@ public class HbntUtil {
     }
 
     public static @NotNull @org.jetbrains.annotations.NotNull <T> T mergex(@NotNull T t, @NotNull Session session) {
-        String mthClr = colorStr("mergeByHbnt", YELLOW_bright);
+
+        String mthClr = colorStr("mergex", YELLOW_bright);
         System.out.println("\r\n▶\uFE0Ffun " + mthClr + "(t=" + encodeJsonObj(t));
-        System.out.println("mergeByHbnt(" + t.getClass().getName());
+        System.out.println("mergex(" + t.getClass().getName());
+        System.out.println(session);
         T rzt = session.merge(t);
         //   session.merge(objU);
         session.flush();
-        System.out.println("✅endfun mergeByHbnt.ret=" + encodeJson(rzt));
+        System.out.println("✅endfun mergex.ret=" + encodeJson(rzt));
         return rzt;
     }
 
@@ -365,6 +371,44 @@ public class HbntUtil {
 
     }
 
+    @Deprecated
+    public static <T> T getSingleResultV2(String sql ,Class<T> enttClz) throws findByIdExptn_CantFindData {
+        System.out.println("fun getSingleResult sql=" + sql);
+        Session session = sessionFactory.getCurrentSession();
+        Query<T> query = session.createNativeQuery(sql, enttClz);
+
+        List<T> results = query.getResultList();
+
+        if (results.isEmpty()) {
+            throw new findByIdExptn_CantFindData("找不到数据");
+        }
+
+//        if (results.size() > 1) {
+//            throw new IllegalStateException("返回了多个结果，数据异常：" + results.size() + " 条");
+//        }
+
+        return results.get(0);
+
+
+    }
+
+
+    public static <T> T getSingleResult(String sql ,Class<T> enttClz) throws findByIdExptn_CantFindData {
+        System.out.println("fun getSingleResult sql=" + sql);
+         Session   session = sessionFactory.getCurrentSession(); // 使用 SessionFactory 打开一个新的 Session
+        Query<T> query = session.createNativeQuery(sql,enttClz); // 创建原生 SQL 查询
+        try{
+            T result = query.getSingleResult(); // 执行查询并获取唯一结果
+            if (result == null)
+                throw new findByIdExptn_CantFindData(sql);
+            System.out.println("endfun getSingleResult.ret=" + encodeJsonObj(result));
+            return result;
+        }catch (jakarta.persistence.NoResultException e ){
+            throw new findByIdExptn_CantFindData(sql);
+        }
+
+
+    }
 
     public static Object getSingleResult(String sql, Session session) throws findByIdExptn_CantFindData {
 

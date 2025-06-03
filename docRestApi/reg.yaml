@@ -29,6 +29,12 @@ get:
       required: false
       schema:
         type: string
+    - name: refcode
+      in: query
+      description: "邀请码"
+      required: false
+      schema:
+        type: string
   responses:
     "200":
       $ref: './components/responses/CommonResponse.yaml'

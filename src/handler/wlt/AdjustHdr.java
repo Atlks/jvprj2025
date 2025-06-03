@@ -70,8 +70,19 @@ public class AdjustHdr {
             dto.accid=accid;
             dto.amt=adjstDto.getAdjustAmount();
             dto.type=TransactionCode.adjst_crdt;
-            call(AccService::AdjustCrdBal,dto);
+            call(AccService::CrdBal,dto);
          //   deposit(dto);
+
+        }));
+
+        chooseStep.addCase(new ConditionBranch(TransactionCode.payment_rechg, () -> {
+
+            DepositDto dto=new DepositDto();
+            dto.accid=accid;
+            dto.amt=adjstDto.getAdjustAmount();
+            dto.type=TransactionCode.payment_rechg;
+            call(AccService::CrdBal,dto);
+            //   deposit(dto);
 
         }));
 

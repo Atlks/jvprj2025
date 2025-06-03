@@ -18,8 +18,7 @@ import java.util.List;
 import static cfg.Containr.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 
-import static handler.balance.BlsSvs.addAmt2BalWhrAccNType;
-import static handler.balance.BlsSvs.subAmt2BalWhrAcc_type;
+import static handler.balance.BlsSvs.*;
 import static handler.trx.TransactnService.insertTxSetAmtIdctrBooked_txcod;
 import static handler.wlt.TransfHdr.curLockAcc;
 import static util.Oosql.SlctQry.newSelectQuery;
@@ -30,6 +29,7 @@ import static util.algo.GetUti.getUuid;
 import static util.log.ColorLogger.RED_bright;
 import static util.log.ColorLogger.colorStr;
 import static util.model.openbank.BalanceTypes.interimAvailable;
+import static util.model.openbank.BalanceTypes.interimBooked;
 import static util.tx.HbntUtil.*;
 import static util.tx.HbntUtil.persist;
 
@@ -151,14 +151,14 @@ public class AccService implements BankAccountService {
      * 增加余额的服务，包括流水日志
      * @param dto
      */
-    @BizFun("管理员手动调整增加余额服务")
+    @BizFun("通用增加余额服务")
     //@MethodInfo("存款服务")
-    public static Object AdjustCrdBal(DepositDto dto) throws findByIdExptn_CantFindData {
+    public static Object CrdBal(DepositDto dto) throws findByIdExptn_CantFindData {
         Account acc=findById(Account.class,dto.accid);
         Transaction tx2 = new Transaction();
         tx2.setCreditDebitIndicator(CreditDebitIndicator.CREDIT);
         tx2.setAmountVldChk(dto.amt);
-        tx2.setTransactionCode(TransactionCode.adjst_crdt);
+        tx2.setTransactionCode(dto.type);
         icrBalByAccTx(acc,tx2);
         return 0;
     }
@@ -181,9 +181,9 @@ public class AccService implements BankAccountService {
         txt = "\r\n\n\n=============⚡⚡bizfun  " + colorStr("add bls", RED_bright);
         System.out.println(txt);
         System.out.println("blk::add two bls");
-        BalanceTypes blsType = BalanceTypes.interimAvailable;
+       // BalanceTypes blsType = BalanceTypes.interimAvailable;
         String accountId = acc1.accountId;
-        Balance blsAvlb = addAmt2BalWhrAccNType(adjAmt, acc1, blsType);
+        Balance blsAvlb = addAmt2BalWhrAccNType(adjAmt, acc1, interimAvailable);
         addAmt2BalWhrAccNType(adjAmt, acc1, BalanceTypes.interimBooked);
         System.out.println("endblk::add two bls");
 
@@ -223,8 +223,9 @@ public class AccService implements BankAccountService {
      * @return
      * @throws Exception
      */
+    @BizFun
     @NotNull
-    public static @NotNull Object subBalFrmWlt(@NotNull TransDto TransDto88) throws Exception {
+    public static @NotNull Object subBalFrmAcc_whereTypeWlt(@NotNull TransDto TransDto88,  Transaction txx) throws Exception, findByIdExptn_CantFindData {
 
 
         System.out.println("\n\n\n===========减去钱包余额");
@@ -244,21 +245,27 @@ public class AccService implements BankAccountService {
         BigDecimal newBls = nowAmt.subtract(toBigDecimal(amt));
         acc.interim_Available_Balance = newBls;
 
-        acc.InterimBookedBalance = acc.InterimBookedBalance.subtract(acc.frozenAmount);
+        acc.InterimBookedBalance = acc.InterimBookedBalance.subtract(amt);
         // acc.ClosingBookedBalance =acc.InterimBookedBalance;
 
         mergex(acc, sessionFactory.getCurrentSession());
 
         //-----------add tx lg
-        Transaction txx = new Transaction();
+
         txx.transactionId = "rdsFromWlt" + getUuid();
         txx.creditDebitIndicator = CreditDebitIndicator.DEBIT;
         txx.accountId = acc.accountId;
+
         txx.owner = acc.owner;
         txx.amount = TransDto88.getAmount();
         txx.refUniqId = String.valueOf(System.currentTimeMillis());
         txx.status = TransactionStatus.BOOKED;
         persist(txx, sessionFactory.getCurrentSession());
+
+        String accountId = acc.accountId;
+        subAmtUpdtBls(accountId,interimAvailable,amt);
+        subAmtUpdtBls(accountId,interimBooked,amt);
+
 
 
         //------------add balanceLog
@@ -275,6 +282,15 @@ public class AccService implements BankAccountService {
 //        //  addObj(logBalance,saveUrlLogBalance);
 //        persistByHibernate(logBalance, sessionFactory.getCurrentSession());
         return acc;
+    }
+
+    private static void subAmtUpdtBls(String accountId, BalanceTypes balanceTypes, BigDecimal amt) throws findByIdExptn_CantFindData {
+        System.out.println("fun subAmtFrmBls(accountId="+accountId+",blstype="+ balanceTypes+", amt="+amt+")");
+        String blsid= getBlsid(accountId,balanceTypes);
+        Balance bls=findById(Balance.class,blsid);
+        bls.setAmount(bls.getAmount().subtract(amt));
+        mergex(bls);
+        System.out.println("endfun subAmtFrmBls");
     }
 
     //资金池余额

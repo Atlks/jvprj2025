@@ -13,7 +13,7 @@ import util.annos.CurrentUsername;
 public class MyWltAddr {
 
 
-    public static final String MY_WLT_ADDR = "My_Wlt_Addr";
+  //  public static final String MY_WLT_ADDR = "My_Wlt_Addr";
     @Id
     @CurrentUsername
     public String uname = "";

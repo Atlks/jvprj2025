@@ -5,11 +5,13 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import model.usr.MyWltAddr;
 
 import java.util.List;
 
 import static cfg.Containr.sessionFactory;
-import static model.usr.MyWltAddr.MY_WLT_ADDR;
+// static model.usr.MyWltAddr.MY_WLT_ADDR;
+import static util.algo.GetUti.getTablename;
 import static util.tx.HbntUtil.findById;
 import static util.tx.HbntUtil.getListBySql;
 
@@ -40,7 +42,7 @@ public class ListWltAddrHdl {
 
 
 
-            List wp = getListBySql("select * from "+MY_WLT_ADDR+" order by timestamp desc", sessionFactory.getCurrentSession());
+            List wp = getListBySql("select * from "+getTablename(MyWltAddr.class)+" order by timestamp desc", sessionFactory.getCurrentSession());
             return  (wp);
 
 

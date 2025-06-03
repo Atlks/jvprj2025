@@ -16,7 +16,9 @@ public class AccUti {
 public  static  String getAccid(String accountSubType, String uname){
         return getAccId(accountSubType,uname);
 }
-
+    public  static  @NotNull @NotBlank String getAccid( String owner,AccountSubType accountSubType) {
+        return getAccid(accountSubType.name(),owner);
+    }
     public  static  @NotNull @NotBlank String getAccid(AccountSubType accountSubType, String owner) {
         return getAccid(accountSubType.name(),owner);
     }

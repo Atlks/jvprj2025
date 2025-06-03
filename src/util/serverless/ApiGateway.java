@@ -224,14 +224,10 @@ public class ApiGateway implements HttpHandler {
      */
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        lastExsList.set(new ArrayList<>());
-        httpExchangeCurThrd.set(exchange);
-        HttpUti.httpExchangeCurThrd.set(exchange);
-        curCtrlCls.set(this.target.getClass());
+        setContextThrd(exchange);
+
         String mth = colorStr("handle", YELLOW_bright);
         String prmurl = colorStr(String.valueOf(exchange.getRequestURI()), GREEN);
-        curUrl.set(encodeJson(exchange.getRequestURI()));
-        requestIdCur.set(getUUid());
         System.out.println("▶\uFE0Ffun " + mth + "(url=" + prmurl);
         //   curUrlPrm.set(exchange.getrequ);
         var responseTxt = "";
@@ -279,6 +275,7 @@ public class ApiGateway implements HttpHandler {
         } finally {
             sessionFactory.getCurrentSession().close();// 关闭 session，但不会提交事务
             ThreadLocalSessionContext.unbind(sessionFactory);
+          //  exchange.close();
         }
         //end catch
 
@@ -286,6 +283,16 @@ public class ApiGateway implements HttpHandler {
         //not ex ,just all ok blk
         //ex.fun  from stacktrace
         System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
+    }
+
+    private void setContextThrd(HttpExchange exchange) {
+        lastExsList.set(new ArrayList<>());
+        httpExchangeCurThrd.set(exchange);
+        HttpUti.httpExchangeCurThrd.set(exchange);
+        curCtrlCls.set(this.target.getClass());
+
+        curUrl.set(encodeJson(exchange.getRequestURI()));
+        requestIdCur.set(getUUid());
     }
 
     @org.jetbrains.annotations.NotNull
@@ -436,7 +443,18 @@ public class ApiGateway implements HttpHandler {
         if (rzt.getClass() == String.class)
             wrtResp(exchange, rzt.toString(), ContentType.TEXT_HTML.getValue());
         else
-            wrtResp(exchange, encodeJsonByGson(rzt));
+            wrtResp(exchange, encodeJsonByJackjson(rzt));
+
+        /**
+         * ✅ 方法三：使用 Jackson 替代 Gson（兼容更好）
+         * Jackson 处理异常对象的序列化更宽容，通常不会抛出这种访问异常：
+         *
+         * java
+         * Copy
+         * Edit
+         * ObjectMapper mapper = new ObjectMapper();
+         * String json = mapper.writeValueAsString(exceptionObject);
+         */
 
 
         /// ----------log

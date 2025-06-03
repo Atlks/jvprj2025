@@ -1,5 +1,6 @@
 package util.evtdrv;
 
+import model.OpenBankingOBIE.Transaction;
 import util.algo.ConsumerX;
 
 import java.lang.reflect.Method;
@@ -10,7 +11,6 @@ import java.util.function.Consumer;
 public class EvtHlpr {
 
 
-
     //add event handler
 //    private static void addEvtHdlr4regevt(Consumer f ) {
 //
@@ -18,6 +18,30 @@ public class EvtHlpr {
     //发布事件publishEvent(Object event)
 
     public static <T> void  publishEvent(List<Consumer<T>> evtlist, T evtObj) {
+        //  List<Consumer<Usr>> li=evtlist.get(evt);
+        for(Consumer<T> spl: evtlist)
+        {
+            spl.accept(evtObj);
+        }
+    }
+//    private void publishEvent(Set<ConsumerX<Transaction>> evtlist4rchg, Transaction ts) {
+//    }
+//private void publishEvent(Set<ConsumerX<Transaction>> evtlist4rchg, Transaction ts) {
+//}
+    public static   void  publishEvent(Set<ConsumerX<Transaction>> evtlist, Transaction evtObj) {
+        //  List<Consumer<Usr>> li=evtlist.get(evt);
+        for(ConsumerX<Transaction> spl: evtlist)
+        {
+            try{
+                spl.accept(  evtObj);
+            } catch (Throwable e) {
+                System.out.println("---catch.by fun publshEvt");
+                e.printStackTrace();
+            }
+
+        }
+    }
+    public static <T> void  publishEvent(Set<Consumer<T>> evtlist, T evtObj) {
         //  List<Consumer<Usr>> li=evtlist.get(evt);
         for(Consumer<T> spl: evtlist)
         {

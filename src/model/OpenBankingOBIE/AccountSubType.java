@@ -19,9 +19,12 @@ public enum AccountSubType {
     EMoney,
     // 投资账户（ 就是盈利账户 一般证券）
     GeneralInvestment,
+    insFdPl,  //inshor fd pool 保险资金池
+
+
     agtCms,  //代理cmd账户   cms bls
 
-    insFdPl,  //inshor fd pool
+
     usrExt, //扩展统计类的账户
 
     // 活期账户

@@ -123,7 +123,12 @@
         <artifactId>mysql-connector-java</artifactId>
         <version>8.0.33</version>
     </dependency>
-
+  <!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa -->
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+            <version>5.1.0</version>
+        </dependency>
 
     <!-- https://mvnrepository.com/artifact/p6spy/p6spy -->
     <dependency>
@@ -378,7 +383,12 @@
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
 
-
+    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310 -->
+    <dependency>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-jsr310</artifactId>
+        <version>2.19.0</version>
+    </dependency>
 
     <dependency>
         <groupId>dnsjava</groupId>
@@ -387,8 +397,23 @@
     </dependency>
 
 
+   <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-common</artifactId>
+            <version>3.1.0</version>
+        </dependency>
 
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <version>3.5.5</version> <!-- 确保版本正确 -->
+        </dependency>
 
+   <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.5.19</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.web3j/core -->
         <dependency>

@@ -1,7 +1,6 @@
-package orgx;
+package orgx.msc;
 
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;

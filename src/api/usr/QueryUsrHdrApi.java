@@ -1,6 +1,8 @@
 package api.usr;
 
 import entityx.usr.ReqDtoQryUsr;
+import model.OpenBankingOBIE.Account;
+import model.OpenBankingOBIE.AccountSubType;
 import model.usr.Usr;
 import jakarta.annotation.security.PermitAll;
 import lombok.Data;
@@ -9,17 +11,22 @@ import org.hibernate.Session;
 
 import util.algo.Icall;
 import util.annos.Paths;
+import util.model.common.PageResult;
+import util.tx.HbntUtil;
+import util.tx.findByIdExptn_CantFindData;
 //import org.apache.lucene.index.DirectoryReader;
 //import org.apache.lucene.index.Term;
 //import org.apache.lucene.search.*;
 //import org.apache.lucene.store.Directory;
 //import org.apache.lucene.store.FSDirectory;
 //import static util.UtilLucene.toListMap;
+import java.math.BigDecimal;
 import java.util.*;
 
 
 //import static cfg.Containr.sessionFactory;
 import static cfg.Containr.sessionFactory;
+import static util.acc.AccUti.getAccid;
 import static util.algo.ToXX.toSnake;
 import static util.model.common.ApiResponse.createResponse;
 import static util.algo.EncodeUtil.encodeParamSql;
@@ -50,7 +57,21 @@ public class QueryUsrHdrApi implements Icall<ReqDtoQryUsr, Object> {
         System.out.println(sql);
 
         Session session = sessionFactory.getCurrentSession();
-        var list1 = getPageResultByHbntV3(sql, new HashMap<>(), reqdto, session);
+
+        PageResult pg= getPageResultByHbntV3(sql, new HashMap<>(), reqdto, session);
+        List<Usr> list1=pg.getRecords();
+        list1.stream().forEach(usr -> {
+            try {
+                Account acc= HbntUtil.findById(Account.class,getAccid(usr.uname, AccountSubType.EMoney));
+                BigDecimal balanceEmoneyAcc=acc.interim_Available_Balance;
+                        usr.setBalanceEmoneyAcc(balanceEmoneyAcc);
+            } catch (Throwable e) {
+                System.out.println("---catch...");
+               e.printStackTrace();
+            }
+
+        });
+
 
         return createResponse(list1);
 

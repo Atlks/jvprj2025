@@ -5,14 +5,21 @@ import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSONWriter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.gson.*;
 import com.sun.net.httpserver.HttpExchange;
+import util.NodeImplMixin;
+import util.ThrowableAdapter;
+import util.oo.DateSerializerLoctimeWzTmzone;
+import util.oo.OffsetDttmFmtr;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.io.*;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -24,11 +31,12 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
 
-import static com.fatboyindustrial.gsonjavatime.Converters.registerAll;
+import static com.fatboyindustrial.gsonjavatime.Converters.*;
 
 
 public class Util2025 {
@@ -167,7 +175,7 @@ public class Util2025 {
         return buffer.toString("UTF-8");
     }
 
-    public static String encodeJson4ex(Object obj) {
+    public static String encodeJson4ex(Object obj) throws JsonProcessingException {
 
         try {
 
@@ -176,7 +184,7 @@ public class Util2025 {
             try {
                 return encodeJsonByFastjson2(obj);
             } catch (Exception ex) {
-                return encodeJsonByGson(obj);
+                return encodeJsonByJackjson(obj);
             }
 
         }
@@ -190,14 +198,27 @@ public class Util2025 {
      */
     public static String encodeJsonByGson(Object obj) {
         GsonBuilder builder = new GsonBuilder();
-        registerAll(builder);  // 自动注册常见 Java 时间类适配器
-        builder  .registerTypeAdapter(Timestamp.class, new DateSerializer()) ; // Register custom serializer
+        builder  .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC);
+        builder  .registerTypeAdapter(Throwable.class, new ThrowableAdapter());
+        builder  .registerTypeAdapter(OffsetDateTime.class, new OffsetDttmFmtr()) ;
+        builder  .registerTypeAdapter(Timestamp.class, new DateSerializerLoctimeWzTmzone()) ; // Register custom serializer
+        registerLocalDate(builder);
+        registerLocalDateTime(builder);
+        registerLocalTime(builder);
+
+
+        registerInstant(builder);
+      //  registerAll(builder);  // 自动注册常见 Java 时间类适配器
+
+        builder  .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC);
+        builder  .registerTypeAdapter(Throwable.class, new ThrowableAdapter());
+        registerZonedDateTime(builder);
         Gson gson = builder.create();
         //  Gson gson = new Gson();
         return gson.toJson(obj);
     }
 
-    static class DateSerializer implements JsonSerializer<Date> {
+    static class DateSerializerUtc implements JsonSerializer<Date> {
         @Override
         public JsonElement serialize(Date date, Type typeOfSrc, JsonSerializationContext context) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");  // Customize as needed
@@ -211,9 +232,31 @@ public class Util2025 {
     }
 
     // 使用 Jackson 进行 JSON 序列化
+
+    /**
+     * 这里序列化时间有问题，offsetdatetime，timestamp类型，希望序列化为iso格式带时区
+     * @param obj
+     * @return
+     * @throws JsonProcessingException
+     */
     public static String encodeJsonByJackjson(Object obj) throws JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();
+
+        //except srz prblm...easy than gson
+        objectMapper.addMixIn(org.hibernate.validator.internal.engine.path.NodeImpl.class, NodeImplMixin.class);
+
+
+        //-----------set json time
+        // 支持 java.time 包下的时间类型
+        objectMapper.registerModule(new JavaTimeModule());
+
+        // 关闭时间戳写法，启用 ISO 格式
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        // 使用 JVM 默认时区（本地时区）
+        objectMapper.setTimeZone(TimeZone.getDefault());
+
         return objectMapper.writeValueAsString(obj);
 
 

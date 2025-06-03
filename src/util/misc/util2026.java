@@ -1,6 +1,7 @@
 package util.misc;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import util.ex.PwdNotEqExceptn;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -46,6 +47,18 @@ import static util.tx.dbutil.setField;
 
 public class util2026 {
     public static String slt4pwd = "slt2025";
+
+
+    public static Object toJsonObjectOrArrayUseJackson(String jsonStr) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            // Jackson 会自动判断是 Map 还是 List
+            return mapper.readValue(jsonStr, Object.class);
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid JSON input: " + jsonStr, e);
+        }
+    }
+
 
     public static void copyCookieToDto(HttpExchange HttpExchange1, List<String> cookieParams, Object dto) throws IsEmptyEx {
         for (String cknm : cookieParams) {
@@ -1027,8 +1040,8 @@ public class util2026 {
     }
 
 
-    public static void sleep(int i) throws InterruptedException {
-        Thread.sleep(i);
+    public static void sleep(int slpMs) throws InterruptedException {
+        Thread.sleep(slpMs);
     }
 
     /**

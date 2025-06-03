@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  * 包含：累计充值、累计提现、累计兑换金额、累计佣金
  */
 @Entity
-@Table(name="rpt_mbr_amt_Summary")
+@Table(name="rpt_mbr_amt_summary")
 @Data
 @NoArgsConstructor
 public class MbrAmtSum {

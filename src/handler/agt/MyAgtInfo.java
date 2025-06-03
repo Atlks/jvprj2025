@@ -1,5 +1,6 @@
 package handler.agt;
 
+import jakarta.ws.rs.Path;
 import model.usr.Usr;
 import handler.ivstAcc.dto.QueryDto;
 import model.agt.Agent;
@@ -13,6 +14,7 @@ import static util.algo.GetUti.getTableName;
 import static util.tx.HbntUtil.*;
 
 //  /agt/MyAgtInfo
+@Path("/apiv1/agt/MyAgtInfo")
 public class MyAgtInfo {
 
 
@@ -23,7 +25,7 @@ public class MyAgtInfo {
 
 
 
-    @Paths({"/agt/listMyMmbr"})
+    @Paths({"/apiv1/agt/listMyMmbr"})
     public Object listMyMmbr(QueryDto reqdto) throws Throwable {
         SlctQry query = newSelectQuery(getTableName(Usr.class));
         //  query.select("*");

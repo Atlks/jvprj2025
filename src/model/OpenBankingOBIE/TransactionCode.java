@@ -30,18 +30,18 @@ public enum TransactionCode {
 
     adjst_loss, //亏损
 
-    Payment_wthdr,
+    Payment_wthdr, //提现
 
-    /**
-     * COM - Commission (佣金)
-     */
-    payment_rechg,
 
-    InternalTransfers_exchg,
+    payment_rechg,  //充值
+
+    InternalTransfers_exchg,  //划转兑换
     invstProfit,  //收益  income  earning
-    invstLoss,//
-    Service_Cms_rechgCms,
-    Service_Cms_devlpSubsCntCms,
+
+
+    invstLoss,//  投资损失
+    Service_Cms_rechgCms,  //佣金（下级充值时，代理会有佣金
+    Service_Cms_devlpSubsCntCms,// 另外一种佣金，看看你是奖励（多一个下级注册人数，就给代理一个佣金，按照注册数量给的这个）
 
     /**
      * OTH - Other (其他)

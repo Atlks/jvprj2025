@@ -17,4 +17,5 @@ public class RegDto {
     public String invtr = "";
     public String email = "";
     public String cptch;
+    public String refcode="";
 }

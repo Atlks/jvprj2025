@@ -93,7 +93,7 @@ public class ReviewWthdrReqOrdPassHdr implements RequestHandler<ReviewChrgRqdto,
         String uname = objOrd.owner;
         TransDto transDto=new TransDto();
         copyProps(objOrd,transDto);
-        transDto.amt=objOrd.amount;
+        transDto.setAmount(objOrd.amount);;
         transDto.refUniqId="reqid="+objOrd.id;
         iniWlt( objOrd.owner, session);
         transDto.lockYlwltObj= findById(Account.class, getAccId4ylwlt(objOrd.owner) , session);

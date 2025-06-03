@@ -13,7 +13,7 @@ import java.util.List;
 import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.findById;
 
-@Path("/agt/listSupHdl")
+@Path("/apiv1/agt/listSupHdl")
 // 获取非直属上级的 Usr 列表
 @PermitAll
 public class getSuperiors {

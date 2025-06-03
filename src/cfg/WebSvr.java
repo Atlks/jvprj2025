@@ -1,5 +1,6 @@
 package cfg;
 
+import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -114,6 +115,11 @@ public class WebSvr {
         });
         httpServer.createContext("/jar/docRestApi", exchange -> docRestApiHdl(exchange));
 
+        httpServer.createContext("/favicon.ico",(exchange) -> {
+            exchange.close();
+            return;
+        });
+
 
         //------------hdl all
         HttpHandler httpHandlerAll = exchange -> {
@@ -123,11 +129,11 @@ public class WebSvr {
                 throw new RuntimeException(e);
             }
         };
-        httpServer.createContext("/", httpHandlerAll);
+        HttpContext httpContext= httpServer.createContext("/", httpHandlerAll);
         //-------------------
         cfgPath(httpServer);
         //  http://localhost:8889/
-        // 启动服务器
+        // 启动服务器...
         //   httpServer.setExecutor(null); // 默认的线程池  单线程
         // 设置 10 线程并发执行.
         httpServer.setExecutor(Executors.newFixedThreadPool(20));
@@ -427,8 +433,7 @@ public class WebSvr {
             @NotNull String path1 = getPathNoQuerystring(exchange);
             if (isBlank(path1))
                 throw new RuntimeException("path is blnk");
-            if (path1.equals("/favicon.ico"))
-                return;
+
             if (path1.endsWith(".htm") || path1.endsWith(".html")) {
               //  Context context = new Context();
                 var rsp=readTxtFrmFil(webroot+path1);
@@ -439,11 +444,7 @@ public class WebSvr {
             @NotNull HttpHandler proxyObj = new ApiGateway(path1);
             proxyObj.handle(exchange);
         } catch (Exception e) {
-            printLn("---------------statt epr int  ");
-            e.printStackTrace();
-            System.err.flush();
-            Thread.sleep(20);
-            printLn("---------------endstatt eprint");
+            printEx(e);
             processNmlExptn(exchange, e);
         } finally {
             exchange.close(); // ⚠️ 必须调用，否则会卡住
@@ -451,7 +452,16 @@ public class WebSvr {
 
 
     }
-public  static     String webroot=getPrjPath()+"/webroot";
+
+    private static void printEx(Exception e) throws InterruptedException {
+        printLn("---------------statt epr int  ");
+        e.printStackTrace();
+        System.err.flush();
+        Thread.sleep(20);
+        printLn("---------------endstatt eprint");
+    }
+
+    public  static     String webroot=getPrjPath()+"/webroot";
     /**
      *
      //listAdm

@@ -1,4 +1,4 @@
-package orgx.uti;
+package orgx.uti.orm;
 
 public class SortUti
 {

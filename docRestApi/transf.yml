@@ -7,13 +7,13 @@ get:
 
     - name: amount
       in: query
-      required: true
+      required: false
       description: 转账金额
       schema:
         type: number
   responses:
     "200":
-      $ref: '../../components/responses/CommonResponse.yaml'
+      $ref: './components/responses/CommonResponse.yaml'
   examples:
     example-1:
       summary: 示例调用

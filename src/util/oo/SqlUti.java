@@ -41,6 +41,8 @@ return  " and "+ addCondt(fld, op, val) +" ";
     public  static  String selectFrom(String cols,Class<?> adminClass) {
         return select(cols)+ from(adminClass);
     }
+
+
     private static String select(String cols) {
 
         return  "select "+cols ;

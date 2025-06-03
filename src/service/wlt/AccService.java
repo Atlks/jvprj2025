@@ -2,6 +2,7 @@ package service.wlt;
 // static cfg.AppConfig.sessionFactory;
 
 
+import handler.statmt.CrudFun;
 import model.OpenBankingOBIE.Account;
 import entityx.wlt.LogBls;
 import entityx.wlt.TransDto;
@@ -51,15 +52,20 @@ public class AccService {
 
         return null;
     }
+
+    @CrudFun
     public static Object crdtFd(TransDto TransDto88 ) throws Exception {
 
 
         String uname = TransDto88.uname;
-        BigDecimal amt = TransDto88.getAmt();
+        BigDecimal amt = TransDto88.getAmount();
         Session session=sessionFactory.getCurrentSession();
         Account wlt1=TransDto88.lockAccObj;
         BigDecimal nowAmt =wlt1.interim_Available_Balance;
         BigDecimal newBls = nowAmt.add(amt);
+        //=================updt
+        wlt1.interim_Available_Balance = toBigDcmTwoDot(newBls);
+        mergex(wlt1, session);
 
 
         //==================add balanceLog
@@ -79,17 +85,14 @@ public class AccService {
         persist(logBalance, session);
 
 
-        Transaction txx=new Transaction();
-        txx.transactionId="add2wlt"+ TransDto88.refUniqId;
-        txx.amount= TransDto88.getAmount();
-        txx.creditDebitIndicator= CreditDebitIndicator.CREDIT;
-        txx.accountId= wlt1.accountId;
-        txx.owner = uname;
-        persist(txx, session);
+//        Transaction txx=new Transaction();
+//        txx.transactionId="add2wlt"+ TransDto88.refUniqId;
+//        txx.amount= TransDto88.getAmount();
+//        txx.creditDebitIndicator= CreditDebitIndicator.CREDIT;
+//        txx.accountId= wlt1.accountId;
+//        txx.owner = uname;
+//        persist(txx, session);
 
-        //=================updt
-        wlt1.interim_Available_Balance = toBigDcmTwoDot(newBls);
-        mergex(wlt1, session);
 
 
         

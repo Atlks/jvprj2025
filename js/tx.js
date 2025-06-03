@@ -7,13 +7,14 @@ function random4Digit() {
 }
 
 async function run() {
-
-    for (let i = 0; i < 10; i++) {
+    baseurl="http://18.136.123.232:8889"
+      baseurl="http://localhost:888"
+    for (let i = 0; i < 3; i++) {
         uname="user"+random4Digit();
 
         try {
-            baseurl="http://18.136.123.232:8889"
-           // baseurl="http://localhost:888"
+
+
             url = baseurl+'/apiv1/admin/wlt/adjust?accountSubType=EMoney&transactionCode=adjst_crdt&uname=uuuu6666&adjustAmount=55&remark=xxxx';
            console.log(url)
             const response = await axios.get(url);
@@ -22,6 +23,12 @@ async function run() {
             console.error(`Request ${i + 1} - Error:`, error.message);
         }
     }
+
+    url = baseurl+'/apiv1/admin/wlt/adjust?accountSubType=EMoney&transactionCode=payment_rechg&uname=uuuu6666&adjustAmount=55&remark=xxxx';
+    console.log(url)
+    const response = await axios.get(url);
+    console.log(`Request  - Status: ${response.status}`);
+
 }
 
 run();

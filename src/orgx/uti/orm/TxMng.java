@@ -1,4 +1,4 @@
-package orgx.uti;
+package orgx.uti.orm;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -8,7 +8,6 @@ import org.checkerframework.checker.nullness.qual.UnknownKeyFor;
 import org.hibernate.Session;
 import org.hibernate.jdbc.ReturningWork;
 import orgx.uti.context.ThreadContext;
-import orgx.uti.orm.FunctionX;
 
 import java.sql.Connection;
 
@@ -49,39 +48,45 @@ public class TxMng {
 
 
     public static Object callInTransaction(FunctionX<EntityManager, Object> o) {
-
+        System.out.println("callInTransaction");
         EntityManager em = sessionFactory.createEntityManager();
         ThreadContext.currEttyMngr.set(em);
         Session session = em.unwrap(Session.class);
         currSession.set(session);
-        return session.doReturningWork(new ReturningWork<Object>() {
+        ReturningWork<Object> work = new ReturningWork<>() {
 
             @Override
             public Object execute(@UnknownKeyFor @NonNull @Initialized Connection connection) {
                 try {
                     EntityTransaction transaction = em.getTransaction();
                     transaction.begin();
+                    System.out.println("begin");
                     currEntityTransaction.set(transaction);
 
 
-                    Object rzt = o.apply(null);
-
+                    Object rzt = o.apply(currEttyMngr.get());
 
 
                     transaction.commit();
+                    System.out.println("commit");
                     return rzt;
 
                 } catch (Throwable e) {
                     // e.printStackTrace();
                     currEntityTransaction.get().rollback();
+                    System.out.println("rollback");
                     throwX(e);
 
                 } finally {
-
+                    //cls http conn
+                    TxMng.closeConn();
                 }
                 return "";
             }
-        });
+        };
+        Object o1 = session.doReturningWork(work);
+        System.out.println("endfun callInTransaction");
+        return o1;
 
         //  return o.apply(null);
     }
