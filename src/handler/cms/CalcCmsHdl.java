@@ -41,17 +41,22 @@ public class CalcCmsHdl {
             Session session = sessionFactory.getCurrentSession();
             Agent curSub = new Agent();
             curSub.commissionRate= BigDecimal.valueOf(1);
-            for (Usr u : sups) {
+            for (Usr sup_usr : sups) {
+                try{
+                    Agent agt = findById(Agent.class, sup_usr.uname, session);
+                    BigDecimal curRate=agt.commissionRate.multiply(curSub.commissionRate)   ;
 
 
-                Agent agt = findById(Agent.class, u.uname, session);
-                BigDecimal curRate=agt.commissionRate.multiply(curSub.commissionRate)   ;
+                    BigDecimal cms = curRate.multiply(tx.amount);
+                    agt.interimAvailableBalance = agt.interimAvailableBalance.add(cms);
+                    mergex(agt, session);
+                    curSub=agt;
+                } catch (Exception e) {
+                    System.out.println("---catch");
+                    e.printStackTrace();
+                }
 
 
-                BigDecimal cms = curRate.multiply(tx.amount);
-                agt.balanceCms = agt.balanceCms.add(cms);
-                mergex(agt, session);
-                curSub=agt;
 
             }
             // new AgtRegSubSttSvs().updateIndirectSubordinatesOnNewUser(u.id);

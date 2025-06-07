@@ -10,6 +10,9 @@ ssh -i "C:\Users\Administrator\Downloads\tz_app_amazonlinux.pem" ec2-user@18.136
 
 sudo rm -f app.log
 
+cd /data/java_work/optibot/
+
+sudo /usr/lib/jvm/jdk-21.0.6/bin/java -jar optibot.jar -Ddbcfg=/data/upload_package/optibot/cfg/dbcfg.ini
 
 。。。
 

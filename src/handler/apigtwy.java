@@ -5,7 +5,8 @@ import util.serverless.ApiGatewayResponse;
 
 import java.lang.reflect.Method;
 
-import static util.algo.GetUti.getMethod;
+
+import static util.misc.RflktUti.getMethodByObj;
 
 public class apigtwy {
 
@@ -24,7 +25,7 @@ public class apigtwy {
 
        // Method[] ms=target.getClass().getDeclaredMethods();
 //      Method m= target.getClass().getMethod("handleRequest");
-        Method m=getMethod(target,"handleRequest");
+        Method m=getMethodByObj(target,"handleRequest");
        var retobj= m.invoke(target,dto);
 
        var apigtwy= new ApiGatewayResponse(retobj);

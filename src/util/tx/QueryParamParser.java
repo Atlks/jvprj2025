@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static util.misc.Util2025.encodeJsonObj;
+import static util.misc.util2026.sleep;
 
 public class QueryParamParser {
 //    public static <T> T toDto(HttpExchange exchange) {
@@ -51,7 +52,12 @@ public class QueryParamParser {
                     Class<?> propertyType = pd.getPropertyType();
                     Object convertedValue = convertType(value, propertyType);  // 类型转换
                     //prop must has set mth,,beir err  ,get wrtmthd is null
-                    pd.getWriteMethod().invoke(dto, convertedValue); // 反射调用 Setter
+                    try{
+                        pd.getWriteMethod().invoke(dto, convertedValue); // 反射调用 Setter
+                    }catch (Throwable e){
+                        prtEx(e);
+                    }
+
                 }
             }
             return dto;
@@ -60,6 +66,13 @@ public class QueryParamParser {
                  NoSuchMethodException | IntrospectionException e) {
             throw new RuntimeException("解析查询参数失败: " + e.getMessage(), e);
         }
+    }
+
+    public static void prtEx(Throwable e)   {
+        System.out.println("---catch");
+        e.printStackTrace();
+        sleep(20);
+        System.out.println("---catch");
     }
 
     // 解析查询字符串为 Map

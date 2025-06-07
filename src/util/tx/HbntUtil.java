@@ -458,6 +458,7 @@ public class HbntUtil {
      * @return
      * @throws SQLException
      */
+    @Deprecated
     public static @NotNull Page<Map> getResultListWzPageByHbntRtLstmap(@NotBlank String sql, Map<String, Object> sqlprmMap, Pageable pageable) throws SQLException {
 
         System.out.println("fun getResultListWzPageByHbntRtLstmap(sql= " + sql);
@@ -477,6 +478,28 @@ public class HbntUtil {
         //   Page<Usr> page;
         //    int totalPages = (int) Math.ceil((double) totalRecords / pageable.getPageSize());
         return new PageImpl<Map>(list1, pageable, totalRecords);
+        // return new PageResult<>(list1, totalRecords, totalPages,pageable.getPageNumber(),pageable.getPageSize());
+    }
+
+    public static @NotNull <T> Page<T> getResultListWzPage(@NotBlank String sql, Map<String, Object> sqlprmMap, Pageable pageable,Class<T> clz) throws SQLException {
+
+        System.out.println("fun getResultListWzPageByHbntRtLstmap(sql= " + sql);
+        Session session = sessionFactory.getCurrentSession();
+        NativeQuery<T> nativeQuery = session.createNativeQuery(sql,clz);
+        setPrmts4sql(sqlprmMap, nativeQuery);
+        // 设置分页
+        nativeQuery.setFirstResult(getstartPosition(pageable.getPageNumber(), pageable.getPageSize()));
+        nativeQuery.setMaxResults(pageable.getPageSize());
+        //       .setParameter("age", 18);
+        List<T> list1 =   nativeQuery.getResultList();
+
+
+        //------------page
+        long totalRecords = nativeQuery.getResultCount();
+
+        //   Page<Usr> page;
+        //    int totalPages = (int) Math.ceil((double) totalRecords / pageable.getPageSize());
+        return new PageImpl<T>(list1, pageable, totalRecords);
         // return new PageResult<>(list1, totalRecords, totalPages,pageable.getPageNumber(),pageable.getPageSize());
     }
 

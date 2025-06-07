@@ -11,6 +11,7 @@ import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.hibernate.SessionFactory;
 
 import org.slf4j.Logger;
@@ -68,6 +69,9 @@ public  static HttpServer httpServer;
     // #procs ctx.java
     public static FunctionX<Dtoo, Object> fun_userAdd;
     public static FunctionX<Dtoo, Object> fun_BlsAdd;
+    public static boolean isTestMode=false;
+    public static String jdbcUrl;
+    public static SqlSessionFactory sqlSessionFactory;
     private static Configuration config;
 
 

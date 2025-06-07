@@ -1,4 +1,4 @@
-package ztest;
+package test;
 
 import entityx.BetOrd;
 import org.hibernate.Session;

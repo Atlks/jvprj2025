@@ -107,8 +107,9 @@ public int otherLevelCount;
      * 下级充值金额
      */
     public BigDecimal subLevelRechargeAmount = BigDecimal.valueOf(0);
-    public BigDecimal drctlSubRchgAmtSum = BigDecimal.valueOf(0);
-    public BigDecimal indrctlSubRchgAmtSum = BigDecimal.valueOf(0);
+    public BigDecimal drctlSubRchgAmtSum = BigDecimal.valueOf(0);//直接下级充值总金额
+
+    public BigDecimal indrctlSubRchgAmtSum = BigDecimal.valueOf(0);//间接下级充值总金额
 
     /**
      * 总充值金额（本级 + 下级）
@@ -126,7 +127,7 @@ public int otherLevelCount;
     public BigDecimal commissionAmount = BigDecimal.valueOf(0);
 
    //待领取佣金   代理余额（可提佣金>>drktl   acc_agt.bals
-   public BigDecimal balanceCms =new BigDecimal(0);;
+   public BigDecimal interimAvailableBalance =new BigDecimal(0);;
 
    public BigDecimal totalCommssionAmt=new BigDecimal(0);
 

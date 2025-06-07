@@ -73,7 +73,40 @@
         <version>4.0.5.2400</version>
     </dependency>
 
+    <!-- MyBatis-Plus 核心 -->
+    <dependency>
+        <groupId>com.baomidou</groupId>
+        <artifactId>mybatis-plus-core</artifactId>
+        <version>3.5.5</version> <!-- 使用最新稳定版本 -->
+    </dependency>
 
+    <!-- MyBatis 核心 -->
+    <dependency>
+        <groupId>org.mybatis</groupId>
+        <artifactId>mybatis</artifactId>
+        <version>3.5.14</version> <!-- 建议用此版本支持 Java 21 -->
+    </dependency>
+
+    <!-- MyBatis-Plus 扩展配置（如分页插件） -->
+    <dependency>
+        <groupId>com.baomidou</groupId>
+        <artifactId>mybatis-plus-extension</artifactId>
+        <version>3.5.5</version>
+    </dependency>
+
+    <!-- MyBatis-Plus 注解处理（可选） -->
+    <dependency>
+        <groupId>com.baomidou</groupId>
+        <artifactId>mybatis-plus-annotation</artifactId>
+        <version>3.5.5</version>
+    </dependency>
+
+    <!-- 数据源连接池（PooledDataSource） -->
+    <dependency>
+        <groupId>org.mybatis</groupId>
+        <artifactId>mybatis</artifactId>
+        <version>3.5.14</version>
+    </dependency>
 
     <!-- jOOQ Core -->
         <dependency>
@@ -738,8 +771,7 @@
                     <source>21</source>
                     <target>21</target>
                     <release>21</release> <!-- Set your Java version -->
-                    <compilerArgs>
-                    </compilerArgs>
+                    <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
 

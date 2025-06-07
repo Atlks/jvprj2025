@@ -1,17 +1,14 @@
 package util.evtdrv;
 
-import util.algo.ConsumerX;
-import util.algo.SupplierX;
 import util.annos.Observes;
-import util.annos.EventListener;
 
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Consumer;
 
-import static util.algo.GetUti.getMethod;
+
 import static util.misc.ReflectionUtils.getFirstParamClassFromMethod;
-import static util.misc.util2026.printLn;
+import static util.misc.RflktUti.getMethod4faasFun;
 import static util.misc.util2026.scanAllClass;
 import static util.oo.ArrUtil.pushSet;
 import static util.proxy.AopUtil.ivk4log;
@@ -102,7 +99,7 @@ public class EvtUtil {
                 System.out.println("id930 lsn evt：" + eventType);
 
                 String mthFullname = clzScaned.getName() + ".hdlrRq";
-                Method lmdaFun = getMethod(clzScaned, "handleRequest");
+                Method lmdaFun = getMethod4faasFun(clzScaned, "handleRequest");
 
                 EventListenerHdlr hdl=new EventListenerHdlr().setFunFullName(mthFullname).setHandleRequestMthd(lmdaFun);
                 EventDispatcher.registerListener(eventType,hdl);

@@ -53,7 +53,7 @@ public class JwtUtil {
     private static final String SECRET_KEY = "mysecretkey";
 
     // JWT过期时间，单位毫秒  100day
-    private static final long EXPIRATION_TIME = 100L * 24 * 3600 * 1000; // 10 days
+    private static final long EXPIRATION_TIME = 1L * 24 * 3600 * 1000; // 10 days
 
 
     /**

@@ -12,4 +12,6 @@ public class RechgDto {
 public  String owner;
     @NotNull
     public BigDecimal amount;
+    public String receipt_image;
+    public String addressLine;
 }

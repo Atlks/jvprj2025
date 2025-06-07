@@ -12,7 +12,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
-import model.obieErrCode.AmtCantLessThan0Excptn;
+
+import model.obieErrCode.FieldInvalidEx;
 import org.hibernate.annotations.*;
 import org.hibernate.type.SqlTypes;
 import util.annos.Alas;
@@ -88,6 +89,14 @@ public class Transaction {
 
 
     // 交易金额
+
+    public void setAmountVld(BigDecimal amount) throws FieldInvalidEx {
+        if(amount.compareTo(new BigDecimal(0)) <= 0) {
+            throw new FieldInvalidEx("Amount must grt than 0");
+        }
+        this.amount = amount;
+    }
+
     /**
      * 在 OBIE（Open Banking Implementation Entity）规范中，交易流水的 amount 字段 本身不允许为负数。是否是支出或收入，由另一个字段 creditDebitIndicator 决定。
      */
@@ -100,9 +109,9 @@ public class Transaction {
      *
      * @param amount
      */
-    public void setAmountVldChk(@NotNull BigDecimal amount) {
+    public void setAmountVldChk(@NotNull BigDecimal amount) throws FieldInvalidEx {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) < 0)
-            throw new AmtCantLessThan0Excptn(amount.toString());
+            throw new FieldInvalidEx(amount.toString());
         this.amount = amount;
     }
 
@@ -115,9 +124,9 @@ public class Transaction {
     @DecimalMin(value = "0.00", inclusive = true, message = "chgamt不能为负数")
     public BigDecimal ChargeAmount = BigDecimal.valueOf(0);
 
-    public void setChargeAmount(BigDecimal chargeAmount1) {
+    public void setChargeAmount(BigDecimal chargeAmount1) throws FieldInvalidEx {
         if (chargeAmount1 == null || chargeAmount1.compareTo(BigDecimal.ZERO) < 0)
-            throw new AmtCantLessThan0Excptn(chargeAmount1.toString());
+            throw new FieldInvalidEx(chargeAmount1.toString());
         ChargeAmount = chargeAmount1;
     }
 
@@ -248,8 +257,8 @@ public class Transaction {
     @CreationTimestamp
     @Column(updatable = false)
     public OffsetDateTime crtDateTime;
-    @ObieFld("")
-    public String ProprietaryBankTransactionCode;
+//    @ObieFld("")
+//    public String ProprietaryBankTransactionCode;
 
     // 付款方账户信息  ext fld
     @ObieFld("dbtorAgent")
@@ -278,8 +287,8 @@ public class Transaction {
      *     // 线下刷卡消费的商户地址
      */
 //
-//            @ObieFld
-//    String AddressLine="ol";
+            @ObieFld
+   public String addressLine ="充值地址";
 
 //    @ObieFld
 //    String CurrencyExchange;
@@ -312,15 +321,12 @@ public class Transaction {
     @ExtFld
     public String owner = "";
 
-    //review time
-    @Nullable  @ExtFld
-    public OffsetDateTime review_timestamp;
 
     @CreationTimestamp
     @ExtFld
     public OffsetDateTime timestamp;
 
-    public Transaction(String txId, String accid, String accOwnr, CreditDebitIndicator creditDebitIndicator, @NotNull(message = "金额不能为空") @Min(value = 1, message = "金额必须大于0") BigDecimal amount) {
+    public Transaction(String txId, String accid, String accOwnr, CreditDebitIndicator creditDebitIndicator, @NotNull(message = "金额不能为空") @Min(value = 1, message = "金额必须大于0") BigDecimal amount) throws FieldInvalidEx {
         this.transactionId = txId;
         this.setTransactionId(txId);
         this.setCreditDebitIndicator(creditDebitIndicator);
@@ -356,12 +362,23 @@ public class Transaction {
 
     //审核人
     @ExtFld
-    public String parentProxy = "";
-    public String vipLev = "";
-
+    public String lable="持续充值高级会员";
+    //上级
+    public String ownerParent = "";
+    public String vipLev = "vip1";
+    public String reviewer;
+    public OffsetDateTime reviewDateTime;
+    @ExtFld("回执img")
+    public  String   receipt_image="";
     //截图附件
     @ExtFld
-    public String img = "";
+    public String rechargeSreenshot = "";
+
+    public void setReceipt_image(String receipt_image) {
+        this.receipt_image = receipt_image;
+        this.rechargeSreenshot = receipt_image;
+    }
+
 
 
     // Getter 和 Setter 方法
@@ -375,12 +392,13 @@ public class Transaction {
     }
 
     public String getTransactionType() {
+       // if(transactionType)
         return transactionType;
     }
 
     public void setTransactionType(TransactionCode transactionType) {
         this.transactionType=transactionType.name();
-        this.transactionType = transactionType.name();
+        this.transactionCode = transactionType.name();
     }
 
 

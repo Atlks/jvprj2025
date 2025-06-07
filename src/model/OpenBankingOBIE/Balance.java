@@ -92,12 +92,15 @@ public class Balance {
 
 
     @NotNull
-    @DecimalMin(value = "0.00", inclusive = true, message = "余额不能为负数")
-    private BigDecimal amount = BigDecimal.valueOf(0);
 
-    public void setAmount(BigDecimal amount) {
+    private BigDecimal amount = BigDecimal.valueOf(0);
+    public void setAmountCantBeZero(BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) < 0)
             throw new InvldAmtEx("amount=" + amount+",blsid="+this.id);
+        this.amount = amount;
+    }
+    public void setAmount(BigDecimal amount) {
+
         this.amount = amount;
     }
 

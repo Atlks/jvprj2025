@@ -54,7 +54,7 @@ public class AccSvs4invstAcc  {
         BigDecimal nowAmt =acc.getInterim_Available_Balance();
 
         BigDecimal newBls = nowAmt.add(amt);
-        acc.interim_Available_Balance = toBigDcmTwoDot(newBls);
+        acc.setInterim_Available_Balance(toBigDcmTwoDot(newBls));;
         acc.setInterimBookedBalance(acc.getInterimBookedBalance().add(amt));
         mergex(acc, session);
 
@@ -67,7 +67,7 @@ public class AccSvs4invstAcc  {
 
         txx.refUniqId= String.valueOf(System.currentTimeMillis());
         txx.status = TransactionStatus.BOOKED;
-        txx.setBalanceAmount( acc.interim_Available_Balance);
+        txx.setBalanceAmount( acc.getInterim_Available_Balance());
         txx.setBalanceType(interimAvailable);
         System.out.println("prst tx,amt="+txx.amount);
         persist(txx, sessionFactory.getCurrentSession());

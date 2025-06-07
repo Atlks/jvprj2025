@@ -7,7 +7,7 @@ package test;
 import api.usr.RegHandler
 import cfg.IocPicoCfg.iniIocContainr
 import cfg.IocSpringCfg
-import cfg.IniCfg
+import cfg.MyCfg
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.noear.solon.Solon

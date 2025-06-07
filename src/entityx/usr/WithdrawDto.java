@@ -33,10 +33,11 @@ public class WithdrawDto {
 
     private String status; // PENDING, SUCCESS, FAILED
     private String remark; // 备注信息
+    private String pwd;
 
     public WithdrawDto() {}
 
-    public WithdrawDto(String userId, BigDecimal amount, String currency, String accountNumber, String bankName, String bankCode, String status, String remark) {
+    public WithdrawDto(String userId, BigDecimal amount, String currency, String accountNumber, String bankName, String bankCode, String status, String remark,String pwd) {
         this.userId = userId;
         this.amount = amount;
         this.currency = currency;
@@ -46,6 +47,7 @@ public class WithdrawDto {
         this.status = status;
         this.remark = remark;
         this.uname=userId;
+        this.pwd=pwd;
     }
 
     // Getter 和 Setter
@@ -113,6 +115,14 @@ public class WithdrawDto {
         this.remark = remark;
     }
 
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
+
     @Override
     public String toString() {
         return "WithdrawDto{" +
@@ -124,6 +134,7 @@ public class WithdrawDto {
                 ", bankCode='" + bankCode + '\'' +
                 ", status='" + status + '\'' +
                 ", remark='" + remark + '\'' +
+                ", pwd='" + pwd + '\'' +
                 '}';
     }
 }

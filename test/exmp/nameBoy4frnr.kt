@@ -2,7 +2,7 @@ package exmp
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import entityx.CharBo
+import util.model.common.CharBo
 import net.sourceforge.pinyin4j.PinyinHelper
 import util.misc.Util2025.encodeJson
 import java.io.File

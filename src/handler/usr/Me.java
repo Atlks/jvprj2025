@@ -28,10 +28,8 @@ import static util.tx.HbntUtil.getSingleResult;
 /**
  * user center
  */
-@jakarta.annotation.security.RolesAllowed("user")
-@Path("/apiv1/users/me")
-@Paths({"/apiv1/api/userinfo"})
-public class Me implements RequestHandler<Usr, ApiGatewayResponse> {
+
+public class Me   {
 //    @Override
 //    public Object main(Usr dto) throws  Throwable {
 //        Usr objU = findByHerbinate(Usr.class, getCurrentUser(), sessionFactory.getCurrentSession());
@@ -41,12 +39,15 @@ public class Me implements RequestHandler<Usr, ApiGatewayResponse> {
 
     /**
      * @param param
-     * @param context
+
      * @return
      * @throws Throwable
      */
-    @Override
-    public ApiGatewayResponse handleRequest(Usr param, Context context) throws Throwable {
+    @jakarta.annotation.security.RolesAllowed("user")
+    @Path("/apiv1/users/me")
+    @Paths({"/apiv1/api/userinfo"})
+
+    public Object handleRequest(UserInfoDto param ) throws Throwable {
         Usr objU = findById(Usr.class, getCurrentUser(), sessionFactory.getCurrentSession());
 
 
@@ -63,7 +64,7 @@ public class Me implements RequestHandler<Usr, ApiGatewayResponse> {
 //            System.out.println(e.getMessage());
 //        }
 
-        return new ApiGatewayResponse(objU);
+        return (objU);
     }
 
 }

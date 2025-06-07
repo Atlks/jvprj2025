@@ -1,6 +1,5 @@
 package cfg;
 
-import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -14,6 +13,7 @@ import jakarta.ws.rs.Path;
 //import org.thymeleaf.context.Context;
 // org.thymeleaf.context.Context;
 import model.other.ContentType;
+import orgx.uti.context.ProcessContext;
 import util.annos.Paths;
 import util.model.Context;
 import util.rest.RestUti;
@@ -29,21 +29,20 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.function.Consumer;
 
 
 // static ztest.htmlTppltl.rend;
 import static cfg.Containr.sessionFactory;
+import static orgx.uti.http.RegMap.registerMapping;
+import static orgx.uti.http.RegMap.registerMappingHttpHdlr;
 import static util.algo.JarClassScanner.getPrjPath;
 import static util.algo.JarClassScanner.getTargetPath;
-import static util.algo.NullUtil.isBlank;
 import static util.misc.PathUtil.getDirTaget;
 import static util.misc.Util2025.encodeJson;
-import static util.misc.Util2025.readTxtFrmFil;
 import static util.misc.util2026.*;
-import static util.oo.WebsrvUtil.processNmlExptn;
-import static util.rest.RestUti.createContext4rest;
+import static util.rest.RestUti.*;
 
 /**
  * ini web   \n
@@ -60,10 +59,81 @@ public class WebSvr {
 
 
         HttpServer httpServer = HttpServer.create(new InetSocketAddress(port), 0);
+        ProcessContext.httpServer = httpServer;
 
-        // 本地目录作为共享根目录
-      //  wbdvStart();
-        // 监听 8080 端口..
+        registerMappingSomepath(httpServer);
+        httpServer.createContext("/apiv1/res/uploads", new StaticFileHandler(getPrjPath() + "/res/uploads", "/apiv1/res/uploads"));
+
+        //------------hdl all
+        HttpHandler httpHandlerAll = exchange -> {
+
+            try {
+                regMapOptionn(exchange) ;
+                handleAllReq(exchange);
+            }catch (BreakToRet e){
+                return;
+            }
+            catch (Exception e) {
+               throwEx(e);
+            }
+
+        };
+        String path = "/";
+        registerMappingHttpHdlr(path,httpHandlerAll);
+
+        //-------------------
+        registerMappingSomepath2(httpServer);
+        //  http://localhost:8889/
+        // 启动服务器...
+        //   httpServer.setExecutor(null); // 默认的线程池  单线程
+        //每个请求新开一个线程）：
+
+
+        setExecutorNewThrdAlwys(httpServer);
+        //  httpServer.setExecutor(Executors.newSingleThreadExecutor());//每次新线程
+
+        httpServer.start();
+        System.out.println("http://localhost:" + port + "/reg");
+        System.out.println("Server started on port " + port);
+    }
+
+
+
+
+    private static void registerMappingSomepath(HttpServer httpServer) throws URISyntaxException {
+        // 定义一个上下文，绑定到 "/api/hello" 路径
+        //  httpServer.createContext("/hello", new HelloHandler());
+
+
+        // 设置静态资源目录 (例如: D:/myweb/static)
+        //  String dirWzClassesDirSameLev = "static";
+        String docRestApiDir = getdirRestapiDoc();
+        System.out.println("docRestApiDir=" + docRestApiDir);
+
+//        httpServer.createContext("/static22", new StaticFileHandler(docRestApiDir + "/aa", "/static"));
+        httpServer.createContext("/static", new StaticFileHandler(docRestApiDir, "/static"));
+        httpServer.createContext("/docRestApi", new StaticFileHandler(docRestApiDir, "/docRestApi"));
+
+
+        //    http://localhost:8889/static/doc.htm
+        httpServer.createContext("/post2", exchange -> {
+            try {
+                handlePost2(exchange);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+        httpServer.createContext("/jar/docRestApi", exchange -> docRestApiHdl(exchange));
+
+        httpServer.createContext("/favicon.ico",(exchange) -> {
+            exchange.close();
+            return;
+        });
+    }
+
+    // 本地目录作为共享根目录
+    //  wbdvStart();
+    // 监听 8080 端口..
 //        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
 //        System.out.println("WebDAV server started on http://localhost:8080/");
 //
@@ -86,63 +156,6 @@ public class WebSvr {
 //                exchange.close();
 //            }
 //        });
-
-
-
-
-
-        // 定义一个上下文，绑定到 "/api/hello" 路径
-        //  httpServer.createContext("/hello", new HelloHandler());
-
-
-        // 设置静态资源目录 (例如: D:/myweb/static)
-        //  String dirWzClassesDirSameLev = "static";
-        String docRestApiDir = getdirRestapiDoc();
-        System.out.println("docRestApiDir=" + docRestApiDir);
-
-        httpServer.createContext("/static22", new StaticFileHandler(docRestApiDir + "/aa", "/static"));
-        httpServer.createContext("/static", new StaticFileHandler(docRestApiDir, "/static"));
-        httpServer.createContext("/docRestApi", new StaticFileHandler(docRestApiDir, "/docRestApi"));
-
-        httpServer.createContext("/apiv1/res/uploads", new StaticFileHandler(getPrjPath() + "/res/uploads", "/apiv1/res/uploads"));
-        //    http://localhost:8889/static/doc.htm
-        httpServer.createContext("/post2", exchange -> {
-            try {
-                handlePost2(exchange);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-        httpServer.createContext("/jar/docRestApi", exchange -> docRestApiHdl(exchange));
-
-        httpServer.createContext("/favicon.ico",(exchange) -> {
-            exchange.close();
-            return;
-        });
-
-
-        //------------hdl all
-        HttpHandler httpHandlerAll = exchange -> {
-            try {
-                handleAllReq(exchange);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        };
-        HttpContext httpContext= httpServer.createContext("/", httpHandlerAll);
-        //-------------------
-        cfgPath(httpServer);
-        //  http://localhost:8889/
-        // 启动服务器...
-        //   httpServer.setExecutor(null); // 默认的线程池  单线程
-        // 设置 10 线程并发执行.
-        httpServer.setExecutor(Executors.newFixedThreadPool(20));
-        //  httpServer.setExecutor(Executors.newSingleThreadExecutor());//每次新线程
-
-        httpServer.start();
-        System.out.println("http://localhost:" + port + "/reg");
-        System.out.println("Server started on port " + port);
-    }
 
     private static void wbdvStart() throws IOException {
 //        File rootDir = new File("webroot");
@@ -307,7 +320,7 @@ public class WebSvr {
      *
      * @param server
      */
-    public static void cfgPath(HttpServer server) {
+    public static void registerMappingSomepath2(HttpServer server) {
 
 //        server.createContext("/users/get", exchange -> handleGetUser(exchange));
 //
@@ -420,46 +433,18 @@ public class WebSvr {
      * @param exchange
      * @throws IOException
      */
-    private static void handleAllReq(@NotNull HttpExchange exchange) throws IOException, InterruptedException {
-        try {
-            String method = exchange.getRequestMethod();
-            if ("OPTIONS".equalsIgnoreCase(method)) {
-                handleOptions(exchange);
-                return;
-            }
-            URI requestURI = exchange.getRequestURI();
-            System.out.println("" + requestURI);
+    private static void handleAllReq(@NotNull HttpExchange exchange) throws Exception {
 
-            @NotNull String path1 = getPathNoQuerystring(exchange);
-            if (isBlank(path1))
-                throw new RuntimeException("path is blnk");
 
-            if (path1.endsWith(".htm") || path1.endsWith(".html")) {
-              //  Context context = new Context();
-                var rsp=readTxtFrmFil(webroot+path1);
-                wrtRespHtml(exchange,rsp);
-                return;
-            }
-
+        @NotNull String path1 = getPathNoQuerystring(exchange);
+        System.out.println("fun handleAllReq(path="+path1+")");
             @NotNull HttpHandler proxyObj = new ApiGateway(path1);
             proxyObj.handle(exchange);
-        } catch (Exception e) {
-            printEx(e);
-            processNmlExptn(exchange, e);
-        } finally {
-            exchange.close(); // ⚠️ 必须调用，否则会卡住
-        }
 
 
     }
 
-    private static void printEx(Exception e) throws InterruptedException {
-        printLn("---------------statt epr int  ");
-        e.printStackTrace();
-        System.err.flush();
-        Thread.sleep(20);
-        printLn("---------------endstatt eprint");
-    }
+
 
     public  static     String webroot=getPrjPath()+"/webroot";
     /**
@@ -477,7 +462,7 @@ public class WebSvr {
      * @param exchange
      * @return
      */
-    private static String getPathNoQuerystring(HttpExchange exchange) {
+    public static String getPathNoQuerystring(HttpExchange exchange) {
         URI uri = exchange.getRequestURI();
         String path = uri.getPath();
         return path;
@@ -556,15 +541,7 @@ public class WebSvr {
     }
 
 
-    private static void handleOptions(@NotNull HttpExchange exchange) throws Exception {
-        setCrossDomain(exchange);
-        exchange.getResponseHeaders().add("Allow", "GET, POST, PUT, DELETE, OPTIONS");
 
-
-        //返回状态码 204（无内容）是标准做法。
-        exchange.sendResponseHeaders(204, -1); // No Content
-        exchange.close();
-    }
 
 
     //        exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");

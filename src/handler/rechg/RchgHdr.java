@@ -1,17 +1,16 @@
 package handler.rechg;
 
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import model.OpenBankingOBIE.AccountSubType;
-import model.OpenBankingOBIE.CreditDebitIndicator;
-import model.OpenBankingOBIE.Transaction;
-import model.OpenBankingOBIE.TransactionCode;
-import util.algo.ConsumerX;
+import model.OpenBankingOBIE.*;
+import model.obieErrCode.FieldInvalidEx;
+import model.usr.Usr;
 import util.algo.Tag;
 import util.annos.CookieParam;
 
 import static cfg.Containr.sessionFactory;
+import static handler.acc.AccDao.subAmtUpdtBls;
+// static handler.acc.AccService.subAmtUpdtBls;
+// static handler.acc.AccService.updtAccSetAvdblsNBkbls;
 import static java.time.LocalTime.now;
 
 
@@ -30,16 +29,16 @@ import lombok.extern.slf4j.Slf4j;
 import util.algo.Icall;
 import util.evt.RchgEvt;
 import util.evtdrv.EvtHlpr;
+import util.model.openbank.BalanceTypes;
 import util.serverless.ApiGatewayResponse;
+import util.tx.findByIdExptn_CantFindData;
 
-import java.util.Set;
+import java.math.BigDecimal;
 
 import static util.acc.AccUti.getAccid;
 import static util.auth.AuthUtil.getCurrentUser;
-import static util.evt.RchgEvt.evtlist4rchg;
-import static util.evt.RegEvt.evtlist4reg;
 import static util.evtdrv.EvtHlpr.publishEvent;
-import static util.tx.HbntUtil.persist;
+import static util.tx.HbntUtil.*;
 import static util.tx.dbutil.addObj;
 import static util.misc.util2026.*;
 
@@ -49,12 +48,8 @@ import static util.misc.util2026.*;
  */
 @Slf4j
 
-@Path("/apiv1/pay/recharge")
-@DeclareRoles({"ADMIN", "USER"})
-@RolesAllowed({"", "USER"})
-@CookieParam(name = "uname", value = "$curuser")
 
-public class RechargeHdr implements Icall<RechgDto, Object> {
+public class RchgHdr  {
 
 
     /**
@@ -64,19 +59,19 @@ public class RechargeHdr implements Icall<RechgDto, Object> {
      * @throws Exception
      */
 
-    @Override
+    @Path("/apiv1/pay/recharge")
+    //@DeclareRoles({"ADMIN", "USER"})
+
     @Tag(name = "wlt")
-    @GET
-    @Path("/RechargeHdr")
-    @QueryParam("amt")
-    @CookieParam(name = "uname")
+
     //@CookieValue
     @Transactional
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
-    public Object main(@BeanParam RechgDto dto) throws Exception {
+    public Object rchg(@BeanParam RechgDto dto) throws Exception, findByIdExptn_CantFindData, FieldInvalidEx {
         System.out.println("handle2.sessfac=" + sessionFactory);
         System.out.println("regchg hrl.hadler3()");
         //blk login ed
+        //---------------------add rechg tx
         Transaction ts=new Transaction();
         ts.accountId = getAccid(AccountSubType.EMoney,dto.owner);
         ts.setAmountVldChk(dto.amount);
@@ -87,19 +82,42 @@ public class RechargeHdr implements Icall<RechgDto, Object> {
         //amt alreay have in dto
 
        // ts.timestamp = System.currentTimeMillis();
-
+ts.addressLine=dto.addressLine;
         ts.owner = getCurrentUser();
+
+        Usr u=findById(Usr.class,ts.owner);
+        ts.ownerParent=u.invtr;
+        ts.setReceipt_image(dto.getReceipt_image());
 
 
         Object ts1 = persist(ts, sessionFactory.getCurrentSession());
-        EvtHlpr. publishEvent(RchgEvt.evtlist4rchg, ts);
+
+        //----------------------sub acc avdBls,add frz bls
+     //   Account acc=findById(Account.class,getAccid(AccountSubType.EMoney,dto.owner));
+      //  subAvdBlsUpdtAcc(acc,dto.amount);
+        try{
+          //  EvtHlpr. publishEvent(RchgEvt.evtlist4rchg, ts);
+        }catch(Throwable e){
+            e.printStackTrace();
+        }
+
         return new ApiGatewayResponse(ts1);
         //   wrtResp(exchange, encodeJson(r));
 
 
     }
 
+    public static void subAvdBlsUpdtAcc(Account acc1, BigDecimal amt) throws findByIdExptn_CantFindData {
+        BigDecimal avdBls = acc1.interim_Available_Balance;
+        BigDecimal newAvdBls = avdBls.subtract(amt);
 
+        acc1.setInterim_Available_Balance(newAvdBls);
+
+        mergex(acc1);
+
+        subAmtUpdtBls(acc1.accountId, BalanceTypes.interimAvailable,amt);
+
+    }
 
 
 //    @Override

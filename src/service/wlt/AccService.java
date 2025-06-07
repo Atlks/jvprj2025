@@ -64,6 +64,7 @@ public class AccService {
         BigDecimal nowAmt =wlt1.interim_Available_Balance;
         BigDecimal newBls = nowAmt.add(amt);
         //=================updt
+        wlt1.setInterimBookedBalance(wlt1.getInterimBookedBalance().add(amt));
         wlt1.interim_Available_Balance = toBigDcmTwoDot(newBls);
         mergex(wlt1, session);
 

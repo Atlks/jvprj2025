@@ -7,6 +7,8 @@ import it.sauronsoftware.cron4j.Scheduler;
 import lombok.SneakyThrows;
 import org.apache.commons.dbcp2.BasicDataSource;
 
+import org.apache.ibatis.session.SqlSession;
+import orgx.uti.context.ProcessContext;
 import util.log.ConsoleInterceptor;
 
 //import service.AddRchgOrdToWltService;
@@ -20,6 +22,7 @@ import java.util.Enumeration;
 
 // static cfg.AppConfig.sessionFactory;
 //import static cfg.Containr.evtlist4reg;
+import static cfg.CfgSvs.buildSessionFactory;
 import static cfg.IniCfg.iniContnr4cfgfile;
 import static cfg.MainStart.*;
 import static cfg.WebSvr.*;
@@ -54,6 +57,12 @@ public class MainApp {
 
         //    ovrtTEst=true;//todo cancel if test ok
         iniDbNcfg();
+        ProcessContext.sqlSessionFactory=buildSessionFactory();
+        try (SqlSession session = ProcessContext.sqlSessionFactory.openSession()) {
+           // Object result = session.selectList("select 1");
+            // or execute insert/update/delete
+        }
+
         startTmr();
 
         lmdIvk(MainStart.class,null);

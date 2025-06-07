@@ -1,4 +1,4 @@
-package ztest;
+package test;
 
 import okhttp3.*;
 import java.io.File;

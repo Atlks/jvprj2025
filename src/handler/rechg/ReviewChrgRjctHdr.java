@@ -7,6 +7,8 @@ import model.OpenBankingOBIE.Transaction;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
+import model.obieErrCode.InvalidStatus;
+import orgx.uti.context.ThreadContext;
 import util.model.Context;
 
 import org.hibernate.Session;
@@ -15,6 +17,7 @@ import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 import model.OpenBankingOBIE.TransactionStatus;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -49,7 +52,8 @@ public class ReviewChrgRjctHdr implements RequestHandler<ReviewChrgRqdto, ApiGat
 
         //mideng chk
         if (tx.status.equals(TransactionStatus.REJECTED)) {
-            return new ApiGatewayResponse(tx);
+           // return new ApiGatewayResponse(tx);
+            throw new InvalidStatus("AreadyProcessed");
         }
 
         if (tx.status.equals(TransactionStatus.BOOKED)) {
@@ -58,13 +62,17 @@ public class ReviewChrgRjctHdr implements RequestHandler<ReviewChrgRqdto, ApiGat
 
         if (tx.status.equals(TransactionStatus.PENDING)) {
             tx.setStatus((TransactionStatus.REJECTED));
+            tx.setReviewer(ThreadContext.currAdmin.get());
+            tx.setReviewDateTime(OffsetDateTime.now());
             mergex(tx, session);
 
-            Account acc= findById(Account.class, tx.accountId, session);
-            acc.setFrozenAmountVld(acc.frozenAmount.subtract(tx.amount));
-            acc.interim_Available_Balance=acc.interim_Available_Balance.add(tx.amount);
-            acc.setInterimBookedBalance(acc.getInterimBookedBalance().add(tx.amount));
-            mergex(acc, session);
+
+            //only wthd reject need ret bls,,   rechg dont need
+          //  Account acc= findById(Account.class, tx.accountId, session);
+          //  acc.setFrozenAmountVld(acc.frozenAmount.subtract(tx.amount));
+           // acc.interim_Available_Balance=acc.interim_Available_Balance.add(tx.amount);
+           // acc.setInterimBookedBalance(acc.getInterimBookedBalance().add(tx.amount));
+          //  mergex(acc, session);
             return new ApiGatewayResponse(tx);
         }
         return new ApiGatewayResponse(tx);

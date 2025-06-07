@@ -7,13 +7,19 @@ import com.sun.net.httpserver.HttpServer;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import org.jetbrains.annotations.NotNull;
+import orgx.rest.AopFltr4Wb;
 import orgx.uti.Uti;
 import orgx.uti.context.ProcessContext;
 import orgx.uti.orm.FunctionX;
+import util.annos.CurrentUsername;
+import util.serverless.ApiGatewayResponse;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -25,9 +31,15 @@ import static orgx.uti.Uti.*;
 import static orgx.uti.http.HttpUti.*;
 import static orgx.uti.http.HttpUti.toDto;
 import static orgx.uti.orm.TxMng.callInTransaction;
+import static util.auth.AuthUtil.getCurrentUser;
+import static util.serverless.ApiGateway.*;
 
+/**
+ * todo regmap(ctx ) main mthod..bcs common yda add aopFltr..
+ * need chg name as nml..dont _xxx()
+ */
 public class RegMap {
-    public static void registerMapping
+    public static void _registerMapping
             (String path, Class clz, HttpServer httpServer) throws IOException {
 
 
@@ -66,7 +78,7 @@ public class RegMap {
             System.out.println("fun registerMapping(p=" + path + ",fun=" + m + ")");
             setThrdHttpContext(ctx);
             try {
-                _registerMapping(path, m, ctx);
+                registerMapping(path, m, ctx);
             } catch (Throwable e) {
                 throw new RuntimeException(e);
             } finally {
@@ -96,7 +108,7 @@ public class RegMap {
 
         if (hasMethod2("hdlll")) {
             Method m = clz.getMethod("hdll");
-            _registerMapping(path, m, httpExchange);
+            registerMapping(path, m, httpExchange);
             return;
         }
 
@@ -115,14 +127,14 @@ public class RegMap {
             rzt = ((HttpHdlFaas) newObjx(clz)).hdl(dto);
         }
 
+        if(rzt instanceof  ApiGatewayResponse){
+
+        }else{
+            rzt=new ApiGatewayResponse(rzt);
+        }
 
         String mediaType = getMediaType(clz, Produces.class);
-        if (MediaType.TEXT_PLAIN.equals(mediaType)) {
-            writeTxt(rzt.toString(), httpExchange);
-        } else if (mediaType.equals("image/png")) {
-            // writeImg(rzt,httpExchange);
-        } else
-            writeJson(rzt, httpExchange);
+        write(httpExchange, mediaType,rzt );
 
         System.out.println("endfun _registerMapping");
 
@@ -137,7 +149,7 @@ public class RegMap {
         return clz.getConstructor().newInstance();
     }
 
-    public static void _registerMapping
+    public static void registerMapping
             (String path, Method m, HttpExchange httpExchange) throws Throwable {
         System.out.println("fun _registerMapping(p=" + path + ",m=" + m + ")");
         String fname = m.getName();
@@ -145,23 +157,72 @@ public class RegMap {
         if (m.getParameterTypes().length == 0) {
             rzt = callMthd(m);
         } else {
-            Class<?> dtoClz = m.getParameterTypes()[0];
-            Object dto = toDto(httpExchange, dtoClz);
-            valdt(dto);
+            Object dto = getDto(m, httpExchange);
+
             rzt = callMthd(m, dto);
         }
 
+        if(rzt instanceof  ApiGatewayResponse){
+
+        }else{
+            rzt=new ApiGatewayResponse(rzt);
+        }
         String mediaType = getMediaType(m, Produces.class);
+        write(httpExchange, mediaType, rzt);
+        System.out.println(path);
+        System.out.println("endfun _registerMapping");
+    }
+    private static void write(HttpExchange httpExchange,  Object rzt) throws IOException {
+        String mediaType=httpExchange.getResponseHeaders().getFirst("Content-Type");
+        if (mediaType.contains(MediaType.TEXT_PLAIN)  ) {
+            writeTxt(rzt.toString(), httpExchange);
+        } else if (mediaType.contains("image/png")) {
+            // writeImg(rzt,httpExchange);
+        } else
+            writeJson(rzt, httpExchange);
+    }
+    public static void write(HttpExchange httpExchange, String mediaType, Object rzt) throws IOException {
         if (MediaType.TEXT_PLAIN.equals(mediaType)) {
             writeTxt(rzt.toString(), httpExchange);
         } else if (mediaType.equals("image/png")) {
             // writeImg(rzt,httpExchange);
         } else
             writeJson(rzt, httpExchange);
-        System.out.println(path);
-        System.out.println("endfun _registerMapping");
     }
 
+    @NotNull
+    public static Object getDto(Method m, HttpExchange httpExchange) throws Exception {
+        Class<?> dtoClz = m.getParameterTypes()[0];
+//            Object dto = toDto(httpExchange, dtoClz);
+//            valdt(dto);
+        Object dto = getDtoClzRcdTypeNwzCurrUfld(httpExchange, dtoClz);
+        if (needLoginUserAuth(m)) {
+            injectCurrUserFldV2(dto);
+        }
+        //addDeftParam(dto);
+        validDtoByMe(dto);
+        return dto;
+    }
+
+    private static void injectCurrUserFldV2(Object dto) throws IllegalAccessException {
+        Field[] flds = dto.getClass().getFields();
+        for (Field fld : flds) {
+            if (fld.isAnnotationPresent(CurrentUsername.class))
+                //if (needLoginUserAuth(targetThreadLocal.get())) {
+                fld.set(dto, getCurrentUser());
+            //  }
+            //  setField(dto, jw.name(), getCurrentUser());
+        }
+    }
+
+    protected static boolean needLoginUserAuth(Method target) {
+
+
+        Method mth = (Method) target;
+        return !mth.isAnnotationPresent(PermitAll.class);
+
+
+    }
 
     public static <T> void createContext(String path, FunctionX<T, Object> fun) {
         registerMapping(path, fun, ProcessContext.httpServer);
@@ -191,7 +252,7 @@ public class RegMap {
             Map<String, List<String>> mp = ct1.queryParamMap();
             //auto tx ,commit n  roolback
             rzt = callInTransaction(em -> {
-                T dto = (T) Uti. toDto(mp, lambdaMethodParamFirstType);
+                T dto = (T) Uti.toDto(mp, lambdaMethodParamFirstType);
                 valdt(dto);
                 System.out.println("fun " + fun.getLambdaMethodName() + "(" + encodeJson(dto));
                 Object apply = fun.apply(dto);
@@ -211,7 +272,10 @@ public class RegMap {
 
 
     public static void registerMappingHttpHdlr(String path, HttpHandler httpHandler) {
-        ProcessContext.httpServer.createContext("/", httpHandler);
+        //  ProcessContext.httpServer.createContext("/", httpHandler);
+
+        HttpContext httpContext = ProcessContext.httpServer.createContext(path, httpHandler);
+        httpContext.getFilters().add(new AopFltr4Wb());
     }
 
     /**
@@ -251,6 +315,10 @@ public class RegMap {
 
         write(rzt, httpExchange);
         System.out.println("endfun _registerMapping");
+    }
+
+    private static void write(Object rzt, HttpExchange httpExchange) throws IOException {
+        write(httpExchange,rzt);
     }
 
 }

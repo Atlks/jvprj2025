@@ -2,7 +2,7 @@
 ---------------项目架构说明
 
 =编程语言 java21
-=重要框架 spring hibernate mysql
+=重要框架  jdk jax-rs javalin hibernate mysql
 =数据存储  mysql
 =使用技术 rest aop ioc orm des
 =api接口
@@ -12,8 +12,10 @@
 .. 参数校验 JSR 349	 Bean Validation
 .. 存储方面规范 jpa JSR 338
 .. 文档规范openapi
-.. aop规范 AspectJ
+.. aop规范 web filter,orm jpa拦截器
+。。事件驱动  jpa事件驱动
 .. ioc JSR 330: Dependency Injection for Java 规范
+没怎么使用java的ioc，大部分模块没有使用ioc，部分模块用了faas的简化ioc
 .. 权限secury 方面 Jakarta Security（JSR 375）规范
 .. NoSQL & 数据处理
 =安全策略

@@ -20,6 +20,7 @@ import static util.Oosql.SqlBldr.toSqlPrmAsStr;
 import static util.algo.GetUti.getTableName;
 import static util.misc.Util2025.encodeJson;
 import static util.oo.TimeUti.beforeTmstmp;
+import static util.tx.HbntUtil.getResultListWzPage;
 import static util.tx.HbntUtil.getResultListWzPageByHbntRtLstmap;
 import static util.tx.TransactMng.commitx;
 import static util.tx.TransactMng.beginx;
@@ -56,7 +57,7 @@ public class QryFundDetailHdl  {
         HashMap<String, Object> sqlprmMap = new HashMap<>();
         Pageable pageable = PageRequest.of(reqdto.page, reqdto.pagesize);
 
-        Page<Map> list1 = getResultListWzPageByHbntRtLstmap(sql, sqlprmMap, pageable);
+        Page<Transaction> list1 = getResultListWzPage(sql, sqlprmMap, pageable,Transaction.class);
 
         return (list1);
     }

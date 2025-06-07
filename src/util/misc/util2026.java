@@ -1040,8 +1040,12 @@ public class util2026 {
     }
 
 
-    public static void sleep(int slpMs) throws InterruptedException {
-        Thread.sleep(slpMs);
+    public static void sleep(int slpMs)   {
+        try {
+            Thread.sleep(slpMs);
+        } catch (InterruptedException e) {
+             e.printStackTrace();
+        }
     }
 
     /**

@@ -22,8 +22,14 @@ public class TxMng {
     public static void closeConn() {
       try{
           currSession.get().close();
-          currEttyMngr.get().close();
+
       }catch (Exception e) {}
+      try{
+
+          currEttyMngr.get().close();
+      } catch (Exception e) {
+
+      }
 
     }
 

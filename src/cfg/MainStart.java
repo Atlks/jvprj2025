@@ -23,6 +23,7 @@ package cfg;//package cfg;
 import handler.agt.RchgEvtHdl;
 import handler.agt.RegEvtHdl;
 import handler.mainx.AutoRestartApp;
+import orgx.uti.context.ProcessContext;
 import util.log.ConsoleInterceptor;
 import entityx.usr.NonDto;
 import lombok.SneakyThrows;
@@ -127,6 +128,7 @@ public class MainStart {
 
     public static void iniDbNcfg() throws FileNotFoundException, SQLException {
         iniContnr4cfgfile();
+        ProcessContext.jdbcUrl=jdbcUrl;
         if (jdbcUrl.startsWith("jdbc:mysql")) {
             var db = getDatabaseFileName4mysql(jdbcUrl);
             crtDatabase(jdbcUrl, db);

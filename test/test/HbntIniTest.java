@@ -1,4 +1,4 @@
-package ztest;
+package test;
 
 import entityx.Usr;
 import org.hibernate.Session;

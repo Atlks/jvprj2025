@@ -7,6 +7,8 @@ import jakarta.ws.rs.Produces;
 import model.other.ContentType;
 import org.hibernate.context.internal.ThreadLocalSessionContext;
 import org.jetbrains.annotations.Nullable;
+import orgx.uti.context.ThreadContext;
+import orgx.uti.http.RegMap;
 import util.annos.*;
 import util.ex.ValideTokenFailEx;
 import com.sun.net.httpserver.HttpExchange;
@@ -33,7 +35,6 @@ import java.lang.reflect.Parameter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
@@ -42,15 +43,17 @@ import java.util.Map;
 
 //import static cfg.Containr.sessionFactory;
 import static cfg.Containr.*;
+import static cfg.WebSvr.getPathNoQuerystring;
 import static cfg.WebSvr.pathClzMap;
-import static util.algo.AnnotationUtils.getCookieParamsV2;
-import static util.algo.AnnotationUtils.getParams;
+import static orgx.uti.Uti.getMediaType;
+import static orgx.uti.http.RegMap.registerMapping;
 import static util.algo.GetUti.*;
 import static util.algo.ToXX.toDtoFrmHttp;
 import static util.auth.AuthUtil.request_getHeaders_get;
 import static util.excptn.ExptUtil.*;
 import static util.misc.RecordMapper.mapToRecord;
 import static util.misc.RestUti.pathMthMap;
+import static util.misc.RflktUti.*;
 import static util.oo.HttpUti.getParamMap;
 import static util.proxy.AopUtil.ivk4log;
 import static util.auth.AuthUtil.getCurrentUser;
@@ -74,11 +77,14 @@ import static util.misc.util2026.*;
 //aop shuld log auth ,ex catch,,,pfm
 public class ApiGateway implements HttpHandler {
     public static final String ChkLgnStatSam = "ChkLgnStatSam";
+    public String path;
     private Object target; // 目标对象 for compt,,frm icall to obj type
+
+    static ThreadLocal<Object> targetThreadLocal = new ThreadLocal<>();
 
     public @NotNull ApiGateway(String path1) throws Exception {
 
-
+        this.path = path1;
         Object hdlr;
         @NotNull Class<?> hdrclas = pathClzMap.get(path1);
         if (hdrclas != null)
@@ -94,8 +100,7 @@ public class ApiGateway implements HttpHandler {
 
 
         this.target = hdlr;
-
-
+        targetThreadLocal.set(hdlr);
 
     }
 
@@ -132,20 +137,19 @@ public class ApiGateway implements HttpHandler {
             } else if (target instanceof Method) {
                 Method m = (Method) target;
                 Object retobj;
-                if(dto instanceof NullDto)
+                if (dto instanceof NullDto)
                     retobj = m.invoke(getObjByMthd(m));
                 else
                     retobj = m.invoke(getObjByMthd(m), dto);
 
-                if(m.isAnnotationPresent(Produces.class))
-                {
-                    Produces anno=  m.getAnnotation(Produces.class);
+                if (m.isAnnotationPresent(Produces.class)) {
+                    Produces anno = m.getAnnotation(Produces.class);
                     String[] value = anno.value();
-                    if(value[0].equals("image/png"))
+                    if (value[0].equals("image/png"))
                         throw new BreakEx("");
                 }
 
-                if(m.isAnnotationPresent(NoWarpApiRsps.class))
+                if (m.isAnnotationPresent(NoWarpApiRsps.class))
                     return retobj;
                 else {
                     var apigtwy = new ApiGatewayResponse(retobj);
@@ -153,16 +157,13 @@ public class ApiGateway implements HttpHandler {
                 }
 
             } else {
-                Method m = getMethod(target, "handleRequest");
+                Method m = getMethodByObj(target, "handleRequest");
                 var retobj = m.invoke(target, dto);
 
                 var apigtwy = new ApiGatewayResponse(retobj);
                 return apigtwy;
             }
 
-            //todo deflt
-            // Method m=getMethod(target,"RequestHandler");
-            // return m.invoke(target,dto);
 
         });
 
@@ -181,28 +182,6 @@ public class ApiGateway implements HttpHandler {
         }
     }
 
-    /**
-     * 是否实现了某个接口
-     *
-     * @param target
-     * @param requestHandlerClass
-     * @return
-     */
-    public static boolean isImpltInterface(@NotNull Object target, @NotNull Class<?> requestHandlerClass) {
-        if (target == null || requestHandlerClass == null || !requestHandlerClass.isInterface()) {
-            return false;
-        }
-        Class<?> clazz = target.getClass();
-        while (clazz != null) {
-            for (Class<?> iface : clazz.getInterfaces()) {
-                if (iface.equals(requestHandlerClass)) {
-                    return true;
-                }
-            }
-            clazz = clazz.getSuperclass(); // 支持父类实现接口的情况
-        }
-        return false;
-    }
 
     //    // 生成代理对象
 //    public static Object createProxy4webapi(Object target) {
@@ -243,11 +222,16 @@ public class ApiGateway implements HttpHandler {
 
             //injkt ctx
             Context ctx = new Context();
-            ctx.sessionFactory=sessionFactory;
-            ctx.session=sessionFactory.getCurrentSession();
-            ctx.cfg=cfgMap;
-            if(needLoginUserAuth())
-                ctx.currUsername=getCurrentUser();
+            ctx.sessionFactory = sessionFactory;
+            ctx.session = sessionFactory.getCurrentSession();
+            ctx.cfg = cfgMap;
+            if (needLoginUserAuth(this.target)) {
+                ctx.currUsername = getCurrentUser();
+                ThreadContext.remoteUser.set(ctx.currUsername);
+                ;
+
+            }
+
             RestUti.contextThdloc.set(ctx);
             // hdl
             handlexProcess(exchange);
@@ -275,7 +259,7 @@ public class ApiGateway implements HttpHandler {
         } finally {
             sessionFactory.getCurrentSession().close();// 关闭 session，但不会提交事务
             ThreadLocalSessionContext.unbind(sessionFactory);
-          //  exchange.close();
+            //  exchange.close();
         }
         //end catch
 
@@ -285,13 +269,14 @@ public class ApiGateway implements HttpHandler {
         System.out.println("\uD83D\uDED1 endfun handle().ret=" + responseTxt);
     }
 
-    private void setContextThrd(HttpExchange exchange) {
+    private void setContextThrd(HttpExchange httpExchange) {
         lastExsList.set(new ArrayList<>());
-        httpExchangeCurThrd.set(exchange);
-        HttpUti.httpExchangeCurThrd.set(exchange);
+        httpExchangeCurThrd.set(httpExchange);
+        HttpUti.httpExchangeCurThrd.set(httpExchange);
         curCtrlCls.set(this.target.getClass());
-
-        curUrl.set(encodeJson(exchange.getRequestURI()));
+        ThreadContext.currHttpExchange.set(httpExchange);
+        ;
+        curUrl.set(encodeJson(httpExchange.getRequestURI()));
         requestIdCur.set(getUUid());
     }
 
@@ -359,7 +344,7 @@ public class ApiGateway implements HttpHandler {
 
         injectAll4spr(this);
 
-        if (needLoginUserAuth()) {
+        if (needLoginUserAuth(this.target)) {
             //apigat reqauth mode...
             var aClass = this.target.getClass();
             if (aClass.isAnnotationPresent(RequireAuth.class)) {
@@ -392,45 +377,99 @@ public class ApiGateway implements HttpHandler {
 //                throw  需要登录;
 //            }
 
-    protected boolean needLoginUserAuth() {
+    protected static boolean needLoginUserAuth(Method target) {
+
+
+        Method mth = (Method) target;
+        return !mth.isAnnotationPresent(PermitAll.class);
+
+
+    }
+
+    protected static boolean needLoginUserAuth(Object target) {
 
         //here target also canbe a method
-        Class<?> aClass = this.getClass();
-        if (aClass == ApiGateway.class) {
-            aClass = this.target.getClass();
-        }
+//        Class<?> aClass = this.getClass();
+//        if (aClass == ApiGateway.class) {
+//            aClass = this.target.getClass();
+//        }
 
 
-        if(this.target instanceof Method)
-        {
-            Method mth= (Method) this.target;
+        if (target instanceof Method) {
+            Method mth = (Method) target;
             return !mth.isAnnotationPresent(PermitAll.class);
 
         }
 
 
         //here also can be a mthd
-        boolean annotationPresent = aClass.isAnnotationPresent(PermitAll.class);
-        //if has anno ,not need login
-        return !annotationPresent;
+        if (target instanceof Class<?>) {
+            Class<?> aClass = (Class<?>) target;
+            boolean annotationPresent = aClass.isAnnotationPresent(PermitAll.class);
+            //if has anno ,not need login
+            return !annotationPresent;
+        }
+
+        return false;
     }
 
     SecurityContext SecurityContext1;
 
-    private void handlexProcess(HttpExchange exchange) throws Throwable {
+    private void handlexProcess(HttpExchange httpExchange) throws Throwable {
         String prmurl;
         String mth;
         //basehdr.kt
         //-----------------stat trans action
         //  System.out.println("▶\uFE0Ffun handle2(HttpExchange)");
 
+        String path = getPathNoQuerystring(httpExchange);
+        Method method = pathMthMap.get(path);
+        if (method != null) {
+            RegMap.registerMapping(path, method, httpExchange);
+            return;
+        }
+
+        Class<?> cls = pathClzMap.get(path);
+        if (cls != null) {
+            if (isImpltItfs(cls, RequestHandler.class)) {
+                Method m = getMethod4faasFun(cls, "handleRequest");
+                m.setAccessible(true);
+                //  RegMap.registerMapping(path, m, httpExchange);
+                Object dto=RegMap.getDto( m,  httpExchange);
+                Object o=cls.getConstructor().newInstance();
+                //if (isImpltInterface(target, RequestHandler.class))
+                RequestHandler o1 = (RequestHandler) o;
+                  Object rzt= o1.handleRequest(dto, null);
+                String mediaType = getMediaType(m, Produces.class);
+               // RegMap.registerMapping(path, m, httpExchange);
+               RegMap.write(httpExchange,mediaType,rzt);
+               return;
+            }
+            //
+            else if (isImpltItfs(cls, Icall.class)) {
+                Method m = getMethod4faasFun(cls, "main");
+
+                m.setAccessible(true);
+                RegMap.registerMapping(path, m, httpExchange);
+                return;
+                // return ((Icall) target).main(dto);
+            } else {
+                Method m = getMethod4faasFun(cls, "handleRequest");
+                if (m != null) {
+                    m.setAccessible(true);
+                    RegMap.registerMapping(path, m, httpExchange);
+                    return;
+                }
+
+            }
+        }
+
         Object rzt;
         //---------log
-        Object dto = getDto(exchange);
+        Object dto = getDto(httpExchange);
         try {
             rzt = invoke_callNlogWarp(dto);
-        }catch (BreakEx e)
-        {
+        } catch (BreakEx e) {
             return;
         }
 
@@ -441,9 +480,9 @@ public class ApiGateway implements HttpHandler {
             rzt = "ok";
         //  rzt=new ApiResponse(rzt);
         if (rzt.getClass() == String.class)
-            wrtResp(exchange, rzt.toString(), ContentType.TEXT_HTML.getValue());
+            wrtResp(httpExchange, rzt.toString(), ContentType.TEXT_HTML.getValue());
         else
-            wrtResp(exchange, encodeJsonByJackjson(rzt));
+            wrtResp(httpExchange, encodeJsonByJackjson(rzt));
 
         /**
          * ✅ 方法三：使用 Jackson 替代 Gson（兼容更好）
@@ -463,31 +502,37 @@ public class ApiGateway implements HttpHandler {
     }
 
     @org.jetbrains.annotations.NotNull
+    @Deprecated
     private Object getDto(HttpExchange exchange) throws Exception {
 
 
-         try{
+        try {
             Class prmDtoCls = getDtoCls();
             Object dto;
 
-            if (NonDto.class.isAssignableFrom(prmDtoCls)) {  // 判断类型是否是 NonDto 或其子类
-                dto = new NonDto();
-            }else if(prmDtoCls.isRecord())
-            {
-                dto=mapToRecord(prmDtoCls,getParamMap(exchange));
-            }
-            else {
-                dto = toDto(exchange, prmDtoCls);  // 假设 toDto 返回 Object 或 dto 类型
-            }
+            dto = getDtoClzRcdTypeNwzCurrUfld(exchange, prmDtoCls);
 
 
             // addDeftParam(dto);
-            validDto(dto);
+            validDtoByMe(dto);
             return dto;
-        }catch(CantFindPrmEx e){
-return new NullDto();
+        } catch (CantFindPrmEx e) {
+            return new NullDto();
         }
 
+    }
+
+    @org.jetbrains.annotations.NotNull
+    public static Object getDtoClzRcdTypeNwzCurrUfld(HttpExchange exchange, Class prmDtoCls) throws Exception {
+        Object dto;
+        if (NonDto.class.isAssignableFrom(prmDtoCls)) {  // 判断类型是否是 NonDto 或其子类
+            dto = new NonDto();
+        } else if (prmDtoCls.isRecord()) {
+            dto = mapToRecord(prmDtoCls, getParamMap(exchange));
+        } else {
+            dto = toDtoWzCurrUfld(exchange, prmDtoCls);  // 假设 toDto 返回 Object 或 dto 类型
+        }
+        return dto;
     }
 
     @NotNull
@@ -503,10 +548,9 @@ return new NullDto();
         } else if (hasMtd(this.target, "handleRequest")) {
             PrmDtoCls = getFirstPrmClassFrmMthd(this.target, "handleRequest");
             // getPrmClass(this.target, "handleRequest");
-        } else if (hasMtd(this.target,"main")) {
+        } else if (hasMtd(this.target, "main")) {
             PrmDtoCls = getFirstPrmClassFrmMthd(this.target, "main");
-        }
-        else if (isNotMth(this.target)) {
+        } else if (isNotMth(this.target)) {
             PrmDtoCls = getFirstPrmClassFrmMthd(this.target, "main");
         }
         if (PrmDtoCls == null)
@@ -574,7 +618,7 @@ return new NullDto();
 
     // @Nullable
     @NotNull
-    private @NotNull Object toDto(HttpExchange exchange, @NotNull Class Dtocls) throws Exception, IsEmptyEx {
+    private static @NotNull Object toDtoWzCurrUfld(HttpExchange exchange, @NotNull Class Dtocls) throws Exception, IsEmptyEx {
 
         // 反射创建 DTO 实例
         Object dto = Dtocls.getDeclaredConstructor().newInstance();
@@ -585,43 +629,48 @@ return new NullDto();
         dto = dtoFrmHttp;
 
         //--------set cook to dto
-        List<CookieParam> cookieParams = getCookieParamsV2(target.getClass(), "call");
-        for (CookieParam cknm : cookieParams) {
-            String v = getcookie(cknm.name(), httpExchangeCurThrd.get());
-            if (cknm.value().equals("$curuser"))
-                v = getCurrentUser();
-            setField(dto, cknm.name(), v);
-        }
+//        List<CookieParam> cookieParams = getCookieParamsV2(target.getClass(), "call");
+//        for (CookieParam cknm : cookieParams) {
+//            String v = getcookie(cknm.name(), httpExchangeCurThrd.get());
+//            if (cknm.value().equals("$curuser"))
+//                v = getCurrentUser();
+//            setField(dto, cknm.name(), v);
+//        }
         //------set jwt to dto
-        List<JwtParam> JwtParams = getParams(target.getClass(), JwtParam.class);
-        for (JwtParam jw : JwtParams) {
-            if (jw.name().equals("uname"))
-                setField(dto, jw.name(), getCurrentUser());
-        }
+//        List<JwtParam> JwtParams = getParams(target.getClass(), JwtParam.class);
+//        for (JwtParam jw : JwtParams) {
+//            if (jw.name().equals("uname"))
+//                setField(dto, jw.name(), getCurrentUser());
+//        }
 
 
         //SET getUsernameFrmJwtToken(httpExchangeCurThrd.get()
+        injectCurrUserFld(dto);
+        return dto;
+    }
+
+
+    private static void injectCurrUserFld(Object dto) throws IllegalAccessException {
         Field[] flds = dto.getClass().getFields();
         for (Field fld : flds) {
             if (fld.isAnnotationPresent(CurrentUsername.class))
-                if (needLoginUserAuth()) {
+                if (needLoginUserAuth(targetThreadLocal.get())) {
                     fld.set(dto, getCurrentUser());
                 }
             //  setField(dto, jw.name(), getCurrentUser());
         }
-        return dto;
     }
 
     //uname cookie
     private void addDeftParam(Object dto) {
 
-        if (needLoginUserAuth())
+        if (needLoginUserAuth(this.target))
             setField(dto, "uname", getCurrentUser());
         else
             setField(dto, "uname", "defusr");
     }
 
-    private void validDto(Object dto) {
+    public static void validDtoByMe(Object dto) {
         System.out.println("fun validdto(cls=" + dto.getClass() + ")");
         var clazz = dto.getClass();
         // 遍历类的所有字段

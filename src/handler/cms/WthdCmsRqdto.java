@@ -11,5 +11,5 @@ public class WthdCmsRqdto {
 
     @CurrentUsername
     public  String uname;
-    public BigDecimal amt;
+  //  public BigDecimal amt;   all wthd
 }

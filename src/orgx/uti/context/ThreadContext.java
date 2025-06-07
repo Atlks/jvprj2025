@@ -9,22 +9,36 @@ import jakarta.persistence.EntityTransaction;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import orgx.uti.http.HttpHeader;
+import orgx.uti.orm.TupleImpl;
 
 import java.security.Principal;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 必须一个请求一个thrd，不然会串。。
+ *
+ */
 public class ThreadContext {
     //servlt stande
-    private static final ThreadLocal<String> remoteUser = new ThreadLocal<>();
 
+    //不牢靠，bcs maybe thrd 复用。。
+    //get from jwt is btr
+    //here only for test
+    @Deprecated
+    public static ThreadLocal<String> remoteUser = new ThreadLocal<>();
+    private static final ThreadLocal<String> userId = new ThreadLocal<>();
+    private static final ThreadLocal<String> userRole = new ThreadLocal<>();
+    //get frm jwt
     public static ThreadLocal<java.security.Principal> principal=new ThreadLocal<>();
+
+
     public static ThreadLocal<Connection> currDbConn=new ThreadLocal<>();
 
 
-    private static final ThreadLocal<String> userId = new ThreadLocal<>();
-    private static final ThreadLocal<String> userRole = new ThreadLocal<>();
+
+
     private static final ThreadLocal<String> traceId = new ThreadLocal<>();
     private static final ThreadLocal<String> requestId = new ThreadLocal<>();
     private static final ThreadLocal<String> transactionId = new ThreadLocal<>();
@@ -47,7 +61,7 @@ public class ThreadContext {
     public static ThreadLocal<Handler> beforeHdl= new ThreadLocal<>();
 
     public static ThreadLocal<Transaction> currTxHbnt= new ThreadLocal<>();
-
+    public static ThreadLocal<String> currAdmin= ThreadLocal.withInitial(() -> "管理员");
 
 
     // 用户 ID

@@ -10,8 +10,6 @@ import orgx.rest.JwtAuthenticator;
 import orgx.u.Dto;
 import orgx.u.USvs;
 import orgx.uti.context.ProcessContext;
-import orgx.uti.context.ThreadContext;
-import orgx.uti.http.ApiRsps;
 import orgx.uti.http.HttpUti;
 import orgx.uti.http.RegMap;
 
@@ -84,7 +82,7 @@ public class AppJdkHttp {
         registerMapping("/m",m4,server);
         Object cls=USvs.class;
         if(cls instanceof Class<?>){
-            registerMapping("/c", (Class) cls,server);
+            RegMap._registerMapping("/c", (Class) cls,server);
         }
 
 
@@ -109,7 +107,7 @@ public class AppJdkHttp {
             String path = exchange.getRequestURI().getPath();
             Method m = null;//hdlr
             try {
-                RegMap._registerMapping(path,m, exchange);
+                RegMap.registerMapping(path,m, exchange);
             } catch (Throwable e) {
                  throwX(e);
             }

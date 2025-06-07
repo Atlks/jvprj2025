@@ -1,7 +1,9 @@
 package ztest;
 
+import api.ylwlt.BizFun;
 import cfg.Containr;
 import cfg.MainStart;
+import handler.statmt.CrudFun;
 import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.AccountSubType;
 import model.OpenBankingOBIE.Balance;
@@ -14,6 +16,8 @@ import java.math.BigDecimal;
 
 import static cfg.IniCfg.iniContnr4cfgfile;
 import static cfg.MainStart.iniContnr;
+import static handler.acc.AccService.updateAccSetBlsZero;
+import static handler.acc.AccService.updtAccSetBls;
 import static handler.balance.BlsSvs.getBlsid;
 import static util.acc.AccUti.getAccid;
 import static util.algo.CallUtil.callTry;
@@ -32,29 +36,13 @@ public class clrBls {
         setupBefEach();
         String uname="uuuu6666";
         String accid=getAccid(uname, AccountSubType.EMoney);
-        updateAccSetBlsZero(accid);
+        accid=getAccid(uname, AccountSubType.GeneralInvestment);
+      //  updateAccSetBlsZero(accid);
       //  updateAccSetBlsZero(getAccid(uname, AccountSubType.GeneralInvestment));
 
+        updtAccSetBls(getAccid(uname, AccountSubType.agtCms), BigDecimal.valueOf(100));
+
         setupAftEach();
-
-    }
-
-    private static void updateAccSetBlsZero(String accid) throws findByIdExptn_CantFindData {
-        Account acc=findByHerbinateLockForUpdtV2(Account.class,accid);
-        acc.setInterim_Available_Balance(BigDecimal.valueOf(0));
-        acc.setInterimBookedBalance(BigDecimal.valueOf(0));
-        mergex(acc);
-
-      //  String blsid=getBlsid(accid, BalanceTypes.interimBooked);
-        updateBlsSetAmtZero(getBlsid(accid, BalanceTypes.interimBooked));
-        updateBlsSetAmtZero(getBlsid(accid, interimAvailable));
-    }
-
-    private static void updateBlsSetAmtZero(String blsid) throws findByIdExptn_CantFindData {
-        Balance bls=findByHerbinateLockForUpdtV2(Balance.class, blsid);
-        bls.setAmount(BigDecimal.valueOf(0));
-        bls.setAmount(BigDecimal.valueOf(0));
-        mergex(bls);
 
     }
 

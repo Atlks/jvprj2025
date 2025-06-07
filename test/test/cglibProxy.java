@@ -1,4 +1,4 @@
-package ztest;
+package test;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;

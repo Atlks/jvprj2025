@@ -37,17 +37,17 @@ public class CacheFil implements CacheItfs {
         }
     }
 
-    private static Object get(String key, Callable<Object> get, int timeoutSecs) throws Exception {
+    private static Object get(String key, Callable<Object> callableFun, int timeoutSecs) throws Exception {
         String pathname = "cacheDir/" + key + ".json";
 
-        try{
+       // try{
             long passTimeSecs = fileModifyTimeDuration(pathname);
             if(passTimeSecs>timeoutSecs) {
                 delFile(pathname);
             }
-        }catch (CantFindFileEx e) {
-            System.out.println(e.getLocalizedMessage());
-        }
+//        }catch (CantFindFileEx e) {
+//            System.out.println(e.getLocalizedMessage());
+//        }
 
         if(new File(pathname
         ).exists()) {
@@ -57,7 +57,7 @@ public class CacheFil implements CacheItfs {
         }else {
             //not exst ,put
 
-                Object obj = get.call();
+                Object obj = callableFun.call();
                 put(key, obj);
                 return obj;
 

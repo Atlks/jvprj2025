@@ -1,5 +1,8 @@
 package util.auth;
 
+import orgx.uti.context.ProcessContext;
+import orgx.uti.context.ThreadContext;
+
 import static cfg.Containr.SecurityContext1;
 import static util.serverless.RequestHandler.request_getHeaders;
 
@@ -10,6 +13,16 @@ public class AuthUtil {
      * @return
      */
     public  static  String getCurrentUser( ) {
+        //rmt 只能在测试环境下使用，因为可能复用
+        //rmt 只能在测试环境下使用，因为可能复用 thrd
+        if(ProcessContext.isTestMode)
+        {
+            if(ThreadContext.remoteUser.get()!=null)
+                return  ThreadContext.remoteUser.get();
+        }
+
+
+        //from jwt get ,better
         return SecurityContext1.getCallerPrincipal() != null ? SecurityContext1.getCallerPrincipal().getName() : "";
     }
 

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 可用余额可以为负值
  * OpenBanking OBIE V3 的Accounts实体
  * 在项目中的名称 ：本金钱包  投资资金钱包
  * acc里面本来是不包含banlance的。。。因为一对多的关系，以及安全元素，不能不包含bals,只能在bals关联acc
@@ -56,6 +57,10 @@ public class Account {
     @Enumerated(EnumType.STRING)
     public AccountType accountType = AccountType.PERSONAL;         // 账户类型
 
+    public void setAccountSubTypeEnum(AccountSubType accountSubType) {
+        this.accountSubType = accountSubType.name();
+    }
+
     @ObieFld
     @Column(length = 500)
     //  @Enumerated(EnumType.STRING)
@@ -84,11 +89,25 @@ public class Account {
      * ：可用余额，即客户此刻能支配的金额（扣除了冻结/挂账等
      * iso 20022和obie都没有avlbbls fld...only itrAvBls
      */
-    @DecimalMin(value = "0.00", inclusive = true, message = "余额不能为负数")
+
     public BigDecimal interim_Available_Balance = BigDecimal.valueOf(0); // 有效余额
 
+    public void setAvlbBalcCrdtDbtIndctr(CreditDebitIndicator indicator) {
+        this.avlbBalcCrdtDbtIndctr = indicator.name();
+    }
+
+    public void setAvlbBalcCrdtDbtIndctr(String itrAvbBalcCreditDebitIndicator) {
+        this.avlbBalcCrdtDbtIndctr = itrAvbBalcCreditDebitIndicator;
+    }
+
+    private String avlbBalcCrdtDbtIndctr = CreditDebitIndicator.CREDIT.name();
 
     public void setInterim_Available_Balance(BigDecimal interim_Available_Balance) {
+
+        this.interim_Available_Balance = interim_Available_Balance;
+    }
+
+    public void setAvlbBalCantBeZero(BigDecimal interim_Available_Balance) {
         if (interim_Available_Balance.compareTo(BigDecimal.ZERO) < 0)
             throw new InvldAmtEx("itrAvBls=" + interim_Available_Balance);
         this.interim_Available_Balance = interim_Available_Balance;
@@ -127,13 +146,17 @@ public class Account {
     ;
 
     // 总余额  tmp ttl bls
-    @DecimalMin(value = "0.00", inclusive = true, message = "余额不能为负数")
+
     public BigDecimal InterimBookedBalance = BigDecimal.valueOf(0);  //totalBalance
 
     //余额不能为负数
-    public void setInterimBookedBalance(BigDecimal interimBookedBalance) {
+    public void setInterimBookedBalChkCantBeZero(BigDecimal interimBookedBalance) {
         if (interimBookedBalance.compareTo(BigDecimal.ZERO) < 0)
             throw new InvldAmtEx("interimBookedBalance=" + interimBookedBalance);
+        this.InterimBookedBalance = interimBookedBalance;
+    }
+    public void setInterimBookedBalance(BigDecimal interimBookedBalance) {
+
         this.InterimBookedBalance = interimBookedBalance;
     }
 

@@ -33,6 +33,8 @@ public class QryAgtHdl implements RequestHandler<QryAgtsDto, ApiGatewayResponse>
         if ( isNotBlank(reqdto.agentAccount)  ) {
             sqlNoOrd = sqlNoOrd + " and  agentAccount like " + encodeSqlAsLikeMatchParam(reqdto.agentAccount);
             //  sqlprmMap.put("uname",)
+        }else{
+            sqlNoOrd = sqlNoOrd + " and (parent_agent_id IS NULL or parent_agent_id = '') ";
         }
 
         var sql = sqlNoOrd + " order by timestamp desc ";

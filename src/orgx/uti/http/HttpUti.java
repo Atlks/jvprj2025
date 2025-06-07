@@ -19,6 +19,7 @@ import java.util.*;
 import static orgx.uti.Uti.*;
 import static orgx.uti.Uti.encodeJson;
 import static orgx.uti.context.ThreadContext.*;
+import static util.misc.util2026.setCrossDomain;
 // static orgx.uti.http.HttpUti.hasPermission;
 
 
@@ -143,7 +144,7 @@ public class HttpUti {
      * @throws IOException
      */
     public static void write(Object rzt, HttpExchange httpExchange) throws IOException {
-
+        setCrossDomain(httpExchange);
         // HttpExchange ctx= currHttpExchange.get();
         String cttType2 = String.valueOf(httpExchange.getResponseHeaders().get("Content-Type"));
 
@@ -288,19 +289,21 @@ public class HttpUti {
     }
 
     public static void writeTxt(String s,@NotNull HttpExchange httpExchange) throws IOException {
-
+        setCrossDomain(httpExchange);
         setContentType(MediaType.TEXT_PLAIN + "; charset=UTF-8");
         write((s),httpExchange);
     }
 
     public static void writeJson(Object s,@NotNull HttpExchange httpExchange) throws IOException {
-
+        // 设置跨域响应头
+        setCrossDomain(httpExchange);
         setContentType(MediaType.APPLICATION_JSON + "; charset=UTF-8");
         write(encodeJson(s),httpExchange);
     }
     public static void write(String s, @NotNull HttpExchange httpExchange) throws IOException {
 
         if (httpExchange != null) {
+            setCrossDomain(httpExchange);
             byte[] response = s.getBytes(StandardCharsets.UTF_8);
             httpExchange.sendResponseHeaders(200, response.length);
             try (OutputStream os = httpExchange.getResponseBody()) {

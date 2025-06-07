@@ -18,7 +18,20 @@ import static util.algo.GetUti.getUuid;
 public class TransDto {
 
 
+    public String id;
+    @NotBlank
+    @CurrentUsername
+    public String uname="";
+    // @NotBlank   not val for trans acc 2 ylwlt
+    public String adjustType="";  //incrs   decrs  + -
+    public long changeTime;
+   // public String changeType;
+   // public String changeMode;
+    public BigDecimal amtBefore;
 
+    public Account lockAccObj;
+    public Account lockYlwltObj;
+    public String refUniqId;
 
 
 
@@ -47,20 +60,7 @@ public class TransDto {
 
 
 
-        public String id;
-        @NotBlank
-        @CurrentUsername
-        public String uname="";
-   // @NotBlank   not val for trans acc 2 ylwlt
-    public String adjustType="";  //incrs   decrs  + -
-        public long changeTime;
-        public String changeType;
-        public String changeMode;
-        public BigDecimal amtBefore;
 
-    public Account lockAccObj;
-    public Account lockYlwltObj;
-    public String refUniqId;
 
     public BigDecimal getAmount() {
             return  toBigDecimal(amount);

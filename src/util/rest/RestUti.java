@@ -1,21 +1,57 @@
 package util.rest;
 
+import cfg.BreakToRet;
+import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import jakarta.validation.constraints.NotNull;
 import model.other.ContentType;
 import util.model.Context;
 import util.serverless.ApiGatewayResponse;
 
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static util.algo.ToXX.toDtoFrmHttp;
 import static util.misc.Util2025.encodeJson;
+import static util.misc.util2026.setCrossDomain;
 import static util.misc.util2026.wrtResp;
 import static util.serverless.ApiGatewayResponse.createErrResponse;
 
 public class RestUti {
+    public static void setExecutorNewThrdAlwys(HttpServer httpServer) {
+        httpServer.setExecutor( new ThreadPoolExecutor(
+                0,                 // corePoolSize
+                999,                // maximumPoolSize
+                0L, TimeUnit.SECONDS,
+                new SynchronousQueue<>()
+        ));
+    }
 
+    public static void regMapOptionn(HttpExchange exchange) throws BreakToRet {
+        String method = exchange.getRequestMethod();
+        if ("OPTIONS".equalsIgnoreCase(method)) {
+            try {
+                handleOptions(exchange);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            throw new BreakToRet();
+        }
+
+    }
+    public static void handleOptions(@NotNull HttpExchange exchange) throws Exception {
+        setCrossDomain(exchange);
+        exchange.getResponseHeaders().add("Allow", "GET, POST, PUT, DELETE, OPTIONS");
+
+
+        //返回状态码 204（无内容）是标准做法。
+        exchange.sendResponseHeaders(204, -1); // No Content
+        exchange.close();
+    }
     public  static ThreadLocal<Class> dtoClz=new ThreadLocal<>();
 
     public  static ThreadLocal<Context> contextThdloc=new ThreadLocal<>();

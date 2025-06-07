@@ -37,14 +37,14 @@ import static util.tx.Pagging.getPageResultByHbntV3;
 
 
 //组合了  和 @ResponseBody，表示该类是 REST API 控制器，所有方法的返回值默认序列化为 JSON 或 XML。
-@PermitAll
-@Paths({"/apiv1/admin/qryUsrApi", "/apiv1/admin/qryUsr"})
+
 //   http://localhost:8889/admin/qryUsr?uname=008&page=1&pagesize=100
 @NoArgsConstructor
 @Data
 
-public class QueryUsrHdrApi implements Icall<ReqDtoQryUsr, Object> {
-
+public class QueryUsrHdrApi{
+        @PermitAll
+        @Paths({"/apiv1/admin/qryUsrApi", "/apiv1/admin/qryUsr"})
     public Object main(ReqDtoQryUsr reqdto) throws Exception {
 
         String crtTimeStmp = toSnake(Usr.Fields.crtTimeStmp);
@@ -73,7 +73,7 @@ public class QueryUsrHdrApi implements Icall<ReqDtoQryUsr, Object> {
         });
 
 
-        return createResponse(list1);
+        return (list1);
 
     }
 

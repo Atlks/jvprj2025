@@ -30,6 +30,7 @@ import java.util.Set;
 
 import static orgx.uti.LogUti.prtEndfun;
 import static orgx.uti.LogUti.prtFun;
+import static util.misc.Util2025.encodeJsonByJackjson;
 
 
 public class Uti {
@@ -335,9 +336,10 @@ public class Uti {
         try {
             if (entity == null) return "null";
             // 创建ObjectMapper实例（线程安全，可复用）
-            ObjectMapper mapper = new ObjectMapper();
-            // 序列化为JSON字符串
-            return mapper.writeValueAsString(entity);
+//            ObjectMapper mapper = new ObjectMapper();
+//            // 序列化为JSON字符串
+//            return mapper.writeValueAsString(entity);
+           return encodeJsonByJackjson(entity);
         } catch (Exception e) {
             // 打印堆栈跟踪或记录日志
             e.printStackTrace();

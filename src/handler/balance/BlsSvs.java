@@ -1,6 +1,9 @@
 package handler.balance;
 
+import handler.ivstAcc.dto.QueryDto;
+import jakarta.ws.rs.Path;
 import model.OpenBankingOBIE.Account;
+import model.OpenBankingOBIE.AccountSubType;
 import model.OpenBankingOBIE.Balance;
 import model.OpenBankingOBIE.CreditDebitIndicator;
 import org.jetbrains.annotations.NotNull;
@@ -10,6 +13,7 @@ import util.tx.findByIdExptn_CantFindData;
 
 import java.math.BigDecimal;
 
+import static util.acc.AccUti.getAccid;
 import static util.model.openbank.BalanceTypes.interimAvailable;
 import static util.model.openbank.BalanceTypes.interimBooked;
 import static util.tx.HbntUtil.*;
@@ -17,6 +21,14 @@ import static util.tx.HbntUtil.persist;
 
 public class BlsSvs {
 
+
+    // /apiv1/accounts/balances?AccountId=uuu_agtcms
+    @Path("/apiv1/accounts/xxx_agtcms/balances")
+    public static Object acc_balances_xxx_agtcms(QueryDto dto) throws findByIdExptn_CantFindData {
+        String accountId=getAccid(dto.uname, AccountSubType.agtCms);
+        Account acc=findById(Account.class,accountId);
+        return  acc;
+    }
 
    @Deprecated
     @NotNull

@@ -39,13 +39,21 @@ public class InvestmentOpRecord {
      */
     private String orderNumber=getUuid();
 
+    public void setInvestmentType(TransactionCode investmentType) {
+        this.investmentType = investmentType.name();
+    }
+
+    public void setInvestmentType(String investmentType) {
+        this.investmentType = investmentType;
+    }
+
     /**
      * 投资类型（盈利 ）
      *
      *     public TransactionCodes
      */
-    @Enumerated(EnumType.STRING)
-    public TransactionCode investmentType;
+    //@Enumerated(EnumType.STRING)
+    public String investmentType;
 
     /**
      * 操作金额（例如：8888.00）

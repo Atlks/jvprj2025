@@ -6,12 +6,12 @@ package test;
 //import apiAcc.ReChargeComplete.invk
 
 import api.wlt.TransHdr
-import cfg.MainStart
+import cfg.AppConfig
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.hibernate.SessionFactory
 import cfg.AopLogJavassist
-import cfg.IniCfg
+import cfg.MyCfg
 import util.misc.HttpExchangeImp
 import util.tx.dbutil.setField
 

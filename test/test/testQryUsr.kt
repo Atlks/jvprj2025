@@ -3,10 +3,10 @@ package test;
 
 //import MyProxyExample.MyProxyExample
 //import utilDep.AOPASM.customClassLoader
-import cfg.MainStart
+import cfg.AppConfig
 import api.usr.QueryUsrHdr
 import cfg.IocPicoCfg
-import cfg.IniCfg
+import cfg.MyCfg
 import com.sun.net.httpserver.HttpExchange
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.AnnotationConfigApplicationContext

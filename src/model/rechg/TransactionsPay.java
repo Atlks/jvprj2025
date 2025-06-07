@@ -80,11 +80,7 @@
 //
 //
 //
-//
-//    //审核人
-//
-//    public String parentProxy="";
-//    public String vipLev="";
+
 //
 //    //截图附件
 //    public String img="";

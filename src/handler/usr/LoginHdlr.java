@@ -27,11 +27,14 @@ import util.oo.HttpUti;
 import util.serverless.ApiGateway;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
+import util.tx.HbntUtil;
 
 
 import static cfg.Containr.sam4regLgn;
 
+import static cfg.Containr.sessionFactory;
 import static handler.acc.IniAcc.iniTwoWlt;
+import static handler.agt.RegEvtHdl.addAgtCmsAccIfNotExst;
 import static handler.uti.CaptchHdr.Cptch_map;
 import static handler.uti.CaptchHdr.getUidFrmBrsr;
 import static util.serverless.ApiGateway.httpExchangeCurThrd;
@@ -56,30 +59,32 @@ import static util.misc.util2026.*;
 public class LoginHdlr implements RequestHandler<RegDto, ApiGatewayResponse>,  Ilogin {
 
     /**
-     * @param RegDto1
+     * @param regDto
      * @param context
      * @return
      * @throws Throwable
      */
     @Override
-    public ApiGatewayResponse handleRequest(RegDto RegDto1, Context context) throws Throwable {
+    public ApiGatewayResponse handleRequest(RegDto regDto, Context context) throws Throwable {
         HttpExchange exchange= HttpUti.httpExchangeCurThrd.get();
         String uidAuto=getUidFrmBrsr(exchange);
       String cptchInsvr=  Cptch_map.get(uidAuto);
 
-      if(!RegDto1.cptch.equals("666"))
+      if(!regDto.cptch.equals("666"))
       {
-          if(RegDto1.cptch.equals(cptchInsvr)==false)
+          if(regDto.cptch.equals(cptchInsvr)==false)
               throw new CaptchErrEx("");
       }
 
 
 
-        sam4regLgn.validate(new UsernamePasswordCredential(RegDto1.uname, RegDto1.pwd));
-        var rt= setLoginTicket(RegDto1);
-        setVisaByCookie(RegDto1);
-        iniTwoWlt(RegDto1.uname);
-
+        sam4regLgn.validate(new UsernamePasswordCredential(regDto.uname, regDto.pwd));
+        var rt= setLoginTicket(regDto);
+        setVisaByCookie(regDto);
+        iniTwoWlt(regDto.uname);
+        Usr u= HbntUtil.findById(Usr.class, regDto.uname);
+        addAgtCmsAccIfNotExst(u.invtr);
+        addAgtCmsAccIfNotExst(u.uname);
         LoginResponse lr=new LoginResponse().setAccessToken(rt.toString()).setExpiresIn(999999);
              return new ApiGatewayResponse(lr);
     }

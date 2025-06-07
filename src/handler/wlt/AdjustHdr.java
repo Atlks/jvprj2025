@@ -70,7 +70,7 @@ public class AdjustHdr {
             dto.accid=accid;
             dto.amt=adjstDto.getAdjustAmount();
             dto.type=TransactionCode.adjst_crdt;
-            call(AccService::CrdBal,dto);
+            call(AccService::deposit,dto);
          //   deposit(dto);
 
         }));
@@ -81,7 +81,7 @@ public class AdjustHdr {
             dto.accid=accid;
             dto.amt=adjstDto.getAdjustAmount();
             dto.type=TransactionCode.payment_rechg;
-            call(AccService::CrdBal,dto);
+            call(AccService::deposit,dto);
             //   deposit(dto);
 
         }));

@@ -2,6 +2,7 @@ package handler.rechg;
 
 import cfg.IniCfg;
 import entityx.wlt.TransDto;
+import handler.agt.RchgEvtHdl;
 import handler.rechg.dto.ReviewChrgRqdto;
 import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.AccountSubType;
@@ -11,6 +12,7 @@ import model.OpenBankingOBIE.Transaction;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
+import orgx.uti.context.ThreadContext;
 import util.model.Context;
 
 import org.hibernate.Session;
@@ -22,6 +24,7 @@ import util.model.openbank.BalanceTypes;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -110,7 +113,7 @@ public class ReviewChrgCmpltHdr implements RequestHandler<ReviewChrgRqdto, ApiGa
         addAccEmnyIfNotExst( trx1.owner, session);
         Account lockAcc4updt = findByHerbinateLockForUpdtV2(Account.class, getAccid(AccountSubType.EMoney.name(), trx1.owner) , session);
         transDto.lockAccObj= lockAcc4updt;
-        AccService.crdtFd(transDto);
+        AccService.crdtFd(transDto);   //here add bls
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
         addAmt2BalWhrAccNType(trx1.amount, lockAcc4updt, interimAvailable);
         addAmt2BalWhrAccNType(trx1.amount, lockAcc4updt, BalanceTypes.interimBooked);
@@ -120,11 +123,14 @@ public class ReviewChrgCmpltHdr implements RequestHandler<ReviewChrgRqdto, ApiGa
          //chk stat is not pndg,,, throw ex
          if (trx1.status.equals(TransactionStatus.PENDING))
          trx1.setStatus( TransactionStatus.BOOKED);
+         trx1.setReviewer(ThreadContext.currAdmin.get());
+         trx1.setReviewDateTime(OffsetDateTime.now());
      mergex(trx1, session);
 
 
      //===============add  idptkey
      addIdptKey(reqdto.IdempotencyKey);
+       new RchgEvtHdl().handleRequest(trx1);
         return new ApiGatewayResponse(trx1);
     }
 

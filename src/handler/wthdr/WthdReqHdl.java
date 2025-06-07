@@ -2,8 +2,10 @@ package handler.wthdr;
 
 import cfg.MainStart;
 import entityx.usr.WithdrawDto;
+import entityx.usr.WithdrawalPassword;
 import jakarta.ws.rs.Path;
 import model.OpenBankingOBIE.TransactionCode;
+import util.algo.EncodeUtil;
 import util.model.Context;
 import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.CreditDebitIndicator;
@@ -45,6 +47,22 @@ public class WthdReqHdl implements RequestHandler<WithdrawDto, ApiGatewayRespons
      */
     @Override
     public ApiGatewayResponse handleRequest(WithdrawDto dtoWithdrawDto, Context context) throws Throwable {
+
+        //校验密码
+        WithdrawalPassword wp = findById(WithdrawalPassword.class, dtoWithdrawDto.getUname(), sessionFactory.getCurrentSession());
+        if (wp == null || wp.getEncryptedPassword() == null) {
+            throw new RuntimeException("提现密码未设置");
+        }
+
+        // 用户输入的密码
+        String inputPwd = dtoWithdrawDto.getPwd(); // 例如前端传来的密码
+
+        // 对输入密码进行 MD5 加密（与你存储方式保持一致）
+        String encodedInputPwd = EncodeUtil.encodeMd5(inputPwd);
+        // 比对加密后的密码是否一致
+        if (!encodedInputPwd.equalsIgnoreCase(wp.getEncryptedPassword())) {
+            throw new RuntimeException("提现密码错误");
+        }
 
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + colorStr("检测余额", RED_bright));
         dtoWithdrawDto.setUserId(getCurrentUser());

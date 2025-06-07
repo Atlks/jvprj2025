@@ -1,5 +1,9 @@
 package util.algo;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
@@ -19,15 +23,35 @@ public class ReadUti {
     public static Object ReadFileAsJsonObjOrJsonArray(String pathname) throws IOException {
 
         String content = Files.readString(Paths.get(pathname), StandardCharsets.UTF_8);
+        return getJsonObjByJackson(pathname, content);
+
+    }
+
+    private static Object getJsonObjByJackson(String pathname, String content) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            JsonNode node = mapper.readTree(content);
+            if (node.isObject()) {
+                return (ObjectNode) node;
+            } else if (node.isArray()) {
+                return (ArrayNode) node;
+            } else {
+                throw new RuntimeException("cache fmt err, key=" + pathname);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("JSON parsing failed for key=" + pathname, e);
+        }
+    }
+
+    private static Object getObjectJsob(String pathname, String content) {
         JsonElement element = JsonParser.parseString(content);
         if (element.isJsonObject()) {
             return element.getAsJsonObject();
         } else if (element.isJsonArray()) {
             return element.getAsJsonArray();
         } else {
-            return new RuntimeException("cache fmt err,key="+pathname); // 不是标准的对象或数组
+            return new RuntimeException("cache fmt err,key=" + pathname);
         }
-
     }
 
 

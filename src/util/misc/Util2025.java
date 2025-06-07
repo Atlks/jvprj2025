@@ -245,7 +245,7 @@ public class Util2025 {
 
         //except srz prblm...easy than gson
         objectMapper.addMixIn(org.hibernate.validator.internal.engine.path.NodeImpl.class, NodeImplMixin.class);
-
+        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
 
         //-----------set json time
         // 支持 java.time 包下的时间类型
@@ -256,6 +256,10 @@ public class Util2025 {
 
         // 使用 JVM 默认时区（本地时区）
         objectMapper.setTimeZone(TimeZone.getDefault());
+       // mapper.registerModule(new JavaTimeModule());
+
+// 可选：避免序列化为 timestamp（时间戳），而是 ISO 字符串
+    //    mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         return objectMapper.writeValueAsString(obj);
 

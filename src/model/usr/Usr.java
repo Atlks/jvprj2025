@@ -2,6 +2,7 @@ package model.usr;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -47,7 +48,7 @@ public  BigDecimal balanceEmoneyAcc;
 
    // @Transient
     @OneToOne
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "id", insertable = false, updatable = false,foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     @Nullable  // sometime begin todate sttmt not gene by timr
     public Statement statementTodate;  //todate
 
@@ -177,4 +178,7 @@ public  String vipLevel="";
    @UpdateTimestamp
     /** 最后更新时间（UNIX 时间戳） */
     private OffsetDateTime updatedAt;
+    /** 查询账户余额（从 accounts 表 LEFT JOIN 获取） */
+    @Transient
+    private BigDecimal interimAvailableBalance;
 }

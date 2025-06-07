@@ -18,8 +18,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static util.algo.GetUti.getMethod;
+
 import static util.ioc.SimpleContainer.rgstMap4clz;
+import static util.misc.RflktUti.getMethodByObj;
 import static util.misc.Util2025.encodeJson;
 import static util.proxy.AopUtil.ivk4log;
 
@@ -245,7 +246,7 @@ public class CallUtil {
 
         return (RetType) ivk4log(mthFullname, dto, () -> {
             var target = cls1.getConstructor().newInstance();
-            Method m = getMethod(target, "handleRequest");
+            Method m = getMethodByObj(target, "handleRequest");
             var retobj = m.invoke(target, dto);
             return retobj;
         });

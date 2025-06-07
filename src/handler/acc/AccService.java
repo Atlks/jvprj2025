@@ -2,14 +2,19 @@ package handler.acc;
 
 import api.ylwlt.BizFun;
 import entityx.wlt.TransDto;
+import handler.statmt.CrudFun;
 import handler.wlt.DepositDto;
 import jakarta.validation.constraints.NotNull;
 import model.OpenBankingOBIE.*;
+import model.obieErrCode.FieldInvalidEx;
+import org.hibernate.Session;
 import util.Oosql.SlctQry;
 import util.ex.BalanceNotEnghou;
 import util.model.CrudRzt;
 import util.model.openbank.BalanceTypes;
 import util.model.openbank.BankAccountService;
+import util.sql.SqlBldr;
+import util.tx.HbntUtil;
 import util.tx.findByIdExptn_CantFindData;
 
 import java.math.BigDecimal;
@@ -18,6 +23,7 @@ import java.util.List;
 import static cfg.Containr.sessionFactory;
 import static com.alibaba.fastjson2.util.TypeUtils.toBigDecimal;
 
+import static handler.acc.AccDao.*;
 import static handler.balance.BlsSvs.*;
 import static handler.trx.TransactnService.insertTxSetAmtIdctrBooked_txcod;
 import static handler.wlt.TransfHdr.curLockAcc;
@@ -30,21 +36,13 @@ import static util.log.ColorLogger.RED_bright;
 import static util.log.ColorLogger.colorStr;
 import static util.model.openbank.BalanceTypes.interimAvailable;
 import static util.model.openbank.BalanceTypes.interimBooked;
+import static util.sql.SqlBldr.sum;
 import static util.tx.HbntUtil.*;
 import static util.tx.HbntUtil.persist;
 
 public class AccService implements BankAccountService {
-    public static void addAmt2acc(Account acc1, BigDecimal adjAmt) {
-        System.out.println("fun addAmt2acc");
-        BigDecimal avdBls = acc1.interim_Available_Balance;
-        BigDecimal newAvdBls = avdBls.add(adjAmt);
-        // logTag = "增加";
 
-        BigDecimal newBkBls = acc1.InterimBookedBalance.add(adjAmt);
 
-        updtAccSetAvdblsNBkbls(acc1, newAvdBls, newBkBls);
-        System.out.println("endfun addAmt2acc");
-    }
 
     public static void updtAccSetFztbls_avlbls(Account acc1, BigDecimal newFrzAmt, BigDecimal newAvlBls) {
         acc1.setFrozenAmountVld(newFrzAmt);
@@ -53,7 +51,7 @@ public class AccService implements BankAccountService {
     }
 
 @BizFun("admin dcrs bal")
-    public static Object adjustBalanceDecrease(DecBalDto dto) throws findByIdExptn_CantFindData {
+    public static Object adjustBalanceDecrease(DecBalDto dto) throws findByIdExptn_CantFindData, FieldInvalidEx {
         Account acc=findById(Account.class,dto.accid);
         Transaction tx2 = new Transaction();
         tx2.setAmountVldChk(dto.amt);
@@ -107,7 +105,7 @@ public class AccService implements BankAccountService {
         //-----------unfrz acc
         BigDecimal adjAmt = tx.getAmount();
 
-        updtAccSetFztbls_avlbls(acc1, acc1.frozenAmount.subtract(adjAmt), acc1.interim_Available_Balance.add(adjAmt));
+        updtAccSetFztbls_avlbls(acc1, acc1.frozenAmount.subtract(adjAmt), acc1.getInterim_Available_Balance().add(adjAmt));
 
 
         //sub bls
@@ -123,13 +121,32 @@ public class AccService implements BankAccountService {
         insertTxSetAmtIdctrBooked_txcod(tx,acc1,blsAvb);
         persist(tx);
     }
+    @BizFun
+    public static void updateAccSetBlsZero(String accid) throws findByIdExptn_CantFindData {
+        BigDecimal amt = BigDecimal.valueOf(0);
+        updtAccSetBls(accid, amt);
+    }
+@BizFun
+public static void updtAccSetBls(String accid, BigDecimal amt) throws findByIdExptn_CantFindData {
+        Account acc=findByHerbinateLockForUpdtV2(Account.class, accid);
+
+        acc.setInterim_Available_Balance(amt);
+        acc.setInterimBookedBalance(amt);
+        mergex(acc);
+
+        //  String blsid=getBlsid(accid, BalanceTypes.interimBooked);
+    iniBal(acc,interimAvailable);  iniBal(acc,interimBooked);
+
+        updateBlsSetAmt(getBlsid(accid, BalanceTypes.interimBooked), amt);
+        updateBlsSetAmt(getBlsid(accid, interimAvailable), amt);
+    }
 
 
     public static void frzAmt2accWzlog(Account acc1, Transaction tx) throws findByIdExptn_CantFindData {
         //-----------frz acc
         BigDecimal adjAmt = tx.getAmount();
         BigDecimal newFrzAmt = acc1.frozenAmount.add(adjAmt);
-        BigDecimal newAvlBls = acc1.interim_Available_Balance.subtract(adjAmt);
+        BigDecimal newAvlBls = acc1.getInterim_Available_Balance().subtract(adjAmt);
 
         updtAccSetFztbls_avlbls(acc1, newFrzAmt, newAvlBls);
 
@@ -153,7 +170,7 @@ public class AccService implements BankAccountService {
      */
     @BizFun("通用增加余额服务")
     //@MethodInfo("存款服务")
-    public static Object CrdBal(DepositDto dto) throws findByIdExptn_CantFindData {
+    public static Object deposit(DepositDto dto) throws findByIdExptn_CantFindData, FieldInvalidEx {
         Account acc=findById(Account.class,dto.accid);
         Transaction tx2 = new Transaction();
         tx2.setCreditDebitIndicator(CreditDebitIndicator.CREDIT);
@@ -202,20 +219,8 @@ public class AccService implements BankAccountService {
 
 
 
-    public static void subAmt2acc(Account acc1, BigDecimal adjAmt) {
-        BigDecimal avdBls = acc1.interim_Available_Balance;
-        BigDecimal newAvdBls = avdBls.subtract(adjAmt);
-        // logTag = "增加";
 
-        BigDecimal newBkbls = acc1.InterimBookedBalance.subtract(adjAmt);
-        updtAccSetAvdblsNBkbls(acc1, newAvdBls, newBkbls);
-    }
 
-    public static void updtAccSetAvdblsNBkbls(Account acc1, BigDecimal newAvdBls, BigDecimal newBkBls) {
-        acc1.setInterim_Available_Balance(newAvdBls);
-        acc1.setInterimBookedBalance(newBkBls);
-        mergex(acc1);
-    }
 
     /**
      * 减去钱包余额服务
@@ -235,7 +240,7 @@ public class AccService implements BankAccountService {
         if (acc == null)
             acc = TransDto88.lockAccObj;
 
-        BigDecimal nowAmt = acc.interim_Available_Balance;
+        BigDecimal nowAmt = acc.getInterim_Available_Balance();
         if (TransDto88.getAmount().compareTo(nowAmt) > 0) {
             throw new BalanceNotEnghou("余额不足" + "nowAmtBls=" + nowAmt);
 
@@ -243,7 +248,7 @@ public class AccService implements BankAccountService {
 
         BigDecimal amt = TransDto88.getAmount();
         BigDecimal newBls = nowAmt.subtract(toBigDecimal(amt));
-        acc.interim_Available_Balance = newBls;
+        acc.setInterim_Available_Balance(newBls); ;
 
         acc.InterimBookedBalance = acc.InterimBookedBalance.subtract(amt);
         // acc.ClosingBookedBalance =acc.InterimBookedBalance;
@@ -263,8 +268,10 @@ public class AccService implements BankAccountService {
         persist(txx, sessionFactory.getCurrentSession());
 
         String accountId = acc.accountId;
-        subAmtUpdtBls(accountId,interimAvailable,amt);
-        subAmtUpdtBls(accountId,interimBooked,amt);
+
+        //todo need updt bls
+      //  subAmtUpdtBls(accountId,interimAvailable,amt);
+       // subAmtUpdtBls(accountId,interimBooked,amt);
 
 
 
@@ -284,14 +291,6 @@ public class AccService implements BankAccountService {
         return acc;
     }
 
-    private static void subAmtUpdtBls(String accountId, BalanceTypes balanceTypes, BigDecimal amt) throws findByIdExptn_CantFindData {
-        System.out.println("fun subAmtFrmBls(accountId="+accountId+",blstype="+ balanceTypes+", amt="+amt+")");
-        String blsid= getBlsid(accountId,balanceTypes);
-        Balance bls=findById(Balance.class,blsid);
-        bls.setAmount(bls.getAmount().subtract(amt));
-        mergex(bls);
-        System.out.println("endfun subAmtFrmBls");
-    }
 
     //资金池余额
     public static BigDecimal getInsFdPlBal() {
@@ -306,21 +305,33 @@ public class AccService implements BankAccountService {
 
     }
 
-    //总余额统计 本金钱包
-    public static BigDecimal sumAllEmnyAccBal() {
-        SlctQry query = newSelectQuery(getTableName(Account.class));
-        query.select("sum(" + Account.Fields.interim_Available_Balance + ")");
-        query.addConditions(Account.Fields.accountSubType , "=" ,(AccountSubType.EMoney.name()));
-        // query.addConditions("timestamp>"+ beforeTmstmp(reqdto.day));
-        //    query.addOrderBy("timestamp desc");
-        String sql = query.getSQL();  // ✅ 直接拿到 SQL 字符串
-        System.out.println(sql);
-        try {
-            return (BigDecimal) getSingleResult(sql, sessionFactory.getCurrentSession());
-        } catch (findByIdExptn_CantFindData e) {
-            return BigDecimal.valueOf(0);
-        }
+    @BizFun
+    public static BigDecimal sumAmtFromAccWhereSubtypeEqEmoney() throws findByIdExptn_CantFindData {
+        Session session=sessionFactory.getCurrentSession();
+        String sql= new SqlBldr()
+                .select(sum(Account.Fields.interim_Available_Balance))
+                .from(Account.class)
+                .where(Account.Fields.accountSubType,"=",AccountSubType.EMoney.name())
+                .and(Account.Fields.accountType,"=",AccountType.PERSONAL.name()).getSql();
+        BigDecimal sum= HbntUtil.getSingleResult(sql,BigDecimal.class);
+        return sum;
     }
+
+    //总余额统计 本金钱包
+//    public static BigDecimal sumAllEmnyAccBal() {
+//        SlctQry query = newSelectQuery(getTableName(Account.class));
+//        query.select("sum(" + Account.Fields.interim_Available_Balance + ")");
+//        query.addConditions(Account.Fields.accountSubType , "=" ,(AccountSubType.EMoney.name()));
+//        // query.addConditions("timestamp>"+ beforeTmstmp(reqdto.day));
+//        //    query.addOrderBy("timestamp desc");
+//        String sql = query.getSQL();  // ✅ 直接拿到 SQL 字符串
+//        System.out.println(sql);
+//        try {
+//            return (BigDecimal) getSingleResult(sql, sessionFactory.getCurrentSession());
+//        } catch (findByIdExptn_CantFindData e) {
+//            return BigDecimal.valueOf(0);
+//        }
+//    }
 
     @Override
     public CrudRzt openAccount(Account account) {

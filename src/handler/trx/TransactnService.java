@@ -66,6 +66,7 @@ public class TransactnService {
     }
 
 
+
     public static BigDecimal sumInvstProfit() {
 
         String trxType = TransactionCode.invstProfit.name();

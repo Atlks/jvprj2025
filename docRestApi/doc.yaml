@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: 用户端 API
-  version: v62.666.888
+  version: v67.666.888
   description: |
     这是一个用于系统的 API。通过该 API，可以作为开发。.
     该文档提供了所有可用接口的详细说明。
@@ -219,7 +219,7 @@ paths:
   /apiv1/admin/InvstRcd/QryInvstRcdHdl:
     $ref: './paths/InvstRcd/QryInvstRcdHdl.yaml'
   /apiv1/pay/recharge:
-    $ref: './paths/pay/recharge.yml'
+    $ref: './recharge.yml'
   /apiv1/cfg/IniDataHdl:
     $ref: './paths/cfg/IniDataHdl.yaml'
 
@@ -299,27 +299,25 @@ paths:
       responses:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
+  /apiv1/accounts/xxx_agtcms/balances :
+    get:
+      tags:
+        - cms
+      summary: "佣金余额"
 
+
+
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
   /apiv1/cms/WthdrCmsHdl:
     get:
       tags:
         - cms
       summary: "提取佣金"
-      parameters:
-        - name: uname
-          in: query
-          required: false
-          schema:
-            type: string
-          description:
-          example: "666"
-        - name: amt
-          in: query
-          required: true
-          schema:
-            type: int
-          description:
-          example: 100
+
+
+
       responses:
         "200":
           $ref: './components/responses/CommonResponse.yaml'

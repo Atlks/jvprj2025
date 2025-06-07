@@ -1,5 +1,7 @@
 package model.agt;
 
+import com.alibaba.fastjson2.annotation.JSONField;
+
 /**
  * 实体类：佣金档位
  * 包含字段（档挡位，充值金额，佣金比例）
@@ -16,11 +18,13 @@ public class CmsLv
     /**
      * 对应档位的最低充值金额（单位：元）
      */
+    @JSONField(name = "amount")
     public Double rechargeAmount= (double) 5;
 
     /**
      * 佣金比例（如：5 表示 5%）
      */
+    @JSONField(name = "ratio")
     public Double commissionRate= 25.0;
 
     // Getter & Setter 方法

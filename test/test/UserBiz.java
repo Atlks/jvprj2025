@@ -1,4 +1,4 @@
-package ztest;
+package test;
 
 import util.ex.existUserEx;
 

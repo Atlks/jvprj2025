@@ -40,6 +40,7 @@ public enum TransactionCode {
 
 
     invstLoss,//  投资损失
+    Service_Cms_wthdr,
     Service_Cms_rechgCms,  //佣金（下级充值时，代理会有佣金
     Service_Cms_devlpSubsCntCms,// 另外一种佣金，看看你是奖励（多一个下级注册人数，就给代理一个佣金，按照注册数量给的这个）
 

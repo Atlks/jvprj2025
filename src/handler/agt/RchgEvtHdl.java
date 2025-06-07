@@ -27,7 +27,7 @@ import static util.misc.util2026.sleep;
 import static util.tx.HbntUtil.*;
 import static util.tx.HbntUtil.getSingleResult;
 
-@EventListener({EvtType.RchgEvt})
+//@EventListener({EvtType.RchgEvt})
 public class RchgEvtHdl {
 
     public Object handleRequest(@NotNull Transaction tx) throws Throwable {
@@ -45,16 +45,17 @@ public class RchgEvtHdl {
 
 
             callTry(()->{updtUsrRpt4rechg(tx);});
-
-            try {
-                ChgSubStt css = new ChgSubStt();
-                css.agtName = u.invtr;
-                css.uname = u.uname;
-                persist(css, session);
-
-            } catch (Throwable e) {
-
-            }
+//
+//            try {
+//                ChgSubStt fdstt=findById(ChgSubStt.class,  u.uname, session);
+//                ChgSubStt css = new ChgSubStt();
+//                css.agtName = u.invtr;
+//                css.uname = u.uname;
+//                persist(css, session);
+//
+//            } catch (Throwable e) {
+//
+//            }
 
             //encodeSqlPrmAsStr
             String sql = "select count(*) " + SqlBldr.from(ChgSubStt.class) + where(" agtName", "= ", u.invtr);
@@ -63,7 +64,14 @@ public class RchgEvtHdl {
             BigDecimal thisCms = agt.commissionRate.multiply(tx.getAmount());
             agt.commissionAmount = agt.commissionAmount.add(thisCms);
 
-            mergex(agt, session);
+            try{
+                mergex(agt, session);
+            }catch(Exception e){
+                System.out.println("----cata150");
+                e.printStackTrace();
+                System.out.println("----end cata150");
+            }
+
 
 
 

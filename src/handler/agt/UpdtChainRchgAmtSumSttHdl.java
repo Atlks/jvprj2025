@@ -33,7 +33,7 @@ public class UpdtChainRchgAmtSumSttHdl {
 
 
         //更新非直属下级充值总额
-        updateIndirectSubdntRchgAmtSumOnNewUser(u.uname);
+        updateIndirectSubdntRchgAmtSumOnNewUser(u.uname,tx.getAmount());
 
         //updt all agt totalRechargeAmount
         updateChainAllSubRchgAmtSum(tx, u, session);
@@ -67,15 +67,16 @@ public class UpdtChainRchgAmtSumSttHdl {
     }
 
     // 核心功能： ，更新所有非直属上级的间接下属充值
-    public void updateIndirectSubdntRchgAmtSumOnNewUser(String newRechgUserId) throws Exception, findByIdExptn_CantFindData {
-
+    public void updateIndirectSubdntRchgAmtSumOnNewUser(String newRechgUserId,BigDecimal rechargeAmount) throws Exception, findByIdExptn_CantFindData {
+        System.out.println("--------------------------------------------------------"+newRechgUserId);
         var session=sessionFactory.getCurrentSession();
         List<Usr> superiors = new getNonDirectSuperiors().handleRequest(newRechgUserId);
         for (Usr superior : superiors) {
             Agent agt= findById(Agent.class, superior.id, session);
-            agt.levelOneRechargeAmount =agt.levelOneRechargeAmount.add(BigDecimal.valueOf(1)) ;
-            agt.indrctlSubRchgAmtSum =agt.indrctlSubRchgAmtSum.add(BigDecimal.valueOf(1)) ;
-
+//            agt.levelOneRechargeAmount =agt.levelOneRechargeAmount.add(BigDecimal.valueOf(1)) ;
+//            agt.indrctlSubRchgAmtSum =agt.indrctlSubRchgAmtSum.add(BigDecimal.valueOf(1)) ;
+            agt.levelOneRechargeAmount = agt.levelOneRechargeAmount.add(rechargeAmount);
+            agt.indrctlSubRchgAmtSum = agt.indrctlSubRchgAmtSum.add(rechargeAmount);
             mergex(agt, session);
         }
     }
