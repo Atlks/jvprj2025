@@ -28,6 +28,34 @@ public class AccDao {
 
     }
     @CrudFun
+    public static void subAvdBlsUpdtAcc(Account acc1, BigDecimal amt) throws findByIdExptn_CantFindData {
+        BigDecimal avdBls = acc1.interim_Available_Balance;
+        BigDecimal newAvdBls = avdBls.subtract(amt);
+
+        acc1.setInterim_Available_Balance(newAvdBls);
+
+        mergex(acc1);
+
+        subAmtUpdtBls(acc1.accountId, BalanceTypes.interimAvailable,amt);
+
+    }
+
+    @CrudFun
+    public static void subAvdBlsBkBlsUpdtAcc(Account acc1, BigDecimal amt) throws findByIdExptn_CantFindData {
+        BigDecimal avdBls = acc1.interim_Available_Balance;
+        BigDecimal newAvdBls = avdBls.subtract(amt);
+
+        acc1.setInterim_Available_Balance(newAvdBls);
+        acc1.setInterimBookedBalance(acc1.getInterimBookedBalance().subtract(amt));
+        mergex(acc1);
+
+        subAmtUpdtBls(acc1.accountId, BalanceTypes.interimAvailable,amt);
+        subAmtUpdtBls(acc1.accountId, BalanceTypes.interimBooked,amt);
+
+    }
+
+
+    @CrudFun
     static void updateBlsSetAmtZero(String blsid) throws findByIdExptn_CantFindData {
         Balance bls=findByHerbinateLockForUpdtV2(Balance.class, blsid);
         bls.setAmount(BigDecimal.valueOf(0));

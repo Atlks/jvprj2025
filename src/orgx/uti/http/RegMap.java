@@ -205,11 +205,14 @@ public class RegMap {
     }
 
     private static void injectCurrUserFldV2(Object dto) throws IllegalAccessException {
-        Field[] flds = dto.getClass().getFields();
+        Field[] flds = dto.getClass().getDeclaredFields();
         for (Field fld : flds) {
             if (fld.isAnnotationPresent(CurrentUsername.class))
                 //if (needLoginUserAuth(targetThreadLocal.get())) {
-                fld.set(dto, getCurrentUser());
+            {
+                String currentUser = getCurrentUser();
+                fld.set(dto, currentUser);
+            }
             //  }
             //  setField(dto, jw.name(), getCurrentUser());
         }

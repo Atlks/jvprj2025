@@ -14,4 +14,5 @@ public  String owner;
     public BigDecimal amount;
     public String receipt_image;
     public String addressLine;
+    public String vipLevAftrDpst="vip1";
 }

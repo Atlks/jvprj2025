@@ -265,7 +265,7 @@ public class HbntUtil {
     }
 
 
-    //alias  of get rzt lst
+    //alias  of get rzt lst ..
     public static @NotNull List getListBySql(@NotBlank String sql, @NotNull Session session) throws Throwable {
 
         return getResultList(sql, session);

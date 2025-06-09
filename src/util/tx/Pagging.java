@@ -33,7 +33,7 @@ public class Pagging {
     }
 
 
-    public static @NotNull PageResult<?> getPageResultByHbntV4(@NotBlank  String sql, Map<String, Object> sqlprmMap, PageDto pageobj, Session session,Class modelCls) throws SQLException {
+    public static @NotNull <T> PageResult<T> getPageResultByHbntV4(@NotBlank  String sql, Map<String, Object> sqlprmMap, PageDto pageobj, Session session,Class<T> modelCls) throws SQLException {
 
         System.out.println("fun getPageResultByHbntV4(sql= "+sql+",modelCls="+modelCls);
         NativeQuery  nativeQuery = session.createNativeQuery(sql, modelCls);
@@ -42,15 +42,15 @@ public class Pagging {
         nativeQuery.setFirstResult(getstartPosition(pageobj.page, pageobj.pagesize));
         nativeQuery.setMaxResults(pageobj.pagesize);
         //       .setParameter("age", 18);
-        List<?> list1 = nativeQuery.getResultList();
+        List<T> list1 = nativeQuery.getResultList();
 
 
-        //------------page
+        //------------page..
         long totalRecords = nativeQuery.getResultCount();
 
         Pageable pageable = PageRequest.of(pageobj.page, pageobj.pagesize);
         int totalPages = (int) Math.ceil((double) totalRecords / pageobj.pagesize);
-        return new PageResult<>(list1, totalRecords, totalPages,pageable);
+        return new PageResult<T>(list1, totalRecords, totalPages,pageable);
     }
 
     public static @NotNull PageResult<?> getPageResultByHbntRtLstmap(@NotBlank  String sql, Map<String, Object> sqlprmMap, PageDto pageobj, Session session) throws SQLException {

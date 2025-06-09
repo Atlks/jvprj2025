@@ -76,6 +76,7 @@ public class Account {
      * 只读提示 field
      */
 
+    @ExtFld
     @Transient
     @org.hibernate.annotations.Immutable  // Hibernate扩展，只读提示
     @OneToManyTips(fetch = FetchType.LAZY)
@@ -182,6 +183,7 @@ public class Account {
     @Blankable
     public String nickname;
 
+    @ObieFld
     @NotBlank
     public String currency="usdt";            // 币种（如 CNY、USD）
 

@@ -2,10 +2,14 @@ package handler.secury;
 
 //package com.example.dto;
 
+import lombok.Data;
+import util.annos.CurrentUsername;
+@Data
 public class SecurityQuestionSetupDTO {
-    private String userId;
-    private String question;
-    private String answer;
+    @CurrentUsername
+    public String userId;
+    public String question;
+    public String answer;
 
     // getters and setters
     public String getUserId() {

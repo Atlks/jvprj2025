@@ -13,13 +13,14 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import orgx.uti.context.ProcessContext;
 
 import java.io.InputStream;
+import java.util.List;
 
 import static util.oo.StrUtil.getPwdFromJdbcurl;
 import static util.oo.StrUtil.getUnameFromJdbcurl;
 import static util.tx.dbutil.getDvr;
 
 public class CfgSvs {
-    public static SqlSessionFactory buildSessionFactory() throws Exception {
+    public static SqlSessionFactory buildSessionFactory(List<Class> mapperClzs) throws Exception {
         // 1. 配置数据源
         PooledDataSource dataSource = new PooledDataSource();
         dataSource.setDriver(getDvr(ProcessContext.jdbcUrl)); // 适用于 MySQL"org.h2.Driver"
@@ -32,6 +33,8 @@ public class CfgSvs {
         MybatisConfiguration configuration = new MybatisConfiguration();
         configuration.setMapUnderscoreToCamelCase(true); // 开启驼峰命名转换
         configuration.setJdbcTypeForNull(null); // 处理 NULL 值问题
+        configuration.setLogImpl(org.apache.ibatis.logging.stdout.StdOutImpl.class);
+
         configuration.setDefaultScriptingLanguage(XMLLanguageDriver.class); // 设置默认 SQL 语言驱动
 
         configuration.setDefaultScriptingLanguage(XMLLanguageDriver.class);
@@ -60,6 +63,9 @@ public class CfgSvs {
 
 
         // load mapper cls
+        for(Class clz : mapperClzs) {
+            configuration.addMapper(clz);
+        }
        // configuration.addMapper(mpp.class);
         // configuration.table-auto" value="update"  for spr app
         //   configuration.setMetaObjectHandler(new MyMetaObjectHandler()); // 注册 MetaObjectHandler
@@ -79,6 +85,7 @@ public class CfgSvs {
         if (sqlSessionFactory == null) {
             throw new RuntimeException("SqlSessionFactory 初始化失败");
         }
+        ProcessContext.sqlSessionFactory = sqlSessionFactory;
         return sqlSessionFactory;
 
         // 2. 设置环境

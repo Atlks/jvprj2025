@@ -3,6 +3,7 @@ package handler.rechg;
 import cfg.IniCfg;
 import model.OpenBankingOBIE.CreditDebitIndicator;
 import model.OpenBankingOBIE.Transaction;
+import model.usr.Usr;
 import util.annos.NoDftParam;
 import entityx.wlt.QryRechgOrdReqDto;
 
@@ -10,8 +11,11 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
 import util.model.Context;
 
+import util.model.common.PageResult;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
+import util.tx.HbntUtil;
+import util.tx.findByIdExptn_CantFindData;
 
 import java.util.*;
 
@@ -65,9 +69,18 @@ public class QueryOrdChrgHdr  implements RequestHandler<QryRechgOrdReqDto, ApiGa
      //   System.out.println( encodeJson(sqlprmMap));
 
 
+        PageResult<Transaction> pageResultByHbntV4 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), Transaction.class);
+        List<Transaction> list1 = pageResultByHbntV4.getRecords();
+        for(Transaction t:list1)
+        {
+            try{
+                Usr u= HbntUtil.findById(Usr.class, t.getOwner());
+                t.setVipLev(u.getVipLevel());
+            } catch (findByIdExptn_CantFindData e) {
+                System.out.println(e.getMessage());
+            }
 
-        var list1 = getPageResultByHbntV4(sql, sqlprmMap, reqdto, sessionFactory.getCurrentSession(), Transaction.class);
-
+        }
         return new ApiGatewayResponse(list1);
     }
 

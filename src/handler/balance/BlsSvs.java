@@ -1,6 +1,7 @@
 package handler.balance;
 
 import handler.ivstAcc.dto.QueryDto;
+import handler.statmt.CrudFun;
 import jakarta.ws.rs.Path;
 import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.AccountSubType;
@@ -36,6 +37,8 @@ public class BlsSvs {
         return accountId + "_" +
                 interimAvailable;
     }
+
+    @CrudFun
     /**
      *
      * @param acc1   (accid,acctype)
@@ -67,7 +70,7 @@ public class BlsSvs {
         bls.setAccSubType(acc1.getAccountSubType());
         bls.setOwner(acc1.getOwner());
         bls.setCreditDebitIndicator(idctr);
-        bls.setAccSnapshot(acc1);
+      //  bls.setAccSnapshot(acc1);
         Balance mergex = mergex(bls);
         System.out.println("endfun updtBlsSetAmt_Type_Acc_idctr ");
         return mergex;

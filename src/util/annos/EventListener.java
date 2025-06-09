@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface EventListener {
-    @AliasFor("classes")
+  //  @AliasFor("classes")
     String[] value()  ;
 
     /**
@@ -18,6 +18,6 @@ public @interface EventListener {
      * However, if this attribute is specified with multiple values,
      * the annotated method must <em>not</em> declare any parameters.
      */
-    @AliasFor("value")
+  //  @AliasFor("value")
     Class<?>[] classes() default {};
 }

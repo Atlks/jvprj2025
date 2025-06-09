@@ -5,6 +5,7 @@
 import cfg.MainStart;
 import it.sauronsoftware.cron4j.Scheduler;
 import lombok.SneakyThrows;
+import model.usr.UsrMapper;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import org.apache.ibatis.session.SqlSession;
@@ -18,7 +19,9 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 // static cfg.AppConfig.sessionFactory;
 //import static cfg.Containr.evtlist4reg;
@@ -29,14 +32,14 @@ import static cfg.WebSvr.*;
 import static handler.statmt.StatmtService.geneStatmtTodateType;
 import static handler.statmt.StatmtService.generStatmtCurMth;
 import static java.time.LocalTime.now;
+import static orgx.uti.context.ThreadContext.currSession;
 import static util.algo.CallUtil.callTry;
 import static util.algo.CallUtil.lmdIvk;
 import static util.evtdrv.EvtUtil.iniEvtHdrCtnr;
 
 
 import static util.orm.HbntExt.migrateSql;
-import static util.tx.TransactMng.beginx;
-import static util.tx.TransactMng.commitx;
+import static util.tx.TransactMng.*;
 import static util.tx.dbutil.setField;
 //import static cfg.IocPicoCfg.iniIocContainr;
 //  System.out.flush();  // 刷新输出缓冲区
@@ -57,11 +60,13 @@ public class MainApp {
 
         //    ovrtTEst=true;//todo cancel if test ok
         iniDbNcfg();
-        ProcessContext.sqlSessionFactory=buildSessionFactory();
-        try (SqlSession session = ProcessContext.sqlSessionFactory.openSession()) {
-           // Object result = session.selectList("select 1");
-            // or execute insert/update/delete
-        }
+//        List<Class> mapperClzs=new ArrayList<>();
+//        mapperClzs.add(UsrMapper.class);
+//        ProcessContext.sqlSessionFactory=buildSessionFactory(mapperClzs);
+//        try (SqlSession session = ProcessContext.sqlSessionFactory.openSession()) {
+//           // Object result = session.selectList("select 1");
+//            // or execute insert/update/delete
+//        }
 
         startTmr();
 
@@ -81,7 +86,12 @@ public class MainApp {
         //每小时的第一分执行  it.sauronsoftware.cron4j.Scheduler;
         scheduler.schedule("1 * * * *", () ->
         {
-            tmrTask();
+            try{
+                tmrTask();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
 
 
         });
@@ -95,11 +105,39 @@ public class MainApp {
             System.out.println("每小时的第一分执行 执行定时任务: " + System.currentTimeMillis());
             beginx();
             generStatmtCurMth();
+
+            commitx();
+        }catch (Exception e){
+            rollbackTx();
+            e.printStackTrace();
+        }finally {
+            closeCurrenSession();
+        }
+
+        try{
+            System.out.println("每小时的第一分执行 执行定时任务: " + System.currentTimeMillis());
+            beginx();
             geneStatmtTodateType();
             commitx();
         }catch (Exception e){
+            rollbackTx();
+            e.printStackTrace();
+        }finally {
+            closeCurrenSession();
+        }
+
+
+
+    }
+
+    private static void closeCurrenSession() {
+        try{
+            currSession.get().flush();
+            currSession.get().close();
+        }catch (Exception e){
             e.printStackTrace();
         }
+
     }
 
 

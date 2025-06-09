@@ -1,5 +1,6 @@
 package cfg;
 
+import orgx.uti.context.ProcessContext;
 import util.bet.ListBetsHdr;
 //import handler.rechg.RechargeCallbackHdr;
 
@@ -84,6 +85,7 @@ public class IniCfg {
         // saveDirAcc= (String) cfg.get("saveDirAcc");
         //   savedirOrd= (String) cfg.get("savedirOrd");
         //QryOrdBetHdr.saveUrlOrdBet
+        ProcessContext.jdbcUrl = (String) cfg.get("saveDirUsrs");
         ListBetsHdr.saveUrlOrdBet = Containr.jdbcUrl;
         //   saveUrlOrdChrg = RegHandler.saveDirUsrs;
         //(String) cfg.get("saveUrlOrdChrg");

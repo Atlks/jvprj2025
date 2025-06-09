@@ -7,7 +7,7 @@ import jakarta.ws.rs.Path;
 import static cfg.Containr.sessionFactory;
 import static util.tx.HbntUtil.mergex;
 
-@PermitAll
+
 @Path("/apiv1/api/security-question/setup")
 public class SetSecuryQstnHdl {
 

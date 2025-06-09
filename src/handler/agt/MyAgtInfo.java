@@ -2,6 +2,9 @@ package handler.agt;
 
 import com.alibaba.fastjson2.JSON;
 import handler.ivstAcc.dto.AgentNode;
+import handler.ivstAcc.dto.AgentSimpleInfo;
+import handler.ivstAcc.dto.AgentSubInfo;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Path;
 import model.OpenBankingOBIE.Account;
 import model.OpenBankingOBIE.AccountSubType;
@@ -11,6 +14,8 @@ import model.usr.Usr;
 import handler.ivstAcc.dto.QueryDto;
 import model.agt.Agent;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.NativeQuery;
 import util.Oosql.SlctQry;
 import util.acc.AccUti;
 import util.annos.Paths;
@@ -37,16 +42,24 @@ public class MyAgtInfo {
     public Object handleRequest(QueryDto reqdto) throws Throwable {
 //        Agent agt= findById(Agent.class, reqdto.uname, sessionFactory.getCurrentSession());
         String agentAccount = reqdto.uname;
-        String sql = "WITH RECURSIVE sub_agents AS ("
-                + "SELECT * FROM agent WHERE agent_account = '" + agentAccount + "' "
-                + "UNION ALL "
-                + "SELECT a.* FROM agent a "
-                + "INNER JOIN sub_agents sa ON a.parent_agent_id = sa.agent_account "
-                + ") "
-                + "SELECT * FROM sub_agents";
-        Session session =  sessionFactory.getCurrentSession();
-        List<Agent> list1 =getResultList(sql,Agent.class);
-    return buildAgentTree(list1,agentAccount);
+//        String sql = "WITH RECURSIVE sub_agents AS ("
+//                + "SELECT * FROM agent WHERE agent_account = '" + agentAccount + "' "
+//                + "UNION ALL "
+//                + "SELECT a.* FROM agent a "
+//                + "INNER JOIN sub_agents sa ON a.parent_agent_id = sa.agent_account "
+//                + ") "
+//                + "SELECT * FROM sub_agents";
+//        Session session =  sessionFactory.getCurrentSession();
+//        List<Agent> list1 =getResultList(sql,Agent.class);
+//    return buildAgentTree(list1,agentAccount);
+        return getAgentSubRechargeInfo(agentAccount);
+    }
+
+    @Paths({"/apiv1/agt/listMyMmbrSub"})
+    public Object listMyMmbrSub(QueryDto reqdto) throws Throwable {
+        String uname = reqdto.uname;
+        return getDirectSubAgentsWithMembers(uname);
+
     }
 
     public static AgentNode buildAgentTree(List<Agent> allAgents, String rootAgentId) {
@@ -167,6 +180,127 @@ public class MyAgtInfo {
         }
         return null;
     }
+
+    /******************************新的计算逻辑start**************************************/
+
+
+    public AgentSimpleInfo getAgentSubRechargeInfo(String agentAccount) {
+        AgentSimpleInfo info = new AgentSimpleInfo();
+        info.setAgentAccount(agentAccount);
+
+        Session session = sessionFactory.getCurrentSession();
+
+        // 1. 递归查询所有下级（不含自己），并汇总充值金额
+        String sql = "WITH RECURSIVE sub_agents AS ( " +
+                "  SELECT * FROM agent WHERE parent_agent_id = :agentAccount " +
+                "  UNION ALL " +
+                "  SELECT a.* FROM agent a " +
+                "  INNER JOIN sub_agents sa ON a.parent_agent_id = sa.agent_account " +
+                ") " +
+                "SELECT SUM(total_recharge_amount) FROM sub_agents";
+
+        BigDecimal totalRecharge = (BigDecimal) session.createNativeQuery(sql)
+                .setParameter("agentAccount", agentAccount)
+                .getSingleResult();
+        totalRecharge = totalRecharge != null ? totalRecharge : BigDecimal.ZERO;
+
+        info.setSubRechargeAmount(totalRecharge);
+
+        // 2. 动态匹配佣金比例（来自 CmsLvCfg）
+        List<CmsLv> cmsLvList = getCmsLvList();
+        BigDecimal matchedRate = BigDecimal.ZERO;
+        for (CmsLv lv : cmsLvList) {
+            BigDecimal threshold = new BigDecimal(lv.getRechargeAmount());
+            if (totalRecharge.compareTo(threshold) >= 0) {
+                matchedRate = new BigDecimal(lv.getCommissionRate());
+            } else {
+                break;
+            }
+        }
+        info.setCommissionRate(matchedRate);
+
+        // 3. 查询直属下级账号列表
+        String directSql = "SELECT agent_account FROM agent WHERE parent_agent_id = :agentAccount";
+        List<String> directSubs = session.createNativeQuery(directSql)
+                .setParameter("agentAccount", agentAccount)
+                .getResultList();
+
+        info.setDirectSubAccounts(directSubs);
+
+        return info;
+    }
+
+    public List<AgentSubInfo> getDirectSubAgentsWithMembers(String agentAccount) {
+        Session session = sessionFactory.getCurrentSession();
+        List<CmsLv> cmsLvList = getCmsLvList(); // 动态配置
+
+        // 1. 查所有直属下级账号和充值金额
+        String sql = "SELECT agent_account, total_recharge_amount FROM agent WHERE parent_agent_id = :agentAccount";
+        List<Object[]> rows = session.createNativeQuery(sql)
+                .setParameter("agentAccount", agentAccount)
+                .getResultList();
+
+        List<AgentSubInfo> result = new ArrayList<>();
+
+        for (Object[] row : rows) {
+            String subId = (String) row[0];
+            BigDecimal recharge = row[1] != null ? (BigDecimal) row[1] : BigDecimal.ZERO;
+
+            // 2. 匹配佣金比例
+            BigDecimal matchedRate = BigDecimal.ZERO;
+            for (CmsLv lv : cmsLvList) {
+                BigDecimal threshold = new BigDecimal(lv.getRechargeAmount());
+                if (recharge.compareTo(threshold) >= 0) {
+                    matchedRate = new BigDecimal(lv.getCommissionRate());
+                } else {
+                    break;
+                }
+            }
+
+            // 3. 查询该直属代理的直属会员（即“下下级”）
+            String memberSql = "SELECT agent_account FROM agent WHERE parent_agent_id = :subAgent";
+            List<String> memberAccounts = session.createNativeQuery(memberSql)
+                    .setParameter("subAgent", subId)
+                    .getResultList();
+
+            AgentSubInfo info = new AgentSubInfo();
+            info.setAgentAccount(subId);
+            info.setRechargeAmount(recharge);
+            info.setCommissionRate(matchedRate);
+            info.setMemberAccounts(memberAccounts);
+
+            result.add(info);
+        }
+
+        return result;
+    }
+
+    /**
+     * 匹配佣金比例逻辑（单位：万）
+     */
+    public BigDecimal matchCommissionRate(BigDecimal totalRecharge) {
+        if (totalRecharge == null) return BigDecimal.ZERO;
+
+        // 从配置中获取佣金等级列表（已按充值金额升序排好）
+        List<CmsLv> cmsLvList = getCmsLvList();
+        BigDecimal matchedRate = BigDecimal.ZERO;
+
+        for (CmsLv cfg : cmsLvList) {
+            BigDecimal threshold = new BigDecimal(cfg.getRechargeAmount());
+            if (totalRecharge.compareTo(threshold) >= 0) {
+                matchedRate = new BigDecimal(cfg.getCommissionRate()); // 匹配当前等级
+            } else {
+                break; // 一旦超过当前档位，则不再继续匹配
+            }
+        }
+
+        return matchedRate;
+    }
+
+
+    /******************************新的计算逻辑end**************************************/
+
+
 
 
     @Paths({"/apiv1/agt/listMyMmbr"})

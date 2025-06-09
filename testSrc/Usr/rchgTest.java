@@ -2,6 +2,8 @@ package Usr;
 
 import handler.rechg.RchgHdr;
 import handler.rechg.RechgDto;
+import handler.rechg.ReviewChrgCmpltHdr;
+import handler.rechg.dto.ReviewChrgRqdto;
 import handler.wlt.AdjustHdr;
 import handler.wlt.dto.AdjstDto;
 import model.OpenBankingOBIE.Account;
@@ -45,7 +47,7 @@ public class rchgTest extends BaseTest {
         mockDto.receipt_image="dsafdaf.jpg";
          mockDto.amount=new BigDecimal("100.00");
 
-
+        mockDto.setVipLevAftrDpst("vip6");
 
 
 
@@ -62,5 +64,24 @@ public class rchgTest extends BaseTest {
        // assertTrue(result instanceof String);
       //  assertEquals("处理成功: test123", result); // 示例断言，按你的返回值修改
     }
+
+
+    @Test
+    public void testRchgCmplt() throws Throwable {
+        ProcessContext.isTestMode=true;
+        String uuuu1111 = "uuuu1111";
+        ThreadContext.remoteUser.set(uuuu1111);
+
+
+
+        ReviewChrgRqdto dto =new ReviewChrgRqdto();
+      //  dto.setTransactionId("ordChrg2025-06-08T11-44-52");
+      //s  new ReviewChrgCmpltHdr().handleRequest(dto,null);
+
+
+
+    }
+
+
 }
 

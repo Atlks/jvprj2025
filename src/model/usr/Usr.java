@@ -1,5 +1,6 @@
 package model.usr;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.persistence.ForeignKey;
@@ -29,7 +30,7 @@ import java.util.Random;
  */
 // C:\Users\attil\.m2\repository\javax\jdo\jdo-api\3.2.1\jdo-api-3.2.1.jar
 @Entity
-@Table
+@Table(name="usr")
 @org.hibernate.annotations.Comment(  "用户表")
 @org.hibernate.annotations.Table(appliesTo = "usr", comment = "用户表")
 @DynamicUpdate  // 仅更新被修改的字段
@@ -39,16 +40,21 @@ import java.util.Random;
 @FieldNameConstants
 public class Usr {
 
-@Transient
+    // 不映射到数据库字段
+    @TableField(exist = false)
+@Transient   //忽略此字段
 public  BigDecimal balanceEmoneyAcc;
     @Comment("邀请人 上级")
 
     @Column(name = "invtr", columnDefinition = "VARCHAR(255) COMMENT ' 邀请人 上级.'")
     public String invtr="";
 
-   // @Transient
+   // @Transient  referencedColumnName ="statement_id",
+   // 不映射到数据库字段
+   @TableField(exist = false)
     @OneToOne
-    @JoinColumn(name = "id", insertable = false, updatable = false,foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "id",insertable = false, updatable = false,foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @NotFound(action = NotFoundAction.IGNORE) // 如果关联不到   对象，也不报错
     @Nullable  // sometime begin todate sttmt not gene by timr
     public Statement statementTodate;  //todate
 
@@ -72,7 +78,8 @@ public  BigDecimal balanceEmoneyAcc;
     public String loginLocation;
     public String logip;
     public String loginCount;
-    public int offlineDays;
+//    @Column(name = "offlineDays")
+//    public int offlineDays=0;
     public String label;
     //已经充值总额
     public BigDecimal alreadyRechgSum=new BigDecimal(0);;
@@ -102,7 +109,7 @@ public  BigDecimal balanceEmoneyAcc;
     }
     public String email = "";
     public  boolean enabled=true;
-public  String vipLevel="";
+public  String vipLevel="0";
     @Column(unique = true)
  public  String refcode=generate6DigitCode();
     public static String generate6DigitCode() {
@@ -179,6 +186,8 @@ public  String vipLevel="";
     /** 最后更新时间（UNIX 时间戳） */
     private OffsetDateTime updatedAt;
     /** 查询账户余额（从 accounts 表 LEFT JOIN 获取） */
+    // 不映射到数据库字段
+    @TableField(exist = false)
     @Transient
     private BigDecimal interimAvailableBalance;
 }

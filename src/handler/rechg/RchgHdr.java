@@ -1,6 +1,7 @@
 package handler.rechg;
 
 
+import handler.statmt.CrudFun;
 import model.OpenBankingOBIE.*;
 import model.obieErrCode.FieldInvalidEx;
 import model.usr.Usr;
@@ -42,14 +43,11 @@ import static util.tx.HbntUtil.*;
 import static util.tx.dbutil.addObj;
 import static util.misc.util2026.*;
 
-/**
- * 充值
- * http://localhost:8889/recharge?amt=888
- */
+
 @Slf4j
 
 
-public class RchgHdr  {
+public class RchgHdr {
 
 
     /**
@@ -62,9 +60,6 @@ public class RchgHdr  {
     @Path("/apiv1/pay/recharge")
     //@DeclareRoles({"ADMIN", "USER"})
 
-    @Tag(name = "wlt")
-
-    //@CookieValue
     @Transactional
     @RolesAllowed({"", "USER"})  // 只有 ADMIN 和 USER 角色可以访问
     public Object rchg(@BeanParam RechgDto dto) throws Exception, findByIdExptn_CantFindData, FieldInvalidEx {
@@ -72,8 +67,8 @@ public class RchgHdr  {
         System.out.println("regchg hrl.hadler3()");
         //blk login ed
         //---------------------add rechg tx
-        Transaction ts=new Transaction();
-        ts.accountId = getAccid(AccountSubType.EMoney,dto.owner);
+        Transaction ts = new Transaction();
+        ts.accountId = getAccid(AccountSubType.EMoney, dto.owner);
         ts.setAmountVldChk(dto.amount);
         ts.id = "ordChrg" + getFilenameFrmLocalTimeString();
         ts.transactionId = ts.id;
@@ -81,41 +76,31 @@ public class RchgHdr  {
         ts.setTransactionCode(TransactionCode.payment_rechg);
         //amt alreay have in dto
 
-       // ts.timestamp = System.currentTimeMillis();
-ts.addressLine=dto.addressLine;
+        // ts.timestamp = System.currentTimeMillis();
+        ts.addressLine = dto.addressLine;
         ts.owner = getCurrentUser();
 
-        Usr u=findById(Usr.class,ts.owner);
-        ts.ownerParent=u.invtr;
+ts.setVipLevAftrDpst(dto.vipLevAftrDpst);
+        Usr u = findById(Usr.class, ts.owner);
+
+        ts.ownerParent = u.invtr;
         ts.setReceipt_image(dto.getReceipt_image());
 
 
         Object ts1 = persist(ts, sessionFactory.getCurrentSession());
 
         //----------------------sub acc avdBls,add frz bls
-     //   Account acc=findById(Account.class,getAccid(AccountSubType.EMoney,dto.owner));
-      //  subAvdBlsUpdtAcc(acc,dto.amount);
-        try{
-          //  EvtHlpr. publishEvent(RchgEvt.evtlist4rchg, ts);
-        }catch(Throwable e){
+        //   Account acc=findById(Account.class,getAccid(AccountSubType.EMoney,dto.owner));
+        //  subAvdBlsUpdtAcc(acc,dto.amount);
+        try {
+            //  EvtHlpr. publishEvent(RchgEvt.evtlist4rchg, ts);
+        } catch (Throwable e) {
             e.printStackTrace();
         }
 
         return new ApiGatewayResponse(ts1);
         //   wrtResp(exchange, encodeJson(r));
 
-
-    }
-
-    public static void subAvdBlsUpdtAcc(Account acc1, BigDecimal amt) throws findByIdExptn_CantFindData {
-        BigDecimal avdBls = acc1.interim_Available_Balance;
-        BigDecimal newAvdBls = avdBls.subtract(amt);
-
-        acc1.setInterim_Available_Balance(newAvdBls);
-
-        mergex(acc1);
-
-        subAmtUpdtBls(acc1.accountId, BalanceTypes.interimAvailable,amt);
 
     }
 

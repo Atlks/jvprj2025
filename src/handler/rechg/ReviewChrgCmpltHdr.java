@@ -12,6 +12,7 @@ import model.OpenBankingOBIE.Transaction;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.Path;
+import model.usr.Usr;
 import orgx.uti.context.ThreadContext;
 import util.model.Context;
 
@@ -23,6 +24,7 @@ import util.excptn.AreadyProcessedEx;
 import util.model.openbank.BalanceTypes;
 import util.serverless.ApiGatewayResponse;
 import util.serverless.RequestHandler;
+import util.tx.findByIdExptn_CantFindData;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -43,17 +45,17 @@ import static handler.secury.SecUti.*;
 
 /**
  * 审核通过充值。。处理规范
- * 
+ * <p>
  * 所有资金相关接口，加上幂等控制（避免重复扣款
- *  推荐前端传入 idempotencyKey  ,幂等控制   接口加全局幂等锁（可选）
+ * 推荐前端传入 idempotencyKey  ,幂等控制   接口加全局幂等锁（可选）
  * 基本的事务控制
  * 使用 SELECT ... FOR UPDATE 方式锁住这笔订单记录
-
+ * <p>
  * 把“设置状态为 BOOKED”放在加钱后面，或者加钱成功之后再设置状态。
  * addMoneyToWltService1 也要幂等
  * 枚举合法转移状态，确保  PENDING → BOOKED ✅
- * 
- * 
+ *
+ *
  * <p>
  * <p>
  * //   http://localhost:8889/ReviewChrgPassHdr?ord_id=
@@ -66,7 +68,6 @@ public class ReviewChrgCmpltHdr implements RequestHandler<ReviewChrgRqdto, ApiGa
     static boolean ovrtTEst = false;
 
     /**
-     * 
      * @param reqdto
      * @param context
      * @return
@@ -75,16 +76,16 @@ public class ReviewChrgCmpltHdr implements RequestHandler<ReviewChrgRqdto, ApiGa
     @Override
     public ApiGatewayResponse handleRequest(ReviewChrgRqdto reqdto, Context context) throws Throwable {
 
-        if (isExistIdptKey(reqdto.IdempotencyKey)) 
-            throw new AreadyProcessedEx("");;
-
+        if (isExistIdptKey(reqdto.IdempotencyKey))
+            throw new AreadyProcessedEx("");
+        ;
 
 
         //------------blk chge regch stat=accp
         String mthBiz = colorStr("设置订单状态=完成", RED_bright);
         System.out.println("\r\n\n\n=============⚡⚡bizfun  " + mthBiz);
         Session session = sessionFactory.getCurrentSession();
-          // 加悲观锁，锁定这一笔记录（确保幂等 + 并发安全）
+        // 加悲观锁，锁定这一笔记录（确保幂等 + 并发安全）
         var trx1 = findByHerbinateLockForUpdtV2(Transaction.class, reqdto.transactionId, session);
         // System.out.println("\r\n----blk updt chg ord set stat=ok");
         //  is proceed??幂等判断在操作最前面
@@ -96,23 +97,21 @@ public class ReviewChrgCmpltHdr implements RequestHandler<ReviewChrgRqdto, ApiGa
                 throw new AreadyProcessedEx("该充值已审核");
             }
         }
-       
-
-
 
 
         //----=============add blance n log  ..blk
         // 注意，这一步必须是幂等或可重试
-        String mthBiz2=colorStr("主钱包加钱",RED_bright);
-        System.out.println("\r\n\n\n=============⚡⚡bizfun "+mthBiz2);
+        String mthBiz2 = colorStr("主钱包加钱", RED_bright);
+        System.out.println("\r\n\n\n=============⚡⚡bizfun " + mthBiz2);
         String uname = trx1.owner;
-        TransDto transDto=new TransDto();
-        copyProps(trx1,transDto);
-        transDto.setAmount(trx1.amount);;
-        transDto.refUniqId="reqid="+trx1.id;
-        addAccEmnyIfNotExst( trx1.owner, session);
-        Account lockAcc4updt = findByHerbinateLockForUpdtV2(Account.class, getAccid(AccountSubType.EMoney.name(), trx1.owner) , session);
-        transDto.lockAccObj= lockAcc4updt;
+        TransDto transDto = new TransDto();
+        copyProps(trx1, transDto);
+        transDto.setAmount(trx1.amount);
+        ;
+        transDto.refUniqId = "reqid=" + trx1.id;
+        addAccEmnyIfNotExst(trx1.owner, session);
+        Account lockAcc4updt = findByHerbinateLockForUpdtV2(Account.class, getAccid(AccountSubType.EMoney.name(), trx1.owner), session);
+        transDto.lockAccObj = lockAcc4updt;
         AccService.crdtFd(transDto);   //here add bls
         //  System.out.println("\n\r\n---------endblk  kmplt chrg");
         addAmt2BalWhrAccNType(trx1.amount, lockAcc4updt, interimAvailable);
@@ -120,24 +119,28 @@ public class ReviewChrgCmpltHdr implements RequestHandler<ReviewChrgRqdto, ApiGa
 
 
         //==============stp2...chg tx stat
-         //chk stat is not pndg,,, throw ex
-         if (trx1.status.equals(TransactionStatus.PENDING))
-         trx1.setStatus( TransactionStatus.BOOKED);
-         trx1.setReviewer(ThreadContext.currAdmin.get());
-         trx1.setReviewDateTime(OffsetDateTime.now());
-     mergex(trx1, session);
+        //chk stat is not pndg,,, throw ex
+        if (trx1.status.equals(TransactionStatus.PENDING))
+            trx1.setStatus(TransactionStatus.BOOKED);
+        trx1.setReviewer(ThreadContext.currAdmin.get());
+        trx1.setReviewDateTime(OffsetDateTime.now());
+        mergex(trx1, session);
+
+        //-----------updt user viplev
+        updtUsrSetVip(trx1.owner, trx1.vipLevAftrDpst);
 
 
-     //===============add  idptkey
-     addIdptKey(reqdto.IdempotencyKey);
-       new RchgEvtHdl().handleRequest(trx1);
+        //===============add  idptkey
+        addIdptKey(reqdto.IdempotencyKey);
+        new RchgEvtHdl().handleRequest(trx1);
         return new ApiGatewayResponse(trx1);
     }
 
-   
-       
-
-
+    private void updtUsrSetVip(String owner, String levAftrDpst) throws findByIdExptn_CantFindData {
+        Usr u=findById(Usr.class,owner);
+        u.setVipLevel(levAftrDpst);
+        mergex(u);
+    }
 
 
     //注解告诉 JSON 序列化库跳过该字段。
@@ -145,6 +148,7 @@ public class ReviewChrgCmpltHdr implements RequestHandler<ReviewChrgRqdto, ApiGa
     // @Inject("addMoneyToWltService")
     //@Qualifier("AddMoneyToWltService")  // 使用类名自动转换
     public Icall addMoneyToWltService1;   //=new AddMoneyToWltService();
+
     /**
      * @param uname
      * @return

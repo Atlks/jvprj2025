@@ -43,6 +43,30 @@ import static util.tx.HbntUtil.persist;
 public class AccService implements BankAccountService {
 
 
+    /**
+     * 增加余额到代理佣金账户
+     * @param owner
+     * @param addAmt
+     * @return
+     * @throws findByIdExptn_CantFindData
+     */
+    @BizFun
+public static  Account addBls2AgtcmsAcc(String owner,BigDecimal addAmt) throws findByIdExptn_CantFindData {
+    String accid=getAccId(AccountSubType.agtCms,owner);
+    Account acc=findById(Account.class,accid);
+    acc.setInterim_Available_Balance(acc.getInterim_Available_Balance().add(addAmt));
+    acc.setInterimBookedBalance(acc.getInterimBookedBalance().add(addAmt));
+    mergex(acc);
+
+        Balance avlbBls= addAmt2BalWhrAccNType(addAmt,acc, interimAvailable);
+        avlbBls.account=null;
+        Balance BkBls= addAmt2BalWhrAccNType(addAmt,acc, interimBooked);
+        BkBls.account=null;
+        acc.bals.add(avlbBls);
+        acc.bals.add(BkBls);
+        return acc;
+
+}
 
     public static void updtAccSetFztbls_avlbls(Account acc1, BigDecimal newFrzAmt, BigDecimal newAvlBls) {
         acc1.setFrozenAmountVld(newFrzAmt);

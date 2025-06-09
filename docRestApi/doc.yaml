@@ -299,6 +299,98 @@ paths:
       responses:
         "200":
           $ref: './components/responses/CommonResponse.yaml'
+  /apiv1/user/resetWithdrawPwd:
+    post:
+      summary: 重置提现密码
+      description: 通过安全问题验证身份后重置提现密码
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                 
+                answer:
+                  type: string
+                  description: 安全问题答案
+                newWithdrawPwd:
+                  type: string
+                  format: password
+                  description: 新提现密码
+              required:
+
+                - answer
+                - newWithdrawPwd
+
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
+  /accounts:
+    get:
+      tags:
+        - Account
+      summary: "返回自己所有的账户信息（预留）"
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
+  /accounts/statements?{AccountId}=xxx:
+    get:
+      tags:
+        - rpt
+      summary: "月报表（预留）"
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
+  /accounts/transactions/AccountId=xx:
+    get:
+      tags:
+        - Account
+      summary: "交易流水（预留）"
+      parameters:
+        - name: AccountId
+          in: query
+          required: true
+          description: Account identifier
+          schema:
+            type: string
+
+        - name: fromBookingDateTime
+          in: query
+          required: false
+          description: Start date-time for transactions (inclusive)
+          schema:
+            type: string
+            format: date-time
+
+        - name: toBookingDateTime
+          in: query
+          required: false
+          description: End date-time for transactions (inclusive)
+          schema:
+            type: string
+            format: date-time
+
+        - name: creditDebitIndicator
+          in: query
+          required: false
+          description: Filter by credit or debit
+          schema:
+            type: string
+            enum: [ Credit, Debit, Both ]
+            default: Both
+      responses:
+        "200":
+          $ref: './components/responses/CommonResponse.yaml'
+  /accounts/balances?AccountId=xx :
+      get:
+        tags:
+          - Account
+        summary: "返回自己所有的余额（预留）"
+        responses:
+          "200":
+            $ref: './components/responses/CommonResponse.yaml'
+
   /apiv1/accounts/xxx_agtcms/balances :
     get:
       tags:
@@ -768,27 +860,18 @@ paths:
             schema:
               type: object
               properties:
-                userId:
-                  type: string
+
                 question:
                   type: string
                 answer:
                   type: string
               required:
-                - userId
+
                 - question
                 - answer
       responses:
         '200':
-          description: Question setup successful
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Security question saved
+          $ref: './components/responses/CommonResponse.yaml'
   /apiv1/ylwlt/adjust:
     get:
       tags:

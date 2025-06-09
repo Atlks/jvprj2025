@@ -131,7 +131,8 @@ public class TransfHdr {
         Transaction tx = new Transaction("trsf2ivstAcc_" + getUuid(), getAccid4ivstAcc(uname), uname, CreditDebitIndicator.CREDIT, lgblsDto.amount);
         tx.setTransactionCode(TransactionCode.InternalTransfers_exchg);
         tx.status = TransactionStatus.BOOKED;
-        tx.ChargeAmount = lgblsDto.amount.multiply(toBigDecimal("0.1"));
+       // tx.chargeAmountAmt =;
+        tx.chargeAmount=new ChargeAmount( lgblsDto.amount.multiply(toBigDecimal("0.1")));
 
         AccSvs4invstAcc.crdt(tx);
 

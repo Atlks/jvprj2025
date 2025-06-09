@@ -1,4 +1,4 @@
-package handler.usr;
+package handler.usr.dto;
 
 public class UserInfoDto {
 }

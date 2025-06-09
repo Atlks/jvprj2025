@@ -4,6 +4,7 @@ import api.usr.lgnDlgt;
 import com.sun.net.httpserver.HttpExchange;
 import core.Ilogin;
 import entityx.usr.Passport;
+import handler.usr.dto.CaptchErrEx;
 import model.usr.Usr;
 import entityx.usr.Visa;
 import handler.usr.dto.RegDto;
@@ -32,7 +33,6 @@ import util.tx.HbntUtil;
 
 import static cfg.Containr.sam4regLgn;
 
-import static cfg.Containr.sessionFactory;
 import static handler.acc.IniAcc.iniTwoWlt;
 import static handler.agt.RegEvtHdl.addAgtCmsAccIfNotExst;
 import static handler.uti.CaptchHdr.Cptch_map;

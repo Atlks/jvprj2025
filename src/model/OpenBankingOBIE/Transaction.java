@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
 
 import model.obieErrCode.FieldInvalidEx;
+import model.usr.Usr;
 import org.hibernate.annotations.*;
 import org.hibernate.type.SqlTypes;
 import util.annos.Alas;
@@ -55,7 +56,11 @@ public class Transaction {
     @Column(name = "account_id")
     public String accountId;
 
-
+    @ManyToOne(fetch = FetchType.LAZY) // 避免立即加载，节省资源
+    @JoinColumn(name = "owner", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
+    // 不生成外键) // 不参与插入或更新操作
+    @NotFound(action = NotFoundAction.IGNORE) // 如果关联不到 Usr 对象，也不报错
+     public Usr usr;
     /**
      * OBIE 规范中，TransactionReference 是正确的名称。
      * <p>
@@ -100,8 +105,8 @@ public class Transaction {
     /**
      * 在 OBIE（Open Banking Implementation Entity）规范中，交易流水的 amount 字段 本身不允许为负数。是否是支出或收入，由另一个字段 creditDebitIndicator 决定。
      */
-    @DecimalMin(value = "0.00", inclusive = true, message = "余额不能为负数")
-    @ObieFld
+//    @DecimalMin(value = "0.00", inclusive = true, message = "余额不能为负数")
+   @ObieFld
     public BigDecimal amount = BigDecimal.ZERO;
 
     /**
@@ -110,8 +115,8 @@ public class Transaction {
      * @param amount
      */
     public void setAmountVldChk(@NotNull BigDecimal amount) throws FieldInvalidEx {
-        if (amount == null || amount.compareTo(BigDecimal.ZERO) < 0)
-            throw new FieldInvalidEx(amount.toString());
+//        if (amount == null || amount.compareTo(BigDecimal.ZERO) < 0)
+//            throw new FieldInvalidEx(amount.toString());
         this.amount = amount;
     }
 
@@ -120,15 +125,12 @@ public class Transaction {
      * 这笔交易产生的费用或手续费（比如：手续费 2 GBP）
      * 银行或第三方收的服务费。
      */
-    @ObieFld
-    @DecimalMin(value = "0.00", inclusive = true, message = "chgamt不能为负数")
-    public BigDecimal ChargeAmount = BigDecimal.valueOf(0);
 
-    public void setChargeAmount(BigDecimal chargeAmount1) throws FieldInvalidEx {
-        if (chargeAmount1 == null || chargeAmount1.compareTo(BigDecimal.ZERO) < 0)
-            throw new FieldInvalidEx(chargeAmount1.toString());
-        ChargeAmount = chargeAmount1;
-    }
+//    public BigDecimal chargeAmountAmt = BigDecimal.valueOf(0);
+//
+//    public void setChargeAmountAmt(BigDecimal chargeAmount1) throws FieldInvalidEx {
+//
+//    }
 
 
 
@@ -194,6 +196,7 @@ public class Transaction {
 //    @org.hibernate.annotations.Immutable
     @ManyToOne
     @JoinColumn(name = "account_id", insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @NotFound(action = NotFoundAction.IGNORE) // 如果关联不到  对象，也不报错
     private Account account;
 
     /**
@@ -359,13 +362,24 @@ public class Transaction {
         return owner;
     }
 
+    @ObieFld
+    @Embedded
+    public  BankTransactionCode bankTransactionCode;
+@ObieFld
+@Embedded
+public  Amountx amt;
+    @ObieFld("交易费用")
+    @Embedded
 
+   // @DecimalMin(value = "0.00", inclusive = true, message = "chgamt不能为负数")
+    public  ChargeAmount chargeAmount;
     //审核人
     @ExtFld
     public String lable="持续充值高级会员";
     //上级
     public String ownerParent = "";
-    public String vipLev = "vip1";
+   public String vipLev = "0";
+    public String vipLevAftrDpst="1";
     public String reviewer;
     public OffsetDateTime reviewDateTime;
     @ExtFld("回执img")

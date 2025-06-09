@@ -2,7 +2,7 @@ package handler.admin;
 
 import com.sun.net.httpserver.HttpExchange;
 import core.IloginV2;
-import handler.usr.CaptchErrEx;
+import handler.usr.dto.CaptchErrEx;
 import handler.usr.dto.OpenIdTokenResponseDto;
 import model.admin.Admin;
 import handler.admin.dto.AdminLoginDto;

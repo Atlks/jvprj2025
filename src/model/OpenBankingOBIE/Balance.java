@@ -1,5 +1,6 @@
 package model.OpenBankingOBIE;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +14,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import util.annos.ObieFld;
 import util.model.openbank.BalanceTypes;
 
 import java.math.BigDecimal;
@@ -38,6 +40,11 @@ import static util.oo.TimeUti.nowOffsetDateTime;
 @NoArgsConstructor
 //@ToString(exclude = "account")
 public class Balance {
+    @ObieFld
+    @Embedded
+    public  Amountx amountObj;
+    @NotBlank
+    private String type = BalanceTypes.interimAvailable.name();
 
     public Balance(Account acc, BalanceTypes interimAvailable){
         setId(getBlsid(acc.accountId,interimAvailable));
@@ -70,6 +77,7 @@ public class Balance {
 
 
 @Transient
+@JsonBackReference
     /**
      * balance实体的account对象
      */
@@ -80,20 +88,11 @@ public class Balance {
     public Account account;  //json acc
 
 
-    /**
-     * acc store ,json fmt
-     * //H2 实际只会当字符串存储H2 实际只会当字符串存储
-     * 不能把同一个字段同时映射为外键关系又当成JSON列，Hibernate 会混乱。
-     * 一旦你使用了 columnDefinition 明确指定列类型，那么 length 属性不会生效。
-     */
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "varchar(2000)",length = 2200)
-    public Account accSnapshot;
-
 
     @NotNull
 
     private BigDecimal amount = BigDecimal.valueOf(0);
+
     public void setAmountCantBeZero(BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) < 0)
             throw new InvldAmtEx("amount=" + amount+",blsid="+this.id);
@@ -126,8 +125,7 @@ public class Balance {
      *     // @Enumerated(EnumType.STRING)
      */
 
-    @NotBlank
-    private String type = BalanceTypes.interimAvailable.name();
+
 
     //必填项  发生的时间
     @CreationTimestamp
@@ -155,4 +153,20 @@ public class Balance {
     public String owner = "";  //uname accowner
     @NotBlank
     public String accSubType = AccountSubType.EMoney.name();
+
+    /**
+     * acc store ,json fmt
+     * //H2 实际只会当字符串存储H2 实际只会当字符串存储
+     * 不能把同一个字段同时映射为外键关系又当成JSON列，Hibernate 会混乱。
+     * 一旦你使用了 columnDefinition 明确指定列类型，那么 length 属性不会生效。
+     */
+    @JdbcTypeCode(SqlTypes.JSON)
+    @JsonBackReference("dfltRefs")
+    @Column(columnDefinition = "varchar(2000)",length = 2200)
+    public Account accSnapshot;
+
+
+    @ObieFld
+    @Embedded
+    public  CreditLine creditLine;
 }
