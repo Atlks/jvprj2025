@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.MybatisSqlSessionFactoryBuilder;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import org.apache.ibatis.builder.xml.XMLMapperBuilder;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
+import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.scripting.defaults.RawLanguageDriver;
 import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
@@ -14,13 +16,42 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import org.jetbrains.annotations.NotNull;
+import orgx.orm.CustomSnakeCaseStrategy;
 import orgx.orm.MyMetaObjectHandler;
+import orgx.transaction.Transaction;
 import orgx.u.User;
 import orgx.u.UserMapper;
 import orgx.uti.context.ProcessContext;
 import orgx.uti.orm.CustomInterceptor;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
 public class CfgSvs {
+
+    static PooledDataSource getDataSourceMysql() {
+        PooledDataSource dataSource = new PooledDataSource();
+        dataSource.setDriver("org.h2.Driver"); // 适用于 MySQL
+        //   dataSource.setUrl("jdbc:h2:file:/testdb;AUTO_SERVER=TRUE;DATABASE_TO_UPPER=false");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/testdb?serverTimezone=UTC&useSSL=false");
+        //   orgx.orm.mbts.CrtTblUti.dbType="mysql";
+
+        //DATABASE_TO_UPPER=false
+        dataSource.setUsername("root");
+        dataSource.setPassword("pppppp");
+        return dataSource;
+    }
+
+
+
+
+
+
+
+
+
 
     /// jdbc:h2:file:/data/testdb;AUTO_SERVER=TRUE
     static SessionFactory getSessionFactory() {

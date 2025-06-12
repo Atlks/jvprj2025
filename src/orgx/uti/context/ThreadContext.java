@@ -6,6 +6,7 @@ import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import org.apache.ibatis.session.SqlSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import orgx.uti.http.HttpHeader;
@@ -22,6 +23,7 @@ import java.util.Map;
  */
 public class ThreadContext {
     //servlt stande
+    private static final ThreadLocal<String> remoteUser = new ThreadLocal<>();
 
     //不牢靠，bcs maybe thrd 复用。。
     //get from jwt is btr
@@ -59,6 +61,7 @@ public class ThreadContext {
 
     public static   ThreadLocal< Map<String, List<String>>> currHttpParamMap = new ThreadLocal<>();
     public static ThreadLocal<Handler> beforeHdl= new ThreadLocal<>();
+ public static ThreadLocal<SqlSession>  sqlSessionThreadLocal = new ThreadLocal<>();
 
     public static ThreadLocal<Transaction> currTxHbnt= new ThreadLocal<>();
     public static ThreadLocal<String> currAdmin= ThreadLocal.withInitial(() -> "管理员");

@@ -1,5 +1,6 @@
 package orgx.uti.context;
 
+import com.fasterxml.classmate.util.ConcurrentTypeCache;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.sun.net.httpserver.Authenticator;
@@ -11,6 +12,7 @@ import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.hibernate.SessionFactory;
 
@@ -69,9 +71,9 @@ public  static HttpServer httpServer;
     // #procs ctx.java
     public static FunctionX<Dtoo, Object> fun_userAdd;
     public static FunctionX<Dtoo, Object> fun_BlsAdd;
-    public static boolean isTestMode=false;
-    public static String jdbcUrl;
+    public static PooledDataSource dataSource;
     public static SqlSessionFactory sqlSessionFactory;
+    public static Map<Class,Class> mpprMap=new ConcurrentHashMap();
     private static Configuration config;
 
 
