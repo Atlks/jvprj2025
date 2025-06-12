@@ -72,6 +72,8 @@ public  static HttpServer httpServer;
     public static FunctionX<Dtoo, Object> fun_userAdd;
     public static FunctionX<Dtoo, Object> fun_BlsAdd;
     public static PooledDataSource dataSource;
+ public static boolean isTestMode=false;
+    public static String jdbcUrl;
     public static SqlSessionFactory sqlSessionFactory;
     public static Map<Class,Class> mpprMap=new ConcurrentHashMap();
     private static Configuration config;
