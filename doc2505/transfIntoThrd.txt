@@ -1,0 +1,55 @@
+/**
+     * trsf u ,allamt to thrd
+     *
+     * @param userId
+     * @param cfg
+     * @return
+     */
+    @Transactional
+    public String transfIntoThrd(String userId, ApiCfg cfg) throws insufficientFundsExcption, DepositFailExcptn, IOException {
+
+
+        String money;
+        //------------------------todo 扣款地方
+        //预查 + 加锁  
+       
+        //带入游戏减少余额
+//        
+        BigDecimal amt = new BigDecimal(money);
+        if (amt.compareTo(BigDecimal.ZERO) == 0) {
+            throw new insufficientFundsExcption("资金不足");
+        }
+
+
+        //-----------------记录 tx表，方便timer反查回滚金额
+        String refid = UUID.randomUUID().toString();
+        String txid = txMngService.begginTx(userId, refid, amt);
+
+
+        //----------开始扣款
+      
+
+
+        //---------------depositToThrdSite
+        String rztDpst = "";
+        // 注意 api错误re会导致回滚,  io timeout错误不应该回滚
+        rztDpst = depositToThrd(userId, money, cfg, refid);
+
+
+        System.out.println(rztDpst);
+        if (extractStatus(rztDpst).equalsok{
+            //完成充值状态
+            txMngService. commitStat(txid);
+        }else{
+            //如果状态不对，需要反查交易状态  ,如果fail DepositFailExcptn ，应该要上报到spring回滚
+            //无需手动处理tx表状态了
+            qryTxStatTry(userId, cfg, rztDpst, refid);
+        }
+
+
+
+
+        return rztDpst;
+
+
+    }

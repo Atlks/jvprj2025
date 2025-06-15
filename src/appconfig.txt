@@ -1,0 +1,13 @@
+@Configuration
+@PropertySource("classpath:application.properties") // 确保路径正确
+@ComponentScan(basePackages = {"com", "com.j"}) // 扫描你的 Service 目录
+public class AppConfig {
+
+
+
+main()
+
+  AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+
+        // 获取  Bean
+         xxx svs= context.getBean(xxServiceImpl.class);

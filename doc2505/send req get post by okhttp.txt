@@ -1,0 +1,61 @@
+* @throws IOException
+     * @throws SocketReadTimeoutException
+     * @throws  UnknownHostRuntimeException  SocketConnTimeoutRtmException
+     */
+    public static String sendPostRequest(String requestUrl, String jsonPayload, HttpHead httpHead) throws IOException, SocketReadTimeoutException {
+        //  RequestBody body = RequestBody.create(jsonPayload, MediaType.get("application/json"));
+        System.out.println("fun post(url=" + requestUrl + "");
+        System.out.println("jsonPayload=" + jsonPayload);
+        System.out.println("httpHead=" + encodeJson(httpHead));
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonPayload);
+
+        //Exception ==SocketTimeoutException
+        // System.out.println(SocketTimeoutException.class.getName());
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(15, TimeUnit.SECONDS)  // 连接超时 10秒
+                .readTimeout(30, TimeUnit.SECONDS)     // 读取超时 15秒
+                //.writeTimeout(15, TimeUnit.SECONDS)    // 写入超时 15秒
+                .build();
+        // okhttp3
+        Request request;
+        //try{
+        //if here npe,throw runtime ex
+        request = new Request.Builder()
+                .url(requestUrl)
+                .post(body)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("X-API-Key", httpHead.xApikey)  // 添加 API Key
+                .addHeader("X-Signature", httpHead.xSignature)  // 添加数字签名
+                .build();
+//        }catch (Exception e){
+//            throw
+//        }
+
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println("Response Code: " + response.code());
+            String string = response.body().string();
+            System.out.println("endfun post(),ret=" + string);
+            return string;
+        } catch (java.net.UnknownHostException e) {
+            //需要触发回滚，转为runtime ex
+            throw new UnknownHostRuntimeException(e);
+        } catch (SocketTimeoutException e) {
+            if (e.getMessage().contains("connect timed out")) {
+                // log.error("连接超时！请检查服务器是否在线");
+                throw new SocketConnTimeoutRtmException();//这个是re，应该触发回滚
+            }
+            if (e.getCause().getMessage().contains("Read timed out")) {
+                // log.error("读取超时！服务器处理过慢");
+                //pml ex,not rollback,不触发回滚..因为三方状态不明
+                throw new SocketReadTimeoutException();
+            }
+            throw e; //nml ex，not rollback  不触发回滚
+        } catch (IOException e) {
+            //nml ex，not rollback  不触发回滚
+            e.printStackTrace();
+            throw e;
+        }
+
+    }

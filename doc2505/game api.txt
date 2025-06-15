@@ -1,0 +1,42 @@
+
+
+game/list
+
+//-------login out nn   balance  api
+loginGameAndTransIn
+logoutGameand transfout
+balances
+
+//-----------txs api
+txsHistory()
+
+
+
+public String loginGameAndTransIn(String gameCode, String ip, String userId, String money, String  throws IOException {
+
+        //收回资金 退出其他游戏
+         xxxFun.list.foreach
+
+        
+
+        //----------------jmp to gm
+
+        String rzt = loginGameINThrd(gameCode, userId, cfg);
+        String traceId;
+
+
+        try {
+            //可能二次进入，资金不足也可以，跳过转移资金环境
+            transfIntoThrd(userId, cfg);
+        } catch (insufficientFundsExcption e) {
+            //可能二次进入，资金不足也可以，跳过转移资金环境
+        } catch (DepositFailExcptn e) {
+            //三方接口存款失败，明确 throw 回滚事务
+            //Spring 事务默认不会对 受检异常（Checked Exception） 进行自动回滚,包装为re回滚
+            throw new RuntimeException(e);
+        }
+
+        return getGameUrl(rzt);
+
+
+    }

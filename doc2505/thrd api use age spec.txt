@@ -1,0 +1,55 @@
+ 
+整理总结了各种异常情况下处理方式。这下应该全了。
+默认情况下，spirng只回滚  出现的 RuntimeException，不会回滚 Exception
+
+# 调用第三方 API 事务处理策略
+
+| 发生情况                     | 是否回滚事务 | 处理方式                       |
+|-----------------------------|------------|----------------------------|
+| DNS 失败 (`UnknownHostException`) | ✅ 回滚 | 转换为 RuntimeException 并抛出 |
+| 连接超时 (`SocketTimeoutException`) | ✅ 回滚 | 转换为 RuntimeException 并抛出 |
+| API Key 认证失败 | ✅ 回滚 | 转换为 RuntimeException 并抛出 |
+| 连接正常，但读取超时 (`ReadTimeout`) | ❌ 不回滚 | 事务状态不明，避免误回滚，定时反查          |
+| API 明确返回 `FAIL` 状态 | ✅ 回滚 | 事务失败，必须回滚                  |
+| API 返回 `SUCCESS` 状态 | ❌ 不回滚 | 正常交易，无需回滚                  |
+| API 返回 `其他未知状态` | ❌ 不回滚，但需定期反查 | 记录日志，使用定时任务轮询状态            |
+
+ 
+在 Spring 事务 (@Transactional) 中，如果调用第三方接口时发生 超时异常，通常会触发 事务回滚。除了超时异常，还可能出现以下异常，可能影响扣款操作：
+
+1. 可能的异常
+   ✅ 网络相关异常,,这个需要回滚，三方还没收到请求
+
+java.net.SocketTimeoutException（请求超时）
+
+java.net.UnknownHostException（无法解析域名）
+
+java.io.IOException（网络连接失败）
+
+✅ HTTP 相关异常
+
+HttpClientErrorException（HTTP 4xx 错误）   不确定
+  
+HttpServerErrorException（HTTP 5xx 错误）    不确定
+
+ResourceAccessException（请求被阻止）   需要回滚
+
+✅ 数据库事务异常
+
+org.springframework.dao.DataIntegrityViolationException（数据完整性错误）
+
+org.springframework.transaction.TransactionSystemException（事务系统错误）
+
+org.springframework.jdbc.CannotGetJdbcConnectionException（数据库连接失败）
+
+✅ JSON 解析异常
+
+com.fasterxml.jackson.core.JsonParseException（JSON 格式错误）  不确定
+ 
+JsonMappingException（无法映射 JSON 到对象）  不确定，
+
+✅ 未知异常
+
+RuntimeException（可能导致事务回滚）    
+
+Exception（默认不会回滚，除非 rollbackFor = Exception.class）
