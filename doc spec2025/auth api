@@ -1,0 +1,13 @@
+
+检查是否登录 还有哪些知名框架使用哪些api函数呢。。 // 检查是否登录 类似 StpUtil.checkLogin();
+
+.isAuthenticated();
+
+
+// 检查是否拥有某个权限
+StpUtil.hasPermission("user:add");
+Session 操作
+
+java
+// 获取当前用户的 Session
+StpUtil.getSession();
