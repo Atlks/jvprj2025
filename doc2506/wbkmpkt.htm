@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <title>纯 Web 组件示例</title>
+    <script type="module">
+        class TextLogger extends HTMLElement {
+            constructor() {
+                super();
+                this.attachShadow({mode: 'open'});
+
+                this.shadowRoot.innerHTML = `
+          <style>
+            input { padding: 5px; margin-right: 8px; }
+            button { padding: 5px 12px; }
+          </style>
+          <input id="input" placeholder="请输入内容" />
+          <button id="btn">打印</button>
+        `;
+            }
+
+
+            connectedCallback() {
+                const input = this.shadowRoot.querySelector('#input');
+                const button = this.shadowRoot.querySelector('#btn');
+
+                button.addEventListener('click', () => {
+                    const value = input.value.trim();
+                    console.log('用户输入内容：', value);
+                });
+            }
+        }
+
+        customElements.define('text-logger', TextLogger);
+    </script>
+</head>
+<body>
+<h2>📝 纯 Web Components 示例</h2>
+<text-logger></text-logger>
+</body>
+</html>
