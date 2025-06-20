@@ -48,21 +48,16 @@ public static volatile SingularAttribute<User, Integer> age;
 这样就可以避免列名过长的问题
 
 
-LambdaQueryWrapper<GameKyGameRecord> wrapper = new LambdaQueryWrapper<>();
-wrapper.eq(GameKyGameRecord::getUid, "Alice").gt(GameKyGameRecord::getGameID, 20);
-
+ 
 System.out.println("执行的 SQL：" + wrapper.getSqlSegment());
 ✅ 输出的 SQL 可能是：
 
-sql
-WHERE uid = 'Alice' AND game_id > 20
-📌 但不会显示 SELECT * FROM game_ky_game_record，因为 getSqlSegment() 只返回条件部分
-
+ 
 🔹 2️⃣ 手动拼接 SELECT *
 📌 如果你想完整输出 SELECT *，可以这样做
 
 java
-String fullSql = "SELECT * FROM game_ky_game_record " + wrapper.getSqlSegment();
+St 
 System.out.println("完整 SQL：" + fullSql);
 
 

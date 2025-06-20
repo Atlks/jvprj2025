@@ -27,7 +27,7 @@ void main() async {
   sourceDirPath = "C:\\0prjNtpc\\digital-bet-service - p3";
   targetDirPath = "bkPrjDBS241112asrch";
   var extnames = "java,xml";
-  var srchKwds = "global-game-api-config";
+ 
   await srch(modifiedAfter, extnames, sourceDirPath, targetDirPath, srchKwds);
 }
 

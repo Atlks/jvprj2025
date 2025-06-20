@@ -102,9 +102,9 @@ public class MbtsUti {
 
 
 // 2. 加载 Mapper XML..
-        //第二处 "mapper/GameKyGameRecordMapper.xml" 是 XMLMapperBuilder 的 resource 参数，目的是 告诉 MyBatis 这个 XML 文件的名称，用于 命名空间解析。
+        //第二处 "mapper/.xml" 是 XMLMapperBuilder 的 resource 参数，目的是 告诉 MyBatis 这个 XML 文件的名称，用于 命名空间解析。
 
-        String mapperPath = "mapper/GameKyGameRecordMapper.xml";
+        String mapperPath = "mapper/.xml";
         //  cfgAddMaprXml(mapperPath, configuration);
 
         // load mapper cls
